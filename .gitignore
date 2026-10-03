@@ -1,0 +1,14 @@
+# Niemals ins (öffentliche) Repo:
+wp-config.php
+.env
+*.sql
+*.sql.gz
+*.pem
+*.key
+id_rsa*
+# Build-Ausgaben
+site/out/
+musik/musik-snippet-final.html
+musik/musik-snippet-demo.html
+dj-kolja-one-vorschau.html
+songs/
