@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
- * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Video und Sterne-Bewertungen der Besucher.
- * Version:     1.11.0
+ * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
+ * Version:     1.12.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.11.0' );
+define( 'KJO_VERSION', '1.12.0' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -1228,7 +1228,13 @@ define( 'KJO_HEAD_CSS', <<<'KJOCSS'
 .kjo-cta a{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(178,157,117,.55);border-radius:50%;color:#B29D75;background:transparent;text-decoration:none;font-size:18px;line-height:1;transition:background .2s,color .2s,border-color .2s}
 .kjo-cta a:hover,.kjo-cta a:focus-visible{background:#B29D75;border-color:#B29D75;color:#0F0C07;outline:none}
 .kjo-cta svg{width:18px;height:18px;fill:currentColor;display:block}
-@media(max-width:767px){.kjo-cta a{width:44px;height:44px;font-size:20px}.kjo-cta svg{width:20px;height:20px}.kjo-head.kjo-small>.kjo-nav2{display:none!important}}
+@media(max-width:767px){.kjo-cta a,.kjo-cta .kjo-burger{width:44px;height:44px;font-size:20px}.kjo-cta svg{width:20px;height:20px}.kjo-head.kjo-small>.kjo-nav2{display:none!important}}
+.kjo-cta .kjo-burger{display:none;align-items:center;justify-content:center;border:1px solid rgba(178,157,117,.55);border-radius:50%;color:#B29D75;background:transparent;padding:0;cursor:pointer;-webkit-appearance:none;appearance:none;transition:background .2s,color .2s}
+.kjo-cta .kjo-burger:hover,.kjo-cta .kjo-burger:focus-visible,.kjo-head.kjo-open .kjo-burger{background:#B29D75;border-color:#B29D75;color:#0F0C07;outline:none}
+.kjo-burger .kjo-x{display:none}.kjo-head.kjo-open .kjo-burger .kjo-b{display:none}.kjo-head.kjo-open .kjo-burger .kjo-x{display:block}
+@media(max-width:767px){.kjo-head.kjo-small .kjo-burger{display:flex}
+.kjo-head.kjo-small.kjo-open>.kjo-nav2{display:flex!important;flex-wrap:wrap;justify-content:center;gap:6px 22px;position:absolute;left:0;right:0;top:100%;padding:16px 20px 20px;background:#0F0C07;border-top:1px solid rgba(178,157,117,.3);border-bottom:1px solid rgba(178,157,117,.45);box-shadow:0 18px 30px rgba(0,0,0,.55)}
+.kjo-head.kjo-small.kjo-open>.kjo-nav2 a{padding:8px 2px}}
 .cmplz-cookiebanner{--cmplz_banner_background_color:#1A1712;--cmplz_banner_border_color:#B29D75;--cmplz_text_color:#F3F1E9;--cmplz_hyperlink_color:#B29D75;--cmplz_button_accept_background_color:#B29D75;--cmplz_button_accept_border_color:#B29D75;--cmplz_button_accept_text_color:#0F0C07;--cmplz_button_deny_background_color:#B29D75;--cmplz_button_deny_border_color:#B29D75;--cmplz_button_deny_text_color:#0F0C07;--cmplz_button_settings_background_color:#1A1712;--cmplz_button_settings_border_color:#A39E93;--cmplz_button_settings_text_color:#F3F1E9;--cmplz_slider_active_color:#B29D75;--cmplz_slider_inactive_color:#A39E93;--cmplz_slider_bullet_color:#0F0C07;background:#1A1712!important;border:1px solid rgba(178,157,117,.6)!important;border-radius:4px!important;color:#F3F1E9!important;font-family:"Fira Sans",sans-serif!important}
 .cmplz-cookiebanner .cmplz-title,.cmplz-cookiebanner .cmplz-message,.cmplz-cookiebanner .cmplz-message p,.cmplz-cookiebanner .cmplz-category-title,.cmplz-cookiebanner .cmplz-description,.cmplz-cookiebanner .cmplz-always-active{color:#F3F1E9!important;font-family:"Fira Sans",sans-serif!important}
 .cmplz-cookiebanner .cmplz-title{font-weight:300!important;letter-spacing:.02em}
@@ -1256,8 +1262,22 @@ function stick(h){
   var small=false;
   function sc(){var y=window.pageYOffset||document.documentElement.scrollTop||0;
     if(!small&&y>220){small=true;h.classList.add("kjo-small");}
-    else if(small&&y<40){small=false;h.classList.remove("kjo-small");}}
+    else if(small&&y<40){small=false;h.classList.remove("kjo-small");h.classList.remove("kjo-open");}}
   window.addEventListener("scroll",sc,{passive:true}); sc();
+  /* Handy: Beim Scrollen wird die zweite Menüzeile ausgeblendet – ein Menü-Knopf (Hamburger) holt sie bei Bedarf zurück. */
+  var cta=h.querySelector(".kjo-cta"),nav=h.querySelector(".kjo-nav2");
+  if(cta&&nav&&!cta.querySelector(".kjo-burger")){
+    var b=document.createElement("button"); b.type="button"; b.className="kjo-burger"; b.setAttribute("aria-label","Menü öffnen"); b.setAttribute("aria-expanded","false");
+    b.innerHTML='<svg class="kjo-b" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg><svg class="kjo-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>';
+    cta.insertBefore(b,cta.firstChild);
+    function set(o){h.classList.toggle("kjo-open",o);b.setAttribute("aria-expanded",o?"true":"false");b.setAttribute("aria-label",o?"Menü schließen":"Menü öffnen");}
+    b.addEventListener("click",function(e){e.stopPropagation();set(!h.classList.contains("kjo-open"));});
+    nav.addEventListener("click",function(e){if(e.target.closest&&e.target.closest("a"))set(false);});
+    document.addEventListener("click",function(e){if(h.classList.contains("kjo-open")&&!h.contains(e.target))set(false);});
+    document.addEventListener("keydown",function(e){if(e.key==="Escape")set(false);});
+    window.addEventListener("scroll",function(){if(h.classList.contains("kjo-open")&&Math.abs((window.pageYOffset||0)-(window._kjoY||0))>120)set(false);},{passive:true});
+    h.addEventListener("click",function(){window._kjoY=window.pageYOffset||0;},true);
+  }
 }
 function head(){
   var st=document.querySelector(".kjo-head[data-static]");
@@ -1278,6 +1298,13 @@ function head(){
   if(btn){row.insertBefore(r,btn);r.appendChild(btn);}else{row.appendChild(r);}
   stick(h);
 }
+function musikHero(){
+  var a=document.querySelector('.elementor a[href$="#auflegen"]'); if(!a)return;
+  var w=a.closest(".elementor-widget-button"); if(!w||!w.parentNode)return;
+  var p=w.parentNode, k=p.children, only=true;
+  for(var i=0;i<k.length;i++){if(!(k[i].classList&&k[i].classList.contains("elementor-widget-button")))only=false;}
+  if(only)p.style.display="none"; else for(var j=0;j<k.length;j++){if(k[j].classList.contains("elementor-widget-button"))k[j].style.display="none";}
+}
 function foot(){
   if(!C.cookie||document.querySelector(".kjo-cookie-link"))return;
   var a=document.querySelectorAll('.elementor a[href$="/datenschutz/"],.elementor a[href$="/datenschutz"]'); if(!a.length)return;
@@ -1286,7 +1313,7 @@ function foot(){
   n.classList.add("kjo-cookie-link"); x.setAttribute("href",C.cookie); x.textContent="Cookie-Richtlinie";
   w.parentNode.insertBefore(n,w.nextSibling);
 }
-function init(){try{head();}catch(e){}try{foot();}catch(e){}}
+function init(){try{head();}catch(e){}try{foot();}catch(e){}try{musikHero();}catch(e){}}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
 })();
 KJOJS

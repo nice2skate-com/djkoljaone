@@ -229,7 +229,7 @@ MUSIK_SNIPPET="./musik/musik-snippet-final.html"
 def musik():
     return [nav(),
       hero("Meine Musik","Leg selbst auf","Such dir eine Platte aus der Kiste, leg sie aufs Deck und hör rein, wie DJ KOLJA ONE klingt.",
-           [BTN("Jetzt auflegen","#auflegen"),BTN(*WISH,primary=False)],stats=None,minh=55),
+           [],stats=None,minh=55),
       section([W("html",{"html":open(MUSIK_SNIPPET).read(),"_element_width":"inherit","width":px(100,"%")})],anchor="auflegen"),
       section(head("So geht's","Dein eigener Mix in vier Schritten")+[steps([
           ("Platte wählen","Zieh einen Song aus der Plattenkiste. Er landet abwechselnd auf Deck A oder Deck B und startet sofort."),

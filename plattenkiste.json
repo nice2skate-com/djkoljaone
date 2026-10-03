@@ -1,9 +1,9 @@
 {
- "version": "1.11.0",
- "download_url": "dj-kolja-one-plattenkiste-1.11.0.zip",
- "sha256": "3bb9d1099aa6a86b5d7a206813bf212582dcfe98e3374fc9d1981931948a4700",
+ "version": "1.12.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.12.0.zip",
+ "sha256": "16e0812c84b237ff61cb9ab98304c9cf281cd0264a59b059c84f1a12a7c53506",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<h4>1.11.0</h4><ul><li>Tonart-Erkennung (Camelot): wird beim Upload automatisch erkannt, am Deck und auf der Platte angezeigt</li><li>Mixer zeigt, ob zwei Songs harmonisch zusammenpassen</li><li>Plattenkiste: Tonart und BPM auf den Platten, passende Songs markiert, Filter „Passt zu …“</li></ul>"
+ "changelog": "<h4>1.12.0</h4><ul><li>Tempo-Regler (±16 %), SYNC und Key-Lock an beiden Decks</li><li>Automix: Playlist aus der Plattenkiste, automatisch geladen und gemixt; jederzeit manuell übernehmen</li><li>Tonart-Erkennung (Camelot) beim Upload, Anzeige am Deck, im Mixer und in der Plattenkiste</li><li>Handy: Menü-Knopf (Hamburger) für die Unterseiten beim Scrollen; Buttons auf „Meine Musik“ entfernt</li></ul>"
 }

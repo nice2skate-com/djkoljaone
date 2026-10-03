@@ -13,4 +13,6 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.12.0: Tempo-Regler an beiden Decks (±16 %), SYNC-Knopf (gleicht das Tempo an das andere Deck an, auch halbes/doppeltes Tempo) und KEY-Knopf (Key-Lock: Tonart bleibt beim Tempo-Ändern gleich). Automix: Mit dem + auf den Platten legst du Songs in eine Playlist; „Automix starten“ lädt sie nacheinander auf die Decks und mixt sie mit Tempo-Angleich, Überblendung und Bass-Tausch. Sobald du an Crossfader, Fadern, Tempo, Sync oder einer Platte eingreifst, übernimmst du manuell (die Decks laufen weiter); „Automix fortsetzen“ übergibt wieder. Auf der Seite „Meine Musik“ entfallen die beiden Hero-Buttons. Auf dem Handy erscheint beim Scrollen ein Menü-Knopf (Hamburger) für die Unterseiten.
+
 Seit 1.11.0: Tonart-Erkennung (Camelot-System). Die Tonart wird beim Upload automatisch zusammen mit der BPM erkannt, am Deck und auf der Platte angezeigt; der Mixer zeigt, ob die beiden Songs harmonisch zusammenpassen (z. B. „8A + 9A · PASST“). In der Plattenkiste tragen die Platten Tonart und BPM, passende Songs sind grün/gelb markiert, der Knopf „Passt zu …“ blendet unpassende aus. Bestehende Songs werden einmalig automatisch nachanalysiert.
