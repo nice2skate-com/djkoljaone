@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     # Ohne gesetzte Secrets wird übersprungen statt zu scheitern.
     if: ${{ vars.DEPLOY_ENABLED == 'true' }}
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
@@ -26,9 +27,15 @@ jobs:
           SFTP_WP_CONTENT: ${{ secrets.SFTP_WP_CONTENT }}
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+          UP=""
+          [ -d wp-content/uploads ] && UP="mirror -R --verbose wp-content/uploads $SFTP_WP_CONTENT/uploads"
           lftp -u "$SFTP_USER","$SFTP_PASSWORD" "sftp://$SFTP_HOST" <<LFTP
+          set cmd:fail-exit yes
+          set net:max-retries 2
+          set net:timeout 20
+          set net:reconnect-interval-base 5
           set sftp:auto-confirm yes
-          mirror -R --verbose plugin/dj-kolja-one-plattenkiste "$SFTP_WP_CONTENT/plugins/dj-kolja-one-plattenkiste"
-          if [ -d wp-content/uploads ]; then mirror -R --verbose wp-content/uploads "$SFTP_WP_CONTENT/uploads"; fi
+          mirror -R --verbose plugin/dj-kolja-one-plattenkiste $SFTP_WP_CONTENT/plugins/dj-kolja-one-plattenkiste
+          $UP
           bye
           LFTP
