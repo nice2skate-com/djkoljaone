@@ -1,0 +1,23 @@
+name: Server-Check (Plugin-Dateien)
+
+# Nur auf Knopfdruck: Actions -> "Server-Check" -> Run workflow
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install paramiko
+      - name: Dateien auf dem Server mit dem Repo vergleichen
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_USER: ${{ secrets.SFTP_USER }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          SFTP_WP_CONTENT: ${{ secrets.SFTP_WP_CONTENT }}
+        run: python3 tools/server_check.py
