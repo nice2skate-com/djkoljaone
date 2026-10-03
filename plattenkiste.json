@@ -1,9 +1,9 @@
 {
- "version": "1.12.3",
- "download_url": "dj-kolja-one-plattenkiste-1.12.3.zip",
- "sha256": "183aadcef458ffb7e5d53c8a0b595e5831884f35a749c4e93149ae3264070b0d",
+ "version": "1.12.4",
+ "download_url": "dj-kolja-one-plattenkiste-1.12.4.zip",
+ "sha256": "a5ae55205c3daf8982860cbc8587e4ca78d254158a357c504ebd7d11f5d0deb6",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<h4>1.12.3</h4><ul><li>Weiße Artefakte über dem Controller beseitigt (keine Filter mehr auf dem bewegten Controller)</li><li>Automix: nächster Titel erscheint sofort auf dem freien Deck</li><li>Safari/iPhone: automatischer Start des zweiten Decks wird freigeschaltet; bei Blockade Knopf „Song freigeben“</li></ul><h4>1.12.2</h4><ul><li>Automix neben der Plattenkiste, Zwischenspeicher wird nach Deploy geleert, Layout-Korrekturen</li></ul><h4>1.12.0</h4><ul><li>Tempo-Regler, SYNC, Key-Lock, Automix, Tonart (Camelot), Handy-Menü</li></ul>"
+ "changelog": "<h4>1.12.4</h4><ul><li>Automix in Safari: Tempo gleitet nur noch in groben Schritten zurück, Datei des nächsten Titels wird erst kurz nach dem Mix geladen (Anzeige sofort)</li><li>Neu: Link „Diagnose“ unter dem Automix (Protokoll zum Eingrenzen von Problemen)</li></ul><h4>1.12.3</h4><ul><li>Weiße Artefakte beseitigt, Safari-Freischaltung, nächster Titel sofort im Display</li></ul><h4>1.12.0</h4><ul><li>Tempo-Regler, SYNC, Key-Lock, Automix, Tonart (Camelot), Handy-Menü</li></ul>"
 }

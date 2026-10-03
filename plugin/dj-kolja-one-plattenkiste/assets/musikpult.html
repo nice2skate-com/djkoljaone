@@ -91,6 +91,7 @@ window.KJM_DEMO = [
 #kjm .amx button.go{background:var(--gold);color:var(--b1);border-color:var(--gold)}#kjm .amx button.go:hover:not(:disabled){color:var(--b1);background:var(--gold2)}
 #kjm .amx button.live{border-color:#8FC79A;color:#8FC79A}
 #kjm #kjmAmTog{display:none;grid-column:1/-1}
+#kjm .amx .dgb{margin-top:12px;border:0;background:none;color:var(--muted);font-size:10px;letter-spacing:2px;text-decoration:underline;padding:4px 0}#kjm .dgt{display:block;width:100%;margin-top:6px;background:#0a0806;color:#cfc8b6;border:1px solid rgba(178,157,117,.3);font:11px/1.35 monospace;padding:6px;border-radius:3px;resize:vertical}
 #kjm .aq{display:flex;flex-direction:column;gap:6px;margin-top:14px;max-height:62vh;overflow:auto}#kjm .aq:empty{display:none}
 #kjm .qi{display:flex;align-items:center;gap:6px;border:1px solid rgba(178,157,117,.3);border-radius:3px;padding:5px 4px 5px 8px;font-size:12px;background:rgba(26,23,18,.8)}#kjm .qi>span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #kjm .qi i{font-style:normal;color:var(--gold);font-size:11px}#kjm .qi em{font-style:normal;color:var(--muted);font-size:11px}
@@ -111,9 +112,10 @@ window.KJM_DEMO = [
   <div class="rate" id="kjmRate"><div class="q" id="kjmRateQ">Leg einen Song auf und bewerte ihn</div><div class="st" id="kjmStars"></div><div class="avg" id="kjmAvg">&nbsp;</div></div>
  </div>
 </div>
-<div class="cratewrap"><div class="crate"><div class="tabs" id="kjmTabs" role="tablist" aria-label="Genres"></div><div class="sleeves" id="kjmCrate"></div><div class="front">Plattenkiste · Such dir einen Song aus</div></div><aside class="amx" id="kjmAmx" aria-label="Automix"><div class="ah"><span class="at">Automix</span><span class="as" id="kjmAmS"></span><button type="button" class="go" id="kjmAmGo">▶ Automix starten</button><button type="button" id="kjmAmClr">Leeren</button><button type="button" id="kjmAmTog" aria-expanded="false">Playlist anzeigen</button></div><div class="aq" id="kjmAmQ"></div></aside></div>
+<div class="cratewrap"><div class="crate"><div class="tabs" id="kjmTabs" role="tablist" aria-label="Genres"></div><div class="sleeves" id="kjmCrate"></div><div class="front">Plattenkiste · Such dir einen Song aus</div></div><aside class="amx" id="kjmAmx" aria-label="Automix"><div class="ah"><span class="at">Automix</span><span class="as" id="kjmAmS"></span><button type="button" class="go" id="kjmAmGo">▶ Automix starten</button><button type="button" id="kjmAmClr">Leeren</button><button type="button" id="kjmAmTog" aria-expanded="false">Playlist anzeigen</button></div><div class="aq" id="kjmAmQ"></div><button type="button" class="dgb" id="kjmAmDg">Diagnose</button><textarea id="kjmAmLog" class="dgt" readonly rows="9" style="display:none" aria-label="Diagnose-Protokoll"></textarea></aside></div>
 <script>
 (function(){
+var LOG=[],logBox=null;function lg(m){LOG.push((performance.now()/1000).toFixed(1)+"s "+m);if(LOG.length>150)LOG.shift();if(logBox&&logBox.style.display!=="none"){logBox.value=LOG.join("\n");logBox.scrollTop=logBox.scrollHeight}}
 var S=[],MODE="demo",NS="http://www.w3.org/2000/svg",svg=document.getElementById("kjmSvg"),hint=document.getElementById("kjmHint");
 var vis=document.getElementById("kjmVis"),vctx=vis.getContext("2d"),idle=document.getElementById("kjmIdle"),np=document.getElementById("kjmNp");
 var reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -141,7 +143,7 @@ function audio(){if(ac)return ac;
  try{if(navigator.audioSession)navigator.audioSession.type="playback"}catch(e){}
  var AC=window.AudioContext||window.webkitAudioContext;
  /* „playback“: größerer Audio-Puffer – deutlich weniger Aussetzer/Knacksen, wenn der Browser gerade beschäftigt ist */
- try{ac=new AC({latencyHint:"playback"})}catch(e){ac=new AC()}try{ac.onstatechange=function(){}}catch(e){}
+ try{ac=new AC({latencyHint:"playback"})}catch(e){ac=new AC()}try{ac.onstatechange=function(){lg("AudioContext: "+ac.state)}}catch(e){}
  master=ac.createGain();an=ac.createAnalyser();an.fftSize=512;an.smoothingTimeConstant=.82;
  /* Limiter: fängt Pegelspitzen beim Mixen zweier lauter Songs ab (sonst digitales Übersteuern = Knacken) */
  var lim=ac.createDynamicsCompressor();lim.threshold.value=-2;lim.knee.value=0;lim.ratio.value=20;lim.attack.value=.002;lim.release.value=.15;
@@ -238,7 +240,8 @@ xfG.addEventListener("keydown",function(e){if(e.key==="ArrowLeft"||e.key==="Arro
 var decks=[];
 function deck(cx,side){
  var g=E("g",{},svg),o={cx:cx,cy:285,g:g,side:side,angle:0,speed:0,target:0,song:null,aEl:new Audio(),vEl:document.getElementById("kjmV"+side),media:null,synthT:0,next:0,beat:0,demoPos:0,mix:MIX[side]};
- o.aEl.preload="none";[o.aEl,o.vEl].forEach(function(m){m.preservesPitch=false;m.mozPreservesPitch=false;m.webkitPreservesPitch=false;m.addEventListener("ended",function(){o.target=0;o.speed=0})});
+ o.aEl.preload="none";[o.aEl,o.vEl].forEach(function(m){m.preservesPitch=false;m.mozPreservesPitch=false;m.webkitPreservesPitch=false;m.addEventListener("ended",function(){o.target=0;o.speed=0});
+  ["play","pause","ended","waiting","stalled","error","emptied","abort"].forEach(function(ev){m.addEventListener(ev,function(){lg("Deck "+(side?"B":"A")+(m===o.vEl?" Video ":" Audio ")+ev+" t="+(m.currentTime||0).toFixed(1)+" Tempo="+m.playbackRate.toFixed(3)+(ev==="error"&&m.error?" Code="+m.error.code:""))})})});
  E("rect",{x:cx-195,y:28,width:390,height:46,rx:4,fill:"#050403",stroke:"#2d281f"},g);
  var tcp=E("clipPath",{id:"kjmt"+side},defs);E("rect",{x:cx-185,y:30,width:250,height:40},tcp);
  o.scrT=T(cx-180,47,"DECK "+(side?"B":"A")+" · LEER",{"font-size":12,"letter-spacing":2,fill:"#B29D75","clip-path":"url(#kjmt"+side+")"},g);
@@ -342,7 +345,7 @@ function setRated(id,v){try{localStorage.setItem("kjm_r_"+id,v)}catch(e){}}
 var PAL=["#F3F1E9","#B29D75","#0F0C07","#8C7650","#D9CBB0","#5E4E33","#C4B08A","#3A3429"],genres=[],curG="Alle";
 function sleeveRating(s){return s.count?star(10)+" "+de(s.avg.toFixed(1))+" · "+s.count:"Noch unbewertet"}
 var refK="",refS=null,onlyFit=false;
-var AM={on:false,man:false,q:[],qi:-1,main:0,trans:null,len:16,loFx:false};
+var AM={on:false,man:false,q:[],qi:-1,main:0,trans:null,len:16,loFx:false,endT:0,glideT:0};
 function buildCrate(){var box=document.getElementById("kjmCrate"),tabs=document.getElementById("kjmTabs");box.innerHTML="";tabs.innerHTML="";sleeves=[];box.classList.toggle("one",curG!=="Alle");
  genres=[];S.forEach(function(s){if(genres.indexOf(s.genre)<0)genres.push(s.genre)});genres.sort(function(a,b){return a.localeCompare(b,"de")});
  ["Alle"].concat(genres).forEach(function(g){var t=document.createElement("button");t.className="tab"+(g===curG?" on":"");t.setAttribute("role","tab");
@@ -377,10 +380,11 @@ function vote(n){var s=rateSong;if(!s||rated(s.id))return;setRated(s.id,n);[].fo
  function apply(avg,cnt){s.avg=avg;s.count=cnt;avgText();if(sleeves[S.indexOf(s)])sleeves[S.indexOf(s)].querySelector(".r").innerHTML=sleeveRating(s)}
  if(MODE==="live"){fetch(window.KJM_API+"/rate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:s.id,stars:n})}).then(function(r){return r.json()}).then(function(j){if(j&&j.count)apply(j.avg,j.count);else if(j&&j.data&&j.data.count){apply(j.data.avg,j.data.count);if(j.code==="kjm_voted")document.getElementById("kjmRateQ").textContent="Du hast diesen Song schon bewertet"}}).catch(function(){})}
  else apply(+(((s.avg*s.count)+n)/(s.count+1)).toFixed(1),s.count+1)}
-function loadTo(o,i,play){audio();stopMedia(o);if(o.idx!=null&&sleeves[o.idx])sleeves[o.idx].classList.remove("on");
+function applySrc(o){if(o.pendingSrc&&o.media){var u=o.pendingSrc;o.pendingSrc=null;o.media.preload="auto";o.media.src=u;try{o.media.currentTime=0}catch(e){}lg("Deck "+(o.side?"B":"A")+": Quelle geladen")}}
+function loadTo(o,i,play,lazy){audio();stopMedia(o);o.pendingSrc=null;if(o.idx!=null&&sleeves[o.idx])sleeves[o.idx].classList.remove("on");
  var s=S[i];o.song=s;o.idx=i;o.demoPos=0;o.sync=false;syncLamp(o);setPitch(o,0,false);applyMix(o);if(sleeves[i])sleeves[i].classList.add("on");
  o.media=s.video?o.vEl:(s.audio?o.aEl:null);
- if(o.media){o.media.preload="auto";o.media.src=s.video||s.audio;o.media.currentTime=0}
+ if(o.media){if(lazy)o.pendingSrc=s.video||s.audio;else{o.media.preload="auto";o.media.src=s.video||s.audio;o.media.currentTime=0}}
  vinyl(o,s,i);o.scrT.textContent="DECK "+(o.side?"B":"A")+" · "+s.titel.toUpperCase();o.scrS.textContent=s.info+(o.media?"":" · Demo");showBpm(o);setKey(o,s);updCompat();o.angle=0;
  if(play){start(o);active=o}}
 function load(i){audio();if(ac.state==="suspended")ac.resume();
@@ -391,11 +395,11 @@ function setKey(o,s){o.kbG.style.display="";var k0=s&&s.key,k=dk(o),c=k?camCol(k
  o.kbN.textContent=k?k+" · "+(CAMN[k]||"")+(k!==k0?" (Original "+k0+", durch Tempo verschoben – Key-Lock aus)":""):"Tonart unbekannt"}
 /* Safari/iPhone blockieren Medien, die nicht per Tipp gestartet wurden. Dann merken wir uns das und starten beim nächsten Tipp ins Pult. */
 function playEl(o){var m=o.media;if(!m)return;var p;try{p=m.play()}catch(e){return}
- if(p&&p.then)p.then(function(){if(o.blocked){o.blocked=false;amUI()}},function(err){if(err&&(err.name==="NotAllowedError"||err.name==="SecurityError")){if(!o.blocked){o.blocked=true;hint.textContent="Dein Browser wartet auf eine Berührung – tippe einmal ins Pult, dann läuft der Song weiter";amUI()}}})}
+ if(p&&p.then)p.then(function(){if(o.blocked){o.blocked=false;amUI()}},function(err){if(err&&(err.name==="NotAllowedError"||err.name==="SecurityError")){if(!o.blocked){lg("Deck "+(o.side?"B":"A")+": Browser blockiert play() ("+err.name+")");o.blocked=true;hint.textContent="Dein Browser wartet auf eine Berührung – tippe einmal ins Pult, dann läuft der Song weiter";amUI()}}})}
 var resumedAt=0;
 function resumeBlocked(){var any=false;decks.forEach(function(o){if(o.blocked&&o.media&&o.target>0){o.blocked=false;any=true;playEl(o)}});if(any){resumedAt=Date.now();amUI();if(ac&&ac.state!=="running")wake()}}
 ["pointerdown","touchend","keydown"].forEach(function(ev){document.getElementById("kjm").addEventListener(ev,resumeBlocked,true)});
-function start(o){audio();if(ac.state==="suspended")ac.resume();o.target=1;if(o.media)playEl(o);active=o}
+function start(o){audio();if(ac.state==="suspended")ac.resume();applySrc(o);o.target=1;if(o.media)playEl(o);active=o}
 function stopMedia(o){o.target=0;o.speed=0;if(o.media){o.media.pause()}}
 function toggle(o){if(!o.song)return;if(o.target>0){o.target=0;brake()}else start(o)}
 function brake(){try{audio();var t=ac.currentTime,os=ac.createOscillator(),f=ac.createBiquadFilter(),g=ac.createGain();os.type="sawtooth";os.frequency.setValueAtTime(120,t);os.frequency.exponentialRampToValueAtTime(20,t+.6);f.type="lowpass";f.frequency.value=600;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.04,t+.03);g.gain.exponentialRampToValueAtTime(.0001,t+.65);os.connect(f);f.connect(g);g.connect(master);os.start(t);os.stop(t+.7)}catch(e){}}
@@ -406,13 +410,13 @@ function demo(o){if(o.media||!o.song||o.speed<.06)return;var spb=60/(o.song.bpm|
  var root=[55,55,65.4,49][Math.floor(o.beat/4)%4]*(1+(o.idx%3)*.12)*sp,bs=ac.createOscillator(),bf=ac.createBiquadFilter(),bg=ac.createGain();bs.type="sawtooth";bs.frequency.value=root;bf.type="lowpass";bf.frequency.value=380;bg.gain.setValueAtTime(.0001,t+spb/2);bg.gain.exponentialRampToValueAtTime(.18,t+spb/2+.01);bg.gain.exponentialRampToValueAtTime(.001,t+spb*.95);bs.connect(bf);bf.connect(bg);bg.connect(o.inp);bs.start(t+spb/2);bs.stop(t+spb);
  o.beat++;o.next=t+spb}}
 /* ---------- Automix ---------- */
-var amS=document.getElementById("kjmAmS"),amGo=document.getElementById("kjmAmGo"),amClr=document.getElementById("kjmAmClr"),amQ=document.getElementById("kjmAmQ"),amTog=document.getElementById("kjmAmTog"),amBox=document.getElementById("kjmAmx");
+var amS=document.getElementById("kjmAmS"),amGo=document.getElementById("kjmAmGo"),amClr=document.getElementById("kjmAmClr"),amQ=document.getElementById("kjmAmQ"),amTog=document.getElementById("kjmAmTog"),amBox=document.getElementById("kjmAmx");logBox=document.getElementById("kjmAmLog");document.getElementById("kjmAmDg").addEventListener("click",function(){var sh=logBox.style.display==="none";logBox.style.display=sh?"block":"none";if(sh){lg("Diagnose: "+navigator.userAgent.slice(0,90)+" | AudioContext "+(ac?ac.state:"-"));logBox.value=LOG.join("\n");logBox.focus();logBox.select()}});
 function amDur(o){return o.media?(o.media.duration||0):(o.song?180:0)}
 function amPos(o){return o.media?o.media.currentTime:o.demoPos}
 function amLo(){if(!AM.loFx)return;AM.loFx=false;[0,1].forEach(function(i){MIX[i].lo=0;mixChanged(i);if(KN[i]&&KN[i].lo)KN[i].lo.redraw()})}
 /* Sobald du selbst eingreifst (Crossfader, Fader, Tempo, Sync, Play/Platte, Platte aus der Kiste), übernimmst du manuell – die Decks laufen weiter */
-function amManual(){if(!AM.on)return;AM.on=false;AM.man=true;AM.trans=null;amLo();decks.forEach(function(o){if(o.sync){o.sync=false;syncLamp(o)}});amUI()}
-function amStop(msg){AM.on=false;AM.man=false;AM.trans=null;amLo();amUI(0,msg)}
+function amManual(){if(!AM.on)return;lg("Automix: manuell übernommen");AM.on=false;AM.man=true;AM.trans=null;amLo();decks.forEach(function(o){if(o.sync){o.sync=false;syncLamp(o)}});amUI()}
+function amStop(msg){lg("Automix: beendet");AM.on=false;AM.man=false;AM.trans=null;amLo();amUI(0,msg)}
 function amSyncQi(){var k=decks[AM.main]&&decks[AM.main].song?AM.q.indexOf(decks[AM.main].song):-1;AM.qi=k>=0?k:Math.min(AM.qi,AM.q.length-1)}
 function amToggle(sg){var k=AM.q.indexOf(sg);if(k>=0)AM.q.splice(k,1);else AM.q.push(sg);amSyncQi();amUI();markQ()}
 function amMove(i,d){var j=i+d;if(j<0||j>=AM.q.length)return;var t=AM.q[i];AM.q[i]=AM.q[j];AM.q[j]=t;amSyncQi();amUI();markQ()}
@@ -436,28 +440,29 @@ function silentUrl(){if(SILURL)return SILURL;var n=1600,b=new ArrayBuffer(44+n*2
 /* iPhone/Safari: Jedes Medien-Element muss einmal per Tipp „freigeschaltet“ werden, sonst darf der Automix später nicht selbst starten */
 function unlockMedia(){var u=silentUrl();if(!u)return;decks.forEach(function(o){[o.aEl,o.vEl].forEach(function(m){if(m.getAttribute("src")||m.__unl)return;m.__unl=1;m.src=u;
   var done=function(){try{if(m.getAttribute("src")===u){m.pause();m.removeAttribute("src");m.load()}}catch(e){}};var p;try{p=m.play()}catch(e){done();return}if(p&&p.then)p.then(done,done);else done()})})}
-function amStart(){if(!AM.q.length)return;audio();if(ac.state==="suspended")ac.resume();
+function amStart(){if(!AM.q.length)return;lg("Automix: Start ("+AM.q.length+" Songs, AudioContext "+(ac?ac.state:"-")+")");audio();if(ac.state==="suspended")ac.resume();
  var pl=decks.filter(function(o){return o.song&&o.target>0}),m;
  if(pl.length){m=pl.length>1?(xv>0?decks[1]:decks[0]):pl[0];AM.qi=m.song?AM.q.indexOf(m.song):-1}
  else{m=decks[0];loadTo(m,S.indexOf(AM.q[0]),true);AM.qi=0;nextDeck=1}
  AM.main=m.side;AM.on=true;AM.man=false;AM.trans=null;if(!decks[1-m.side].target)setXf(m.side?1:-1);active=m;unlockMedia();
  hint.textContent="Automix läuft – am Crossfader, Tempo-Regler oder an einer Platte übernimmst du jederzeit selbst";amTick()}
-function amBegin(T){var m=decks[AM.main],o=decks[1-AM.main];if(ac&&ac.state!=="running"){try{ac.resume()}catch(e){}}AM.trans={t0:performance.now(),T:T*1000,from:m,to:o,x0:xv,x1:o.side?1:-1};AM.loFx=true;
+function amBegin(T){var m=decks[AM.main],o=decks[1-AM.main];lg("Automix: Mix beginnt "+(m.song&&m.song.titel)+" → "+(o.song&&o.song.titel)+" ("+T.toFixed(1)+" s)");if(ac&&ac.state!=="running"){try{ac.resume()}catch(e){}}AM.trans={t0:performance.now(),T:T*1000,from:m,to:o,x0:xv,x1:o.side?1:-1};AM.loFx=true;
  MIX[o.side].lo=-.9;mixChanged(o.side);if(KN[o.side]&&KN[o.side].lo)KN[o.side].lo.redraw();
  var st=syncTarget(o);if(st){o.sync=true;o.syOut=st.out;setPitch(o,st.p,false);syncLamp(o,st.out)}
  start(o);active=o;amUI(0)}
 function amStep(){var t=AM.trans,p=t.T>0?Math.min(1,(performance.now()-t.t0)/t.T):1,e=p*p*(3-2*p),ss=function(a,b,x){x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x)};
  setXf(t.x0+(t.x1-t.x0)*e);MIX[t.from.side].lo=-.9*ss(.35,.75,p);MIX[t.to.side].lo=-.9*(1-ss(.25,.65,p));
  [0,1].forEach(function(i){mixChanged(i);if(KN[i]&&KN[i].lo)KN[i].lo.redraw()});
- if(p>=1){stopMedia(t.from);amLo();t.to.sync=false;syncLamp(t.to);AM.main=t.to.side;AM.qi=AM.qi+1;AM.trans=null;amUI(0);markQ()}}
+ if(p>=1){lg("Automix: Mix fertig, "+(t.from.song&&t.from.song.titel)+" wird angehalten");AM.endT=performance.now();stopMedia(t.from);amLo();t.to.sync=false;syncLamp(t.to);AM.main=t.to.side;AM.qi=AM.qi+1;AM.trans=null;amUI(0);markQ()}}
 function amTick(){if(!AM.on)return;var m=decks[AM.main],o=decks[1-AM.main];if(!m.song){amStop();return}
  if(AM.trans){amStep();return}
  var og=o.side?Math.sin((xv+1)/2*Math.PI/2):Math.cos((xv+1)/2*Math.PI/2);if(o.song&&o.target>0&&og<.05)stopMedia(o);
- if(!m.sync&&Math.abs(m.pit)>0){setPitch(m,m.pit-(m.pit>0?1:-1)*Math.min(Math.abs(m.pit),.004),false)}/* Tempo gleitet nach dem Mix zurück zum Original */
+ if(!m.sync&&Math.abs(m.pit)>0&&performance.now()-(AM.endT||0)>10000&&performance.now()-(AM.glideT||0)>3000){AM.glideT=performance.now();setPitch(m,m.pit-(m.pit>0?1:-1)*Math.min(Math.abs(m.pit),.08),false)}/* Tempo gleitet nach dem Mix in wenigen, groben Schritten zurück (häufiges Ändern lässt Safari aussetzen) */
  var nxt=AM.q[AM.qi+1]||null,dur=amDur(m),pos=amPos(m),ended=!!(m.media&&m.media.ended)||m.target===0;
  if(!dur&&!ended)return;var rem=ended?0:(dur-pos)/Math.max(.2,m.rate);
  if(!nxt){if(ended||rem<.4)amStop("Automix beendet – die Playlist ist zu Ende.");else amUI(rem);return}
- var idle=!(o.target>0);if(idle&&o.song!==nxt)loadTo(o,S.indexOf(nxt),false);/* sofort anzeigen und vorladen */
+ var idle=!(o.target>0);if(idle&&o.song!==nxt)loadTo(o,S.indexOf(nxt),false,true);/* Titel sofort anzeigen, Datei folgt kurz nach dem Mix */
+ if(o.pendingSrc&&idle&&performance.now()-AM.endT>4000)applySrc(o);
  var T=Math.min(AM.len,Math.max(4,dur*.15));
  if(o.song===nxt&&idle&&(ended||rem<=T+.3))amBegin(ended?.1:T);else amUI(rem)}
 setInterval(amTick,100);
