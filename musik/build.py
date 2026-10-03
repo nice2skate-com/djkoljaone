@@ -11,6 +11,9 @@ final = re.sub(r' \{id:"s1".*?\},\n', '', s).replace('video:"__DEMOVIDEO__"', 'v
 assert '__SONG1__' not in final
 open(os.path.join(HERE, 'musik-snippet-final.html'), 'w', encoding='utf-8').write(final)
 open(P('plugin', 'dj-kolja-one-plattenkiste', 'assets', 'musikpult.html'), 'w', encoding='utf-8').write(final)
+deck = open(P('deck', 'deck-snippet.html'), encoding='utf-8').read()
+open(P('plugin', 'dj-kolja-one-plattenkiste', 'assets', 'startdeck.html'), 'w', encoding='utf-8').write(deck)
+print('Start-Pult geschrieben:', len(deck) // 1024, 'KB')
 print('Plugin-Pult geschrieben:', len(final) // 1024, 'KB')
 if os.path.exists(P('songs', 'preview-128.mp3')) and os.path.exists(P('songs', 'cover-300.jpg')):
     song, cover = b64(P('songs', 'preview-128.mp3')), b64(P('songs', 'cover-300.jpg'))

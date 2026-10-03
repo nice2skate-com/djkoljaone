@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.12.4
+ * Version:     1.12.5
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.12.4' );
+define( 'KJO_VERSION', '1.12.5' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -590,13 +590,26 @@ function kjm_deck_html() {
 	$api = wp_make_link_relative( rest_url( 'kjm/v1' ) );
 	return '<script>window.KJM_API=' . wp_json_encode( untrailingslashit( $api ) ) . ';</script>' . file_get_contents( $file ); // phpcs:ignore
 }
+/* Start-Pult (Startseite): ebenfalls immer die aktuelle Version aus dem Plugin ausliefern. */
+function kjo_start_deck_html() {
+	$file = __DIR__ . '/assets/startdeck.html';
+	return is_readable( $file ) ? (string) file_get_contents( $file ) : ''; // phpcs:ignore
+}
 add_filter(
 	'elementor/widget/render_content',
 	function ( $content, $widget ) {
-		if ( is_object( $widget ) && method_exists( $widget, 'get_name' ) && 'html' === $widget->get_name() && false !== strpos( (string) $content, 'id="kjm"' ) ) {
-			$deck = kjm_deck_html();
-			if ( '' !== $deck ) {
-				return $deck;
+		if ( is_object( $widget ) && method_exists( $widget, 'get_name' ) && 'html' === $widget->get_name() ) {
+			if ( false !== strpos( (string) $content, 'id="kjm"' ) ) {
+				$deck = kjm_deck_html();
+				if ( '' !== $deck ) {
+					return $deck;
+				}
+			}
+			if ( false !== strpos( (string) $content, 'id="kjoSvg"' ) ) {
+				$deck = kjo_start_deck_html();
+				if ( '' !== $deck ) {
+					return $deck;
+				}
 			}
 		}
 		return $content;
@@ -604,6 +617,7 @@ add_filter(
 	10,
 	2
 );
+add_shortcode( 'kjo_startpult', 'kjo_start_deck_html' );
 add_shortcode( 'kjo_musikpult', 'kjm_deck_html' );
 
 
@@ -1394,6 +1408,8 @@ function musikGap(){
   function Y(el){var y=0;while(el){y+=el.offsetTop||0;el=el.offsetParent;}return y;}
   function fit(){
     t.style.setProperty("margin-top","0","important"); t.style.setProperty("padding-top","0","important"); h.style.setProperty("padding-bottom","0","important");
+    /* Der Pult-Abschnitt rückt per negativem Rand nach oben und hat einen deckenden Hintergrund: Der Kopf-Abschnitt muss darüber liegen, sonst wird sein Text abgeschnitten (weiße Splitter) */
+    h.style.setProperty("position","relative"); h.style.setProperty("z-index","2"); t.style.setProperty("position","relative"); t.style.setProperty("z-index","1");
     var last=null,w=h.querySelectorAll(".elementor-widget,h1,p"),i,bt;
     for(i=0;i<w.length;i++){ if((w[i].textContent||"").trim()==="")continue; if(!w[i].offsetHeight)continue; bt=Y(w[i])+w[i].offsetHeight; if(last===null||bt>last)last=bt; }
     if(last===null||!hint.offsetHeight)return;

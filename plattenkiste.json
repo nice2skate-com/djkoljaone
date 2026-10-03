@@ -1,9 +1,9 @@
 {
- "version": "1.12.4",
- "download_url": "dj-kolja-one-plattenkiste-1.12.4.zip",
- "sha256": "a5ae55205c3daf8982860cbc8587e4ca78d254158a357c504ebd7d11f5d0deb6",
+ "version": "1.12.5",
+ "download_url": "dj-kolja-one-plattenkiste-1.12.5.zip",
+ "sha256": "3c5790ce002feea633321ad8eb3177e97326442f58848c40ddca16b9c44d0c2a",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<h4>1.12.4</h4><ul><li>Automix in Safari: Tempo gleitet nur noch in groben Schritten zurück, Datei des nächsten Titels wird erst kurz nach dem Mix geladen (Anzeige sofort)</li><li>Neu: Link „Diagnose“ unter dem Automix (Protokoll zum Eingrenzen von Problemen)</li></ul><h4>1.12.3</h4><ul><li>Weiße Artefakte beseitigt, Safari-Freischaltung, nächster Titel sofort im Display</li></ul><h4>1.12.0</h4><ul><li>Tempo-Regler, SYNC, Key-Lock, Automix, Tonart (Camelot), Handy-Menü</li></ul>"
+ "changelog": "<p>Untertitel auf „Meine Musik“ nicht mehr überdeckt; Safari: nächster Titel wird komplett vorab geladen; weißes Kreuz im Dialog der Startseite behoben.</p>"
 }

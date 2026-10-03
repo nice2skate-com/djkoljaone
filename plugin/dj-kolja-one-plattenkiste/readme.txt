@@ -13,6 +13,8 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.12.5: Der Untertitel auf „Meine Musik“ wird nicht mehr vom Pult überdeckt (weiße Reste weg). Safari: Der nächste Titel wird komplett vorab geladen, der Mix startet erst, wenn er spielbereit ist. Dialog auf der Startseite (z. B. „Hochzeit“): das große weiße Kreuz und Dreieck sind weg; das Start-Pult kommt jetzt aus dem Plugin.
+
 Seit 1.12.4: Automix in Safari: Das Tempo gleitet nach dem Mix nur noch in wenigen groben Schritten (erst nach 10 s) zurück, statt zehnmal pro Sekunde; die Datei des nächsten Titels wird erst 4 s nach dem Mix geladen (die Anzeige wechselt sofort). Unter dem Automix gibt es einen Link „Diagnose“ mit einem Protokoll der Medien-Ereignisse (play, pause, waiting, error …) – zum Eingrenzen von Problemen.
 
 Seit 1.12.3: Weiße Artefakte über dem Controller beseitigt: der bewegte Controller trägt keinen CSS-/SVG-Filter mehr (Schatten statisch, Leuchten über Farbe und Strichstärke). Der Abstand zwischen Text und Pult wird aus den Layout-Positionen gemessen, nicht aus animierten Bildschirmpositionen.
