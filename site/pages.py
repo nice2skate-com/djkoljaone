@@ -226,11 +226,13 @@ def ueber():
 
 # ---------------- Meine Musik ----------------
 MUSIK_SNIPPET="./musik/musik-snippet-final.html"
+def _tight(c,pad,mob):
+    c["settings"]["padding"]=pad; c["settings"]["padding_mobile"]=mob; return c
 def musik():
     return [nav(),
-      hero("Meine Musik","Leg selbst auf","Such dir eine Platte aus der Kiste, leg sie aufs Deck und hör rein, wie DJ KOLJA ONE klingt.",
-           [],stats=None,minh=55),
-      section([W("html",{"html":open(MUSIK_SNIPPET).read(),"_element_width":"inherit","width":px(100,"%")})],anchor="auflegen"),
+      _tight(hero("Meine Musik","Leg selbst auf","Such dir eine Platte aus der Kiste, leg sie aufs Deck und hör rein, wie DJ KOLJA ONE klingt.",
+           [],stats=None,minh=55),box(72,20,0,20),box(40,20,0,20)),
+      _tight(section([W("html",{"html":open(MUSIK_SNIPPET).read(),"_element_width":"inherit","width":px(100,"%")})],anchor="auflegen"),box(0,20,64,20),box(0,12,40,12)),
       section(head("So geht's","Dein eigener Mix in vier Schritten")+[steps([
           ("Platte wählen","Zieh einen Song aus der Plattenkiste. Er landet abwechselnd auf Deck A oder Deck B und startet sofort."),
           ("Mixen","Mit dem Crossfader blendest du zwischen den beiden Decks über. Tippst du auf eine Platte, bremst sie ab – noch einmal tippen, und sie läuft weiter."),
