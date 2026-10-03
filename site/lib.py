@@ -140,7 +140,8 @@ def stats_row(stats=STATS,border=True):
 
 def hero(eye,h1,sub,buttons,stats=STATS,minh=100,extra=None):
     kids=[EYE(eye),H(h1,"h1",64,OFF,m=34,lh=1.1),T(sub,OFF,"center",20,typography_font_size_mobile=px(17),_element_width="initial",
-          _element_custom_width=px(820)),SPACER(8),BTNS(*buttons)]
+          _element_custom_width=px(820))]
+    if buttons: kids+= [SPACER(8),BTNS(*buttons)]
     if stats: kids+= [SPACER(24),stats_row(stats)]
     if extra: kids+= [SPACER(22)]+extra
     return con(kids,"column",bg=B1,pad=box(72,20,56,20),inner=False,g=16,

@@ -24,4 +24,59 @@ function kjmBpm(x,sr){
   while(fb<70)fb*=2;while(fb>180)fb/=2;
   return Math.round(fb);
 }
-if(typeof module!=="undefined")module.exports=kjmBpm;
+
+/* Tonart-Erkennung: Float32Array (mono) + Abtastrate -> Camelot-Code ("8A", "5B" …) oder "" */
+function kjmKey(x,sr){
+  var D=Math.max(1,Math.round(sr/11025)),fs=sr/D,n=Math.floor(x.length/D),i,j,k;
+  if(n<fs*10)return "";
+  var maxN=Math.floor(fs*90),off=0;if(n>maxN){off=Math.floor((n-maxN)/2);n=maxN;}
+  // auf ~11 kHz herunterrechnen (Mittelwert über 2·D Werte als einfacher Tiefpass)
+  var y=new Float32Array(n);
+  for(i=0;i<n;i++){var s=0,b=(i+off)*D-Math.floor(D/2),c=0;for(j=0;j<2*D;j++){var q=b+j;if(q>=0&&q<x.length){s+=x[q];c++;}}y[i]=c?s/c:0;}
+  var N=8192,hop=4096,L=13,cs=new Float64Array(N/2),sn=new Float64Array(N/2),win=new Float64Array(N);
+  for(i=0;i<N/2;i++){cs[i]=Math.cos(2*Math.PI*i/N);sn[i]=-Math.sin(2*Math.PI*i/N);}
+  for(i=0;i<N;i++)win[i]=0.5-0.5*Math.cos(2*Math.PI*i/(N-1));
+  var rev=new Uint16Array(N);for(i=0;i<N;i++){var r=0;for(j=0;j<L;j++)if(i&(1<<j))r|=1<<(L-1-j);rev[i]=r;}
+  var re=new Float64Array(N),im=new Float64Array(N);
+  function fft(){
+    for(var a=0;a<N;a++){var t=rev[a];if(t>a){var u=re[a];re[a]=re[t];re[t]=u;u=im[a];im[a]=im[t];im[t]=u;}}
+    for(var len=2;len<=N;len<<=1){var half=len>>1,step=N/len;
+      for(var s0=0;s0<N;s0+=len)for(var m=0;m<half;m++){var wr=cs[m*step],wi=sn[m*step],p=s0+m,qq=p+half,
+        xr=re[qq]*wr-im[qq]*wi,xi=re[qq]*wi+im[qq]*wr;re[qq]=re[p]-xr;im[qq]=im[p]-xi;re[p]+=xr;im[p]+=xi;}}
+  }
+  var f0=fs/N,k0=Math.ceil(60/f0),k1=Math.min(N/2-2,Math.floor(2000/f0)),mag=new Float64Array(N/2),peaks=[];
+  for(var st=0;st+N<=n;st+=hop){
+    var en=0;for(i=0;i<N;i++){var v=y[st+i]*win[i];re[i]=v;im[i]=0;en+=v*v;}
+    if(en/N<1e-7)continue; // Stille
+    fft();var mx=0;
+    for(k=k0-1;k<=k1+1;k++){mag[k]=Math.sqrt(re[k]*re[k]+im[k]*im[k]);if(k>=k0&&k<=k1&&mag[k]>mx)mx=mag[k];}
+    if(mx<=0)continue;
+    var fr=[];
+    for(k=k0;k<=k1;k++){var m0=mag[k];
+      if(m0>mag[k-1]&&m0>=mag[k+1]&&m0>mx*0.05){
+        // parabolische Feinschätzung der Frequenz
+        var a1=Math.log(mag[k-1]+1e-12),b1=Math.log(m0+1e-12),c1=Math.log(mag[k+1]+1e-12),dl=0.5*(a1-c1)/(a1-2*b1+c1);
+        if(!(Math.abs(dl)<=0.5))dl=0;
+        var fq=(k+dl)*f0;fr.push([12*Math.log(fq/440)/Math.LN2+69,Math.pow(m0/mx,0.7)]);}}
+    peaks.push(fr);
+  }
+  if(peaks.length<8)return "";
+  // Stimmung (Abweichung von 440 Hz) als Kreismittel der Halbton-Brüche
+  var sx=0,sy=0;peaks.forEach(function(fr){fr.forEach(function(p){var dv=p[0]-Math.round(p[0]);sx+=p[1]*Math.cos(2*Math.PI*dv);sy+=p[1]*Math.sin(2*Math.PI*dv);});});
+  var tune=Math.atan2(sy,sx)/(2*Math.PI),chroma=new Float64Array(12);
+  peaks.forEach(function(fr){var fc=new Float64Array(12),tot=0;
+    fr.forEach(function(p){var pc=((Math.round(p[0]-tune)%12)+12)%12;fc[pc]+=p[1];tot+=p[1];});
+    if(tot>0)for(var z=0;z<12;z++)chroma[z]+=fc[z]/tot;});
+  // Tonart-Profile (Temperley) – Korrelation mit allen 24 Tonarten
+  var MAJ=[5.0,2.0,3.5,2.0,4.5,4.0,2.0,4.5,2.0,3.5,1.5,4.0],MIN=[5.0,2.0,3.5,4.5,2.0,4.0,2.0,4.5,3.5,2.0,1.5,4.0];
+  function corr(pr,rot){var ma=0,mb=0,z;for(z=0;z<12;z++){ma+=chroma[z];mb+=pr[z];}ma/=12;mb/=12;
+    var nu=0,da=0,db=0;for(z=0;z<12;z++){var ca=chroma[(z+rot)%12]-ma,cb=pr[z]-mb;nu+=ca*cb;da+=ca*ca;db+=cb*cb;}
+    return da>0&&db>0?nu/Math.sqrt(da*db):-1;}
+  var best=-2,bpc=0,bmin=false;
+  for(var t=0;t<12;t++){var cM=corr(MAJ,t),cm=corr(MIN,t);if(cM>best){best=cM;bpc=t;bmin=false;}if(cm>best){best=cm;bpc=t;bmin=true;}}
+  if(best<0.3)return "";
+  // Camelot: Dur-Grundton -> Nummer (C=8B, G=9B …), Moll = parallele Durtonart + 3 Halbtöne -> gleiche Nummer mit A
+  var maj=bmin?(bpc+3)%12:bpc,num=((maj*7)%12+7)%12+1;
+  return num+(bmin?"A":"B");
+}
+if(typeof module!=="undefined")module.exports={kjmBpm:kjmBpm,kjmKey:kjmKey};
