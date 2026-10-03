@@ -136,7 +136,13 @@ document.addEventListener("visibilitychange",function(){if(!document.hidden)wake
 function audio(){if(ac)return ac;
  /* iPhone: als Medien-Wiedergabe anmelden, damit der Stummschalter das Pult nicht stumm schaltet */
  try{if(navigator.audioSession)navigator.audioSession.type="playback"}catch(e){}
- ac=new (window.AudioContext||window.webkitAudioContext)();try{ac.onstatechange=function(){}}catch(e){}master=ac.createGain();an=ac.createAnalyser();an.fftSize=512;an.smoothingTimeConstant=.82;master.connect(an);an.connect(ac.destination);
+ var AC=window.AudioContext||window.webkitAudioContext;
+ /* „playback“: größerer Audio-Puffer – deutlich weniger Aussetzer/Knacksen, wenn der Browser gerade beschäftigt ist */
+ try{ac=new AC({latencyHint:"playback"})}catch(e){ac=new AC()}try{ac.onstatechange=function(){}}catch(e){}
+ master=ac.createGain();an=ac.createAnalyser();an.fftSize=512;an.smoothingTimeConstant=.82;
+ /* Limiter: fängt Pegelspitzen beim Mixen zweier lauter Songs ab (sonst digitales Übersteuern = Knacken) */
+ var lim=ac.createDynamicsCompressor();lim.threshold.value=-2;lim.knee.value=0;lim.ratio.value=20;lim.attack.value=.002;lim.release.value=.15;
+ master.connect(lim);lim.connect(an);an.connect(ac.destination);
  buf=ac.createBuffer(1,ac.sampleRate*.2,ac.sampleRate);var d=buf.getChannelData(0);for(var i=0;i<d.length;i++)d[i]=Math.random()*2-1;
  decks.forEach(function(o){o.gain=ac.createGain();o.an=ac.createAnalyser();o.an.fftSize=64;o.gain.connect(o.an);o.an.connect(master);
   /* Kanalzug: Trim -> Low/Mid/High -> Filter -> (Echo) -> Crossfader */
@@ -154,9 +160,9 @@ function applyMix(o){if(!ac||!o.inp)return;var m=o.mix,t=ac.currentTime,k=.03;
  o.inp.gain.setTargetAtTime(Math.pow(10,m.trim*12/20),t,k);
  o.eqL.gain.setTargetAtTime(db(m.lo),t,k);o.eqM.gain.setTargetAtTime(db(m.mid),t,k);o.eqH.gain.setTargetAtTime(db(m.hi),t,k);
  var f=m.filt,a=Math.abs(f);
- if(a<.05){o.flt.type="lowpass";o.flt.frequency.setTargetAtTime(20000,t,k);o.flt.Q.setTargetAtTime(.7,t,k)}
- else if(f<0){o.flt.type="lowpass";o.flt.frequency.setTargetAtTime(20000*Math.pow(120/20000,(a-.05)/.95),t,k);o.flt.Q.setTargetAtTime(1+a*3,t,k)}
- else{o.flt.type="highpass";o.flt.frequency.setTargetAtTime(30*Math.pow(6000/30,(a-.05)/.95),t,k);o.flt.Q.setTargetAtTime(1+a*3,t,k)}
+ if(a<.05){if(o.flt.type!=="allpass")o.flt.type="allpass"}/* neutral: Allpass = keine Höhenabsenkung */
+ else if(f<0){if(o.flt.type!=="lowpass")o.flt.type="lowpass";o.flt.frequency.setTargetAtTime(20000*Math.pow(120/20000,(a-.05)/.95),t,k);o.flt.Q.setTargetAtTime(1+a*3,t,k)}
+ else{if(o.flt.type!=="highpass")o.flt.type="highpass";o.flt.frequency.setTargetAtTime(30*Math.pow(6000/30,(a-.05)/.95),t,k);o.flt.Q.setTargetAtTime(1+a*3,t,k)}
  var bpm=(o.song&&o.song.bpm?o.song.bpm*o.rate:0)||120;o.dly.delayTime.setTargetAtTime(Math.min(1.9,60/bpm*.75),t,.05);
  o.fxS.gain.setTargetAtTime(m.fx?1:0,t,.02);o.fad.gain.setTargetAtTime(m.vol*m.vol,t,.02)}
 /* ---------- Grafik ---------- */
@@ -446,27 +452,40 @@ amClr.addEventListener("click",function(){AM.q=[];AM.qi=AM.on?-1:AM.qi;amSyncQi(
 if(location.hash==="#kjmtest")window.__kjm={decks:decks,AM:AM,S:function(){return S},setXf:setXf,amTick:amTick};
 amUI();
 /* ---------- Loop ---------- */
-var covEl=document.getElementById("kjmCov"),curCov="",last=performance.now(),fd=new Uint8Array(256),ld=new Uint8Array(32);
-function loop(now){var dt=Math.min(.05,(now-last)/1000);last=now;
- decks.forEach(function(o,i){if(!o.song)return;if(o.sync){var st=syncTarget(o);if(st){if(Math.abs(st.p-o.pit)>.0008)setPitch(o,st.p,false);if(st.out!==o.syOut){o.syOut=st.out;syncLamp(o,st.out)}}}var was=o.speed;o.speed+=(o.target-o.speed)*Math.min(1,dt*(o.target?2.4:2.6));if(o.target===0&&o.speed<.03)o.speed=0;
-  if(o.media){if(o.speed>.06){var pr=o.speed*o.rate;if(Math.abs(o.media.playbackRate-pr)>.003)o.media.playbackRate=Math.max(.07,pr);var kp=o.keylock&&o.speed>.97;if(o.media.preservesPitch!==kp){o.media.preservesPitch=kp;o.media.mozPreservesPitch=kp;o.media.webkitPreservesPitch=kp}if(o.media.paused&&o.target>0){var p=o.media.play();if(p&&p.catch)p.catch(function(){})}}else if(!o.media.paused)o.media.pause()}
+/* Nur schreiben, was sich wirklich geändert hat – spart Rechenzeit, damit der Ton nicht aussetzt */
+function sa(el,k,v){var c=el.__c||(el.__c={});if(c[k]!==v){c[k]=v;el.setAttribute(k,v)}}
+function st(el,t){if(el.__t!==t){el.__t=t;el.textContent=t}}
+var covEl=document.getElementById("kjmCov"),curCov="",last=performance.now(),fd=new Uint8Array(256),ld=new Uint8Array(32),lastSlow=0,frame=0,ema=.016,lite=false,npKey="",visOn=false,
+ npL=document.getElementById("kjmNpL"),npT=document.getElementById("kjmNpT"),npS=document.getElementById("kjmNpS"),npA=document.getElementById("kjmNpA");
+function loop(now){var raw=(now-last)/1000,dt=Math.min(.05,raw);last=now;frame++;ema=ema*.96+Math.min(.2,raw)*.04;lite=ema>.03;/* langsames Gerät: Animation sparsamer */
+ var slow=now-lastSlow>=90;if(slow)lastSlow=now;
+ decks.forEach(function(o,i){if(!o.song)return;if(o.sync){var sy=syncTarget(o);if(sy){if(Math.abs(sy.p-o.pit)>.0008)setPitch(o,sy.p,false);if(sy.out!==o.syOut){o.syOut=sy.out;syncLamp(o,sy.out)}}}
+  var was=o.speed;o.speed+=(o.target-o.speed)*Math.min(1,dt*(o.target?2.4:2.6));if(Math.abs(o.target-o.speed)<.004)o.speed=o.target;if(o.target===0&&o.speed<.03)o.speed=0;
+  if(o.media){var m=o.media;if(o.speed>.06){var pr=o.speed*o.rate,d=Math.abs(m.playbackRate-pr);if(d>(o.speed===o.target?.0005:.01))m.playbackRate=Math.max(.07,pr);
+    var kp=o.keylock&&o.speed>=.999;if(m.preservesPitch!==kp){m.preservesPitch=kp;m.mozPreservesPitch=kp;m.webkitPreservesPitch=kp}
+    if(m.paused&&o.target>0){var p=m.play();if(p&&p.catch)p.catch(function(){})}}else if(!m.paused)m.pause()}
   else if(ac){if(o.speed>.06&&was<=.06)o.next=ac.currentTime;demo(o);o.demoPos+=dt*o.speed*o.rate}
-  o.angle=(o.angle+o.speed*200*dt)%360;if(o.rot)o.rot.setAttribute("transform","rotate("+o.angle.toFixed(2)+" "+o.cx+" "+o.cy+")");
-  var on=o.target>0;o.playC.setAttribute("fill",on?"#B29D75":"#161310");o.playI.setAttribute("fill",on?"#0F0C07":"#B29D75");o.playI.setAttribute("stroke",on?"#0F0C07":"#B29D75");o.ring.setAttribute("opacity",on?.9:.25);o.ring.setAttribute("filter",on?"url(#mglow)":"");
-  var cur=o.media?o.media.currentTime:o.demoPos,dur=o.media?(o.media.duration||0):180;o.time.textContent=fmt(cur)+(dur?" / "+fmt(dur):"");var pw=dur?Math.min(360,360*cur/dur):0;o.prog.setAttribute("width",pw);o.knob.setAttribute("cx",o.cx-180+pw);o.knob.setAttribute("opacity",o.song&&dur?1:0);o.seek.setAttribute("aria-valuenow",dur?Math.round(100*cur/dur):0);
-  var b=Math.floor(cur/(60/(o.song.bpm||120)))%4;o.pads.forEach(function(p,k){p.setAttribute("opacity",o.speed>.3&&k===b?.95:.2)});
-  var lv=0;if(o.an&&o.speed>.05){o.an.getByteTimeDomainData(ld);for(var q=0;q<ld.length;q++)lv=Math.max(lv,Math.abs(ld[q]-128));lv=Math.min(11,Math.round(lv/9))}
-  meters[i].forEach(function(m,s){m.setAttribute("opacity",s<lv?.9:.12)})});
+  if(o.rot&&o.speed>0){o.angle=(o.angle+o.speed*200*dt)%360;if(!lite||frame%2===0)o.rot.setAttribute("transform","rotate("+o.angle.toFixed(1)+" "+o.cx+" "+o.cy+")")}
+  var on=o.target>0;sa(o.playC,"fill",on?"#B29D75":"#161310");sa(o.playI,"fill",on?"#0F0C07":"#B29D75");sa(o.playI,"stroke",on?"#0F0C07":"#B29D75");sa(o.ring,"opacity",on?.9:.25);sa(o.ring,"filter",on?"url(#mglow)":"none");
+  if(slow){var cur=o.media?o.media.currentTime:o.demoPos,dur=o.media?(o.media.duration||0):180;st(o.time,fmt(cur)+(dur?" / "+fmt(dur):""));var pw=dur?Math.min(360,360*cur/dur):0;
+   sa(o.prog,"width",pw.toFixed(1));sa(o.knob,"cx",(o.cx-180+pw).toFixed(1));sa(o.knob,"opacity",o.song&&dur?1:0);sa(o.seek,"aria-valuenow",dur?Math.round(100*cur/dur):0);
+   var b=Math.floor(cur/(60/(o.song.bpm||120)))%4;o.pads.forEach(function(p,k){sa(p,"opacity",o.speed>.3&&k===b?.95:.2)});
+   var lv=0;if(o.an&&o.speed>.05){o.an.getByteTimeDomainData(ld);for(var q=0;q<ld.length;q++)lv=Math.max(lv,Math.abs(ld[q]-128));lv=Math.min(11,Math.round(lv/9))}
+   meters[i].forEach(function(mt,s){sa(mt,"opacity",s<lv?.9:.12)})}});
  /* Laptop: Video des lautesten laufenden Decks */
  var best=null,bw=-1;decks.forEach(function(o){if(!o.song||o.target===0&&o.speed<.05)return;var w=o.side?(xv+1)/2:(1-xv)/2;if(o===active)w+=.01;if(w>bw){bw=w;best=o}});
- decks.forEach(function(o){o.vEl.classList.toggle("on",!!(best===o&&o.media===o.vEl))});
- idle.style.opacity=best?0:1;np.style.opacity=best?1:0;
- if(best){document.getElementById("kjmNpL").textContent="Now playing · Deck "+(best.side?"B":"A");document.getElementById("kjmNpT").textContent=best.song.titel;document.getElementById("kjmNpS").textContent=[best.song.genre,best.song.info,best.song.bpm?(Math.abs(best.rate-1)<.0005?best.song.bpm:ebpm(best).toFixed(1).replace(".",","))+" BPM":"",dk(best)?dk(best)+" ("+(CAMN[dk(best)]||"")+")":""].filter(Boolean).join(" · ");document.getElementById("kjmNpA").innerHTML=best.song.count?star(12)+" "+de(best.song.avg.toFixed(1))+" von 5":""}
+ decks.forEach(function(o){var v=!!(best===o&&o.media===o.vEl);if(o.__von!==v){o.__von=v;o.vEl.classList.toggle("on",v)}});
+ var iv=best?"0":"1",nv=best?"1":"0";if(idle.__o!==iv){idle.__o=iv;idle.style.opacity=iv}if(np.__o!==nv){np.__o=nv;np.style.opacity=nv}
+ if(best&&slow){var l1="Now playing · Deck "+(best.side?"B":"A"),l3=[best.song.genre,best.song.info,best.song.bpm?(Math.abs(best.rate-1)<.0005?best.song.bpm:ebpm(best).toFixed(1).replace(".",","))+" BPM":"",dk(best)?dk(best)+" ("+(CAMN[dk(best)]||"")+")":""].filter(Boolean).join(" · "),
+   l4=best.song.count?star(12)+" "+de(best.song.avg.toFixed(1))+" von 5":"",key=l1+"|"+best.song.titel+"|"+l3+"|"+l4;
+  if(key!==npKey){npKey=key;npL.textContent=l1;npT.textContent=best.song.titel;npS.textContent=l3;npA.innerHTML=l4}}
  showRate(best?best.song:rateSong);
  if(best){var ek=dk(best);if(best.song!==refS||ek!==refK){refS=best.song;refK=ek;buildCrate()}}
  var cv=best&&best.media!==best.vEl&&best.song.cover?best.song.cover:"";if(cv!==curCov){curCov=cv;if(cv)covEl.style.backgroundImage='url("'+cv.replace(/"/g,"%22")+'")';covEl.style.opacity=cv?.4:0}
- var W=vis.width,H=vis.height;vctx.clearRect(0,0,W,H);
- if(an&&best&&best.media!==best.vEl){an.getByteFrequencyData(fd);var n=48,bwid=W/n;for(var j=0;j<n;j++){var v=Math.sqrt(fd[Math.floor(Math.pow(j/n,1.7)*110)]/255),h=v*H*.48;vctx.fillStyle="rgba(178,157,117,"+(.35+v*.65)+")";vctx.fillRect(j*bwid+2,H*.56-h,bwid-4,h);vctx.fillStyle="rgba(178,157,117,.10)";vctx.fillRect(j*bwid+2,H*.575,bwid-4,h*.2)}}
+ /* Spektrum: 30 Bilder/s (auf langsamen Geräten 15) */
+ if(frame%(lite?4:2)===0){var W=vis.width,H=vis.height;
+  if(an&&best&&best.media!==best.vEl){visOn=true;vctx.clearRect(0,0,W,H);an.getByteFrequencyData(fd);var n=48,bwid=W/n;for(var j=0;j<n;j++){var v=Math.sqrt(fd[Math.floor(Math.pow(j/n,1.7)*110)]/255),h=v*H*.48;vctx.fillStyle="rgba(178,157,117,"+(.35+v*.65)+")";vctx.fillRect(j*bwid+2,H*.56-h,bwid-4,h);vctx.fillStyle="rgba(178,157,117,.10)";vctx.fillRect(j*bwid+2,H*.575,bwid-4,h*.2)}}
+  else if(visOn){visOn=false;vctx.clearRect(0,0,W,H)}}
  requestAnimationFrame(loop)}
 requestAnimationFrame(loop);setXf(0);
 })();

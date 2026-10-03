@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.12.0
+ * Version:     1.12.1
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.12.0' );
+define( 'KJO_VERSION', '1.12.1' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -1305,6 +1305,13 @@ function musikHero(){
   for(var i=0;i<k.length;i++){if(!(k[i].classList&&k[i].classList.contains("elementor-widget-button")))only=false;}
   if(only)p.style.display="none"; else for(var j=0;j<k.length;j++){if(k[j].classList.contains("elementor-widget-button"))k[j].style.display="none";}
 }
+/* „Meine Musik“: schwarze Lücke zwischen Einleitungstext und DJ-Pult entfernen */
+function musikGap(){
+  var k=document.getElementById("kjm"); if(!k||!document.querySelector(".elementor"))return;
+  var t=k.closest?k.closest(".e-con.e-parent"):null; if(!t)return;
+  var h=t.previousElementSibling; if(!h||!h.querySelector||!h.querySelector("h1"))return;
+  t.style.setProperty("padding-top","0","important"); h.style.setProperty("padding-bottom","0","important");
+}
 function foot(){
   if(!C.cookie||document.querySelector(".kjo-cookie-link"))return;
   var a=document.querySelectorAll('.elementor a[href$="/datenschutz/"],.elementor a[href$="/datenschutz"]'); if(!a.length)return;
@@ -1313,7 +1320,7 @@ function foot(){
   n.classList.add("kjo-cookie-link"); x.setAttribute("href",C.cookie); x.textContent="Cookie-Richtlinie";
   w.parentNode.insertBefore(n,w.nextSibling);
 }
-function init(){try{head();}catch(e){}try{foot();}catch(e){}try{musikHero();}catch(e){}}
+function init(){try{head();}catch(e){}try{foot();}catch(e){}try{musikHero();}catch(e){}try{musikGap();}catch(e){}}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
 })();
 KJOJS

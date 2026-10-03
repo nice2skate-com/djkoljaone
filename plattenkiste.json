@@ -1,9 +1,9 @@
 {
- "version": "1.12.0",
- "download_url": "dj-kolja-one-plattenkiste-1.12.0.zip",
- "sha256": "16e0812c84b237ff61cb9ab98304c9cf281cd0264a59b059c84f1a12a7c53506",
+ "version": "1.12.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.12.1.zip",
+ "sha256": "d1b4485f401fc9e00d6e5c707caa45254da627f2652ca3943a2806ffaced89db",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<h4>1.12.0</h4><ul><li>Tempo-Regler (±16 %), SYNC und Key-Lock an beiden Decks</li><li>Automix: Playlist aus der Plattenkiste, automatisch geladen und gemixt; jederzeit manuell übernehmen</li><li>Tonart-Erkennung (Camelot) beim Upload, Anzeige am Deck, im Mixer und in der Plattenkiste</li><li>Handy: Menü-Knopf (Hamburger) für die Unterseiten beim Scrollen; Buttons auf „Meine Musik“ entfernt</li></ul>"
+ "changelog": "<h4>1.12.1</h4><ul><li>Player: ruhigere Wiedergabe (größerer Audio-Puffer, deutlich weniger Rechenlast der Anzeige) und besserer Klang (Limiter gegen Übersteuern, exakte Geschwindigkeit, Filter ohne Höhenverlust)</li><li>Meine Musik: schwarze Lücke zwischen Einleitungstext und DJ-Pult entfernt</li></ul><h4>1.12.0</h4><ul><li>Tempo-Regler, SYNC, Key-Lock und Automix; Tonart-Erkennung (Camelot); Handy-Menü</li></ul>"
 }
