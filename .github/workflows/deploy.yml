@@ -1,0 +1,34 @@
+name: Deploy nach WordPress (SFTP)
+
+# Läuft bei jedem Push auf main, der WordPress-Inhalte betrifft, oder manuell.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "plugin/**"
+      - "wp-content/**"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # Ohne gesetzte Secrets wird übersprungen statt zu scheitern.
+    if: ${{ vars.DEPLOY_ENABLED == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Plugin per SFTP hochladen
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_USER: ${{ secrets.SFTP_USER }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          # z. B. /dj-kolja-one.de/wp-content (Pfad beim Hoster)
+          SFTP_WP_CONTENT: ${{ secrets.SFTP_WP_CONTENT }}
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+          lftp -u "$SFTP_USER","$SFTP_PASSWORD" "sftp://$SFTP_HOST" <<LFTP
+          set sftp:auto-confirm yes
+          mirror -R --verbose plugin/dj-kolja-one-plattenkiste "$SFTP_WP_CONTENT/plugins/dj-kolja-one-plattenkiste"
+          if [ -d wp-content/uploads ]; then mirror -R --verbose wp-content/uploads "$SFTP_WP_CONTENT/uploads"; fi
+          bye
+          LFTP
