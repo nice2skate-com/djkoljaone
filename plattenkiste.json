@@ -1,0 +1,9 @@
+{
+ "version": "1.10.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.10.0.zip",
+ "sha256": "ca4420a687d240ead16db0da5715632f4ad521d3b4e7976936214938d7fa58ad",
+ "requires": "6.0",
+ "tested": "6.8",
+ "requires_php": "7.4",
+ "changelog": "<h4>1.10.0</h4><ul><li>Mixer-Reihenfolge wie am echten Controller: CH3 · CH1 · CH2 · CH4</li><li>Kanal-Fader für Deck A und B funktionieren</li></ul>"
+}
