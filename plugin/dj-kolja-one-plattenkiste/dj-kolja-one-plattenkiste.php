@@ -56,6 +56,34 @@ function kjm_purge_caches() {
 	}
 	return $done;
 }
+/* Automatisches Leeren direkt nach dem SFTP-Deploy: Der Deploy legt eine Einmal-Datei mit zufälligem Token ab und ruft diese Adresse auf. */
+add_action(
+	'rest_api_init',
+	function () {
+		register_rest_route(
+			'kjm/v1',
+			'/purge',
+			array(
+				'methods'             => 'POST',
+				'permission_callback' => '__return_true',
+				'callback'            => function ( WP_REST_Request $req ) {
+					$file = __DIR__ . '/.purge-token';
+					$sent = (string) $req->get_header( 'x-kjm-token' );
+					if ( '' === $sent || ! is_readable( $file ) || ( time() - (int) filemtime( $file ) ) > 900 ) {
+						return new WP_Error( 'kjm_purge', 'Nicht erlaubt.', array( 'status' => 403 ) );
+					}
+					$want = trim( (string) file_get_contents( $file ) ); // phpcs:ignore
+					@unlink( $file ); // phpcs:ignore -- Token gilt nur einmal.
+					if ( '' === $want || ! hash_equals( $want, $sent ) ) {
+						return new WP_Error( 'kjm_purge', 'Nicht erlaubt.', array( 'status' => 403 ) );
+					}
+					update_option( 'kjm_cache_ver', KJO_VERSION, false );
+					return rest_ensure_response( array( 'ok' => true, 'geleert' => kjm_purge_caches(), 'version' => KJO_VERSION ) );
+				},
+			)
+		);
+	}
+);
 /* Nach jedem Update (auch per SFTP-Deploy) einmalig leeren, sobald jemand das Dashboard öffnet. */
 add_action(
 	'admin_init',
@@ -1357,11 +1385,21 @@ function musikHero(){
 }
 /* „Meine Musik“: schwarze Lücke zwischen Einleitungstext und DJ-Pult entfernen */
 function musikGap(){
-  var k=document.getElementById("kjm"); if(!k)return;
+  var k=document.getElementById("kjm"),hint=document.getElementById("kjmHint"); if(!k||!hint)return;
   var r=k.closest("[data-elementor-type]")||k.closest(".elementor"); if(!r)return;
   function top(el){while(el&&el.parentNode&&el.parentNode!==r)el=el.parentNode;return el&&el.parentNode===r?el:null}
   var t=top(k),h1=r.querySelector("h1"),h=h1?top(h1):null; if(!t||!h||t===h)return;
-  t.style.setProperty("padding-top","0","important"); h.style.setProperty("padding-bottom","0","important");
+  /* Rest-Abstand (Polster, Lücken, Abstandhalter, versteckte Buttons) messen und per Rand ausgleichen – unabhängig vom Seitenaufbau */
+  function fit(){
+    t.style.setProperty("margin-top","0","important"); t.style.setProperty("padding-top","0","important"); h.style.setProperty("padding-bottom","0","important");
+    var last=null,w=h.querySelectorAll(".elementor-widget,h1,p"),i,b;
+    for(i=0;i<w.length;i++){if((w[i].textContent||"").trim()==="")continue; b=w[i].getBoundingClientRect(); if(b.height>0&&b.width>0&&(!last||b.bottom>last))last=b.bottom;}
+    if(last===null)return;
+    var gap=hint.getBoundingClientRect().top-last, want=window.innerWidth<=600?20:28;
+    if(gap>want)t.style.setProperty("margin-top",(-(gap-want))+"px","important");
+  }
+  fit(); window.addEventListener("load",fit); window.addEventListener("resize",fit); setTimeout(fit,800); setTimeout(fit,2500);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
 }
 function foot(){
   if(!C.cookie||document.querySelector(".kjo-cookie-link"))return;

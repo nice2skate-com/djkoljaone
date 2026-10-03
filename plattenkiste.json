@@ -1,9 +1,9 @@
 {
  "version": "1.12.2",
  "download_url": "dj-kolja-one-plattenkiste-1.12.2.zip",
- "sha256": "7f7e199fccf4e1bcd3ddbc971d8b69d138f4e4b8b22f4b4369187fa9c3f35d8d",
+ "sha256": "a7515913267d921b901f660913b7a24d0819f0dc8c77e0f5b5a3ce690d908345",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<h4>1.12.2</h4><ul><li>Neue Versionen erscheinen sofort: Zwischenspeicher wird nach Updates geleert, Knopf „Zwischenspeicher leeren“ unter Medien → Plattenkiste</li><li>Meine Musik: Lücke zwischen Text und Pult wird zuverlässiger entfernt</li></ul><h4>1.12.1</h4><ul><li>Ruhigere Wiedergabe, besserer Klang</li></ul><h4>1.12.0</h4><ul><li>Tempo-Regler, SYNC, Key-Lock, Automix, Tonart (Camelot), Handy-Menü</li></ul>"
+ "changelog": "<h4>1.12.2</h4><ul><li>Automix rechts neben der Plattenkiste, Titel untereinander (Handy: einklappbare Liste)</li><li>Platten überdecken die Genre-Überschriften nicht mehr; Abstand zwischen Text und DJ-Pult wird gemessen und ausgeglichen</li><li>Zwischenspeicher wird nach Updates und nach jedem Deploy automatisch geleert</li></ul><h4>1.12.1</h4><ul><li>Ruhigere Wiedergabe, besserer Klang</li></ul><h4>1.12.0</h4><ul><li>Tempo-Regler, SYNC, Key-Lock, Automix, Tonart (Camelot), Handy-Menü</li></ul>"
 }

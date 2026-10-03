@@ -39,3 +39,26 @@ jobs:
           $UP
           bye
           LFTP
+
+      - name: Zwischenspeicher auf der Seite leeren (Elementor & Co.)
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_USER: ${{ secrets.SFTP_USER }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          SFTP_WP_CONTENT: ${{ secrets.SFTP_WP_CONTENT }}
+          SITE_URL: https://dj-kolja-one.de
+        run: |
+          # Nicht kritisch: Schlägt dieser Schritt fehl, bleibt der Deploy trotzdem gültig.
+          T=$(openssl rand -hex 24)
+          printf '%s' "$T" > /tmp/purge-token
+          lftp -u "$SFTP_USER","$SFTP_PASSWORD" "sftp://$SFTP_HOST" <<LFTP || echo "::warning::Token-Datei konnte nicht abgelegt werden"
+          set cmd:fail-exit yes
+          set net:max-retries 2
+          set net:timeout 20
+          set sftp:auto-confirm yes
+          put /tmp/purge-token -o $SFTP_WP_CONTENT/plugins/dj-kolja-one-plattenkiste/.purge-token
+          bye
+          LFTP
+          sleep 3
+          curl -sS -m 40 -X POST -H "X-KJM-Token: $T" "$SITE_URL/wp-json/kjm/v1/purge" || echo "::warning::Zwischenspeicher konnte nicht automatisch geleert werden (Elementor → Werkzeuge → CSS & Daten neu generieren)"
+          echo

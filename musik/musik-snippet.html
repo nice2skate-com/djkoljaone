@@ -43,14 +43,15 @@ window.KJM_DEMO = [
 #kjm .base:after{content:"";position:absolute;left:42%;right:42%;top:0;height:5px;background:#0f0c07;border-radius:0 0 6px 6px}
 #kjm .stand{width:40%;height:10px;margin:0 auto;background:linear-gradient(#15120d,#0a0806);border-radius:0 0 8px 8px}
 /* Kiste */
-#kjm .crate{margin:34px auto 0;max-width:1000px;background:linear-gradient(#1f1b15,#141109);border:1px solid rgba(178,157,117,.35);border-radius:6px;padding:26px 22px 0}
+#kjm .cratewrap{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:24px;max-width:1320px;margin:34px auto 0;align-items:start}
+#kjm .crate{margin:0 auto;width:100%;max-width:1000px;background:linear-gradient(#1f1b15,#141109);border:1px solid rgba(178,157,117,.35);border-radius:6px;padding:26px 22px 0}
 #kjm .sleeves{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
 #kjm .sl{position:relative;border:0;background:none;padding:0;cursor:pointer;color:inherit;text-align:left;transition:transform .25s}
 #kjm .sl:hover,#kjm .sl:focus-visible{transform:translateY(-10px);outline:none}
 #kjm .sl .cv{position:relative;aspect-ratio:1;border-radius:3px;background:linear-gradient(145deg,#26211a,#110e09);border:1px solid rgba(178,157,117,.4);display:flex;flex-direction:column;justify-content:flex-end;padding:10px;overflow:hidden;z-index:1}
 #kjm .sl .cv:after{content:"";position:absolute;right:-30%;top:-30%;width:90%;aspect-ratio:1;border-radius:50%;border:1px solid rgba(178,157,117,.25);box-shadow:0 0 0 14px rgba(178,157,117,.05),0 0 0 28px rgba(178,157,117,.04)}
-#kjm .sl .disc{position:absolute;left:10%;top:-22%;width:80%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,var(--lab) 0 17%,#000 18% 19%,#111 20% 100%);box-shadow:inset 0 0 0 1px #2b2b2b;transition:top .3s,opacity .3s}
-#kjm .sl:hover .disc{top:-32%}
+#kjm .sl .disc{position:absolute;left:10%;top:-16%;width:80%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,var(--lab) 0 17%,#000 18% 19%,#111 20% 100%);box-shadow:inset 0 0 0 1px #2b2b2b;transition:top .3s,opacity .3s}
+#kjm .sl:hover .disc{top:-24%}
 #kjm .sl .n{font-size:10px;letter-spacing:2px;color:var(--gold);position:relative;z-index:2}
 #kjm .sl .t{font-size:14px;line-height:1.2;position:relative;z-index:2;margin-top:2px}
 #kjm .sl .s{font-size:10px;color:var(--muted);position:relative;z-index:2;margin-top:3px}
@@ -60,7 +61,7 @@ window.KJM_DEMO = [
 #kjm .tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 26px}
 #kjm .tab{background:none;border:1px solid rgba(178,157,117,.35);color:var(--muted);padding:8px 14px;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:.2s}
 #kjm .tab:hover{color:var(--off);border-color:var(--gold)}#kjm .tab.on{background:var(--gold);color:var(--b1);border-color:var(--gold)}
-#kjm .gdiv{grid-column:1/-1;display:flex;align-items:center;gap:14px;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin:14px 0 30px;position:relative;z-index:4}#kjm .gdiv:first-child{margin-top:0}
+#kjm .gdiv{grid-column:1/-1;display:flex;align-items:center;gap:14px;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin:10px 0 calc((100% - 70px)*.04 + 12px);position:relative;z-index:4}#kjm .gdiv:first-child{margin-top:0}#kjm .sleeves.one{padding-top:calc((100% - 70px)*.04 + 4px)}#kjm .gdiv:first-child{margin-top:0}
 #kjm .gdiv:after{content:"";flex:1;height:1px;background:rgba(178,157,117,.25)}
 #kjm .sl .r{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--gold);position:relative;z-index:2;margin-top:4px}
 #kjm .rate{margin-top:26px;text-align:center;opacity:.35;transition:opacity .3s}#kjm .rate.on{opacity:1}
@@ -71,7 +72,8 @@ window.KJM_DEMO = [
 #kjm .rate .avg{font-size:13px;color:var(--muted)}#kjm .rate .avg b{color:var(--off);font-weight:400;font-size:17px}
 #kjm .np .a{font-size:12px;color:var(--gold);margin-top:6px;display:flex;align-items:center;gap:5px}
 #kjm .front{height:28px;margin:0 -22px;margin-top:-6px;position:relative;z-index:3;background:linear-gradient(#2a241b,#171309);border-top:1px solid rgba(178,157,117,.35);border-radius:0 0 6px 6px;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase}
-@media(max-width:1000px){#kjm .rig{grid-template-columns:1fr}#kjm .lap{order:-1;max-width:520px;width:100%;margin:0 auto}#kjm .sleeves{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1000px){#kjm .cratewrap{grid-template-columns:1fr}#kjm .cratewrap .amx{position:static;order:-1}#kjm .amx #kjmAmTog{display:block}#kjm .amx .aq{display:none}#kjm .amx.open .aq{display:flex}#kjm .amx .as{min-height:4.4em}#kjm .rig{grid-template-columns:1fr}#kjm .lap{order:-1;max-width:520px;width:100%;margin:0 auto}#kjm .sleeves{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1000px){#kjm .gdiv{margin-bottom:calc((100% - 28px)*.08 + 12px)}#kjm .sleeves.one{padding-top:calc((100% - 28px)*.08 + 4px)}}
 @media(max-width:600px){#kjm .sleeves{gap:8px}#kjm .sl .cv{padding:7px}#kjm .sl .t{font-size:12px}#kjm .sl .s{display:none}#kjm .crate{padding:20px 12px 0}#kjm .front{margin:0 -12px;font-size:8px;letter-spacing:2px}#kjm .hint{font-size:11px;letter-spacing:2px}}
 #kjm .sl .kb{position:absolute;top:8px;right:8px;z-index:2;font-size:11px;font-weight:500;letter-spacing:1px;line-height:1;padding:3px 6px;border-radius:3px;color:var(--kc);background:rgba(15,12,7,.82);border:1px solid var(--kc)}
 #kjm .sl .m{font-size:10px;color:var(--gold);position:relative;z-index:2;margin-top:3px;letter-spacing:1px}
@@ -81,16 +83,17 @@ window.KJM_DEMO = [
 #kjm .pf{cursor:ns-resize;touch-action:none;outline:none}#kjm .pf:focus-visible rect:nth-of-type(2){stroke:#F3F1E9}#kjm .sync{cursor:pointer;outline:none}#kjm .sync:focus-visible circle{stroke:#F3F1E9}
 #kjm .sl .qa{position:absolute;right:8px;bottom:8px;z-index:3;width:26px;height:26px;border-radius:50%;border:1px solid var(--gold);color:var(--gold);background:rgba(15,12,7,.85);display:flex;align-items:center;justify-content:center;font-size:17px;line-height:1;transition:.15s}
 #kjm .sl .qa:hover{background:var(--gold);color:var(--b1)}#kjm .sl .qa.in{background:var(--gold);color:var(--b1);font-size:12px;font-weight:500}
-#kjm .amx{max-width:1000px;margin:0 auto 24px;border:1px solid rgba(178,157,117,.35);border-radius:4px;padding:14px 16px;background:rgba(15,12,7,.55)}
-#kjm .amx .ah{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+#kjm .amx{position:sticky;top:110px;margin:0;border:1px solid rgba(178,157,117,.35);border-radius:6px;padding:16px;background:linear-gradient(#1f1b15,#141109)}
+#kjm .amx .ah{display:grid;grid-template-columns:1fr auto;gap:10px}#kjm .amx .at,#kjm .amx .as{grid-column:1/-1}#kjm .amx .go,#kjm .amx .live{grid-column:1}#kjm .amx #kjmAmClr{grid-column:2}
 #kjm .amx .at{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-weight:500}
-#kjm .amx .as{flex:1;min-width:160px;font-size:13px;color:var(--muted)}#kjm .amx .as.on{color:#8FC79A}#kjm .amx .as.man{color:#E0B36A}
+#kjm .amx .as{font-size:13px;line-height:1.45;color:var(--muted)}#kjm .amx .as.on{color:#8FC79A}#kjm .amx .as.man{color:#E0B36A}
 #kjm .amx button{background:none;border:1px solid rgba(178,157,117,.5);color:var(--off);padding:8px 14px;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:2px}
 #kjm .amx button:hover:not(:disabled){border-color:var(--gold);color:var(--gold)}#kjm .amx button:disabled{opacity:.35;cursor:default}
 #kjm .amx button.go{background:var(--gold);color:var(--b1);border-color:var(--gold)}#kjm .amx button.go:hover:not(:disabled){color:var(--b1);background:var(--gold2)}
 #kjm .amx button.live{border-color:#8FC79A;color:#8FC79A}
-#kjm .aq{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}#kjm .aq:empty{display:none}
-#kjm .qi{display:flex;align-items:center;gap:6px;border:1px solid rgba(178,157,117,.3);border-radius:3px;padding:4px 6px 4px 8px;font-size:12px;background:rgba(26,23,18,.8)}
+#kjm #kjmAmTog{display:none;grid-column:1/-1}
+#kjm .aq{display:flex;flex-direction:column;gap:6px;margin-top:14px;max-height:62vh;overflow:auto}#kjm .aq:empty{display:none}
+#kjm .qi{display:flex;align-items:center;gap:6px;border:1px solid rgba(178,157,117,.3);border-radius:3px;padding:5px 4px 5px 8px;font-size:12px;background:rgba(26,23,18,.8)}#kjm .qi>span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #kjm .qi i{font-style:normal;color:var(--gold);font-size:11px}#kjm .qi em{font-style:normal;color:var(--muted);font-size:11px}
 #kjm .qi.cur{border-color:#8FC79A;background:rgba(143,199,154,.12)}#kjm .qi.nxt{border-color:var(--gold)}
 #kjm .qi button{padding:2px 6px;border:0;font-size:13px;letter-spacing:0;color:var(--muted)}
@@ -109,7 +112,7 @@ window.KJM_DEMO = [
   <div class="rate" id="kjmRate"><div class="q" id="kjmRateQ">Leg einen Song auf und bewerte ihn</div><div class="st" id="kjmStars"></div><div class="avg" id="kjmAvg">&nbsp;</div></div>
  </div>
 </div>
-<div class="crate"><div class="amx" id="kjmAmx"><div class="ah"><span class="at">Automix</span><span class="as" id="kjmAmS"></span><button type="button" class="go" id="kjmAmGo">▶ Automix starten</button><button type="button" id="kjmAmClr">Leeren</button></div><div class="aq" id="kjmAmQ"></div></div><div class="tabs" id="kjmTabs" role="tablist" aria-label="Genres"></div><div class="sleeves" id="kjmCrate"></div><div class="front">Plattenkiste · Such dir einen Song aus</div></div>
+<div class="cratewrap"><div class="crate"><div class="tabs" id="kjmTabs" role="tablist" aria-label="Genres"></div><div class="sleeves" id="kjmCrate"></div><div class="front">Plattenkiste · Such dir einen Song aus</div></div><aside class="amx" id="kjmAmx" aria-label="Automix"><div class="ah"><span class="at">Automix</span><span class="as" id="kjmAmS"></span><button type="button" class="go" id="kjmAmGo">▶ Automix starten</button><button type="button" id="kjmAmClr">Leeren</button><button type="button" id="kjmAmTog" aria-expanded="false">Playlist anzeigen</button></div><div class="aq" id="kjmAmQ"></div></aside></div>
 <script>
 (function(){
 var S=[],MODE="demo",NS="http://www.w3.org/2000/svg",svg=document.getElementById("kjmSvg"),hint=document.getElementById("kjmHint");
@@ -341,7 +344,7 @@ var PAL=["#F3F1E9","#B29D75","#0F0C07","#8C7650","#D9CBB0","#5E4E33","#C4B08A","
 function sleeveRating(s){return s.count?star(10)+" "+de(s.avg.toFixed(1))+" · "+s.count:"Noch unbewertet"}
 var refK="",refS=null,onlyFit=false;
 var AM={on:false,man:false,q:[],qi:-1,main:0,trans:null,len:16,loFx:false};
-function buildCrate(){var box=document.getElementById("kjmCrate"),tabs=document.getElementById("kjmTabs");box.innerHTML="";tabs.innerHTML="";sleeves=[];
+function buildCrate(){var box=document.getElementById("kjmCrate"),tabs=document.getElementById("kjmTabs");box.innerHTML="";tabs.innerHTML="";sleeves=[];box.classList.toggle("one",curG!=="Alle");
  genres=[];S.forEach(function(s){if(genres.indexOf(s.genre)<0)genres.push(s.genre)});genres.sort(function(a,b){return a.localeCompare(b,"de")});
  ["Alle"].concat(genres).forEach(function(g){var t=document.createElement("button");t.className="tab"+(g===curG?" on":"");t.setAttribute("role","tab");
   var n=g==="Alle"?S.length:S.filter(function(s){return s.genre===g}).length;t.textContent=g+" ("+n+")";t.onclick=function(){curG=g;buildCrate()};tabs.appendChild(t)});
@@ -398,7 +401,7 @@ function demo(o){if(o.media||!o.song||o.speed<.06)return;var spb=60/(o.song.bpm|
  var root=[55,55,65.4,49][Math.floor(o.beat/4)%4]*(1+(o.idx%3)*.12)*sp,bs=ac.createOscillator(),bf=ac.createBiquadFilter(),bg=ac.createGain();bs.type="sawtooth";bs.frequency.value=root;bf.type="lowpass";bf.frequency.value=380;bg.gain.setValueAtTime(.0001,t+spb/2);bg.gain.exponentialRampToValueAtTime(.18,t+spb/2+.01);bg.gain.exponentialRampToValueAtTime(.001,t+spb*.95);bs.connect(bf);bf.connect(bg);bg.connect(o.inp);bs.start(t+spb/2);bs.stop(t+spb);
  o.beat++;o.next=t+spb}}
 /* ---------- Automix ---------- */
-var amS=document.getElementById("kjmAmS"),amGo=document.getElementById("kjmAmGo"),amClr=document.getElementById("kjmAmClr"),amQ=document.getElementById("kjmAmQ");
+var amS=document.getElementById("kjmAmS"),amGo=document.getElementById("kjmAmGo"),amClr=document.getElementById("kjmAmClr"),amQ=document.getElementById("kjmAmQ"),amTog=document.getElementById("kjmAmTog"),amBox=document.getElementById("kjmAmx");
 function amDur(o){return o.media?(o.media.duration||0):(o.song?180:0)}
 function amPos(o){return o.media?o.media.currentTime:o.demoPos}
 function amLo(){if(!AM.loFx)return;AM.loFx=false;[0,1].forEach(function(i){MIX[i].lo=0;mixChanged(i);if(KN[i]&&KN[i].lo)KN[i].lo.redraw()})}
@@ -419,7 +422,7 @@ function amUI(rem,msg){var n=AM.q.length;amGo.disabled=!n&&!AM.on;amGo.textConte
  if(AM.on){var nx=AM.q[AM.qi+1];t=AM.trans?"Mix läuft: "+AM.trans.from.song.titel+" → "+AM.trans.to.song.titel:(nx?"Automix läuft · nächster Mix in "+fmt(Math.max(0,(rem||0)-AM.len))+" → "+nx.titel:"Automix läuft · letzter Song")}
  else if(AM.man)t="Manuell – Automix pausiert. Die Decks laufen weiter, du mixt selbst.";
  else t=n?n+(n===1?" Song":" Songs")+" in der Playlist – bereit zum Start.":"Tippe auf das + einer Platte, um sie in den Automix zu legen – sie werden automatisch geladen und gemixt.";
- amS.textContent=msg||t;if(!AM.trans||msg)renderQ()}
+ amS.textContent=msg||t;if(!AM.trans||msg)renderQ();var op=amBox.classList.contains("open");amTog.textContent="Playlist ("+n+") "+(op?"verbergen":"anzeigen");amTog.setAttribute("aria-expanded",op?"true":"false")}
 var SIL="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=";
 /* iPhone/Safari: Medien-Elemente müssen einmal per Tipp „freigeschaltet“ werden, sonst darf der Automix später nicht selbst starten */
 function unlockMedia(){decks.forEach(function(o){[o.aEl,o.vEl].forEach(function(m){if(m.getAttribute("src")||m.__unl)return;m.__unl=1;m.src=SIL;var p=m.play();var done=function(){try{m.pause();m.removeAttribute("src");m.load()}catch(e){}};if(p&&p.then)p.then(done,done);else done()})})}
@@ -448,6 +451,7 @@ function amTick(){if(!AM.on)return;var m=decks[AM.main],o=decks[1-AM.main];if(!m
  var T=Math.min(AM.len,Math.max(4,dur*.15));
  if(o.song===nxt&&idle&&(ended||rem<=T+.3))amBegin(ended?.1:T);else amUI(rem)}
 setInterval(amTick,100);
+amTog.addEventListener("click",function(){amBox.classList.toggle("open");amUI()});
 amGo.addEventListener("click",function(){if(AM.on)amManual();else amStart()});
 amClr.addEventListener("click",function(){AM.q=[];AM.qi=AM.on?-1:AM.qi;amSyncQi();amUI();markQ()});
 if(location.hash==="#kjmtest")window.__kjm={decks:decks,AM:AM,S:function(){return S},setXf:setXf,amTick:amTick};
