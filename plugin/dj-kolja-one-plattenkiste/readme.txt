@@ -13,6 +13,8 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.12.3: Automix: Der nächste Titel erscheint sofort auf dem freien Deck (nicht erst kurz vor dem Mix). Safari/iPhone: Das zweite Deck wird beim Tippen auf „+“ bzw. „Automix starten“ für das automatische Abspielen freigeschaltet; blockiert der Browser den Start trotzdem, erscheint der Knopf „Song freigeben“ – ein Tipp genügt.
+
 Seit 1.12.2: Automix steht jetzt rechts neben der Plattenkiste, die Titel untereinander (auf dem Handy als einklappbare Liste). Die Platten ziehen weniger weit heraus und überdecken die Genre-Überschriften nicht mehr. Der Abstand zwischen Einleitungstext und DJ-Pult wird gemessen und ausgeglichen. Nach dem Deploy leert die Seite ihren Zwischenspeicher automatisch.
 
 Seit 1.12.2 (Zwischenspeicher): Nach jedem Update werden Elementor- und gängige Cache-Plugin-Zwischenspeicher einmalig geleert (sobald jemand das Dashboard öffnet), damit neue Pult-Versionen sofort erscheinen; Knopf „Zwischenspeicher leeren“ unter Medien → Plattenkiste. Die Lücke auf „Meine Musik“ wird jetzt unabhängig vom Seitenaufbau entfernt.

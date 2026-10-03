@@ -1,9 +1,9 @@
 {
- "version": "1.12.2",
- "download_url": "dj-kolja-one-plattenkiste-1.12.2.zip",
- "sha256": "a7515913267d921b901f660913b7a24d0819f0dc8c77e0f5b5a3ce690d908345",
+ "version": "1.12.3",
+ "download_url": "dj-kolja-one-plattenkiste-1.12.3.zip",
+ "sha256": "1e0d03152a985b758a7ffa8f0b3a1eb290ff7c14db4fdaeb7ae8d628365f7fa8",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<h4>1.12.2</h4><ul><li>Automix rechts neben der Plattenkiste, Titel untereinander (Handy: einklappbare Liste)</li><li>Platten überdecken die Genre-Überschriften nicht mehr; Abstand zwischen Text und DJ-Pult wird gemessen und ausgeglichen</li><li>Zwischenspeicher wird nach Updates und nach jedem Deploy automatisch geleert</li></ul><h4>1.12.1</h4><ul><li>Ruhigere Wiedergabe, besserer Klang</li></ul><h4>1.12.0</h4><ul><li>Tempo-Regler, SYNC, Key-Lock, Automix, Tonart (Camelot), Handy-Menü</li></ul>"
+ "changelog": "<h4>1.12.3</h4><ul><li>Automix: nächster Titel erscheint sofort auf dem freien Deck</li><li>Safari/iPhone: automatischer Start des zweiten Decks wird freigeschaltet; bei Blockade Knopf „Song freigeben“</li></ul><h4>1.12.2</h4><ul><li>Automix neben der Plattenkiste, Zwischenspeicher wird nach Deploy geleert, Layout-Korrekturen</li></ul><h4>1.12.0</h4><ul><li>Tempo-Regler, SYNC, Key-Lock, Automix, Tonart (Camelot), Handy-Menü</li></ul>"
 }

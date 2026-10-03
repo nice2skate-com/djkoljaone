@@ -358,7 +358,7 @@ function buildCrate(){var box=document.getElementById("kjmCrate"),tabs=document.
    b.setAttribute("aria-label",s.titel+(s.key?", Tonart "+s.key+" ("+(CAMN[s.key]||"")+")":"")+(s.bpm?", "+s.bpm+" BPM":"")+(c?", "+c.t.toLowerCase()+" zu "+refK:"")+", auflegen");if(s.key)b.title=s.key+" · "+(CAMN[s.key]||"")+(s.bpm?" · "+s.bpm+" BPM":"")+(c?" · "+c.t+" zu "+refK:"");
    var cst=s.cover?' class="cv hc" style="background-image:linear-gradient(to top,rgba(15,12,7,.97) 42%,rgba(15,12,7,.35) 85%),url(&quot;'+esc(s.cover)+'&quot;)"':' class="cv"';
    b.innerHTML='<span class="disc"></span><span'+cst+'>'+(s.video?'<span class="vb">VIDEO</span>':'')+(s.key?'<span class="kb" style="--kc:'+camCol(s.key)+'">'+esc(s.key)+'</span>':'')+'<span class="n">'+esc(s.genre.toUpperCase())+'</span><span class="t">'+esc(s.titel)+'</span>'+(s.info?'<span class="s">'+esc(s.info)+'</span>':'')+((s.bpm||s.key)?'<span class="m">'+[s.bpm?s.bpm+" BPM":"",s.key?CAMN[s.key]||"":""].filter(Boolean).join(" · ")+'</span>':'')+'<span class="r">'+sleeveRating(s)+'</span><span class="qa" role="button" aria-label="Zum Automix hinzufügen" title="Zum Automix hinzufügen">+</span></span>';
-   var qa=b.querySelector(".qa");qa.addEventListener("click",function(e){e.stopPropagation();e.preventDefault();amToggle(s)});
+   var qa=b.querySelector(".qa");qa.addEventListener("click",function(e){e.stopPropagation();e.preventDefault();audio();unlockMedia();amToggle(s)});
    b.addEventListener("click",function(){amManual();load(i)});box.appendChild(b);sleeves[i]=b})});markQ()}
 function init(list,mode){S=list.map(function(s,i){s.genre=(s.genre||"Sonstiges").trim();s.bpm=+s.bpm||0;s.key=CAMN[String(s.key||'').toUpperCase().replace(/^0+/,'')]?String(s.key).toUpperCase().replace(/^0+/,''):'';s.farbe=s.farbe||PAL[i%PAL.length];s.avg=+s.avg||0;s.count=+s.count||0;return s});MODE=mode;buildCrate()}
 var demo0=(window.KJM_DEMO||[]).map(function(s){var c={};for(var k in s)c[k]=s[k];return c});
@@ -390,7 +390,13 @@ function load(i){audio();if(ac.state==="suspended")ac.resume();
  setXf(o.side?Math.max(xv,.0):Math.min(xv,0));hint.textContent="Platte antippen: anhalten · Crossfader: mixen · Tempo-Regler + SYNC: Tempo angleichen"}
 function setKey(o,s){o.kbG.style.display="";var k0=s&&s.key,k=dk(o),c=k?camCol(k):"#6f685c";o.kbR.setAttribute("stroke",c);o.kbR.setAttribute("fill",k?"#0F0C07":"none");o.kbT.textContent=k||"--";o.kbT.setAttribute("fill",c);
  o.kbN.textContent=k?k+" · "+(CAMN[k]||"")+(k!==k0?" (Original "+k0+", durch Tempo verschoben – Key-Lock aus)":""):"Tonart unbekannt"}
-function start(o){audio();if(ac.state==="suspended")ac.resume();o.target=reduce?1:1;if(o.media){var p=o.media.play();if(p&&p.catch)p.catch(function(){})}active=o}
+/* Safari/iPhone blockieren Medien, die nicht per Tipp gestartet wurden. Dann merken wir uns das und starten beim nächsten Tipp ins Pult. */
+function playEl(o){var m=o.media;if(!m)return;var p;try{p=m.play()}catch(e){return}
+ if(p&&p.then)p.then(function(){if(o.blocked){o.blocked=false;amUI()}},function(err){if(err&&(err.name==="NotAllowedError"||err.name==="SecurityError")){if(!o.blocked){o.blocked=true;hint.textContent="Dein Browser wartet auf eine Berührung – tippe einmal ins Pult, dann läuft der Song weiter";amUI()}}})}
+var resumedAt=0;
+function resumeBlocked(){var any=false;decks.forEach(function(o){if(o.blocked&&o.media&&o.target>0){o.blocked=false;any=true;playEl(o)}});if(any){resumedAt=Date.now();amUI();if(ac&&ac.state!=="running")wake()}}
+["pointerdown","touchend","keydown"].forEach(function(ev){document.getElementById("kjm").addEventListener(ev,resumeBlocked,true)});
+function start(o){audio();if(ac.state==="suspended")ac.resume();o.target=1;if(o.media)playEl(o);active=o}
 function stopMedia(o){o.target=0;o.speed=0;if(o.media){o.media.pause()}}
 function toggle(o){if(!o.song)return;if(o.target>0){o.target=0;brake()}else start(o)}
 function brake(){try{audio();var t=ac.currentTime,os=ac.createOscillator(),f=ac.createBiquadFilter(),g=ac.createGain();os.type="sawtooth";os.frequency.setValueAtTime(120,t);os.frequency.exponentialRampToValueAtTime(20,t+.6);f.type="lowpass";f.frequency.value=600;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.04,t+.03);g.gain.exponentialRampToValueAtTime(.0001,t+.65);os.connect(f);f.connect(g);g.connect(master);os.start(t);os.stop(t+.7)}catch(e){}}
@@ -417,22 +423,27 @@ function renderQ(){amQ.innerHTML="";AM.q.forEach(function(sg,i){var c=document.c
   c.innerHTML="<i>"+(i+1)+"</i><span>"+esc(sg.titel)+"</span><em>"+esc([sg.key,sg.bpm?sg.bpm+" BPM":""].filter(Boolean).join(" · "))+"</em>";
   [["‹","Nach vorne",function(){amMove(i,-1)},i===0],["›","Nach hinten",function(){amMove(i,1)},i===AM.q.length-1],["✕","Entfernen",function(){amToggle(sg)},false]].forEach(function(bt){
    var b=document.createElement("button");b.type="button";b.textContent=bt[0];b.setAttribute("aria-label",bt[1]+": "+sg.titel);b.title=bt[1];b.disabled=bt[3];b.onclick=bt[2];c.appendChild(b)});amQ.appendChild(c)})}
-function amUI(rem,msg){var n=AM.q.length;amGo.disabled=!n&&!AM.on;amGo.textContent=AM.on?"■ Manuell übernehmen":(AM.man?"▶ Automix fortsetzen":"▶ Automix starten");amGo.className=AM.on?"live":"go";
+function amUI(rem,msg){var n=AM.q.length;amGo.disabled=!n&&!AM.on;var blk=AM.on&&decks.some(function(d){return d.blocked&&d.target>0});amGo.textContent=blk?"▶ Song freigeben":(AM.on?"■ Manuell übernehmen":(AM.man?"▶ Automix fortsetzen":"▶ Automix starten"));amGo.className=AM.on?"live":"go";
  var t;amS.className="as"+(AM.on?" on":AM.man?" man":"");
- if(AM.on){var nx=AM.q[AM.qi+1];t=AM.trans?"Mix läuft: "+AM.trans.from.song.titel+" → "+AM.trans.to.song.titel:(nx?"Automix läuft · nächster Mix in "+fmt(Math.max(0,(rem||0)-AM.len))+" → "+nx.titel:"Automix läuft · letzter Song")}
+ if(AM.on&&decks.some(function(d){return d.blocked&&d.target>0}))t="Dein Browser wartet auf eine Berührung – tippe einmal ins Pult, dann läuft der Song weiter.";
+ else if(AM.on){var nx=AM.q[AM.qi+1];t=AM.trans?"Mix läuft: "+AM.trans.from.song.titel+" → "+AM.trans.to.song.titel:(nx?"Automix läuft · nächster Mix in "+fmt(Math.max(0,(rem||0)-AM.len))+" → "+nx.titel:"Automix läuft · letzter Song")}
  else if(AM.man)t="Manuell – Automix pausiert. Die Decks laufen weiter, du mixt selbst.";
  else t=n?n+(n===1?" Song":" Songs")+" in der Playlist – bereit zum Start.":"Tippe auf das + einer Platte, um sie in den Automix zu legen – sie werden automatisch geladen und gemixt.";
  amS.textContent=msg||t;if(!AM.trans||msg)renderQ();var op=amBox.classList.contains("open");amTog.textContent="Playlist ("+n+") "+(op?"verbergen":"anzeigen");amTog.setAttribute("aria-expanded",op?"true":"false")}
-var SIL="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=";
-/* iPhone/Safari: Medien-Elemente müssen einmal per Tipp „freigeschaltet“ werden, sonst darf der Automix später nicht selbst starten */
-function unlockMedia(){decks.forEach(function(o){[o.aEl,o.vEl].forEach(function(m){if(m.getAttribute("src")||m.__unl)return;m.__unl=1;m.src=SIL;var p=m.play();var done=function(){try{m.pause();m.removeAttribute("src");m.load()}catch(e){}};if(p&&p.then)p.then(done,done);else done()})})}
+var SILURL="";
+function silentUrl(){if(SILURL)return SILURL;var n=1600,b=new ArrayBuffer(44+n*2),v=new DataView(b);function w(o,t){for(var i=0;i<t.length;i++)v.setUint8(o+i,t.charCodeAt(i))}
+ w(0,"RIFF");v.setUint32(4,36+n*2,true);w(8,"WAVEfmt ");v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,8000,true);v.setUint32(28,16000,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,"data");v.setUint32(40,n*2,true);
+ try{SILURL=URL.createObjectURL(new Blob([b],{type:"audio/wav"}))}catch(e){SILURL=""}return SILURL}
+/* iPhone/Safari: Jedes Medien-Element muss einmal per Tipp „freigeschaltet“ werden, sonst darf der Automix später nicht selbst starten */
+function unlockMedia(){var u=silentUrl();if(!u)return;decks.forEach(function(o){[o.aEl,o.vEl].forEach(function(m){if(m.getAttribute("src")||m.__unl)return;m.__unl=1;m.src=u;
+  var done=function(){try{if(m.getAttribute("src")===u){m.pause();m.removeAttribute("src");m.load()}}catch(e){}};var p;try{p=m.play()}catch(e){done();return}if(p&&p.then)p.then(done,done);else done()})})}
 function amStart(){if(!AM.q.length)return;audio();if(ac.state==="suspended")ac.resume();
  var pl=decks.filter(function(o){return o.song&&o.target>0}),m;
  if(pl.length){m=pl.length>1?(xv>0?decks[1]:decks[0]):pl[0];AM.qi=m.song?AM.q.indexOf(m.song):-1}
  else{m=decks[0];loadTo(m,S.indexOf(AM.q[0]),true);AM.qi=0;nextDeck=1}
  AM.main=m.side;AM.on=true;AM.man=false;AM.trans=null;if(!decks[1-m.side].target)setXf(m.side?1:-1);active=m;unlockMedia();
  hint.textContent="Automix läuft – am Crossfader, Tempo-Regler oder an einer Platte übernimmst du jederzeit selbst";amTick()}
-function amBegin(T){var m=decks[AM.main],o=decks[1-AM.main];AM.trans={t0:performance.now(),T:T*1000,from:m,to:o,x0:xv,x1:o.side?1:-1};AM.loFx=true;
+function amBegin(T){var m=decks[AM.main],o=decks[1-AM.main];if(ac&&ac.state!=="running"){try{ac.resume()}catch(e){}}AM.trans={t0:performance.now(),T:T*1000,from:m,to:o,x0:xv,x1:o.side?1:-1};AM.loFx=true;
  MIX[o.side].lo=-.9;mixChanged(o.side);if(KN[o.side]&&KN[o.side].lo)KN[o.side].lo.redraw();
  var st=syncTarget(o);if(st){o.sync=true;o.syOut=st.out;setPitch(o,st.p,false);syncLamp(o,st.out)}
  start(o);active=o;amUI(0)}
@@ -447,14 +458,14 @@ function amTick(){if(!AM.on)return;var m=decks[AM.main],o=decks[1-AM.main];if(!m
  var nxt=AM.q[AM.qi+1]||null,dur=amDur(m),pos=amPos(m),ended=!!(m.media&&m.media.ended)||m.target===0;
  if(!dur&&!ended)return;var rem=ended?0:(dur-pos)/Math.max(.2,m.rate);
  if(!nxt){if(ended||rem<.4)amStop("Automix beendet – die Playlist ist zu Ende.");else amUI(rem);return}
- var idle=!(o.target>0);if(idle&&o.song!==nxt&&(rem<75||ended))loadTo(o,S.indexOf(nxt),false);
+ var idle=!(o.target>0);if(idle&&o.song!==nxt)loadTo(o,S.indexOf(nxt),false);/* sofort anzeigen und vorladen */
  var T=Math.min(AM.len,Math.max(4,dur*.15));
  if(o.song===nxt&&idle&&(ended||rem<=T+.3))amBegin(ended?.1:T);else amUI(rem)}
 setInterval(amTick,100);
 amTog.addEventListener("click",function(){amBox.classList.toggle("open");amUI()});
-amGo.addEventListener("click",function(){if(AM.on)amManual();else amStart()});
+amGo.addEventListener("click",function(){if(Date.now()-resumedAt<800)return;/* dieser Tipp hat gerade einen blockierten Song freigegeben */if(AM.on)amManual();else amStart()});
 amClr.addEventListener("click",function(){AM.q=[];AM.qi=AM.on?-1:AM.qi;amSyncQi();amUI();markQ()});
-if(location.hash==="#kjmtest")window.__kjm={decks:decks,AM:AM,S:function(){return S},setXf:setXf,amTick:amTick};
+if(location.hash==="#kjmtest")window.__kjm={decks:decks,AM:AM,S:function(){return S},setXf:setXf,amTick:amTick,lv:function(i){var o=decks[i];if(!o||!o.an)return -1;var d=new Uint8Array(o.an.fftSize),m=0,k;o.an.getByteTimeDomainData(d);for(k=0;k<d.length;k++)m=Math.max(m,Math.abs(d[k]-128));return m},ac:function(){return ac&&ac.state}};
 amUI();
 /* ---------- Loop ---------- */
 /* Nur schreiben, was sich wirklich geändert hat – spart Rechenzeit, damit der Ton nicht aussetzt */
@@ -468,7 +479,7 @@ function loop(now){var raw=(now-last)/1000,dt=Math.min(.05,raw);last=now;frame++
   var was=o.speed;o.speed+=(o.target-o.speed)*Math.min(1,dt*(o.target?2.4:2.6));if(Math.abs(o.target-o.speed)<.004)o.speed=o.target;if(o.target===0&&o.speed<.03)o.speed=0;
   if(o.media){var m=o.media;if(o.speed>.06){var pr=o.speed*o.rate,d=Math.abs(m.playbackRate-pr);if(d>(o.speed===o.target?.0005:.01))m.playbackRate=Math.max(.07,pr);
     var kp=o.keylock&&o.speed>=.999;if(m.preservesPitch!==kp){m.preservesPitch=kp;m.mozPreservesPitch=kp;m.webkitPreservesPitch=kp}
-    if(m.paused&&o.target>0){var p=m.play();if(p&&p.catch)p.catch(function(){})}}else if(!m.paused)m.pause()}
+    if(m.paused&&o.target>0&&!o.blocked)playEl(o)}else if(!m.paused)m.pause()}
   else if(ac){if(o.speed>.06&&was<=.06)o.next=ac.currentTime;demo(o);o.demoPos+=dt*o.speed*o.rate}
   if(o.rot&&o.speed>0){o.angle=(o.angle+o.speed*200*dt)%360;if(!lite||frame%2===0)o.rot.setAttribute("transform","rotate("+o.angle.toFixed(1)+" "+o.cx+" "+o.cy+")")}
   var on=o.target>0;sa(o.playC,"fill",on?"#B29D75":"#161310");sa(o.playI,"fill",on?"#0F0C07":"#B29D75");sa(o.playI,"stroke",on?"#0F0C07":"#B29D75");sa(o.ring,"opacity",on?.9:.25);sa(o.ring,"filter",on?"url(#mglow)":"none");
