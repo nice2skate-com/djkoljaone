@@ -1,9 +1,9 @@
 {
  "version": "1.12.3",
  "download_url": "dj-kolja-one-plattenkiste-1.12.3.zip",
- "sha256": "1e0d03152a985b758a7ffa8f0b3a1eb290ff7c14db4fdaeb7ae8d628365f7fa8",
+ "sha256": "183aadcef458ffb7e5d53c8a0b595e5831884f35a749c4e93149ae3264070b0d",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<h4>1.12.3</h4><ul><li>Automix: nächster Titel erscheint sofort auf dem freien Deck</li><li>Safari/iPhone: automatischer Start des zweiten Decks wird freigeschaltet; bei Blockade Knopf „Song freigeben“</li></ul><h4>1.12.2</h4><ul><li>Automix neben der Plattenkiste, Zwischenspeicher wird nach Deploy geleert, Layout-Korrekturen</li></ul><h4>1.12.0</h4><ul><li>Tempo-Regler, SYNC, Key-Lock, Automix, Tonart (Camelot), Handy-Menü</li></ul>"
+ "changelog": "<h4>1.12.3</h4><ul><li>Weiße Artefakte über dem Controller beseitigt (keine Filter mehr auf dem bewegten Controller)</li><li>Automix: nächster Titel erscheint sofort auf dem freien Deck</li><li>Safari/iPhone: automatischer Start des zweiten Decks wird freigeschaltet; bei Blockade Knopf „Song freigeben“</li></ul><h4>1.12.2</h4><ul><li>Automix neben der Plattenkiste, Zwischenspeicher wird nach Deploy geleert, Layout-Korrekturen</li></ul><h4>1.12.0</h4><ul><li>Tempo-Regler, SYNC, Key-Lock, Automix, Tonart (Camelot), Handy-Menü</li></ul>"
 }

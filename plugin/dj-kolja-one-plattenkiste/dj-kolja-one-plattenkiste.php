@@ -1390,12 +1390,14 @@ function musikGap(){
   function top(el){while(el&&el.parentNode&&el.parentNode!==r)el=el.parentNode;return el&&el.parentNode===r?el:null}
   var t=top(k),h1=r.querySelector("h1"),h=h1?top(h1):null; if(!t||!h||t===h)return;
   /* Rest-Abstand (Polster, Lücken, Abstandhalter, versteckte Buttons) messen und per Rand ausgleichen – unabhängig vom Seitenaufbau */
+  /* Layout-Positionen (offsetTop) statt Bildschirmpositionen: Einblend-Animationen von Elementor verfälschen sonst die Messung und das Pult würde den Text überdecken */
+  function Y(el){var y=0;while(el){y+=el.offsetTop||0;el=el.offsetParent;}return y;}
   function fit(){
     t.style.setProperty("margin-top","0","important"); t.style.setProperty("padding-top","0","important"); h.style.setProperty("padding-bottom","0","important");
-    var last=null,w=h.querySelectorAll(".elementor-widget,h1,p"),i,b;
-    for(i=0;i<w.length;i++){if((w[i].textContent||"").trim()==="")continue; b=w[i].getBoundingClientRect(); if(b.height>0&&b.width>0&&(!last||b.bottom>last))last=b.bottom;}
-    if(last===null)return;
-    var gap=hint.getBoundingClientRect().top-last, want=window.innerWidth<=600?20:28;
+    var last=null,w=h.querySelectorAll(".elementor-widget,h1,p"),i,bt;
+    for(i=0;i<w.length;i++){ if((w[i].textContent||"").trim()==="")continue; if(!w[i].offsetHeight)continue; bt=Y(w[i])+w[i].offsetHeight; if(last===null||bt>last)last=bt; }
+    if(last===null||!hint.offsetHeight)return;
+    var gap=Y(hint)-last, want=window.innerWidth<=600?20:28;
     if(gap>want)t.style.setProperty("margin-top",(-(gap-want))+"px","important");
   }
   fit(); window.addEventListener("load",fit); window.addEventListener("resize",fit); setTimeout(fit,800); setTimeout(fit,2500);
