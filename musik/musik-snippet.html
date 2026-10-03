@@ -6,15 +6,15 @@
    MP3 hochladen, Genre eintragen – fertig. Die Liste unten ist nur die Demo für die Vorschau. */
 window.KJM_API = window.KJM_API || "/wp-json/kjm/v1";
 window.KJM_DEMO = [
- {id:"s1",titel:"Das gibt’s doch nicht",info:"Wenn der Tag verrückt spielt",genre:"Deutschpop",bpm:99,farbe:"#B29D75",audio:"__SONG1__",cover:"__COVER1__",video:""},
- {id:"d1",titel:"Opening Set",        info:"Sektempfang & Dinner", genre:"Lounge", bpm:110, farbe:"#F3F1E9", audio:"", video:""},
- {id:"d2",titel:"Wedding Classics",   info:"Eröffnungstanz",       genre:"Pop",    bpm:118, farbe:"#B29D75", audio:"", video:"__DEMOVIDEO__"},
- {id:"d3",titel:"80s · 90s Rewind",   info:"Zum Mitsingen",        genre:"Pop",    bpm:120, farbe:"#D9CBB0", audio:"", video:""},
- {id:"d4",titel:"Party Hits Mix",     info:"Volle Tanzfläche",     genre:"Party",  bpm:126, farbe:"#0F0C07", audio:"", video:""},
- {id:"d5",titel:"Schlager Deluxe",    info:"Späte Stunde",         genre:"Party",  bpm:128, farbe:"#8C7650", audio:"", video:""},
- {id:"d6",titel:"Deep House Session", info:"Late Night",           genre:"House",  bpm:122, farbe:"#5E4E33", audio:"", video:""},
- {id:"d7",titel:"Sunset House",       info:"Open Air",             genre:"House",  bpm:120, farbe:"#C4B08A", audio:"", video:""},
- {id:"d8",titel:"Latin Summer",       info:"Sommerfest",           genre:"Latin",  bpm:100, farbe:"#3A3429", audio:"", video:""}
+ {id:"s1",titel:"Das gibt’s doch nicht",info:"Wenn der Tag verrückt spielt",genre:"Deutschpop",bpm:99,key:"8A",farbe:"#B29D75",audio:"__SONG1__",cover:"__COVER1__",video:""},
+ {id:"d1",titel:"Opening Set",        info:"Sektempfang & Dinner", genre:"Lounge", bpm:110,key:"6A", farbe:"#F3F1E9", audio:"", video:""},
+ {id:"d2",titel:"Wedding Classics",   info:"Eröffnungstanz",       genre:"Pop",    bpm:118,key:"8B", farbe:"#B29D75", audio:"", video:"__DEMOVIDEO__"},
+ {id:"d3",titel:"80s · 90s Rewind",   info:"Zum Mitsingen",        genre:"Pop",    bpm:120,key:"9B", farbe:"#D9CBB0", audio:"", video:""},
+ {id:"d4",titel:"Party Hits Mix",     info:"Volle Tanzfläche",     genre:"Party",  bpm:126,key:"8A", farbe:"#0F0C07", audio:"", video:""},
+ {id:"d5",titel:"Schlager Deluxe",    info:"Späte Stunde",         genre:"Party",  bpm:128,key:"10B", farbe:"#8C7650", audio:"", video:""},
+ {id:"d6",titel:"Deep House Session", info:"Late Night",           genre:"House",  bpm:122,key:"5A", farbe:"#5E4E33", audio:"", video:""},
+ {id:"d7",titel:"Sunset House",       info:"Open Air",             genre:"House",  bpm:120,key:"9A", farbe:"#C4B08A", audio:"", video:""},
+ {id:"d8",titel:"Latin Summer",       info:"Sommerfest",           genre:"Latin",  bpm:100,key:"11B", farbe:"#3A3429", audio:"", video:""}
 ];
 </script>
 <style>
@@ -73,6 +73,11 @@ window.KJM_DEMO = [
 #kjm .front{height:28px;margin:0 -22px;margin-top:-6px;position:relative;z-index:3;background:linear-gradient(#2a241b,#171309);border-top:1px solid rgba(178,157,117,.35);border-radius:0 0 6px 6px;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase}
 @media(max-width:1000px){#kjm .rig{grid-template-columns:1fr}#kjm .lap{order:-1;max-width:520px;width:100%;margin:0 auto}#kjm .sleeves{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:600px){#kjm .sleeves{gap:8px}#kjm .sl .cv{padding:7px}#kjm .sl .t{font-size:12px}#kjm .sl .s{display:none}#kjm .crate{padding:20px 12px 0}#kjm .front{margin:0 -12px;font-size:8px;letter-spacing:2px}#kjm .hint{font-size:11px;letter-spacing:2px}}
+#kjm .sl .kb{position:absolute;top:8px;right:8px;z-index:2;font-size:11px;font-weight:500;letter-spacing:1px;line-height:1;padding:3px 6px;border-radius:3px;color:var(--kc);background:rgba(15,12,7,.82);border:1px solid var(--kc)}
+#kjm .sl .m{font-size:10px;color:var(--gold);position:relative;z-index:2;margin-top:3px;letter-spacing:1px}
+#kjm .sl.ok .cv{border-color:#8FC79A;box-shadow:inset 0 0 0 1px #8FC79A}#kjm .sl.mid .cv{border-color:#E0B36A;box-shadow:inset 0 0 0 1px #E0B36A}#kjm .sl.no{opacity:.5}#kjm .sl.no:hover,#kjm .sl.no:focus-visible{opacity:1}
+#kjm .tab.fit{border-color:#8FC79A;color:#8FC79A}#kjm .tab.fit.on{background:#8FC79A;color:var(--b1)}
+#kjm .keys{max-width:1000px;margin:14px auto 0;text-align:center;font-size:11px;letter-spacing:2px;color:var(--muted)}#kjm .keys b{font-weight:400;color:var(--gold)}
 #kjm .seek{cursor:pointer;touch-action:none;outline:none}#kjm .seek:focus-visible{stroke:#B29D75;stroke-width:1}#kjm .kn{cursor:ns-resize;touch-action:none;outline:none}#kjm .kn:focus-visible circle:nth-of-type(3){stroke:#E0B36A}#kjm .fxb{cursor:pointer;outline:none}#kjm .fxb:focus-visible rect:nth-of-type(2){stroke:#F3F1E9}#kjm .chf{cursor:ns-resize;touch-action:none;outline:none}#kjm .chf:focus-visible rect:nth-of-type(2){stroke:#F3F1E9}</style>
 <p class="hint" id="kjmHint">Zieh eine Platte aus der Kiste und leg auf</p>
 <div class="rig">
@@ -96,6 +101,15 @@ var vis=document.getElementById("kjmVis"),vctx=vis.getContext("2d"),idle=documen
 var reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
 function E(n,a,p){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
 function T(x,y,s,a,p){var t=E("text",Object.assign({x:x,y:y},a),p);t.textContent=s;return t}
+/* ---------- Camelot-Tonarten ---------- */
+var CAMN={"1A":"As-Moll","2A":"Es-Moll","3A":"B-Moll","4A":"F-Moll","5A":"C-Moll","6A":"G-Moll","7A":"D-Moll","8A":"A-Moll","9A":"E-Moll","10A":"H-Moll","11A":"Fis-Moll","12A":"Cis-Moll","1B":"H-Dur","2B":"Fis-Dur","3B":"Des-Dur","4B":"As-Dur","5B":"Es-Dur","6B":"B-Dur","7B":"F-Dur","8B":"C-Dur","9B":"G-Dur","10B":"D-Dur","11B":"A-Dur","12B":"E-Dur"};
+var CG="#8FC79A",CY="#E0B36A",CR="#D9695F";
+function camP(k){var m=/^(\d+)([AB])$/.exec(k||"");return m?{n:+m[1],l:m[2]}:null}
+function camCol(k){var c=camP(k);return c?"hsl("+((c.n-1)*30)+",58%,64%)":"#6f685c"}
+/* Harmonisch mixen nach dem Camelot-Rad: gleiche Zahl, ±1 oder A/B-Wechsel passen; ±2 = Energie-Kick */
+function camComp(a,b){var x=camP(a),y=camP(b);if(!x||!y)return null;var d=Math.min((x.n-y.n+12)%12,(y.n-x.n+12)%12),same=x.l===y.l;
+ if(d===0&&same)return{lv:3,t:"GLEICHE TONART",c:CG};if(d===0)return{lv:3,t:"DUR/MOLL-PAAR",c:CG};if(d===1&&same)return{lv:3,t:"PASST",c:CG};
+ if(d===2&&same)return{lv:2,t:"ENERGIE-KICK",c:CY};if(d===1)return{lv:2,t:"GEHT MEIST",c:CY};return{lv:0,t:"KLINGT SCHIEF",c:CR}}
 function fmt(s){s=Math.max(0,Math.floor(s||0));return Math.floor(s/60)+":"+("0"+s%60).slice(-2)}
 /* ---------- Audio ---------- */
 var ac=null,master,an,buf;
@@ -137,7 +151,10 @@ T(600,578,"DJ KOLJA ONE",{"text-anchor":"middle","font-size":13,"letter-spacing"
 function knob(x,y,r,p,col){var g=E("g",{},p);E("circle",{cx:x,cy:y,r:r+3,fill:"#0a0806"},g);E("circle",{cx:x,cy:y,r:r,fill:"url(#mknob)",stroke:col||"#2e2a23","stroke-width":col?2:1},g);var a=(-140+Math.random()*280)*Math.PI/180;E("line",{x1:x,y1:y,x2:x+Math.sin(a)*(r-3),y2:y-Math.cos(a)*(r-3),stroke:"#F3F1E9","stroke-width":2,"stroke-linecap":"round"},g)}
 var mx=E("g",{},svg),meters=[];
 E("rect",{x:480,y:28,width:240,height:46,rx:4,fill:"#050403",stroke:"#2d281f"},mx);
-T(600,48,"MIX",{"text-anchor":"middle","font-size":10,"letter-spacing":4,fill:"#6f685c"},mx);
+var mixL=T(600,48,"MIX",{"text-anchor":"middle","font-size":10,"letter-spacing":4,fill:"#6f685c"},mx);
+function updCompat(){var a=decks[0]&&decks[0].song,b=decks[1]&&decks[1].song,c=a&&b?camComp(a.key,b.key):null;
+ if(c){mixL.textContent=a.key+" + "+b.key+" · "+c.t;mixL.setAttribute("fill",c.c);mixL.setAttribute("letter-spacing",1.5);mixL.setAttribute("font-size",10.5)}
+ else{mixL.textContent="MIX";mixL.setAttribute("fill","#6f685c");mixL.setAttribute("letter-spacing",4);mixL.setAttribute("font-size",10)}}
 var mixT=T(600,65,"CROSSFADER ZIEHEN",{"text-anchor":"middle","font-size":10.5,"letter-spacing":2,fill:"#B29D75"},mx);
 var MIX=[{trim:0,hi:0,mid:0,lo:0,filt:0,fx:false,vol:1},{trim:0,hi:0,mid:0,lo:0,filt:0,fx:false,vol:1}],fxBtn=[];
 function mixChanged(i){var o=decks[i];if(o){if(!ac&&o.song)audio();applyMix(o)}}
@@ -196,8 +213,12 @@ function deck(cx,side){
  var g=E("g",{},svg),o={cx:cx,cy:285,g:g,side:side,angle:0,speed:0,target:0,song:null,aEl:new Audio(),vEl:document.getElementById("kjmV"+side),media:null,synthT:0,next:0,beat:0,demoPos:0,mix:MIX[side]};
  o.aEl.preload="none";[o.aEl,o.vEl].forEach(function(m){m.preservesPitch=false;m.mozPreservesPitch=false;m.webkitPreservesPitch=false;m.addEventListener("ended",function(){o.target=0;o.speed=0})});
  E("rect",{x:cx-195,y:28,width:390,height:46,rx:4,fill:"#050403",stroke:"#2d281f"},g);
- o.scrT=T(cx-180,47,"DECK "+(side?"B":"A")+" · LEER",{"font-size":12,"letter-spacing":2,fill:"#B29D75"},g);
- o.scrS=T(cx-180,63,"Song aus der Kiste wählen",{"font-size":11,fill:"#6f685c"},g);
+ var tcp=E("clipPath",{id:"kjmt"+side},defs);E("rect",{x:cx-185,y:30,width:250,height:40},tcp);
+ o.scrT=T(cx-180,47,"DECK "+(side?"B":"A")+" · LEER",{"font-size":12,"letter-spacing":2,fill:"#B29D75","clip-path":"url(#kjmt"+side+")"},g);
+ o.scrS=T(cx-180,63,"Song aus der Kiste wählen",{"font-size":11,fill:"#6f685c","clip-path":"url(#kjmt"+side+")"},g);
+ o.kbG=E("g",{style:"display:none"},g);o.kbR=E("rect",{x:cx+68,y:34,width:40,height:22,rx:3,fill:"#0F0C07","stroke-width":1.2},o.kbG);
+ o.kbT=T(cx+88,50,"--",{"text-anchor":"middle","font-size":13,"font-weight":500,"letter-spacing":.5},o.kbG);
+ o.kbN=E("title",{},o.kbG);
  o.bpm=T(cx+180,50,"--- BPM",{"text-anchor":"end","font-size":15,fill:"#F3F1E9"},g);
  o.time=T(cx+180,66,"0:00",{"text-anchor":"end","font-size":10,fill:"#6f685c"},g);
  E("rect",{x:cx-180,y:67,width:360,height:4,rx:2,fill:"#2d281f"},g);o.prog=E("rect",{x:cx-180,y:67,width:0,height:4,rx:2,fill:"#B29D75"},g);
@@ -245,7 +266,7 @@ function vinyl(o,s,idx){
  else{E("circle",{cx:o.cx,cy:o.cy,r:50,fill:"none",stroke:ink,"stroke-width":.8,opacity:.5},rot);
  T(o.cx,o.cy-22,"DJ KOLJA ONE · "+s.genre.toUpperCase(),{"text-anchor":"middle","font-size":6.5,"letter-spacing":1.6,fill:ink,opacity:.8},rot);
  var ln=wrap(s.titel.toUpperCase(),12);ln.forEach(function(l,k){T(o.cx,o.cy+(ln.length>1?-2+k*13:4),l,{"text-anchor":"middle","font-size":11,"letter-spacing":1,fill:ink},rot)});
- T(o.cx,o.cy+34,s.bpm?s.bpm+" BPM":"33 RPM",{"text-anchor":"middle","font-size":6.5,"letter-spacing":2,fill:ink,opacity:.7},rot);
+ T(o.cx,o.cy+34,(s.bpm?s.bpm+" BPM":"33 RPM")+(s.key?" · "+s.key:""),{"text-anchor":"middle","font-size":6.5,"letter-spacing":2,fill:ink,opacity:.7},rot);
  E("circle",{cx:o.cx,cy:o.cy,r:4,fill:"#050403"},rot)}
  E("circle",{cx:o.cx,cy:o.cy,r:146,fill:"url(#msheen)","pointer-events":"none"},g);E("circle",{cx:o.cx,cy:o.cy,r:146,fill:"url(#msheen)",transform:"rotate(90 "+o.cx+" "+o.cy+")","pointer-events":"none",opacity:.7},g);
  o.rot=rot;g.addEventListener("pointerdown",function(e){e.preventDefault();toggle(o)});g.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();toggle(o)}});
@@ -260,17 +281,23 @@ function rated(id){try{return +localStorage.getItem("kjm_r_"+id)||0}catch(e){ret
 function setRated(id,v){try{localStorage.setItem("kjm_r_"+id,v)}catch(e){}}
 var PAL=["#F3F1E9","#B29D75","#0F0C07","#8C7650","#D9CBB0","#5E4E33","#C4B08A","#3A3429"],genres=[],curG="Alle";
 function sleeveRating(s){return s.count?star(10)+" "+de(s.avg.toFixed(1))+" · "+s.count:"Noch unbewertet"}
+var refK="",refS=null,onlyFit=false;
 function buildCrate(){var box=document.getElementById("kjmCrate"),tabs=document.getElementById("kjmTabs");box.innerHTML="";tabs.innerHTML="";sleeves=[];
  genres=[];S.forEach(function(s){if(genres.indexOf(s.genre)<0)genres.push(s.genre)});genres.sort(function(a,b){return a.localeCompare(b,"de")});
  ["Alle"].concat(genres).forEach(function(g){var t=document.createElement("button");t.className="tab"+(g===curG?" on":"");t.setAttribute("role","tab");
   var n=g==="Alle"?S.length:S.filter(function(s){return s.genre===g}).length;t.textContent=g+" ("+n+")";t.onclick=function(){curG=g;buildCrate()};tabs.appendChild(t)});
+ if(refK){var ft=document.createElement("button");ft.className="tab fit"+(onlyFit?" on":"");ft.setAttribute("aria-pressed",onlyFit?"true":"false");ft.title="Nur Songs zeigen, die harmonisch zu "+refK+" ("+(CAMN[refK]||"")+") passen";ft.textContent="Passt zu "+refK;ft.onclick=function(){onlyFit=!onlyFit;buildCrate()};tabs.appendChild(ft)}
+ function fit(s){if(!refK||!s.key||s===refS)return null;return camComp(refK,s.key)}
  genres.forEach(function(g){if(curG!=="Alle"&&curG!==g)return;
+  var list=[];S.forEach(function(s,i){if(s.genre!==g)return;if(onlyFit&&refK){var c0=fit(s),onDeck=decks.some(function(o){return o.song===s});if(!onDeck&&!(c0&&c0.lv>=2))return}list.push(i)});
+  if(!list.length)return;
   if(curG==="Alle"){var d=document.createElement("div");d.className="gdiv";d.textContent=g;box.appendChild(d)}
-  S.forEach(function(s,i){if(s.genre!==g)return;var b=document.createElement("button");b.className="sl"+(decks.some(function(o){return o.song===s})?" on":"");b.style.setProperty("--lab",s.farbe);b.setAttribute("aria-label",s.titel+" auflegen");
+  list.forEach(function(i){var s=S[i];var b=document.createElement("button");var c=fit(s);b.className="sl"+(decks.some(function(o){return o.song===s})?" on":"")+(c?(c.lv>=3?" ok":c.lv===2?" mid":" no"):"");b.style.setProperty("--lab",s.farbe);
+   b.setAttribute("aria-label",s.titel+(s.key?", Tonart "+s.key+" ("+(CAMN[s.key]||"")+")":"")+(s.bpm?", "+s.bpm+" BPM":"")+(c?", "+c.t.toLowerCase()+" zu "+refK:"")+", auflegen");if(s.key)b.title=s.key+" · "+(CAMN[s.key]||"")+(s.bpm?" · "+s.bpm+" BPM":"")+(c?" · "+c.t+" zu "+refK:"");
    var cst=s.cover?' class="cv hc" style="background-image:linear-gradient(to top,rgba(15,12,7,.97) 42%,rgba(15,12,7,.35) 85%),url(&quot;'+esc(s.cover)+'&quot;)"':' class="cv"';
-   b.innerHTML='<span class="disc"></span><span'+cst+'>'+(s.video?'<span class="vb">VIDEO</span>':'')+'<span class="n">'+esc(s.genre.toUpperCase())+'</span><span class="t">'+esc(s.titel)+'</span>'+(s.info?'<span class="s">'+esc(s.info)+'</span>':'')+'<span class="r">'+sleeveRating(s)+'</span></span>';
+   b.innerHTML='<span class="disc"></span><span'+cst+'>'+(s.video?'<span class="vb">VIDEO</span>':'')+(s.key?'<span class="kb" style="--kc:'+camCol(s.key)+'">'+esc(s.key)+'</span>':'')+'<span class="n">'+esc(s.genre.toUpperCase())+'</span><span class="t">'+esc(s.titel)+'</span>'+(s.info?'<span class="s">'+esc(s.info)+'</span>':'')+((s.bpm||s.key)?'<span class="m">'+[s.bpm?s.bpm+" BPM":"",s.key?CAMN[s.key]||"":""].filter(Boolean).join(" · ")+'</span>':'')+'<span class="r">'+sleeveRating(s)+'</span></span>';
    b.addEventListener("click",function(){load(i)});box.appendChild(b);sleeves[i]=b})})}
-function init(list,mode){S=list.map(function(s,i){s.genre=(s.genre||"Sonstiges").trim();s.bpm=+s.bpm||0;s.farbe=s.farbe||PAL[i%PAL.length];s.avg=+s.avg||0;s.count=+s.count||0;return s});MODE=mode;buildCrate()}
+function init(list,mode){S=list.map(function(s,i){s.genre=(s.genre||"Sonstiges").trim();s.bpm=+s.bpm||0;s.key=CAMN[String(s.key||'').toUpperCase().replace(/^0+/,'')]?String(s.key).toUpperCase().replace(/^0+/,''):'';s.farbe=s.farbe||PAL[i%PAL.length];s.avg=+s.avg||0;s.count=+s.count||0;return s});MODE=mode;buildCrate()}
 var demo0=(window.KJM_DEMO||[]).map(function(s){var c={};for(var k in s)c[k]=s[k];return c});
 if(location.protocol.indexOf("http")===0&&window.fetch){fetch(window.KJM_API+"/songs",{credentials:"same-origin"}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(l){if(!l||!l.length)throw 0;init(l,"live")}).catch(function(){init(demo0,"demo")})}else init(demo0,"demo");
 /* ---------- Bewertung ---------- */
@@ -294,8 +321,9 @@ function load(i){audio();if(ac.state==="suspended")ac.resume();
  var s=S[i];o.song=s;o.idx=i;o.demoPos=0;applyMix(o);if(sleeves[i])sleeves[i].classList.add("on");
  o.media=s.video?o.vEl:(s.audio?o.aEl:null);
  if(o.media){o.media.src=s.video||s.audio;o.media.currentTime=0}
- vinyl(o,s,i);o.scrT.textContent="DECK "+(o.side?"B":"A")+" · "+s.titel.toUpperCase();o.scrS.textContent=s.info+(o.media?"":" · Demo");o.bpm.textContent=(s.bpm?s.bpm:"---")+" BPM";
+ vinyl(o,s,i);o.scrT.textContent="DECK "+(o.side?"B":"A")+" · "+s.titel.toUpperCase();o.scrS.textContent=s.info+(o.media?"":" · Demo");o.bpm.textContent=(s.bpm?s.bpm:"---")+" BPM";setKey(o,s);updCompat();
  setXf(o.side?Math.max(xv,.0):Math.min(xv,0));o.angle=0;start(o);active=o;hint.textContent="Platte antippen: anhalten · Crossfader: mixen"}
+function setKey(o,s){o.kbG.style.display="";var k=s&&s.key,c=k?camCol(k):"#6f685c";o.kbR.setAttribute("stroke",c);o.kbR.setAttribute("fill",k?"#0F0C07":"none");o.kbT.textContent=k||"--";o.kbT.setAttribute("fill",c);o.kbN.textContent=k?k+" · "+(CAMN[k]||""):"Tonart unbekannt"}
 function start(o){audio();if(ac.state==="suspended")ac.resume();o.target=reduce?1:1;if(o.media){var p=o.media.play();if(p&&p.catch)p.catch(function(){})}active=o}
 function stopMedia(o){o.target=0;o.speed=0;if(o.media){o.media.pause()}}
 function toggle(o){if(!o.song)return;if(o.target>0){o.target=0;brake()}else start(o)}
@@ -322,8 +350,9 @@ function loop(now){var dt=Math.min(.05,(now-last)/1000);last=now;
  var best=null,bw=-1;decks.forEach(function(o){if(!o.song||o.target===0&&o.speed<.05)return;var w=o.side?(xv+1)/2:(1-xv)/2;if(o===active)w+=.01;if(w>bw){bw=w;best=o}});
  decks.forEach(function(o){o.vEl.classList.toggle("on",!!(best===o&&o.media===o.vEl))});
  idle.style.opacity=best?0:1;np.style.opacity=best?1:0;
- if(best){document.getElementById("kjmNpL").textContent="Now playing · Deck "+(best.side?"B":"A");document.getElementById("kjmNpT").textContent=best.song.titel;document.getElementById("kjmNpS").textContent=[best.song.genre,best.song.info,best.song.bpm?best.song.bpm+" BPM":""].filter(Boolean).join(" · ");document.getElementById("kjmNpA").innerHTML=best.song.count?star(12)+" "+de(best.song.avg.toFixed(1))+" von 5":""}
+ if(best){document.getElementById("kjmNpL").textContent="Now playing · Deck "+(best.side?"B":"A");document.getElementById("kjmNpT").textContent=best.song.titel;document.getElementById("kjmNpS").textContent=[best.song.genre,best.song.info,best.song.bpm?best.song.bpm+" BPM":"",best.song.key?best.song.key+" ("+(CAMN[best.song.key]||"")+")":""].filter(Boolean).join(" · ");document.getElementById("kjmNpA").innerHTML=best.song.count?star(12)+" "+de(best.song.avg.toFixed(1))+" von 5":""}
  showRate(best?best.song:rateSong);
+ if(best&&best.song!==refS){refS=best.song;refK=refS.key||"";buildCrate()}
  var cv=best&&best.media!==best.vEl&&best.song.cover?best.song.cover:"";if(cv!==curCov){curCov=cv;if(cv)covEl.style.backgroundImage='url("'+cv.replace(/"/g,"%22")+'")';covEl.style.opacity=cv?.4:0}
  var W=vis.width,H=vis.height;vctx.clearRect(0,0,W,H);
  if(an&&best&&best.media!==best.vEl){an.getByteFrequencyData(fd);var n=48,bwid=W/n;for(var j=0;j<n;j++){var v=Math.sqrt(fd[Math.floor(Math.pow(j/n,1.7)*110)]/255),h=v*H*.48;vctx.fillStyle="rgba(178,157,117,"+(.35+v*.65)+")";vctx.fillRect(j*bwid+2,H*.56-h,bwid-4,h);vctx.fillStyle="rgba(178,157,117,.10)";vctx.fillRect(j*bwid+2,H*.575,bwid-4,h*.2)}}

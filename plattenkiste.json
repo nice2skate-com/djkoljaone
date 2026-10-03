@@ -1,9 +1,9 @@
 {
- "version": "1.10.0",
- "download_url": "dj-kolja-one-plattenkiste-1.10.0.zip",
- "sha256": "ca4420a687d240ead16db0da5715632f4ad521d3b4e7976936214938d7fa58ad",
+ "version": "1.11.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.11.0.zip",
+ "sha256": "3bb9d1099aa6a86b5d7a206813bf212582dcfe98e3374fc9d1981931948a4700",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<h4>1.10.0</h4><ul><li>Mixer-Reihenfolge wie am echten Controller: CH3 · CH1 · CH2 · CH4</li><li>Kanal-Fader für Deck A und B funktionieren</li></ul>"
+ "changelog": "<h4>1.11.0</h4><ul><li>Tonart-Erkennung (Camelot): wird beim Upload automatisch erkannt, am Deck und auf der Platte angezeigt</li><li>Mixer zeigt, ob zwei Songs harmonisch zusammenpassen</li><li>Plattenkiste: Tonart und BPM auf den Platten, passende Songs markiert, Filter „Passt zu …“</li></ul>"
 }

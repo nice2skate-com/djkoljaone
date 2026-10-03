@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
- * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.10.0
+ * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Video und Sterne-Bewertungen der Besucher.
+ * Version:     1.11.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.10.0' );
+define( 'KJO_VERSION', '1.11.0' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -20,6 +20,16 @@ define( 'KJO_VERSION', '1.10.0' );
 
 function kjm_is_audio( $post ) {
 	return $post && 'attachment' === $post->post_type && 0 === strpos( (string) $post->post_mime_type, 'audio/' );
+}
+
+/** Tonart im Camelot-Format (1A–12B) oder ''. Akzeptiert z. B. „8a“ oder „08A“. */
+function kjm_key_clean( $v ) {
+	$v = strtoupper( trim( (string) $v ) );
+	$v = preg_replace( '/^0+(?=\d)/', '', $v );
+	return preg_match( '/^(1[0-2]|[1-9])[AB]$/', $v ) ? $v : '';
+}
+function kjm_key( $id ) {
+	return kjm_key_clean( get_post_meta( $id, 'kjm_key', true ) );
 }
 
 /** Genre: eigenes Feld, sonst das Genre aus der MP3-Datei (ID3). */
@@ -117,6 +127,12 @@ add_filter(
 			'value' => get_post_meta( $id, 'kjm_bpm', true ),
 			'helps' => 'Tempo des Songs, z. B. 124 (optional).',
 		);
+		$fields['kjm_key']   = array(
+			'label' => 'Plattenkiste: Tonart (Camelot)',
+			'input' => 'text',
+			'value' => get_post_meta( $id, 'kjm_key', true ),
+			'helps' => 'Wird beim Hochladen automatisch erkannt, z. B. 8A (a-Moll) oder 5B (Es-Dur). Hier kannst du sie korrigieren.',
+		);
 		$fields['kjm_video'] = array(
 			'label' => 'Plattenkiste: Video-URL',
 			'input' => 'text',
@@ -165,6 +181,10 @@ add_filter(
 		if ( isset( $att['kjm_bpm'] ) ) {
 			$b = absint( $att['kjm_bpm'] );
 			update_post_meta( $id, 'kjm_bpm', $b ? $b : '' );
+		}
+		if ( isset( $att['kjm_key'] ) ) {
+			update_post_meta( $id, 'kjm_key', kjm_key_clean( $att['kjm_key'] ) );
+			delete_post_meta( $id, 'kjm_pending' );
 		}
 		if ( isset( $att['kjm_video'] ) ) {
 			update_post_meta( $id, 'kjm_video', esc_url_raw( trim( $att['kjm_video'] ) ) );
@@ -257,6 +277,7 @@ function kjm_rest_songs() {
 			'info'  => '' !== $p->post_excerpt ? wp_strip_all_tags( $p->post_excerpt ) : ( ! empty( $m['artist'] ) ? $m['artist'] : '' ),
 			'genre' => kjm_genre( $p->ID ),
 			'bpm'   => (int) get_post_meta( $p->ID, 'kjm_bpm', true ),
+			'key'   => kjm_key( $p->ID ),
 			'farbe' => (string) get_post_meta( $p->ID, 'kjm_color', true ),
 			'audio' => kjm_stream_url( $p->ID, 'a' ),
 			'video' => kjm_stream_url( $p->ID, 'v' ),
@@ -342,47 +363,142 @@ function kjm_admin_page() {
 		echo '<div class="notice notice-success inline"><p><strong>Download-Schutz aktiv:</strong> ' . (int) $n . ' Datei(en) sind für den direkten Aufruf gesperrt. Das Pult spielt sie über zeitlich begrenzte Links ab.</p></div>';
 	}
 	echo '<p>Die Songs laufen im Pult in der Qualität, in der du sie hochlädst. Der direkte Download der Dateien ist gesperrt.</p>';
-	echo '<table class="widefat striped"><thead><tr><th>Titel</th><th>Genre</th><th>BPM</th><th>Qualität</th><th>Video</th><th>Bewertung</th><th>Im Pult</th><th></th></tr></thead><tbody>';
+	echo '<table class="widefat striped"><thead><tr><th>Titel</th><th>Genre</th><th>BPM</th><th>Tonart</th><th>Qualität</th><th>Video</th><th>Bewertung</th><th>Im Pult</th><th></th></tr></thead><tbody>';
 	if ( ! $posts ) {
-		echo '<tr><td colspan="8">Noch keine MP3s in der Mediathek.</td></tr>';
+		echo '<tr><td colspan="9">Noch keine MP3s in der Mediathek.</td></tr>';
 	}
 	foreach ( $posts as $p ) {
-		$r = kjm_rating( $p->ID );
-		echo '<tr><td>' . esc_html( $p->post_title ) . '</td><td>' . esc_html( kjm_genre( $p->ID ) ?: '–' ) . '</td><td><span class="kjm-bpm-val">' . esc_html( get_post_meta( $p->ID, 'kjm_bpm', true ) ?: '–' ) . '</span> <button type="button" class="button button-small kjm-bpm-btn" data-id="' . (int) $p->ID . '" data-has="' . ( get_post_meta( $p->ID, 'kjm_bpm', true ) ? 1 : 0 ) . '" data-url="' . esc_url( wp_make_link_relative( (string) wp_get_attachment_url( $p->ID ) ) ) . '">erkennen</button></td><td>' . kjm_quality( $p->ID ) . '</td><td>' . ( kjm_video( $p->ID ) ? 'ja' : '–' ) . '</td><td>' . ( $r['count'] ? esc_html( number_format_i18n( $r['avg'], 1 ) . ' (' . $r['count'] . ')' ) : '–' ) . '</td><td>' . ( kjm_visible( $p->ID ) ? 'ja' : 'nein' ) . '</td><td><a href="' . esc_url( get_edit_post_link( $p->ID ) ) . '">Bearbeiten</a></td></tr>';
+		$r   = kjm_rating( $p->ID );
+		$bpm = get_post_meta( $p->ID, 'kjm_bpm', true );
+		$key = kjm_key( $p->ID );
+		echo '<tr><td>' . esc_html( $p->post_title ) . '</td><td>' . esc_html( kjm_genre( $p->ID ) ?: '–' ) . '</td><td><span class="kjm-bpm-val">' . esc_html( $bpm ?: '–' ) . '</span></td><td><span class="kjm-key-val">' . esc_html( $key ?: '–' ) . '</span> <button type="button" class="button button-small kjm-bpm-btn" data-id="' . (int) $p->ID . '" data-has="' . ( $bpm && $key ? 1 : 0 ) . '" data-url="' . esc_url( wp_make_link_relative( (string) wp_get_attachment_url( $p->ID ) ) ) . '">erkennen</button></td><td>' . kjm_quality( $p->ID ) . '</td><td>' . ( kjm_video( $p->ID ) ? 'ja' : '–' ) . '</td><td>' . ( $r['count'] ? esc_html( number_format_i18n( $r['avg'], 1 ) . ' (' . $r['count'] . ')' ) : '–' ) . '</td><td>' . ( kjm_visible( $p->ID ) ? 'ja' : 'nein' ) . '</td><td><a href="' . esc_url( get_edit_post_link( $p->ID ) ) . '">Bearbeiten</a></td></tr>';
 	}
 	echo '</tbody></table>';
-	echo '<p><button type="button" class="button button-primary" id="kjm-bpm-all">BPM für alle Songs ohne BPM erkennen</button> <span id="kjm-bpm-msg"></span></p>';
-	echo '<p class="description">Die Erkennung läuft in deinem Browser und dauert pro Song ein paar Sekunden. Das Ergebnis wird gespeichert und erscheint im Pult. Stimmt ein Wert nicht (z. B. halbes oder doppeltes Tempo), trag ihn beim Song von Hand ein.</p>';
+	echo '<p><button type="button" class="button button-primary" id="kjm-bpm-all">BPM &amp; Tonart für alle Songs ohne Angabe erkennen</button> <span id="kjm-bpm-msg"></span></p>';
+	echo '<p class="description">Neue MP3s werden beim Hochladen automatisch analysiert (BPM und Tonart im Camelot-Format, z. B. 8A). Die Erkennung läuft in deinem Browser und dauert pro Song ein paar Sekunden. Stimmt ein Wert nicht (z. B. halbes oder doppeltes Tempo, Dur/Moll verwechselt), trag ihn beim Song von Hand ein.</p>';
 	echo '</div>';
 	$nonce = wp_create_nonce( 'kjm_bpm' );
-	echo '<script>' . file_get_contents( __DIR__ . '/assets/kjm-bpm.js' ) . // phpcs:ignore
-		'(function(){var AJ=' . wp_json_encode( admin_url( 'admin-ajax.php', 'relative' ) ) . ',N=' . wp_json_encode( $nonce ) . ',msg=document.getElementById("kjm-bpm-msg"),ac=null;
-function run(btn){var cell=btn.parentNode.querySelector(".kjm-bpm-val");btn.disabled=true;btn.textContent="läuft …";
- return fetch(btn.getAttribute("data-url"),{credentials:"same-origin"}).then(function(r){if(!r.ok)throw new Error("Datei nicht lesbar ("+r.status+")");return r.arrayBuffer()})
- .then(function(b){ac=ac||new (window.AudioContext||window.webkitAudioContext)();return new Promise(function(ok,no){ac.decodeAudioData(b,ok,no)})})
- .then(function(buf){var n=buf.length,m=new Float32Array(n),c=buf.numberOfChannels;for(var k=0;k<c;k++){var d=buf.getChannelData(k);for(var i=0;i<n;i++)m[i]+=d[i]/c}
-  var bpm=kjmBpm(m,buf.sampleRate);if(!bpm)throw new Error("kein klarer Takt gefunden");
-  var f=new FormData();f.append("action","kjm_save_bpm");f.append("_wpnonce",N);f.append("id",btn.getAttribute("data-id"));f.append("bpm",bpm);
-  return fetch(AJ,{method:"POST",credentials:"same-origin",body:f}).then(function(r){return r.json()}).then(function(j){if(!j||!j.success)throw new Error("Speichern fehlgeschlagen");cell.textContent=bpm;btn.setAttribute("data-has","1");btn.textContent="neu erkennen";btn.disabled=false;return true})})
- .catch(function(e){btn.textContent="erkennen";btn.disabled=false;cell.title=e.message;msg.textContent="Fehler: "+e.message;return false})}
+	echo '<script>' . file_get_contents( __DIR__ . '/assets/kjm-bpm.js' ) . file_get_contents( __DIR__ . '/assets/kjm-admin.js' ) . // phpcs:ignore
+		'(function(){var AJ=' . wp_json_encode( admin_url( 'admin-ajax.php', 'relative' ) ) . ',N=' . wp_json_encode( $nonce ) . ',msg=document.getElementById("kjm-bpm-msg");
+function run(btn){var row=btn.parentNode.parentNode,bc=row.querySelector(".kjm-bpm-val"),kc=row.querySelector(".kjm-key-val");btn.disabled=true;btn.textContent="läuft …";
+ return kjmAdmin.analyse(btn.getAttribute("data-url")).then(function(res){if(!res.bpm&&!res.key)throw new Error("weder Takt noch Tonart klar erkannt");
+  return kjmAdmin.save(AJ,N,btn.getAttribute("data-id"),res).then(function(d){if(d.bpm)bc.textContent=d.bpm;if(d.key)kc.textContent=d.key;btn.setAttribute("data-has",d.bpm&&d.key?"1":"0");btn.textContent="neu erkennen";btn.disabled=false;return true})})
+ .catch(function(e){btn.textContent="erkennen";btn.disabled=false;msg.textContent="Fehler: "+e.message;return false})}
 [].forEach.call(document.querySelectorAll(".kjm-bpm-btn"),function(b){if(b.getAttribute("data-has")==="1")b.textContent="neu erkennen";b.addEventListener("click",function(){msg.textContent="";run(b)})});
 document.getElementById("kjm-bpm-all").addEventListener("click",function(){var l=[].filter.call(document.querySelectorAll(".kjm-bpm-btn"),function(b){return b.getAttribute("data-has")!=="1"}),i=0,all=this,bad=0;
- if(!l.length){msg.textContent="Alle Songs haben schon eine BPM-Angabe.";return}all.disabled=true;
- (function next(){if(i>=l.length){all.disabled=false;msg.textContent="Fertig: "+(l.length-bad)+" erkannt"+(bad?", "+bad+" ohne klaren Takt (bitte von Hand eintragen).":".");return}msg.textContent="Song "+(i+1)+" von "+l.length+" …";run(l[i++]).then(function(ok){if(!ok)bad++;next()})})()});
+ if(!l.length){msg.textContent="Alle Songs haben schon BPM und Tonart.";return}all.disabled=true;
+ (function next(){if(i>=l.length){all.disabled=false;msg.textContent="Fertig: "+(l.length-bad)+" erkannt"+(bad?", "+bad+" ohne klares Ergebnis (bitte von Hand eintragen).":".");return}msg.textContent="Song "+(i+1)+" von "+l.length+" …";run(l[i++]).then(function(ok){if(!ok)bad++;next()})})()});
 })();</script>';
 }
 
+/* Speichert BPM und/oder Tonart (vom Browser erkannt). Ohne Werte (fail=1): nur „offen“-Markierung löschen. */
 add_action(
 	'wp_ajax_kjm_save_bpm',
 	function () {
 		check_ajax_referer( 'kjm_bpm' );
-		$id  = isset( $_POST['id'] ) ? (int) $_POST['id'] : 0;
-		$bpm = isset( $_POST['bpm'] ) ? (int) $_POST['bpm'] : 0;
-		if ( ! $id || ! current_user_can( 'edit_post', $id ) || ! kjm_is_audio( get_post( $id ) ) || $bpm < 40 || $bpm > 220 ) {
+		$id = isset( $_POST['id'] ) ? (int) $_POST['id'] : 0;
+		if ( ! $id || ! current_user_can( 'edit_post', $id ) || ! kjm_is_audio( get_post( $id ) ) ) {
 			wp_send_json_error( null, 400 );
 		}
-		update_post_meta( $id, 'kjm_bpm', $bpm );
-		wp_send_json_success( array( 'bpm' => $bpm ) );
+		$out = array();
+		$bpm = isset( $_POST['bpm'] ) ? (int) $_POST['bpm'] : 0;
+		if ( $bpm >= 40 && $bpm <= 220 ) {
+			update_post_meta( $id, 'kjm_bpm', $bpm );
+			$out['bpm'] = $bpm;
+		}
+		$key = isset( $_POST['key'] ) ? kjm_key_clean( wp_unslash( $_POST['key'] ) ) : '';
+		if ( '' !== $key ) {
+			update_post_meta( $id, 'kjm_key', $key );
+			$out['key'] = $key;
+		}
+		delete_post_meta( $id, 'kjm_pending' );
+		wp_send_json_success( $out );
+	}
+);
+
+/* Neue Audio-Uploads vormerken; ein Browser mit offener Mediathek analysiert sie automatisch. */
+add_action(
+	'add_attachment',
+	function ( $id ) {
+		if ( kjm_is_audio( get_post( $id ) ) ) {
+			update_post_meta( $id, 'kjm_pending', '1' );
+		}
+	}
+);
+/* Einmalig nach dem Update: vorhandene Songs ohne Tonart zur automatischen Erkennung vormerken. */
+add_action(
+	'admin_init',
+	function () {
+		if ( '1' === get_option( 'kjm_key_mig' ) || ! current_user_can( 'upload_files' ) ) {
+			return;
+		}
+		$ids = get_posts(
+			array(
+				'post_type'      => 'attachment',
+				'post_mime_type' => 'audio',
+				'post_status'    => 'inherit',
+				'posts_per_page' => 300,
+				'fields'         => 'ids',
+				'no_found_rows'  => true,
+			)
+		);
+		foreach ( $ids as $id ) {
+			if ( '' === kjm_key( $id ) ) {
+				update_post_meta( $id, 'kjm_pending', '1' );
+			}
+		}
+		update_option( 'kjm_key_mig', '1', false );
+	}
+);
+add_action(
+	'wp_ajax_kjm_pending',
+	function () {
+		check_ajax_referer( 'kjm_bpm' );
+		if ( ! current_user_can( 'upload_files' ) ) {
+			wp_send_json_error( null, 403 );
+		}
+		$ids = get_posts(
+			array(
+				'post_type'      => 'attachment',
+				'post_mime_type' => 'audio',
+				'post_status'    => 'inherit',
+				'meta_key'       => 'kjm_pending', // phpcs:ignore
+				'meta_value'     => '1', // phpcs:ignore
+				'posts_per_page' => 5,
+				'fields'         => 'ids',
+				'no_found_rows'  => true,
+			)
+		);
+		$out = array();
+		foreach ( $ids as $id ) {
+			$out[] = array(
+				'id'    => (int) $id,
+				'url'   => wp_make_link_relative( (string) wp_get_attachment_url( $id ) ),
+				'titel' => get_the_title( $id ),
+			);
+		}
+		wp_send_json_success( $out );
+	}
+);
+add_action(
+	'admin_footer',
+	function () {
+		global $pagenow;
+		if ( ! current_user_can( 'upload_files' ) || ! in_array( $pagenow, array( 'upload.php', 'media-new.php', 'post.php', 'post-new.php' ), true ) ) {
+			return;
+		}
+		if ( 'upload.php' === $pagenow && isset( $_GET['page'] ) && 'kjm-plattenkiste' === $_GET['page'] ) { // phpcs:ignore
+			return; // Dort gibt es den Knopf „erkennen“.
+		}
+		echo '<script>' . file_get_contents( __DIR__ . '/assets/kjm-bpm.js' ) . file_get_contents( __DIR__ . '/assets/kjm-admin.js' ) . // phpcs:ignore
+			'(function(){var AJ=' . wp_json_encode( admin_url( 'admin-ajax.php', 'relative' ) ) . ',N=' . wp_json_encode( wp_create_nonce( 'kjm_bpm' ) ) . ',busy=false,box=null,tried={};
+function toast(t){if(!box){box=document.createElement("div");box.style.cssText="position:fixed;right:20px;bottom:20px;z-index:200000;background:#1d2327;color:#fff;padding:10px 14px;border-radius:4px;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.3)";document.body.appendChild(box)}box.textContent=t;box.style.display=t?"block":"none"}
+function check(){if(busy)return;busy=true;fetch(AJ+"?action=kjm_pending&_wpnonce="+encodeURIComponent(N),{credentials:"same-origin"}).then(function(r){return r.json()}).then(function(j){
+  var l=((j&&j.success&&j.data)||[]).filter(function(x){return !tried[x.id]});if(!l.length){busy=false;if(box)setTimeout(function(){toast("")},4000);return}
+  var i=0;(function next(){if(i>=l.length){busy=false;toast("Plattenkiste: BPM und Tonart erkannt ✓");setTimeout(check,500);return}var s=l[i++];tried[s.id]=1;toast("Plattenkiste: erkenne BPM und Tonart – "+s.titel+" …");
+   kjmAdmin.analyse(s.url).then(function(res){return kjmAdmin.save(AJ,N,s.id,res)}).catch(function(){return kjmAdmin.save(AJ,N,s.id,{})}).then(next,next)})()}).catch(function(){busy=false})}
+check();setInterval(check,15000);
+})();</script>';
 	}
 );
 
