@@ -381,12 +381,18 @@ function vote(n){var s=rateSong;if(!s||rated(s.id))return;setRated(s.id,n);[].fo
  function apply(avg,cnt){s.avg=avg;s.count=cnt;avgText();if(sleeves[S.indexOf(s)])sleeves[S.indexOf(s)].querySelector(".r").innerHTML=sleeveRating(s)}
  if(MODE==="live"){fetch(window.KJM_API+"/rate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:s.id,stars:n})}).then(function(r){return r.json()}).then(function(j){if(j&&j.count)apply(j.avg,j.count);else if(j&&j.data&&j.data.count){apply(j.data.avg,j.data.count);if(j.code==="kjm_voted")document.getElementById("kjmRateQ").textContent="Du hast diesen Song schon bewertet"}}).catch(function(){})}
  else apply(+(((s.avg*s.count)+n)/(s.count+1)).toFixed(1),s.count+1)}
-function applySrc(o){if(o.pendingSrc&&o.media){var u=o.pendingSrc;o.pendingSrc=null;o.media.preload="auto";o.media.src=u;try{o.media.currentTime=0}catch(e){}lg("Deck "+(o.side?"B":"A")+": Quelle geladen")}}
-function loadTo(o,i,play,lazy){audio();stopMedia(o);o.pendingSrc=null;if(o.idx!=null&&sleeves[o.idx])sleeves[o.idx].classList.remove("on");
+/* Nächsten Titel komplett in den Speicher laden und von dort abspielen: Safari puffert sonst nur wenig voraus und der Start des zweiten Songs stockt */
+function warm(o){var u=o.pendingSrc,m=o.media;if(!u||!m)return;o.pendingSrc=null;var tok=o.warmTok=(o.warmTok||0)+1,nm="Deck "+(o.side?"B":"A");lg(nm+": lade nächsten Titel vor …");
+ fetch(u,{credentials:"same-origin"}).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);if((+r.headers.get("Content-Length")||0)>60e6)throw new Error("zu groß");return r.blob()})
+ .then(function(b){if(tok!==o.warmTok||o.media!==m)return;var bu=URL.createObjectURL(b);if(o.blobUrl)try{URL.revokeObjectURL(o.blobUrl)}catch(e){}o.blobUrl=bu;m.preload="auto";m.src=bu;try{m.currentTime=0}catch(e){}lg(nm+": Titel vollständig geladen ("+Math.round(b.size/1024)+" KB)")})
+ .catch(function(e){if(tok!==o.warmTok||o.media!==m)return;lg(nm+": Vorladen nicht möglich ("+(e&&e.message||e)+") – normales Laden");m.preload="auto";m.src=u})}
+function applySrc(o){o.warmTok=(o.warmTok||0)+1;if(o.pendingSrc&&o.media){var u=o.pendingSrc;o.pendingSrc=null;o.media.preload="auto";o.media.src=u;try{o.media.currentTime=0}catch(e){}lg("Deck "+(o.side?"B":"A")+": Quelle geladen")}}
+function loadTo(o,i,play,lazy){audio();stopMedia(o);o.pendingSrc=null;o.warmTok=(o.warmTok||0)+1;var oldBlob=o.blobUrl;o.blobUrl=null;if(o.idx!=null&&sleeves[o.idx])sleeves[o.idx].classList.remove("on");
  var s=S[i];o.song=s;o.idx=i;o.demoPos=0;o.sync=false;syncLamp(o);setPitch(o,0,false);applyMix(o);if(sleeves[i])sleeves[i].classList.add("on");
  o.media=s.video?o.vEl:(s.audio?o.aEl:null);
  if(o.media){if(lazy)o.pendingSrc=s.video||s.audio;else{o.media.preload="auto";o.media.src=s.video||s.audio;o.media.currentTime=0}}
  vinyl(o,s,i);o.scrT.textContent="DECK "+(o.side?"B":"A")+" · "+s.titel.toUpperCase();o.scrS.textContent=s.info+(o.media?"":" · Demo");showBpm(o);setKey(o,s);updCompat();o.angle=0;
+ if(oldBlob)setTimeout(function(){try{URL.revokeObjectURL(oldBlob)}catch(e){}},1500);
  if(play){start(o);active=o}}
 function load(i){audio();if(ac.state==="suspended")ac.resume();
  for(var k=0;k<2;k++)if(decks[k].song===S[i]){toggle(decks[k]);return}
@@ -463,9 +469,10 @@ function amTick(){if(!AM.on)return;var m=decks[AM.main],o=decks[1-AM.main];if(!m
  if(!dur&&!ended)return;var rem=ended?0:(dur-pos)/Math.max(.2,m.rate);
  if(!nxt){if(ended||rem<.4)amStop("Automix beendet – die Playlist ist zu Ende.");else amUI(rem);return}
  var idle=!(o.target>0);if(idle&&o.song!==nxt)loadTo(o,S.indexOf(nxt),false,true);/* Titel sofort anzeigen, Datei folgt kurz nach dem Mix */
- if(o.pendingSrc&&idle&&performance.now()-AM.endT>4000)applySrc(o);
+ if(o.pendingSrc&&idle&&performance.now()-AM.endT>2500)warm(o);
  var T=Math.min(AM.len,Math.max(4,dur*.15));
- if(o.song===nxt&&idle&&(ended||rem<=T+.3))amBegin(ended?.1:T);else amUI(rem)}
+ var ready=!o.media||o.media.readyState>=3||rem<3;
+ if(o.song===nxt&&idle&&(ended||rem<=T+.3)&&(ready||ended))amBegin(ended?.1:T);else amUI(rem)}
 setInterval(amTick,100);
 amTog.addEventListener("click",function(){amBox.classList.toggle("open");amUI()});
 amGo.addEventListener("click",function(){if(Date.now()-resumedAt<800)return;/* dieser Tipp hat gerade einen blockierten Song freigegeben */if(AM.on)amManual();else amStart()});
