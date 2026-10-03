@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.12.1
+ * Version:     1.12.2
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.12.1' );
+define( 'KJO_VERSION', '1.12.2' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -21,6 +21,79 @@ define( 'KJO_VERSION', '1.12.1' );
 function kjm_is_audio( $post ) {
 	return $post && 'attachment' === $post->post_type && 0 === strpos( (string) $post->post_mime_type, 'audio/' );
 }
+
+/** Zwischenspeicher leeren (Elementor + gängige Cache-Plugins), damit neue Pult-Versionen sofort erscheinen. Liefert die Namen der geleerten Speicher. */
+function kjm_purge_caches() {
+	$done = array();
+	if ( class_exists( '\Elementor\Plugin' ) && isset( \Elementor\Plugin::$instance->files_manager ) ) {
+		\Elementor\Plugin::$instance->files_manager->clear_cache();
+		$done[] = 'Elementor';
+	}
+	delete_post_meta_by_key( '_elementor_element_cache' ); // Elementor „Element Caching“.
+	if ( function_exists( 'rocket_clean_domain' ) ) {
+		rocket_clean_domain();
+		$done[] = 'WP Rocket';
+	}
+	if ( function_exists( 'w3tc_flush_all' ) ) {
+		w3tc_flush_all();
+		$done[] = 'W3 Total Cache';
+	}
+	if ( function_exists( 'wp_cache_clear_cache' ) ) {
+		wp_cache_clear_cache();
+		$done[] = 'WP Super Cache';
+	}
+	if ( function_exists( 'sg_cachepress_purge_cache' ) ) {
+		sg_cachepress_purge_cache();
+		$done[] = 'SG Optimizer';
+	}
+	if ( class_exists( 'autoptimizeCache' ) && method_exists( 'autoptimizeCache', 'clearall' ) ) {
+		autoptimizeCache::clearall();
+		$done[] = 'Autoptimize';
+	}
+	if ( has_action( 'litespeed_purge_all' ) ) {
+		do_action( 'litespeed_purge_all' );
+		$done[] = 'LiteSpeed';
+	}
+	return $done;
+}
+/* Automatisches Leeren direkt nach dem SFTP-Deploy: Der Deploy legt eine Einmal-Datei mit zufälligem Token ab und ruft diese Adresse auf. */
+add_action(
+	'rest_api_init',
+	function () {
+		register_rest_route(
+			'kjm/v1',
+			'/purge',
+			array(
+				'methods'             => 'POST',
+				'permission_callback' => '__return_true',
+				'callback'            => function ( WP_REST_Request $req ) {
+					$file = __DIR__ . '/.purge-token';
+					$sent = (string) $req->get_header( 'x-kjm-token' );
+					if ( '' === $sent || ! is_readable( $file ) || ( time() - (int) filemtime( $file ) ) > 900 ) {
+						return new WP_Error( 'kjm_purge', 'Nicht erlaubt.', array( 'status' => 403 ) );
+					}
+					$want = trim( (string) file_get_contents( $file ) ); // phpcs:ignore
+					@unlink( $file ); // phpcs:ignore -- Token gilt nur einmal.
+					if ( '' === $want || ! hash_equals( $want, $sent ) ) {
+						return new WP_Error( 'kjm_purge', 'Nicht erlaubt.', array( 'status' => 403 ) );
+					}
+					update_option( 'kjm_cache_ver', KJO_VERSION, false );
+					return rest_ensure_response( array( 'ok' => true, 'geleert' => kjm_purge_caches(), 'version' => KJO_VERSION ) );
+				},
+			)
+		);
+	}
+);
+/* Nach jedem Update (auch per SFTP-Deploy) einmalig leeren, sobald jemand das Dashboard öffnet. */
+add_action(
+	'admin_init',
+	function () {
+		if ( KJO_VERSION !== get_option( 'kjm_cache_ver' ) && current_user_can( 'manage_options' ) ) {
+			update_option( 'kjm_cache_ver', KJO_VERSION, false );
+			kjm_purge_caches();
+		}
+	}
+);
 
 /** Tonart im Camelot-Format (1A–12B) oder ''. Akzeptiert z. B. „8a“ oder „08A“. */
 function kjm_key_clean( $v ) {
@@ -354,8 +427,13 @@ function kjm_admin_page() {
 		)
 	);
 	echo '<div class="wrap"><h1>Plattenkiste</h1>';
+	if ( isset( $_GET['kjm_purge'] ) && current_user_can( 'manage_options' ) && wp_verify_nonce( isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '', 'kjm_purge' ) ) { // phpcs:ignore
+		$d = kjm_purge_caches();
+		echo '<div class="notice notice-success inline"><p>Zwischenspeicher geleert' . ( $d ? ': ' . esc_html( implode( ', ', $d ) ) : '' ) . '. Falls die Seite noch alt aussieht, zusätzlich den Cache deines Hosters leeren und die Seite neu laden.</p></div>';
+	}
 	echo '<p>So kommt ein Song ins DJ-Pult: MP3 unter <strong>Medien → Datei hinzufügen</strong> hochladen, Titel prüfen und ein <strong>Genre</strong> eintragen. Ein Video erscheint automatisch, wenn eine MP4 mit gleichem Dateinamen in der Mediathek liegt.</p>';
 	kjo_update_box();
+	echo '<p><a class="button" href="' . esc_url( wp_nonce_url( admin_url( 'upload.php?page=kjm-plattenkiste&kjm_purge=1' ), 'kjm_purge' ) ) . '">Zwischenspeicher leeren</a> <span class="description">Wenn nach einem Update auf der Seite noch die alte Version erscheint.</span></p>';
 	$n = kjm_protect_sync();
 	if ( false === $n ) {
 		echo '<div class="notice notice-warning inline"><p><strong>Download-Schutz nur teilweise aktiv:</strong> Die Adressen der Songs sind versteckt, aber die Sperrdatei <code>wp-content/uploads/.htaccess</code> konnte nicht geschrieben werden.</p></div>';
@@ -1307,10 +1385,21 @@ function musikHero(){
 }
 /* „Meine Musik“: schwarze Lücke zwischen Einleitungstext und DJ-Pult entfernen */
 function musikGap(){
-  var k=document.getElementById("kjm"); if(!k||!document.querySelector(".elementor"))return;
-  var t=k.closest?k.closest(".e-con.e-parent"):null; if(!t)return;
-  var h=t.previousElementSibling; if(!h||!h.querySelector||!h.querySelector("h1"))return;
-  t.style.setProperty("padding-top","0","important"); h.style.setProperty("padding-bottom","0","important");
+  var k=document.getElementById("kjm"),hint=document.getElementById("kjmHint"); if(!k||!hint)return;
+  var r=k.closest("[data-elementor-type]")||k.closest(".elementor"); if(!r)return;
+  function top(el){while(el&&el.parentNode&&el.parentNode!==r)el=el.parentNode;return el&&el.parentNode===r?el:null}
+  var t=top(k),h1=r.querySelector("h1"),h=h1?top(h1):null; if(!t||!h||t===h)return;
+  /* Rest-Abstand (Polster, Lücken, Abstandhalter, versteckte Buttons) messen und per Rand ausgleichen – unabhängig vom Seitenaufbau */
+  function fit(){
+    t.style.setProperty("margin-top","0","important"); t.style.setProperty("padding-top","0","important"); h.style.setProperty("padding-bottom","0","important");
+    var last=null,w=h.querySelectorAll(".elementor-widget,h1,p"),i,b;
+    for(i=0;i<w.length;i++){if((w[i].textContent||"").trim()==="")continue; b=w[i].getBoundingClientRect(); if(b.height>0&&b.width>0&&(!last||b.bottom>last))last=b.bottom;}
+    if(last===null)return;
+    var gap=hint.getBoundingClientRect().top-last, want=window.innerWidth<=600?20:28;
+    if(gap>want)t.style.setProperty("margin-top",(-(gap-want))+"px","important");
+  }
+  fit(); window.addEventListener("load",fit); window.addEventListener("resize",fit); setTimeout(fit,800); setTimeout(fit,2500);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
 }
 function foot(){
   if(!C.cookie||document.querySelector(".kjo-cookie-link"))return;

@@ -11,6 +11,9 @@ Einmalig im Repo unter *Settings → Secrets and variables → Actions*:
 
 Medien liegen dann in `wp-content/uploads/…` im Repo (nur Dateien, die öffentlich sein dürfen; große Videos besser per Git LFS).
 
+## 2b. Zwischenspeicher nach dem Deploy
+Der Deploy legt nach dem Hochladen eine Einmal-Token-Datei ab und ruft `/wp-json/kjm/v1/purge` auf. Das Plugin leert damit Elementor (wie „CSS & Daten neu generieren“) und gängige Cache-Plugins. Zusätzlich: Medien → Plattenkiste → „Zwischenspeicher leeren“. Kontrolle, ob alle Dateien ankamen: Actions → „Server-Check (Plugin-Dateien)“.
+
 ## 3. Elementor-Seiten
 `python3 site/export.py` erzeugt Import-Dateien in `site/out/` (WordPress → Werkzeuge → Daten importieren).
 
