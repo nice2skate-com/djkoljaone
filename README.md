@@ -9,7 +9,8 @@ Quellcode, Plugin und Medien der Website.
 | `site/` | Generator der 20 Elementor-Seiten (aus Repo-Root starten: `python3 site/export.py`) |
 | `release/make_release.sh` | baut ZIP + `plattenkiste.json` |
 | `wp-content/` | (optional) Mediathek/Theme/weitere Plugins, siehe `docs/WORDPRESS-SYNC.md` |
-| `docs/` | Anleitungen |
+| `docs/` | Anleitungen, `MEDIEN.md` (Medienliste) |
+| `tools/` | Hilfsskripte (Medienliste) |
 
 Plugin-Updates: `plattenkiste.json` + ZIP im Root von `main` → WordPress aktualisiert automatisch.
 Deployment/Backup/Secrets: `docs/WORDPRESS-SYNC.md`.
