@@ -1,9 +1,9 @@
 {
- "version": "1.16.2",
- "download_url": "dj-kolja-one-plattenkiste-1.16.2.zip",
- "sha256": "3cced999fa94f8ae42cc00f9fa126944e117627c028efa09b1c8894418f440d8",
+ "version": "1.16.3",
+ "download_url": "dj-kolja-one-plattenkiste-1.16.3.zip",
+ "sha256": "0dbefb62c5f5008652e477598b925e7779089c123e22a55752f631246583edec",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Meine Musik: große Wellenformen über die volle Mixerbreite, deutlicheres Beatgrid, ruhigeres Abspielen (Titel komplett im Speicher)."
+ "changelog": "Meine Musik: Meldung zur Decksperre auch im BROWSE-Dialog."
 }

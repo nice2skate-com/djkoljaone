@@ -114,6 +114,7 @@ window.KJM_DEMO = [
 #kjm #kjmWv{position:absolute;left:37.5%;top:2.667%;width:25%;height:33%;touch-action:none;cursor:pointer;display:block;border-radius:4px}
 #kjm .toast{position:absolute;left:50%;top:25%;transform:translateX(-50%);width:min(90%,420px);box-sizing:border-box;padding:9px 14px;border:1px solid #D9695F;border-radius:4px;background:rgba(15,12,7,.96);color:var(--off);font-size:12px;letter-spacing:.4px;line-height:1.35;text-align:center;opacity:0;pointer-events:none;transition:opacity .25s;z-index:6}
 #kjm .toast.on{opacity:1}
+.kjmbt{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);width:min(92%,440px);box-sizing:border-box;padding:11px 16px;border:1px solid #D9695F;border-radius:4px;background:#1a1712;color:#F3F1E9;font:13px/1.35 "Fira Sans",sans-serif;text-align:center;opacity:0;pointer-events:none;transition:opacity .25s;z-index:100000}.kjmbt.on{opacity:1}
 #kjm .sl .cv{aspect-ratio:1/1.16}
 #kjm .sl .ab{position:relative;z-index:3;display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
 #kjm .sl .pl,#kjm .sl .qa{min-width:32px;height:32px;border-radius:16px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(15,12,7,.85);font-size:12px;font-weight:500;line-height:1;transition:.15s}
@@ -388,7 +389,8 @@ var AM={on:false,man:false,q:[],qi:-1,main:0,trans:null,len:16,loFx:false,endT:0
 var IPLAY='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>',ILADD='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h12v2H3zM3 11h12v2H3zM3 16h8v2H3zM18 11v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>',ICHK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 16.2 5.3 12l-1.4 1.4 5.6 5.6L21 7.5l-1.4-1.4z"/></svg>';
 /* Laden ohne Start; ein laufendes Deck ist gesperrt (Decksperre) */
 var toastEl=document.getElementById("kjmToast"),toastT=0;
-function toast(t){toastEl.textContent=t;toastEl.classList.add("on");clearTimeout(toastT);toastT=setTimeout(function(){toastEl.classList.remove("on")},4500)}
+function toast(t){var el=toastEl;if(typeof bwEl!=="undefined"&&bwEl&&bwEl.classList.contains("on")){el=bwEl.__t;if(!el){el=bwEl.__t=document.createElement("div");el.className="kjmbt";el.setAttribute("role","status");bwEl.appendChild(el)}}
+ el.textContent=t;el.classList.add("on");clearTimeout(toastT);toastT=setTimeout(function(){el.classList.remove("on")},4500)}
 function busyDeck(o){return!!(o.song&&o.target>0)}
 function flashDeck(o){o.scrT.setAttribute("fill","#D9695F");setTimeout(function(){o.scrT.setAttribute("fill","#B29D75")},1500)}
 function lockMsg(o){toast("Deck "+(o.side?"B":"A")+" läuft noch – erst anhalten (Pause), dann einen neuen Titel laden (Decksperre).");flashDeck(o)}
