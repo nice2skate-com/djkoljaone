@@ -1,9 +1,9 @@
 {
- "version": "1.17.4",
- "download_url": "dj-kolja-one-plattenkiste-1.17.4.zip",
- "sha256": "9b7cb89ae3e29350830e4b3e648301c19a173ae614c7ee4c569fc667915a669f",
+ "version": "1.17.5",
+ "download_url": "dj-kolja-one-plattenkiste-1.17.5.zip",
+ "sha256": "b9fad3511f6866e1e4286b49cd69bcdc0b3fa0735f91c0962c9943a37a22d195",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Meine Musik: ruhigerer Start der Titel (kein schrittweises Hochfahren der Abspielgeschwindigkeit)."
+ "changelog": "Meine Musik: KEY und SYNC sind anfangs aus."
 }
