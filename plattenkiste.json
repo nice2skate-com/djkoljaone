@@ -1,9 +1,9 @@
 {
- "version": "1.13.7",
- "download_url": "dj-kolja-one-plattenkiste-1.13.7.zip",
- "sha256": "acf2b85c4d4dc7d2b9bc4e963a909856b2e3a06b61302ea1dd3311dc1702a5ff",
+ "version": "1.14.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.14.0.zip",
+ "sha256": "07b4e436b06648f179eefa117915393ae1a91a2268fa5fd98550519a568ab1d0",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<p>iPhone: Song wird komplett vorgeladen, wenn das Streaming hängt; erweitertes Diagnose-Protokoll.</p>"
+ "changelog": "<p>Plattenkiste: getrennte Knöpfe fürs Auflegen (▶) und den Automix (☰+), Hinweiszeile.</p>"
 }
