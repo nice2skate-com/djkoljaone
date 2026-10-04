@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.16.3
+ * Version:     1.17.2
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.16.3' );
+define( 'KJO_VERSION', '1.17.2' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -498,6 +498,14 @@ function kjm_rest_songs() {
 	usort(
 		$out,
 		function ( $a, $b ) {
+			$ra = kjm_genre_rank( $a['genre'] );
+			$rb = kjm_genre_rank( $b['genre'] );
+			if ( $ra !== $rb ) {
+				return $ra < $rb ? -1 : 1;
+			}
+			if ( $ra >= 1000 && strcasecmp( $a['genre'], $b['genre'] ) ) {
+				return strcasecmp( $a['genre'], $b['genre'] );
+			}
 			return $a['_o'] === $b['_o'] ? 0 : ( $a['_o'] < $b['_o'] ? -1 : 1 );
 		}
 	);
@@ -507,6 +515,70 @@ function kjm_rest_songs() {
 	$res = rest_ensure_response( $out );
 	$res->header( 'Cache-Control', 'no-store' );
 	return $res;
+}
+
+/* Reihenfolge der Genres im Pult (Option kjm_genre_order); unbekannte Genres folgen alphabetisch. */
+function kjm_genre_rank( $genre ) {
+	static $go = null;
+	if ( null === $go ) {
+		$go = get_option( 'kjm_genre_order', array() );
+		$go = is_array( $go ) ? array_values( $go ) : array();
+	}
+	$i = array_search( $genre, $go, true );
+	return false === $i ? 1000 : (int) $i;
+}
+
+/* Admin: Genres und Songs pro Genre in der Reihenfolge des Pults sortieren (▲▼, wird sofort gespeichert). */
+function kjm_order_box( $posts ) {
+	$groups = array();
+	foreach ( $posts as $p ) {
+		if ( ! kjm_visible( $p->ID ) ) {
+			continue;
+		}
+		$groups[ kjm_genre( $p->ID ) ][] = $p;
+	}
+	if ( ! $groups ) {
+		return;
+	}
+	uksort(
+		$groups,
+		function ( $a, $b ) {
+			$ra = kjm_genre_rank( $a );
+			$rb = kjm_genre_rank( $b );
+			return $ra !== $rb ? ( $ra < $rb ? -1 : 1 ) : strcasecmp( $a, $b );
+		}
+	);
+	foreach ( $groups as &$l ) {
+		usort(
+			$l,
+			function ( $a, $b ) {
+				$oa = get_post_meta( $a->ID, 'kjm_order', true );
+				$ob = get_post_meta( $b->ID, 'kjm_order', true );
+				$oa = '' === $oa ? PHP_INT_MAX : (int) $oa;
+				$ob = '' === $ob ? PHP_INT_MAX : (int) $ob;
+				return $oa === $ob ? 0 : ( $oa < $ob ? -1 : 1 );
+			}
+		);
+	}
+	unset( $l );
+	echo '<h2>Reihenfolge im Pult</h2><p class="description">Mit ▲ ▼ verschiebst du Genres und die Songs innerhalb eines Genres. Die Änderung wird sofort gespeichert und gilt im Pult und in der Plattenkiste. <span id="kjm-ord-msg"></span></p>';
+	echo '<div id="kjm-ord" style="max-width:640px">';
+	foreach ( $groups as $g => $l ) {
+		echo '<div class="kjm-og" data-g="' . esc_attr( $g ) . '" style="border:1px solid #c3c4c7;background:#fff;margin:0 0 10px;padding:6px 10px"><div style="display:flex;gap:6px;align-items:center;font-weight:600;padding:4px 0"><span style="flex:1">' . esc_html( $g ?: '–' ) . '</span><button type="button" class="button button-small kjm-az" title="Songs A–Z">A–Z</button><button type="button" class="button button-small kjm-up" title="Genre nach oben">▲</button><button type="button" class="button button-small kjm-dn" title="Genre nach unten">▼</button></div><ul style="margin:0">';
+		foreach ( $l as $p ) {
+			echo '<li class="kjm-ot" data-id="' . (int) $p->ID . '" style="display:flex;gap:6px;align-items:center;margin:0;padding:3px 0;border-top:1px solid #eee"><span style="flex:1">' . esc_html( $p->post_title ) . '</span><button type="button" class="button button-small kjm-up" title="nach oben">▲</button><button type="button" class="button button-small kjm-dn" title="nach unten">▼</button></li>';
+		}
+		echo '</ul></div>';
+	}
+	echo '</div>';
+	echo '<script>(function(){var box=document.getElementById("kjm-ord"),msg=document.getElementById("kjm-ord-msg"),AJ=' . wp_json_encode( admin_url( 'admin-ajax.php', 'relative' ) ) . ',N=' . wp_json_encode( wp_create_nonce( 'kjm_bpm' ) ) . ';
+function save(){var G=[],T={};[].forEach.call(box.querySelectorAll(".kjm-og"),function(g){var n=g.getAttribute("data-g");G.push(n);T[n]=[].map.call(g.querySelectorAll(".kjm-ot"),function(t){return +t.getAttribute("data-id")})});
+ var f=new FormData();f.append("action","kjm_save_order");f.append("_ajax_nonce",N);f.append("genres",JSON.stringify(G));f.append("tracks",JSON.stringify(T));msg.textContent="speichere …";
+ fetch(AJ,{method:"POST",body:f,credentials:"same-origin"}).then(function(r){return r.json()}).then(function(j){msg.textContent=j&&j.success?"gespeichert ✓":"Fehler beim Speichern"}).catch(function(){msg.textContent="Fehler beim Speichern"})}
+function mv(el,d){var o=d<0?el.previousElementSibling:el.nextElementSibling;if(!o)return false;if(d<0)el.parentNode.insertBefore(el,o);else el.parentNode.insertBefore(o,el);return true}
+box.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var t=b.closest(".kjm-ot"),g=b.closest(".kjm-og");
+ if(b.classList.contains("kjm-az")){var ul=g.querySelector("ul"),a=[].slice.call(ul.children);a.sort(function(x,y){return x.textContent.localeCompare(y.textContent,"de")});a.forEach(function(x){ul.appendChild(x)});save();return}
+ var up=b.classList.contains("kjm-up");if(mv(t||g,up?-1:1))save()})})();</script>';
 }
 
 function kjm_rest_rate( WP_REST_Request $req ) {
@@ -588,6 +660,7 @@ function kjm_admin_page() {
 		echo '<div class="notice notice-success inline"><p><strong>Download-Schutz aktiv:</strong> ' . (int) $n . ' Datei(en) sind für den direkten Aufruf gesperrt. Das Pult spielt sie über zeitlich begrenzte Links ab.</p></div>';
 	}
 	echo '<p>Die Songs laufen im Pult in der Qualität, in der du sie hochlädst. Der direkte Download der Dateien ist gesperrt.</p>';
+	kjm_order_box( $posts );
 	echo '<table class="widefat striped"><thead><tr><th>Titel</th><th>Genre</th><th>BPM</th><th>Tonart</th><th>Qualität</th><th>Video</th><th>Bewertung</th><th>Im Pult</th><th></th></tr></thead><tbody>';
 	if ( ! $posts ) {
 		echo '<tr><td colspan="9">Noch keine MP3s in der Mediathek.</td></tr>';
@@ -615,6 +688,32 @@ document.getElementById("kjm-bpm-all").addEventListener("click",function(){var l
  (function next(){if(i>=l.length){all.disabled=false;msg.textContent="Fertig: "+(l.length-bad)+" erkannt"+(bad?", "+bad+" ohne klares Ergebnis (bitte von Hand eintragen).":".");return}msg.textContent="Song "+(i+1)+" von "+l.length+" …";run(l[i++]).then(function(ok){if(!ok)bad++;next()})})()});
 })();</script>';
 }
+
+/* Speichert die Reihenfolge der Genres und der Songs pro Genre. */
+add_action(
+	'wp_ajax_kjm_save_order',
+	function () {
+		check_ajax_referer( 'kjm_bpm' );
+		if ( ! current_user_can( 'upload_files' ) ) {
+			wp_send_json_error( null, 403 );
+		}
+		$g = json_decode( (string) wp_unslash( $_POST['genres'] ?? '' ), true ); // phpcs:ignore
+		$t = json_decode( (string) wp_unslash( $_POST['tracks'] ?? '' ), true ); // phpcs:ignore
+		if ( ! is_array( $g ) || ! is_array( $t ) ) {
+			wp_send_json_error( null, 400 );
+		}
+		update_option( 'kjm_genre_order', array_values( array_map( 'sanitize_text_field', $g ) ), false );
+		foreach ( $t as $ids ) {
+			foreach ( (array) $ids as $pos => $id ) {
+				$id = (int) $id;
+				if ( $id && current_user_can( 'edit_post', $id ) && kjm_is_audio( get_post( $id ) ) ) {
+					update_post_meta( $id, 'kjm_order', (int) $pos + 1 );
+				}
+			}
+		}
+		wp_send_json_success();
+	}
+);
 
 /* Speichert BPM und/oder Tonart (vom Browser erkannt). Ohne Werte (fail=1): nur „offen“-Markierung löschen. */
 add_action(

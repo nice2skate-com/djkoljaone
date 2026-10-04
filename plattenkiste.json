@@ -1,9 +1,9 @@
 {
- "version": "1.16.3",
- "download_url": "dj-kolja-one-plattenkiste-1.16.3.zip",
- "sha256": "0dbefb62c5f5008652e477598b925e7779089c123e22a55752f631246583edec",
+ "version": "1.17.2",
+ "download_url": "dj-kolja-one-plattenkiste-1.17.2.zip",
+ "sha256": "4be39b1dbc673101af5c6218b8c9ee9686b900cd670a1ae033c10b6fce75c461",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Meine Musik: Meldung zur Decksperre auch im BROWSE-Dialog."
+ "changelog": "Meine Musik: aktuelle Abspielstelle als rote Linie in den Wellenformen."
 }
