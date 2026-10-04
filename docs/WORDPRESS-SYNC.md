@@ -26,3 +26,6 @@ Datenbank, Mediathek-Gesamtbestand, Theme, Premium-Plugins und `wp-config.php` g
 
 ## 4. Video-Galerie auf den Leistungsseiten
 Die fertigen Elementor-Seiten (Hochzeit, Geburtstag, Firmenfeier, Event) liegen im Plugin unter `seiten/<slug>.json` und werden mit dem Deploy hochgeladen. Eingespielt werden sie per Knopf: WordPress → Medien → Plattenkiste → „Leistungsseiten aus Vorlage einspielen“ (der alte Inhalt wird gesichert; „Letzten Stand wiederherstellen“ holt ihn zurück). Die Videos liegen in der Mediathek als `event_<key>_1.mp4` … `_4.mp4` mit `<key>` = `hochzeit`, `geburtstag`, `firmenfeier`, `events`; fehlende blenden sich aus. Nach Änderungen an `site/`: `python3 site/export.py`.
+
+### Medien für die Galerie
+Bis zu 8 Plätze je Leistungsseite: `event_<seite>_1` … `event_<seite>_8` (`<seite>` = hochzeit, geburtstag, firmenfeier, events), jeweils als Video (`.mp4`) oder Bild (`.jpg/.webp/.png`); angezeigt wird nur, was in der Mediathek liegt. Das Bild neben dem Text heißt `event_<seite>_text`. Handyvideos vorbereiten (stumm, komprimiert, richtig benannt): `sh tools/video-vorbereiten.sh events clip1.mov clip2.mov …` (benötigt `brew install ffmpeg`).

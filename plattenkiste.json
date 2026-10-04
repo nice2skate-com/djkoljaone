@@ -1,9 +1,9 @@
 {
- "version": "1.13.0",
- "download_url": "dj-kolja-one-plattenkiste-1.13.0.zip",
- "sha256": "fa475928035bc34c91694f67d3244a486151a64b6f1861d0799451c3a849ac90",
+ "version": "1.13.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.13.1.zip",
+ "sha256": "e779021f305a12038aee80fb24b014c1560b73393a66630ae89189210417fb66",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<p>Leistungsseiten mit Video-Galerie; Einspielen per Knopf unter Medien → Plattenkiste.</p>"
+ "changelog": "<p>Galerie: bis zu 8 Plätze, Bild oder Video, Hinweis „Ohne Ton aus GEMA-Gründen“; Bilder-Reihe entfernt.</p>"
 }
