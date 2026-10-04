@@ -23,7 +23,7 @@ for i,(title,slug,fn) in enumerate(PAGES):
 <wp:post_password>{cdata("")}</wp:post_password><wp:is_sticky>0</wp:is_sticky>{metas}</item>""")
 zf.close()
 # Seiten, die das Plugin per Knopf einspielt (kjo_seiten_sync)
-AUTO=("hochzeits-dj","geburtstags-dj","firmenfeier-dj","event-dj")
+AUTO=("hochzeits-dj","geburtstags-dj","firmenfeier-dj","event-dj","ueber-mich","einsatzgebiete","dj-memmingen","dj-ulm","dj-biberach","dj-ravensburg","dj-kempten","dj-fuessen","dj-kaufbeuren","dj-landsberg")
 sd="./plugin/dj-kolja-one-plattenkiste/seiten"; os.makedirs(sd,exist_ok=True)
 for title,slug,fn in PAGES:
     if slug in AUTO: open(f"{sd}/{slug}.json","w",encoding="utf-8").write(json.dumps(fn(),ensure_ascii=False,separators=(",",":")))

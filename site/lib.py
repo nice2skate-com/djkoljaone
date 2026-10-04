@@ -142,8 +142,11 @@ def stats_quiet(stats=STATS):
     k=lambda a,b: con([H(a,"p",22,GOLD,"center","300",m=18),T(b,MUTED,"center",13)],g=2,**col(23,48,48))
     return con([k(a,b) for a,b in stats],"row",g=16,flex_justify_content="center",flex_wrap="wrap",flex_direction_mobile="row",width=px(100,"%"),max_width=px(900))
 
-def VIDEOS(key):
-    h=open("./site/snippets/videos.html").read().replace("__KEY__",key)
+def QUIET(stats=None):
+    return con([stats_quiet(stats or STATS)],"column",bg=B1,pad=box(8,20,56,20),inner=False,flex_align_items="center",padding_mobile=box(0,20,40,20))
+
+def VIDEOS(*keys):
+    h=open("./site/snippets/videos.html").read().replace("__KEY__",",".join(keys))
     return W("html",{"html":h,"_element_width":"inherit","width":px(100,"%")})
 
 def hero(eye,h1,sub,buttons,stats=STATS,minh=100,extra=None):

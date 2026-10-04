@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.13.2
+ * Version:     1.13.3
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.13.2' );
+define( 'KJO_VERSION', '1.13.3' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -498,7 +498,7 @@ function kjm_admin_page() {
 	kjo_update_box();
 	echo '<p><a class="button" href="' . esc_url( wp_nonce_url( admin_url( 'upload.php?page=kjm-plattenkiste&kjm_purge=1' ), 'kjm_purge' ) ) . '">Zwischenspeicher leeren</a> <span class="description">Wenn nach einem Update auf der Seite noch die alte Version erscheint.</span></p>';
 	if ( glob( __DIR__ . '/seiten/*.json' ) ) {
-		echo '<p><a class="button" onclick="return confirm(\'Die Seiten Hochzeit, Geburtstag, Firmenfeier und Event werden durch die neue Fassung ersetzt (mit Video-Galerie). Der alte Inhalt wird gesichert. Fortfahren?\')" href="' . esc_url( wp_nonce_url( admin_url( 'upload.php?page=kjm-plattenkiste&kjo_seiten=1' ), 'kjo_seiten' ) ) . '">Leistungsseiten aus Vorlage einspielen</a> <a class="button" href="' . esc_url( wp_nonce_url( admin_url( 'upload.php?page=kjm-plattenkiste&kjo_seiten_back=1' ), 'kjo_seiten_back' ) ) . '">Letzten Stand wiederherstellen</a> <span class="description">Die vier Leistungsseiten mit Video-Galerie; der vorherige Inhalt wird gesichert.</span></p>';
+		echo '<p><a class="button" onclick="return confirm(\'Die Leistungs-, Orts-, Über-mich- und Einsatzgebiete-Seiten werden durch die neue Fassung ersetzt (mit Galerie). Der alte Inhalt wird gesichert. Fortfahren?\')" href="' . esc_url( wp_nonce_url( admin_url( 'upload.php?page=kjm-plattenkiste&kjo_seiten=1' ), 'kjo_seiten' ) ) . '">Seiten aus Vorlage einspielen</a> <a class="button" href="' . esc_url( wp_nonce_url( admin_url( 'upload.php?page=kjm-plattenkiste&kjo_seiten_back=1' ), 'kjo_seiten_back' ) ) . '">Letzten Stand wiederherstellen</a> <span class="description">Leistungs-, Orts- und weitere Seiten mit Galerie; der vorherige Inhalt wird gesichert.</span></p>';
 	}
 	$n = kjm_protect_sync();
 	if ( false === $n ) {
