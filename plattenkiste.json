@@ -1,9 +1,9 @@
 {
- "version": "1.13.6",
- "download_url": "dj-kolja-one-plattenkiste-1.13.6.zip",
- "sha256": "04fb398941e496abc837a6a63cdc473c856f18824f5da54d2db9a0f377fa3025",
+ "version": "1.13.7",
+ "download_url": "dj-kolja-one-plattenkiste-1.13.7.zip",
+ "sha256": "acf2b85c4d4dc7d2b9bc4e963a909856b2e3a06b61302ea1dd3311dc1702a5ff",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<p>Meine Musik am Handy: Laptop wird oben nicht mehr abgeschnitten.</p>"
+ "changelog": "<p>iPhone: Song wird komplett vorgeladen, wenn das Streaming hängt; erweitertes Diagnose-Protokoll.</p>"
 }

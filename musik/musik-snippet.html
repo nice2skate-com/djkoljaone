@@ -242,7 +242,7 @@ var decks=[];
 function deck(cx,side){
  var g=E("g",{},svg),o={cx:cx,cy:285,g:g,side:side,angle:0,speed:0,target:0,song:null,aEl:new Audio(),vEl:document.getElementById("kjmV"+side),media:null,synthT:0,next:0,beat:0,demoPos:0,mix:MIX[side]};
  o.aEl.preload="none";[o.aEl,o.vEl].forEach(function(m){m.preservesPitch=false;m.mozPreservesPitch=false;m.webkitPreservesPitch=false;m.addEventListener("ended",function(){o.target=0;o.speed=0});
-  ["play","pause","ended","waiting","stalled","error","emptied","abort"].forEach(function(ev){m.addEventListener(ev,function(){lg("Deck "+(side?"B":"A")+(m===o.vEl?" Video ":" Audio ")+ev+" t="+(m.currentTime||0).toFixed(1)+" Tempo="+m.playbackRate.toFixed(3)+(ev==="error"&&m.error?" Code="+m.error.code:""))})})});
+  ["play","playing","pause","ended","waiting","stalled","suspend","loadedmetadata","canplay","error","emptied","abort"].forEach(function(ev){m.addEventListener(ev,function(){lg("Deck "+(side?"B":"A")+(m===o.vEl?" Video ":" Audio ")+ev+" t="+(m.currentTime||0).toFixed(1)+" Tempo="+m.playbackRate.toFixed(3)+" rs="+m.readyState+" ns="+m.networkState+(ev==="error"&&m.error?" Code="+m.error.code:""))})})});
  E("rect",{x:cx-195,y:28,width:390,height:46,rx:4,fill:"#050403",stroke:"#2d281f"},g);
  var tcp=E("clipPath",{id:"kjmt"+side},defs);E("rect",{x:cx-185,y:30,width:250,height:40},tcp);
  o.scrT=T(cx-180,47,"DECK "+(side?"B":"A")+" · LEER",{"font-size":12,"letter-spacing":2,fill:"#B29D75","clip-path":"url(#kjmt"+side+")"},g);
@@ -387,7 +387,7 @@ function warm(o){var u=o.pendingSrc,m=o.media;if(!u||!m)return;o.pendingSrc=null
  .then(function(b){if(tok!==o.warmTok||o.media!==m)return;var bu=URL.createObjectURL(b);if(o.blobUrl)try{URL.revokeObjectURL(o.blobUrl)}catch(e){}o.blobUrl=bu;m.preload="auto";m.src=bu;try{m.currentTime=0}catch(e){}lg(nm+": Titel vollständig geladen ("+Math.round(b.size/1024)+" KB)")})
  .catch(function(e){if(tok!==o.warmTok||o.media!==m)return;lg(nm+": Vorladen nicht möglich ("+(e&&e.message||e)+") – normales Laden");m.preload="auto";m.src=u})}
 function applySrc(o){o.warmTok=(o.warmTok||0)+1;if(o.pendingSrc&&o.media){var u=o.pendingSrc;o.pendingSrc=null;o.media.preload="auto";o.media.src=u;try{o.media.currentTime=0}catch(e){}lg("Deck "+(o.side?"B":"A")+": Quelle geladen")}}
-function loadTo(o,i,play,lazy){audio();stopMedia(o);o.pendingSrc=null;o.warmTok=(o.warmTok||0)+1;var oldBlob=o.blobUrl;o.blobUrl=null;if(o.idx!=null&&sleeves[o.idx])sleeves[o.idx].classList.remove("on");
+function loadTo(o,i,play,lazy){audio();stopMedia(o);o.pendingSrc=null;o.rescued=null;o.warmTok=(o.warmTok||0)+1;var oldBlob=o.blobUrl;o.blobUrl=null;if(o.idx!=null&&sleeves[o.idx])sleeves[o.idx].classList.remove("on");
  var s=S[i];o.song=s;o.idx=i;o.demoPos=0;o.sync=false;syncLamp(o);setPitch(o,0,false);applyMix(o);if(sleeves[i])sleeves[i].classList.add("on");
  o.media=s.video?o.vEl:(s.audio?o.aEl:null);
  if(o.media){if(lazy)o.pendingSrc=s.video||s.audio;else{o.media.preload="auto";o.media.src=s.video||s.audio;o.media.currentTime=0}}
@@ -401,7 +401,13 @@ function load(i){audio();if(ac.state==="suspended")ac.resume();
 function setKey(o,s){o.kbG.style.display="";var k0=s&&s.key,k=dk(o),c=k?camCol(k):"#6f685c";o.kbR.setAttribute("stroke",c);o.kbR.setAttribute("fill",k?"#0F0C07":"none");o.kbT.textContent=k||"--";o.kbT.setAttribute("fill",c);
  o.kbN.textContent=k?k+" · "+(CAMN[k]||"")+(k!==k0?" (Original "+k0+", durch Tempo verschoben – Key-Lock aus)":""):"Tonart unbekannt"}
 /* Safari/iPhone blockieren Medien, die nicht per Tipp gestartet wurden. Dann merken wir uns das und starten beim nächsten Tipp ins Pult. */
+function rescue(o,m){if(!m||o.media!==m||o.target<=0||m.readyState>=3)return;var u=m.currentSrc||m.src;if(!u||u.indexOf("blob:")===0||o.rescued===u)return;o.rescued=u;var nm="Deck "+(o.side?"B":"A"),tok=o.warmTok=(o.warmTok||0)+1;
+ lg(nm+": Daten kommen nicht an (readyState "+m.readyState+") – lade die Datei komplett vor");
+ fetch(u,{credentials:"same-origin"}).then(function(r){lg(nm+": Abruf "+r.status+" "+(r.headers.get("Content-Type")||"?")+" "+(r.headers.get("Content-Length")||"?")+" Bytes");if(!r.ok)throw new Error("HTTP "+r.status);if((+r.headers.get("Content-Length")||0)>60e6)throw new Error("zu groß");return r.blob()})
+ .then(function(b){if(tok!==o.warmTok||o.media!==m||o.target<=0)return;var bu=URL.createObjectURL(b);if(o.blobUrl)try{URL.revokeObjectURL(o.blobUrl)}catch(e){}o.blobUrl=bu;m.src=bu;try{m.load()}catch(e){}lg(nm+": Datei geladen ("+Math.round(b.size/1024)+" KB) – starte");playEl(o)})
+ .catch(function(e){lg(nm+": Vorladen fehlgeschlagen ("+(e&&e.message||e)+")")})}
 function playEl(o){var m=o.media;if(!m)return;var p;try{p=m.play()}catch(e){return}
+ clearTimeout(o.rescT);o.rescT=setTimeout(function(){rescue(o,m)},5000);
  if(p&&p.then)p.then(function(){if(o.blocked){o.blocked=false;amUI()}},function(err){if(err&&(err.name==="NotAllowedError"||err.name==="SecurityError")){if(!o.blocked){lg("Deck "+(o.side?"B":"A")+": Browser blockiert play() ("+err.name+")");o.blocked=true;hint.textContent="Dein Browser wartet auf eine Berührung – tippe einmal ins Pult, dann läuft der Song weiter";amUI()}}})}
 var resumedAt=0;
 function resumeBlocked(){var any=false;decks.forEach(function(o){if(o.blocked&&o.media&&o.target>0){o.blocked=false;any=true;playEl(o)}});if(any){resumedAt=Date.now();amUI();if(ac&&ac.state!=="running")wake()}}
