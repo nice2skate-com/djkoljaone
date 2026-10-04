@@ -1,9 +1,9 @@
 {
- "version": "1.13.2",
- "download_url": "dj-kolja-one-plattenkiste-1.13.2.zip",
- "sha256": "8180b9caf9c5e994af85fd757ed373b7631fe1865e2c034b0f354c590f01c38f",
+ "version": "1.13.3",
+ "download_url": "dj-kolja-one-plattenkiste-1.13.3.zip",
+ "sha256": "0a8d40e722785a70d4630f0b0efff054007e057ab9424cb42907cbe1f992ab38",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<p>Galerie ohne automatischen GEMA-Hinweis; Videos mit Ton spielen mit Ton.</p>"
+ "changelog": "<p>Orts-, Über-mich- und Einsatzgebiete-Seiten mit Galerie, Kennzahlen dezent unten.</p>"
 }

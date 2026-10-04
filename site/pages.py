@@ -81,7 +81,7 @@ def service(c):
     out.append(reviews(c["reviews"]))
     out.append(faq(c["faq"],eye="Häufige Fragen",title=c.get("faq_title","Gut zu wissen")))
     out.append(orte(c.get("orte_title","Euer DJ in Oberschwaben, Ulm und dem Allgäu")))
-    out.append(con([stats_quiet()],"column",bg=B1,pad=box(8,20,56,20),inner=False,flex_align_items="center",padding_mobile=box(0,20,40,20)))
+    out.append(QUIET())
     out.append(cta(*c.get("cta",())))
     out.append(section(head("Weitere Leistungen","Auch für andere Anlässe")+[tiles(c["cross"],w=31)],bg=B1))
     out.append(footer()); return out
@@ -217,12 +217,12 @@ def ueber():
         ("Pop &amp; Charts","Aktuelle Hits und die großen Songs der letzten Jahrzehnte."),("80er, 90er &amp; 2000er","Die Klassiker, bei denen jede Generation mitsingt."),
         ("Schlager &amp; Party","Wenn es zur richtigen Zeit passt – mit Augenmaß."),("Rock &amp; Indie","Gitarren für die, die es etwas rauer mögen."),
         ("House &amp; Dance","Für späte Stunden und volle Tanzflächen."),("Latin, Soul &amp; Lounge","Für Empfang, Dinner und besondere Momente.")])],bg=B1)
-    galerie=section(head("Einblicke","Hinter dem DJ-Pult")+[con([IMG(280,220,name=f"ueber_{i}.jpg",**col(31,48,100)) for i in (1,2,3)],"row",g=20,**ROW,flex_justify_content="space-between")],bg=B2)
-    return [nav(),hero("Über mich","Hallo, ich bin Kolja.","DJ und Moderator aus Fellheim – und überzeugt davon, dass jedes Event nur einmal stattfindet.",[BTN(*WISH),BTN("Meine Leistungen","/#leistungen",False)],minh=80),
+    galerie=section(head("Einblicke","Hinter dem DJ-Pult")+[VIDEOS("ueber")],bg=B2)
+    return [nav(),hero("Über mich","Hallo, ich bin Kolja.","DJ und Moderator aus Fellheim – und überzeugt davon, dass jedes Event nur einmal stattfindet.",[BTN(*WISH),BTN("Meine Leistungen","/#leistungen",False)],stats=None,minh=80),
         split("Meine Geschichte","DJ KOLJA ONE",[
             "Seit über 10 Jahren stehe ich hinter dem DJ-Pult: auf Hochzeiten, Geburtstagen, Firmenfeiern und Stadtfesten zwischen Memmingen, Ulm und dem Allgäu.",
             "Was mich antreibt, ist der Moment, in dem eine Feier kippt – von „nett“ zu „unvergesslich“. Wenn die Tanzfläche voll ist, das Brautpaar strahlt oder das ganze Team mitsingt. Genau diese Momente plane ich mit euch und sorge am Abend dafür, dass sie passieren."],img="kolja_portrait.jpg"),
-        quote, werte, musik, galerie, reviews(["h2","f2","g1"]), cta(), footer()]
+        quote, werte, musik, galerie, reviews(["h2","f2","g1"]), QUIET(), cta(), footer()]
 
 # ---------------- Meine Musik ----------------
 MUSIK_SNIPPET="./musik/musik-snippet-final.html"
@@ -262,9 +262,10 @@ def regionen():
     grp=[con([H(t,"h3",24,OFF,"left","400"),T(d,MUTED,"left",15)]+[H("DJ "+o+" →","p",17,GOLD,"left","400",link=f"/{slugs[o]}/") for o in os_],
              bg=B2,pad=box(34,28,34,28),g=10,border_border="solid",border_width=box(2,0,0,0),border_color=GOLD,**col(31,48,100)) for t,os_,d in GROUPS]
     return [nav(),hero("Einsatzgebiete","Euer DJ in Oberschwaben, Ulm und dem Allgäu","Mobiler DJ mit Heimat in Fellheim bei Memmingen – für Hochzeiten, Geburtstage, Firmenfeiern und Events in der ganzen Region.",
-        [BTN(*WISH),BTN("Alle Leistungen","/#leistungen",False)],stats=[("Fellheim","Heimat bei Memmingen"),("8 Städte","feste Einsatzgebiete"),("rund 100 km","Umkreis"),("Weiter?","gern auf Anfrage")],minh=80),
+        [BTN(*WISH),BTN("Alle Leistungen","/#leistungen",False)],stats=None,minh=80),
         section(head("Regionen","Hier bin ich für euch unterwegs")+[con(grp,"row",g=24,**ROW,flex_justify_content="center")]),
         section(head("Leistungen","Für jeden Anlass")+[tiles()],bg=B2),
+        QUIET([("Fellheim","Heimat bei Memmingen"),("8 Städte","feste Einsatzgebiete"),("rund 100 km","Umkreis"),("Weiter?","gern auf Anfrage")]),
         cta("Euren Ort nicht gefunden?","Kein Problem – ich komme auch darüber hinaus. Fragt einfach unverbindlich an."),footer()]
 
 # ---------------- Städte ----------------
@@ -291,7 +292,8 @@ def city(name):
       hero(f"DJ {name} · Hochzeit · Geburtstag · Firmenfeier · Event",f"Euer DJ für {long} und Umgebung",
            f"Musik, Moderation und Technik aus einer Hand – für Feiern in {name}, die man so schnell nicht vergisst.",
            [BTN(*WISH),BTN("Leistungen ansehen","#leistungen",False)],
-           stats=[("10+ Jahre","DJ-Erfahrung"),("4 Anlässe","Hochzeit · Geburtstag · Firma · Event"),("Moderation","professionell &amp; souverän"),(f"ca. {km} km","ab Fellheim")],minh=85),
+           stats=None,minh=85),
+      section(head("Eindrücke",f"So feiert man mit DJ KOLJA ONE")+[VIDEOS(dict(ORTE)[name][3:],"region")],bg=B2),
       split(f"Feiern in {name}",f"DJ in {name}",[intro,"Ich plane jede Feier individuell: mit eurer Musik, eurem Ablauf und einem Gespür dafür, was eure Gäste gerade brauchen."],
             buttons=[BTN(*WISH,True,"left")],img="start_1.jpg"),
       section(head("Leistungen",f"Mein Angebot in {name}")+[tiles()],bg=B2,anchor="leistungen"),
@@ -303,6 +305,7 @@ def city(name):
            ("Wird die Anfahrt extra berechnet?","Die Anfahrt ist Teil eures individuellen Angebots – transparent und ohne Überraschungen."),
            (f"Spielst du in {name} auch Firmenfeiern und Events?","Ja. Neben Hochzeiten und Geburtstagen begleite ich auch Weihnachtsfeiern, Sommerfeste, Vereinsfeiern und Stadtfeste."),
            ("Wie früh sollten wir buchen?",dict(fq("Wie früh sollten wir buchen?"))["Wie früh sollten wir buchen?"])],title=f"Fragen zu DJ {name}"),
+      QUIET([("10+ Jahre","DJ-Erfahrung"),("4 Anlässe","Hochzeit · Geburtstag · Firma · Event"),("Moderation","professionell &amp; souverän"),(f"ca. {km} km","ab Fellheim")]),
       cta(f"Feier in {name} geplant?","Fragt jetzt unverbindlich an – ich melde mich innerhalb von 24 Stunden."),footer()]
 
 # ---------------- Kontakt ----------------

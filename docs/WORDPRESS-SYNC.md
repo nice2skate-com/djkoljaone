@@ -29,3 +29,5 @@ Die fertigen Elementor-Seiten (Hochzeit, Geburtstag, Firmenfeier, Event) liegen 
 
 ### Medien für die Galerie
 Bis zu 8 Plätze je Leistungsseite: `event_<seite>_1` … `event_<seite>_8` (`<seite>` = hochzeit, geburtstag, firmenfeier, events), jeweils als Video (`.mp4`) oder Bild (`.jpg/.webp/.png`); angezeigt wird nur, was in der Mediathek liegt. Das Bild neben dem Text heißt `event_<seite>_text`. Handyvideos vorbereiten (komprimiert, richtig benannt; Ton bleibt, `STUMM=1` entfernt ihn, `GEMA=1` entfernt ihn und blendet unten rechts „Ohne Ton aus GEMA-Gründen“ ein): `sh tools/video-vorbereiten.sh events clip1.mov clip2.mov …` (benötigt `brew install ffmpeg`).
+
+Ortsseiten: `event_<ort>_1…8` (ort = memmingen, ulm, biberach, ravensburg, kempten, fuessen, kaufbeuren, landsberg); fehlt ein Platz, wird `event_region_<n>` genommen (gemeinsam für alle Orte). „Über mich“: `ueber_1…8`.
