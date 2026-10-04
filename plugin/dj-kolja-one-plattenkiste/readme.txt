@@ -13,6 +13,8 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.13.6: „Meine Musik“ am Handy: Der Laptop über dem Controller wird oben nicht mehr abgeschnitten. Ursache war der unsichtbare Rest des Kopf-Abschnitts (leere Abstandhalter), der über das Pult ragte; er wird jetzt eingeklappt, und der Kopf-Abschnitt kann das Pult nie mehr überdecken.
+
 Seit 1.13.5: Startseite: Die Bilderreihe unter dem Pult ist jetzt die Galerie (start_1 … start_8, Bild oder Video, nur gefüllte Plätze; ein einzelnes Video steht in natürlicher Größe statt gestreckt). Kennzahl „Süddeutschland & Überregional – Allgäu, Schwaben & Auf Anfrage“. Einsatzgebiete: neue Region „Überregional“ (exklusive Events und Locations in Deutschland und international, auf Anfrage). Einmal „Seiten aus Vorlage einspielen“ klicken.
 
 Seit 1.13.4: Bild-/Video-Platzhalter auf allen Seiten (Kacheln der Leistungen, Textbilder, Bilderreihe der Startseite) werden nur noch angezeigt, wenn es dazu eine Datei in der Mediathek gibt – sonst entfällt der Platz; Textspalten neben einem leeren Bild nutzen die Breite. Das Ausblenden greift sofort; die Breite der Textspalten und die Startseiten-Bilderreihe brauchen einmal „Seiten aus Vorlage einspielen“ (Medien → Plattenkiste).

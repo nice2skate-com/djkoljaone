@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.13.5
+ * Version:     1.13.6
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.13.5' );
+define( 'KJO_VERSION', '1.13.6' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -1506,7 +1506,13 @@ function musikGap(){
     if(last===null||!hint.offsetHeight)return;
     var gap=Y(hint)-last, want=window.innerWidth<=600?20:28;
     if(gap>want)t.style.setProperty("margin-top",(-(gap-want))+"px","important");
+    /* Sicherheitsnetz: Der Kopf-Abschnitt (liegt oben) darf nie den Hinweis/Laptop/Controller überdecken – ragt er trotz allem darüber hinaus, wird der Rand wieder zurückgenommen */
+    var ov=Y(h)+h.offsetHeight-Y(hint)+6;
+    if(ov>0){ t.style.setProperty("margin-top",Math.min(0,(parseFloat(t.style.marginTop)||0)+ov)+"px","important"); }
   }
+  /* Leere Abstandhalter, Trenner und versteckte Container im Kopf-Abschnitt ausblenden, damit sein unsichtbarer „Schwanz“ nicht über das Pult ragt (am Handy wurde der Laptop oben abgeschnitten) */
+  (function(){var a=h.querySelectorAll(".elementor-widget,.e-con"),i,e;for(i=0;i<a.length;i++){e=a[i]; if((e.textContent||"").trim()!=="")continue; if(e.querySelector("img,video,svg,iframe,canvas,input,button,a,i"))continue; e.style.setProperty("display","none","important");}
+    var inn=h.querySelectorAll(".e-con-inner"); for(i=0;i<inn.length;i++)inn[i].style.setProperty("padding-bottom","0","important"); h.style.setProperty("padding-bottom","0","important");})();
   fit(); window.addEventListener("load",fit); window.addEventListener("resize",fit); setTimeout(fit,800); setTimeout(fit,2500);
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
 }
