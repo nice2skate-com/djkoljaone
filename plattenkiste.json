@@ -1,9 +1,9 @@
 {
  "version": "1.15.1",
  "download_url": "dj-kolja-one-plattenkiste-1.15.1.zip",
- "sha256": "b5ab873bc8e893a38ff4610fb5193a577bb9b4ac81c320fac062e9642bf71962",
+ "sha256": "5dd1f8164d1af11f1e48390e122d238641b08bb4c70ed7526e260c4231d16259",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<p>Texte „So geht’s“ aktualisiert; Instagram und Facebook in Fußzeile und Kontakt.</p>"
+ "changelog": "<p>So geht’s-Texte aktualisiert; Instagram und Facebook als runde Symbole in der Fußzeile, Karten auf Kontakt.</p>"
 }

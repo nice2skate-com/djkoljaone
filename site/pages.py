@@ -314,7 +314,7 @@ def kontakt():
               W("html",{"html":open("./formcss/wpforms-dark.html").read()}),W("shortcode",{"shortcode":"[wpforms id=5020]"})],bg=B2,pad=box(44,40,44,40),g=16,**col(58,100,100),
              border_border="solid",border_width=box(2,0,0,0),border_color=GOLD)
     side=con([con([ICONBOX(i,t,d,"left",u)],bg=B2,pad=box(28,26,28,26)) for i,t,d,u in [
-        ("fas fa-phone","Anrufen",PHONE,TEL),("fab fa-whatsapp","WhatsApp","Schnell und unkompliziert",WA),("fas fa-envelope","E-Mail",MAIL,"mailto:"+MAIL),("fab fa-instagram","Instagram","@djkoljaone",INSTA),("fab fa-facebook-f","Facebook","DJ KOLJA ONE auf Facebook",FACEBOOK)]],g=16,**col(38,100,100))
+        ("fas fa-phone","Anrufen",PHONE,TEL),("fab fa-whatsapp","WhatsApp","Schnell und unkompliziert",WA),("fas fa-envelope","E-Mail",MAIL,"mailto:"+MAIL),("fab fa-instagram","Instagram","DJ KOLJA ONE",INSTA),("fab fa-facebook-f","Facebook","DJ KOLJA ONE",FACEBOOK)]],g=16,**col(38,100,100))
     return [nav(),hero("Anfrage","Wunschtermin prüfen","In drei Schritten zu eurem individuellen Angebot – unverbindlich und persönlich.",[BTN("Zum Formular","#formular"),BTN("WhatsApp schreiben",WA,False)],stats=None,minh=55),
         section([con([form,side],"row",g=30,**ROW,flex_justify_content="space-between",flex_align_items="flex-start")],anchor="formular"),
         section(head("So geht's weiter","Nach eurer Anfrage")+[steps([("Antwort in 24 Stunden","Ich prüfe euren Termin und melde mich persönlich."),
