@@ -1,9 +1,9 @@
 {
- "version": "1.17.5",
- "download_url": "dj-kolja-one-plattenkiste-1.17.5.zip",
- "sha256": "b9fad3511f6866e1e4286b49cd69bcdc0b3fa0735f91c0962c9943a37a22d195",
+ "version": "1.17.6",
+ "download_url": "dj-kolja-one-plattenkiste-1.17.6.zip",
+ "sha256": "b28fb2c402b5a826eba19bd0652fbf88ad0314f4bfccdea8631474d7753dbb55",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Meine Musik: KEY und SYNC sind anfangs aus."
+ "changelog": "Meine Musik: KEY ist standardmäßig an, SYNC aus."
 }

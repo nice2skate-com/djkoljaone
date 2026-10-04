@@ -13,7 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
-Seit 1.17.5: Meine Musik: KEY und SYNC sind beim Start ausgeschaltet. Der Automix hält die Tonart weiterhin automatisch.
+Seit 1.17.6: Meine Musik: KEY ist beim Start wieder eingeschaltet (Tonart bleibt beim Tempo-Ändern erhalten), SYNC bleibt aus.
 Seit 1.17.4: Meine Musik: Beim Start eines Titels läuft der Ton sofort mit voller Geschwindigkeit an, statt die Abspielgeschwindigkeit in vielen kleinen Schritten hochzufahren (das ließ Safari am Anfang ruckeln). Die Platte dreht weiter sanft hoch.
 Seit 1.17.3: Meine Musik: Die Wellenformen laufen flüssig mit. Safari meldet die Abspielzeit nur ruckweise, die Anzeige rechnet jetzt dazwischen mit der Systemuhr weiter, die rote Linie sitzt dadurch genau auf der gespielten Stelle. Zeichnen wieder mit voller Bildrate.
 Seit 1.17.2: Meine Musik: Die aktuelle Abspielstelle ist in den Wellenformen eine rote Linie (auch in der Überblicksleiste).

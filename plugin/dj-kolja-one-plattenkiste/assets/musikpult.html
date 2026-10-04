@@ -290,7 +290,7 @@ function deck(cx,side){
  o.kbG=E("g",{style:"display:none"},g);o.kbR=E("rect",{x:cx+68,y:34,width:40,height:22,rx:3,fill:"#0F0C07","stroke-width":1.2},o.kbG);
  o.kbT=T(cx+88,50,"--",{"text-anchor":"middle","font-size":13,"font-weight":500,"letter-spacing":.5},o.kbG);
  o.kbN=E("title",{},o.kbG);
- o.rate=1;o.pit=0;o.sync=false;o.keylock=false;o.bpm=T(cx+180,50,"--- BPM",{"text-anchor":"end","font-size":15,fill:"#F3F1E9"},g);
+ o.rate=1;o.pit=0;o.sync=false;o.keylock=true;o.bpm=T(cx+180,50,"--- BPM",{"text-anchor":"end","font-size":15,fill:"#F3F1E9"},g);
  o.time=T(cx+180,66,"0:00",{"text-anchor":"end","font-size":10,fill:"#6f685c"},g);
  E("rect",{x:cx-180,y:67,width:360,height:4,rx:2,fill:"#2d281f"},g);o.prog=E("rect",{x:cx-180,y:67,width:0,height:4,rx:2,fill:"#B29D75"},g);
  o.knob=E("circle",{cx:cx-180,cy:69,r:6,fill:"#B29D75",stroke:"#0F0C07","stroke-width":2,opacity:0},g);
@@ -321,8 +321,8 @@ function deck(cx,side){
   pg.addEventListener("keydown",function(e){var d=e.key==="ArrowUp"||e.key==="ArrowRight"?1:e.key==="ArrowDown"||e.key==="ArrowLeft"?-1:0;if(d){amManual();setPitch(o,o.pit+d*.03,true);e.preventDefault()}else if(e.key==="Home"||e.key==="0"){amManual();setPitch(o,0,true);e.preventDefault()}})})();
  var sy=E("g",{"class":"sync",role:"button",tabindex:0,"aria-pressed":"false","aria-label":"Sync Deck "+(side?"B":"A")+": Tempo an das andere Deck angleichen"},g);
  o.syC=E("circle",{cx:cx+160,cy:526,r:24,fill:"#161310",stroke:"#B29D75","stroke-width":1.5},sy);o.syT=T(cx+160,530,"SYNC",{"text-anchor":"middle","font-size":10,"letter-spacing":1,"font-weight":500,fill:"#B29D75"},sy);o.syG=sy;
- var kl=E("g",{"class":"sync",role:"button",tabindex:0,"aria-pressed":"false","aria-label":"Key-Lock Deck "+(side?"B":"A")+": Tonart beim Tempo-Ändern beibehalten"},g);
- o.klR=E("rect",{x:cx+137,y:559,width:46,height:19,rx:4,fill:"#161310",stroke:"#B29D75","stroke-width":1.2},kl);o.klT=T(cx+160,572,"KEY",{"text-anchor":"middle","font-size":9.5,"letter-spacing":1.2,"font-weight":500,fill:"#B29D75"},kl);o.klG=kl;
+ var kl=E("g",{"class":"sync",role:"button",tabindex:0,"aria-pressed":"true","aria-label":"Key-Lock Deck "+(side?"B":"A")+": Tonart beim Tempo-Ändern beibehalten"},g);
+ o.klR=E("rect",{x:cx+137,y:559,width:46,height:19,rx:4,fill:"#B29D75",stroke:"#B29D75","stroke-width":1.2},kl);o.klT=T(cx+160,572,"KEY",{"text-anchor":"middle","font-size":9.5,"letter-spacing":1.2,"font-weight":500,fill:"#0F0C07"},kl);o.klG=kl;
  var tk=function(){amManual();o.keylock=!o.keylock;klLamp(o);if(o.song){setKey(o,o.song);updCompat()}};kl.addEventListener("click",tk);kl.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();tk()}});
  sy.addEventListener("click",function(){amManual();toggleSync(o)});sy.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();amManual();toggleSync(o)}});
  E("circle",{cx:cx,cy:285,r:172,fill:"#0a0806"},g);E("circle",{cx:cx,cy:285,r:168,fill:"url(#mjog)",stroke:"#453e33","stroke-width":2},g);
