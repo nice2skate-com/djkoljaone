@@ -23,3 +23,6 @@ Datenbank, Mediathek-Gesamtbestand, Theme, Premium-Plugins und `wp-config.php` g
 ## 5. Offen
 - Test auf Strato und in Safari (bisher nur Chromium lokal)
 - Testdateien `songs/preview-128.mp3`, `songs/cover-300.jpg` nur bei Bedarf für die Testseite lokal ablegen
+
+## 4. Video-Galerie auf den Leistungsseiten
+`site/vorlagen/02…05-*.json` sind die fertigen Elementor-Vorlagen der vier Leistungsseiten (Hochzeit, Geburtstag, Firmenfeier, Event). Oben stehen jetzt 4 Videos, die USPs sind dezent nach unten gewandert. Die Videos liegen in der Mediathek als `event_<key>_1.mp4` … `_4.mp4` mit `<key>` = `hochzeit`, `geburtstag`, `firmenfeier`, `events`. Fehlende Videos blenden sich selbst aus. Nach Änderungen: `python3 site/export.py`, dann die vier Dateien nach `site/vorlagen/` kopieren.

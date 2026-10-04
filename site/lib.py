@@ -138,6 +138,14 @@ def stats_row(stats=STATS,border=True):
     kw=dict(border_border="solid",border_width=box(1,0,0,0),border_color=LINE,padding=box(28,0,0,0)) if border else {}
     return con([stat(a,b) for a,b in stats],"row",g=20,flex_justify_content="center",flex_wrap="wrap",flex_direction_mobile="row",width=px(100,"%"),max_width=px(1000),**kw)
 
+def stats_quiet(stats=STATS):
+    k=lambda a,b: con([H(a,"p",22,GOLD,"center","300",m=18),T(b,MUTED,"center",13)],g=2,**col(23,48,48))
+    return con([k(a,b) for a,b in stats],"row",g=16,flex_justify_content="center",flex_wrap="wrap",flex_direction_mobile="row",width=px(100,"%"),max_width=px(900))
+
+def VIDEOS(key):
+    h=open("./site/snippets/videos.html").read().replace("__KEY__",key)
+    return W("html",{"html":h,"_element_width":"inherit","width":px(100,"%")})
+
 def hero(eye,h1,sub,buttons,stats=STATS,minh=100,extra=None):
     kids=[EYE(eye),H(h1,"h1",64,OFF,m=34,lh=1.1),T(sub,OFF,"center",20,typography_font_size_mobile=px(17),_element_width="initial",
           _element_custom_width=px(820))]
