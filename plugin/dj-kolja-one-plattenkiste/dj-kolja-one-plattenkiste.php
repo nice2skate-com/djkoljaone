@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.15.1
+ * Version:     1.15.2
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.15.1' );
+define( 'KJO_VERSION', '1.15.2' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -76,6 +76,36 @@ function kjo_seiten_sync() {
 			continue;
 		}
 		$old = get_post_meta( $page->ID, '_elementor_data', true );
+		/* Rechtstexte (Impressum, Datenschutz): Nur die Fußzeile wird ersetzt, der vorhandene Text der Seite bleibt unverändert. */
+		if ( in_array( $slug, array( 'impressum', 'datenschutz' ), true ) ) {
+			$cur = is_string( $old ) ? json_decode( $old, true ) : $old;
+			if ( ! is_array( $cur ) || ! $cur ) {
+				$out[ $slug ] = 'kein vorhandener Inhalt – übersprungen';
+				continue;
+			}
+			$foot = end( $content );
+			$hit  = null;
+			foreach ( $cur as $k => $el ) {
+				$j = wp_json_encode( $el );
+				if ( false !== strpos( $j, 'Jedes Event findet nur einmal statt' ) && false !== strpos( $j, 'Datenschutz' ) ) {
+					$hit = $k; // letzte passende Stelle gewinnt (Fußzeile steht unten).
+				}
+			}
+			if ( null === $hit ) {
+				$out[ $slug ] = 'Fußzeile nicht gefunden – übersprungen';
+				continue;
+			}
+			update_post_meta( $page->ID, '_kjo_backup_elementor_data', wp_slash( is_string( $old ) ? $old : wp_json_encode( $old ) ) );
+			wp_save_post_revision( $page->ID );
+			$cur[ $hit ] = $foot;
+			update_post_meta( $page->ID, '_elementor_data', wp_slash( wp_json_encode( $cur ) ) );
+			update_post_meta( $page->ID, '_elementor_edit_mode', 'builder' );
+			delete_post_meta( $page->ID, '_elementor_css' );
+			delete_post_meta( $page->ID, '_elementor_element_cache' );
+			clean_post_cache( $page->ID );
+			$out[ $slug ] = 'nur Fußzeile aktualisiert';
+			continue;
+		}
 		$new = wp_json_encode( $content );
 		if ( $old && ( is_string( $old ) ? $old : wp_json_encode( $old ) ) !== $new ) { // Sicherung nicht mit der neuen Fassung überschreiben.
 			update_post_meta( $page->ID, '_kjo_backup_elementor_data', wp_slash( is_string( $old ) ? $old : wp_json_encode( $old ) ) );
@@ -499,7 +529,7 @@ function kjm_admin_page() {
 	kjo_update_box();
 	echo '<p><a class="button" href="' . esc_url( wp_nonce_url( admin_url( 'upload.php?page=kjm-plattenkiste&kjm_purge=1' ), 'kjm_purge' ) ) . '">Zwischenspeicher leeren</a> <span class="description">Wenn nach einem Update auf der Seite noch die alte Version erscheint.</span></p>';
 	if ( glob( __DIR__ . '/seiten/*.json' ) ) {
-		echo '<p><a class="button" onclick="return confirm(\'Die Seiten der Website (Start, Leistungen, Orte, Meine Musik, Über mich, FAQ, Kontakt, Einsatzgebiete) werden durch die neue Fassung ersetzt. Der alte Inhalt wird gesichert. Fortfahren?\')" href="' . esc_url( wp_nonce_url( admin_url( 'upload.php?page=kjm-plattenkiste&kjo_seiten=1' ), 'kjo_seiten' ) ) . '">Seiten aus Vorlage einspielen</a> <a class="button" href="' . esc_url( wp_nonce_url( admin_url( 'upload.php?page=kjm-plattenkiste&kjo_seiten_back=1' ), 'kjo_seiten_back' ) ) . '">Letzten Stand wiederherstellen</a> <span class="description">Leistungs-, Orts- und weitere Seiten mit Galerie; der vorherige Inhalt wird gesichert.</span></p>';
+		echo '<p><a class="button" onclick="return confirm(\'Die Seiten der Website (Start, Leistungen, Orte, Meine Musik, Über mich, FAQ, Kontakt, Einsatzgebiete) werden durch die neue Fassung ersetzt; bei Impressum und Datenschutz nur die Fußzeile. Der alte Inhalt wird gesichert. Fortfahren?\')" href="' . esc_url( wp_nonce_url( admin_url( 'upload.php?page=kjm-plattenkiste&kjo_seiten=1' ), 'kjo_seiten' ) ) . '">Seiten aus Vorlage einspielen</a> <a class="button" href="' . esc_url( wp_nonce_url( admin_url( 'upload.php?page=kjm-plattenkiste&kjo_seiten_back=1' ), 'kjo_seiten_back' ) ) . '">Letzten Stand wiederherstellen</a> <span class="description">Leistungs-, Orts- und weitere Seiten mit Galerie; der vorherige Inhalt wird gesichert.</span></p>';
 	}
 	$n = kjm_protect_sync();
 	if ( false === $n ) {
