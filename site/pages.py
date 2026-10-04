@@ -233,15 +233,15 @@ def musik():
            [],stats=None,minh=55),box(72,20,0,20),box(40,20,0,20)),
       _tight(section([W("html",{"html":open(MUSIK_SNIPPET).read(),"_element_width":"inherit","width":px(100,"%")})],anchor="auflegen"),box(0,20,64,20),box(0,12,40,12)),
       section(head("So geht's","Dein eigener Mix in vier Schritten")+[steps([
-          ("Platte wählen","Stöbere in der Plattenkiste oder öffne BROWSE: Die Titelliste lässt sich nach BPM, Tonart (Camelot) und Genre sortieren. Mit A oder B legst du einen Song gezielt auf Deck A oder B."),
-          ("Selbst mixen","Blende mit dem Crossfader über, gleiche das Tempo mit dem Regler und SYNC an und halte mit KEY die Tonart. Grün markierte Platten passen harmonisch zum laufenden Song."),
+          ("Platte wählen","Stöbere in der Plattenkiste oder öffne BROWSE: Die Titelliste lässt sich nach BPM, Tonart (Camelot) und Genre sortieren. Mit A oder B lädst du einen Song gezielt auf Deck A oder B – gestartet wird er erst mit Play."),
+          ("Selbst mixen","In den Wellenformen oben im Mixer siehst du beide Songs samt Beatgrid und springst per Klick an jede Stelle. Blende mit dem Crossfader über, gleiche das Tempo mit dem Regler und SYNC an und halte mit KEY die Tonart. Grün markierte Platten passen harmonisch zum laufenden Song."),
           ("Automix","Lieber zurücklehnen? Mit ☰+ legst du Songs in die Playlist, „Automix starten“ mixt sie nacheinander. Sobald du eingreifst, übernimmst du wieder selbst."),
           ("Ansehen &amp; bewerten","Songs mit dem Label VIDEO zeigen ihr Bild im Laptop. Gib jedem Song 1 bis 5 Sterne – der Durchschnitt aller Besucher steht direkt am Song.")])],bg=B2),
       section(head("Musik","Mein Repertoire")+[cards([
         ("Pop &amp; Charts","Aktuelle Hits und die großen Songs der letzten Jahrzehnte."),("80er, 90er &amp; 2000er","Die Klassiker, bei denen jede Generation mitsingt."),
         ("Schlager &amp; Party","Wenn es zur richtigen Zeit passt – mit Augenmaß."),("Rock &amp; Indie","Gitarren für die, die es etwas rauer mögen."),
         ("House &amp; Dance","Für späte Stunden und volle Tanzflächen."),("Latin, Soul &amp; Lounge","Für Empfang, Dinner und besondere Momente.")])]),
-      cta("Euer Lieblingssong fehlt?","Im Vorgespräch plane ich eure Musik mit euch – mit Wunsch- und No-Go-Liste. Fragt jetzt unverbindlich an."),
+      cta("Spielst Du unsere Lieblingssongs?","Im Vorgespräch plane ich eure Musik mit euch – mit Wunsch- und No-Go-Liste. Fragt jetzt unverbindlich an."),
       footer()]
 
 # ---------------- FAQ ----------------

@@ -1,9 +1,9 @@
 {
- "version": "1.15.4",
- "download_url": "dj-kolja-one-plattenkiste-1.15.4.zip",
- "sha256": "4b0bc23b8ac5914d439c708c089541a5f6502209d7aa9f1cbe62ad096de2f8f9",
+ "version": "1.16.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.16.1.zip",
+ "sha256": "536b438fc136ad71db82735203c84539c1f8028fd66e08629449d0eaf8e27e8e",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<p>Fußzeile am Handy: Impressum/Datenschutz bündig mit der Copyright-Zeile.</p>"
+ "changelog": "<p>DJ-Pult mit Wellenformen und Beatgrid, Decksperre; quantisiertes Springen; Navigation, Fußzeile, Texte.</p>"
 }
