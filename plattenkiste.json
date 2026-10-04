@@ -1,9 +1,9 @@
 {
- "version": "1.17.3",
- "download_url": "dj-kolja-one-plattenkiste-1.17.3.zip",
- "sha256": "3dcc41b77ecbcfdae58f866c8a85d948c87182e71a3df96ae9fb34e750b52de0",
+ "version": "1.17.4",
+ "download_url": "dj-kolja-one-plattenkiste-1.17.4.zip",
+ "sha256": "9b7cb89ae3e29350830e4b3e648301c19a173ae614c7ee4c569fc667915a669f",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Meine Musik: Wellenform und rote Linie laufen flüssig und ohne Versatz mit (Safari-Zeitanzeige geglättet)."
+ "changelog": "Meine Musik: ruhigerer Start der Titel (kein schrittweises Hochfahren der Abspielgeschwindigkeit)."
 }

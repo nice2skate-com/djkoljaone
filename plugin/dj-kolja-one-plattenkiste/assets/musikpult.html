@@ -678,7 +678,7 @@ function loop(now){var raw=(now-last)/1000,dt=Math.min(.05,raw);last=now;frame++
  var slow=now-lastSlow>=90;if(slow)lastSlow=now;
  decks.forEach(function(o,i){if(!o.song)return;if(o.sync){var sy=syncTarget(o);if(sy){if(Math.abs(sy.p-o.pit)>.0008)setPitch(o,sy.p,false);if(sy.out!==o.syOut){o.syOut=sy.out;syncLamp(o,sy.out)}}}
   var was=o.speed;o.speed+=(o.target-o.speed)*Math.min(1,dt*(o.target?2.4:2.6));if(Math.abs(o.target-o.speed)<.004)o.speed=o.target;if(o.target===0&&o.speed<.03)o.speed=0;
-  if(o.media){var m=o.media;if(o.speed>.06){var pr=o.speed*o.rate,d=Math.abs(m.playbackRate-pr);if(d>(o.speed===o.target?.0005:.01))m.playbackRate=Math.max(.07,pr);
+  if(o.media){var m=o.media;if(o.speed>.06){var pr=(o.target>0?1:o.speed)*o.rate,d=Math.abs(m.playbackRate-pr);if(d>(o.speed===o.target?.0005:.01))m.playbackRate=Math.max(.07,pr);
     var kp=o.keylock&&o.speed>=.999;if(m.preservesPitch!==kp){m.preservesPitch=kp;m.mozPreservesPitch=kp;m.webkitPreservesPitch=kp}
     if(m.paused&&o.target>0&&!o.blocked)playEl(o)}else if(!m.paused)m.pause()}
   else if(ac){if(o.speed>.06&&was<=.06)o.next=ac.currentTime;demo(o);o.demoPos+=dt*o.speed*o.rate}
