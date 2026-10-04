@@ -9,6 +9,7 @@ PHONE="+49 172 7273707"; TEL="tel:+491727273707"; WA="https://wa.me/491727273707
 LOGO_NAV="/wp-content/uploads/2026/09/dj-kolja-one-logo-ohne-claim.png"
 LOGO_FULL="/wp-content/uploads/2026/09/dj-kolja-one-logo-transparent.png"
 KONTAKT="/kontakt/"
+INSTA="https://www.instagram.com/djkoljaone/"; FACEBOOK="https://www.facebook.com/share/1C7dYSH3jM/?mibextid=wwXIfr"
 
 def px(v,u="px"): return {"unit":u,"size":v,"sizes":[]}
 def box(t,r,b,l,u="px"): return {"unit":u,"top":str(t),"right":str(r),"bottom":str(b),"left":str(l),"isLinked":False}
@@ -119,7 +120,8 @@ def footer():
         return con([H(title,"p",13,GOLD,"left","500",ls=2,tr="uppercase")]+[H(t,"p",15,MUTED,"left","300",link=u) for t,u in links],g=10,**col(w,48,100))
     cols=con([
         con([LOGO(LOGO_FULL,300,260),T("Premium DJ &amp; Moderation für Hochzeiten, Geburtstage, Firmenfeiern und Events in Oberschwaben, Ulm und dem Allgäu.",MUTED,"left",15),
-             H(PHONE,"p",15,OFF,"left","400",link=TEL),H("WhatsApp schreiben","p",15,OFF,"left","400",link=WA)],g=12,**col(30,100,100)),
+             H(PHONE,"p",15,OFF,"left","400",link=TEL),H("WhatsApp schreiben","p",15,OFF,"left","400",link=WA),
+             H("Instagram @djkoljaone","p",15,GOLD,"left","400",link=INSTA),H("Facebook","p",15,GOLD,"left","400",link=FACEBOOK)],g=12,**col(30,100,100)),
         fcol("Leistungen",SERVICES),
         fcol("Info",[("Meine Musik","/meine-musik/"),("Über mich","/ueber-mich/"),("FAQ","/faq/"),("Einsatzgebiete","/einsatzgebiete/"),("Kontakt",KONTAKT)]),
         fcol("Regionen",[("DJ "+o,f"/{s}/") for o,s in ORTE]),

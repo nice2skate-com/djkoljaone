@@ -233,10 +233,10 @@ def musik():
            [],stats=None,minh=55),box(72,20,0,20),box(40,20,0,20)),
       _tight(section([W("html",{"html":open(MUSIK_SNIPPET).read(),"_element_width":"inherit","width":px(100,"%")})],anchor="auflegen"),box(0,20,64,20),box(0,12,40,12)),
       section(head("So geht's","Dein eigener Mix in vier Schritten")+[steps([
-          ("Platte wählen","Zieh einen Song aus der Plattenkiste. Er landet abwechselnd auf Deck A oder Deck B und startet sofort."),
-          ("Mixen","Mit dem Crossfader blendest du zwischen den beiden Decks über. Tippst du auf eine Platte, bremst sie ab – noch einmal tippen, und sie läuft weiter."),
-          ("Video ansehen","Songs mit dem Label VIDEO laufen mit Bild im Laptop neben dem Pult."),
-          ("Bewerten","Gib jedem Song 1 bis 5 Sterne. Der Durchschnitt aller Besucher steht direkt am Song.")])],bg=B2),
+          ("Platte wählen","Stöbere in der Plattenkiste oder öffne BROWSE: Die Titelliste lässt sich nach BPM, Tonart (Camelot) und Genre sortieren. Mit A oder B legst du einen Song gezielt auf Deck A oder B."),
+          ("Selbst mixen","Blende mit dem Crossfader über, gleiche das Tempo mit dem Regler und SYNC an und halte mit KEY die Tonart. Grün markierte Platten passen harmonisch zum laufenden Song."),
+          ("Automix","Lieber zurücklehnen? Mit ☰+ legst du Songs in die Playlist, „Automix starten“ mixt sie nacheinander. Sobald du eingreifst, übernimmst du wieder selbst."),
+          ("Ansehen &amp; bewerten","Songs mit dem Label VIDEO zeigen ihr Bild im Laptop. Gib jedem Song 1 bis 5 Sterne – der Durchschnitt aller Besucher steht direkt am Song.")])],bg=B2),
       section(head("Musik","Mein Repertoire")+[cards([
         ("Pop &amp; Charts","Aktuelle Hits und die großen Songs der letzten Jahrzehnte."),("80er, 90er &amp; 2000er","Die Klassiker, bei denen jede Generation mitsingt."),
         ("Schlager &amp; Party","Wenn es zur richtigen Zeit passt – mit Augenmaß."),("Rock &amp; Indie","Gitarren für die, die es etwas rauer mögen."),
@@ -314,7 +314,7 @@ def kontakt():
               W("html",{"html":open("./formcss/wpforms-dark.html").read()}),W("shortcode",{"shortcode":"[wpforms id=5020]"})],bg=B2,pad=box(44,40,44,40),g=16,**col(58,100,100),
              border_border="solid",border_width=box(2,0,0,0),border_color=GOLD)
     side=con([con([ICONBOX(i,t,d,"left",u)],bg=B2,pad=box(28,26,28,26)) for i,t,d,u in [
-        ("fas fa-phone","Anrufen",PHONE,TEL),("fab fa-whatsapp","WhatsApp","Schnell und unkompliziert",WA),("fas fa-envelope","E-Mail",MAIL,"mailto:"+MAIL)]],g=16,**col(38,100,100))
+        ("fas fa-phone","Anrufen",PHONE,TEL),("fab fa-whatsapp","WhatsApp","Schnell und unkompliziert",WA),("fas fa-envelope","E-Mail",MAIL,"mailto:"+MAIL),("fab fa-instagram","Instagram","@djkoljaone",INSTA),("fab fa-facebook-f","Facebook","DJ KOLJA ONE auf Facebook",FACEBOOK)]],g=16,**col(38,100,100))
     return [nav(),hero("Anfrage","Wunschtermin prüfen","In drei Schritten zu eurem individuellen Angebot – unverbindlich und persönlich.",[BTN("Zum Formular","#formular"),BTN("WhatsApp schreiben",WA,False)],stats=None,minh=55),
         section([con([form,side],"row",g=30,**ROW,flex_justify_content="space-between",flex_align_items="flex-start")],anchor="formular"),
         section(head("So geht's weiter","Nach eurer Anfrage")+[steps([("Antwort in 24 Stunden","Ich prüfe euren Termin und melde mich persönlich."),
