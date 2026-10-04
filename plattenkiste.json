@@ -1,9 +1,9 @@
 {
- "version": "1.13.5",
- "download_url": "dj-kolja-one-plattenkiste-1.13.5.zip",
- "sha256": "2e4010467711a5fddac8abbc4a0becb133b517e47549c2e77824ae6cc09a3b9c",
+ "version": "1.13.6",
+ "download_url": "dj-kolja-one-plattenkiste-1.13.6.zip",
+ "sha256": "04fb398941e496abc837a6a63cdc473c856f18824f5da54d2db9a0f377fa3025",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<p>Startseiten-Galerie, neue Kennzahl, Region Überregional.</p>"
+ "changelog": "<p>Meine Musik am Handy: Laptop wird oben nicht mehr abgeschnitten.</p>"
 }
