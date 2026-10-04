@@ -6,6 +6,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 P = lambda *a: os.path.join(ROOT, *a)
 s = open(os.path.join(HERE, 'musik-snippet.html'), encoding='utf-8').read()
+_bpm = open(P('plugin', 'dj-kolja-one-plattenkiste', 'assets', 'kjm-bpm.js'), encoding='utf-8').read()
+s = s.replace('/*@@KJMWAVE@@*/', _bpm[_bpm.index('/*WAVE-START*/'):_bpm.index('/*WAVE-END*/')])
 b64 = lambda f: base64.b64encode(open(f, 'rb').read()).decode()
 final = re.sub(r' \{id:"s1".*?\},\n', '', s).replace('video:"__DEMOVIDEO__"', 'video:""')
 assert '__SONG1__' not in final

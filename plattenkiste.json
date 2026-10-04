@@ -1,9 +1,9 @@
 {
- "version": "1.15.4",
- "download_url": "dj-kolja-one-plattenkiste-1.15.4.zip",
- "sha256": "4b0bc23b8ac5914d439c708c089541a5f6502209d7aa9f1cbe62ad096de2f8f9",
+ "version": "1.16.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.16.0.zip",
+ "sha256": "1b1fa24cecfb4916d256c4ee7aa15be28db41ea11ab221fe2e35f2a49df21362",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<p>Fußzeile am Handy: Impressum/Datenschutz bündig mit der Copyright-Zeile.</p>"
+ "changelog": "<p>DJ-Pult: Titel werden nur geladen (Decksperre), nur Deck A/B im Mixer, RGB-Wellenformen mit Beatgrid, gespeichert in der Plattenkiste.</p>"
 }

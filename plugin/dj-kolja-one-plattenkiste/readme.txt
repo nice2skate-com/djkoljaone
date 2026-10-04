@@ -13,6 +13,8 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.16.0: DJ-Pult: Titel werden nur noch in ein Deck GELADEN und starten erst mit Play. Läuft ein Deck, erscheint beim Laden eines anderen Titels dorthin eine Meldung (Decksperre) – erst anhalten, dann laden. Der Mixer hat nur noch die Kanäle von Deck A und B; Knöpfe ohne Funktion (Kanal 3/4, Zierknöpfe) sind entfernt, die Pads bleiben. Im oberen Mixerbereich zeigen zwei übereinanderliegende RGB-Wellenformen (Bass rot, Mitten grün, Höhen blau) mit Beatgrid die beiden Decks, darunter je ein Überblick des ganzen Titels; per Klick oder Ziehen springt man an die genaue Stelle. Wellenform und Beatgrid (genaues Tempo, erster Schlag, Taktbeginn) werden beim Upload zusammen mit BPM und Tonart im Browser des Admins berechnet und in der Plattenkiste gespeichert (rund 15 KB je Titel); vorhandene Songs werden einmalig automatisch nachanalysiert (Mediathek öffnen). Fehlt sie noch, berechnet das Pult sie beim Laden einmalig selbst.
+
 Seit 1.15.4: Fußzeile am Handy: Die Links Impressum / Datenschutz / Cookie-Richtlinie haben keinen Innenabstand mehr und stehen damit bündig links unter der Copyright-Zeile. Einmal „Seiten aus Vorlage einspielen“ klicken.
 
 Seit 1.15.3: Einsatzgebiete: Der Kennzahlen-Block (Fellheim, 8 Städte …) entfällt; die Abschlussbox heißt „Wunschtermin verfügbar? Jetzt unverbindlich anfragen.“ Fußzeile am Handy: Die Copyright-Zeile steht linksbündig, bündig mit Impressum/Datenschutz. Einmal „Seiten aus Vorlage einspielen“ klicken.

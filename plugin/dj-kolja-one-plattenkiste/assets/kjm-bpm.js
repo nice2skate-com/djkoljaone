@@ -79,4 +79,39 @@ function kjmKey(x,sr){
   var maj=bmin?(bpc+3)%12:bpc,num=((maj*7)%12+7)%12+1;
   return num+(bmin?"A":"B");
 }
-if(typeof module!=="undefined")module.exports={kjmBpm:kjmBpm,kjmKey:kjmKey};
+/*WAVE-START*/
+/* Wellenform (3 Bänder, alle 50 ms) + Beatgrid: Float32Array (mono) + Abtastrate + BPM -> {dt,n,d(base64),first,bpm,bar,dur} oder null */
+function kjmWave(x,sr,bpm){
+  var dt=0.05,H=Math.max(1,Math.round(sr*dt)),n=Math.floor(x.length/H),i,j;if(n<40)return null;
+  var a1=Math.exp(-2*Math.PI*140/sr),a2=Math.exp(-2*Math.PI*2500/sr),p1=0,q1=0,p2=0,q2=0;
+  var lo=new Float32Array(n),mi=new Float32Array(n),hi=new Float32Array(n);
+  var H5=Math.max(1,Math.round(sr*0.005)),n5=Math.floor(x.length/H5),eb=new Float32Array(n5),c5=0,s5=0,k5=0;
+  for(i=0;i<n;i++){var sl=0,sm=0,sh=0,base=i*H;
+    for(j=0;j<H;j++){var v=x[base+j];p1+=(1-a1)*(v-p1);q1+=(1-a1)*(p1-q1);p2+=(1-a2)*(v-p2);q2+=(1-a2)*(p2-q2);
+      var l=q1,m=q2-q1,h=v-q2;sl+=l*l;sm+=m*m;sh+=h*h;s5+=l*l;if(++c5===H5){if(k5<n5)eb[k5++]=s5/H5;s5=0;c5=0;}}
+    lo[i]=Math.sqrt(sl/H);mi[i]=Math.sqrt(sm/H);hi[i]=Math.sqrt(sh/H);}
+  // Bänder angleichen (Höhen/Mitten sind energieärmer) und Lautstärke stauchen
+  var a=new Float32Array(n),b=new Float32Array(n),c=new Float32Array(n),mx=new Float32Array(n);
+  for(i=0;i<n;i++){a[i]=Math.pow(lo[i],0.55);b[i]=Math.pow(mi[i]*1.5,0.55);c[i]=Math.pow(hi[i]*3.5,0.55);mx[i]=Math.max(a[i],b[i],c[i]);}
+  var srt=Array.prototype.slice.call(mx).sort(function(p,q){return p-q;}),ref=srt[Math.floor(n*0.98)]||1e-6,out=new Uint8Array(n*3);
+  for(i=0;i<n;i++){out[i*3]=Math.min(255,Math.round(255*a[i]/ref));out[i*3+1]=Math.min(255,Math.round(255*b[i]/ref));out[i*3+2]=Math.min(255,Math.round(255*c[i]/ref));}
+  var bin="";for(i=0;i<out.length;i+=8192)bin+=String.fromCharCode.apply(null,out.subarray(i,i+8192));
+  var res={dt:dt,n:n,d:btoa(bin),dur:Math.round(x.length/sr*100)/100,first:0,bpm:bpm||0,bar:0};
+  // Beatgrid: Anschlag-Hüllkurve des Basses (5 ms), dann Tempo (fein) und Phase suchen
+  if(bpm>=60&&bpm<=200&&n5>400){
+    var s=new Float32Array(n5),env=new Float32Array(n5);for(i=0;i<n5;i++)s[i]=Math.sqrt(eb[i]);
+    var s2=new Float32Array(n5);for(i=3;i<n5-3;i++)s2[i]=(s[i-3]+2*s[i-2]+3*s[i-1]+4*s[i]+3*s[i+1]+2*s[i+2]+s[i+3])/16;s=s2; // Bass-Schwebungen glätten
+    for(i=1;i<n5;i++){var d=s[i]-s[i-1];env[i]=d>0?d:0;}
+    var step=H5/sr,best=-1,bb=bpm,bo=0,cand,pk,off,bt,sc; // Zeitschritt der Hüllkurve (~5 ms, exakt H5/sr)
+    for(cand=bpm-0.7;cand<=bpm+0.7001;cand+=0.02){pk=60/cand/step; // Beat-Abstand in Hüllkurven-Schritten
+      for(off=0;off<pk;off+=1){sc=0;for(bt=off;bt<n5-1;bt+=pk){var ix=Math.round(bt);sc+=env[ix]+0.5*(env[ix-1>0?ix-1:0]+env[ix+1]);}
+        if(sc>best){best=sc;bb=cand;bo=off;}}}
+    var pk2=60/bb/step,ph=[0,0,0,0],cnt=[0,0,0,0],k=0;
+    for(bt=bo;bt<n5-1;bt+=pk2,k++){var q=Math.round(bt);ph[k%4]+=s[q];cnt[k%4]++;}
+    var bar=0,bv=-1;for(i=0;i<4;i++){var av=cnt[i]?ph[i]/cnt[i]:0;if(av>bv){bv=av;bar=i;}}
+    res.first=Math.round(bo*step*1000)/1000;res.bpm=Math.round(bb*100)/100;res.bar=bar;
+  }
+  return res;
+}
+/*WAVE-END*/
+if(typeof module!=="undefined")module.exports={kjmBpm:kjmBpm,kjmKey:kjmKey,kjmWave:kjmWave};
