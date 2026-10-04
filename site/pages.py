@@ -40,7 +40,7 @@ def start():
            "Eine volle Tanzfläche – vom ersten Song bis zum letzten.",[BTN(*WISH),BTN("Leistungen entdecken","#leistungen",False)],
            stats=None,extra=[W("html",{"html":open("./deck/deck-snippet.html").read(),"_element_width":"inherit","width":px(100,"%")})]),
       con([con([IMG(390,150,name=f"start_{i}.jpg",min_height_tablet=px(31,"vw"),min_height_mobile=px(29,"vw"),**col(23.5,23,22)) for i in range(1,5)],"row",g=12,flex_gap_mobile=gap(6),flex_wrap="nowrap",flex_direction_tablet="row",flex_direction_mobile="row",flex_wrap_tablet="nowrap",flex_wrap_mobile="nowrap",flex_justify_content="space-between")],
-          "column",bg=B1,pad=box(0,20,56,20),inner=False,flex_align_items="center",padding_mobile=box(0,20,40,20)),
+          "column",bg=B1,pad=box(0,20,56,20),inner=False,flex_align_items="center",padding_mobile=box(0,20,40,20),css_classes="kjo-grp"),
       section(head("Meine Leistungen","Der richtige Sound für jeden Anlass")+[tiles()],anchor="leistungen"),
       section(head("So einfach geht's","In drei Schritten zu eurem Wunschtermin")+[steps([
           ("Anfrage senden","Datum, Ort und Anlass per Formular oder WhatsApp. Ich melde mich innerhalb von 24 Stunden."),

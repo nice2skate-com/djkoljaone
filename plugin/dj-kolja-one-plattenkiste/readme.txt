@@ -13,6 +13,8 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.13.4: Bild-/Video-Platzhalter auf allen Seiten (Kacheln der Leistungen, Textbilder, Bilderreihe der Startseite) werden nur noch angezeigt, wenn es dazu eine Datei in der Mediathek gibt – sonst entfällt der Platz; Textspalten neben einem leeren Bild nutzen die Breite. Das Ausblenden greift sofort; die Breite der Textspalten und die Startseiten-Bilderreihe brauchen einmal „Seiten aus Vorlage einspielen“ (Medien → Plattenkiste).
+
 Seit 1.13.3: Auch die Ortsseiten (DJ Memmingen, Ulm, Biberach, Ravensburg, Kempten, Füssen, Kaufbeuren, Landsberg), „Über mich“ und „Einsatzgebiete“ bekommen die Galerie und zeigen die Kennzahlen dezent weiter unten. Ortsseiten: Platz n = event_<ort>_n (z. B. event_memmingen_1), sonst gemeinsam event_region_n. „Über mich“: ueber_1 … ueber_8. Der Knopf heißt jetzt „Seiten aus Vorlage einspielen“.
 
 Seit 1.13.2: Der automatisch eingeblendete GEMA-Hinweis auf Galerie-Videos ist wieder entfernt (den Hinweis bringst du bei Bedarf direkt im Video an; Videos mit Ton spielen im großen Player mit Ton).
