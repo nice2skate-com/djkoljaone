@@ -1,9 +1,9 @@
 {
- "version": "1.14.0",
- "download_url": "dj-kolja-one-plattenkiste-1.14.0.zip",
- "sha256": "07b4e436b06648f179eefa117915393ae1a91a2268fa5fd98550519a568ab1d0",
+ "version": "1.15.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.15.0.zip",
+ "sha256": "fa3ad7a7fc34e05fc9d9bf7fa22d67921b0cd5f395d9447474365ce61681526a",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<p>Plattenkiste: getrennte Knöpfe fürs Auflegen (▶) und den Automix (☰+), Hinweiszeile.</p>"
+ "changelog": "<p>Browse-Fenster: Titelliste wie Rekordbox, sortierbar, mit Suche.</p>"
 }
