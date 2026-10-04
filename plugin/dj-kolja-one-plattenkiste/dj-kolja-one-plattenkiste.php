@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.12.5
+ * Version:     1.13.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.12.5' );
+define( 'KJO_VERSION', '1.13.0' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -55,6 +55,59 @@ function kjm_purge_caches() {
 		$done[] = 'LiteSpeed';
 	}
 	return $done;
+}
+
+/**
+ * Elementor-Seiten aus dem Plugin-Ordner „seiten/“ (<slug>.json) in die gleichnamigen WordPress-Seiten einspielen.
+ * Läuft nur auf Knopfdruck (Medien → Plattenkiste). Der bisherige Inhalt bleibt als Sicherung erhalten.
+ */
+function kjo_seiten_sync() {
+	$out = array();
+	foreach ( (array) glob( __DIR__ . '/seiten/*.json' ) as $file ) {
+		$slug = basename( $file, '.json' );
+		$page = get_page_by_path( $slug );
+		if ( ! $page ) {
+			$out[ $slug ] = 'Seite nicht gefunden';
+			continue;
+		}
+		$content = json_decode( (string) file_get_contents( $file ), true ); // phpcs:ignore
+		if ( ! is_array( $content ) || ! $content ) {
+			$out[ $slug ] = 'Vorlage ungültig';
+			continue;
+		}
+		$old = get_post_meta( $page->ID, '_elementor_data', true );
+		$new = wp_json_encode( $content );
+		if ( $old && ( is_string( $old ) ? $old : wp_json_encode( $old ) ) !== $new ) { // Sicherung nicht mit der neuen Fassung überschreiben.
+			update_post_meta( $page->ID, '_kjo_backup_elementor_data', wp_slash( is_string( $old ) ? $old : wp_json_encode( $old ) ) );
+		}
+		wp_save_post_revision( $page->ID );
+		update_post_meta( $page->ID, '_elementor_data', wp_slash( $new ) );
+		update_post_meta( $page->ID, '_elementor_edit_mode', 'builder' );
+		delete_post_meta( $page->ID, '_elementor_css' );
+		delete_post_meta( $page->ID, '_elementor_element_cache' );
+		clean_post_cache( $page->ID );
+		$out[ $slug ] = 'eingespielt';
+	}
+	return $out;
+}
+/** Inhalt vor dem letzten Einspielen wiederherstellen. */
+function kjo_seiten_restore() {
+	$out = array();
+	foreach ( (array) glob( __DIR__ . '/seiten/*.json' ) as $file ) {
+		$slug = basename( $file, '.json' );
+		$page = get_page_by_path( $slug );
+		$bak  = $page ? get_post_meta( $page->ID, '_kjo_backup_elementor_data', true ) : '';
+		if ( ! $bak ) {
+			$out[ $slug ] = 'keine Sicherung';
+			continue;
+		}
+		update_post_meta( $page->ID, '_elementor_data', wp_slash( $bak ) );
+		delete_post_meta( $page->ID, '_elementor_css' );
+		delete_post_meta( $page->ID, '_elementor_element_cache' );
+		clean_post_cache( $page->ID );
+		$out[ $slug ] = 'wiederhergestellt';
+	}
+	return $out;
 }
 /* Automatisches Leeren direkt nach dem SFTP-Deploy: Der Deploy legt eine Einmal-Datei mit zufälligem Token ab und ruft diese Adresse auf. */
 add_action(
@@ -431,9 +484,22 @@ function kjm_admin_page() {
 		$d = kjm_purge_caches();
 		echo '<div class="notice notice-success inline"><p>Zwischenspeicher geleert' . ( $d ? ': ' . esc_html( implode( ', ', $d ) ) : '' ) . '. Falls die Seite noch alt aussieht, zusätzlich den Cache deines Hosters leeren und die Seite neu laden.</p></div>';
 	}
+	foreach ( array( 'kjo_seiten' => 'kjo_seiten_sync', 'kjo_seiten_back' => 'kjo_seiten_restore' ) as $q => $fn ) {
+		if ( isset( $_GET[ $q ] ) && current_user_can( 'manage_options' ) && wp_verify_nonce( isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '', $q ) ) { // phpcs:ignore
+			$r = $fn();
+			$l = array();
+			foreach ( $r as $k => $v ) {
+				$l[] = esc_html( $k . ': ' . $v );
+			}
+			echo '<div class="notice notice-success inline"><p>' . implode( ' · ', $l ) . '. ' . esc_html( implode( ', ', kjm_purge_caches() ) ) . ' geleert.</p></div>';
+		}
+	}
 	echo '<p>So kommt ein Song ins DJ-Pult: MP3 unter <strong>Medien → Datei hinzufügen</strong> hochladen, Titel prüfen und ein <strong>Genre</strong> eintragen. Ein Video erscheint automatisch, wenn eine MP4 mit gleichem Dateinamen in der Mediathek liegt.</p>';
 	kjo_update_box();
 	echo '<p><a class="button" href="' . esc_url( wp_nonce_url( admin_url( 'upload.php?page=kjm-plattenkiste&kjm_purge=1' ), 'kjm_purge' ) ) . '">Zwischenspeicher leeren</a> <span class="description">Wenn nach einem Update auf der Seite noch die alte Version erscheint.</span></p>';
+	if ( glob( __DIR__ . '/seiten/*.json' ) ) {
+		echo '<p><a class="button" onclick="return confirm(\'Die Seiten Hochzeit, Geburtstag, Firmenfeier und Event werden durch die neue Fassung ersetzt (mit Video-Galerie). Der alte Inhalt wird gesichert. Fortfahren?\')" href="' . esc_url( wp_nonce_url( admin_url( 'upload.php?page=kjm-plattenkiste&kjo_seiten=1' ), 'kjo_seiten' ) ) . '">Leistungsseiten aus Vorlage einspielen</a> <a class="button" href="' . esc_url( wp_nonce_url( admin_url( 'upload.php?page=kjm-plattenkiste&kjo_seiten_back=1' ), 'kjo_seiten_back' ) ) . '">Letzten Stand wiederherstellen</a> <span class="description">Die vier Leistungsseiten mit Video-Galerie; der vorherige Inhalt wird gesichert.</span></p>';
+	}
 	$n = kjm_protect_sync();
 	if ( false === $n ) {
 		echo '<div class="notice notice-warning inline"><p><strong>Download-Schutz nur teilweise aktiv:</strong> Die Adressen der Songs sind versteckt, aber die Sperrdatei <code>wp-content/uploads/.htaccess</code> konnte nicht geschrieben werden.</p></div>';
