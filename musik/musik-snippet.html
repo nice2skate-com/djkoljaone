@@ -74,13 +74,43 @@ window.KJM_DEMO = [
 #kjm .front{height:28px;margin:0 -22px;margin-top:-6px;position:relative;z-index:3;background:linear-gradient(#2a241b,#171309);border-top:1px solid rgba(178,157,117,.35);border-radius:0 0 6px 6px;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase}
 @media(max-width:1000px){#kjm .cratewrap{grid-template-columns:1fr}#kjm .cratewrap .amx{position:static;order:-1}#kjm .amx #kjmAmTog{display:block}#kjm .amx .aq{display:none}#kjm .amx.open .aq{display:flex}#kjm .amx .as{min-height:4.4em}#kjm .rig{grid-template-columns:1fr}#kjm .lap{order:-1;max-width:520px;width:100%;margin:0 auto}#kjm .sleeves{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:1000px){#kjm .gdiv{margin-bottom:calc((100% - 28px)*.08 + 12px)}#kjm .sleeves.one{padding-top:calc((100% - 28px)*.08 + 4px)}}
-@media(max-width:600px){#kjm .sleeves{gap:8px}#kjm .sl .cv{padding:7px;aspect-ratio:1/1.22}#kjm .sl .pl,#kjm .sl .qa{min-width:34px;height:34px;border-radius:17px}#kjm .sl .pl{width:34px}#kjm .sl .t{font-size:12px}#kjm .sl .s{display:none}#kjm .crate{padding:20px 12px 0}#kjm .front{margin:0 -12px;font-size:8px;letter-spacing:2px}#kjm .hint{font-size:11px;letter-spacing:2px}}
+@media(max-width:600px){#kjm .sleeves{gap:8px}#kjm .sl .cv{padding:7px;aspect-ratio:1/1.22}#kjm .sl .qa{min-width:34px;height:34px;border-radius:17px}#kjm .sl .dk{height:34px;border-radius:17px}#kjm .sl .t{font-size:12px}#kjm .sl .s{display:none}#kjm .crate{padding:20px 12px 0}#kjm .front{margin:0 -12px;font-size:8px;letter-spacing:2px}#kjm .hint{font-size:11px;letter-spacing:2px}}
 #kjm .sl .kb{position:absolute;top:8px;right:8px;z-index:2;font-size:11px;font-weight:500;letter-spacing:1px;line-height:1;padding:3px 6px;border-radius:3px;color:var(--kc);background:rgba(15,12,7,.82);border:1px solid var(--kc)}
 #kjm .sl .m{font-size:10px;color:var(--gold);position:relative;z-index:2;margin-top:3px;letter-spacing:1px}
 #kjm .sl.ok .cv{border-color:#8FC79A;box-shadow:inset 0 0 0 1px #8FC79A}#kjm .sl.mid .cv{border-color:#E0B36A;box-shadow:inset 0 0 0 1px #E0B36A}#kjm .sl.no{opacity:.5}#kjm .sl.no:hover,#kjm .sl.no:focus-visible{opacity:1}
 #kjm .tab.fit{border-color:#8FC79A;color:#8FC79A}#kjm .tab.fit.on{background:#8FC79A;color:var(--b1)}
 #kjm .keys{max-width:1000px;margin:14px auto 0;text-align:center;font-size:11px;letter-spacing:2px;color:var(--muted)}#kjm .keys b{font-weight:400;color:var(--gold)}
 #kjm .pf{cursor:ns-resize;touch-action:none;outline:none}#kjm .pf:focus-visible rect:nth-of-type(2){stroke:#F3F1E9}#kjm .sync{cursor:pointer;outline:none}#kjm .sync:focus-visible circle{stroke:#F3F1E9}
+#kjm .brow{display:flex;justify-content:center;margin:0 0 10px}
+#kjm #kjmBrowse{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border:1px solid var(--gold);border-radius:3px;background:linear-gradient(#26211a,#15120d);color:var(--gold);font:inherit;font-size:12px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:.15s}
+#kjm #kjmBrowse svg{width:16px;height:16px;fill:currentColor}#kjm #kjmBrowse:hover,#kjm #kjmBrowse:focus-visible{background:var(--gold);color:var(--b1);outline:none}
+.kjmbw{--b1:#0F0C07;--b2:#1A1712;--gold:#B29D75;--off:#F3F1E9;--muted:#A39E93;position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(8,6,3,.9);font-family:"Fira Sans",sans-serif;color:var(--off);-webkit-tap-highlight-color:transparent}.kjmbw.on{display:flex}
+.kjmbw .bd{display:flex;flex-direction:column;width:100%;max-width:1120px;max-height:100%;background:linear-gradient(#1f1b15,#141109);border:1px solid rgba(178,157,117,.45);border-radius:6px;box-shadow:0 30px 80px rgba(0,0,0,.7);overflow:hidden}
+.kjmbw .bh{display:flex;align-items:center;gap:14px;padding:12px 14px;border-bottom:1px solid rgba(178,157,117,.3)}
+.kjmbw .bh h2{margin:0;font-size:13px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--gold)}.kjmbw .bh .cnt{font-size:12px;color:var(--muted)}
+.kjmbw .bh input{flex:1;min-width:0;max-width:340px;margin-left:auto;padding:7px 10px;border:1px solid rgba(178,157,117,.35);border-radius:3px;background:#0F0C07;color:var(--off);font:inherit;font-size:13px}.kjmbw .bh input:focus{outline:none;border-color:var(--gold)}
+.kjmbw .bx{width:34px;height:34px;border:1px solid var(--gold);border-radius:50%;background:none;color:var(--gold);font-size:18px;line-height:1;cursor:pointer;flex:none}.kjmbw .bx:hover{background:var(--gold);color:var(--b1)}
+.kjmbw .bt{overflow:auto;-webkit-overflow-scrolling:touch}
+.kjmbw table{width:100%;border-collapse:collapse;font-size:13px}
+.kjmbw th{position:sticky;top:0;z-index:2;background:#1b1812;padding:0;text-align:left;border-bottom:1px solid rgba(178,157,117,.4);white-space:nowrap}
+.kjmbw th button{width:100%;padding:9px 10px;border:0;background:none;color:var(--muted);font:inherit;font-size:11px;letter-spacing:2px;text-transform:uppercase;text-align:left;cursor:pointer}.kjmbw th button:hover{color:var(--off)}
+.kjmbw th[aria-sort] button{color:var(--gold)}.kjmbw th button i{font-style:normal;margin-left:6px;font-size:10px}
+.kjmbw td{padding:6px 10px;border-bottom:1px solid rgba(178,157,117,.12);white-space:nowrap;vertical-align:middle}
+.kjmbw tbody tr:nth-child(even){background:rgba(255,255,255,.02)}.kjmbw tbody tr:hover{background:rgba(178,157,117,.12)}.kjmbw tbody tr.cur td:nth-child(2){color:#8FC79A}
+.kjmbw .ic{width:34px;height:34px;border-radius:3px;background:#111 center/cover no-repeat;border:1px solid rgba(178,157,117,.3);display:block;position:relative}
+.kjmbw .ic.d:after{content:"";position:absolute;inset:6px;border-radius:50%;background:radial-gradient(circle,var(--lab) 0 22%,#000 23% 26%,#1a1a1a 27%)}
+.kjmbw td.t{max-width:300px;overflow:hidden;text-overflow:ellipsis}.kjmbw td.t small{display:block;color:var(--muted);font-size:11px;overflow:hidden;text-overflow:ellipsis}.kjmbw td.g,.kjmbw td.al{max-width:200px;overflow:hidden;text-overflow:ellipsis}
+.kjmbw td.n{text-align:right;font-variant-numeric:tabular-nums}.kjmbw .kb{display:inline-block;min-width:34px;text-align:center;padding:2px 6px;border:1px solid var(--kc);border-radius:3px;color:var(--kc);font-size:12px}
+.kjmbw .ac{display:flex;gap:6px;justify-content:flex-end}.kjmbw .ac button{min-width:32px;height:32px;padding:0 8px;border-radius:16px;background:rgba(15,12,7,.85);font:inherit;font-size:12px;display:inline-flex;align-items:center;justify-content:center;gap:3px;cursor:pointer}
+.kjmbw .ac svg{width:16px;height:16px;fill:currentColor}.kjmbw .ac .pl{border:1px solid var(--gold);color:var(--gold);width:32px;padding:0}.kjmbw .ac .pl:hover{background:var(--gold);color:var(--b1)}
+.kjmbw .ac .qa{border:1px solid var(--off);color:var(--off)}.kjmbw .ac .qa:hover,.kjmbw .ac .qa.in{background:var(--off);color:var(--b1)}
+.kjmbw .em{padding:30px;text-align:center;color:var(--muted)}.kjmbw .bf{padding:8px 14px;border-top:1px solid rgba(178,157,117,.25);font-size:11px;letter-spacing:1px;color:var(--muted)}
+@media(max-width:700px){.kjmbw{padding:0}.kjmbw .bd{max-height:100%;border-radius:0;height:100%}.kjmbw th:nth-child(1),.kjmbw td:nth-child(1),.kjmbw th:nth-child(7),.kjmbw td:nth-child(7){display:none}.kjmbw table{font-size:12px}.kjmbw td{padding:6px 4px}.kjmbw th button{padding:9px 4px;font-size:10px;letter-spacing:1px}.kjmbw td.t{max-width:92px;white-space:normal;line-height:1.2}.kjmbw td.g{max-width:62px}.kjmbw .kb{min-width:0;padding:2px 4px;font-size:11px}.kjmbw .ac{gap:4px}.kjmbw .ac button{min-width:28px;height:30px}.kjmbw .dk{height:30px}.kjmbw .dk>button{min-width:26px;padding:0 4px 0 3px;font-size:10px}.kjmbw .ac .qa{padding:0 6px}.kjmbw .bh input{max-width:none}.kjmbw .bh .cnt{display:none}}
+#kjm .sl .dk,.kjmbw .dk{display:inline-flex;height:32px;border:1px solid var(--gold);border-radius:16px;overflow:hidden;background:rgba(15,12,7,.85);box-sizing:border-box}
+#kjm .sl .dk>span,.kjmbw .dk>button{display:flex;align-items:center;justify-content:center;gap:2px;min-width:31px;padding:0 6px 0 5px;border:0;background:none;color:var(--gold);font:inherit;font-size:11px;font-weight:500;letter-spacing:1px;line-height:1;cursor:pointer;transition:.15s}
+#kjm .sl .dk>span+span,.kjmbw .dk>button+button{border-left:1px solid rgba(178,157,117,.55)}.kjmbw .ac .dk>button{border-radius:0}.kjmbw .ac .dk>button{border-radius:0;min-width:31px}
+#kjm .sl .dk svg,.kjmbw .dk svg{width:9px;height:9px;fill:currentColor;flex:none}
+#kjm .sl .dk>span:hover,#kjm .sl .dk>span.on,.kjmbw .dk>button:hover,.kjmbw .dk>button.on{background:var(--gold);color:var(--b1)}
 #kjm .sl .cv{aspect-ratio:1/1.16}
 #kjm .sl .ab{position:relative;z-index:3;display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
 #kjm .sl .pl,#kjm .sl .qa{min-width:32px;height:32px;border-radius:16px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:3px;background:rgba(15,12,7,.85);font-size:12px;font-weight:500;line-height:1;transition:.15s}
@@ -90,7 +120,7 @@ window.KJM_DEMO = [
 #kjm .sl .pl:hover{background:var(--gold);color:var(--b1)}#kjm .sl .qa:hover{background:var(--off);color:var(--b1)}#kjm .sl .qa.in{background:var(--off);color:var(--b1)}
 #kjm .legend{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 18px;margin:0 0 14px;font-size:12px;letter-spacing:1px;color:var(--muted)}
 #kjm .legend span{display:inline-flex;align-items:center;gap:7px}#kjm .legend i{display:inline-flex;width:24px;height:24px;border-radius:12px;align-items:center;justify-content:center;box-sizing:border-box;font-style:normal}
-#kjm .legend i svg{width:13px;height:13px;fill:currentColor}#kjm .legend .lp{border:1px solid var(--gold);color:var(--gold)}#kjm .legend .lq{border:1px solid var(--off);color:var(--off)}
+#kjm .legend i svg{width:13px;height:13px;fill:currentColor}#kjm .legend .lp{border:1px solid var(--gold);color:var(--gold)}#kjm .legend .dkl{width:auto;padding:0;gap:0;font-size:10px;letter-spacing:1px}#kjm .legend .dkl b{font-weight:500;padding:0 7px}#kjm .legend .dkl b+b{border-left:1px solid rgba(178,157,117,.55)}#kjm .legend .lq{border:1px solid var(--off);color:var(--off)}
 #kjm .amx{position:sticky;top:110px;margin:0;border:1px solid rgba(178,157,117,.35);border-radius:6px;padding:16px;background:linear-gradient(#1f1b15,#141109)}
 #kjm .amx .ah{display:grid;grid-template-columns:1fr auto;gap:10px}#kjm .amx .at,#kjm .amx .as{grid-column:1/-1}#kjm .amx .go,#kjm .amx .live{grid-column:1}#kjm .amx #kjmAmClr{grid-column:2}
 #kjm .amx .at{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-weight:500}
@@ -109,7 +139,7 @@ window.KJM_DEMO = [
 #kjm .seek{cursor:pointer;touch-action:none;outline:none}#kjm .seek:focus-visible{stroke:#B29D75;stroke-width:1}#kjm .kn{cursor:ns-resize;touch-action:none;outline:none}#kjm .kn:focus-visible circle:nth-of-type(3){stroke:#E0B36A}#kjm .fxb{cursor:pointer;outline:none}#kjm .fxb:focus-visible rect:nth-of-type(2){stroke:#F3F1E9}#kjm .chf{cursor:ns-resize;touch-action:none;outline:none}#kjm .chf:focus-visible rect:nth-of-type(2){stroke:#F3F1E9}</style>
 <p class="hint" id="kjmHint">Zieh eine Platte aus der Kiste und leg auf</p>
 <div class="rig">
- <div class="ctrl"><svg id="kjmSvg" viewBox="0 0 1200 600" role="img" aria-label="DJ-Controller mit zwei Decks, Mixer und Crossfader"></svg></div>
+ <div class="ctrl"><div class="brow"><button type="button" id="kjmBrowse" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v2H3zM3 11h18v2H3zM3 17h12v2H3z"/></svg>BROWSE · Titel laden</button></div><svg id="kjmSvg" viewBox="0 0 1200 600" role="img" aria-label="DJ-Controller mit zwei Decks, Mixer und Crossfader"></svg></div>
  <div class="lap" aria-label="Laptop mit Video-Anzeige">
   <div class="lid"><div class="cam"></div><div class="scr">
    <div class="cov" id="kjmCov"></div><canvas id="kjmVis" width="640" height="400"></canvas>
@@ -121,7 +151,7 @@ window.KJM_DEMO = [
   <div class="rate" id="kjmRate"><div class="q" id="kjmRateQ">Leg einen Song auf und bewerte ihn</div><div class="st" id="kjmStars"></div><div class="avg" id="kjmAvg">&nbsp;</div></div>
  </div>
 </div>
-<div class="cratewrap"><div class="crate"><div class="tabs" id="kjmTabs" role="tablist" aria-label="Genres"></div><p class="legend"><span><i class="lp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg></i>selbst auflegen &amp; mixen</span><span><i class="lq"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h12v2H3zM3 11h12v2H3zM3 16h8v2H3zM18 11v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg></i>in den Automix legen</span></p><div class="sleeves" id="kjmCrate"></div><div class="front">Plattenkiste · Such dir einen Song aus</div></div><aside class="amx" id="kjmAmx" aria-label="Automix"><div class="ah"><span class="at">Automix</span><span class="as" id="kjmAmS"></span><button type="button" class="go" id="kjmAmGo">▶ Automix starten</button><button type="button" id="kjmAmClr">Leeren</button><button type="button" id="kjmAmTog" aria-expanded="false">Playlist anzeigen</button></div><div class="aq" id="kjmAmQ"></div><button type="button" class="dgb" id="kjmAmDg">Diagnose</button><textarea id="kjmAmLog" class="dgt" readonly rows="9" style="display:none" aria-label="Diagnose-Protokoll"></textarea></aside></div>
+<div class="cratewrap"><div class="crate"><div class="tabs" id="kjmTabs" role="tablist" aria-label="Genres"></div><p class="legend"><span><i class="lp dkl"><b>A</b><b>B</b></i>auf Deck A oder B legen &amp; selbst mixen</span><span><i class="lq"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h12v2H3zM3 11h12v2H3zM3 16h8v2H3zM18 11v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg></i>in den Automix legen</span></p><div class="sleeves" id="kjmCrate"></div><div class="front">Plattenkiste · Such dir einen Song aus</div></div><aside class="amx" id="kjmAmx" aria-label="Automix"><div class="ah"><span class="at">Automix</span><span class="as" id="kjmAmS"></span><button type="button" class="go" id="kjmAmGo">▶ Automix starten</button><button type="button" id="kjmAmClr">Leeren</button><button type="button" id="kjmAmTog" aria-expanded="false">Playlist anzeigen</button></div><div class="aq" id="kjmAmQ"></div><button type="button" class="dgb" id="kjmAmDg">Diagnose</button><textarea id="kjmAmLog" class="dgt" readonly rows="9" style="display:none" aria-label="Diagnose-Protokoll"></textarea></aside></div>
 <script>
 (function(){
 var LOG=[],logBox=null;function lg(m){LOG.push((performance.now()/1000).toFixed(1)+"s "+m);if(LOG.length>150)LOG.shift();if(logBox&&logBox.style.display!=="none"){logBox.value=LOG.join("\n");logBox.scrollTop=logBox.scrollHeight}}
@@ -356,6 +386,10 @@ function sleeveRating(s){return s.count?star(10)+" "+de(s.avg.toFixed(1))+" · "
 var refK="",refS=null,onlyFit=false;
 var AM={on:false,man:false,q:[],qi:-1,main:0,trans:null,len:16,loFx:false,endT:0,glideT:0};
 var IPLAY='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>',ILADD='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h12v2H3zM3 11h12v2H3zM3 16h8v2H3zM18 11v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>',ICHK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 16.2 5.3 12l-1.4 1.4 5.6 5.6L21 7.5l-1.4-1.4z"/></svg>';
+function loadDeck(i,side){audio();unlockMedia();amManual();var o=decks[side];
+ if(o.song===S[i]){toggle(o);updDk();return}
+ loadTo(o,i,true);nextDeck=1-side;setXf(side?Math.max(xv,.0):Math.min(xv,0));hint.textContent="Deck "+(side?"B":"A")+": "+S[i].titel+" · Crossfader: mixen · Tempo-Regler + SYNC: Tempo angleichen";updDk()}
+function updDk(){sleeves.forEach(function(b,i){if(!b)return;[].forEach.call(b.querySelectorAll(".dk>span"),function(c){var on=decks[+c.dataset.d].song===S[i];c.classList.toggle("on",on);c.setAttribute("aria-pressed",on?"true":"false")})});}
 function buildCrate(){var box=document.getElementById("kjmCrate"),tabs=document.getElementById("kjmTabs");box.innerHTML="";tabs.innerHTML="";sleeves=[];box.classList.toggle("one",curG!=="Alle");
  genres=[];S.forEach(function(s){if(genres.indexOf(s.genre)<0)genres.push(s.genre)});genres.sort(function(a,b){return a.localeCompare(b,"de")});
  ["Alle"].concat(genres).forEach(function(g){var t=document.createElement("button");t.className="tab"+(g===curG?" on":"");t.setAttribute("role","tab");
@@ -369,9 +403,9 @@ function buildCrate(){var box=document.getElementById("kjmCrate"),tabs=document.
   list.forEach(function(i){var s=S[i];var b=document.createElement("button");var c=fit(s);b.className="sl"+(decks.some(function(o){return o.song===s})?" on":"")+(c?(c.lv>=3?" ok":c.lv===2?" mid":" no"):"");b.style.setProperty("--lab",s.farbe);
    b.setAttribute("aria-label",s.titel+(s.key?", Tonart "+s.key+" ("+(CAMN[s.key]||"")+")":"")+(s.bpm?", "+s.bpm+" BPM":"")+(c?", "+c.t.toLowerCase()+" zu "+refK:"")+", auflegen oder zum Automix hinzufügen");if(s.key)b.title=s.key+" · "+(CAMN[s.key]||"")+(s.bpm?" · "+s.bpm+" BPM":"")+(c?" · "+c.t+" zu "+refK:"");
    var cst=s.cover?' class="cv hc" style="background-image:linear-gradient(to top,rgba(15,12,7,.97) 42%,rgba(15,12,7,.35) 85%),url(&quot;'+esc(s.cover)+'&quot;)"':' class="cv"';
-   b.innerHTML='<span class="disc"></span><span'+cst+'>'+(s.video?'<span class="vb">VIDEO</span>':'')+(s.key?'<span class="kb" style="--kc:'+camCol(s.key)+'">'+esc(s.key)+'</span>':'')+'<span class="n">'+esc(s.genre.toUpperCase())+'</span><span class="t">'+esc(s.titel)+'</span>'+(s.info?'<span class="s">'+esc(s.info)+'</span>':'')+((s.bpm||s.key)?'<span class="m">'+[s.bpm?s.bpm+" BPM":"",s.key?CAMN[s.key]||"":""].filter(Boolean).join(" · ")+'</span>':'')+'<span class="r">'+sleeveRating(s)+'</span><span class="ab"><span class="pl" role="button" aria-label="Selbst auflegen" title="Selbst auflegen">'+IPLAY+'</span><span class="qa" role="button" aria-label="Zum Automix hinzufügen" title="Zum Automix hinzufügen">'+ILADD+'</span></span></span>';
-   var qa=b.querySelector(".qa");qa.addEventListener("click",function(e){e.stopPropagation();e.preventDefault();audio();unlockMedia();amToggle(s)});var pl=b.querySelector(".pl");pl.addEventListener("click",function(e){e.stopPropagation();e.preventDefault();amManual();load(i)});
-   b.addEventListener("click",function(){amManual();load(i)});box.appendChild(b);sleeves[i]=b})});markQ()}
+   b.innerHTML='<span class="disc"></span><span'+cst+'>'+(s.video?'<span class="vb">VIDEO</span>':'')+(s.key?'<span class="kb" style="--kc:'+camCol(s.key)+'">'+esc(s.key)+'</span>':'')+'<span class="n">'+esc(s.genre.toUpperCase())+'</span><span class="t">'+esc(s.titel)+'</span>'+(s.info?'<span class="s">'+esc(s.info)+'</span>':'')+((s.bpm||s.key)?'<span class="m">'+[s.bpm?s.bpm+" BPM":"",s.key?CAMN[s.key]||"":""].filter(Boolean).join(" · ")+'</span>':'')+'<span class="r">'+sleeveRating(s)+'</span><span class="ab"><span class="dk" role="group" aria-label="Auf Deck A oder B legen"><span class="da" role="button" data-d="0" aria-label="Auf Deck A legen" title="Auf Deck A legen">'+IPLAY+'A</span><span class="db" role="button" data-d="1" aria-label="Auf Deck B legen" title="Auf Deck B legen">'+IPLAY+'B</span></span><span class="qa" role="button" aria-label="Zum Automix hinzufügen" title="Zum Automix hinzufügen">'+ILADD+'</span></span></span>';
+   var qa=b.querySelector(".qa");qa.addEventListener("click",function(e){e.stopPropagation();e.preventDefault();audio();unlockMedia();amToggle(s)});[].forEach.call(b.querySelectorAll(".dk>span"),function(c){c.addEventListener("click",function(e){e.stopPropagation();e.preventDefault();loadDeck(i,+c.dataset.d)})});
+   b.addEventListener("click",function(){amManual();load(i)});box.appendChild(b);sleeves[i]=b})});markQ();updDk()}
 function init(list,mode){S=list.map(function(s,i){s.genre=(s.genre||"Sonstiges").trim();s.bpm=+s.bpm||0;s.key=CAMN[String(s.key||'').toUpperCase().replace(/^0+/,'')]?String(s.key).toUpperCase().replace(/^0+/,''):'';s.farbe=s.farbe||PAL[i%PAL.length];s.avg=+s.avg||0;s.count=+s.count||0;return s});MODE=mode;buildCrate()}
 var demo0=(window.KJM_DEMO||[]).map(function(s){var c={};for(var k in s)c[k]=s[k];return c});
 if(location.protocol.indexOf("http")===0&&window.fetch){fetch(window.KJM_API+"/songs",{credentials:"same-origin"}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(l){if(!l||!l.length)throw 0;init(l,"live")}).catch(function(){init(demo0,"demo")})}else init(demo0,"demo");
@@ -402,7 +436,7 @@ function loadTo(o,i,play,lazy){audio();stopMedia(o);o.pendingSrc=null;o.rescued=
  if(o.media){if(lazy)o.pendingSrc=s.video||s.audio;else{o.media.preload="auto";o.media.src=s.video||s.audio;o.media.currentTime=0}}
  vinyl(o,s,i);o.scrT.textContent="DECK "+(o.side?"B":"A")+" · "+s.titel.toUpperCase();o.scrS.textContent=s.info+(o.media?"":" · Demo");showBpm(o);setKey(o,s);updCompat();o.angle=0;
  if(oldBlob)setTimeout(function(){try{URL.revokeObjectURL(oldBlob)}catch(e){}},1500);
- if(play){start(o);active=o}}
+ if(play){start(o);active=o}updDk()}
 function load(i){audio();if(ac.state==="suspended")ac.resume();
  for(var k=0;k<2;k++)if(decks[k].song===S[i]){toggle(decks[k]);return}
  var o=decks[nextDeck];nextDeck=1-nextDeck;loadTo(o,i,true);
@@ -442,7 +476,7 @@ function amStop(msg){lg("Automix: beendet");AM.on=false;AM.man=false;AM.trans=nu
 function amSyncQi(){var k=decks[AM.main]&&decks[AM.main].song?AM.q.indexOf(decks[AM.main].song):-1;AM.qi=k>=0?k:Math.min(AM.qi,AM.q.length-1)}
 function amToggle(sg){var k=AM.q.indexOf(sg);if(k>=0)AM.q.splice(k,1);else AM.q.push(sg);amSyncQi();amUI();markQ()}
 function amMove(i,d){var j=i+d;if(j<0||j>=AM.q.length)return;var t=AM.q[i];AM.q[i]=AM.q[j];AM.q[j]=t;amSyncQi();amUI();markQ()}
-function markQ(){S.forEach(function(sg,i){var b=sleeves[i];if(!b)return;var qa=b.querySelector(".qa");if(!qa)return;var k=AM.q.indexOf(sg);qa.className="qa"+(k>=0?" in":"");qa.innerHTML=k>=0?ICHK+String(k+1):ILADD;
+function markQ(){if(typeof bwEl!=="undefined"&&bwEl&&bwEl.classList.contains("on"))setTimeout(bwRows,0);S.forEach(function(sg,i){var b=sleeves[i];if(!b)return;var qa=b.querySelector(".qa");if(!qa)return;var k=AM.q.indexOf(sg);qa.className="qa"+(k>=0?" in":"");qa.innerHTML=k>=0?ICHK+String(k+1):ILADD;
   qa.setAttribute("aria-label",k>=0?"Aus dem Automix entfernen (Platz "+(k+1)+")":"Zum Automix hinzufügen");qa.title=k>=0?"Aus dem Automix entfernen":"Zum Automix hinzufügen"})}
 function renderQ(){amQ.innerHTML="";AM.q.forEach(function(sg,i){var c=document.createElement("span");c.className="qi"+(AM.on&&i===AM.qi?" cur":AM.on&&i===AM.qi+1?" nxt":"");
   c.innerHTML="<i>"+(i+1)+"</i><span>"+esc(sg.titel)+"</span><em>"+esc([sg.key,sg.bpm?sg.bpm+" BPM":""].filter(Boolean).join(" · "))+"</em>";
@@ -453,7 +487,7 @@ function amUI(rem,msg){var n=AM.q.length;amGo.disabled=!n&&!AM.on;var blk=AM.on&
  if(AM.on&&decks.some(function(d){return d.blocked&&d.target>0}))t="Dein Browser wartet auf eine Berührung – tippe einmal ins Pult, dann läuft der Song weiter.";
  else if(AM.on){var nx=AM.q[AM.qi+1];t=AM.trans?"Mix läuft: "+AM.trans.from.song.titel+" → "+AM.trans.to.song.titel:(nx?"Automix läuft · nächster Mix in "+fmt(Math.max(0,(rem||0)-AM.len))+" → "+nx.titel:"Automix läuft · letzter Song")}
  else if(AM.man)t="Manuell – Automix pausiert. Die Decks laufen weiter, du mixt selbst.";
- else t=n?n+(n===1?" Song":" Songs")+" in der Playlist – bereit zum Start.":"Tippe bei einer Platte auf das Listen-Symbol mit Plus (☰+), um sie in den Automix zu legen – die Songs werden nacheinander automatisch geladen und gemixt. Mit ▶ legst du selbst auf.";
+ else t=n?n+(n===1?" Song":" Songs")+" in der Playlist – bereit zum Start.":"Tippe bei einer Platte auf das Listen-Symbol mit Plus (☰+), um sie in den Automix zu legen – die Songs werden nacheinander automatisch geladen und gemixt. Mit A / B legst du selbst auf.";
  amS.textContent=msg||t;if(!AM.trans||msg)renderQ();var op=amBox.classList.contains("open");amTog.textContent="Playlist ("+n+") "+(op?"verbergen":"anzeigen");amTog.setAttribute("aria-expanded",op?"true":"false")}
 var SILURL="";
 function silentUrl(){if(SILURL)return SILURL;var n=1600,b=new ArrayBuffer(44+n*2),v=new DataView(b);function w(o,t){for(var i=0;i<t.length;i++)v.setUint8(o+i,t.charCodeAt(i))}
@@ -492,6 +526,32 @@ setInterval(amTick,100);
 amTog.addEventListener("click",function(){amBox.classList.toggle("open");amUI()});
 amGo.addEventListener("click",function(){if(Date.now()-resumedAt<800)return;/* dieser Tipp hat gerade einen blockierten Song freigegeben */if(AM.on)amManual();else amStart()});
 amClr.addEventListener("click",function(){AM.q=[];AM.qi=AM.on?-1:AM.qi;amSyncQi();amUI();markQ()});
+/* ---------- Browse (Titelliste wie Rekordbox) ---------- */
+var bwEl=null,bwSort={c:"",d:1},bwQ="",bwLast=null;
+var BWC=[["ic","",null],["t","Titel",function(s){return s.titel||""}],["bpm","BPM",function(s){return s.bpm||0}],["cam","Camelot",function(s){var m=/^(\d+)([AB])$/.exec(s.key||"");return m?(+m[1])*2+(m[2]==="B"?1:0):0}],["ton","Tonart",function(s){return s.key?CAMN[s.key]||"":""}],["gen","Genre",function(s){return s.genre||""}],["alb","Album",function(s){return s.album||""}],["ac","",null]];
+function bwBuild(){if(bwEl)return;var d=document.createElement("div");d.className="kjmbw";d.setAttribute("role","dialog");d.setAttribute("aria-modal","true");d.setAttribute("aria-label","Titel durchsuchen");
+ d.innerHTML='<div class="bd"><div class="bh"><h2>Browse</h2><span class="cnt"></span><input type="search" placeholder="Suchen (Titel, Genre, Album, Tonart …)" aria-label="Suchen"><button type="button" class="bx" aria-label="Schließen">✕</button></div><div class="bt"><table><thead><tr></tr></thead><tbody></tbody></table></div><div class="bf">Klick auf eine Spaltenüberschrift sortiert (aufsteigend / absteigend) · A / B legt den Titel auf Deck A bzw. B · ☰+ legt ihn in den Automix · Doppelklick = auflegen</div></div>';
+ document.body.appendChild(d);bwEl=d;var tr=d.querySelector("thead tr");
+ BWC.forEach(function(c){var th=document.createElement("th");if(c[2]){th.innerHTML='<button type="button">'+c[1]+'<i></i></button>';th.firstChild.onclick=function(){if(bwSort.c===c[0])bwSort.d=-bwSort.d;else{bwSort.c=c[0];bwSort.d=1}bwRows()}}th.dataset.c=c[0];tr.appendChild(th)});
+ d.querySelector(".bx").onclick=bwClose;d.addEventListener("mousedown",function(e){if(e.target===d)bwClose()});
+ d.querySelector("input").addEventListener("input",function(e){bwQ=e.target.value.toLowerCase();bwRows()});
+ document.addEventListener("keydown",function(e){if(e.key==="Escape"&&bwEl&&bwEl.classList.contains("on"))bwClose()})}
+function bwRows(){if(!bwEl)return;var tb=bwEl.querySelector("tbody"),list=S.map(function(s,i){return{s:s,i:i}});
+ if(bwQ)list=list.filter(function(r){var s=r.s;return[s.titel,s.info,s.genre,s.album,s.key,s.key?CAMN[s.key]:"",s.bpm].join(" ").toLowerCase().indexOf(bwQ)>=0});
+ var c=BWC.filter(function(x){return x[0]===bwSort.c})[0];
+ if(c){var f=c[2];list.sort(function(a,b){var x=f(a.s),y=f(b.s),ex=(x===""||x===0),ey=(y===""||y===0);if(ex!==ey)return ex?1:-1;var r=typeof x==="number"?x-y:String(x).localeCompare(String(y),"de",{numeric:true});return r*bwSort.d||(a.i-b.i)})}
+ [].forEach.call(bwEl.querySelectorAll("th"),function(th){var on=th.dataset.c===bwSort.c;if(on)th.setAttribute("aria-sort",bwSort.d>0?"ascending":"descending");else th.removeAttribute("aria-sort");var i=th.querySelector("i");if(i)i.textContent=on?(bwSort.d>0?"▲":"▼"):""});
+ bwEl.querySelector(".cnt").textContent=list.length+" von "+S.length+" Titeln";
+ tb.innerHTML="";if(!list.length){tb.innerHTML='<tr><td colspan="8" class="em">Keine Titel gefunden.</td></tr>';return}
+ list.forEach(function(r){var s=r.s,tr=document.createElement("tr"),cur=decks.some(function(o){return o.song===s});if(cur)tr.className="cur";
+  var k=AM.q.indexOf(s);
+  tr.innerHTML='<td><span class="ic'+(s.cover?'':' d')+'" style="--lab:'+esc(s.farbe||"#B29D75")+(s.cover?';background-image:url(&quot;'+esc(s.cover)+'&quot;)':'')+'"></span></td><td class="t">'+esc(s.titel)+(s.info?'<small>'+esc(s.info)+'</small>':'')+'</td><td class="n">'+(s.bpm||"–")+'</td><td>'+(s.key?'<span class="kb" style="--kc:'+camCol(s.key)+'">'+esc(s.key)+'</span>':"–")+'</td><td>'+esc(s.key?CAMN[s.key]||"":"–")+'</td><td class="g">'+esc(s.genre||"–")+'</td><td class="al">'+esc(s.album||"–")+'</td><td><div class="ac"><span class="dk" role="group" aria-label="Auf Deck A oder B legen"><button type="button" data-d="0" class="'+(decks[0].song===s?"on":"")+'" aria-label="Auf Deck A legen: '+esc(s.titel)+'" title="Auf Deck A legen">'+IPLAY+'A</button><button type="button" data-d="1" class="'+(decks[1].song===s?"on":"")+'" aria-label="Auf Deck B legen: '+esc(s.titel)+'" title="Auf Deck B legen">'+IPLAY+'B</button></span><button type="button" class="qa'+(k>=0?" in":"")+'" aria-label="'+(k>=0?"Aus dem Automix entfernen":"Zum Automix hinzufügen")+': '+esc(s.titel)+'" title="'+(k>=0?"Aus dem Automix entfernen":"Zum Automix hinzufügen")+'">'+(k>=0?ICHK+(k+1):ILADD)+'</button></div></td>';
+  [].forEach.call(tr.querySelectorAll(".dk>button"),function(c){c.onclick=function(e){e.stopPropagation();loadDeck(r.i,+c.dataset.d);bwRows()}});
+  tr.querySelector(".qa").onclick=function(e){e.stopPropagation();audio();unlockMedia();amToggle(s)};
+  tr.ondblclick=function(){audio();unlockMedia();amManual();load(r.i);bwRows()};tb.appendChild(tr)})}
+function bwOpen(){bwBuild();bwLast=document.activeElement;bwEl.classList.add("on");document.documentElement.style.overflow="hidden";bwRows();var i=bwEl.querySelector("input");if(window.matchMedia&&matchMedia("(hover:hover)").matches)try{i.focus()}catch(e){}}
+function bwClose(){if(!bwEl)return;bwEl.classList.remove("on");document.documentElement.style.overflow="";if(bwLast)try{bwLast.focus()}catch(e){}}
+document.getElementById("kjmBrowse").addEventListener("click",bwOpen);
 if(location.hash==="#kjmtest")window.__kjm={decks:decks,AM:AM,S:function(){return S},setXf:setXf,amTick:amTick,lv:function(i){var o=decks[i];if(!o||!o.an)return -1;var d=new Uint8Array(o.an.fftSize),m=0,k;o.an.getByteTimeDomainData(d);for(k=0;k<d.length;k++)m=Math.max(m,Math.abs(d[k]-128));return m},ac:function(){return ac&&ac.state}};
 amUI();
 /* ---------- Loop ---------- */
