@@ -9,6 +9,7 @@ PHONE="+49 172 7273707"; TEL="tel:+491727273707"; WA="https://wa.me/491727273707
 LOGO_NAV="/wp-content/uploads/2026/09/dj-kolja-one-logo-ohne-claim.png"
 LOGO_FULL="/wp-content/uploads/2026/09/dj-kolja-one-logo-transparent.png"
 KONTAKT="/kontakt/"
+INSTA="https://www.instagram.com/djkoljaone/"; FACEBOOK="https://www.facebook.com/share/1C7dYSH3jM/?mibextid=wwXIfr"
 
 def px(v,u="px"): return {"unit":u,"size":v,"sizes":[]}
 def box(t,r,b,l,u="px"): return {"unit":u,"top":str(t),"right":str(r),"bottom":str(b),"left":str(l),"isLinked":False}
@@ -114,12 +115,21 @@ def nav():
     return con([top,mob],"column",bg=B1,pad=box(16,40,16,40),inner=False,full=True,g=8,padding_mobile=box(14,20,14,20),
                border_border="solid",border_width=box(0,0,1,0),border_color="rgba(178,157,117,0.25)")
 
+def SOCIAL(align="left"):
+    css=("<style>.kjo-soc{display:flex;gap:12px;justify-content:%s}.kjo-soc a{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border:1px solid #B29D75;border-radius:50%%;color:#B29D75;background:rgba(15,12,7,.6);transition:.2s}"
+         ".kjo-soc a:hover,.kjo-soc a:focus-visible{background:#B29D75;color:#0F0C07;outline:none}.kjo-soc svg{width:21px;height:21px;display:block}</style>")%("center" if align=="center" else "flex-start")
+    ig='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/></svg>'
+    fb='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-7.5h2.6l.5-3h-3.1V8.6c0-.9.3-1.5 1.6-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.5v3h2.5V21z"/></svg>'
+    html=css+'<div class="kjo-soc"><a href="%s" target="_blank" rel="noopener" aria-label="DJ KOLJA ONE auf Instagram" title="DJ KOLJA ONE auf Instagram">%s</a><a href="%s" target="_blank" rel="noopener" aria-label="DJ KOLJA ONE auf Facebook" title="DJ KOLJA ONE auf Facebook">%s</a></div>'%(INSTA,ig,FACEBOOK,fb)
+    return W("html",{"html":html})
+
 def footer():
     def fcol(title,links,w=20):
         return con([H(title,"p",13,GOLD,"left","500",ls=2,tr="uppercase")]+[H(t,"p",15,MUTED,"left","300",link=u) for t,u in links],g=10,**col(w,48,100))
     cols=con([
         con([LOGO(LOGO_FULL,300,260),T("Premium DJ &amp; Moderation für Hochzeiten, Geburtstage, Firmenfeiern und Events in Oberschwaben, Ulm und dem Allgäu.",MUTED,"left",15),
-             H(PHONE,"p",15,OFF,"left","400",link=TEL),H("WhatsApp schreiben","p",15,OFF,"left","400",link=WA)],g=12,**col(30,100,100)),
+             H(PHONE,"p",15,OFF,"left","400",link=TEL),H("WhatsApp schreiben","p",15,OFF,"left","400",link=WA),
+             SOCIAL()],g=12,**col(30,100,100)),
         fcol("Leistungen",SERVICES),
         fcol("Info",[("Meine Musik","/meine-musik/"),("Über mich","/ueber-mich/"),("FAQ","/faq/"),("Einsatzgebiete","/einsatzgebiete/"),("Kontakt",KONTAKT)]),
         fcol("Regionen",[("DJ "+o,f"/{s}/") for o,s in ORTE]),

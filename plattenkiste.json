@@ -1,9 +1,9 @@
 {
- "version": "1.15.0",
- "download_url": "dj-kolja-one-plattenkiste-1.15.0.zip",
- "sha256": "7a6eeaaf2b864f36c0dcfb3328ac3a85bfb6abd66f93d416cb8c8979845b2c19",
+ "version": "1.15.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.15.1.zip",
+ "sha256": "5dd1f8164d1af11f1e48390e122d238641b08bb4c70ed7526e260c4231d16259",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<p>Browse-Fenster (Titelliste wie Rekordbox); Platten mit Deck-Wahl [A | B]; am Handy Vorschaubild statt Tonart ausgeblendet.</p>"
+ "changelog": "<p>So geht’s-Texte aktualisiert; Instagram und Facebook als runde Symbole in der Fußzeile, Karten auf Kontakt.</p>"
 }
