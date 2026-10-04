@@ -13,6 +13,8 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.15.4: Fußzeile am Handy: Die Links Impressum / Datenschutz / Cookie-Richtlinie haben keinen Innenabstand mehr und stehen damit bündig links unter der Copyright-Zeile. Einmal „Seiten aus Vorlage einspielen“ klicken.
+
 Seit 1.15.3: Einsatzgebiete: Der Kennzahlen-Block (Fellheim, 8 Städte …) entfällt; die Abschlussbox heißt „Wunschtermin verfügbar? Jetzt unverbindlich anfragen.“ Fußzeile am Handy: Die Copyright-Zeile steht linksbündig, bündig mit Impressum/Datenschutz. Einmal „Seiten aus Vorlage einspielen“ klicken.
 
 Seit 1.15.2: „Seiten aus Vorlage einspielen“ erfasst jetzt auch Impressum und Datenschutz – dort wird nur die Fußzeile (mit Instagram/Facebook) ersetzt; der vorhandene Text der Seiten bleibt unverändert.
