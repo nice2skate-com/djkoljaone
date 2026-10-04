@@ -1,9 +1,9 @@
 {
- "version": "1.15.3",
- "download_url": "dj-kolja-one-plattenkiste-1.15.3.zip",
- "sha256": "f99e20b814d21187b7addd3a741e9bb49fb9531bee8c209566b76267e265dbcc",
+ "version": "1.15.4",
+ "download_url": "dj-kolja-one-plattenkiste-1.15.4.zip",
+ "sha256": "4b0bc23b8ac5914d439c708c089541a5f6502209d7aa9f1cbe62ad096de2f8f9",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<p>Einsatzgebiete ohne Kennzahlen-Block, neuer Abschlusstext; Fußzeile am Handy linksbündig.</p>"
+ "changelog": "<p>Fußzeile am Handy: Impressum/Datenschutz bündig mit der Copyright-Zeile.</p>"
 }
