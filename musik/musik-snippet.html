@@ -601,9 +601,9 @@ function wvDraw(){var k=WV.k,W=wvC.width,sy=wvC.height/198,x=wvX,pps=W/WV.win;if
     var b3=new Path2D();for(kk=Math.max(0,k0);kk<=k1;kk++){if(kk%4===wv.bar){xx=W/2+(wv.first+kk*P-t)*pps;b3.rect(Math.round(xx)-.75*k,y0,1.5*k,h);b3.moveTo(Math.round(xx)-4*k,y0);b3.lineTo(Math.round(xx)+4*k,y0);b3.lineTo(Math.round(xx),y0+6*k);b3.moveTo(Math.round(xx)-4*k,y0+h);b3.lineTo(Math.round(xx)+4*k,y0+h);b3.lineTo(Math.round(xx),y0+h-6*k)}}
     x.fillStyle="#fff";x.fill(b3)}
    /* Spielposition */
-   x.fillStyle="#fff";x.fillRect(Math.round(W/2)-k*.75,y0,k*1.5,h);
+   x.fillStyle="rgba(255,40,40,.28)";x.fillRect(Math.round(W/2)-k*2.5,y0,k*5,h);x.fillStyle="#ff2a2a";x.fillRect(Math.round(W/2)-k*1.25,y0,k*2.5,h);
    /* Überblick */
-   x.drawImage(wv.ov,0,oy.y*sy);var px=Math.max(0,Math.min(W,t/wv.dur*W));x.fillStyle="rgba(5,4,3,.55)";x.fillRect(px,oy.y*sy,W-px,oy.h*sy);x.fillStyle="#fff";x.fillRect(px-k*.5,oy.y*sy-k*1,k*1.2,oy.h*sy+k*2);
+   x.drawImage(wv.ov,0,oy.y*sy);var px=Math.max(0,Math.min(W,t/wv.dur*W));x.fillStyle="rgba(5,4,3,.55)";x.fillRect(px,oy.y*sy,W-px,oy.h*sy);x.fillStyle="#ff2a2a";x.fillRect(px-k*1,oy.y*sy-k*1,k*1.2,oy.h*sy+k*2);
   }else{
    x.fillStyle="rgba(178,157,117,.22)";x.fillRect(0,y0+h/2-k*.5,W,k);x.fillStyle="#6f685c";x.font=(9*k)+"px Fira Sans,sans-serif";x.textAlign="center";x.textBaseline="middle";
    x.fillText(o.song?(MODE==="live"?"Wellenform wird erstellt …":"keine Wellenform (Demo)"):"DECK "+(i?"B":"A")+" LEER",W/2,y0+h/2-k*5);
