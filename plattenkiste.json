@@ -1,9 +1,9 @@
 {
  "version": "1.15.0",
  "download_url": "dj-kolja-one-plattenkiste-1.15.0.zip",
- "sha256": "fa3ad7a7fc34e05fc9d9bf7fa22d67921b0cd5f395d9447474365ce61681526a",
+ "sha256": "ee1c79bf0fad5b7846a57ff212c10cbb04cb15467a68b39fc4d02b2c3ce8a059",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<p>Browse-Fenster: Titelliste wie Rekordbox, sortierbar, mit Suche.</p>"
+ "changelog": "<p>Browse-Fenster (Titelliste wie Rekordbox); Platten mit Deck-Wahl [A | B].</p>"
 }

@@ -13,7 +13,9 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
-Seit 1.15.0: Neuer Knopf „BROWSE · Titel laden“ am Controller: Ein Fenster zeigt alle Titel als Liste (Symbol, Titel, BPM, Camelot, Tonart, Genre, Album) wie in Rekordbox. Ein Klick auf eine Spaltenüberschrift sortiert aufsteigend/absteigend (Pfeil zeigt die Richtung), dazu eine Suche. ▶ lädt den Titel auf ein Deck, ☰+ legt ihn in den Automix; Schließen mit ✕, Esc oder Klick daneben. Das Album kommt aus den MP3-Tags (ID3).
+Seit 1.15.0 (Plattenkiste): Statt eines Play-Knopfes hat jede Platte jetzt ein Paar [▸A | ▸B] zum gezielten Laden auf Deck A oder B.
+
+Seit 1.15.0: Neuer Knopf „BROWSE · Titel laden“ am Controller: Ein Fenster zeigt alle Titel als Liste (Symbol, Titel, BPM, Camelot, Tonart, Genre, Album) wie in Rekordbox. Ein Klick auf eine Spaltenüberschrift sortiert aufsteigend/absteigend (Pfeil zeigt die Richtung), dazu eine Suche. Die Knöpfe [▸A | ▸B] legen den Titel auf Deck A bzw. B (das belegte Deck leuchtet golden; nochmal tippen = Pause/Play), ☰+ legt ihn in den Automix; Schließen mit ✕, Esc oder Klick daneben. Das Album kommt aus den MP3-Tags (ID3).
 
 Seit 1.14.0: Plattenkiste: Jede Platte hat jetzt zwei klar getrennte Knöpfe – ▶ (gold) zum selbst Auflegen und Mixen, ☰+ (weiß) zum Hinzufügen zum Automix (danach ✓ mit der Position). Eine Hinweiszeile über der Kiste erklärt beide Symbole; die Platten sind etwas höher, damit die Knöpfe Platz haben.
 
