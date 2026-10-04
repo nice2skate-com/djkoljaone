@@ -96,13 +96,13 @@ def head(eye,title,intro=None):
 
 # ---------------- global parts ----------------
 NAV=[("Hochzeit","/hochzeits-dj/"),("Geburtstag","/geburtstags-dj/"),("Firmenfeier","/firmenfeier-dj/"),
-     ("Events","/event-dj/"),("Meine Musik","/meine-musik/"),("Über mich","/ueber-mich/"),("FAQ","/faq/"),("Regionen","/einsatzgebiete/")]
+     ("Events","/event-dj/"),("Über mich","/ueber-mich/"),("Meine Musik","/meine-musik/"),("FAQ","/faq/"),("Regionen","/einsatzgebiete/")]
 SERVICES=[("Hochzeits-DJ","/hochzeits-dj/"),("Geburtstags-DJ","/geburtstags-dj/"),("Firmenfeier-DJ","/firmenfeier-dj/"),("Event-DJ","/event-dj/")]
 ORTE=[("Memmingen","dj-memmingen"),("Ulm","dj-ulm"),("Biberach","dj-biberach"),("Ravensburg","dj-ravensburg"),
       ("Kempten","dj-kempten"),("Füssen","dj-fuessen"),("Kaufbeuren","dj-kaufbeuren"),("Landsberg","dj-landsberg")]
 
 def nav():
-    links=con([H(t,"p",14,OFF,"center","400",link=u,ls=0.3,_flex_size="none") for t,u in NAV],"row",g=20,flex_justify_content="center",
+    links=con([H(t,"p",16,OFF,"center","400",link=u,ls=0.3,_flex_size="none") for t,u in NAV],"row",g=20,flex_justify_content="center",
               flex_align_items="center",hide_tablet="hidden-tablet",hide_mobile="hidden-mobile")
     top=con([LOGO(LOGO_NAV,210,170),links,
              BTN("Wunschtermin prüfen",KONTAKT,True,"right",text_padding=box(12,18,12,18),_flex_size="none",hide_mobile="hidden-mobile",
@@ -134,7 +134,7 @@ def footer():
         fcol("Info",[("Meine Musik","/meine-musik/"),("Über mich","/ueber-mich/"),("FAQ","/faq/"),("Einsatzgebiete","/einsatzgebiete/"),("Kontakt",KONTAKT)]),
         fcol("Regionen",[("DJ "+o,f"/{s}/") for o,s in ORTE]),
     ],"row",g=30,**ROW,flex_justify_content="space-between")
-    bottom=con([T("© 2026 DJ KOLJA ONE · Jedes Event findet nur einmal statt.",MUTED,"left",13),
+    bottom=con([T("© 2026 DJ KOLJA ONE · Jedes Event findet nur einmal statt.",MUTED,"left",13,_flex_size="none"),
                 con([H(t,"p",13,MUTED,"right","300",link=u) for t,u in [("Impressum","/impressum/"),("Datenschutz","/datenschutz/")]],"row",g=20,pad=box(0,0,0,0))],
                "row",flex_justify_content="space-between",flex_align_items="center",padding=box(24,0,0,0),
                border_border="solid",border_width=box(1,0,0,0),border_color="rgba(163,158,147,0.2)",flex_direction_mobile="column",flex_align_items_mobile="flex-start")

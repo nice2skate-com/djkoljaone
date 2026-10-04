@@ -652,7 +652,10 @@ function seekDeck(o,t){if(!o.song)return;var d=o.media&&o.media.duration||(o.wv?
  if(o.media){if(o.media.readyState>0){try{o.media.currentTime=t}catch(e){}}else o.pendSeek=t}else o.demoPos=t;wvDirty=true}
 var wvDrag=null;
 function wvPt(e){var r=wvC.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width*296,y:(e.clientY-r.top)/r.height*100}}
-function wvApply(e){var p=wvPt(e),o=decks[wvDrag.i];if(!o.song||!o.wv)return;seekDeck(o,wvDrag.mode==="z"?wvDrag.t0+(p.x-148)/(296/WV.win):Math.max(0,Math.min(1,p.x/296))*o.wv.dur)}
+function wvApply(e){var p=wvPt(e),o=decks[wvDrag.i];if(!o.song||!o.wv)return;var t=wvDrag.mode==="z"?wvDrag.t0+(p.x-148)/(296/WV.win):Math.max(0,Math.min(1,p.x/296))*o.wv.dur;
+ /* Quantisiert: Sprung auf den nächsten Taktschlag des Beatgrids */
+ if(o.wv.bpm>0){var P=60/o.wv.bpm;t=o.wv.first+Math.max(0,Math.round((t-o.wv.first)/P))*P}
+ seekDeck(o,t)}
 wvC.addEventListener("pointerdown",function(e){var p=wvPt(e),i=-1,mode="";
  for(var q=0;q<2;q++){if(p.y>=LZ[q].y-2&&p.y<=LZ[q].y+LZ[q].h+2){i=q;mode="z"}else if(p.y>=OVY[q].y-3&&p.y<=OVY[q].y+OVY[q].h+3){i=q;mode="o"}}
  if(i<0)return;var o=decks[i];if(!o.song||!o.wv)return;amManual();audio();wvDrag={i:i,mode:mode,t0:curT(o)};try{wvC.setPointerCapture(e.pointerId)}catch(x){}wvApply(e);e.preventDefault()});

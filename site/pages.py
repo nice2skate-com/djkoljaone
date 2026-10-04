@@ -241,7 +241,7 @@ def musik():
         ("Pop &amp; Charts","Aktuelle Hits und die großen Songs der letzten Jahrzehnte."),("80er, 90er &amp; 2000er","Die Klassiker, bei denen jede Generation mitsingt."),
         ("Schlager &amp; Party","Wenn es zur richtigen Zeit passt – mit Augenmaß."),("Rock &amp; Indie","Gitarren für die, die es etwas rauer mögen."),
         ("House &amp; Dance","Für späte Stunden und volle Tanzflächen."),("Latin, Soul &amp; Lounge","Für Empfang, Dinner und besondere Momente.")])]),
-      cta("Euer Lieblingssong fehlt?","Im Vorgespräch plane ich eure Musik mit euch – mit Wunsch- und No-Go-Liste. Fragt jetzt unverbindlich an."),
+      cta("Spielst Du unsere Lieblingssongs?","Im Vorgespräch plane ich eure Musik mit euch – mit Wunsch- und No-Go-Liste. Fragt jetzt unverbindlich an."),
       footer()]
 
 # ---------------- FAQ ----------------
