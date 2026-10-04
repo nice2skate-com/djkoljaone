@@ -1,9 +1,9 @@
 {
- "version": "1.17.0",
- "download_url": "dj-kolja-one-plattenkiste-1.17.0.zip",
- "sha256": "ee14dad1533f2ea102145683dfacdb1b885bf1f6248df44ec09c24b6ba2c10a8",
+ "version": "1.17.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.17.1.zip",
+ "sha256": "9e1f11a0450d0001a9ac9c31816164d0299630bc06d1e4aad0dcd83cac16cf3d",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Neu: Genres und Songs pro Genre unter Medien → Plattenkiste mit ▲ ▼ sortieren; das Pult zeigt diese Reihenfolge."
+ "changelog": "Meine Musik: Wellenformen über dem Controller (volle Breite), Mixer-Regler wieder an alter Stelle."
 }
