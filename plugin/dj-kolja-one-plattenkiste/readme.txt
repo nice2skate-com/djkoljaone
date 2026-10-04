@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.17.0: Neuer Bereich „Reihenfolge im Pult“ unter Medien → Plattenkiste: Genres und die Songs innerhalb eines Genres lassen sich mit ▲ ▼ (und „A–Z“) sortieren; wird sofort gespeichert. Im Pult und in der Plattenkiste erscheinen die Genres in dieser Reihenfolge (vorher alphabetisch). Neue Genres stehen zunächst am Ende.
 Seit 1.16.3: Meine Musik: Die Meldung zur Decksperre erscheint jetzt auch im BROWSE-Dialog (vorher war sie dort verdeckt).
 Seit 1.16.2: Meine Musik: Wellenformen doppelt so hoch und über die volle Mixerbreite (ganz oben im Mixer), deutlicheres Beatgrid (kräftigere Beat-Linien, Taktanfang mit Markierung). Ruhigeres Abspielen: Titel werden beim Laden komplett in den Speicher geholt, die Wellenform wird mit 30 Bildern/s gezeichnet, eine Live-Berechnung startet erst, wenn kein Deck läuft. Fader und Pegelanzeige sitzen außen neben den Reglern.
 Seit 1.16.1: Springen in den Wellenformen ist quantisiert (rastet auf den nächsten Taktschlag des Beatgrids ein). Meine Musik: Abschlussbox „Spielst Du unsere Lieblingssongs?“. Fußzeile: Die Copyright-Zeile bricht am Mac nicht mehr um und steht auf einer Höhe mit Impressum/Datenschutz. Navigation: größere Schrift am Desktop, „Über mich“ steht vor „Meine Musik“. Einmal „Seiten aus Vorlage einspielen“ klicken.

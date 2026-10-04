@@ -408,7 +408,7 @@ function loadFree(i){audio();var on=decks.filter(function(d){return d.song===S[i
  var e=c.filter(function(d){return!d.song})[0],o=e||c[0];amManual();loadTo(o,i,false,!!(S[i].audio&&!S[i].video));if(o.pendingSrc)warm(o);nextDeck=1-o.side;afterLoad(o,i)}
 function updDk(){sleeves.forEach(function(b,i){if(!b)return;[].forEach.call(b.querySelectorAll(".dk>span"),function(c){var on=decks[+c.dataset.d].song===S[i];c.classList.toggle("on",on);c.setAttribute("aria-pressed",on?"true":"false")})});}
 function buildCrate(){var box=document.getElementById("kjmCrate"),tabs=document.getElementById("kjmTabs");box.innerHTML="";tabs.innerHTML="";sleeves=[];box.classList.toggle("one",curG!=="Alle");
- genres=[];S.forEach(function(s){if(genres.indexOf(s.genre)<0)genres.push(s.genre)});genres.sort(function(a,b){return a.localeCompare(b,"de")});
+ genres=[];S.forEach(function(s){if(genres.indexOf(s.genre)<0)genres.push(s.genre)});
  ["Alle"].concat(genres).forEach(function(g){var t=document.createElement("button");t.className="tab"+(g===curG?" on":"");t.setAttribute("role","tab");
   var n=g==="Alle"?S.length:S.filter(function(s){return s.genre===g}).length;t.textContent=g+" ("+n+")";t.onclick=function(){curG=g;buildCrate()};tabs.appendChild(t)});
  if(refK){var ft=document.createElement("button");ft.className="tab fit"+(onlyFit?" on":"");ft.setAttribute("aria-pressed",onlyFit?"true":"false");ft.title="Nur Songs zeigen, die harmonisch zu "+refK+" ("+(CAMN[refK]||"")+") passen";ft.textContent="Passt zu "+refK;ft.onclick=function(){onlyFit=!onlyFit;buildCrate()};tabs.appendChild(ft)}
