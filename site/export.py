@@ -22,6 +22,11 @@ for i,(title,slug,fn) in enumerate(PAGES):
 <wp:status>{cdata("publish")}</wp:status><wp:post_parent>0</wp:post_parent><wp:menu_order>{i}</wp:menu_order><wp:post_type>{cdata("page")}</wp:post_type>
 <wp:post_password>{cdata("")}</wp:post_password><wp:is_sticky>0</wp:is_sticky>{metas}</item>""")
 zf.close()
+# Seiten, die das Plugin per Knopf einspielt (kjo_seiten_sync)
+AUTO=("hochzeits-dj","geburtstags-dj","firmenfeier-dj","event-dj")
+sd="./plugin/dj-kolja-one-plattenkiste/seiten"; os.makedirs(sd,exist_ok=True)
+for title,slug,fn in PAGES:
+    if slug in AUTO: open(f"{sd}/{slug}.json","w",encoding="utf-8").write(json.dumps(fn(),ensure_ascii=False,separators=(",",":")))
 xml=f"""<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:wp="http://wordpress.org/export/1.2/">
 <channel><title>DJ KOLJA ONE</title><link>http://dj-kolja-one.de</link><description>Jedes Event findet nur einmal statt.</description>

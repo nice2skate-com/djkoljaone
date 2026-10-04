@@ -66,7 +66,8 @@ def start():
 
 # ---------------- Leistungsseiten ----------------
 def service(c):
-    out=[nav(),hero(c["eye"],c["h1"],c["sub"],[BTN(*WISH),BTN("So läuft's ab","#ablauf",False)],minh=90)]
+    out=[nav(),hero(c["eye"],c["h1"],c["sub"],[BTN(*WISH),BTN("So läuft's ab","#ablauf",False)],stats=None,minh=90),
+         section(head("Eindrücke","So sieht ein Abend mit mir aus")+[VIDEOS(c["key"])],bg=B2)]
     if c.get("anlaesse"): out.append(section(head("Anlässe",c["anl_title"])+[cards(c["anlaesse"])]))
     out.append(split(*c["split1"],img=f"event_{c['key']}_1.jpg"))
     out.append(con([con([IMG(260,200,name=f"event_{c['key']}_{i}.jpg",**col(32,100,100)) for i in (2,3,4)],"row",g=20,**ROW,flex_justify_content="space-between")],
@@ -82,6 +83,7 @@ def service(c):
     out.append(reviews(c["reviews"]))
     out.append(faq(c["faq"],eye="Häufige Fragen",title=c.get("faq_title","Gut zu wissen")))
     out.append(orte(c.get("orte_title","Euer DJ in Oberschwaben, Ulm und dem Allgäu")))
+    out.append(con([stats_quiet()],"column",bg=B1,pad=box(8,20,56,20),inner=False,flex_align_items="center",padding_mobile=box(0,20,40,20)))
     out.append(cta(*c.get("cta",())))
     out.append(section(head("Weitere Leistungen","Auch für andere Anlässe")+[tiles(c["cross"],w=31)],bg=B1))
     out.append(footer()); return out

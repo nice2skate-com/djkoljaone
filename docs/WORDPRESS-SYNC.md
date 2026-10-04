@@ -23,3 +23,6 @@ Datenbank, Mediathek-Gesamtbestand, Theme, Premium-Plugins und `wp-config.php` g
 ## 5. Offen
 - Test auf Strato und in Safari (bisher nur Chromium lokal)
 - Testdateien `songs/preview-128.mp3`, `songs/cover-300.jpg` nur bei Bedarf für die Testseite lokal ablegen
+
+## 4. Video-Galerie auf den Leistungsseiten
+Die fertigen Elementor-Seiten (Hochzeit, Geburtstag, Firmenfeier, Event) liegen im Plugin unter `seiten/<slug>.json` und werden mit dem Deploy hochgeladen. Eingespielt werden sie per Knopf: WordPress → Medien → Plattenkiste → „Leistungsseiten aus Vorlage einspielen“ (der alte Inhalt wird gesichert; „Letzten Stand wiederherstellen“ holt ihn zurück). Die Videos liegen in der Mediathek als `event_<key>_1.mp4` … `_4.mp4` mit `<key>` = `hochzeit`, `geburtstag`, `firmenfeier`, `events`; fehlende blenden sich aus. Nach Änderungen an `site/`: `python3 site/export.py`.

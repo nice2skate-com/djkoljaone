@@ -1,9 +1,9 @@
 {
- "version": "1.12.5",
- "download_url": "dj-kolja-one-plattenkiste-1.12.5.zip",
- "sha256": "3c5790ce002feea633321ad8eb3177e97326442f58848c40ddca16b9c44d0c2a",
+ "version": "1.13.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.13.0.zip",
+ "sha256": "fa475928035bc34c91694f67d3244a486151a64b6f1861d0799451c3a849ac90",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<p>Untertitel auf „Meine Musik“ nicht mehr überdeckt; Safari: nächster Titel wird komplett vorab geladen; weißes Kreuz im Dialog der Startseite behoben.</p>"
+ "changelog": "<p>Leistungsseiten mit Video-Galerie; Einspielen per Knopf unter Medien → Plattenkiste.</p>"
 }
