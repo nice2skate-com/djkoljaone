@@ -1,9 +1,9 @@
 {
- "version": "1.13.3",
- "download_url": "dj-kolja-one-plattenkiste-1.13.3.zip",
- "sha256": "0a8d40e722785a70d4630f0b0efff054007e057ab9424cb42907cbe1f992ab38",
+ "version": "1.13.4",
+ "download_url": "dj-kolja-one-plattenkiste-1.13.4.zip",
+ "sha256": "b1bdf16d25b4760e9da4f812df7dc0fa36eea5aca6e8e38479f89db5e1b4aa6d",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<p>Orts-, Über-mich- und Einsatzgebiete-Seiten mit Galerie, Kennzahlen dezent unten.</p>"
+ "changelog": "<p>Leere Bild-/Video-Platzhalter werden auf allen Seiten ausgeblendet.</p>"
 }
