@@ -133,7 +133,7 @@ def footer():
 
 def stat(big,small,wide=False):
     return con([H(big,"p",32,GOLD,"center","300",m=24),T(small,MUTED,"center",14)],g=4,**col(23,48,48))
-STATS=[("10+ Jahre","DJ-Erfahrung"),("Moderation","professionell &amp; souverän"),("Individuell","Musik nach euren Wünschen"),("Süddeutschland","Allgäu · Oberschwaben · Ulm")]
+STATS=[("10+ Jahre","DJ-Erfahrung"),("Moderation","professionell &amp; souverän"),("Individuell","Musik nach euren Wünschen"),("Süddeutschland &amp; Überregional","Allgäu, Schwaben &amp; Auf Anfrage")]
 def stats_row(stats=STATS,border=True):
     kw=dict(border_border="solid",border_width=box(1,0,0,0),border_color=LINE,padding=box(28,0,0,0)) if border else {}
     return con([stat(a,b) for a,b in stats],"row",g=20,flex_justify_content="center",flex_wrap="wrap",flex_direction_mobile="row",width=px(100,"%"),max_width=px(1000),**kw)

@@ -1,9 +1,9 @@
 {
- "version": "1.13.4",
- "download_url": "dj-kolja-one-plattenkiste-1.13.4.zip",
- "sha256": "b1bdf16d25b4760e9da4f812df7dc0fa36eea5aca6e8e38479f89db5e1b4aa6d",
+ "version": "1.13.5",
+ "download_url": "dj-kolja-one-plattenkiste-1.13.5.zip",
+ "sha256": "2e4010467711a5fddac8abbc4a0becb133b517e47549c2e77824ae6cc09a3b9c",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<p>Leere Bild-/Video-Platzhalter werden auf allen Seiten ausgeblendet.</p>"
+ "changelog": "<p>Startseiten-Galerie, neue Kennzahl, Region Überregional.</p>"
 }
