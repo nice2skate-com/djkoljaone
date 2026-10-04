@@ -13,7 +13,9 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
-Seit 1.13.1: Die Galerie auf den Leistungsseiten zeigt bis zu 8 Platzhalter (event_<seite>_1 … _8), je Bild oder Video, und nur die, zu denen es eine Datei gibt. Videos tragen den Hinweis „Ohne Ton aus GEMA-Gründen“. Die Bilder-Reihe unter dem Textbild ist entfallen; das Bild neben dem Text heißt jetzt event_<seite>_text.
+Seit 1.13.2: Der automatisch eingeblendete GEMA-Hinweis auf Galerie-Videos ist wieder entfernt (den Hinweis bringst du bei Bedarf direkt im Video an; Videos mit Ton spielen im großen Player mit Ton).
+
+Seit 1.13.1: Die Galerie auf den Leistungsseiten zeigt bis zu 8 Platzhalter (event_<seite>_1 … _8), je Bild oder Video, und nur die, zu denen es eine Datei gibt. Die Bilder-Reihe unter dem Textbild ist entfallen; das Bild neben dem Text heißt jetzt event_<seite>_text.
 
 Seit 1.13.0: Die Leistungsseiten (Hochzeit, Geburtstag, Firmenfeier, Event) bekommen oben eine Video-Galerie (Play-Button, Klick öffnet groß, Ton nur wenn vorhanden); die Kennzahlen stehen dezent weiter unten. Eingespielt wird die neue Fassung per Knopf unter Medien → Plattenkiste („Leistungsseiten aus Vorlage einspielen“, mit Sicherung und „Letzten Stand wiederherstellen“).
 

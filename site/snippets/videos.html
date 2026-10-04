@@ -21,27 +21,25 @@
 #kjv .vt{flex:0 0 66%;scroll-snap-align:center}
 #kjv .pb{width:56px;height:56px;margin:-28px 0 0 -28px}
 #kjv .pb:before{left:22px;top:17px;border-width:11px 0 11px 17px}}
-#kjv .gm{position:absolute;right:10px;bottom:10px;z-index:2;max-width:calc(100% - 20px);padding:4px 9px;border-radius:2px;background:rgba(15,12,7,.72);color:#F3F1E9;font-size:11px;line-height:1.3;letter-spacing:.04em;text-align:right;pointer-events:none}
 #kjv .lb img{max-width:100%;max-height:100%;border-radius:3px;box-shadow:0 20px 60px rgba(0,0,0,.7)}
-#kjv .lb .gm{right:18px;bottom:16px;font-size:12px}
 #kjv .vt.im .pb{display:none}
 </style>
 <div id="kjv" data-key="__KEY__" hidden>
 <div class="vs"></div>
-<div class="lb" role="dialog" aria-modal="true" aria-label="Galerie"><button class="x" aria-label="Schließen"></button><video controls playsinline preload="none" hidden></video><img alt="" hidden><span class="gm">Ohne Ton aus GEMA-Gründen</span></div>
+<div class="lb" role="dialog" aria-modal="true" aria-label="Galerie"><button class="x" aria-label="Schließen"></button><video controls playsinline preload="none" hidden></video><img alt="" hidden></div>
 </div>
 <script>
 (function(){function go(){var r=document.getElementById("kjv");if(!r||r.dataset.on)return;r.dataset.on=1;
-var key=r.dataset.key,M=window.KJO_MEDIA||{},row=r.querySelector(".vs"),lb=r.querySelector(".lb"),lv=lb.querySelector("video"),li=lb.querySelector("img"),lg=lb.querySelector(".gm"),n=0,last=null,MSG="Ohne Ton aus GEMA-Gründen";
+var key=r.dataset.key,M=window.KJO_MEDIA||{},row=r.querySelector(".vs"),lb=r.querySelector(".lb"),lv=lb.querySelector("video"),li=lb.querySelector("img"),n=0,last=null;
 function close(){lb.classList.remove("on");try{lv.pause()}catch(e){}lv.removeAttribute("src");lv.load();li.removeAttribute("src");document.documentElement.style.overflow="";if(last)try{last.focus()}catch(e){}}
-function open(e,b){last=b;lg.style.display=e.vid?"":"none";lv.hidden=!e.vid;li.hidden=!!e.vid;if(e.vid){lv.src=e.vid;lv.muted=false;var p=lv.play();if(p&&p.catch)p.catch(function(){lv.muted=true;lv.play().catch(function(){})})}else li.src=e.img;lb.classList.add("on");document.documentElement.style.overflow="hidden"}
+function open(e,b){last=b;lv.hidden=!e.vid;li.hidden=!!e.vid;if(e.vid){lv.src=e.vid;lv.muted=false;var p=lv.play();if(p&&p.catch)p.catch(function(){lv.muted=true;lv.play().catch(function(){})})}else li.src=e.img;lb.classList.add("on");document.documentElement.style.overflow="hidden"}
 for(var i=1;i<=8;i++)(function(i){var e=M["event_"+key+"_"+i];if(!e||!(e.vid||e.img))return;n++;
 var b=document.createElement("button"),pb=document.createElement("span");b.className="vt";b.type="button";pb.className="pb";b.setAttribute("aria-label",(e.vid?"Video ":"Bild ")+i+" öffnen");
-if(e.vid){var v=document.createElement("video"),g=document.createElement("span");v.muted=true;v.playsInline=true;v.setAttribute("playsinline","");v.preload="metadata";v.loop=true;if(e.img)v.poster=e.img;v.src=e.vid+"#t=0.3";
+if(e.vid){var v=document.createElement("video");v.muted=true;v.playsInline=true;v.setAttribute("playsinline","");v.preload="metadata";v.loop=true;if(e.img)v.poster=e.img;v.src=e.vid+"#t=0.3";
 v.addEventListener("loadedmetadata",function(){if(v.videoWidth&&v.videoHeight)b.style.aspectRatio=v.videoWidth+"/"+v.videoHeight});
 b.addEventListener("mouseenter",function(){if(matchMedia("(hover:hover)").matches){var p=v.play();if(p&&p.catch)p.catch(function(){})}});
 b.addEventListener("mouseleave",function(){v.pause();try{v.currentTime=.3}catch(x){}});
-g.className="gm";g.textContent=MSG;b.appendChild(v);b.appendChild(pb);b.appendChild(g);b.addEventListener("click",function(){v.pause();open(e,b)})}
+b.appendChild(v);b.appendChild(pb);b.addEventListener("click",function(){v.pause();open(e,b)})}
 else{var im=document.createElement("img");im.alt="";im.loading="lazy";im.src=e.img;b.className="vt im";b.appendChild(im);im.addEventListener("load",function(){if(im.naturalWidth)b.style.aspectRatio=im.naturalWidth+"/"+im.naturalHeight});b.addEventListener("click",function(){open(e,b)})}
 row.appendChild(b)})(i);
 if(!n){var s=r.closest(".e-con:not(.e-child)");(s||r).style.display="none";return}
