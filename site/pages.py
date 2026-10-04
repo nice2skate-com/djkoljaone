@@ -265,8 +265,7 @@ def regionen():
         [BTN(*WISH),BTN("Alle Leistungen","/#leistungen",False)],stats=None,minh=80),
         section(head("Regionen","Hier bin ich für euch unterwegs")+[con(grp,"row",g=24,**ROW,flex_justify_content="center")]),
         section(head("Leistungen","Für jeden Anlass")+[tiles()],bg=B2),
-        QUIET([("Fellheim","Heimat bei Memmingen"),("8 Städte","feste Einsatzgebiete"),("rund 100 km","Umkreis"),("Weiter?","gern auf Anfrage")]),
-        cta("Euren Ort nicht gefunden?","Kein Problem – ich komme auch darüber hinaus. Fragt einfach unverbindlich an."),footer()]
+        cta("Wunschtermin verfügbar?","Jetzt unverbindlich anfragen."),footer()]
 
 # ---------------- Städte ----------------
 CITIES={

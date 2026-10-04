@@ -137,7 +137,7 @@ def footer():
     bottom=con([T("© 2026 DJ KOLJA ONE · Jedes Event findet nur einmal statt.",MUTED,"left",13),
                 con([H(t,"p",13,MUTED,"right","300",link=u) for t,u in [("Impressum","/impressum/"),("Datenschutz","/datenschutz/")]],"row",g=20)],
                "row",flex_justify_content="space-between",flex_align_items="center",padding=box(24,0,0,0),
-               border_border="solid",border_width=box(1,0,0,0),border_color="rgba(163,158,147,0.2)",flex_direction_mobile="column")
+               border_border="solid",border_width=box(1,0,0,0),border_color="rgba(163,158,147,0.2)",flex_direction_mobile="column",flex_align_items_mobile="flex-start")
     return con([cols,SPACER(30),bottom],"column",bg=B1,pad=box(56,20,26,20),inner=False,g=10,
                border_border="solid",border_width=box(1,0,0,0),border_color="rgba(178,157,117,0.25)")
 
