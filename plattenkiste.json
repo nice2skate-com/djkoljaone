@@ -1,9 +1,9 @@
 {
- "version": "1.16.1",
- "download_url": "dj-kolja-one-plattenkiste-1.16.1.zip",
- "sha256": "536b438fc136ad71db82735203c84539c1f8028fd66e08629449d0eaf8e27e8e",
+ "version": "1.16.3",
+ "download_url": "dj-kolja-one-plattenkiste-1.16.3.zip",
+ "sha256": "0dbefb62c5f5008652e477598b925e7779089c123e22a55752f631246583edec",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "<p>DJ-Pult mit Wellenformen und Beatgrid, Decksperre; quantisiertes Springen; Navigation, Fußzeile, Texte.</p>"
+ "changelog": "Meine Musik: Meldung zur Decksperre auch im BROWSE-Dialog."
 }
