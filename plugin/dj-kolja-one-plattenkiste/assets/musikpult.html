@@ -565,7 +565,7 @@ function bwRows(){if(!bwEl)return;var tb=bwEl.querySelector("tbody"),list=S.map(
 function bwOpen(){bwBuild();bwLast=document.activeElement;bwEl.classList.add("on");document.documentElement.style.overflow="hidden";bwRows();var i=bwEl.querySelector("input");if(window.matchMedia&&matchMedia("(hover:hover)").matches)try{i.focus()}catch(e){}}
 function bwClose(){if(!bwEl)return;bwEl.classList.remove("on");document.documentElement.style.overflow="";if(bwLast)try{bwLast.focus()}catch(e){}}
 document.getElementById("kjmBrowse").addEventListener("click",bwOpen);
-if(location.hash==="#kjmtest")window.__kjm={decks:decks,AM:AM,S:function(){return S},setXf:setXf,amTick:amTick,lv:function(i){var o=decks[i];if(!o||!o.an)return -1;var d=new Uint8Array(o.an.fftSize),m=0,k;o.an.getByteTimeDomainData(d);for(k=0;k<d.length;k++)m=Math.max(m,Math.abs(d[k]-128));return m},ac:function(){return ac&&ac.state}};
+if(location.hash==="#kjmtest")window.__kjm={decks:decks,curT:curT,AM:AM,S:function(){return S},setXf:setXf,amTick:amTick,lv:function(i){var o=decks[i];if(!o||!o.an)return -1;var d=new Uint8Array(o.an.fftSize),m=0,k;o.an.getByteTimeDomainData(d);for(k=0;k<d.length;k++)m=Math.max(m,Math.abs(d[k]-128));return m},ac:function(){return ac&&ac.state}};
 amUI();
 /* ---------- Loop ---------- */
 /* Nur schreiben, was sich wirklich geändert hat – spart Rechenzeit, damit der Ton nicht aussetzt */
@@ -617,7 +617,12 @@ function wvOver(wv,W,Hh){var c=document.createElement("canvas");c.width=W;c.heig
   a/=255;var hh=Math.max(.6,Math.pow(a,.75)*Hh/2);x.fillStyle=wvCol(wv.u,best,a);x.fillRect(px,Hh/2-hh,1,hh*2)}return c}
 function wvSize(){var r=wvC.getBoundingClientRect();if(!r.width)return;var dpr=Math.min(1.5,window.devicePixelRatio||1),w=Math.round(r.width*dpr),h=Math.round(r.height*dpr);if(wvC.width!==w||wvC.height!==h){wvC.width=w;wvC.height=h;WV.k=dpr;decks.forEach(function(o){if(o.wv){o.wv.strip=null;o.wv.ov=null}});wvDirty=true}}
 if(window.ResizeObserver)new ResizeObserver(wvSize).observe(wvC);window.addEventListener("resize",wvSize);
-function curT(o){return o.media?(o.media.currentTime||0):o.demoPos||0}
+/* Abspielzeit für die Anzeige: Safari meldet currentTime nur grob (ruckweise), deshalb dazwischen mit der Systemuhr weiterrechnen */
+function curT(o){if(!o.media)return o.demoPos||0;var m=o.media,ct=m.currentTime||0,now=performance.now();
+ if(o.__ct!==ct){o.__ct=ct;o.__cn=now}
+ if(m.paused||m.seeking||m.readyState<3||!(o.speed>.06)){o.__est=ct;return ct}
+ var e=ct+Math.min(.6,(now-o.__cn)/1000)*(m.playbackRate||1);
+ if(o.__est!=null&&e<o.__est&&o.__est-e<.25)e=o.__est;o.__est=e;return e}
 function wvDraw(){var k=WV.k,W=wvC.width,sy=wvC.height/198,x=wvX,pps=W/WV.win;if(!wvC.width)return;x.clearRect(0,0,wvC.width,wvC.height);
  decks.forEach(function(o,i){var lz=LZ[i],oy=OVY[i],y0=lz.y*sy,h=lz.h*sy,wv=o.wv,t=curT(o);o.__wt=t;
   x.fillStyle="#0a0806";x.fillRect(0,y0,W,h);x.fillRect(0,oy.y*sy,W,oy.h*sy);
@@ -684,7 +689,7 @@ function loop(now){var raw=(now-last)/1000,dt=Math.min(.05,raw);last=now;frame++
    var b=Math.floor(cur/(60/(o.song.bpm||120)))%4;o.pads.forEach(function(p,k){sa(p,"opacity",o.speed>.3&&k===b?.95:.2)});
    var lv=0;if(o.an&&o.speed>.05){o.an.getByteTimeDomainData(ld);for(var q=0;q<ld.length;q++)lv=Math.max(lv,Math.abs(ld[q]-128));lv=Math.min(11,Math.round(lv/9))}
    meters[i].forEach(function(mt,s){sa(mt,"opacity",s<lv?.9:.12)})}});
- if(wvDirty||decks.some(function(o){return o.song&&(o.speed>0||curT(o)!==o.__wt)})){if(frame%2===0||wvDirty)wvDraw()}
+ if(wvDirty||decks.some(function(o){return o.song&&(o.speed>0||curT(o)!==o.__wt)})){if(!lite||frame%2===0||wvDirty)wvDraw()}
  /* Laptop: Video des lautesten laufenden Decks */
  var best=null,bw=-1;decks.forEach(function(o){if(!o.song||o.target===0&&o.speed<.05)return;var w=o.side?(xv+1)/2:(1-xv)/2;if(o===active)w+=.01;if(w>bw){bw=w;best=o}});
  decks.forEach(function(o){var v=!!(best===o&&o.media===o.vEl);if(o.__von!==v){o.__von=v;o.vEl.classList.toggle("on",v)}});
