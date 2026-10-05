@@ -131,7 +131,7 @@ def footer():
              H(PHONE,"p",15,OFF,"left","400",link=TEL),H("WhatsApp schreiben","p",15,OFF,"left","400",link=WA),
              SOCIAL()],g=12,**col(30,100,100)),
         fcol("Leistungen",SERVICES),
-        fcol("Info",[("Meine Musik","/meine-musik/"),("Über mich","/ueber-mich/"),("FAQ","/faq/"),("Einsatzgebiete","/einsatzgebiete/"),("Kontakt",KONTAKT)]),
+        fcol("Info",[("Über mich","/ueber-mich/"),("Meine Musik","/meine-musik/"),("FAQ","/faq/"),("Einsatzgebiete","/einsatzgebiete/"),("Kontakt",KONTAKT)]),
         fcol("Regionen",[("DJ "+o,f"/{s}/") for o,s in ORTE]),
     ],"row",g=30,**ROW,flex_justify_content="space-between")
     bottom=con([T("© 2026 DJ KOLJA ONE · Jedes Event findet nur einmal statt.",MUTED,"left",13,_flex_size="none"),

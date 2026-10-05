@@ -1,9 +1,9 @@
 {
- "version": "1.17.6",
- "download_url": "dj-kolja-one-plattenkiste-1.17.6.zip",
- "sha256": "b28fb2c402b5a826eba19bd0652fbf88ad0314f4bfccdea8631474d7753dbb55",
+ "version": "1.18.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.18.0.zip",
+ "sha256": "f2c22d97dc0a85cb31c0452d3e636f787182014699745e47902dfa8226f74d74",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Meine Musik: KEY ist standardmäßig an, SYNC aus."
+ "changelog": "Meine Musik: Versatz-Regler für die rote Linie (Bluetooth/Lautsprecher), Fußzeile: Über mich vor Meine Musik."
 }
