@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.18.4: Start und Über mich: Das Porträt ist bei schmaleren Fenstern (Tablet, kleines Browserfenster, Handy) jetzt wirklich klein (240 px breit, mittig); die Größe galt vorher nicht. Einmal „Seiten aus Vorlage einspielen“ und „Zwischenspeicher leeren“ klicken.
 Seit 1.18.3: Start und Über mich: Das Porträt ist kleiner – am Desktop ein Drittel der Breite, am Handy höchstens 300 px. Einmal „Seiten aus Vorlage einspielen“ klicken.
 Seit 1.18.2: Startseite: Das Porträt (kolja_portrait.jpg) steht ebenfalls im Hochformat 4:5. Einmal „Seiten aus Vorlage einspielen“ klicken.
 Seit 1.18.1: Über mich: Das Porträt (kolja_portrait.jpg) steht im Hochformat 4:5 und wird nicht mehr breit abgeschnitten. Einmal „Seiten aus Vorlage einspielen“ klicken.
