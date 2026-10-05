@@ -1,9 +1,9 @@
 {
- "version": "1.18.4",
- "download_url": "dj-kolja-one-plattenkiste-1.18.4.zip",
- "sha256": "0933dd4d54ee0446688e980b7124f916b7b29f7fff0ee4bedfb97bc6321bebaf",
+ "version": "1.18.5",
+ "download_url": "dj-kolja-one-plattenkiste-1.18.5.zip",
+ "sha256": "f3016b53947bf27785324b0d2d9821dc777ecac2a87c47ed56eb69dae774c721",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Porträt bei schmaleren Fenstern wirklich klein (240 px)."
+ "changelog": "Porträt breiter (5:4), Beschnitt nur unten, Goldrahmen mit Schatten."
 }
