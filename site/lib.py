@@ -207,11 +207,13 @@ def fit(yes,no):
     n=con([H("Eher nicht","h3",26,MUTED,"left","400"),ILIST(no,"fas fa-times",MUTED)],bg=B2,pad=box(40,34,40,34),g=18,**col(48,100,100))
     return con([y,n],"row",g=24,**ROW,flex_justify_content="space-between")
 
-def split(eye,title,paras,extra=None,img_left=True,buttons=None,img=None):
+def split(eye,title,paras,extra=None,img_left=True,buttons=None,img=None,port=False):
     txt=[EYE(eye,"left"),H(title,"h2",44,OFF,"left",m=32)]+[T(p,MUTED,"left") for p in paras]
     if extra: txt.append(extra)
     if buttons: txt+= [SPACER(6),BTNS(*buttons,align="left")]
-    img=IMG(440,300,name=img,**col(45,100,100)); t=con(txt,g=16,css_classes="kjo-txt",**col(50,100,100))
+    img=IMG(440,300,name=img,**col(45,100,100))
+    if port: img["settings"]["css_classes"]=(img["settings"].get("css_classes","")+" kjo-port").strip()
+    t=con(txt,g=16,css_classes="kjo-txt",**col(50,100,100))
     return section([con([img,t] if img_left else [t,img],"row",g=50,flex_align_items="center",flex_justify_content="space-between",css_classes="kjo-split",**ROW)])
 
 STAERKEN=[("fas fa-music","Individuelle Musikplanung","Vorgespräch, Wunsch- und No-Go-Listen. Keine Playlist von der Stange, sondern eure Musik."),

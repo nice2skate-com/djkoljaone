@@ -34,7 +34,7 @@ def start():
         "Hinter DJ KOLJA ONE stehe ich: DJ und Moderator. Seit über 10 Jahren sorge ich dafür, dass Hochzeiten, Geburtstage, Firmenfeiern und Events in Erinnerung bleiben.",
         "Mein Anspruch steckt schon im Claim: Jedes Event findet nur einmal statt. Deshalb plane ich jede Feier individuell, lese die Tanzfläche live und moderiere so, dass ihr euch um nichts kümmern müsst."],
         extra=T("Hochzeiten · Geburtstage · Firmenfeiern · Stadtfeste &amp; Open Airs",GOLD,"left",15),
-        buttons=[BTN("Mehr über mich","/ueber-mich/",False,"left"),BTN(*WISH,True,"left")],img="kolja_portrait.jpg")
+        buttons=[BTN("Mehr über mich","/ueber-mich/",False,"left"),BTN(*WISH,True,"left")],img="kolja_portrait.jpg",port=True)
     return [nav(),
       hero("Memmingen · Ulm · Allgäu · Oberschwaben","Premium DJ für Hochzeiten, Firmenevents &amp; besondere Feste",
            "Eine volle Tanzfläche – vom ersten Song bis zum letzten.",[BTN(*WISH),BTN("Leistungen entdecken","#leistungen",False)],
@@ -220,7 +220,7 @@ def ueber():
     return [nav(),hero("Über mich","Hallo, ich bin Kolja.","DJ und Moderator aus Fellheim – und überzeugt davon, dass jedes Event nur einmal stattfindet.",[BTN(*WISH),BTN("Meine Leistungen","/#leistungen",False)],stats=None,minh=80),
         split("Meine Geschichte","DJ KOLJA ONE",[
             "Seit über 10 Jahren stehe ich hinter dem DJ-Pult: auf Hochzeiten, Geburtstagen, Firmenfeiern und Stadtfesten zwischen Memmingen, Ulm und dem Allgäu.",
-            "Was mich antreibt, ist der Moment, in dem eine Feier kippt – von „nett“ zu „unvergesslich“. Wenn die Tanzfläche voll ist, das Brautpaar strahlt oder das ganze Team mitsingt. Genau diese Momente plane ich mit euch und sorge am Abend dafür, dass sie passieren."],img="kolja_portrait.jpg"),
+            "Was mich antreibt, ist der Moment, in dem eine Feier kippt – von „nett“ zu „unvergesslich“. Wenn die Tanzfläche voll ist, das Brautpaar strahlt oder das ganze Team mitsingt. Genau diese Momente plane ich mit euch und sorge am Abend dafür, dass sie passieren."],img="kolja_portrait.jpg",port=True),
         quote, werte, musik, galerie, reviews(["h2","f2","g1"]), QUIET(), cta(), footer()]
 
 # ---------------- Meine Musik ----------------

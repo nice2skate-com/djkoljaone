@@ -13,6 +13,8 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.18.2: Startseite: Das Porträt (kolja_portrait.jpg) steht ebenfalls im Hochformat 4:5. Einmal „Seiten aus Vorlage einspielen“ klicken.
+Seit 1.18.1: Über mich: Das Porträt (kolja_portrait.jpg) steht im Hochformat 4:5 und wird nicht mehr breit abgeschnitten. Einmal „Seiten aus Vorlage einspielen“ klicken.
 Seit 1.18.0: Meine Musik: Neben dem BROWSE-Knopf steht ein „Versatz“-Regler (− / +, Schritte à 20 ms; Doppelklick auf den Wert = automatisch). Er verschiebt die rote Linie und die Wellenform, wenn sie bei Bluetooth-Kopfhörern oder Lautsprechern dem Ton hinterherläuft; der Wert wird im Browser gemerkt. Ohne Einstellung gleicht der Player die vom Gerät gemeldete Ausgabeverzögerung selbst aus. Fußzeile: Im Bereich „Info“ steht „Über mich“ vor „Meine Musik“. Einmal „Seiten aus Vorlage einspielen“ klicken.
 Seit 1.17.6: Meine Musik: KEY ist beim Start wieder eingeschaltet (Tonart bleibt beim Tempo-Ändern erhalten), SYNC bleibt aus.
 Seit 1.17.4: Meine Musik: Beim Start eines Titels läuft der Ton sofort mit voller Geschwindigkeit an, statt die Abspielgeschwindigkeit in vielen kleinen Schritten hochzufahren (das ließ Safari am Anfang ruckeln). Die Platte dreht weiter sanft hoch.
