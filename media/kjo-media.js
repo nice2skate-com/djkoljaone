@@ -6,6 +6,7 @@ function one(el){
   el.setAttribute("data-kjo","1");
   var e=M[m.toLowerCase()]||{};
   if(e.img){el.style.backgroundImage='url("'+e.img+'")';el.style.backgroundSize="cover";el.style.backgroundPosition="center";}
+  if(e.img&&el.classList.contains("kjo-port")){var pi=new Image();pi.onload=function(){if(pi.naturalWidth&&pi.naturalHeight)el.style.setProperty("aspect-ratio",pi.naturalWidth+" / "+pi.naturalHeight,"important");};pi.src=e.img;}
   if(!e.vid)return;
   el.classList.add("kjo-vid");
   var v=document.createElement("video");
@@ -36,4 +37,3 @@ function init(){var l=document.querySelectorAll('[class*="kjo-m-"]');for(var i=0
 window.KJO_MEDIA_INIT=init;
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
 })();
-
