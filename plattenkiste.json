@@ -1,9 +1,9 @@
 {
- "version": "1.18.0",
- "download_url": "dj-kolja-one-plattenkiste-1.18.0.zip",
- "sha256": "f2c22d97dc0a85cb31c0452d3e636f787182014699745e47902dfa8226f74d74",
+ "version": "1.18.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.18.1.zip",
+ "sha256": "7336e813897a143b59c218a74f4da6bea2b4309d5fe3fab4e247715a9a9c79d5",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Meine Musik: Versatz-Regler für die rote Linie (Bluetooth/Lautsprecher), Fußzeile: Über mich vor Meine Musik."
+ "changelog": "Über mich: Porträt im Hochformat 4:5."
 }
