@@ -1,9 +1,9 @@
 {
- "version": "1.18.6",
- "download_url": "dj-kolja-one-plattenkiste-1.18.6.zip",
- "sha256": "ae04ac960401f8e15b7f9b517c4ac346f05d7ef198a71ed37160cba51bbd6c56",
+ "version": "1.18.7",
+ "download_url": "dj-kolja-one-plattenkiste-1.18.7.zip",
+ "sha256": "670fd6b4bf3f90baf542a0ee3d74d08f57ac8a1a849c21b14731d81cdd5e41c0",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Porträt wird nicht mehr beschnitten (Rahmen passt sich dem Foto an)."
+ "changelog": "Mediennamen mit doppelter Endung (z. B. start_events.jpg.png) werden erkannt; mehr Mediendateien."
 }
