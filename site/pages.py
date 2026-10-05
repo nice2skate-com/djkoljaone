@@ -34,7 +34,7 @@ def start():
         "Hinter DJ KOLJA ONE stehe ich: DJ und Moderator. Seit über 10 Jahren sorge ich dafür, dass Hochzeiten, Geburtstage, Firmenfeiern und Events in Erinnerung bleiben.",
         "Mein Anspruch steckt schon im Claim: Jedes Event findet nur einmal statt. Deshalb plane ich jede Feier individuell, lese die Tanzfläche live und moderiere so, dass ihr euch um nichts kümmern müsst."],
         extra=T("Hochzeiten · Geburtstage · Firmenfeiern · Stadtfeste &amp; Open Airs",GOLD,"left",15),
-        buttons=[BTN("Mehr über mich","/ueber-mich/",False,"left"),BTN(*WISH,True,"left")],img="kolja_portrait.jpg")
+        buttons=[BTN("Mehr über mich","/ueber-mich/",False,"left"),BTN(*WISH,True,"left")],img="kolja_portrait.jpg",port=True)
     return [nav(),
       hero("Memmingen · Ulm · Allgäu · Oberschwaben","Premium DJ für Hochzeiten, Firmenevents &amp; besondere Feste",
            "Eine volle Tanzfläche – vom ersten Song bis zum letzten.",[BTN(*WISH),BTN("Leistungen entdecken","#leistungen",False)],
