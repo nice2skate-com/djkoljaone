@@ -1,9 +1,9 @@
 {
- "version": "1.18.2",
- "download_url": "dj-kolja-one-plattenkiste-1.18.2.zip",
- "sha256": "71cad85029f8f854dfa4b6efb6e7b2d4b92eb484eebebf9d5c92d8706874b59b",
+ "version": "1.18.3",
+ "download_url": "dj-kolja-one-plattenkiste-1.18.3.zip",
+ "sha256": "483a1196fb479d62ff72c2b5e8f554cbf59705fbdeb76f81fe82474281542e72",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Startseite und Über mich: Porträt im Hochformat 4:5."
+ "changelog": "Porträt kleiner: ein Drittel der Breite (Start, Über mich)."
 }
