@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.19.2
+ * Version:     1.19.3
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.19.2' );
+define( 'KJO_VERSION', '1.19.3' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -1556,12 +1556,22 @@ KJOCSS
 define( 'KJO_MEDIA_JS', <<<'KJOJS'
 (function(){
 var M=window.KJO_MEDIA||{};
+var AN={hochzeit:"einer Hochzeit",geburtstag:"einem Geburtstag",firmenfeier:"einer Firmenfeier",events:"einem Event"};
+function altFor(n){n=String(n||"").toLowerCase();var x;
+  if(n==="kolja_portrait")return "Kolja Tönges, DJ und Moderator – DJ KOLJA ONE";
+  if((x=n.match(/^start_(hochzeit|geburtstag|firmenfeier|events)$/)))return "DJ KOLJA ONE bei "+AN[x[1]];
+  if((x=n.match(/^event_(hochzeit|geburtstag|firmenfeier|events)_(text|\d+)$/)))return "DJ KOLJA ONE bei "+AN[x[1]]+(x[2]==="text"?"":" – Eindruck "+x[2]);
+  if((x=n.match(/^ueber_(\d+)$/)))return "Hinter dem DJ-Pult mit DJ KOLJA ONE – Eindruck "+x[1];
+  if((x=n.match(/^start_(\d+)$/)))return "DJ KOLJA ONE live im Einsatz – Eindruck "+x[1];
+  return "";}
+window.KJO_ALT=altFor;
 function one(el){
   if(el.getAttribute("data-kjo"))return;
   var m=(String(el.className).match(/kjo-m-([a-z0-9_]+)/i)||[])[1]; if(!m)return;
   el.setAttribute("data-kjo","1");
   var e=M[m.toLowerCase()]||{};
   if(e.img){el.style.backgroundImage='url("'+e.img+'")';el.style.backgroundSize="cover";el.style.backgroundPosition="center";}
+  var al=altFor(m);if(al&&e.img&&!e.vid){el.setAttribute("role","img");el.setAttribute("aria-label",al);}
   if(e.img&&el.classList.contains("kjo-port")){var pi=new Image();pi.onload=function(){if(pi.naturalWidth&&pi.naturalHeight)el.style.setProperty("aspect-ratio",pi.naturalWidth+" / "+pi.naturalHeight,"important");};pi.src=e.img;}
   if(!e.vid)return;
   el.classList.add("kjo-vid");
@@ -1570,6 +1580,7 @@ function one(el){
   if(e.img){v.poster=e.img;v.src=e.vid;}else{v.src=e.vid+"#t=0.1";}
   var b=document.createElement("button");b.type="button";b.className="kjo-pb";b.setAttribute("aria-label","Video abspielen");
   b.innerHTML='<svg class="kjo-i1" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg><svg class="kjo-i2" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4.5h4.2v15H6zM13.8 4.5H18v15h-4.2z"/></svg>';
+  if(al)v.setAttribute("aria-label",al);
   el.appendChild(v);el.appendChild(b);
   function set(on){el.classList.toggle("kjo-on",on);b.setAttribute("aria-label",on?"Video anhalten":"Video abspielen");}
   function tog(ev){ev.preventDefault();ev.stopPropagation();

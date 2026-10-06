@@ -1,9 +1,9 @@
 {
- "version": "1.19.2",
- "download_url": "dj-kolja-one-plattenkiste-1.19.2.zip",
- "sha256": "8ff82b800fbc675df8290f6ab3f22d3a53be969bf84446fc7d582de9f3ee737e",
+ "version": "1.19.3",
+ "download_url": "dj-kolja-one-plattenkiste-1.19.3.zip",
+ "sha256": "8bfdb889711b021eec35e6533665b8ce913da63f32e2cc527dbbb37bd2848e2b",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Startseite: H1 mit Region Memmingen, Allgäu & Schwaben."
+ "changelog": "Alt-Texte für alle Bilder und Videos."
 }
