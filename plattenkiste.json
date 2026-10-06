@@ -1,9 +1,9 @@
 {
- "version": "1.20.0",
- "download_url": "dj-kolja-one-plattenkiste-1.20.0.zip",
- "sha256": "1d8beed98e5cb85fab7289abda1d0038f3abe471db88ddddbf937514092d454b",
+ "version": "1.20.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.20.1.zip",
+ "sha256": "dc35e8105f0520929a5a5ef38265e856e88da2d7dd5d4078a8613e4763678483",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Alle Bilder: Höhe 400 px, Rahmen exakt ums Bild."
+ "changelog": "Startseite: neue Texte und Reihenfolge."
 }

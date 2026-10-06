@@ -2,7 +2,7 @@ from lib import *
 
 FAQ_ALL={
 "Buchung & Preise":[
- ("Was kostet ein Event bei DJ KOLJA ONE?","Jede Veranstaltung ist anders: Dauer, Gästezahl, Technik und Anfahrt bestimmen den Preis. Deshalb bekommt ihr ein individuelles Angebot – schnell, transparent und unverbindlich."),
+ ("Was kostet ein DJ bei DJ KOLJA ONE?","Das hängt von Dauer, Gästezahl, Technik und Anfahrt ab – deshalb gibt es keine Pakete von der Stange, sondern ein Angebot, das genau zu eurem Fest passt. Schickt mir einfach euer Datum, ich melde mich innerhalb von 24 Stunden."),
  ("Wie läuft eine Buchung ab?","Ihr schickt mir eine Anfrage mit Datum, Ort und Anlass. Danach spreche ich mit euch telefonisch oder per Video über eure Wünsche, ihr erhaltet ein individuelles Angebot, und nach eurer Bestätigung ist der Termin verbindlich für euch reserviert."),
  ("Wie früh sollten wir buchen?","Für Hochzeiten und Samstage in der Hochsaison (Mai bis September) empfehle ich 9–12 Monate Vorlauf. Für Geburtstage und Firmenfeiern reichen oft 3–6 Monate. Kurzfristige Anfragen lohnen sich trotzdem – fragt einfach nach."),
  ("Was passiert, wenn du krank wirst?","Dann übernimmt ein erfahrener DJ aus meinem Netzwerk – mit derselben Vorbereitung und ohne Mehrkosten für euch."),
@@ -29,38 +29,39 @@ def fq(*qs):
 WISH=("Wunschtermin prüfen",KONTAKT)
 
 # ---------------- Startseite ----------------
+START_STAERKEN=[
+ ("fas fa-music","Musik, auf euch und eure Gäste angepasst","Im Vorgespräch legen wir Wunsch- und No-Go-Liste fest. Ihr hört und tanzt zu Songs, die ihr liebt – und es kommt nichts, was ihr nicht hören wollt."),
+ ("fas fa-sliders-h","Minimaler Aufwand für euch","Eigene Ton- und Lichtanlage, Funkmikrofon für Reden, Abstimmung mit Location und Dienstleistern – alles aus einer Hand."),
+ ("fas fa-microphone","Ein Abend mit rotem Faden","Einlauf, Reden, Spiele, Programmpunkte: souverän und herzlich moderiert, nie aufdringlich."),
+ ("fas fa-shield-alt","Ausfallsicher","Sollte ich krank werden, übernimmt ein erfahrener DJ aus meinem Netzwerk – gleich vorbereitet, ohne Mehrkosten für euch.")]
 def start():
     vor=split("Vorstellung","Hallo, ich bin Kolja.",[
-        "Hinter DJ KOLJA ONE stehe ich: DJ und Moderator. Seit über 10 Jahren sorge ich dafür, dass Hochzeiten, Geburtstage, Firmenfeiern und Events in Erinnerung bleiben.",
-        "Mein Anspruch steckt schon im Claim: Jedes Event findet nur einmal statt. Deshalb plane ich jede Feier individuell, lese die Tanzfläche live und moderiere so, dass ihr euch um nichts kümmern müsst."],
-        extra=T("Hochzeiten · Geburtstage · Firmenfeiern · Stadtfeste &amp; Open Airs",GOLD,"left",15),
-        buttons=[BTN("Mehr über mich","/ueber-mich/",False,"left"),BTN(*WISH,True,"left")],img="kolja_portrait.jpg",port=True)
+        "Seit über 10 Jahren stehe ich als DJ und Moderator auf Hochzeiten, Geburtstagen, Firmenfeiern und Events zwischen Memmingen, Allgäu und Schwaben.",
+        "Mein Versprechen steckt im Claim: <strong>Jedes Event findet nur einmal statt.</strong> Deshalb bereite ich jede Feier persönlich mit euch vor, lese die Tanzfläche live und halte euch den Rücken frei – damit ihr einfach feiern könnt."],
+        buttons=[BTN("Mehr über mich","/ueber-mich/",False,"left"),BTN(*WISH,True,"left")],img="kolja_portrait.jpg",port=True,bg=B2)
     return [nav(),
-      hero("DJ KOLJA ONE · Fellheim","Premium DJ für Hochzeiten &amp; Events in Memmingen, Allgäu &amp; Schwaben",
-           "Eine volle Tanzfläche – vom ersten Song bis zum letzten.",[BTN(*WISH),BTN("Leistungen entdecken","#leistungen",False)],
-           stats=None,extra=[W("html",{"html":open("./deck/deck-snippet.html").read(),"_element_width":"inherit","width":px(100,"%")})]),
+      hero("DJ &amp; Moderator aus Fellheim · seit über 10 Jahren","Premium DJ für Hochzeiten &amp; Events in Memmingen, Allgäu &amp; Schwaben",
+           "Ihr feiert – ich sorge für die volle Tanzfläche und einen Abend, der einfach läuft. Mit eurer Musik und einer Moderation, die euch alles abnimmt.",
+           [BTN(*WISH),BTN("Per WhatsApp anfragen",WA,False)],
+           stats=None,extra=[T("Unverbindlich · Antwort innerhalb von 24 Stunden",MUTED,"center",14),
+                             W("html",{"html":open("./deck/deck-snippet.html").read(),"_element_width":"inherit","width":px(100,"%")})]),
       con([VIDEOS("start")],"column",bg=B1,pad=box(0,20,56,20),inner=False,flex_align_items="center",padding_mobile=box(0,20,40,20)),
-      section(head("Meine Leistungen","Der richtige Sound für jeden Anlass")+[tiles()],anchor="leistungen"),
-      section(head("So einfach geht's","In drei Schritten zu eurem Wunschtermin")+[steps([
-          ("Anfrage senden","Datum, Ort und Anlass per Formular oder WhatsApp. Ich melde mich innerhalb von 24 Stunden."),
-          ("Persönliches Gespräch","Telefonisch oder per Video. Ich spreche mit euch über eure Musik, den Ablauf und eure Wünsche."),
-          ("Termin fix","Ihr bekommt ein individuelles Angebot. Nach der Bestätigung ist euer Datum verbindlich reserviert.")]),
-          SPACER(10),BTN("Jetzt Wunschtermin prüfen",KONTAKT)],bg=B2),
-      vor, staerken(),
+      section(head("Meine Leistungen","Wofür bucht ihr mich?")+[tiles()],anchor="leistungen"),
+      staerken("Ihr feiert. Ich kümmere mich um den Rest.",START_STAERKEN,eye="Was ihr davon habt"),
       reviews(["h1","f1","g1","h2","f2","g2","h3"]),
-      faq(fq("Was kostet ein Event bei DJ KOLJA ONE?","Wie früh sollten wir buchen?","Was passiert, wenn du krank wirst?","Moderierst du auch?")),
-      orte(), cta(),
-      section(head("Individuelles Angebot","Maßgeschneidert statt Paket von der Stange")+[con([
-          con([H(t,"h3",26,OFF,"left","400"),T(d,MUTED,"left",16),SPACER(4),BTN("Angebot anfragen",KONTAKT,False,"left")],bg=B2,pad=box(40,32,40,32),g=14,
-              border_border="solid",border_width=box(2,0,0,0),border_color=GOLD,**col(31,100,100)) for t,d in [
-            ("Hochzeit","Angebot nach eurem Ablauf und der Stundenzahl – vom Sektempfang bis zum letzten Song."),
-            ("Geburtstag &amp; Privatfeier","Angebot nach Gästezahl, Location und Wunschprogramm."),
-            ("Firmen- &amp; Großevents","Angebot inklusive Technikplanung und Abstimmung mit Location und Agentur.")]],
-          "row",g=24,**ROW,flex_justify_content="space-between")]),
-      section(head("Kontakt","Lasst uns über euer Fest sprechen")+[con([
+      vor,
+      section(head("So einfach geht's","In drei Schritten zu eurem DJ")+[steps([
+          ("Wunschtermin prüfen","Datum, Ort und Anlass – per Formular oder WhatsApp in 2 Minuten. Ich melde mich innerhalb von 24 Stunden."),
+          ("Kennenlernen","Telefonisch oder per Video besprechen wir Musik, Ablauf und Wünsche – kostenlos und unverbindlich."),
+          ("Termin sichern","Ihr bekommt ein individuelles Angebot. Mit eurer Bestätigung ist euer Datum fest reserviert.")]),
+          SPACER(10),BTN("Jetzt Wunschtermin prüfen",KONTAKT)],bg=B1),
+      faq(fq("Was kostet ein DJ bei DJ KOLJA ONE?","Wie früh sollten wir buchen?","Was passiert, wenn du krank wirst?","Moderierst du auch?"),bg=B2),
+      orte(bg=B1),
+      cta("Euer Datum ist noch frei? Dann sichert es euch.","Beliebte Samstage sind oft ein Jahr im Voraus vergeben. Eine Anfrage dauert zwei Minuten und ist unverbindlich."),
+      section(head("Kontakt","Wie möchtet ihr anfragen?")+[con([
           con([ICONBOX(i,t,d,"center",u)],bg=B1,pad=box(36,24,36,24),**col(31,100,100)) for i,t,d,u in [
-            ("fas fa-phone","Anrufen",PHONE,TEL),("fas fa-envelope-open-text","Anfrage senden","Formular in 2 Minuten ausgefüllt",KONTAKT),
-            ("fab fa-whatsapp","WhatsApp","Schnell und unkompliziert",WA)]],"row",g=24,**ROW,flex_justify_content="space-between")],bg=B2),
+            ("fas fa-phone","Anrufen",PHONE+" – direkt mit mir sprechen",TEL),("fas fa-envelope-open-text","Formular","In 2 Minuten ausgefüllt – Antwort innerhalb von 24 Stunden",KONTAKT),
+            ("fab fa-whatsapp","WhatsApp","Schnell und unkompliziert – gern auch per Sprachnachricht",WA)]],"row",g=24,**ROW,flex_justify_content="space-between")],bg=B1),
       footer()]
 
 # ---------------- Leistungsseiten ----------------
@@ -110,7 +111,7 @@ HOCHZEIT=dict(key="hochzeit",eye="Hochzeits-DJ · Memmingen · Allgäu · Schwab
         ("Angebot","Ihr erhaltet ein individuelles Angebot und reserviert euren Termin."),("Planung","Einige Wochen vorher plane ich mit euch Musik, Ablauf und Programmpunkte im Detail."),
         ("Eure Hochzeit","Ich bin pünktlich da, alles steht – ihr feiert.")],
  reviews=["h1","h2","h3"],
- faq=fq("Was kostet ein Event bei DJ KOLJA ONE?","Wie früh sollten wir buchen?","Können wir Musikwünsche angeben?","Moderierst du auch?","Warum ein DJ statt einer Playlist?","Stimmst du dich mit Location und Dienstleistern ab?","Was passiert, wenn du krank wirst?"),
+ faq=fq("Was kostet ein DJ bei DJ KOLJA ONE?","Wie früh sollten wir buchen?","Können wir Musikwünsche angeben?","Moderierst du auch?","Warum ein DJ statt einer Playlist?","Stimmst du dich mit Location und Dienstleistern ab?","Was passiert, wenn du krank wirst?"),
  faq_title="Fragen rund um eure Hochzeit",
  orte_title="Hochzeits-DJ in Oberschwaben, Ulm und dem Allgäu",
  cross=["/geburtstags-dj/","/firmenfeier-dj/","/event-dj/"])
@@ -138,7 +139,7 @@ GEBURTSTAG=dict(key="geburtstag",eye="Geburtstags-DJ · Memmingen · Allgäu · 
  steps_title="In drei Schritten zu eurer Party",
  steps=[("Anfrage","Datum, Ort und Anlass per Formular oder WhatsApp."),("Gespräch","Ich kläre mit euch Musik, Ablauf und Überraschungen."),("Party","Ich baue auf, ihr feiert.")],
  reviews=["g1","g2","h3"],
- faq=fq("Was kostet ein Event bei DJ KOLJA ONE?","Können wir Musikwünsche angeben?","Nimmst du auch Wünsche von Gästen an?","Moderierst du auch?","Was brauchst du vor Ort?"),
+ faq=fq("Was kostet ein DJ bei DJ KOLJA ONE?","Können wir Musikwünsche angeben?","Nimmst du auch Wünsche von Gästen an?","Moderierst du auch?","Was brauchst du vor Ort?"),
  faq_title="Fragen rund um euren Geburtstag",
  orte_title="Geburtstags-DJ in Oberschwaben, Ulm und dem Allgäu",
  cross=["/hochzeits-dj/","/firmenfeier-dj/","/event-dj/"])
