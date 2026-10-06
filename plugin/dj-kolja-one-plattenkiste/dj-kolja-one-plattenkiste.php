@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.18.9
+ * Version:     1.19.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.18.9' );
+define( 'KJO_VERSION', '1.19.0' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -2019,4 +2019,81 @@ add_action(
 		}
 	},
 	20
+);
+
+/**
+ * Seitentitel, Meta-Beschreibung und Social-Vorschau (Open Graph, Twitter Card) aus schema.json.
+ * Wird nicht ausgegeben, wenn Yoast, Rank Math, AIOSEO oder SEOPress aktiv sind.
+ * Abschalten: add_filter( 'kjo_seo_aktiv', '__return_false' );
+ *
+ * @return array|null array( titel, beschreibung, url, bild ) für die aktuelle Seite
+ */
+function kjo_seo_seite() {
+	static $r = false;
+	if ( false !== $r ) {
+		return $r;
+	}
+	$r = null;
+	if ( defined( 'WPSEO_VERSION' ) || defined( 'RANK_MATH_VERSION' ) || defined( 'AIOSEO_VERSION' ) || defined( 'SEOPRESS_VERSION' ) || ! apply_filters( 'kjo_seo_aktiv', true ) ) {
+		return $r;
+	}
+	if ( is_admin() || ! is_singular( 'page' ) ) {
+		return $r;
+	}
+	$slug = is_front_page() ? 'start' : get_post_field( 'post_name', get_queried_object_id() );
+	$file = __DIR__ . '/schema.json';
+	if ( ! $slug || ! is_readable( $file ) ) {
+		return $r;
+	}
+	$d = json_decode( (string) file_get_contents( $file ), true );
+	$p = isset( $d['pages'][ $slug ] ) ? $d['pages'][ $slug ] : null;
+	if ( ! $p || empty( $p['title'] ) || empty( $p['desc'] ) ) {
+		return $r;
+	}
+	$r = array(
+		'titel' => $p['title'],
+		'desc'  => $p['desc'],
+		'url'   => get_permalink( get_queried_object_id() ),
+		'bild'  => (string) get_the_post_thumbnail_url( get_queried_object_id(), 'large' ),
+	);
+	return $r;
+}
+
+add_filter(
+	'pre_get_document_title',
+	function ( $t ) {
+		$s = kjo_seo_seite();
+		return $s ? $s['titel'] : $t;
+	},
+	20
+);
+
+add_action(
+	'wp_head',
+	function () {
+		$s = kjo_seo_seite();
+		if ( ! $s ) {
+			return;
+		}
+		$m = array(
+			array( 'name', 'description', $s['desc'] ),
+			array( 'property', 'og:type', 'website' ),
+			array( 'property', 'og:locale', 'de_DE' ),
+			array( 'property', 'og:site_name', 'DJ KOLJA ONE' ),
+			array( 'property', 'og:title', $s['titel'] ),
+			array( 'property', 'og:description', $s['desc'] ),
+			array( 'property', 'og:url', $s['url'] ),
+			array( 'name', 'twitter:card', $s['bild'] ? 'summary_large_image' : 'summary' ),
+			array( 'name', 'twitter:title', $s['titel'] ),
+			array( 'name', 'twitter:description', $s['desc'] ),
+		);
+		if ( $s['bild'] ) {
+			$m[] = array( 'property', 'og:image', $s['bild'] );
+			$m[] = array( 'name', 'twitter:image', $s['bild'] );
+		}
+		foreach ( $m as $x ) {
+			echo '<meta ' . $x[0] . '="' . esc_attr( $x[1] ) . '" content="' . esc_attr( $x[2] ) . '">' . "\n";
+		}
+	},
+	4
 );

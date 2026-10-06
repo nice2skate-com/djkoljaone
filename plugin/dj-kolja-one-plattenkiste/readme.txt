@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.19.0: Seitentitel, Meta-Beschreibung und Social-Vorschau (Open Graph) je Seite mit Region und Anlass. Entfällt, wenn Yoast/Rank Math/AIOSEO/SEOPress aktiv ist; abschaltbar mit kjo_seo_aktiv. Zwischenspeicher leeren.
 Seit 1.18.9: Alle Bilder (Start-Kacheln, Textbilder, Porträt) haben den Goldrahmen mit Schatten wie das Porträt auf „Über mich“. Zwischenspeicher leeren und hart neu laden.
 Seit 1.18.8: Strukturierte Daten (JSON-LD) für Google: Unternehmen, Leistungen, FAQ und Brotkrumen je Seite. Abschaltbar mit dem Filter kjo_schema_aktiv. Zwischenspeicher leeren.
 Seit 1.18.7: Bilder und Videos werden auch mit doppelter Endung erkannt (z. B. start_events.jpg.png), die Grenze liegt bei 2000 Mediendateien statt 800. Zwischenspeicher leeren.
