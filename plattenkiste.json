@@ -1,9 +1,9 @@
 {
- "version": "1.19.1",
- "download_url": "dj-kolja-one-plattenkiste-1.19.1.zip",
- "sha256": "853f03b07bbf3656268645bc7945d7d2d8e6890551b1e6411b76734c661a893a",
+ "version": "1.19.2",
+ "download_url": "dj-kolja-one-plattenkiste-1.19.2.zip",
+ "sha256": "8ff82b800fbc675df8290f6ab3f22d3a53be969bf84446fc7d582de9f3ee737e",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Titel und Kopfzeilen mit Memmingen, Allgäu & Schwaben."
+ "changelog": "Startseite: H1 mit Region Memmingen, Allgäu & Schwaben."
 }
