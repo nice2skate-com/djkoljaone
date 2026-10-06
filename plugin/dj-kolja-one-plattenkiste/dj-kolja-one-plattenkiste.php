@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.19.4
+ * Version:     1.19.5
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.19.4' );
+define( 'KJO_VERSION', '1.19.5' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -1572,7 +1572,7 @@ function one(el){
   var e=M[m.toLowerCase()]||{};
   if(e.img){el.style.backgroundImage='url("'+e.img+'")';el.style.backgroundSize="cover";el.style.backgroundPosition="center";}
   var al=altFor(m);if(al&&e.img&&!e.vid){el.setAttribute("role","img");el.setAttribute("aria-label",al);}
-  if(e.img&&el.classList.contains("kjo-port")){var pi=new Image();pi.onload=function(){if(pi.naturalWidth&&pi.naturalHeight)el.style.setProperty("aspect-ratio",pi.naturalWidth+" / "+pi.naturalHeight,"important");};pi.src=e.img;}
+  if(e.img&&!e.vid){var pi=new Image();pi.onload=function(){if(pi.naturalWidth&&pi.naturalHeight){el.style.setProperty("aspect-ratio",pi.naturalWidth+" / "+pi.naturalHeight,"important");el.style.setProperty("min-height","0","important");el.style.setProperty("height","auto","important");}};pi.src=e.img;}
   if(!e.vid)return;
   el.classList.add("kjo-vid");
   var v=document.createElement("video");
