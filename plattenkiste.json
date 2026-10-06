@@ -1,9 +1,9 @@
 {
- "version": "1.18.7",
- "download_url": "dj-kolja-one-plattenkiste-1.18.7.zip",
- "sha256": "670fd6b4bf3f90baf542a0ee3d74d08f57ac8a1a849c21b14731d81cdd5e41c0",
+ "version": "1.18.9",
+ "download_url": "dj-kolja-one-plattenkiste-1.18.9.zip",
+ "sha256": "33c5d92f45d784bbf4e52cb82017f24623f4e55cee327c4e1d71cdae349a3611",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Mediennamen mit doppelter Endung (z. B. start_events.jpg.png) werden erkannt; mehr Mediendateien."
+ "changelog": "Alle Bilder mit Goldrahmen und Schatten wie das Porträt."
 }
