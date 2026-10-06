@@ -178,10 +178,10 @@ def tile(title,teaser,url,w=23):
     return con([ti,H(title,"h3",26,OFF,"left","400"),T(teaser,MUTED,"left",16),
                 H("Mehr erfahren →","p",13,GOLD,"left","500",link=url,ls=1.5,tr="uppercase")],g=14,**col(w))
 TILE_IMG={"/hochzeits-dj/":"start_hochzeit.jpg","/geburtstags-dj/":"start_geburtstag.jpg","/firmenfeier-dj/":"start_firmenfeier.jpg","/event-dj/":"start_events.jpg"}
-TILES={"/hochzeits-dj/":("Hochzeits-DJ","Der schönste Tag verdient den richtigen Soundtrack. Vom Sektempfang bis zum letzten Tanz."),
-       "/geburtstags-dj/":("Geburtstags-DJ","Euer Fest, eure Musik – ausgelassen bis zum Schluss. Für den 18. genauso wie für den 80."),
-       "/firmenfeier-dj/":("Firmenfeier-DJ","Musik, die eure Marke stärkt. Weihnachtsfeiern, Sommerfeste, Galas und Jubiläen."),
-       "/event-dj/":("Event-DJ","Stadtfest, Vereinsfeier, Open Air oder Silvester: Stimmung auch für große Menschenmengen.")}
+TILES={"/hochzeits-dj/":("Hochzeits-DJ","Ihr genießt euren Tag – ich halte die Tanzfläche voll und führe durch den Abend. Vom Sektempfang bis zum letzten Song."),
+       "/geburtstags-dj/":("Geburtstags-DJ","Vom 18. bis zum 80.: Musik, bei der jede Generation tanzt – und ihr als Gastgeber einfach mitfeiert."),
+       "/firmenfeier-dj/":("Firmenfeier-DJ","Ein Abend, über den euer Team noch lange spricht – professionell geplant, ohne Aufwand für euch."),
+       "/event-dj/":("Event-DJ","Stadtfest, Vereinsfeier, Open Air oder Silvester: Stimmung, die auch große Menschenmengen mitreißt.")}
 def tiles(urls=None,w=23):
     urls=urls or list(TILES)
     return con([tile(*TILES[u],u,w=w) for u in urls],"row",g=24,**ROW,flex_justify_content="center" if len(urls)<4 else "space-between")
@@ -208,7 +208,7 @@ def fit(yes,no):
     n=con([H("Eher nicht","h3",26,MUTED,"left","400"),ILIST(no,"fas fa-times",MUTED)],bg=B2,pad=box(40,34,40,34),g=18,**col(48,100,100))
     return con([y,n],"row",g=24,**ROW,flex_justify_content="space-between")
 
-def split(eye,title,paras,extra=None,img_left=True,buttons=None,img=None,port=False):
+def split(eye,title,paras,extra=None,img_left=True,buttons=None,img=None,port=False,bg=B1):
     txt=[EYE(eye,"left"),H(title,"h2",44,OFF,"left",m=32)]+[T(p,MUTED,"left") for p in paras]
     if extra: txt.append(extra)
     if buttons: txt+= [SPACER(6),BTNS(*buttons,align="left")]
@@ -216,14 +216,15 @@ def split(eye,title,paras,extra=None,img_left=True,buttons=None,img=None,port=Fa
     if port: img["settings"]["css_classes"]=(img["settings"].get("css_classes","")+" kjo-port").strip()
     if port: img["settings"].update(width_tablet=px(280),width_mobile=px(280))
     t=con(txt,g=16,css_classes="kjo-txt",**(col(60,100,100) if port else col(50,100,100)))
-    return section([con([img,t] if img_left else [t,img],"row",g=50,flex_align_items="center",flex_justify_content="space-between",css_classes="kjo-split",**ROW)])
+    return section([con([img,t] if img_left else [t,img],"row",g=50,flex_align_items="center",flex_justify_content="space-between",css_classes="kjo-split",**ROW)],bg=bg)
 
 STAERKEN=[("fas fa-music","Individuelle Musikplanung","Vorgespräch, Wunsch- und No-Go-Listen. Keine Playlist von der Stange, sondern eure Musik."),
           ("fas fa-sliders-h","Geprüfte Profi-Technik","Eigene Ton- und Lichtanlage, regelmäßig geprüft, dezent aufgebaut. Mit Funkmikrofon für Reden."),
           ("fas fa-microphone","Professionelle Moderation","Einlauf, Reden, Spiele und Programmpunkte: souverän moderiert, nie aufdringlich.")]
-def staerken(title="Warum DJ KOLJA ONE?"):
-    cards_=[con([ICONBOX(*i)],bg=B1,pad=box(36,30,36,30),**col(31,100,100)) for i in STAERKEN]
-    return section(head("Meine Stärken",title)+[con(cards_,"row",g=24,**ROW,flex_justify_content="space-between")],bg=B2)
+def staerken(title="Warum DJ KOLJA ONE?",items=None,eye="Meine Stärken",bg=B2):
+    items=items or STAERKEN; w=23 if len(items)==4 else 31
+    cards_=[con([ICONBOX(*i)],bg=B1,pad=box(36,30,36,30),**col(w,48,100)) for i in items]
+    return section(head(eye,title)+[con(cards_,"row",g=24,**ROW,flex_justify_content="space-between")],bg=bg)
 
 REVIEWS={
  "h1":("Die Tanzfläche war ab dem Eröffnungstanz nicht mehr leer. Genau so haben wir uns das gewünscht.","Brautpaar · Hochzeit im Allgäu"),
