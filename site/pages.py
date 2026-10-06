@@ -323,7 +323,7 @@ def kontakt():
 # ---------------- Rechtliches ----------------
 def impressum():
     return text_page("Impressum",[
-      "<h3>Angaben gemäß § 5 DDG</h3><p>Kolja Tönges<br>DJ KOLJA ONE<br>Pfarrer-Ritter-Weg 9<br>87748 Fellheim</p>",
+      "<h3>Angaben gemäß § 5 DDG</h3><p>Artificial Sentiments (Einzelunternehmen)<br>Inhaber: Kolja Tönges<br>Marke: DJ KOLJA ONE<br>Pfarrer-Ritter-Weg 9<br>87748 Fellheim</p>",
       f"<h3>Kontakt</h3><p>Telefon: {PHONE}<br>E-Mail: {MAIL}</p>",
       "<h3>Umsatzsteuer</h3><p>[BITTE ERGÄNZEN: Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG – oder den Hinweis „Gemäß § 19 UStG wird keine Umsatzsteuer berechnet (Kleinunternehmerregelung).“]</p>",
       "<h3>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h3><p>Kolja Tönges, Anschrift wie oben</p>",
@@ -334,7 +334,7 @@ def impressum():
 
 def datenschutz():
     return text_page("Datenschutzerklärung",[
-      f"<h3>1. Verantwortlicher</h3><p>Kolja Tönges, DJ KOLJA ONE<br>Pfarrer-Ritter-Weg 9, 87748 Fellheim<br>Telefon: {PHONE}<br>E-Mail: {MAIL}</p>",
+      f"<h3>1. Verantwortlicher</h3><p>Artificial Sentiments (Einzelunternehmen), Inhaber: Kolja Tönges, Marke DJ KOLJA ONE<br>Pfarrer-Ritter-Weg 9, 87748 Fellheim<br>Telefon: {PHONE}<br>E-Mail: {MAIL}</p>",
       "<h3>2. Allgemeines</h3><p>Der Schutz deiner persönlichen Daten ist mir wichtig. Ich verarbeite personenbezogene Daten nur im Rahmen der gesetzlichen Bestimmungen, insbesondere der Datenschutz-Grundverordnung (DSGVO). Diese Erklärung informiert dich darüber, welche Daten beim Besuch dieser Website erhoben werden und wofür sie genutzt werden.</p>",
       "<h3>3. Hosting</h3><p>Diese Website wird bei der STRATO AG, Otto-Ostrowski-Straße 7, 10249 Berlin, gehostet. Beim Aufruf der Website werden durch den Hoster automatisch Informationen in sogenannten Server-Logfiles gespeichert (z. B. IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Seite, Browsertyp). Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO; mein berechtigtes Interesse liegt in einem sicheren und stabilen Betrieb der Website. Mit STRATO besteht ein Vertrag zur Auftragsverarbeitung.</p>",
       "<h3>4. SSL-/TLS-Verschlüsselung</h3><p>Diese Seite nutzt aus Sicherheitsgründen eine SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennst du am Schloss-Symbol in der Adresszeile deines Browsers.</p>",
