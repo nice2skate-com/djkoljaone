@@ -54,7 +54,9 @@
      "Start",
      "/"
     ]
-   ]
+   ],
+   "title": "Mobiler DJ Memmingen, Ulm, Allgäu | DJ KOLJA ONE",
+   "desc": "Mobiler DJ und Moderator aus Fellheim: Hochzeiten, Geburtstage, Firmenfeiern und Events in Memmingen, Ulm, Allgäu und Oberschwaben. Wunschtermin prüfen."
   },
   "hochzeits-dj": {
    "name": "Hochzeits-DJ",
@@ -100,7 +102,9 @@
      "Hochzeits-DJ",
      "/hochzeits-dj/"
     ]
-   ]
+   ],
+   "title": "Hochzeits-DJ Memmingen, Ulm & Allgäu | DJ KOLJA ONE",
+   "desc": "Hochzeits-DJ mit Moderation vom Sektempfang bis zum letzten Song. Persönliche Beratung, volle Tanzfläche – in Memmingen, Ulm, Allgäu und Oberschwaben."
   },
   "geburtstags-dj": {
    "name": "Geburtstags-DJ",
@@ -138,7 +142,9 @@
      "Geburtstags-DJ",
      "/geburtstags-dj/"
     ]
-   ]
+   ],
+   "title": "Geburtstags-DJ Memmingen, Ulm & Allgäu | DJ KOLJA ONE",
+   "desc": "Geburtstags-DJ für runde Geburtstage und Privatfeiern: Musik nach euren Wünschen, auf Wunsch mit Moderation. Region Memmingen, Ulm, Allgäu."
   },
   "firmenfeier-dj": {
    "name": "Firmenfeier-DJ",
@@ -176,7 +182,9 @@
      "Firmenfeier-DJ",
      "/firmenfeier-dj/"
     ]
-   ]
+   ],
+   "title": "Firmenfeier-DJ Memmingen, Ulm & Allgäu | DJ KOLJA ONE",
+   "desc": "DJ und Moderation für Firmenfeiern, Betriebsfeste und Jubiläen: stilsicher, zuverlässig und mit passender Technik. Region Memmingen, Ulm, Allgäu."
   },
   "event-dj": {
    "name": "Event-DJ",
@@ -210,7 +218,9 @@
      "Event-DJ",
      "/event-dj/"
     ]
-   ]
+   ],
+   "title": "Event-DJ für Stadtfeste & Open Air, Allgäu | DJ KOLJA ONE",
+   "desc": "DJ für Stadtfeste, Vereinsfeiern, Open Airs und Silvester: starke Technik, Moderation und Stimmung im Allgäu, in Oberschwaben und um Ulm."
   },
   "meine-musik": {
    "name": "Meine Musik",
@@ -225,7 +235,9 @@
      "Meine Musik",
      "/meine-musik/"
     ]
-   ]
+   ],
+   "title": "Meine Musik – leg selbst auf am DJ-Pult | DJ KOLJA ONE",
+   "desc": "Such dir Tracks aus der Plattenkiste, leg sie aufs Deck und hör rein, wie DJ KOLJA ONE klingt – direkt im Browser, mit Mixer und Waveform."
   },
   "ueber-mich": {
    "name": "Über mich",
@@ -240,7 +252,9 @@
      "Über mich",
      "/ueber-mich/"
     ]
-   ]
+   ],
+   "title": "Über mich – DJ und Moderator aus Fellheim | DJ KOLJA ONE",
+   "desc": "Kolja, DJ und Moderator aus Fellheim: seit über 10 Jahren auf Hochzeiten, Geburtstagen und Events unterwegs. Lerne den Menschen hinter DJ KOLJA ONE kennen."
   },
   "faq": {
    "name": "FAQ",
@@ -312,7 +326,9 @@
      "FAQ",
      "/faq/"
     ]
-   ]
+   ],
+   "title": "FAQ: Preise, Buchung & Ablauf beim DJ | DJ KOLJA ONE",
+   "desc": "Häufige Fragen zu Preisen, Buchung, Musikwünschen, Technik und Ablauf: Antworten von DJ KOLJA ONE für Hochzeiten, Geburtstage und Firmenfeiern."
   },
   "einsatzgebiete": {
    "name": "Einsatzgebiete",
@@ -327,7 +343,9 @@
      "Einsatzgebiete",
      "/einsatzgebiete/"
     ]
-   ]
+   ],
+   "title": "DJ-Einsatzgebiete: Oberschwaben, Ulm, Allgäu | DJ KOLJA ONE",
+   "desc": "Mobiler DJ aus Fellheim bei Memmingen: Einsatz in Memmingen, Ulm, Biberach, Ravensburg, Kempten, Füssen, Kaufbeuren und Landsberg am Lech."
   },
   "dj-memmingen": {
    "name": "DJ Memmingen",
@@ -365,7 +383,9 @@
      "DJ Memmingen",
      "/dj-memmingen/"
     ]
-   ]
+   ],
+   "title": "DJ Memmingen für Hochzeit & Event | DJ KOLJA ONE",
+   "desc": "Euer DJ für Memmingen und Umgebung: Hochzeit, Geburtstag, Firmenfeier oder Event mit Musik und Moderation. Wunschtermin prüfen."
   },
   "dj-ulm": {
    "name": "DJ Ulm",
@@ -403,7 +423,9 @@
      "DJ Ulm",
      "/dj-ulm/"
     ]
-   ]
+   ],
+   "title": "DJ Ulm für Hochzeit & Event | DJ KOLJA ONE",
+   "desc": "Euer DJ für Ulm und Umgebung: Hochzeit, Geburtstag, Firmenfeier oder Event mit Musik und Moderation. Wunschtermin prüfen."
   },
   "dj-biberach": {
    "name": "DJ Biberach an der Riß",
@@ -441,7 +463,9 @@
      "DJ Biberach an der Riß",
      "/dj-biberach/"
     ]
-   ]
+   ],
+   "title": "DJ Biberach an der Riß für Hochzeit & Event | DJ KOLJA ONE",
+   "desc": "Euer DJ für Biberach an der Riß und Umgebung: Hochzeit, Geburtstag, Firmenfeier oder Event mit Musik und Moderation. Wunschtermin prüfen."
   },
   "dj-ravensburg": {
    "name": "DJ Ravensburg",
@@ -479,7 +503,9 @@
      "DJ Ravensburg",
      "/dj-ravensburg/"
     ]
-   ]
+   ],
+   "title": "DJ Ravensburg für Hochzeit & Event | DJ KOLJA ONE",
+   "desc": "Euer DJ für Ravensburg und Umgebung: Hochzeit, Geburtstag, Firmenfeier oder Event mit Musik und Moderation. Wunschtermin prüfen."
   },
   "dj-kempten": {
    "name": "DJ Kempten",
@@ -517,7 +543,9 @@
      "DJ Kempten",
      "/dj-kempten/"
     ]
-   ]
+   ],
+   "title": "DJ Kempten für Hochzeit & Event | DJ KOLJA ONE",
+   "desc": "Euer DJ für Kempten und Umgebung: Hochzeit, Geburtstag, Firmenfeier oder Event mit Musik und Moderation. Wunschtermin prüfen."
   },
   "dj-fuessen": {
    "name": "DJ Füssen",
@@ -555,7 +583,9 @@
      "DJ Füssen",
      "/dj-fuessen/"
     ]
-   ]
+   ],
+   "title": "DJ Füssen für Hochzeit & Event | DJ KOLJA ONE",
+   "desc": "Euer DJ für Füssen und Umgebung: Hochzeit, Geburtstag, Firmenfeier oder Event mit Musik und Moderation. Wunschtermin prüfen."
   },
   "dj-kaufbeuren": {
    "name": "DJ Kaufbeuren",
@@ -593,7 +623,9 @@
      "DJ Kaufbeuren",
      "/dj-kaufbeuren/"
     ]
-   ]
+   ],
+   "title": "DJ Kaufbeuren für Hochzeit & Event | DJ KOLJA ONE",
+   "desc": "Euer DJ für Kaufbeuren und Umgebung: Hochzeit, Geburtstag, Firmenfeier oder Event mit Musik und Moderation. Wunschtermin prüfen."
   },
   "dj-landsberg": {
    "name": "DJ Landsberg am Lech",
@@ -631,7 +663,9 @@
      "DJ Landsberg am Lech",
      "/dj-landsberg/"
     ]
-   ]
+   ],
+   "title": "DJ Landsberg am Lech für Hochzeit & Event | DJ KOLJA ONE",
+   "desc": "Euer DJ für Landsberg am Lech und Umgebung: Hochzeit, Geburtstag, Firmenfeier oder Event mit Musik und Moderation. Wunschtermin prüfen."
   },
   "kontakt": {
    "name": "Kontakt",
@@ -646,7 +680,9 @@
      "Kontakt",
      "/kontakt/"
     ]
-   ]
+   ],
+   "title": "Wunschtermin prüfen – DJ anfragen | DJ KOLJA ONE",
+   "desc": "Unverbindlich anfragen: Wunschtermin prüfen, Angebot erhalten – per Formular, Telefon oder WhatsApp bei DJ KOLJA ONE in Fellheim."
   }
  }
 }

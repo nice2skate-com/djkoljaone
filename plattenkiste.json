@@ -1,9 +1,9 @@
 {
- "version": "1.18.9",
- "download_url": "dj-kolja-one-plattenkiste-1.18.9.zip",
- "sha256": "33c5d92f45d784bbf4e52cb82017f24623f4e55cee327c4e1d71cdae349a3611",
+ "version": "1.19.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.19.0.zip",
+ "sha256": "f857fc913546479b2bdb0b0fef862df1f0f0ba95daf5d4e06994660ecadb19f7",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Alle Bilder mit Goldrahmen und Schatten wie das Porträt."
+ "changelog": "Seitentitel, Meta-Beschreibungen und Social-Vorschau je Seite."
 }

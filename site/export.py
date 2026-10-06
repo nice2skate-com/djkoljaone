@@ -66,6 +66,24 @@ for title,slug,fn in PAGES:
     else:
         e.update(kind=SEOKIND.get(slug,"page"),crumbs=[["Start","/"]] if slug=="start" else [["Start","/"],[title,f"/{slug}/"]])
     sch["pages"][slug]=e
+B="DJ KOLJA ONE"
+SEO={
+"start":(f"Mobiler DJ Memmingen, Ulm, Allgäu | {B}","Mobiler DJ und Moderator aus Fellheim: Hochzeiten, Geburtstage, Firmenfeiern und Events in Memmingen, Ulm, Allgäu und Oberschwaben. Wunschtermin prüfen."),
+"hochzeits-dj":(f"Hochzeits-DJ Memmingen, Ulm & Allgäu | {B}","Hochzeits-DJ mit Moderation vom Sektempfang bis zum letzten Song. Persönliche Beratung, volle Tanzfläche – in Memmingen, Ulm, Allgäu und Oberschwaben."),
+"geburtstags-dj":(f"Geburtstags-DJ Memmingen, Ulm & Allgäu | {B}","Geburtstags-DJ für runde Geburtstage und Privatfeiern: Musik nach euren Wünschen, auf Wunsch mit Moderation. Region Memmingen, Ulm, Allgäu."),
+"firmenfeier-dj":(f"Firmenfeier-DJ Memmingen, Ulm & Allgäu | {B}","DJ und Moderation für Firmenfeiern, Betriebsfeste und Jubiläen: stilsicher, zuverlässig und mit passender Technik. Region Memmingen, Ulm, Allgäu."),
+"event-dj":(f"Event-DJ für Stadtfeste & Open Air, Allgäu | {B}","DJ für Stadtfeste, Vereinsfeiern, Open Airs und Silvester: starke Technik, Moderation und Stimmung im Allgäu, in Oberschwaben und um Ulm."),
+"meine-musik":(f"Meine Musik – leg selbst auf am DJ-Pult | {B}","Such dir Tracks aus der Plattenkiste, leg sie aufs Deck und hör rein, wie DJ KOLJA ONE klingt – direkt im Browser, mit Mixer und Waveform."),
+"ueber-mich":(f"Über mich – DJ und Moderator aus Fellheim | {B}","Kolja, DJ und Moderator aus Fellheim: seit über 10 Jahren auf Hochzeiten, Geburtstagen und Events unterwegs. Lerne den Menschen hinter DJ KOLJA ONE kennen."),
+"faq":(f"FAQ: Preise, Buchung & Ablauf beim DJ | {B}","Häufige Fragen zu Preisen, Buchung, Musikwünschen, Technik und Ablauf: Antworten von DJ KOLJA ONE für Hochzeiten, Geburtstage und Firmenfeiern."),
+"einsatzgebiete":(f"DJ-Einsatzgebiete: Oberschwaben, Ulm, Allgäu | {B}","Mobiler DJ aus Fellheim bei Memmingen: Einsatz in Memmingen, Ulm, Biberach, Ravensburg, Kempten, Füssen, Kaufbeuren und Landsberg am Lech."),
+"kontakt":(f"Wunschtermin prüfen – DJ anfragen | {B}","Unverbindlich anfragen: Wunschtermin prüfen, Angebot erhalten – per Formular, Telefon oder WhatsApp bei DJ KOLJA ONE in Fellheim."),
+}
+for _o,_s in ORTE:
+    _l=LANG.get(_o,_o)
+    SEO[_s]=(f"DJ {_l} für Hochzeit & Event | {B}",f"Euer DJ für {_l} und Umgebung: Hochzeit, Geburtstag, Firmenfeier oder Event mit Musik und Moderation. Wunschtermin prüfen.")
+for _k,(_t,_d) in SEO.items():
+    if _k in sch["pages"]: sch["pages"][_k]["title"]=_t; sch["pages"][_k]["desc"]=_d
 open("./plugin/dj-kolja-one-plattenkiste/schema.json","w",encoding="utf-8").write(json.dumps(sch,ensure_ascii=False,indent=1))
 print("schema.json:",len(sch["pages"]),"Seiten,",sum(len(v["faq"]) for v in sch["pages"].values()),"FAQ-Einträge")
 xml=f"""<?xml version="1.0" encoding="UTF-8" ?>
