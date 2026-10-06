@@ -1,9 +1,9 @@
 {
- "version": "1.18.7",
- "download_url": "dj-kolja-one-plattenkiste-1.18.7.zip",
- "sha256": "670fd6b4bf3f90baf542a0ee3d74d08f57ac8a1a849c21b14731d81cdd5e41c0",
+ "version": "1.18.8",
+ "download_url": "dj-kolja-one-plattenkiste-1.18.8.zip",
+ "sha256": "1f8da7d0ee1ef762a892d418df5b31396dc4af6cb49a1a3ad1e966d2cfa84663",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Mediennamen mit doppelter Endung (z. B. start_events.jpg.png) werden erkannt; mehr Mediendateien."
+ "changelog": "Strukturierte Daten (JSON-LD) für Google: Unternehmen, Leistungen, FAQ und Brotkrumen je Seite."
 }

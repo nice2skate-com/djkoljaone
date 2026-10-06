@@ -27,6 +27,47 @@ AUTO=("start","meine-musik","kontakt","faq","impressum","datenschutz","hochzeits
 sd="./plugin/dj-kolja-one-plattenkiste/seiten"; os.makedirs(sd,exist_ok=True)
 for title,slug,fn in PAGES:
     if slug in AUTO: open(f"{sd}/{slug}.json","w",encoding="utf-8").write(json.dumps(fn(),ensure_ascii=False,separators=(",",":")))
+# ---- Strukturierte Daten (JSON-LD): das Plugin baut daraus pro Seite das Schema ----
+import re, html as _html
+from lib import PHONE, MAIL, INSTA, ORTE
+import pages as _pg
+def _faq(content):
+    out=[]
+    def walk(e):
+        if isinstance(e,dict):
+            if e.get("widgetType")=="accordion":
+                for t in e.get("settings",{}).get("tabs",[]):
+                    q=_html.unescape(re.sub(r"<[^>]+>","",t.get("tab_title",""))).strip()
+                    a=_html.unescape(re.sub(r"<[^>]+>","",t.get("tab_content",""))).strip()
+                    if q and a: out.append([q,a])
+            for c in e.get("elements",[]): walk(c)
+        elif isinstance(e,list):
+            for c in e: walk(c)
+    walk(content); return out
+LANG={"Landsberg":"Landsberg am Lech","Biberach":"Biberach an der Riß"}
+SERV={"hochzeits-dj":(_pg.HOCHZEIT,"Hochzeits-DJ","DJ und Moderation für Hochzeiten"),
+      "geburtstags-dj":(_pg.GEBURTSTAG,"Geburtstags-DJ","DJ und Moderation für Geburtstage und Privatfeiern"),
+      "firmenfeier-dj":(_pg.FIRMA,"Firmenfeier-DJ","DJ und Moderation für Firmenfeiern"),
+      "event-dj":(_pg.EVENT,"Event-DJ","DJ und Moderation für Stadtfeste, Vereinsfeiern und Open Airs")}
+SEOKIND={"start":"home","ueber-mich":"about","kontakt":"contact","faq":"faq","einsatzgebiete":"regions","meine-musik":"page"}
+sch={"business":{"name":"DJ KOLJA ONE","legalName":"Artificial Sentiments","founder":"Kolja Tönges",
+     "telephone":PHONE,"email":MAIL,"locality":"Fellheim","postalCode":"87748","country":"DE",
+     "description":"Mobiler DJ und Moderator aus Fellheim für Hochzeiten, Geburtstage, Firmenfeiern und Events in Memmingen, Ulm, dem Allgäu und Oberschwaben.",
+     "sameAs":[INSTA],"areas":[LANG.get(o,o) for o,_ in ORTE],"regions":["Allgäu","Oberschwaben"]},"pages":{}}
+for title,slug,fn in PAGES:
+    if slug not in AUTO or slug in ("impressum","datenschutz"): continue
+    content=fn(); e={"name":title,"faq":_faq(content)}
+    if slug in SERV:
+        d,nm,st=SERV[slug]; e.update(kind="service",name=nm,serviceType=st,description=re.sub(r"<[^>]+>","",_html.unescape(d["sub"])),crumbs=[["Start","/"],[nm,f"/{slug}/"]])
+    elif slug.startswith("dj-"):
+        o=dict((s2,o2) for o2,s2 in ORTE)[slug]; lg=LANG.get(o,o)
+        e.update(kind="city",name=f"DJ {lg}",city=lg,description=f"DJ und Moderation für Hochzeiten, Geburtstage, Firmenfeiern und Events in {lg} und Umgebung.",
+                 crumbs=[["Start","/"],["Einsatzgebiete","/einsatzgebiete/"],[f"DJ {lg}",f"/{slug}/"]])
+    else:
+        e.update(kind=SEOKIND.get(slug,"page"),crumbs=[["Start","/"]] if slug=="start" else [["Start","/"],[title,f"/{slug}/"]])
+    sch["pages"][slug]=e
+open("./plugin/dj-kolja-one-plattenkiste/schema.json","w",encoding="utf-8").write(json.dumps(sch,ensure_ascii=False,indent=1))
+print("schema.json:",len(sch["pages"]),"Seiten,",sum(len(v["faq"]) for v in sch["pages"].values()),"FAQ-Einträge")
 xml=f"""<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:wp="http://wordpress.org/export/1.2/">
 <channel><title>DJ KOLJA ONE</title><link>http://dj-kolja-one.de</link><description>Jedes Event findet nur einmal statt.</description>

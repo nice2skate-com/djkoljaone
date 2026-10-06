@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.18.7
+ * Version:     1.18.8
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.18.7' );
+define( 'KJO_VERSION', '1.18.8' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -1890,4 +1890,133 @@ body.kjo-plain *{box-sizing:border-box}
 .kjo-sf a:hover{color:#B29D75}
 @media(max-width:767px){.kjo-sf{padding:24px 20px;flex-direction:column;align-items:flex-start}.kjo-doc{padding:48px 20px 72px}}
 KJOCSS
+);
+
+/**
+ * Strukturierte Daten (JSON-LD) für Suchmaschinen: Unternehmen, Leistungen, FAQ, Breadcrumbs.
+ * Die Angaben stammen aus schema.json (erzeugt von site/export.py aus den Seitentexten).
+ * Abschalten: add_filter( 'kjo_schema_aktiv', '__return_false' ); (z. B. wenn ein SEO-Plugin schon Schema ausgibt).
+ *
+ * @param array  $d    Inhalt von schema.json
+ * @param string $slug Seiten-Slug ('start' für die Startseite)
+ * @param string $home Startseiten-URL mit abschließendem Schrägstrich
+ * @return array|null  @graph-Dokument oder null, wenn für die Seite nichts ausgegeben wird
+ */
+function kjo_schema_graph( $d, $slug, $home ) {
+	if ( empty( $d['business'] ) || empty( $d['pages'][ $slug ] ) ) {
+		return null;
+	}
+	$b    = $d['business'];
+	$p    = $d['pages'][ $slug ];
+	$org  = $home . '#business';
+	$url  = ( 'start' === $slug ) ? $home : $home . $slug . '/';
+	$area = array();
+	foreach ( (array) $b['areas'] as $o ) {
+		$area[] = array( '@type' => 'City', 'name' => $o );
+	}
+	foreach ( (array) $b['regions'] as $r ) {
+		$area[] = array( '@type' => 'AdministrativeArea', 'name' => $r );
+	}
+	$business = array(
+		'@type'        => array( 'LocalBusiness', 'EntertainmentBusiness' ),
+		'@id'          => $org,
+		'name'         => $b['name'],
+		'legalName'    => $b['legalName'],
+		'url'          => $home,
+		'description'  => $b['description'],
+		'telephone'    => $b['telephone'],
+		'email'        => $b['email'],
+		'founder'      => array( '@type' => 'Person', 'name' => $b['founder'] ),
+		'address'      => array(
+			'@type'           => 'PostalAddress',
+			'addressLocality' => $b['locality'],
+			'postalCode'      => $b['postalCode'],
+			'addressCountry'  => $b['country'],
+		),
+		'areaServed'   => $area,
+		'sameAs'       => $b['sameAs'],
+	);
+	$graph = array( $business );
+	$page  = array(
+		'@type'    => 'WebPage',
+		'@id'      => $url . '#seite',
+		'url'      => $url,
+		'name'     => $p['name'],
+		'isPartOf' => array( '@id' => $home . '#website' ),
+		'about'    => array( '@id' => $org ),
+	);
+	$graph[] = array( '@type' => 'WebSite', '@id' => $home . '#website', 'url' => $home, 'name' => $b['name'], 'inLanguage' => 'de-DE', 'publisher' => array( '@id' => $org ) );
+	if ( 'faq' === $p['kind'] ) {
+		$page['@type'] = 'FAQPage';
+	} elseif ( 'about' === $p['kind'] ) {
+		$page['@type'] = 'AboutPage';
+	} elseif ( 'contact' === $p['kind'] ) {
+		$page['@type'] = 'ContactPage';
+	}
+	$graph[] = $page;
+	if ( 'service' === $p['kind'] || 'city' === $p['kind'] ) {
+		$svc = array(
+			'@type'      => 'Service',
+			'@id'        => $url . '#leistung',
+			'name'       => $p['name'],
+			'serviceType' => isset( $p['serviceType'] ) ? $p['serviceType'] : 'DJ und Moderation',
+			'provider'   => array( '@id' => $org ),
+		);
+		if ( ! empty( $p['description'] ) ) {
+			$svc['description'] = $p['description'];
+		}
+		if ( ! empty( $p['city'] ) ) {
+			$svc['areaServed'] = array( '@type' => 'City', 'name' => $p['city'] );
+		} else {
+			$svc['areaServed'] = $area;
+		}
+		$graph[] = $svc;
+	}
+	if ( ! empty( $p['faq'] ) ) {
+		$qs = array();
+		foreach ( $p['faq'] as $qa ) {
+			$qs[] = array( '@type' => 'Question', 'name' => $qa[0], 'acceptedAnswer' => array( '@type' => 'Answer', 'text' => $qa[1] ) );
+		}
+		$graph[] = array( '@type' => 'FAQPage', '@id' => $url . '#faq', 'mainEntity' => $qs );
+		if ( 'FAQPage' === $page['@type'] ) {
+			array_pop( $graph ); // FAQ-Seite: nur ein FAQPage-Eintrag
+			array_pop( $graph );
+			$page['mainEntity'] = $qs;
+			$graph[] = $page;
+		}
+	}
+	if ( ! empty( $p['crumbs'] ) && count( $p['crumbs'] ) > 1 ) {
+		$items = array();
+		foreach ( $p['crumbs'] as $i => $c ) {
+			$items[] = array( '@type' => 'ListItem', 'position' => $i + 1, 'name' => $c[0], 'item' => rtrim( $home, '/' ) . $c[1] );
+		}
+		$graph[] = array( '@type' => 'BreadcrumbList', '@id' => $url . '#brotkrumen', 'itemListElement' => $items );
+	}
+	return array( '@context' => 'https://schema.org', '@graph' => $graph );
+}
+
+add_action(
+	'wp_head',
+	function () {
+		if ( is_admin() || is_feed() || is_preview() || ! apply_filters( 'kjo_schema_aktiv', true ) ) {
+			return;
+		}
+		if ( class_exists( '\Elementor\Plugin' ) && \Elementor\Plugin::$instance->preview->is_preview_mode() ) {
+			return;
+		}
+		if ( ! is_singular( 'page' ) ) {
+			return;
+		}
+		$slug = is_front_page() ? 'start' : get_post_field( 'post_name', get_queried_object_id() );
+		$file = __DIR__ . '/schema.json';
+		if ( ! $slug || ! is_readable( $file ) ) {
+			return;
+		}
+		$d = json_decode( (string) file_get_contents( $file ), true );
+		$g = is_array( $d ) ? kjo_schema_graph( $d, $slug, trailingslashit( home_url( '/' ) ) ) : null;
+		if ( $g ) {
+			echo '<script type="application/ld+json">' . wp_json_encode( $g, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP ) . "</script>\n";
+		}
+	},
+	20
 );

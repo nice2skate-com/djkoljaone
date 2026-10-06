@@ -1,0 +1,652 @@
+{
+ "business": {
+  "name": "DJ KOLJA ONE",
+  "legalName": "Artificial Sentiments",
+  "founder": "Kolja Tönges",
+  "telephone": "+49 172 7273707",
+  "email": "anfrage@dj-kolja-one.de",
+  "locality": "Fellheim",
+  "postalCode": "87748",
+  "country": "DE",
+  "description": "Mobiler DJ und Moderator aus Fellheim für Hochzeiten, Geburtstage, Firmenfeiern und Events in Memmingen, Ulm, dem Allgäu und Oberschwaben.",
+  "sameAs": [
+   "https://www.instagram.com/djkoljaone/"
+  ],
+  "areas": [
+   "Memmingen",
+   "Ulm",
+   "Biberach an der Riß",
+   "Ravensburg",
+   "Kempten",
+   "Füssen",
+   "Kaufbeuren",
+   "Landsberg am Lech"
+  ],
+  "regions": [
+   "Allgäu",
+   "Oberschwaben"
+  ]
+ },
+ "pages": {
+  "start": {
+   "name": "Start",
+   "faq": [
+    [
+     "Was kostet ein Event bei DJ KOLJA ONE?",
+     "Jede Veranstaltung ist anders: Dauer, Gästezahl, Technik und Anfahrt bestimmen den Preis. Deshalb bekommt ihr ein individuelles Angebot – schnell, transparent und unverbindlich."
+    ],
+    [
+     "Wie früh sollten wir buchen?",
+     "Für Hochzeiten und Samstage in der Hochsaison (Mai bis September) empfehle ich 9–12 Monate Vorlauf. Für Geburtstage und Firmenfeiern reichen oft 3–6 Monate. Kurzfristige Anfragen lohnen sich trotzdem – fragt einfach nach."
+    ],
+    [
+     "Was passiert, wenn du krank wirst?",
+     "Dann übernimmt ein erfahrener DJ aus meinem Netzwerk – mit derselben Vorbereitung und ohne Mehrkosten für euch."
+    ],
+    [
+     "Moderierst du auch?",
+     "Ja – professionell und auf Wunsch den ganzen Abend: Einlauf, Reden, Programmpunkte, Spiele und Ansagen. Souverän, herzlich und nie aufdringlich."
+    ]
+   ],
+   "kind": "home",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ]
+   ]
+  },
+  "hochzeits-dj": {
+   "name": "Hochzeits-DJ",
+   "faq": [
+    [
+     "Was kostet ein Event bei DJ KOLJA ONE?",
+     "Jede Veranstaltung ist anders: Dauer, Gästezahl, Technik und Anfahrt bestimmen den Preis. Deshalb bekommt ihr ein individuelles Angebot – schnell, transparent und unverbindlich."
+    ],
+    [
+     "Wie früh sollten wir buchen?",
+     "Für Hochzeiten und Samstage in der Hochsaison (Mai bis September) empfehle ich 9–12 Monate Vorlauf. Für Geburtstage und Firmenfeiern reichen oft 3–6 Monate. Kurzfristige Anfragen lohnen sich trotzdem – fragt einfach nach."
+    ],
+    [
+     "Können wir Musikwünsche angeben?",
+     "Unbedingt. Im Vorgespräch erstelle ich mit euch eine Wunschliste und eine No-Go-Liste. Eure Lieblingssongs bekommen ihren Platz – zum richtigen Zeitpunkt."
+    ],
+    [
+     "Moderierst du auch?",
+     "Ja – professionell und auf Wunsch den ganzen Abend: Einlauf, Reden, Programmpunkte, Spiele und Ansagen. Souverän, herzlich und nie aufdringlich."
+    ],
+    [
+     "Warum ein DJ statt einer Playlist?",
+     "Eine Playlist kennt eure Gäste nicht. Ich sehe, wann die Tanzfläche voll ist, wann sie eine Pause braucht und welcher Song jetzt den Unterschied macht – und reagiere live darauf."
+    ],
+    [
+     "Stimmst du dich mit Location und Dienstleistern ab?",
+     "Ja. Ich spreche mich mit Location, Catering, Fotografen oder Agentur ab, damit Zeitplan und Technik reibungslos zusammenpassen."
+    ],
+    [
+     "Was passiert, wenn du krank wirst?",
+     "Dann übernimmt ein erfahrener DJ aus meinem Netzwerk – mit derselben Vorbereitung und ohne Mehrkosten für euch."
+    ]
+   ],
+   "kind": "service",
+   "serviceType": "DJ und Moderation für Hochzeiten",
+   "description": "Vom Sektempfang bis zum letzten Song: Musik und Moderation, die zu euch passen – und eine Tanzfläche, die voll bleibt.",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "Hochzeits-DJ",
+     "/hochzeits-dj/"
+    ]
+   ]
+  },
+  "geburtstags-dj": {
+   "name": "Geburtstags-DJ",
+   "faq": [
+    [
+     "Was kostet ein Event bei DJ KOLJA ONE?",
+     "Jede Veranstaltung ist anders: Dauer, Gästezahl, Technik und Anfahrt bestimmen den Preis. Deshalb bekommt ihr ein individuelles Angebot – schnell, transparent und unverbindlich."
+    ],
+    [
+     "Können wir Musikwünsche angeben?",
+     "Unbedingt. Im Vorgespräch erstelle ich mit euch eine Wunschliste und eine No-Go-Liste. Eure Lieblingssongs bekommen ihren Platz – zum richtigen Zeitpunkt."
+    ],
+    [
+     "Nimmst du auch Wünsche von Gästen an?",
+     "Ja, gern – solange sie zur Stimmung und zu euren Vorgaben passen. So fühlt sich jeder Gast abgeholt, ohne dass der rote Faden verloren geht."
+    ],
+    [
+     "Moderierst du auch?",
+     "Ja – professionell und auf Wunsch den ganzen Abend: Einlauf, Reden, Programmpunkte, Spiele und Ansagen. Souverän, herzlich und nie aufdringlich."
+    ],
+    [
+     "Was brauchst du vor Ort?",
+     "Eine ebene Fläche für den DJ-Platz und einen Stromanschluss in der Nähe. Die Details stimme ich vorab mit euch oder der Location ab."
+    ]
+   ],
+   "kind": "service",
+   "serviceType": "DJ und Moderation für Geburtstage und Privatfeiern",
+   "description": "Ob 18., 30., 50. oder 80.: Ich sorge für die Musik, die zu euch und euren Gästen passt – und für eine Tanzfläche, die bis zum Schluss voll bleibt.",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "Geburtstags-DJ",
+     "/geburtstags-dj/"
+    ]
+   ]
+  },
+  "firmenfeier-dj": {
+   "name": "Firmenfeier-DJ",
+   "faq": [
+    [
+     "Spielst du auch dezente Hintergrundmusik?",
+     "Ja. Beim Empfang, beim Dinner oder während des Networkings läuft die Musik bewusst im Hintergrund – die Lautstärke passe ich laufend an."
+    ],
+    [
+     "Kannst du Programmpunkte moderieren?",
+     "Ja. Von der Begrüßung über Ehrungen und Reden bis zu Gewinnspielen moderiere ich professionell und nach eurem Ablaufplan."
+    ],
+    [
+     "Stimmst du dich mit unserer Agentur oder Location ab?",
+     "Selbstverständlich. Ich kläre Technik, Zeitplan und Aufbau direkt mit allen Beteiligten, damit ihr euch auf eure Gäste konzentrieren könnt."
+    ],
+    [
+     "Wie viel Vorlauf brauchst du?",
+     "Für Weihnachtsfeiern im Dezember empfehle ich eine Anfrage bis zum Frühsommer. Für andere Termine reichen oft 2–4 Monate."
+    ],
+    [
+     "Ist deine Technik auch für große Räume geeignet?",
+     "Ja. Ton- und Lichtanlage werden auf Raumgröße und Gästezahl abgestimmt – vom Besprechungsraum bis zum großen Festsaal."
+    ]
+   ],
+   "kind": "service",
+   "serviceType": "DJ und Moderation für Firmenfeiern",
+   "description": "Weihnachtsfeier, Sommerfest, Gala oder Jubiläum: professionelle Musik und Moderation, abgestimmt auf euer Unternehmen, eure Gäste und euren Ablauf.",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "Firmenfeier-DJ",
+     "/firmenfeier-dj/"
+    ]
+   ]
+  },
+  "event-dj": {
+   "name": "Event-DJ",
+   "faq": [
+    [
+     "Muss ich GEMA-Gebühren zahlen?",
+     "Private Feiern mit geladenen Gästen sind in der Regel nicht GEMA-pflichtig. Bei öffentlichen Veranstaltungen ist der Veranstalter für die Anmeldung zuständig – ich weise euch im Vorgespräch darauf hin."
+    ],
+    [
+     "Kannst du vorhandene Bühnentechnik nutzen?",
+     "Ja. Ich kann mich in eine bestehende Beschallungsanlage einklinken oder eigene Technik mitbringen – das kläre ich vorab mit eurer Technik."
+    ],
+    [
+     "Moderierst du auch Programmpunkte?",
+     "Ja. Ansagen, Auftritte, Verlosungen und Sponsorenhinweise moderiere ich professionell und nach eurem Ablaufplan."
+    ],
+    [
+     "Spielst du auch Open Air?",
+     "Ja – mit wetterfester Planung. Stromversorgung und Überdachung für den DJ-Platz stimme ich vorab mit euch ab."
+    ]
+   ],
+   "kind": "service",
+   "serviceType": "DJ und Moderation für Stadtfeste, Vereinsfeiern und Open Airs",
+   "description": "Große Flächen, gemischtes Publikum, straffer Zeitplan: Ich sorge für Stimmung, die trägt – und für einen reibungslosen Ablauf mit Veranstalter und Technik.",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "Event-DJ",
+     "/event-dj/"
+    ]
+   ]
+  },
+  "meine-musik": {
+   "name": "Meine Musik",
+   "faq": [],
+   "kind": "page",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "Meine Musik",
+     "/meine-musik/"
+    ]
+   ]
+  },
+  "ueber-mich": {
+   "name": "Über mich",
+   "faq": [],
+   "kind": "about",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "Über mich",
+     "/ueber-mich/"
+    ]
+   ]
+  },
+  "faq": {
+   "name": "FAQ",
+   "faq": [
+    [
+     "Was kostet ein Event bei DJ KOLJA ONE?",
+     "Jede Veranstaltung ist anders: Dauer, Gästezahl, Technik und Anfahrt bestimmen den Preis. Deshalb bekommt ihr ein individuelles Angebot – schnell, transparent und unverbindlich."
+    ],
+    [
+     "Wie läuft eine Buchung ab?",
+     "Ihr schickt mir eine Anfrage mit Datum, Ort und Anlass. Danach spreche ich mit euch telefonisch oder per Video über eure Wünsche, ihr erhaltet ein individuelles Angebot, und nach eurer Bestätigung ist der Termin verbindlich für euch reserviert."
+    ],
+    [
+     "Wie früh sollten wir buchen?",
+     "Für Hochzeiten und Samstage in der Hochsaison (Mai bis September) empfehle ich 9–12 Monate Vorlauf. Für Geburtstage und Firmenfeiern reichen oft 3–6 Monate. Kurzfristige Anfragen lohnen sich trotzdem – fragt einfach nach."
+    ],
+    [
+     "Was passiert, wenn du krank wirst?",
+     "Dann übernimmt ein erfahrener DJ aus meinem Netzwerk – mit derselben Vorbereitung und ohne Mehrkosten für euch."
+    ],
+    [
+     "Muss ich GEMA-Gebühren zahlen?",
+     "Private Feiern mit geladenen Gästen sind in der Regel nicht GEMA-pflichtig. Bei öffentlichen Veranstaltungen ist der Veranstalter für die Anmeldung zuständig – ich weise euch im Vorgespräch darauf hin."
+    ],
+    [
+     "Können wir Musikwünsche angeben?",
+     "Unbedingt. Im Vorgespräch erstelle ich mit euch eine Wunschliste und eine No-Go-Liste. Eure Lieblingssongs bekommen ihren Platz – zum richtigen Zeitpunkt."
+    ],
+    [
+     "Nimmst du auch Wünsche von Gästen an?",
+     "Ja, gern – solange sie zur Stimmung und zu euren Vorgaben passen. So fühlt sich jeder Gast abgeholt, ohne dass der rote Faden verloren geht."
+    ],
+    [
+     "Welche Musik spielst du?",
+     "Von Pop, Rock und Schlager über 80er, 90er und 2000er bis zu aktuellen Charts, House und Latin. Entscheidend ist nicht mein Geschmack, sondern euer Publikum."
+    ],
+    [
+     "Warum ein DJ statt einer Playlist?",
+     "Eine Playlist kennt eure Gäste nicht. Ich sehe, wann die Tanzfläche voll ist, wann sie eine Pause braucht und welcher Song jetzt den Unterschied macht – und reagiere live darauf."
+    ],
+    [
+     "Bringst du eigene Technik mit?",
+     "Ja. Ton- und Lichtanlage sind geprüft, auf die Raumgröße abgestimmt und werden dezent aufgebaut. Ein Funkmikrofon für Reden gehört dazu."
+    ],
+    [
+     "Was brauchst du vor Ort?",
+     "Eine ebene Fläche für den DJ-Platz und einen Stromanschluss in der Nähe. Die Details stimme ich vorab mit euch oder der Location ab."
+    ],
+    [
+     "Moderierst du auch?",
+     "Ja – professionell und auf Wunsch den ganzen Abend: Einlauf, Reden, Programmpunkte, Spiele und Ansagen. Souverän, herzlich und nie aufdringlich."
+    ],
+    [
+     "Stimmst du dich mit Location und Dienstleistern ab?",
+     "Ja. Ich spreche mich mit Location, Catering, Fotografen oder Agentur ab, damit Zeitplan und Technik reibungslos zusammenpassen."
+    ],
+    [
+     "Wie groß ist dein Einsatzgebiet?",
+     "Mein Schwerpunkt liegt in Memmingen, Ulm, Oberschwaben und dem Allgäu – von Biberach und Ravensburg bis Kempten, Füssen und Landsberg. Weitere Orte auf Anfrage."
+    ]
+   ],
+   "kind": "faq",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "FAQ",
+     "/faq/"
+    ]
+   ]
+  },
+  "einsatzgebiete": {
+   "name": "Einsatzgebiete",
+   "faq": [],
+   "kind": "regions",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "Einsatzgebiete",
+     "/einsatzgebiete/"
+    ]
+   ]
+  },
+  "dj-memmingen": {
+   "name": "DJ Memmingen",
+   "faq": [
+    [
+     "Kommst du auch nach Memmingen?",
+     "Ja – Memmingen gehört zu meinem festen Einsatzgebiet. Von Fellheim aus sind es nur rund 15 Kilometer."
+    ],
+    [
+     "Wird die Anfahrt extra berechnet?",
+     "Die Anfahrt ist Teil eures individuellen Angebots – transparent und ohne Überraschungen."
+    ],
+    [
+     "Spielst du in Memmingen auch Firmenfeiern und Events?",
+     "Ja. Neben Hochzeiten und Geburtstagen begleite ich auch Weihnachtsfeiern, Sommerfeste, Vereinsfeiern und Stadtfeste."
+    ],
+    [
+     "Wie früh sollten wir buchen?",
+     "Für Hochzeiten und Samstage in der Hochsaison (Mai bis September) empfehle ich 9–12 Monate Vorlauf. Für Geburtstage und Firmenfeiern reichen oft 3–6 Monate. Kurzfristige Anfragen lohnen sich trotzdem – fragt einfach nach."
+    ]
+   ],
+   "kind": "city",
+   "city": "Memmingen",
+   "description": "DJ und Moderation für Hochzeiten, Geburtstage, Firmenfeiern und Events in Memmingen und Umgebung.",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "Einsatzgebiete",
+     "/einsatzgebiete/"
+    ],
+    [
+     "DJ Memmingen",
+     "/dj-memmingen/"
+    ]
+   ]
+  },
+  "dj-ulm": {
+   "name": "DJ Ulm",
+   "faq": [
+    [
+     "Kommst du auch nach Ulm?",
+     "Ja – Ulm gehört zu meinem festen Einsatzgebiet. Von Fellheim aus sind es nur rund 50 Kilometer."
+    ],
+    [
+     "Wird die Anfahrt extra berechnet?",
+     "Die Anfahrt ist Teil eures individuellen Angebots – transparent und ohne Überraschungen."
+    ],
+    [
+     "Spielst du in Ulm auch Firmenfeiern und Events?",
+     "Ja. Neben Hochzeiten und Geburtstagen begleite ich auch Weihnachtsfeiern, Sommerfeste, Vereinsfeiern und Stadtfeste."
+    ],
+    [
+     "Wie früh sollten wir buchen?",
+     "Für Hochzeiten und Samstage in der Hochsaison (Mai bis September) empfehle ich 9–12 Monate Vorlauf. Für Geburtstage und Firmenfeiern reichen oft 3–6 Monate. Kurzfristige Anfragen lohnen sich trotzdem – fragt einfach nach."
+    ]
+   ],
+   "kind": "city",
+   "city": "Ulm",
+   "description": "DJ und Moderation für Hochzeiten, Geburtstage, Firmenfeiern und Events in Ulm und Umgebung.",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "Einsatzgebiete",
+     "/einsatzgebiete/"
+    ],
+    [
+     "DJ Ulm",
+     "/dj-ulm/"
+    ]
+   ]
+  },
+  "dj-biberach": {
+   "name": "DJ Biberach an der Riß",
+   "faq": [
+    [
+     "Kommst du auch nach Biberach?",
+     "Ja – Biberach gehört zu meinem festen Einsatzgebiet. Von Fellheim aus sind es nur rund 40 Kilometer."
+    ],
+    [
+     "Wird die Anfahrt extra berechnet?",
+     "Die Anfahrt ist Teil eures individuellen Angebots – transparent und ohne Überraschungen."
+    ],
+    [
+     "Spielst du in Biberach auch Firmenfeiern und Events?",
+     "Ja. Neben Hochzeiten und Geburtstagen begleite ich auch Weihnachtsfeiern, Sommerfeste, Vereinsfeiern und Stadtfeste."
+    ],
+    [
+     "Wie früh sollten wir buchen?",
+     "Für Hochzeiten und Samstage in der Hochsaison (Mai bis September) empfehle ich 9–12 Monate Vorlauf. Für Geburtstage und Firmenfeiern reichen oft 3–6 Monate. Kurzfristige Anfragen lohnen sich trotzdem – fragt einfach nach."
+    ]
+   ],
+   "kind": "city",
+   "city": "Biberach an der Riß",
+   "description": "DJ und Moderation für Hochzeiten, Geburtstage, Firmenfeiern und Events in Biberach an der Riß und Umgebung.",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "Einsatzgebiete",
+     "/einsatzgebiete/"
+    ],
+    [
+     "DJ Biberach an der Riß",
+     "/dj-biberach/"
+    ]
+   ]
+  },
+  "dj-ravensburg": {
+   "name": "DJ Ravensburg",
+   "faq": [
+    [
+     "Kommst du auch nach Ravensburg?",
+     "Ja – Ravensburg gehört zu meinem festen Einsatzgebiet. Von Fellheim aus sind es nur rund 85 Kilometer."
+    ],
+    [
+     "Wird die Anfahrt extra berechnet?",
+     "Die Anfahrt ist Teil eures individuellen Angebots – transparent und ohne Überraschungen."
+    ],
+    [
+     "Spielst du in Ravensburg auch Firmenfeiern und Events?",
+     "Ja. Neben Hochzeiten und Geburtstagen begleite ich auch Weihnachtsfeiern, Sommerfeste, Vereinsfeiern und Stadtfeste."
+    ],
+    [
+     "Wie früh sollten wir buchen?",
+     "Für Hochzeiten und Samstage in der Hochsaison (Mai bis September) empfehle ich 9–12 Monate Vorlauf. Für Geburtstage und Firmenfeiern reichen oft 3–6 Monate. Kurzfristige Anfragen lohnen sich trotzdem – fragt einfach nach."
+    ]
+   ],
+   "kind": "city",
+   "city": "Ravensburg",
+   "description": "DJ und Moderation für Hochzeiten, Geburtstage, Firmenfeiern und Events in Ravensburg und Umgebung.",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "Einsatzgebiete",
+     "/einsatzgebiete/"
+    ],
+    [
+     "DJ Ravensburg",
+     "/dj-ravensburg/"
+    ]
+   ]
+  },
+  "dj-kempten": {
+   "name": "DJ Kempten",
+   "faq": [
+    [
+     "Kommst du auch nach Kempten?",
+     "Ja – Kempten gehört zu meinem festen Einsatzgebiet. Von Fellheim aus sind es nur rund 50 Kilometer."
+    ],
+    [
+     "Wird die Anfahrt extra berechnet?",
+     "Die Anfahrt ist Teil eures individuellen Angebots – transparent und ohne Überraschungen."
+    ],
+    [
+     "Spielst du in Kempten auch Firmenfeiern und Events?",
+     "Ja. Neben Hochzeiten und Geburtstagen begleite ich auch Weihnachtsfeiern, Sommerfeste, Vereinsfeiern und Stadtfeste."
+    ],
+    [
+     "Wie früh sollten wir buchen?",
+     "Für Hochzeiten und Samstage in der Hochsaison (Mai bis September) empfehle ich 9–12 Monate Vorlauf. Für Geburtstage und Firmenfeiern reichen oft 3–6 Monate. Kurzfristige Anfragen lohnen sich trotzdem – fragt einfach nach."
+    ]
+   ],
+   "kind": "city",
+   "city": "Kempten",
+   "description": "DJ und Moderation für Hochzeiten, Geburtstage, Firmenfeiern und Events in Kempten und Umgebung.",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "Einsatzgebiete",
+     "/einsatzgebiete/"
+    ],
+    [
+     "DJ Kempten",
+     "/dj-kempten/"
+    ]
+   ]
+  },
+  "dj-fuessen": {
+   "name": "DJ Füssen",
+   "faq": [
+    [
+     "Kommst du auch nach Füssen?",
+     "Ja – Füssen gehört zu meinem festen Einsatzgebiet. Von Fellheim aus sind es nur rund 95 Kilometer."
+    ],
+    [
+     "Wird die Anfahrt extra berechnet?",
+     "Die Anfahrt ist Teil eures individuellen Angebots – transparent und ohne Überraschungen."
+    ],
+    [
+     "Spielst du in Füssen auch Firmenfeiern und Events?",
+     "Ja. Neben Hochzeiten und Geburtstagen begleite ich auch Weihnachtsfeiern, Sommerfeste, Vereinsfeiern und Stadtfeste."
+    ],
+    [
+     "Wie früh sollten wir buchen?",
+     "Für Hochzeiten und Samstage in der Hochsaison (Mai bis September) empfehle ich 9–12 Monate Vorlauf. Für Geburtstage und Firmenfeiern reichen oft 3–6 Monate. Kurzfristige Anfragen lohnen sich trotzdem – fragt einfach nach."
+    ]
+   ],
+   "kind": "city",
+   "city": "Füssen",
+   "description": "DJ und Moderation für Hochzeiten, Geburtstage, Firmenfeiern und Events in Füssen und Umgebung.",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "Einsatzgebiete",
+     "/einsatzgebiete/"
+    ],
+    [
+     "DJ Füssen",
+     "/dj-fuessen/"
+    ]
+   ]
+  },
+  "dj-kaufbeuren": {
+   "name": "DJ Kaufbeuren",
+   "faq": [
+    [
+     "Kommst du auch nach Kaufbeuren?",
+     "Ja – Kaufbeuren gehört zu meinem festen Einsatzgebiet. Von Fellheim aus sind es nur rund 55 Kilometer."
+    ],
+    [
+     "Wird die Anfahrt extra berechnet?",
+     "Die Anfahrt ist Teil eures individuellen Angebots – transparent und ohne Überraschungen."
+    ],
+    [
+     "Spielst du in Kaufbeuren auch Firmenfeiern und Events?",
+     "Ja. Neben Hochzeiten und Geburtstagen begleite ich auch Weihnachtsfeiern, Sommerfeste, Vereinsfeiern und Stadtfeste."
+    ],
+    [
+     "Wie früh sollten wir buchen?",
+     "Für Hochzeiten und Samstage in der Hochsaison (Mai bis September) empfehle ich 9–12 Monate Vorlauf. Für Geburtstage und Firmenfeiern reichen oft 3–6 Monate. Kurzfristige Anfragen lohnen sich trotzdem – fragt einfach nach."
+    ]
+   ],
+   "kind": "city",
+   "city": "Kaufbeuren",
+   "description": "DJ und Moderation für Hochzeiten, Geburtstage, Firmenfeiern und Events in Kaufbeuren und Umgebung.",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "Einsatzgebiete",
+     "/einsatzgebiete/"
+    ],
+    [
+     "DJ Kaufbeuren",
+     "/dj-kaufbeuren/"
+    ]
+   ]
+  },
+  "dj-landsberg": {
+   "name": "DJ Landsberg am Lech",
+   "faq": [
+    [
+     "Kommst du auch nach Landsberg?",
+     "Ja – Landsberg gehört zu meinem festen Einsatzgebiet. Von Fellheim aus sind es nur rund 75 Kilometer."
+    ],
+    [
+     "Wird die Anfahrt extra berechnet?",
+     "Die Anfahrt ist Teil eures individuellen Angebots – transparent und ohne Überraschungen."
+    ],
+    [
+     "Spielst du in Landsberg auch Firmenfeiern und Events?",
+     "Ja. Neben Hochzeiten und Geburtstagen begleite ich auch Weihnachtsfeiern, Sommerfeste, Vereinsfeiern und Stadtfeste."
+    ],
+    [
+     "Wie früh sollten wir buchen?",
+     "Für Hochzeiten und Samstage in der Hochsaison (Mai bis September) empfehle ich 9–12 Monate Vorlauf. Für Geburtstage und Firmenfeiern reichen oft 3–6 Monate. Kurzfristige Anfragen lohnen sich trotzdem – fragt einfach nach."
+    ]
+   ],
+   "kind": "city",
+   "city": "Landsberg am Lech",
+   "description": "DJ und Moderation für Hochzeiten, Geburtstage, Firmenfeiern und Events in Landsberg am Lech und Umgebung.",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "Einsatzgebiete",
+     "/einsatzgebiete/"
+    ],
+    [
+     "DJ Landsberg am Lech",
+     "/dj-landsberg/"
+    ]
+   ]
+  },
+  "kontakt": {
+   "name": "Kontakt",
+   "faq": [],
+   "kind": "contact",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "Kontakt",
+     "/kontakt/"
+    ]
+   ]
+  }
+ }
+}
