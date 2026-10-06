@@ -1,9 +1,9 @@
 {
- "version": "1.19.3",
- "download_url": "dj-kolja-one-plattenkiste-1.19.3.zip",
- "sha256": "8bfdb889711b021eec35e6533665b8ce913da63f32e2cc527dbbb37bd2848e2b",
+ "version": "1.19.4",
+ "download_url": "dj-kolja-one-plattenkiste-1.19.4.zip",
+ "sha256": "dd4772f7eb5ac69230d76cabf3df272b00733fbebcd41ae91e302c9279756a2d",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Alt-Texte für alle Bilder und Videos."
+ "changelog": "Galerien am Handy mittig, unabhängig von der Anzahl."
 }
