@@ -1,9 +1,9 @@
 {
- "version": "1.19.6",
- "download_url": "dj-kolja-one-plattenkiste-1.19.6.zip",
- "sha256": "16845d498acb6fad552ea60e36558bc22c70a27ba6e234853d3bdacdfba79876",
+ "version": "1.19.7",
+ "download_url": "dj-kolja-one-plattenkiste-1.19.7.zip",
+ "sha256": "b8d4ece99671e207f7157aaa704807afb19436553771954e081f5721bb44f2d8",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Desktop: Porträt und Galerie-Bilder deutlich kleiner."
+ "changelog": "Start-Kacheln: Bild füllt den Rahmen, max. 420 px."
 }

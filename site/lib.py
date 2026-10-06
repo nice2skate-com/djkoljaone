@@ -174,7 +174,8 @@ def cta(title="Euer Termin ist noch frei?",text="Beliebte Samstage sind oft scho
         border_border="solid",border_width=box(1,0,1,0),border_color=LINE)
 
 def tile(title,teaser,url,w=23):
-    return con([IMG(240,200,name=TILE_IMG[url],border_radius=box(2,2,2,2)),H(title,"h3",26,OFF,"left","400"),T(teaser,MUTED,"left",16),
+    ti=IMG(240,200,name=TILE_IMG[url],border_radius=box(2,2,2,2)); ti["settings"]["css_classes"]+=" kjo-tile"
+    return con([ti,H(title,"h3",26,OFF,"left","400"),T(teaser,MUTED,"left",16),
                 H("Mehr erfahren →","p",13,GOLD,"left","500",link=url,ls=1.5,tr="uppercase")],g=14,**col(w))
 TILE_IMG={"/hochzeits-dj/":"start_hochzeit.jpg","/geburtstags-dj/":"start_geburtstag.jpg","/firmenfeier-dj/":"start_firmenfeier.jpg","/event-dj/":"start_events.jpg"}
 TILES={"/hochzeits-dj/":("Hochzeits-DJ","Der schönste Tag verdient den richtigen Soundtrack. Vom Sektempfang bis zum letzten Tanz."),
