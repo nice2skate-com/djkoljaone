@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.18.6
+ * Version:     1.18.7
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.18.6' );
+define( 'KJO_VERSION', '1.18.7' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -918,7 +918,7 @@ function kjo_media_map() {
 			'post_type'      => 'attachment',
 			'post_status'    => 'inherit',
 			'post_mime_type' => array( 'image', 'video' ),
-			'posts_per_page' => 800,
+			'posts_per_page' => 2000,
 			'fields'         => 'ids',
 			'orderby'        => 'ID',
 			'order'          => 'ASC',
@@ -930,7 +930,7 @@ function kjo_media_map() {
 			continue;
 		}
 		$base = strtolower( wp_basename( $file ) );
-		if ( ! preg_match( '/^((?:start|event|ueber|kolja|region)_[a-z0-9_]+?)(?:-scaled|-rotated|-\d+)*\.(jpe?g|png|webp|gif|mp4|m4v|webm|mov)$/', $base, $m ) ) {
+		if ( ! preg_match( '/^((?:start|event|ueber|kolja|region)_[a-z0-9_]+?)(?:-scaled|-rotated|-\d+)*(?:\.(?:jpe?g|png|webp|gif|mp4|m4v|webm|mov)_?)*\.(jpe?g|png|webp|gif|mp4|m4v|webm|mov)$/', $base, $m ) ) {
 			continue;
 		}
 		$kind = in_array( $m[2], array( 'mp4', 'm4v', 'webm', 'mov' ), true ) ? 'vid' : 'img';
