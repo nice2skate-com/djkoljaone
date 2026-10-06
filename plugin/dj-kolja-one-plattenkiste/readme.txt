@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.20.0: Alle Bilder und Videos (Porträt, Kacheln, Textbilder, Galerie am Desktop): Höhe genau 400 px, Breite im Seitenverhältnis des Mediums, Rahmen exakt ums Bild ohne Schwarz; auf schmalen Bildschirmen passt sich die Breite an. Einmal „Seiten aus Vorlage einspielen“ klicken, Zwischenspeicher leeren.
 Seit 1.19.9: Start-Kacheln: Der Rahmen passt exakt zum Bild bzw. Video (kein Schwarz mehr), Höhe höchstens ca. 290 px, Breite höchstens 420 px. Zwischenspeicher leeren und hart neu laden.
 Seit 1.19.8: Start-Kacheln: Bild mittig, höchstens 420 px breit und nicht mehr abgeschnitten (echtes Seitenverhältnis). Zwischenspeicher leeren und hart neu laden.
 Seit 1.19.7: Start-Kacheln: Bild bzw. Video füllt den Rahmen immer komplett (3:2, höchstens 420 px breit) – keine schwarzen Flächen, nicht mehr riesig. Einmal „Seiten aus Vorlage einspielen“ klicken, Zwischenspeicher leeren.
