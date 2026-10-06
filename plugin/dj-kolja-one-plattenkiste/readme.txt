@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.19.2: Startseite: Die Überschrift (H1) lautet „Premium DJ für Hochzeiten & Events in Memmingen, Allgäu & Schwaben“. Einmal „Seiten aus Vorlage einspielen“ klicken, Zwischenspeicher leeren.
 Seit 1.19.1: Titel und Kopfzeilen nennen überall „Memmingen, Allgäu & Schwaben“ (z. B. „Hochzeits-DJ Memmingen, Allgäu & Schwaben | DJ KOLJA ONE“). Einmal „Seiten aus Vorlage einspielen“ klicken, Zwischenspeicher leeren.
 Seit 1.19.0: Seitentitel, Meta-Beschreibung und Social-Vorschau (Open Graph) je Seite mit Region und Anlass. Entfällt, wenn Yoast/Rank Math/AIOSEO/SEOPress aktiv ist; abschaltbar mit kjo_seo_aktiv. Zwischenspeicher leeren.
 Seit 1.18.9: Alle Bilder (Start-Kacheln, Textbilder, Porträt) haben den Goldrahmen mit Schatten wie das Porträt auf „Über mich“. Zwischenspeicher leeren und hart neu laden.

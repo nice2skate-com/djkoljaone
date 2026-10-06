@@ -36,7 +36,7 @@ def start():
         extra=T("Hochzeiten · Geburtstage · Firmenfeiern · Stadtfeste &amp; Open Airs",GOLD,"left",15),
         buttons=[BTN("Mehr über mich","/ueber-mich/",False,"left"),BTN(*WISH,True,"left")],img="kolja_portrait.jpg",port=True)
     return [nav(),
-      hero("DJ Memmingen · Allgäu · Schwaben","Premium DJ für Hochzeiten, Firmenevents &amp; besondere Feste",
+      hero("DJ KOLJA ONE · Fellheim","Premium DJ für Hochzeiten &amp; Events in Memmingen, Allgäu &amp; Schwaben",
            "Eine volle Tanzfläche – vom ersten Song bis zum letzten.",[BTN(*WISH),BTN("Leistungen entdecken","#leistungen",False)],
            stats=None,extra=[W("html",{"html":open("./deck/deck-snippet.html").read(),"_element_width":"inherit","width":px(100,"%")})]),
       con([VIDEOS("start")],"column",bg=B1,pad=box(0,20,56,20),inner=False,flex_align_items="center",padding_mobile=box(0,20,40,20)),
