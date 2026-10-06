@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.19.8
+ * Version:     1.19.9
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.19.8' );
+define( 'KJO_VERSION', '1.19.9' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -1572,7 +1572,9 @@ function one(el){
   var e=M[m.toLowerCase()]||{};
   if(e.img){el.style.backgroundImage='url("'+e.img+'")';el.style.backgroundSize="cover";el.style.backgroundPosition="center";}
   var al=altFor(m);if(al&&e.img&&!e.vid){el.setAttribute("role","img");el.setAttribute("aria-label",al);}
-  if(e.img&&(!e.vid||el.classList.contains("kjo-tile"))){var pi=new Image();pi.onload=function(){if(pi.naturalWidth&&pi.naturalHeight){el.style.setProperty("aspect-ratio",pi.naturalWidth+" / "+pi.naturalHeight,"important");el.style.setProperty("min-height","0","important");el.style.setProperty("height","auto","important");}};pi.src=e.img;}
+  var tl=el.classList.contains("kjo-tile");
+  function fit(w,h){if(!w||!h)return;el.style.setProperty("aspect-ratio",w+" / "+h,"important");el.style.setProperty("min-height","0","important");el.style.setProperty("height","auto","important");if(tl)el.style.setProperty("max-width",Math.min(420,Math.round(290*w/h))+"px","important");}
+  if(e.img&&(!e.vid||tl)){var pi=new Image();pi.onload=function(){fit(pi.naturalWidth,pi.naturalHeight);};pi.src=e.img;}
   if(!e.vid)return;
   el.classList.add("kjo-vid");
   var v=document.createElement("video");
@@ -1581,6 +1583,7 @@ function one(el){
   var b=document.createElement("button");b.type="button";b.className="kjo-pb";b.setAttribute("aria-label","Video abspielen");
   b.innerHTML='<svg class="kjo-i1" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg><svg class="kjo-i2" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4.5h4.2v15H6zM13.8 4.5H18v15h-4.2z"/></svg>';
   if(al)v.setAttribute("aria-label",al);
+  if(tl)v.addEventListener("loadedmetadata",function(){fit(v.videoWidth,v.videoHeight);});
   el.appendChild(v);el.appendChild(b);
   function set(on){el.classList.toggle("kjo-on",on);b.setAttribute("aria-label",on?"Video anhalten":"Video abspielen");}
   function tog(ev){ev.preventDefault();ev.stopPropagation();
