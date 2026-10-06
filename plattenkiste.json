@@ -1,9 +1,9 @@
 {
- "version": "1.19.5",
- "download_url": "dj-kolja-one-plattenkiste-1.19.5.zip",
- "sha256": "1f7550389dc18dafe48fe2912515ab67c47d5f8dff10c88cc641aead1ea7a888",
+ "version": "1.19.6",
+ "download_url": "dj-kolja-one-plattenkiste-1.19.6.zip",
+ "sha256": "16845d498acb6fad552ea60e36558bc22c70a27ba6e234853d3bdacdfba79876",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Bilder ohne Zuschnitt: echtes Seitenverhältnis."
+ "changelog": "Desktop: Porträt und Galerie-Bilder deutlich kleiner."
 }

@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.19.6: Am Mac/Desktop sind die Bilder deutlich kleiner: Porträt max. 260 px breit, Galerie-Bilder und -Videos je 240 px breit (mittig). Einmal „Seiten aus Vorlage einspielen“ klicken, Zwischenspeicher leeren.
 Seit 1.19.5: Alle Bilder (Kacheln, Textbilder, Porträt) übernehmen das echte Seitenverhältnis des Fotos und werden nicht mehr zugeschnitten. Zwischenspeicher leeren und hart neu laden.
 Seit 1.19.4: Galerien (Start, Über mich, Leistungsseiten): Bilder und Videos stehen am Handy mittig, egal wie viele es sind (ein einzelnes Bild nicht mehr links). Einmal „Seiten aus Vorlage einspielen“ klicken.
 Seit 1.19.3: Alt-Texte für alle Bilder und Videos (Porträt, Kacheln, Textbilder, Galerien) – für Google, Barrierefreiheit und Bildersuche. Einmal „Seiten aus Vorlage einspielen“ klicken, Zwischenspeicher leeren.
