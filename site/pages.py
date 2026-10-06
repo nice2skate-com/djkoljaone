@@ -325,7 +325,7 @@ def impressum():
     return text_page("Impressum",[
       "<h3>Angaben gemäß § 5 DDG</h3><p>Artificial Sentiments (Einzelunternehmen)<br>Inhaber: Kolja Tönges<br>Marke: DJ KOLJA ONE<br>Pfarrer-Ritter-Weg 9<br>87748 Fellheim</p>",
       f"<h3>Kontakt</h3><p>Telefon: {PHONE}<br>E-Mail: {MAIL}</p>",
-      "<h3>Umsatzsteuer</h3><p>[BITTE ERGÄNZEN: Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG – oder den Hinweis „Gemäß § 19 UStG wird keine Umsatzsteuer berechnet (Kleinunternehmerregelung).“]</p>",
+      "<h3>Umsatzsteuer</h3><p>Gemäß § 19 UStG wird keine Umsatzsteuer berechnet (Kleinunternehmerregelung). Eine Umsatzsteuer-Identifikationsnummer wird nicht geführt.</p>",
       "<h3>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h3><p>Kolja Tönges, Anschrift wie oben</p>",
       "<h3>Verbraucherstreitbeilegung</h3><p>Ich bin nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>",
       "<h3>Haftung für Inhalte</h3><p>Die Inhalte dieser Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann ich jedoch keine Gewähr übernehmen. Als Diensteanbieter bin ich für eigene Inhalte nach den allgemeinen Gesetzen verantwortlich.</p>",
