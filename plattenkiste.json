@@ -1,9 +1,9 @@
 {
- "version": "1.18.8",
- "download_url": "dj-kolja-one-plattenkiste-1.18.8.zip",
- "sha256": "1f8da7d0ee1ef762a892d418df5b31396dc4af6cb49a1a3ad1e966d2cfa84663",
+ "version": "1.18.9",
+ "download_url": "dj-kolja-one-plattenkiste-1.18.9.zip",
+ "sha256": "33c5d92f45d784bbf4e52cb82017f24623f4e55cee327c4e1d71cdae349a3611",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Strukturierte Daten (JSON-LD) für Google: Unternehmen, Leistungen, FAQ und Brotkrumen je Seite."
+ "changelog": "Alle Bilder mit Goldrahmen und Schatten wie das Porträt."
 }
