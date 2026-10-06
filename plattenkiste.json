@@ -1,9 +1,9 @@
 {
- "version": "1.19.0",
- "download_url": "dj-kolja-one-plattenkiste-1.19.0.zip",
- "sha256": "f857fc913546479b2bdb0b0fef862df1f0f0ba95daf5d4e06994660ecadb19f7",
+ "version": "1.19.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.19.1.zip",
+ "sha256": "853f03b07bbf3656268645bc7945d7d2d8e6890551b1e6411b76734c661a893a",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Seitentitel, Meta-Beschreibungen und Social-Vorschau je Seite."
+ "changelog": "Titel und Kopfzeilen mit Memmingen, Allgäu & Schwaben."
 }

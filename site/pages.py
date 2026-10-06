@@ -36,7 +36,7 @@ def start():
         extra=T("Hochzeiten · Geburtstage · Firmenfeiern · Stadtfeste &amp; Open Airs",GOLD,"left",15),
         buttons=[BTN("Mehr über mich","/ueber-mich/",False,"left"),BTN(*WISH,True,"left")],img="kolja_portrait.jpg",port=True)
     return [nav(),
-      hero("Memmingen · Ulm · Allgäu · Oberschwaben","Premium DJ für Hochzeiten, Firmenevents &amp; besondere Feste",
+      hero("DJ Memmingen · Allgäu · Schwaben","Premium DJ für Hochzeiten, Firmenevents &amp; besondere Feste",
            "Eine volle Tanzfläche – vom ersten Song bis zum letzten.",[BTN(*WISH),BTN("Leistungen entdecken","#leistungen",False)],
            stats=None,extra=[W("html",{"html":open("./deck/deck-snippet.html").read(),"_element_width":"inherit","width":px(100,"%")})]),
       con([VIDEOS("start")],"column",bg=B1,pad=box(0,20,56,20),inner=False,flex_align_items="center",padding_mobile=box(0,20,40,20)),
@@ -85,7 +85,7 @@ def service(c):
     out.append(section(head("Weitere Leistungen","Auch für andere Anlässe")+[tiles(c["cross"],w=31)],bg=B1))
     out.append(footer()); return out
 
-HOCHZEIT=dict(key="hochzeit",eye="Hochzeits-DJ · Memmingen · Ulm · Allgäu",
+HOCHZEIT=dict(key="hochzeit",eye="Hochzeits-DJ · Memmingen · Allgäu · Schwaben",
  h1="Euer Hochzeits-DJ für einen Tag, der nur einmal stattfindet",
  sub="Vom Sektempfang bis zum letzten Song: Musik und Moderation, die zu euch passen – und eine Tanzfläche, die voll bleibt.",
  split1=("Musik für alle Generationen","Oma und Trauzeuge auf derselben Tanzfläche",[
@@ -115,7 +115,7 @@ HOCHZEIT=dict(key="hochzeit",eye="Hochzeits-DJ · Memmingen · Ulm · Allgäu",
  orte_title="Hochzeits-DJ in Oberschwaben, Ulm und dem Allgäu",
  cross=["/geburtstags-dj/","/firmenfeier-dj/","/event-dj/"])
 
-GEBURTSTAG=dict(key="geburtstag",eye="Geburtstags-DJ · Memmingen · Ulm · Allgäu",
+GEBURTSTAG=dict(key="geburtstag",eye="Geburtstags-DJ · Memmingen · Allgäu · Schwaben",
  h1="Geburtstags-DJ für Feste, von denen man noch lange spricht",
  sub="Ob 18., 30., 50. oder 80.: Ich sorge für die Musik, die zu euch und euren Gästen passt – und für eine Tanzfläche, die bis zum Schluss voll bleibt.",
  anl_title="Für welche Feste?",
@@ -143,7 +143,7 @@ GEBURTSTAG=dict(key="geburtstag",eye="Geburtstags-DJ · Memmingen · Ulm · Allg
  orte_title="Geburtstags-DJ in Oberschwaben, Ulm und dem Allgäu",
  cross=["/hochzeits-dj/","/firmenfeier-dj/","/event-dj/"])
 
-FIRMA=dict(key="firmenfeier",eye="Firmenfeier-DJ · Memmingen · Ulm · Allgäu",
+FIRMA=dict(key="firmenfeier",eye="Firmenfeier-DJ · Memmingen · Allgäu · Schwaben",
  h1="DJ für Firmenfeiern, die eure Marke stärken",
  sub="Weihnachtsfeier, Sommerfest, Gala oder Jubiläum: professionelle Musik und Moderation, abgestimmt auf euer Unternehmen, eure Gäste und euren Ablauf.",
  anl_title="Für welche Veranstaltungen?",
@@ -174,7 +174,7 @@ FIRMA=dict(key="firmenfeier",eye="Firmenfeier-DJ · Memmingen · Ulm · Allgäu"
  cta=("Euer Wunschtermin ist noch frei?","Gerade im Dezember sind die Termine schnell vergeben. Fragt jetzt unverbindlich an."),
  cross=["/hochzeits-dj/","/geburtstags-dj/","/event-dj/"])
 
-EVENT=dict(key="events",eye="Event-DJ · Memmingen · Ulm · Allgäu",
+EVENT=dict(key="events",eye="Event-DJ · Memmingen · Allgäu · Schwaben",
  h1="Event-DJ für Stadtfeste, Vereinsfeiern &amp; Open Airs",
  sub="Große Flächen, gemischtes Publikum, straffer Zeitplan: Ich sorge für Stimmung, die trägt – und für einen reibungslosen Ablauf mit Veranstalter und Technik.",
  anl_title="Für welche Events?",
