@@ -1,9 +1,9 @@
 {
- "version": "1.20.1",
- "download_url": "dj-kolja-one-plattenkiste-1.20.1.zip",
- "sha256": "dc35e8105f0520929a5a5ef38265e856e88da2d7dd5d4078a8613e4763678483",
+ "version": "1.20.2",
+ "download_url": "dj-kolja-one-plattenkiste-1.20.2.zip",
+ "sha256": "1ec2a2dfefe88183429b4622a4763888e64708236961efbd01edc196ae149f41",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Startseite: neue Texte und Reihenfolge."
+ "changelog": "Hochzeitsseite: neue Texte und Reihenfolge."
 }
