@@ -1,9 +1,9 @@
 {
- "version": "1.19.8",
- "download_url": "dj-kolja-one-plattenkiste-1.19.8.zip",
- "sha256": "255267ffc545fd53caf72508eb0d21ab50b736e04a565ab893c5e79064917de9",
+ "version": "1.19.9",
+ "download_url": "dj-kolja-one-plattenkiste-1.19.9.zip",
+ "sha256": "552a937c8680e62a2fb52e69d203ae50bb49b07d0ccbcc0abffacbb66b1c4a10",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Start-Kacheln: Bild mittig und nicht abgeschnitten."
+ "changelog": "Start-Kacheln: Rahmen passt exakt zum Bild, kompakter."
 }
