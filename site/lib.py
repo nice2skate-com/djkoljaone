@@ -176,7 +176,7 @@ def cta(title="Euer Termin ist noch frei?",text="Beliebte Samstage sind oft scho
 def tile(title,teaser,url,w=23):
     ti=IMG(240,200,name=TILE_IMG[url],border_radius=box(2,2,2,2)); ti["settings"]["css_classes"]+=" kjo-tile"
     return con([ti,H(title,"h3",26,OFF,"left","400"),T(teaser,MUTED,"left",16),
-                H("Mehr erfahren →","p",13,GOLD,"left","500",link=url,ls=1.5,tr="uppercase")],g=14,**col(w))
+                H("Mehr erfahren →","p",13,GOLD,"left","500",link=url,ls=1.5,tr="uppercase")],g=14,**col(w),css_classes="kjo-tilecard")
 TILE_IMG={"/hochzeits-dj/":"start_hochzeit.jpg","/geburtstags-dj/":"start_geburtstag.jpg","/firmenfeier-dj/":"start_firmenfeier.jpg","/event-dj/":"start_events.jpg"}
 TILES={"/hochzeits-dj/":("Hochzeits-DJ","Ihr genießt euren Tag – ich halte die Tanzfläche voll und führe durch den Abend. Vom Sektempfang bis zum letzten Song."),
        "/geburtstags-dj/":("Geburtstags-DJ","Vom 18. bis zum 80.: Musik, bei der jede Generation tanzt – und ihr als Gastgeber einfach mitfeiert."),
@@ -184,7 +184,7 @@ TILES={"/hochzeits-dj/":("Hochzeits-DJ","Ihr genießt euren Tag – ich halte di
        "/event-dj/":("Event-DJ","Stadtfest, Vereinsfeier, Open Air oder Silvester: Stimmung, die auch große Menschenmengen mitreißt.")}
 def tiles(urls=None,w=23):
     urls=urls or list(TILES)
-    return con([tile(*TILES[u],u,w=w) for u in urls],"row",g=24,**ROW,flex_justify_content="center" if len(urls)<4 else "space-between")
+    return con([tile(*TILES[u],u,w=w) for u in urls],"row",g=24,**ROW,flex_justify_content="center" if len(urls)<4 else "space-between",css_classes="kjo-tiles")
 
 def step(n,t,d,w=31):
     return con([H(n,"p",56,GOLD,"left","200",lh=1),H(t,"h3",24,OFF,"left","400"),T(d,MUTED,"left",16)],
