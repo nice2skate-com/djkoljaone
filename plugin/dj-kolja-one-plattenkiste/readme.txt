@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.20.6: Event-Seite mit neuen, kundenorientierten Texten und neuer Reihenfolge (wie die anderen Leistungsseiten). Einmal „Seiten aus Vorlage einspielen“ klicken, Zwischenspeicher leeren.
 Seit 1.20.5: Firmenfeier-Seite mit neuen, kundenorientierten Texten und neuer Reihenfolge (wie Hochzeit und Geburtstag). Einmal „Seiten aus Vorlage einspielen“ klicken, Zwischenspeicher leeren.
 Seit 1.20.4: Geburtstagsseite mit neuen, kundenorientierten Texten und neuer Reihenfolge (wie die Hochzeitsseite). Einmal „Seiten aus Vorlage einspielen“ klicken, Zwischenspeicher leeren.
 Seit 1.20.3: Leistungs-Kacheln stehen am Handy und Tablet nebeneinander (seitlich wischen) statt untereinander. Videos mit Vorschaubild zeigen bis zum Abspielen das Bild randlos im Rahmen – kein Schwarz mehr. Einmal „Seiten aus Vorlage einspielen“ klicken, Zwischenspeicher leeren.
