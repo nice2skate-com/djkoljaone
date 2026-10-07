@@ -68,18 +68,24 @@ def start():
 def service_v2(c):
     note=T("Unverbindlich · Antwort innerhalb von 24 Stunden",MUTED,"center",14)
     out=[nav(),hero(c["eye"],c["h1"],c["sub"],[BTN(*WISH),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=90,extra=[note]),
-         section(head("Eindrücke",c.get("gal_title","So feiert ihr mit mir"))+[VIDEOS(c["key"])],bg=B2),
-         staerken(c["vorteile_title"],c["vorteile"],eye="Was ihr davon habt",bg=B1)]
-    if c.get("akte"): out.append(section(head(c["akte_eye"],c["akte_title"])+[steps(c["akte"])],bg=B2))
-    out.append(split(*c["split1"],img=f"event_{c['key']}_text.jpg",bg=B1))
-    out.append(reviews(c["reviews"],bg=B2))
-    out.append(section(head("Ablauf",c["steps_title"])+[steps(c["steps"]),SPACER(10),BTN("Jetzt Wunschtermin prüfen",KONTAKT)],anchor="ablauf",bg=B1))
-    if c.get("fit"): out.append(section(head("Passen wir zusammen?",c.get("fit_title","Finden wir das heraus!"))+[fit(*c["fit"]),SPACER(10),BTN("Passt? Dann Wunschtermin prüfen",KONTAKT)],bg=B2))
+         section(head("Eindrücke",c.get("gal_title","So feiert ihr mit mir"))+[VIDEOS(c["key"])],bg=B2)]
+    alt=[B1]
+    def bg():
+        v=alt[0]; alt[0]=B2 if v==B1 else B1; return v
+    out.append(staerken(c["vorteile_title"],c["vorteile"],eye="Was ihr davon habt",bg=bg()))
+    if c.get("akte"): out.append(section(head(c["akte_eye"],c["akte_title"])+[steps(c["akte"])],bg=bg()))
+    if c.get("anlaesse"):
+        sb=bg(); out.append(section(head("Anlässe",c["anl_title"])+[cards(c["anlaesse"],bg=B2 if sb==B1 else B1)],bg=sb))
+    out.append(split(*c["split1"],img=f"event_{c['key']}_text.jpg",bg=bg()))
+    out.append(reviews(c["reviews"],bg=bg()))
+    out.append(section(head("Ablauf",c["steps_title"])+[steps(c["steps"]),SPACER(10),BTN("Jetzt Wunschtermin prüfen",KONTAKT)],anchor="ablauf",bg=bg()))
+    if c.get("fit"): out.append(section(head("Passen wir zusammen?",c.get("fit_title","Finden wir das heraus!"))+[fit(*c["fit"]),SPACER(10),BTN("Passt? Dann Wunschtermin prüfen",KONTAKT)],bg=bg()))
     for blk in c.get("lists",[]):
-        out.append(section(head(blk[0],blk[1],blk[2])+[con([list_card(t,it,w=48 if len(blk[3])==2 else 31) for t,it in blk[3]],"row",g=24,**ROW,flex_justify_content="center")],bg=B1))
-    if c.get("compare"): out.append(section(head(*c["compare"][0])+[cards(c["compare"][1],bg=B1)],bg=B2))
-    out.append(faq(c["faq"],eye="Häufige Fragen",title=c.get("faq_title","Gut zu wissen"),bg=B1))
-    out.append(orte(c.get("orte_title","Euer DJ in Oberschwaben, Ulm und dem Allgäu"),bg=B2))
+        out.append(section(head(blk[0],blk[1],blk[2])+[con([list_card(t,it,w=48 if len(blk[3])==2 else 31) for t,it in blk[3]],"row",g=24,**ROW,flex_justify_content="center")],bg=bg()))
+    if c.get("compare"):
+        sb=bg(); out.append(section(head(*c["compare"][0])+[cards(c["compare"][1],bg=B2 if sb==B1 else B1)],bg=sb))
+    out.append(faq(c["faq"],eye="Häufige Fragen",title=c.get("faq_title","Gut zu wissen"),bg=bg()))
+    out.append(orte(c.get("orte_title","Euer DJ in Oberschwaben, Ulm und dem Allgäu"),bg=bg()))
     out.append(cta(*c.get("cta",())))
     out.append(section(head("Weitere Leistungen","Auch für andere Anlässe")+[tiles(c["cross"],w=31)],bg=B1))
     out.append(footer()); return out
@@ -144,32 +150,41 @@ HOCHZEIT=dict(key="hochzeit",v2=True,eye="Hochzeits-DJ · Memmingen · Allgäu �
  cta=("Euer Hochzeitstermin ist noch frei? Sichert ihn euch.","Beliebte Samstage zwischen Mai und September sind oft ein Jahr im Voraus vergeben. Eine Anfrage dauert zwei Minuten und ist unverbindlich."),
  cross=["/geburtstags-dj/","/firmenfeier-dj/","/event-dj/"])
 
-GEBURTSTAG=dict(key="geburtstag",eye="Geburtstags-DJ · Memmingen · Allgäu · Schwaben",
- h1="Geburtstags-DJ für Feste, von denen man noch lange spricht",
- sub="Ob 18., 30., 50. oder 80.: Ich sorge für die Musik, die zu euch und euren Gästen passt – und für eine Tanzfläche, die bis zum Schluss voll bleibt.",
+GEBURTSTAG=dict(key="geburtstag",v2=True,eye="Geburtstags-DJ · Memmingen · Allgäu · Schwaben",
+ h1="Euer Geburtstags-DJ in Memmingen, Allgäu &amp; Schwaben",
+ sub="Ob 18., 30., 50. oder 80.: Ihr feiert mit euren Gästen – ich sorge für die passende Musik, eine volle Tanzfläche bis zum Schluss und dafür, dass ihr euch um nichts kümmern müsst.",
+ vorteile_title="Ihr feiert. Ich kümmere mich um den Rest.",
+ vorteile=[("fas fa-glass-cheers","Ihr seid Gast auf eurer eigenen Party","Technik, Musik und Ablauf liegen bei mir – ihr könnt mit euren Gästen feiern, statt nebenbei DJ zu spielen."),
+   ("fas fa-users","Musik, die alle verbindet","Familie, Freunde, Kollegen: Ich finde die Songs, die alle Generationen auf die Tanzfläche holen."),
+   ("fas fa-music","Eure Songs, eure Erinnerungen","Lieblingslieder und Erinnerungsstücke bekommen ihren großen Moment – was ihr nicht hören wollt, kommt auf die No-Go-Liste."),
+   ("fas fa-shield-alt","Ausfallsicher","Sollte ich krank werden, übernimmt ein erfahrener DJ aus meinem Netzwerk – gleich vorbereitet, ohne Mehrkosten für euch.")],
  anl_title="Für welche Feste?",
  anlaesse=[("Runde Geburtstage","18., 30., 40., 50., 60. und mehr – jeder Meilenstein verdient seinen eigenen Soundtrack."),
-           ("Überraschungspartys","Diskret geplant, perfekt getimt: Ich stimme mich mit den Organisatoren ab."),
-           ("Jubiläen &amp; Familienfeiern","Silberhochzeit, Familientreffen oder Firmenjubiläum im privaten Kreis."),
-           ("Garten- &amp; Scheunenpartys","Auch draußen und in besonderen Locations mit passender Technik."),
+           ("Überraschungspartys","Diskret geplant, perfekt getimt – ich stimme mich mit den Organisatoren ab, das Geburtstagskind ahnt nichts."),
+           ("Jubiläen &amp; Familienfeiern","Silberhochzeit, Goldene Hochzeit oder großes Familientreffen."),
+           ("Garten- &amp; Scheunenpartys","Auch draußen und in besonderen Locations – mit passender Technik."),
            ("Abifeiern &amp; Jugendpartys","Aktuelle Hits, kurze Übergänge und ein Gespür für junges Publikum."),
-           ("Feste im Vereinsheim","Unkompliziert, zuverlässig und mit der richtigen Musik für alle Generationen.")],
+           ("Feste im Vereinsheim","Unkompliziert, zuverlässig und mit Musik für alle Generationen.")],
  split1=("Gemischtes Publikum","Von 18 bis 80 – alle auf der Tanzfläche",[
    "Auf einem Geburtstag treffen Familie, Freunde und Kollegen aufeinander. Ich finde die Songs, die alle verbinden, und baue den Abend so auf, dass die Stimmung Schritt für Schritt steigt.",
-   "Eure Lieblingssongs und Erinnerungsstücke bekommen ihren großen Moment – und was ihr auf keinen Fall hören wollt, kommt auf die No-Go-Liste."],None,True,[BTN(*WISH,True,"left")]),
+   "Statt einer starren Playlist lese ich die Tanzfläche und reagiere live – so fühlt sich jeder Gast abgeholt."],None,True,[BTN(*WISH,True,"left")]),
  fit=(["Ihr wollt richtig feiern, nicht nur Hintergrundmusik","Die Musik soll zu euren Gästen passen, nicht zu einer Schablone","Ihr wünscht euch Moderation für Reden, Spiele oder Überraschungen","Ihr möchtet euch am Abend um nichts kümmern müssen"],
       ["Ihr sucht die günstigste Lösung","Musik soll nur leise im Hintergrund laufen","Ihr wollt nur eure eigene Playlist abspielen lassen"]),
  akte_eye="Euer Abend", akte_title="So wird aus einem Geburtstag ein Fest",
- akte=[("Ankommen","Lockere Musik zum Empfang, damit alle entspannt ins Gespräch kommen."),
-       ("Essen &amp; Reden","Dezente Begleitung und ein Mikrofon für Reden und Glückwünsche."),
-       ("Überraschungen","Spiele, Videos oder Ständchen – moderiert und mit den Beteiligten abgestimmt."),
-       ("Party","Jetzt wird getanzt: mit den Songs, die euren Abend unvergesslich machen.")],
- steps_title="In drei Schritten zu eurer Party",
- steps=[("Anfrage","Datum, Ort und Anlass per Formular oder WhatsApp."),("Gespräch","Ich kläre mit euch Musik, Ablauf und Überraschungen."),("Party","Ich baue auf, ihr feiert.")],
+ akte=[("Ankommen","Lockere Musik zum Empfang – eure Gäste kommen entspannt ins Gespräch."),
+       ("Essen &amp; Reden","Dezente Begleitung und ein Funkmikrofon für Reden und Glückwünsche."),
+       ("Überraschungen","Spiele, Videos oder Ständchen – moderiert und mit den Organisatoren abgestimmt."),
+       ("Party","Jetzt wird getanzt – mit den Songs, über die eure Gäste noch lange sprechen.")],
+ steps_title="In vier Schritten zu eurer Party",
+ steps=[("Wunschtermin prüfen","Datum, Ort und Anlass – in 2 Minuten per Formular oder WhatsApp. Antwort innerhalb von 24 Stunden."),
+        ("Kennenlernen","Kostenloses, unverbindliches Gespräch über Musik, Ablauf und Überraschungen."),
+        ("Termin sichern","Ihr bekommt ein individuelles Angebot – mit eurer Bestätigung ist euer Datum fest reserviert."),
+        ("Eure Party","Ich baue auf, ihr feiert.")],
  reviews=["g1","g2","h3"],
  faq=fq("Was kostet ein DJ bei DJ KOLJA ONE?","Können wir Musikwünsche angeben?","Nimmst du auch Wünsche von Gästen an?","Moderierst du auch?","Was brauchst du vor Ort?"),
  faq_title="Fragen rund um euren Geburtstag",
  orte_title="Geburtstags-DJ in Oberschwaben, Ulm und dem Allgäu",
+ cta=("Euer Geburtstag steht fest? Sichert euch euren DJ.","Gerade Wochenenden sind schnell vergeben. Eine Anfrage dauert zwei Minuten und ist unverbindlich."),
  cross=["/hochzeits-dj/","/firmenfeier-dj/","/event-dj/"])
 
 FIRMA=dict(key="firmenfeier",eye="Firmenfeier-DJ · Memmingen · Allgäu · Schwaben",

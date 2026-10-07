@@ -1,9 +1,9 @@
 {
- "version": "1.20.3",
- "download_url": "dj-kolja-one-plattenkiste-1.20.3.zip",
- "sha256": "9461067c428f97d307d1b35d2de8a015ab80c312c5e8a1a95530741c494c57fb",
+ "version": "1.20.4",
+ "download_url": "dj-kolja-one-plattenkiste-1.20.4.zip",
+ "sha256": "354578195f619f46b85f8cce298f0e63fb0c5b737973ae54305f04f542451f5a",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Kacheln am Handy nebeneinander, Videos ohne Schwarz im Rahmen."
+ "changelog": "Geburtstagsseite: neue Texte und Reihenfolge."
 }
