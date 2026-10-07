@@ -65,7 +65,27 @@ def start():
       footer()]
 
 # ---------------- Leistungsseiten ----------------
+def service_v2(c):
+    note=T("Unverbindlich · Antwort innerhalb von 24 Stunden",MUTED,"center",14)
+    out=[nav(),hero(c["eye"],c["h1"],c["sub"],[BTN(*WISH),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=90,extra=[note]),
+         section(head("Eindrücke",c.get("gal_title","So feiert ihr mit mir"))+[VIDEOS(c["key"])],bg=B2),
+         staerken(c["vorteile_title"],c["vorteile"],eye="Was ihr davon habt",bg=B1)]
+    if c.get("akte"): out.append(section(head(c["akte_eye"],c["akte_title"])+[steps(c["akte"])],bg=B2))
+    out.append(split(*c["split1"],img=f"event_{c['key']}_text.jpg",bg=B1))
+    out.append(reviews(c["reviews"],bg=B2))
+    out.append(section(head("Ablauf",c["steps_title"])+[steps(c["steps"]),SPACER(10),BTN("Jetzt Wunschtermin prüfen",KONTAKT)],anchor="ablauf",bg=B1))
+    if c.get("fit"): out.append(section(head("Passen wir zusammen?",c.get("fit_title","Finden wir das heraus!"))+[fit(*c["fit"]),SPACER(10),BTN("Passt? Dann Wunschtermin prüfen",KONTAKT)],bg=B2))
+    for blk in c.get("lists",[]):
+        out.append(section(head(blk[0],blk[1],blk[2])+[con([list_card(t,it,w=48 if len(blk[3])==2 else 31) for t,it in blk[3]],"row",g=24,**ROW,flex_justify_content="center")],bg=B1))
+    if c.get("compare"): out.append(section(head(*c["compare"][0])+[cards(c["compare"][1],bg=B1)],bg=B2))
+    out.append(faq(c["faq"],eye="Häufige Fragen",title=c.get("faq_title","Gut zu wissen"),bg=B1))
+    out.append(orte(c.get("orte_title","Euer DJ in Oberschwaben, Ulm und dem Allgäu"),bg=B2))
+    out.append(cta(*c.get("cta",())))
+    out.append(section(head("Weitere Leistungen","Auch für andere Anlässe")+[tiles(c["cross"],w=31)],bg=B1))
+    out.append(footer()); return out
+
 def service(c):
+    if c.get("v2"): return service_v2(c)
     out=[nav(),hero(c["eye"],c["h1"],c["sub"],[BTN(*WISH),BTN("So läuft's ab","#ablauf",False)],stats=None,minh=90),
          section(head("Eindrücke","So sieht ein Abend mit mir aus")+[VIDEOS(c["key"])],bg=B2)]
     if c.get("anlaesse"): out.append(section(head("Anlässe",c["anl_title"])+[cards(c["anlaesse"])]))
@@ -86,34 +106,42 @@ def service(c):
     out.append(section(head("Weitere Leistungen","Auch für andere Anlässe")+[tiles(c["cross"],w=31)],bg=B1))
     out.append(footer()); return out
 
-HOCHZEIT=dict(key="hochzeit",eye="Hochzeits-DJ · Memmingen · Allgäu · Schwaben",
- h1="Euer Hochzeits-DJ für einen Tag, der nur einmal stattfindet",
- sub="Vom Sektempfang bis zum letzten Song: Musik und Moderation, die zu euch passen – und eine Tanzfläche, die voll bleibt.",
+HOCHZEIT=dict(key="hochzeit",v2=True,eye="Hochzeits-DJ · Memmingen · Allgäu · Schwaben",
+ h1="Euer Hochzeits-DJ in Memmingen, Allgäu &amp; Schwaben",
+ sub="Ihr genießt euren Tag – ich sorge vom Sektempfang bis zum letzten Song für die richtige Musik, eine Moderation mit rotem Faden und eine Tanzfläche, die voll bleibt.",
+ vorteile_title="Ihr heiratet. Ich kümmere mich um den Rest.",
+ vorteile=[("fas fa-hands-helping","Ihr könnt loslassen","Ich stimme mich mit Trauzeugen, Location, Fotograf und Catering ab."),
+   ("fas fa-music","Eure Songs im richtigen Moment","Eröffnungstanz, Wunsch- und No-Go-Liste, eure Lieblingssongs – im Vorgespräch geplant, live auf die Stimmung abgestimmt."),
+   ("fas fa-users","Alle Generationen auf der Tanzfläche","Von der Oma bis zum Trauzeugen: Klassiker, aktuelle Hits und eure Favoriten in der richtigen Reihenfolge."),
+   ("fas fa-shield-alt","Ausfallsicher","Sollte ich krank werden, übernimmt ein erfahrener DJ aus meinem Netzwerk – gleich vorbereitet, ohne Mehrkosten für euch.")],
  split1=("Musik für alle Generationen","Oma und Trauzeuge auf derselben Tanzfläche",[
-   "Auf einer Hochzeit feiern Menschen zwischen 8 und 88. Meine Aufgabe ist es, alle mitzunehmen: mit Klassikern, aktuellen Hits und euren ganz persönlichen Lieblingssongs – im richtigen Moment und in der richtigen Reihenfolge.",
-   "Ich spiele keine starre Playlist ab, sondern lese die Tanzfläche und reagiere live. So entsteht ein Abend, der sich anfühlt, als wäre er nur für euch gemacht. Denn genau das ist er."],None,True,[BTN(*WISH,True,"left")]),
- fit=(["Ihr wünscht euch eine volle Tanzfläche statt Hintergrundgedudel","Euch ist eine persönliche Planung im Vorfeld wichtig","Ihr möchtet eine souveräne Moderation, die nie aufdringlich ist","Ihr legt Wert auf hochwertigen Klang und stimmiges Licht"],
+   "Auf eurer Hochzeit feiern Gäste zwischen 8 und 88. Ich hole alle ab: mit Klassikern, aktuellen Hits und euren ganz persönlichen Lieblingssongs – im richtigen Moment und in der richtigen Reihenfolge.",
+   "Statt einer starren Playlist lese ich die Tanzfläche und reagiere live. So entsteht ein Abend, der sich anfühlt, als wäre er nur für euch gemacht – weil er es ist."],None,True,[BTN(*WISH,True,"left")]),
+ fit=(["Ihr wollt eine volle Tanzfläche statt Hintergrundmusik","Euch ist eine persönliche Planung im Vorfeld wichtig","Ihr wünscht euch eine Moderation, die führt, aber nie aufdringlich ist","Ihr legt Wert auf guten Klang und stimmiges Licht"],
       ["Ihr sucht den günstigsten DJ der Region","Der DJ soll ausschließlich eine fertige Playlist abspielen","Euch reicht Musik vom Handy über eine Box"]),
- akte_eye="Euer Tag", akte_title="Musik und Moderation in vier Akten",
- akte=[("Sektempfang","Entspannte Lounge-Musik, während eure Gäste ankommen und anstoßen."),
-       ("Dinner &amp; Reden","Dezente Musik zum Essen, Funkmikrofon für Reden und Beiträge – moderiert und im Zeitplan."),
-       ("Eröffnungstanz","Euer Moment: perfekt angekündigt, perfekt eingeleitet."),
-       ("Party","Von den ersten Tanzschritten bis zum letzten Song – die Tanzfläche bleibt voll.")],
- lists=[("Technik &amp; Moderation","Alles aus einer Hand",None,[
+ akte_eye="Euer Tag", akte_title="Euer Tag in vier Akten",
+ akte=[("Sektempfang","Entspannte Musik, während eure Gäste ankommen und anstoßen – die Stimmung steht vom ersten Moment an."),
+       ("Dinner &amp; Reden","Dezente Musik zum Essen, Funkmikrofon für Reden – moderiert und im Zeitplan, damit nichts hakt."),
+       ("Eröffnungstanz","Euer Moment: perfekt angekündigt, perfekt eingeleitet – ein Moment für Gänsehaut."),
+       ("Party","Vom ersten Tanzschritt bis zum letzten Song bleibt die Tanzfläche voll – und eure Gäste reden noch lange davon.")],
+ lists=[("Technik &amp; Moderation","Alles aus einer Hand – ihr müsst nichts organisieren",None,[
    ("Technik",["Geprüfte Ton- und Lichtanlage, abgestimmt auf eure Location","Dezenter, sauberer Aufbau vor dem Eintreffen der Gäste","Funkmikrofon für Reden, Spiele und Beiträge","Ambientebeleuchtung auf Anfrage"]),
    ("Moderation",["Begrüßung und Einlauf des Brautpaares","Ankündigung von Reden, Spielen und Programmpunkten","Abstimmung mit Trauzeugen, Fotograf und Location","Souverän, herzlich und nie aufdringlich"])])],
- compare=(("Vergleich","DJ, Band oder Playlist?"),[
+ compare=(("Vergleich","DJ, Band oder Playlist? Der ehrliche Vergleich"),[
    ("DJ","Riesige Musikauswahl, reagiert live auf eure Gäste, übernimmt Moderation und Technik. Die flexibelste Lösung für volle Tanzflächen."),
    ("Live-Band","Tolles Live-Erlebnis, aber begrenztes Repertoire, Pausen zwischen den Sets und meist deutlich mehr Platzbedarf."),
    ("Playlist","Günstig, aber ohne Gespür für den Moment: keine Moderation, keine Reaktion auf die Stimmung, niemand für die Technik zuständig.")]),
  steps_title="In fünf Schritten zu eurer Hochzeitsparty",
- steps=[("Anfrage","Datum, Location und Gästezahl per Formular oder WhatsApp."),("Kennenlernen","Unverbindliches Gespräch per Telefon oder Video."),
-        ("Angebot","Ihr erhaltet ein individuelles Angebot und reserviert euren Termin."),("Planung","Einige Wochen vorher plane ich mit euch Musik, Ablauf und Programmpunkte im Detail."),
+ steps=[("Wunschtermin prüfen","Datum, Location und Gästezahl – in 2 Minuten per Formular oder WhatsApp. Antwort innerhalb von 24 Stunden."),
+        ("Kennenlernen","Kostenloses, unverbindliches Gespräch per Telefon oder Video."),
+        ("Termin sichern","Ihr bekommt ein individuelles Angebot – mit eurer Bestätigung ist euer Datum fest reserviert."),
+        ("Feinplanung","Einige Wochen vorher planen wir Musik, Ablauf und Programmpunkte im Detail."),
         ("Eure Hochzeit","Ich bin pünktlich da, alles steht – ihr feiert.")],
  reviews=["h1","h2","h3"],
  faq=fq("Was kostet ein DJ bei DJ KOLJA ONE?","Wie früh sollten wir buchen?","Können wir Musikwünsche angeben?","Moderierst du auch?","Warum ein DJ statt einer Playlist?","Stimmst du dich mit Location und Dienstleistern ab?","Was passiert, wenn du krank wirst?"),
  faq_title="Fragen rund um eure Hochzeit",
  orte_title="Hochzeits-DJ in Oberschwaben, Ulm und dem Allgäu",
+ cta=("Euer Hochzeitstermin ist noch frei? Sichert ihn euch.","Beliebte Samstage zwischen Mai und September sind oft ein Jahr im Voraus vergeben. Eine Anfrage dauert zwei Minuten und ist unverbindlich."),
  cross=["/geburtstags-dj/","/firmenfeier-dj/","/event-dj/"])
 
 GEBURTSTAG=dict(key="geburtstag",eye="Geburtstags-DJ · Memmingen · Allgäu · Schwaben",
