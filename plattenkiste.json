@@ -1,9 +1,9 @@
 {
- "version": "1.21.0",
- "download_url": "dj-kolja-one-plattenkiste-1.21.0.zip",
- "sha256": "8221a1289d1d7f759d2070e57157b0d9e6d9dd597542f036dc69371905e42f5e",
+ "version": "1.21.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.21.1.zip",
+ "sha256": "a5e739b4db694836770a04f877832987434b7570a8c8465fb10a2ac2d561783d",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Elementor-CSS eingebettet: Seite kann nicht mehr ohne Gestaltung erscheinen."
+ "changelog": "FAQ überarbeitet."
 }

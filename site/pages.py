@@ -2,24 +2,25 @@ from lib import *
 
 FAQ_ALL={
 "Buchung & Preise":[
- ("Was kostet ein DJ bei DJ KOLJA ONE?","Das hängt von Dauer, Gästezahl, Technik und Anfahrt ab – deshalb gibt es keine Pakete von der Stange, sondern ein Angebot, das genau zu eurem Fest passt. Schickt mir einfach euer Datum, ich melde mich innerhalb von 24 Stunden."),
- ("Wie läuft eine Buchung ab?","Ihr schickt mir eine Anfrage mit Datum, Ort und Anlass. Danach spreche ich mit euch telefonisch oder per Video über eure Wünsche, ihr erhaltet ein individuelles Angebot, und nach eurer Bestätigung ist der Termin verbindlich für euch reserviert."),
- ("Wie früh sollten wir buchen?","Für Hochzeiten und Samstage in der Hochsaison (Mai bis September) empfehle ich 9–12 Monate Vorlauf. Für Geburtstage und Firmenfeiern reichen oft 3–6 Monate. Kurzfristige Anfragen lohnen sich trotzdem – fragt einfach nach."),
- ("Was passiert, wenn du krank wirst?","Dann übernimmt ein erfahrener DJ aus meinem Netzwerk – mit derselben Vorbereitung und ohne Mehrkosten für euch."),
+ ("Was kostet ein DJ bei DJ KOLJA ONE?","Das hängt von Dauer, Gästezahl, Technik und Anfahrt ab – deshalb gibt es Basis- und Optionspakete und damit ein Angebot, das genau zu eurem Fest passt. Schickt mir einfach euer Datum, ich melde mich innerhalb von 24 Stunden."),
+ ("Wie läuft eine Buchung ab?","In drei Schritten: Ihr schickt mir Datum, Ort und Anlass. Wir sprechen kostenlos und unverbindlich per Telefon oder Video über eure Wünsche. Danach bekommt ihr ein individuelles Angebot – mit eurer Bestätigung ist euer Termin fest reserviert."),
+ ("Können wir uns vorher kennenlernen?","Ja, unbedingt. Das Erstgespräch per Telefon oder Video ist kostenlos und unverbindlich. So merkt ihr schnell, ob wir zusammenpassen."),
+ ("Wie früh sollten wir buchen?","Für Hochzeiten und Samstage in der Hochsaison (Mai bis September) empfehle ich 9–12 Monate Vorlauf, für Weihnachtsfeiern eine Anfrage bis zum Frühsommer. Für Geburtstage und andere Firmenfeiern reichen oft 3–6 Monate. Auch kurzfristig lohnt sich eine Anfrage – prüft einfach euren Wunschtermin."),
+ ("Was passiert, wenn du krank wirst?","Dann übernimmt ein erfahrener DJ aus meinem Netzwerk – mit derselben Vorbereitung und ohne Mehrkosten für euch. Euer Abend ist abgesichert."),
  ("Muss ich GEMA-Gebühren zahlen?","Private Feiern mit geladenen Gästen sind in der Regel nicht GEMA-pflichtig. Bei öffentlichen Veranstaltungen ist der Veranstalter für die Anmeldung zuständig – ich weise euch im Vorgespräch darauf hin."),
 ],
 "Musik":[
- ("Können wir Musikwünsche angeben?","Unbedingt. Im Vorgespräch erstelle ich mit euch eine Wunschliste und eine No-Go-Liste. Eure Lieblingssongs bekommen ihren Platz – zum richtigen Zeitpunkt."),
+ ("Können wir Musikwünsche angeben?","Unbedingt. Im Vorgespräch legen wir gemeinsam eine Wunsch- und eine No-Go-Liste fest. Eure Lieblingssongs bekommen ihren Platz – zum richtigen Zeitpunkt."),
  ("Nimmst du auch Wünsche von Gästen an?","Ja, gern – solange sie zur Stimmung und zu euren Vorgaben passen. So fühlt sich jeder Gast abgeholt, ohne dass der rote Faden verloren geht."),
- ("Welche Musik spielst du?","Von Pop, Rock und Schlager über 80er, 90er und 2000er bis zu aktuellen Charts, House und Latin. Entscheidend ist nicht mein Geschmack, sondern euer Publikum."),
- ("Warum ein DJ statt einer Playlist?","Eine Playlist kennt eure Gäste nicht. Ich sehe, wann die Tanzfläche voll ist, wann sie eine Pause braucht und welcher Song jetzt den Unterschied macht – und reagiere live darauf."),
+ ("Welche Musik spielst du?","Von Pop, Rock und Schlager über 80er, 90er und 2000er bis zu aktuellen Charts, House und Latin. Entscheidend ist euer Publikum – deshalb stelle ich die Musik für jede Feier neu zusammen."),
+ ("Warum ein DJ statt einer Playlist?","Eine Playlist kennt eure Gäste nicht. Ich sehe, wann die Tanzfläche voll ist, wann sie eine Pause braucht und welcher Song jetzt den Unterschied macht – und reagiere live darauf. Dazu kommen Moderation und Technik aus einer Hand."),
 ],
 "Technik & Ablauf":[
- ("Bringst du eigene Technik mit?","Ja. Ton- und Lichtanlage sind geprüft, auf die Raumgröße abgestimmt und werden dezent aufgebaut. Ein Funkmikrofon für Reden gehört dazu."),
- ("Was brauchst du vor Ort?","Eine ebene Fläche für den DJ-Platz und einen Stromanschluss in der Nähe. Die Details stimme ich vorab mit euch oder der Location ab."),
+ ("Bringst du eigene Technik mit?","Ja. Ton- und Lichtanlage sind geprüft, auf eure Raumgröße abgestimmt und werden dezent aufgebaut. Ein Funkmikrofon für Reden gehört immer dazu."),
+ ("Was brauchst du vor Ort?","Nur eine ebene Fläche für den DJ-Platz und einen Stromanschluss in der Nähe. Alle Details kläre ich vorab direkt mit euch oder der Location."),
  ("Moderierst du auch?","Ja – professionell und auf Wunsch den ganzen Abend: Einlauf, Reden, Programmpunkte, Spiele und Ansagen. Souverän, herzlich und nie aufdringlich."),
- ("Stimmst du dich mit Location und Dienstleistern ab?","Ja. Ich spreche mich mit Location, Catering, Fotografen oder Agentur ab, damit Zeitplan und Technik reibungslos zusammenpassen."),
- ("Wie groß ist dein Einsatzgebiet?","Mein Schwerpunkt liegt in Memmingen, Ulm, Oberschwaben und dem Allgäu – von Biberach und Ravensburg bis Kempten, Füssen und Landsberg. Weitere Orte auf Anfrage."),
+ ("Stimmst du dich mit Location und Dienstleistern ab?","Ja. Ich spreche mich mit Location, Catering, Fotografen oder Agentur ab, damit Zeitplan und Technik reibungslos zusammenpassen – ihr müsst nichts koordinieren."),
+ ("Wie groß ist dein Einsatzgebiet?","Mein Schwerpunkt liegt in Memmingen, im Allgäu und in Schwaben – von Ulm, Biberach und Ravensburg bis Kempten, Füssen und Landsberg. Für besondere Events komme ich auch weiter: Fragt einfach an."),
 ],
 }
 def fq(*qs):
@@ -326,8 +327,8 @@ def musik():
 # ---------------- FAQ ----------------
 def faqpage():
     secs=[faq(v,title=k,more=False,bg=(B1 if i%2==0 else B2),eye="FAQ") for i,(k,v) in enumerate(FAQ_ALL.items())]
-    return [nav(),hero("FAQ &amp; Wissenswertes","Häufige Fragen rund um euren DJ","Preise, Buchung, Musik, Technik und Ablauf – hier findet ihr die Antworten. Und wenn eure Frage fehlt: einfach anrufen oder schreiben.",
-        [BTN(*WISH),BTN("WhatsApp schreiben",WA,False)],stats=None,minh=60)]+secs+[cta("Noch Fragen?","Ich beantworte sie gern persönlich – per Telefon, WhatsApp oder über das Anfrageformular."),footer()]
+    return [nav(),hero("FAQ &amp; Wissenswertes","Häufige Fragen rund um euren DJ","Preise, Buchung, Musik, Technik und Ablauf – hier findet ihr die Antworten. Eure Frage fehlt? Ruft an oder schreibt mir – ich antworte innerhalb von 24 Stunden.",
+        [BTN(*WISH),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=60)]+secs+[cta("Eure Frage war nicht dabei?","Ich beantworte sie gern persönlich – per Telefon, WhatsApp oder Formular. Und wenn ihr schon wisst, wann gefeiert wird: Prüft gleich euren Wunschtermin."),footer()]
 
 # ---------------- Einsatzgebiete ----------------
 GROUPS=[("Memmingen &amp; Unterallgäu",["Memmingen"],"Mein Heimatgebiet rund um Fellheim."),
