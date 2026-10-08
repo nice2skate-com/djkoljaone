@@ -1,9 +1,9 @@
 {
- "version": "1.20.7",
- "download_url": "dj-kolja-one-plattenkiste-1.20.7.zip",
- "sha256": "58135dacd5ea5f8cff75fac378d03e2b61e9a142dd36fe79ce61a93884d2939a",
+ "version": "1.20.8",
+ "download_url": "dj-kolja-one-plattenkiste-1.20.8.zip",
+ "sha256": "359f7a2b9143595b4d2fc57033a64134f6de2cc043880131e41b1c20ca04409f",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Über mich: neue, persönliche Texte."
+ "changelog": "Ortsseiten: neue Texte und Reihenfolge."
 }
