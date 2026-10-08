@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.21.3
+ * Version:     1.21.4
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.21.3' );
+define( 'KJO_VERSION', '1.21.4' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -61,10 +61,13 @@ function kjm_purge_caches() {
  * Elementor-Seiten aus dem Plugin-Ordner „seiten/“ (<slug>.json) in die gleichnamigen WordPress-Seiten einspielen.
  * Läuft nur auf Knopfdruck (Medien → Plattenkiste). Der bisherige Inhalt bleibt als Sicherung erhalten.
  */
-function kjo_seiten_sync() {
+function kjo_seiten_sync( $only = null ) {
 	$out = array();
 	foreach ( (array) glob( __DIR__ . '/seiten/*.json' ) as $file ) {
 		$slug = basename( $file, '.json' );
+		if ( $only && $slug !== $only ) {
+			continue;
+		}
 		$page = get_page_by_path( $slug );
 		if ( ! $page ) {
 			$out[ $slug ] = 'Seite nicht gefunden';
@@ -76,8 +79,8 @@ function kjo_seiten_sync() {
 			continue;
 		}
 		$old = get_post_meta( $page->ID, '_elementor_data', true );
-		/* Rechtstexte (Impressum, Datenschutz): Nur die Fußzeile wird ersetzt, der vorhandene Text der Seite bleibt unverändert. */
-		if ( in_array( $slug, array( 'impressum', 'datenschutz' ), true ) ) {
+		/* Impressum: Nur die Fußzeile wird ersetzt, der vorhandene Text der Seite bleibt unverändert. Die Datenschutzerklärung wird seit 1.21.4 komplett aus der Vorlage übernommen. */
+		if ( 'impressum' === $slug ) {
 			$cur = is_string( $old ) ? json_decode( $old, true ) : $old;
 			if ( ! is_array( $cur ) || ! $cur ) {
 				$out[ $slug ] = 'kein vorhandener Inhalt – übersprungen';
@@ -120,6 +123,20 @@ function kjo_seiten_sync() {
 	}
 	return $out;
 }
+/* Datenschutzerklärung einmalig automatisch aktualisieren (neuer Stand mit Google Analytics und Microsoft Clarity), sobald ein Admin das Dashboard öffnet. Der bisherige Inhalt bleibt als Sicherung erhalten. */
+add_action(
+	'admin_init',
+	function () {
+		if ( current_user_can( 'manage_options' ) && '2026-10-clarity' !== get_option( 'kjo_ds_stand' ) ) {
+			update_option( 'kjo_ds_stand', '2026-10-clarity', false );
+			kjo_seiten_sync( 'datenschutz' );
+			if ( function_exists( 'kjm_purge_caches' ) ) {
+				kjm_purge_caches();
+			}
+		}
+	},
+	20
+);
 /** Inhalt vor dem letzten Einspielen wiederherstellen. */
 function kjo_seiten_restore() {
 	$out = array();

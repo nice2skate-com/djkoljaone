@@ -1,9 +1,9 @@
 {
- "version": "1.21.3",
- "download_url": "dj-kolja-one-plattenkiste-1.21.3.zip",
- "sha256": "6afcb6cb64a6e4e8f2d6117e23e4cdbf03479211e084833f2437d384e1cbaa7d",
+ "version": "1.21.4",
+ "download_url": "dj-kolja-one-plattenkiste-1.21.4.zip",
+ "sha256": "532a8c9d963d8bd7b8c74887f85516058e3d9645e956b094dbb89f30e89b87d1",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Meine Musik überarbeitet."
+ "changelog": "Datenschutzerklärung mit Microsoft Clarity, automatische Aktualisierung."
 }

@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.21.4: Datenschutzerklärung wird jetzt komplett aus der Vorlage übernommen und beim ersten Dashboard-Aufruf nach dem Update automatisch aktualisiert (neu: Microsoft Clarity, Betreiberangabe wie im Impressum; Google Analytics wie bisher). Der bisherige Text bleibt als Sicherung erhalten („Letzte Einspielung rückgängig“). Das Impressum bleibt unverändert.
 Seit 1.21.3: „Meine Musik“ mit neuen Texten (Anrede „ihr“, neuer Abschnitt „Gefällt euch der Sound?“ mit Anfrage-Buttons direkt unter dem Pult). Einmal „Seiten aus Vorlage einspielen“ klicken, Zwischenspeicher leeren.
 Seit 1.21.2: Einsatzgebiete mit neuen, kundenorientierten Texten (H1 mit Memmingen, Allgäu & Schwaben, Abschnitt „Anfahrt? Immer transparent.“). Einmal „Seiten aus Vorlage einspielen“ klicken, Zwischenspeicher leeren.
 Seit 1.21.1: FAQ überarbeitet (klarere, handlungsorientierte Antworten, neue Frage zum kostenlosen Kennenlernen, Preise mit Basis- und Optionspaketen) – gilt auch für die FAQ auf Start-, Leistungs- und Ortsseiten. Einmal „Seiten aus Vorlage einspielen“ klicken, Zwischenspeicher leeren.
