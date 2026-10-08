@@ -276,23 +276,31 @@ EVENT=dict(key="events",v2=True,eye="Event-DJ · Memmingen · Allgäu · Schwabe
 # ---------------- Über mich ----------------
 def ueber():
     quote=section([H("„Jedes Event findet nur einmal statt.“","p",48,OFF,m=30,lh=1.25,_element_width="initial",_element_custom_width=px(900)),DIV(),
-        T("Dieser Satz ist mein Versprechen. Es gibt keine Generalprobe und keine Wiederholung – nur diesen einen Abend. Deshalb nehme ich mir Zeit für die Vorbereitung, höre genau zu und bin am Tag selbst mit voller Aufmerksamkeit bei euch.",MUTED,"center",18,_element_width="initial",_element_custom_width=px(760))],bg=B2)
-    werte=section(head("Was mich ausmacht","Musik, Moderation, Verlässlichkeit")+[con([con([ICONBOX(*i)],bg=B2,pad=box(36,30,36,30),**col(48,48,100)) for i in [
-        ("fas fa-headphones","Gespür für die Tanzfläche","Ich spiele nicht nach Plan, sondern nach Stimmung. Wer tanzt, wer zögert, was kommt als Nächstes? Darauf reagiere ich live."),
-        ("fas fa-microphone","Professionelle Moderation","Ich führe souverän durch den Abend – herzlich, klar und nie aufdringlich."),
-        ("fas fa-sliders-h","Sauberer Sound","Geprüfte Technik, abgestimmt auf eure Location – laut genug zum Tanzen, angenehm genug zum Reden."),
-        ("fas fa-handshake","Verlässlichkeit","Pünktlich, vorbereitet, erreichbar – vom ersten Gespräch bis zum letzten Song.")]],
-        "row",g=24,**ROW,flex_justify_content="space-between")])
-    musik=section(head("Musik","Mein Repertoire")+[cards([
+        T("Dieser Satz ist mein Versprechen an euch. Es gibt keine Generalprobe und keine Wiederholung – nur diesen einen Abend. Deshalb nehme ich mir Zeit für die Vorbereitung, höre genau zu und bin am Tag selbst mit voller Aufmerksamkeit bei euch.",MUTED,"center",18,_element_width="initial",_element_custom_width=px(760))],bg=B1)
+    momente=section(head("Erinnerungen","Jedes Event ist einzigartig")+[
+        T("Es gibt unzählige Feiern, die mir in Erinnerung geblieben sind – von einer Hochzeit auf einem Boot vor der Skyline Frankfurts über Firmenpartys eines großen Tech-Konzerns in Dortmund, Frankfurt und Ulm bis zur Geburtstagsfeier im Bauernhofmuseum Illerbeuren und den Fußballtagen in Fellheim. Jedes Event hatte seinen eigenen Verlauf und seine eigene Atmosphäre – mit Menschen, die ausgelassen gefeiert und getanzt haben.",MUTED,"center",18,_element_width="initial",_element_custom_width=px(820))],bg=B2)
+    werte=section(head("Was ihr von mir bekommt","Darauf könnt ihr euch verlassen")+[con([con([ICONBOX(*i)],bg=B2,pad=box(36,30,36,30),**col(48,48,100)) for i in [
+        ("fas fa-headphones","Gespür für die Tanzfläche","Ich spiele nicht nach Plan, sondern nach Stimmung – ihr bekommt eine Tanzfläche, die voll bleibt."),
+        ("fas fa-microphone","Moderation mit rotem Faden","Ich führe souverän durch den Abend – herzlich, klar und nie aufdringlich."),
+        ("fas fa-sliders-h","Sound, der passt","Geprüfte Technik, abgestimmt auf eure Location – laut genug zum Tanzen, angenehm genug zum Reden."),
+        ("fas fa-handshake","Verlässlichkeit","Pünktlich, vorbereitet, erreichbar – vom ersten Gespräch bis zum letzten Song. Und falls ich ausfalle, springt ein erfahrener DJ aus meinem Netzwerk ein.")]],
+        "row",g=24,**ROW,flex_justify_content="space-between")],bg=B1)
+    musik=section(head("Musik","Mein Repertoire – und eure Wünsche","Entscheidend ist euer Publikum. Diese Richtungen habe ich im Gepäck – eure Wunschliste kommt dazu.")+[cards([
         ("Pop &amp; Charts","Aktuelle Hits und die großen Songs der letzten Jahrzehnte."),("80er, 90er &amp; 2000er","Die Klassiker, bei denen jede Generation mitsingt."),
         ("Schlager &amp; Party","Wenn es zur richtigen Zeit passt – mit Augenmaß."),("Rock &amp; Indie","Gitarren für die, die es etwas rauer mögen."),
-        ("House &amp; Dance","Für späte Stunden und volle Tanzflächen."),("Latin, Soul &amp; Lounge","Für Empfang, Dinner und besondere Momente.")])],bg=B1)
-    galerie=section(head("Einblicke","Hinter dem DJ-Pult")+[VIDEOS("ueber")],bg=B2)
-    return [nav(),hero("Über mich","Hallo, ich bin Kolja.","DJ und Moderator aus Fellheim – und überzeugt davon, dass jedes Event nur einmal stattfindet.",[BTN(*WISH),BTN("Meine Leistungen","/#leistungen",False)],stats=None,minh=80),
-        split("Meine Geschichte","DJ KOLJA ONE",[
-            "Seit über 10 Jahren stehe ich hinter dem DJ-Pult: auf Hochzeiten, Geburtstagen, Firmenfeiern und Stadtfesten zwischen Memmingen, Ulm und dem Allgäu.",
-            "Was mich antreibt, ist der Moment, in dem eine Feier kippt – von „nett“ zu „unvergesslich“. Wenn die Tanzfläche voll ist, das Brautpaar strahlt oder das ganze Team mitsingt. Genau diese Momente plane ich mit euch und sorge am Abend dafür, dass sie passieren."],img="kolja_portrait.jpg",port=True),
-        quote, werte, musik, galerie, reviews(["h2","f2","g1"]), QUIET(), cta(), footer()]
+        ("House &amp; Dance","Für späte Stunden und volle Tanzflächen."),("Latin, Soul &amp; Lounge","Für Empfang, Dinner und besondere Momente.")],bg=B1)],bg=B2)
+    galerie=section(head("Einblicke","Hinter dem DJ-Pult")+[VIDEOS("ueber")],bg=B1)
+    note=T("Unverbindlich · Antwort innerhalb von 24 Stunden",MUTED,"center",14)
+    return [nav(),hero("Über mich","Hallo, ich bin Kolja.","DJ und Moderator aus Fellheim. Seit über 10 Jahren sorge ich dafür, dass eure Feier nicht nur nett wird, sondern unvergesslich.",
+            [BTN(*WISH),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=80,extra=[note]),
+        split("Meine Geschichte","Der Mensch hinter DJ KOLJA ONE",[
+            "Meine Leidenschaft für Musik begann 1996 beim Radio. Seitdem faszinieren mich Musikproduktion, Tontechnik – und vor allem die Energie, die Musik auf Menschen überträgt. Als die ersten DJ-Controller auf den Markt kamen, habe ich unzählige Stunden damit verbracht, Musik zu sichten, zu mixen und mit Songs eine Atmosphäre zu schaffen, die eine Geschichte erzählt.",
+            "Seit über 10 Jahren stehe ich heute als DJ und Moderator auf Hochzeiten, Geburtstagen, Firmenfeiern und Stadtfesten zwischen Memmingen, Allgäu und Schwaben.",
+            "Was mich antreibt, ist der Moment, in dem aus einer schönen Feier ein unvergesslicher Abend wird: wenn die Tanzfläche voll ist, das Brautpaar strahlt oder das ganze Team mitsingt. Genau diese Momente plane ich mit euch – und sorge am Abend dafür, dass sie passieren.",
+            "Abseits des DJ-Pults bin ich gern draußen unterwegs: Ich entdecke die Natur, liebe Survival und Bushcrafting und segle mit viel Leidenschaft."],
+            buttons=[BTN(*WISH,True,"left")],img="kolja_portrait.jpg",port=True,bg=B2),
+        quote, momente, werte, reviews(["h2","f2","g1"],bg=B2), musik, galerie,
+        cta("Lasst uns kennenlernen.","Im kostenlosen, unverbindlichen Gespräch finden wir heraus, ob wir zusammenpassen. Eine Anfrage dauert zwei Minuten."), footer()]
 
 # ---------------- Meine Musik ----------------
 MUSIK_SNIPPET="./musik/musik-snippet-final.html"
