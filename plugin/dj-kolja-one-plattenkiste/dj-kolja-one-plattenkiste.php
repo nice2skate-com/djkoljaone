@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.21.4
+ * Version:     1.21.5
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.21.4' );
+define( 'KJO_VERSION', '1.21.5' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -127,8 +127,8 @@ function kjo_seiten_sync( $only = null ) {
 add_action(
 	'admin_init',
 	function () {
-		if ( current_user_can( 'manage_options' ) && '2026-10-clarity' !== get_option( 'kjo_ds_stand' ) ) {
-			update_option( 'kjo_ds_stand', '2026-10-clarity', false );
+		if ( current_user_can( 'manage_options' ) && '2026-10-ads' !== get_option( 'kjo_ds_stand' ) ) {
+			update_option( 'kjo_ds_stand', '2026-10-ads', false );
 			kjo_seiten_sync( 'datenschutz' );
 			if ( function_exists( 'kjm_purge_caches' ) ) {
 				kjm_purge_caches();
@@ -2153,4 +2153,50 @@ add_action(
 		}
 	},
 	4
+);
+
+/**
+ * Conversion-Ereignisse für Google Analytics 4 / Google Ads und Microsoft Clarity:
+ *  - generate_lead   Anfrageformular erfolgreich abgeschickt (WPForms)
+ *  - click_whatsapp  Klick auf einen WhatsApp-Link
+ *  - click_phone     Klick auf eine Telefonnummer
+ * Gesendet wird über das vorhandene gtag (Site Kit) bzw. die dataLayer; ob Google dabei Cookies setzt,
+ * entscheidet der Einwilligungsmodus (Complianz). Abschalten: add_filter( 'kjo_conversions', '__return_false' );
+ */
+add_action(
+	'wp_footer',
+	function () {
+		if ( is_admin() || ! apply_filters( 'kjo_conversions', true ) ) {
+			return;
+		}
+		echo '<script id="kjo-conversions">' . KJO_CONV_JS . '</script>' . "\n";
+	},
+	30
+);
+define( 'KJO_CONV_JS', <<<'KJOCONV'
+(function(){
+var last={};
+function send(name,params){
+  var now=Date.now();if(last[name]&&now-last[name]<1500)return;last[name]=now;
+  params=params||{};params.page_path=location.pathname;
+  try{if(typeof window.gtag==="function"){window.gtag("event",name,params);}else{(window.dataLayer=window.dataLayer||[]).push(Object.assign({event:name},params));}}catch(e){}
+  try{if(typeof window.clarity==="function"){window.clarity("event",name);}}catch(e){}
+}
+document.addEventListener("click",function(ev){
+  var a=ev.target&&ev.target.closest?ev.target.closest("a[href]"):null;if(!a)return;
+  var h=(a.getAttribute("href")||"").toLowerCase();
+  if(h.indexOf("tel:")===0){send("click_phone",{method:"telefon"});}
+  else if(h.indexOf("wa.me/")>-1||h.indexOf("whatsapp.com")>-1||h.indexOf("whatsapp:")===0){send("click_whatsapp",{method:"whatsapp"});}
+},true);
+var seen=false;
+function lead(){if(seen)return;seen=true;send("generate_lead",{method:"formular"});}
+if(window.jQuery){window.jQuery(document).on("wpformsAjaxSubmitSuccess",lead);}
+document.addEventListener("wpformsAjaxSubmitSuccess",lead);
+function check(){if(seen)return;var c=document.querySelector(".wpforms-confirmation-container-full,.wpforms-confirmation-container");if(c&&c.offsetParent!==null){lead();}}
+if(document.querySelector(".wpforms-form,.wpforms-confirmation-container-full")){
+  check();
+  if(window.MutationObserver){new MutationObserver(check).observe(document.body,{childList:true,subtree:true});}
+}
+})();
+KJOCONV
 );
