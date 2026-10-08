@@ -331,21 +331,24 @@ def faqpage():
         [BTN(*WISH),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=60)]+secs+[cta("Eure Frage war nicht dabei?","Ich beantworte sie gern persönlich – per Telefon, WhatsApp oder Formular. Und wenn ihr schon wisst, wann gefeiert wird: Prüft gleich euren Wunschtermin."),footer()]
 
 # ---------------- Einsatzgebiete ----------------
-GROUPS=[("Memmingen &amp; Unterallgäu",["Memmingen"],"Mein Heimatgebiet rund um Fellheim."),
-        ("Ulm &amp; Donau",["Ulm"],"Ulm, Neu-Ulm und das Umland entlang der Donau."),
-        ("Oberschwaben &amp; Bodensee",["Biberach","Ravensburg"],"Vom Riß-Tal bis ins Schussental."),
-        ("Allgäu",["Kempten","Kaufbeuren","Füssen"],"Vom Oberallgäu bis ins Ostallgäu."),
+GROUPS=[("Memmingen &amp; Unterallgäu",["Memmingen"],"Mein Heimatgebiet rund um Fellheim – in wenigen Minuten bei euch."),
+        ("Ulm &amp; Donau",["Ulm"],"Ulm, Neu-Ulm und das Umland entlang der Donau – über die A7 schnell erreicht."),
+        ("Oberschwaben &amp; Bodensee",["Biberach","Ravensburg"],"Vom Riß-Tal bis ins Schussental – Gutshöfe, Scheunen und Festsäle."),
+        ("Allgäu",["Kempten","Kaufbeuren","Füssen"],"Vom Oberallgäu bis ins Ostallgäu – Feiern mit Bergblick."),
         ("Lechrain",["Landsberg"],"Landsberg am Lech und Umgebung."),
-        ("Überregional",[],"Auf Anfrage spiele ich bei exklusiven Events und in exklusiven Locations in Deutschland und international.")]
+        ("Überregional",[],"Für exklusive Events und besondere Locations komme ich auch deutschlandweit und international – fragt einfach an.")]
 def regionen():
     slugs=dict(ORTE)
     grp=[con([H(t,"h3",24,OFF,"left","400"),T(d,MUTED,"left",15)]+[H("DJ "+o+" →","p",17,GOLD,"left","400",link=f"/{slugs[o]}/") for o in os_],
              bg=B2,pad=box(34,28,34,28),g=10,border_border="solid",border_width=box(2,0,0,0),border_color=GOLD,**col(31,48,100)) for t,os_,d in GROUPS]
-    return [nav(),hero("Einsatzgebiete","Euer DJ in Oberschwaben, Ulm und dem Allgäu","Mobiler DJ mit Heimat in Fellheim bei Memmingen – für Hochzeiten, Geburtstage, Firmenfeiern und Events in der ganzen Region.",
-        [BTN(*WISH),BTN("Alle Leistungen","/#leistungen",False)],stats=None,minh=80),
+    note=T("Unverbindlich · Antwort innerhalb von 24 Stunden",MUTED,"center",14)
+    return [nav(),hero("Einsatzgebiete","Euer DJ in Memmingen, im Allgäu und in Schwaben","Mobiler DJ mit Heimat in Fellheim bei Memmingen – für Hochzeiten, Geburtstage, Firmenfeiern und Events in der ganzen Region. Kurze Wege, pünktlicher Aufbau, ein Ansprechpartner.",
+        [BTN(*WISH),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=80,extra=[note]),
         section(head("Regionen","Hier bin ich für euch unterwegs")+[con(grp,"row",g=24,**ROW,flex_justify_content="center")]),
-        section(head("Leistungen","Für jeden Anlass")+[tiles()],bg=B2),
-        cta("Wunschtermin verfügbar?","Jetzt unverbindlich anfragen."),footer()]
+        section(head("Kurz erklärt","Anfahrt? Immer transparent.")+[T("Die Anfahrt ist Teil eures individuellen Angebots – transparent und ohne Überraschungen. Euer Ort ist nicht dabei? Kein Problem: Schickt mir euren Wunschtermin und den Ort, ich sage euch innerhalb von 24 Stunden, ob es klappt.",MUTED,"center",18,_element_width="initial",_element_custom_width=px(760)),
+            SPACER(6),BTN(*WISH)],bg=B2),
+        section(head("Leistungen","Wofür bucht ihr mich?")+[tiles()],bg=B1),
+        cta("Euer Wunschtermin ist noch frei? Sichert ihn euch.","Beliebte Samstage sind oft ein Jahr im Voraus vergeben. Eine Anfrage dauert zwei Minuten und ist unverbindlich."),footer()]
 
 # ---------------- Städte ----------------
 CITIES={
