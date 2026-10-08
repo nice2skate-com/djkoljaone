@@ -309,19 +309,21 @@ def _tight(c,pad,mob):
     c["settings"]["padding"]=pad; c["settings"]["padding_mobile"]=mob; return c
 def musik():
     return [nav(),
-      _tight(hero("Meine Musik","Leg selbst auf","Such dir eine Platte aus der Kiste, leg sie aufs Deck und hör rein, wie DJ KOLJA ONE klingt.",
+      _tight(hero("Meine Musik","Legt selbst auf","Sucht euch eine Platte aus der Kiste, legt sie aufs Deck und hört, wie DJ KOLJA ONE klingt – so ähnlich klingt auch eure Feier.",
            [],stats=None,minh=55),box(72,20,0,20),box(40,20,0,20)),
       _tight(section([W("html",{"html":open(MUSIK_SNIPPET).read(),"_element_width":"inherit","width":px(100,"%")})],anchor="auflegen"),box(0,20,64,20),box(0,12,40,12)),
-      section(head("So geht's","Dein eigener Mix in vier Schritten")+[steps([
-          ("Platte wählen","Stöbere in der Plattenkiste oder öffne BROWSE: Die Titelliste lässt sich nach BPM, Tonart (Camelot) und Genre sortieren. Mit A oder B lädst du einen Song gezielt auf Deck A oder B – gestartet wird er erst mit Play."),
-          ("Selbst mixen","In den Wellenformen oben im Mixer siehst du beide Songs samt Beatgrid und springst per Klick an jede Stelle. Blende mit dem Crossfader über, gleiche das Tempo mit dem Regler und SYNC an und halte mit KEY die Tonart. Grün markierte Platten passen harmonisch zum laufenden Song."),
-          ("Automix","Lieber zurücklehnen? Mit ☰+ legst du Songs in die Playlist, „Automix starten“ mixt sie nacheinander. Sobald du eingreifst, übernimmst du wieder selbst."),
-          ("Ansehen &amp; bewerten","Songs mit dem Label VIDEO zeigen ihr Bild im Laptop. Gib jedem Song 1 bis 5 Sterne – der Durchschnitt aller Besucher steht direkt am Song.")])],bg=B2),
-      section(head("Musik","Mein Repertoire")+[cards([
+      section([H("Gefällt euch der Sound?","h2",36,OFF,m=34),T("Auf eurer Feier mixe ich live – abgestimmt auf eure Gäste, eure Wünsche und den Moment.",MUTED),SPACER(4),
+          BTNS(BTN(*WISH),BTN("Per WhatsApp anfragen",WA,False))],bg=B2),
+      section(head("So geht's","Euer eigener Mix in vier Schritten")+[steps([
+          ("Platte wählen","Stöbert in der Plattenkiste oder öffnet BROWSE: Die Titelliste lässt sich nach BPM, Tonart (Camelot) und Genre sortieren. Mit A oder B ladet ihr einen Song gezielt auf Deck A oder B – gestartet wird er erst mit Play."),
+          ("Selbst mixen","In den Wellenformen oben im Mixer seht ihr beide Songs samt Beatgrid und springt per Klick an jede Stelle. Blendet mit dem Crossfader über, gleicht das Tempo mit dem Regler und SYNC an und haltet mit KEY die Tonart. Grün markierte Platten passen harmonisch zum laufenden Song."),
+          ("Automix","Lieber zurücklehnen? Mit ☰+ legt ihr Songs in die Playlist, „Automix starten“ mixt sie nacheinander. Sobald ihr eingreift, übernehmt ihr wieder selbst."),
+          ("Ansehen &amp; bewerten","Songs mit dem Label VIDEO zeigen ihr Bild im Laptop. Gebt jedem Song 1 bis 5 Sterne – der Durchschnitt aller Besucher steht direkt am Song.")])],bg=B1),
+      section(head("Musik","Mein Repertoire – und eure Wünsche","Entscheidend ist euer Publikum. Diese Richtungen habe ich im Gepäck – eure Wunschliste kommt dazu.")+[cards([
         ("Pop &amp; Charts","Aktuelle Hits und die großen Songs der letzten Jahrzehnte."),("80er, 90er &amp; 2000er","Die Klassiker, bei denen jede Generation mitsingt."),
         ("Schlager &amp; Party","Wenn es zur richtigen Zeit passt – mit Augenmaß."),("Rock &amp; Indie","Gitarren für die, die es etwas rauer mögen."),
-        ("House &amp; Dance","Für späte Stunden und volle Tanzflächen."),("Latin, Soul &amp; Lounge","Für Empfang, Dinner und besondere Momente.")])]),
-      cta("Spielst Du unsere Lieblingssongs?","Im Vorgespräch plane ich eure Musik mit euch – mit Wunsch- und No-Go-Liste. Fragt jetzt unverbindlich an."),
+        ("House &amp; Dance","Für späte Stunden und volle Tanzflächen."),("Latin, Soul &amp; Lounge","Für Empfang, Dinner und besondere Momente.")],bg=B1)],bg=B2),
+      cta("Spielst du auch unsere Lieblingssongs?","Ja – im kostenlosen Vorgespräch planen wir eure Musik mit Wunsch- und No-Go-Liste. Eine Anfrage dauert zwei Minuten und ist unverbindlich."),
       footer()]
 
 # ---------------- FAQ ----------------
