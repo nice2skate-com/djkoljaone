@@ -1,9 +1,9 @@
 {
- "version": "1.20.8",
- "download_url": "dj-kolja-one-plattenkiste-1.20.8.zip",
- "sha256": "359f7a2b9143595b4d2fc57033a64134f6de2cc043880131e41b1c20ca04409f",
+ "version": "1.20.9",
+ "download_url": "dj-kolja-one-plattenkiste-1.20.9.zip",
+ "sha256": "955059cc3934eded1282fff64ae885bea7b23ad988ebc0d1cfe80a19f7337cbb",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Ortsseiten: neue Texte und Reihenfolge."
+ "changelog": "Kontaktseite neu; Datenschutz mit Cookies und Microsoft Clarity."
 }
