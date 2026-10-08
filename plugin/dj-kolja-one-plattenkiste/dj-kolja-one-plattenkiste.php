@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.20.9
+ * Version:     1.21.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.20.9' );
+define( 'KJO_VERSION', '1.21.0' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -166,6 +166,32 @@ add_action(
 			)
 		);
 	}
+);
+/*
+ * Elementor-CSS direkt in die Seite schreiben statt als eigene Datei (uploads/elementor/css/…).
+ * Grund: Nach dem Leeren des Elementor-Zwischenspeichers fehlen diese Dateien, bis jemand die Seite neu
+ * erzeugt – liefert ein Seiten-/Server-Cache dann noch altes HTML aus, erscheint die Website ohne Gestaltung
+ * (weiße Seite, Menü als Liste). Eingebettetes CSS kann nicht fehlen; auch Microsoft Clarity zeigt die
+ * Aufzeichnungen dann korrekt. Abschalten: add_filter( 'kjo_css_inline', '__return_false' );
+ */
+function kjo_css_inline_ensure() {
+	if ( ! apply_filters( 'kjo_css_inline', true ) || ! class_exists( '\Elementor\Plugin' ) ) {
+		return false;
+	}
+	if ( 'internal' !== get_option( 'elementor_css_print_method' ) ) {
+		update_option( 'elementor_css_print_method', 'internal' );
+		return true;
+	}
+	return false;
+}
+add_action(
+	'admin_init',
+	function () {
+		if ( current_user_can( 'manage_options' ) && kjo_css_inline_ensure() ) {
+			kjm_purge_caches();
+		}
+	},
+	5
 );
 /* Nach jedem Update (auch per SFTP-Deploy) einmalig leeren, sobald jemand das Dashboard öffnet. */
 add_action(
