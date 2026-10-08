@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.21.1: FAQ überarbeitet (klarere, handlungsorientierte Antworten, neue Frage zum kostenlosen Kennenlernen, Preise mit Basis- und Optionspaketen) – gilt auch für die FAQ auf Start-, Leistungs- und Ortsseiten. Einmal „Seiten aus Vorlage einspielen“ klicken, Zwischenspeicher leeren.
 Seit 1.21.0: Gestaltung kann nicht mehr „verloren gehen“: Elementor-CSS wird direkt in die Seite geschrieben statt als separate Datei (Einstellung „CSS-Ausgabemethode: Intern eingebettet“). Vorher konnte nach dem Leeren des Zwischenspeichers eine Seite ohne Gestaltung erscheinen (weiß, Menü als Liste) – auch in Microsoft-Clarity-Aufzeichnungen. Nach dem Update einmal das Dashboard öffnen; Zwischenspeicher wird automatisch geleert. Abschaltbar mit dem Filter kjo_css_inline.
 Seit 1.20.9: Kontaktseite mit neuen, kundenorientierten Texten. Datenschutz-Vorlage um Cookies/Einwilligung und Microsoft Clarity ergänzt (Text im WordPress von Hand übernehmen). Einmal „Seiten aus Vorlage einspielen“ klicken, Zwischenspeicher leeren.
 Seit 1.20.8: Alle acht Ortsseiten mit neuen, kundenorientierten Texten (Kurze Wege, Bewertungen, neue Reihenfolge). Einmal „Seiten aus Vorlage einspielen“ klicken, Zwischenspeicher leeren.
