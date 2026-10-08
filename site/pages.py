@@ -348,43 +348,46 @@ def regionen():
 
 # ---------------- Städte ----------------
 CITIES={
- "Memmingen":("15","Memmingen ist mein Heimspiel: Von Fellheim aus bin ich in rund einer Viertelstunde bei euch. Ob Feier in der historischen Altstadt, im Landgasthof im Unterallgäu oder in einer Firmenlocation am Stadtrand – ich kenne die Region und ihre Menschen.",["Ulm","Biberach","Kempten"]),
- "Ulm":("50","Zwischen Münster und Donau wird gern gefeiert – von der Firmenveranstaltung in Ulm und Neu-Ulm bis zur Hochzeit im Umland. Über die A7 bin ich von Fellheim aus schnell vor Ort.",["Memmingen","Biberach","Kaufbeuren"]),
- "Biberach":("40","Biberach an der Riß und das oberschwäbische Land bieten Locations zwischen Gutshof, Scheune und Festsaal. Genau dort sorge ich für die Musik, die zu eurer Feier passt.",["Memmingen","Ulm","Ravensburg"]),
+ "Memmingen":("15","Memmingen ist mein Heimspiel: Von Fellheim aus bin ich in rund einer Viertelstunde bei euch. Ob Feier in der historischen Altstadt, im Landgasthof im Unterallgäu oder in einer Firmenlocation am Stadtrand – ich kenne die Region, ihre Locations und ihre Menschen.",["Ulm","Biberach","Kempten"]),
+ "Ulm":("50","Zwischen Münster und Donau wird gern gefeiert – von der Firmenveranstaltung in Ulm und Neu-Ulm bis zur Hochzeit im Umland. Über die A7 bin ich von Fellheim aus schnell und zuverlässig bei euch.",["Memmingen","Biberach","Kaufbeuren"]),
+ "Biberach":("40","Biberach an der Riß und das oberschwäbische Land bieten Locations zwischen Gutshof, Scheune und Festsaal. Genau dort sorge ich für die Musik, die zu eurer Feier und euren Gästen passt.",["Memmingen","Ulm","Ravensburg"]),
  "Ravensburg":("85","Die Stadt der Türme, das Schussental und der nahe Bodensee: Rund um Ravensburg wird mit Stil gefeiert. Ich bringe Musik, Moderation und Technik mit – ihr bringt die Gäste.",["Biberach","Kempten","Memmingen"]),
- "Kempten":("50","Kempten ist das Herz des Allgäus – und die Kulisse für Hochzeiten mit Bergblick, Firmenfeiern und große Geburtstage. Von Fellheim aus bin ich schnell über die A7 bei euch.",["Memmingen","Kaufbeuren","Füssen"]),
- "Füssen":("95","Königsschlösser, Forggensee und Alpenpanorama: Wer in Füssen feiert, hat die schönste Kulisse schon gebucht. Den passenden Soundtrack liefere ich.",["Kempten","Kaufbeuren","Landsberg"]),
- "Kaufbeuren":("55","Kaufbeuren und das Ostallgäu verbinden Tradition und Lebensfreude. Ob Hochzeit, Vereinsfest oder Firmenfeier – ich sorge dafür, dass die Tanzfläche voll bleibt.",["Kempten","Füssen","Landsberg"]),
- "Landsberg":("75","Historische Altstadt, Lechwehr und Lechrain: Landsberg am Lech ist wie gemacht für besondere Feste. Ich bin gern für euch vor Ort.",["Kaufbeuren","Memmingen","Füssen"]),
+ "Kempten":("50","Kempten ist das Herz des Allgäus – und die Kulisse für Hochzeiten mit Bergblick, Firmenfeiern und große Geburtstage. Über die A7 bin ich von Fellheim aus schnell bei euch.",["Memmingen","Kaufbeuren","Füssen"]),
+ "Füssen":("95","Königsschlösser, Forggensee und Alpenpanorama: Wer in Füssen feiert, hat die schönste Kulisse schon gebucht. Den passenden Soundtrack liefere ich – und eine Tanzfläche, die voll bleibt.",["Kempten","Kaufbeuren","Landsberg"]),
+ "Kaufbeuren":("55","Kaufbeuren und das Ostallgäu verbinden Tradition und Lebensfreude. Ob Hochzeit, Vereinsfest oder Firmenfeier – ich sorge dafür, dass eure Gäste den Abend nicht so schnell vergessen.",["Kempten","Füssen","Landsberg"]),
+ "Landsberg":("75","Historische Altstadt, Lechwehr und Lechrain: Landsberg am Lech ist wie gemacht für besondere Feste. Ich bringe alles mit, was es für einen unvergesslichen Abend braucht.",["Kaufbeuren","Memmingen","Füssen"]),
 }
 def city(name):
     km,intro,near=CITIES[name]; slugs=dict(ORTE)
     long="Landsberg am Lech" if name=="Landsberg" else ("Biberach an der Riß" if name=="Biberach" else name)
-    tips=[("Location","Jede Location hat ihre Eigenheiten. Ich kläre Aufbau, Strom und Lautstärke vorab direkt mit dem Haus."),
+    tips=[("Location","Jede Location hat ihre Eigenheiten. Ich kläre Aufbau, Strom und Lautstärke vorab direkt mit dem Haus – ihr müsst nichts organisieren."),
           ("Musik","Wir planen eure Musik gemeinsam – mit Wunsch- und No-Go-Liste und Raum für Spontanes."),
           ("Ton &amp; Licht","Die Technik wird auf Raumgröße und Gästezahl abgestimmt – dezent im Aufbau, stark im Klang."),
-          ("Termin","Gerade samstags in der Hochsaison lohnt sich eine frühe Anfrage.")]
+          ("Termin","Samstage in der Hochsaison sind früh vergeben – fragt rechtzeitig an.")]
+    vorteile=[START_STAERKEN[0],START_STAERKEN[1],
+              ("fas fa-route","Kurze Wege",f"Von Fellheim aus bin ich in rund {km} km in {long} – pünktlich und entspannt, auch für Aufbau und Soundcheck."),
+              START_STAERKEN[3]]
     chips=[con([H("DJ "+o,"p",19,OFF,"center","300",link=f"/{slugs[o]}/")],pad=box(18,10,18,10),border_border="solid",
                border_width=box(1,1,1,1),border_color="rgba(178,157,117,0.35)",**col(23,31,48)) for o in near]
+    note=T("Unverbindlich · Antwort innerhalb von 24 Stunden",MUTED,"center",14)
     return [nav(),
       hero(f"DJ {name} · Hochzeit · Geburtstag · Firmenfeier · Event",f"Euer DJ für {long} und Umgebung",
-           f"Musik, Moderation und Technik aus einer Hand – für Feiern in {name}, die man so schnell nicht vergisst.",
-           [BTN(*WISH),BTN("Leistungen ansehen","#leistungen",False)],
-           stats=None,minh=85),
-      section(head("Eindrücke",f"So feiert man mit DJ KOLJA ONE")+[VIDEOS(dict(ORTE)[name][3:],"region")],bg=B2),
-      split(f"Feiern in {name}",f"DJ in {name}",[intro,"Ich plane jede Feier individuell: mit eurer Musik, eurem Ablauf und einem Gespür dafür, was eure Gäste gerade brauchen."],
-            buttons=[BTN(*WISH,True,"left")],img="start_1.jpg"),
-      section(head("Leistungen",f"Mein Angebot in {name}")+[tiles()],bg=B2,anchor="leistungen"),
-      section(head("Planung","Darauf kommt es an")+[steps(tips)]),
-      staerken(),
+           f"Hochzeit, Geburtstag, Firmenfeier oder Stadtfest: Ihr feiert – ich bringe Musik, Moderation und Technik mit und bin von Fellheim aus in rund {km} km bei euch.",
+           [BTN(*WISH),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=85,extra=[note]),
+      section(head("Eindrücke","So feiert ihr mit mir")+[VIDEOS(dict(ORTE)[name][3:],"region")],bg=B2),
+      split(f"Feiern in {name}",f"DJ in {long}",[intro,"Ich plane jede Feier persönlich mit euch: mit eurer Musik, eurem Ablauf und einem Gespür dafür, was eure Gäste gerade brauchen."],
+            buttons=[BTN(*WISH,True,"left")],img="start_1.jpg",bg=B1),
+      staerken("Ihr feiert. Ich kümmere mich um den Rest.",vorteile,eye="Was ihr davon habt",bg=B2),
+      section(head("Leistungen",f"Wofür bucht ihr mich in {name}?")+[tiles()],bg=B1,anchor="leistungen"),
+      reviews(["h1","f1","g1"],bg=B2),
+      section(head("Planung","Darauf kommt es an")+[steps(tips)],bg=B1),
       section(head("In der Nähe","Auch hier bin ich für euch da")+[con(chips,"row",g=16,flex_wrap="wrap",flex_direction_mobile="row",flex_justify_content="center"),
-          SPACER(6),H("Alle Einsatzgebiete →","p",13,GOLD,"center","500",link="/einsatzgebiete/",ls=1.5,tr="uppercase")]),
+          SPACER(6),H("Alle Einsatzgebiete →","p",13,GOLD,"center","500",link="/einsatzgebiete/",ls=1.5,tr="uppercase")],bg=B2),
       faq([(f"Kommst du auch nach {name}?",f"Ja – {name} gehört zu meinem festen Einsatzgebiet. Von Fellheim aus sind es nur rund {km} Kilometer."),
            ("Wird die Anfahrt extra berechnet?","Die Anfahrt ist Teil eures individuellen Angebots – transparent und ohne Überraschungen."),
            (f"Spielst du in {name} auch Firmenfeiern und Events?","Ja. Neben Hochzeiten und Geburtstagen begleite ich auch Weihnachtsfeiern, Sommerfeste, Vereinsfeiern und Stadtfeste."),
-           ("Wie früh sollten wir buchen?",dict(fq("Wie früh sollten wir buchen?"))["Wie früh sollten wir buchen?"])],title=f"Fragen zu DJ {name}"),
-      QUIET([("10+ Jahre","DJ-Erfahrung"),("4 Anlässe","Hochzeit · Geburtstag · Firma · Event"),("Moderation","professionell &amp; souverän"),(f"ca. {km} km","ab Fellheim")]),
-      cta(f"Feier in {name} geplant?","Fragt jetzt unverbindlich an – ich melde mich innerhalb von 24 Stunden."),footer()]
+           ("Wie früh sollten wir buchen?",dict(fq("Wie früh sollten wir buchen?"))["Wie früh sollten wir buchen?"])],title=f"Fragen zu DJ {name}",bg=B1),
+      cta(f"Feier in {name} geplant? Sichert euch euren Termin.","Beliebte Samstage sind oft ein Jahr im Voraus vergeben. Eine Anfrage dauert zwei Minuten und ist unverbindlich."),footer()]
 
 # ---------------- Kontakt ----------------
 def kontakt():
