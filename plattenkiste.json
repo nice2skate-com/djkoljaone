@@ -1,9 +1,9 @@
 {
  "version": "1.21.5",
  "download_url": "dj-kolja-one-plattenkiste-1.21.5.zip",
- "sha256": "4acccb052c90d48fe636c77a3cedead3938c84f3d7d646fabeaef43d26f75540",
+ "sha256": "8924c9fbebc95e5dae8d07cef9e292461f918192e5bc84f18f0bffabe32ba056",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Conversion-Ereignisse; Datenschutz um Google Ads ergänzt."
+ "changelog": "Conversion-Ereignisse; Datenschutz um Google Ads ergänzt, GA-Satz präzisiert."
 }
