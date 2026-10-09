@@ -1,9 +1,9 @@
 {
- "version": "1.21.6",
- "download_url": "dj-kolja-one-plattenkiste-1.21.6.zip",
- "sha256": "cbf0b38b85229b8a0ae489bd4830a71a1ebf89c010249d56d317b1a0a67aa90d",
+ "version": "1.21.7",
+ "download_url": "dj-kolja-one-plattenkiste-1.21.7.zip",
+ "sha256": "2c221325e2bbed98982376cfbb4c23722a043001cdef6d81a52f044fe67f5dfd",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "E-Mail-Klick kopiert Adresse und zählt als Conversion; Instagram/Facebook im neuen Tab."
+ "changelog": "Mediathek: eigene Höhe in px pro Bild/Video."
 }
