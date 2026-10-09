@@ -1,9 +1,9 @@
 {
- "version": "1.21.5",
- "download_url": "dj-kolja-one-plattenkiste-1.21.5.zip",
- "sha256": "8924c9fbebc95e5dae8d07cef9e292461f918192e5bc84f18f0bffabe32ba056",
+ "version": "1.21.6",
+ "download_url": "dj-kolja-one-plattenkiste-1.21.6.zip",
+ "sha256": "cbf0b38b85229b8a0ae489bd4830a71a1ebf89c010249d56d317b1a0a67aa90d",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Conversion-Ereignisse; Datenschutz um Google Ads ergänzt, GA-Satz präzisiert."
+ "changelog": "E-Mail-Klick kopiert Adresse und zählt als Conversion; Instagram/Facebook im neuen Tab."
 }

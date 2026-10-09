@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.21.5
+ * Version:     1.21.6
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.21.5' );
+define( 'KJO_VERSION', '1.21.6' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -2160,6 +2160,8 @@ add_action(
  *  - generate_lead   Anfrageformular erfolgreich abgeschickt (WPForms)
  *  - click_whatsapp  Klick auf einen WhatsApp-Link
  *  - click_phone     Klick auf eine Telefonnummer
+ *  - click_email     Klick auf die E-Mail-Adresse (die Adresse wird zusätzlich in die Zwischenablage kopiert)
+ * Außerdem öffnen Instagram- und Facebook-Links immer in einem neuen Tab.
  * Gesendet wird über das vorhandene gtag (Site Kit) bzw. die dataLayer; ob Google dabei Cookies setzt,
  * entscheidet der Einwilligungsmodus (Complianz). Abschalten: add_filter( 'kjo_conversions', '__return_false' );
  */
@@ -2182,10 +2184,23 @@ function send(name,params){
   try{if(typeof window.gtag==="function"){window.gtag("event",name,params);}else{(window.dataLayer=window.dataLayer||[]).push(Object.assign({event:name},params));}}catch(e){}
   try{if(typeof window.clarity==="function"){window.clarity("event",name);}}catch(e){}
 }
+function toast(msg){
+  var d=document.createElement("div");d.textContent=msg;d.setAttribute("role","status");
+  d.style.cssText="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:100000;background:#1A1712;color:#F3F1E9;border:1px solid #B29D75;border-radius:4px;padding:12px 18px;font:15px/1.4 'Fira Sans',sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:90vw;text-align:center";
+  document.body.appendChild(d);setTimeout(function(){d.style.transition="opacity .4s";d.style.opacity="0";},2600);setTimeout(function(){d.remove();},3100);
+}
+function copyMail(addr){
+  function ok(){toast("E-Mail-Adresse kopiert: "+addr);}
+  try{if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(addr).then(ok,function(){});return;}}catch(e){}
+  try{var ta=document.createElement("textarea");ta.value=addr;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();if(document.execCommand("copy"))ok();ta.remove();}catch(e){}
+}
+function ext(){var l=document.querySelectorAll('a[href*="instagram.com"],a[href*="facebook.com"]');for(var i=0;i<l.length;i++){l[i].setAttribute("target","_blank");var r=(l[i].getAttribute("rel")||"");if(r.indexOf("noopener")<0)l[i].setAttribute("rel",(r+" noopener").trim());}}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",ext);else ext();
 document.addEventListener("click",function(ev){
   var a=ev.target&&ev.target.closest?ev.target.closest("a[href]"):null;if(!a)return;
   var h=(a.getAttribute("href")||"").toLowerCase();
-  if(h.indexOf("tel:")===0){send("click_phone",{method:"telefon"});}
+  if(h.indexOf("mailto:")===0){send("click_email",{method:"email"});copyMail(decodeURIComponent(a.getAttribute("href").slice(7).split("?")[0]));}
+  else if(h.indexOf("tel:")===0){send("click_phone",{method:"telefon"});}
   else if(h.indexOf("wa.me/")>-1||h.indexOf("whatsapp.com")>-1||h.indexOf("whatsapp:")===0){send("click_whatsapp",{method:"whatsapp"});}
 },true);
 var seen=false;

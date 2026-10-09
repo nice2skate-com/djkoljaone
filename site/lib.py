@@ -14,7 +14,9 @@ INSTA="https://www.instagram.com/djkoljaone/"; FACEBOOK="https://www.facebook.co
 def px(v,u="px"): return {"unit":u,"size":v,"sizes":[]}
 def box(t,r,b,l,u="px"): return {"unit":u,"top":str(t),"right":str(r),"bottom":str(b),"left":str(l),"isLinked":False}
 def gap(v): return {"unit":"px","size":v,"column":str(v),"row":str(v),"isLinked":True}
-def lnk(u): return {"url":u,"is_external":"","nofollow":""}
+def lnk(u):
+    ext="on" if any(d in u for d in ("instagram.com","facebook.com","wa.me")) else ""
+    return {"url":u,"is_external":ext,"nofollow":""}
 
 def typo(p,size,weight="400",m=None,lh=None,ls=None,tr=None):
     s={f"{p}_typography":"custom",f"{p}_font_family":F,f"{p}_font_size":px(size),f"{p}_font_weight":weight}
