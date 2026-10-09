@@ -13,6 +13,8 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.21.7: Mediathek: Bei jedem Bild und Video der Website lässt sich eine eigene Höhe in px einstellen („Website: Höhe (px)“). Sie überschreibt die Standardhöhe von 400 px, die Breite folgt dem Seitenverhältnis – auch in den Galerien am Desktop. Einmal „Seiten aus Vorlage einspielen“ klicken, Zwischenspeicher leeren.
+Seit 1.21.6: Klick auf die E-Mail-Adresse kopiert sie zusätzlich in die Zwischenablage (Hinweis „E-Mail-Adresse kopiert“) und zählt als Conversion click_email. Instagram- und Facebook-Links öffnen immer in einem neuen Tab.
 Seit 1.21.5: Conversion-Ereignisse für Google Analytics/Google Ads und Clarity: generate_lead (Formular abgeschickt), click_whatsapp, click_phone (abschaltbar mit kjo_conversions). Datenschutzerklärung um „Google Ads Conversion-Tracking“ ergänzt – wird beim ersten Dashboard-Aufruf nach dem Update automatisch eingespielt.
 Seit 1.21.4: Datenschutzerklärung wird jetzt komplett aus der Vorlage übernommen und beim ersten Dashboard-Aufruf nach dem Update automatisch aktualisiert (neu: Microsoft Clarity, Betreiberangabe wie im Impressum; Google Analytics wie bisher). Der bisherige Text bleibt als Sicherung erhalten („Letzte Einspielung rückgängig“). Das Impressum bleibt unverändert.
 Seit 1.21.3: „Meine Musik“ mit neuen Texten (Anrede „ihr“, neuer Abschnitt „Gefällt euch der Sound?“ mit Anfrage-Buttons direkt unter dem Pult). Einmal „Seiten aus Vorlage einspielen“ klicken, Zwischenspeicher leeren.

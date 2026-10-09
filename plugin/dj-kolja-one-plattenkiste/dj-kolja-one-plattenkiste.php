@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.21.5
+ * Version:     1.21.7
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.21.5' );
+define( 'KJO_VERSION', '1.21.7' );
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -325,6 +325,51 @@ add_action(
 	function () {
 		add_post_type_support( 'attachment:audio', 'thumbnail' );
 	}
+);
+
+/* ---------------------------------------------------------------
+ * Bilder und Videos der Website: Anzeigehöhe in px (überschreibt die Standardhöhe von 400 px).
+ * Die Breite ergibt sich aus dem Seitenverhältnis; ist der Platz zu schmal, wird verhältnisgleich kleiner.
+ * ------------------------------------------------------------- */
+function kjo_is_site_media( $post ) {
+	return $post && 'attachment' === $post->post_type && preg_match( '#^(image|video)/#', (string) $post->post_mime_type );
+}
+add_filter(
+	'attachment_fields_to_edit',
+	function ( $fields, $post ) {
+		if ( ! kjo_is_site_media( $post ) ) {
+			return $fields;
+		}
+		$h = (int) get_post_meta( $post->ID, 'kjo_h', true );
+		$fields['kjo_h'] = array(
+			'label' => 'Website: Höhe (px)',
+			'input' => 'html',
+			'html'  => '<input type="number" min="0" max="2000" step="10" style="width:7em" name="attachments[' . $post->ID . '][kjo_h]" value="' . ( $h ? $h : '' ) . '">',
+			'helps' => 'Optional. Höhe, in der dieses Bild bzw. Video auf der Website gezeigt wird, z. B. 300. Die Breite passt sich im Seitenverhältnis an. Leer = Standard (400 px). Auf schmalen Bildschirmen wird es bei Bedarf verhältnisgleich kleiner.',
+		);
+		return $fields;
+	},
+	20,
+	2
+);
+add_filter(
+	'attachment_fields_to_save',
+	function ( $post, $att ) {
+		$id = isset( $post['ID'] ) ? (int) $post['ID'] : 0;
+		if ( ! $id || ! isset( $att['kjo_h'] ) || ! current_user_can( 'edit_post', $id ) || ! kjo_is_site_media( get_post( $id ) ) ) {
+			return $post;
+		}
+		$h = min( 2000, absint( $att['kjo_h'] ) );
+		if ( $h ) {
+			update_post_meta( $id, 'kjo_h', $h );
+		} else {
+			delete_post_meta( $id, 'kjo_h' );
+		}
+		kjo_media_flush();
+		return $post;
+	},
+	20,
+	2
 );
 
 /* ---------------------------------------------------------------
@@ -980,6 +1025,10 @@ function kjo_media_map() {
 		$url  = wp_get_attachment_url( $id );
 		if ( $url ) {
 			$map[ $m[1] ][ $kind ] = set_url_scheme( $url );
+			$h = (int) get_post_meta( $id, 'kjo_h', true );
+			if ( $h && ( 'vid' === $kind || empty( $map[ $m[1] ]['h'] ) ) ) {
+				$map[ $m[1] ]['h'] = $h; // Video hat Vorrang, wenn beide eine Höhe haben.
+			}
 		}
 	}
 	set_transient( 'kjo_media_map', $map, DAY_IN_SECONDS );
@@ -1615,7 +1664,7 @@ function one(el){
   var e=M[m.toLowerCase()]||{};
   if(e.img){el.style.backgroundImage='url("'+e.img+'")';el.style.backgroundSize="cover";el.style.backgroundPosition="center";}
   var al=altFor(m);if(al&&e.img&&!e.vid){el.setAttribute("role","img");el.setAttribute("aria-label",al);}
-  function fit(w,h){if(!w||!h)return;var W=Math.round(400*w/h),S=function(k,v){el.style.setProperty(k,v,"important");};S("aspect-ratio",w+" / "+h);S("width","min(100%,"+W+"px)");S("max-width","none");S("height","auto");S("min-height","0");}
+  function fit(w,h){if(!w||!h)return;var H=(e.h>0?e.h:400),W=Math.round(H*w/h),S=function(k,v){el.style.setProperty(k,v,"important");};S("aspect-ratio",w+" / "+h);S("width","min(100%,"+W+"px)");S("max-width","none");S("height","auto");S("min-height","0");}
   if(e.img){var pi=new Image();pi.onload=function(){fit(pi.naturalWidth,pi.naturalHeight);};pi.src=e.img;}
   if(!e.vid)return;
   el.classList.add("kjo-vid");
@@ -2160,6 +2209,8 @@ add_action(
  *  - generate_lead   Anfrageformular erfolgreich abgeschickt (WPForms)
  *  - click_whatsapp  Klick auf einen WhatsApp-Link
  *  - click_phone     Klick auf eine Telefonnummer
+ *  - click_email     Klick auf die E-Mail-Adresse (die Adresse wird zusätzlich in die Zwischenablage kopiert)
+ * Außerdem öffnen Instagram- und Facebook-Links immer in einem neuen Tab.
  * Gesendet wird über das vorhandene gtag (Site Kit) bzw. die dataLayer; ob Google dabei Cookies setzt,
  * entscheidet der Einwilligungsmodus (Complianz). Abschalten: add_filter( 'kjo_conversions', '__return_false' );
  */
@@ -2182,10 +2233,23 @@ function send(name,params){
   try{if(typeof window.gtag==="function"){window.gtag("event",name,params);}else{(window.dataLayer=window.dataLayer||[]).push(Object.assign({event:name},params));}}catch(e){}
   try{if(typeof window.clarity==="function"){window.clarity("event",name);}}catch(e){}
 }
+function toast(msg){
+  var d=document.createElement("div");d.textContent=msg;d.setAttribute("role","status");
+  d.style.cssText="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:100000;background:#1A1712;color:#F3F1E9;border:1px solid #B29D75;border-radius:4px;padding:12px 18px;font:15px/1.4 'Fira Sans',sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:90vw;text-align:center";
+  document.body.appendChild(d);setTimeout(function(){d.style.transition="opacity .4s";d.style.opacity="0";},2600);setTimeout(function(){d.remove();},3100);
+}
+function copyMail(addr){
+  function ok(){toast("E-Mail-Adresse kopiert: "+addr);}
+  try{if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(addr).then(ok,function(){});return;}}catch(e){}
+  try{var ta=document.createElement("textarea");ta.value=addr;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();if(document.execCommand("copy"))ok();ta.remove();}catch(e){}
+}
+function ext(){var l=document.querySelectorAll('a[href*="instagram.com"],a[href*="facebook.com"]');for(var i=0;i<l.length;i++){l[i].setAttribute("target","_blank");var r=(l[i].getAttribute("rel")||"");if(r.indexOf("noopener")<0)l[i].setAttribute("rel",(r+" noopener").trim());}}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",ext);else ext();
 document.addEventListener("click",function(ev){
   var a=ev.target&&ev.target.closest?ev.target.closest("a[href]"):null;if(!a)return;
   var h=(a.getAttribute("href")||"").toLowerCase();
-  if(h.indexOf("tel:")===0){send("click_phone",{method:"telefon"});}
+  if(h.indexOf("mailto:")===0){send("click_email",{method:"email"});copyMail(decodeURIComponent(a.getAttribute("href").slice(7).split("?")[0]));}
+  else if(h.indexOf("tel:")===0){send("click_phone",{method:"telefon"});}
   else if(h.indexOf("wa.me/")>-1||h.indexOf("whatsapp.com")>-1||h.indexOf("whatsapp:")===0){send("click_whatsapp",{method:"whatsapp"});}
 },true);
 var seen=false;
