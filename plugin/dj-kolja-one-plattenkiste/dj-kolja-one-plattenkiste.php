@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.22.3
+ * Version:     1.24.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.22.3' );
+define( 'KJO_VERSION', '1.24.0' );
 require_once __DIR__ . '/kjo-verleih.php';
 
 /* ---------------------------------------------------------------
@@ -2239,6 +2239,49 @@ add_action(
 		echo '<script id="kjo-conversions">' . KJO_CONV_JS . '</script>' . "\n";
 	},
 	30
+);
+/**
+ * Kalender für das Feld „Wunschdatum“ im WPForms-Anfrageformular (seit 1.23.0).
+ * WPForms Lite hat kein Datumsfeld: Über das vorhandene Textfeld wird ein unsichtbares Datumsfeld gelegt.
+ * Ein Klick öffnet den Kalender des Browsers; ins Textfeld (und damit in die E-Mail) kommt z. B. „Samstag, 14.11.2026“.
+ * Erkennt jedes WPForms-Textfeld, dessen Beschriftung „Datum“ enthält. Abschalten: add_filter( 'kjo_wpf_kalender', '__return_false' );
+ */
+add_action(
+	'wp_footer',
+	function () {
+		if ( is_admin() || ! apply_filters( 'kjo_wpf_kalender', true ) ) {
+			return;
+		}
+		echo '<style id="kjo-wpf-date-css">.kjo-dp-wrap{position:relative}.kjo-dp-wrap input.kjo-dp-txt{cursor:pointer;padding-right:44px!important;background-image:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Cpath fill=%27%23B29D75%27 d=%27M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2zm-2 8h14v10H5z%27/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 14px center!important;background-size:20px!important}.kjo-dp-wrap input.kjo-dp{position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;cursor:pointer;margin:0;padding:0;border:0;z-index:2;-webkit-appearance:none;appearance:none}.kjo-dp-open{background:none;border:0;padding:6px 0 0;color:#B29D75;font:13px "Fira Sans",sans-serif;text-decoration:underline;cursor:pointer}</style>';
+		echo '<script id="kjo-wpf-date">' . KJO_WPF_DATE_JS . '</script>' . "\n";
+	},
+	31
+);
+define( 'KJO_WPF_DATE_JS', <<<'KJODATE'
+(function(){
+function iso(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2);}
+function nice(v){var p=v.split("-");if(p.length!==3)return v;var d=new Date(+p[0],+p[1]-1,+p[2]);try{return d.toLocaleDateString("de-DE",{weekday:"long",day:"2-digit",month:"2-digit",year:"numeric"});}catch(e){return p[2]+"."+p[1]+"."+p[0];}}
+function fire(el){["input","change","keyup","blur"].forEach(function(t){try{el.dispatchEvent(new Event(t,{bubbles:true}));}catch(e){}});if(window.jQuery){try{window.jQuery(el).trigger("change").valid&&window.jQuery(el).valid();}catch(e){}}}
+function setup(c){
+  var lab=c.querySelector(".wpforms-field-label"),txt=c.querySelector('input[type="text"]');
+  if(!lab||!txt||txt.classList.contains("kjo-dp-txt")||!/datum/i.test(lab.textContent))return;
+  var wrap=document.createElement("div");wrap.className="kjo-dp-wrap";txt.parentNode.insertBefore(wrap,txt);wrap.appendChild(txt);
+  var dp=document.createElement("input");dp.type="date";dp.className="kjo-dp";dp.min=iso(new Date());dp.tabIndex=-1;dp.setAttribute("aria-hidden","true");wrap.appendChild(dp);
+  function size(){dp.style.height=txt.offsetHeight+"px";dp.style.bottom="auto";}size();window.addEventListener("resize",size);
+  txt.classList.add("kjo-dp-txt");txt.readOnly=true;txt.setAttribute("inputmode","none");txt.setAttribute("autocomplete","off");
+  if(!txt.getAttribute("placeholder"))txt.setAttribute("placeholder","Tag im Kalender wählen");
+  function open(){try{if(dp.showPicker){dp.showPicker();return;}}catch(e){}try{dp.focus();dp.click();}catch(e){}}
+  dp.addEventListener("click",function(){open();});
+  txt.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "||e.key==="ArrowDown"){e.preventDefault();open();}});
+  dp.addEventListener("change",function(){if(dp.value){txt.value=nice(dp.value);fire(txt);}});
+  var b=document.createElement("button");b.type="button";b.className="kjo-dp-open";b.textContent="Noch kein festes Datum?";
+  b.addEventListener("click",function(){txt.value="noch offen – siehe Nachricht";dp.value="";fire(txt);var f=c.closest("form"),m=f&&f.querySelector("textarea");if(m){m.focus();if(!m.value)m.setAttribute("placeholder","Zeitraum oder mögliche Termine, z. B. „Sommer 2027, ein Samstag“");}});
+  wrap.parentNode.insertBefore(b,wrap.nextSibling);
+}
+function init(){[].forEach.call(document.querySelectorAll(".wpforms-form .wpforms-field-text"),setup);}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
+})();
+KJODATE
 );
 define( 'KJO_CONV_JS', <<<'KJOCONV'
 (function(){
