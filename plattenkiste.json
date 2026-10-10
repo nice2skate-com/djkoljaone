@@ -1,9 +1,9 @@
 {
- "version": "1.25.0",
- "download_url": "dj-kolja-one-plattenkiste-1.25.0.zip",
- "sha256": "8ec52777edefbae452aa06af14b71c3b4f9be0bc1093d54ab05699102f2a0530",
+ "version": "1.26.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.26.0.zip",
+ "sha256": "2c73231d04b80bdfd71a04448718539b580031b8df25a341aa32d5ae7fc8aecd",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Terminverwaltung mit Kalender, Verfügbarkeitshinweisen, iCal-Abo und Import"
+ "changelog": "Bilder und Videos für Geräte und Pakete aus der Mediathek wählen"
 }
