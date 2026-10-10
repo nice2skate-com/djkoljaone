@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.24.1
+ * Version:     1.25.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,8 +12,9 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.24.1' );
+define( 'KJO_VERSION', '1.25.0' );
 require_once __DIR__ . '/kjo-verleih.php';
+require_once __DIR__ . '/kjo-kalender.php';
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -2274,9 +2275,16 @@ function setup(c){
   dp.addEventListener("click",function(){open();});
   txt.addEventListener("click",function(e){e.preventDefault();open();}); /* falls das Overlay vom Theme verschoben wird */
   txt.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "||e.key==="ArrowDown"){e.preventDefault();open();}});
-  dp.addEventListener("change",function(){if(dp.value){txt.value=nice(dp.value);fire(txt);}});
+  var av=null;
+  function hint(cls,html){if(!av){av=document.createElement("div");av.className="kjo-av";av.setAttribute("role","status");av.setAttribute("aria-live","polite");}av.className="kjo-av "+cls;av.innerHTML=html;if(!av.parentNode)b.parentNode.insertBefore(av,b.nextSibling);}
+  function check(v){var K=window.KJO_KAL;if(!K||!window.fetch)return;fetch(K.api+(K.api.indexOf("?")>-1?"&":"?")+"von="+v,{credentials:"omit"}).then(function(r){return r.json()}).then(function(j){if(dp.value!==v||!j||!j.dj)return;
+    if(j.dj==="frei")hint("ok","✓ <strong>Termin noch verfügbar!</strong> Schickt mir eure Anfrage, ich melde mich innerhalb von 24 Stunden bei euch.");
+    else if(j.dj==="vor")hint("vor","◐ <strong>Termin vorreserviert, fragt gerne trotzdem an.</strong> Wird die Reservierung nicht bestätigt, seid ihr als Nächste dran.");
+    else if(j.equip!=="belegt")hint("no","✕ <strong>An diesem Tag bin ich leider schon ausgebucht.</strong> Musikanlage und Licht sind aber "+(j.equip==="teil"?"teilweise ":"")+"noch frei: <a href=\""+K.mieten+"?von="+v+"#pakete\">Nur Equipment mieten? →</a>");
+    else hint("no","✕ <strong>An diesem Tag bin ich leider schon ausgebucht.</strong> Gerne frage ich in meinem DJ-Netzwerk nach einem Kollegen für euch, oder ihr wählt einen anderen Tag.");}).catch(function(){});}
+  dp.addEventListener("change",function(){if(dp.value){txt.value=nice(dp.value);fire(txt);check(dp.value);}else if(av&&av.parentNode){av.parentNode.removeChild(av);}});
   var b=document.createElement("button");b.type="button";b.className="kjo-dp-open";b.textContent="Noch kein festes Datum?";
-  b.addEventListener("click",function(){txt.value="noch offen – siehe Nachricht";dp.value="";fire(txt);var f=c.closest("form"),m=f&&f.querySelector("textarea");if(m){m.focus();if(!m.value)m.setAttribute("placeholder","Zeitraum oder mögliche Termine, z. B. „Sommer 2027, ein Samstag“");}});
+  b.addEventListener("click",function(){txt.value="noch offen – siehe Nachricht";dp.value="";if(av&&av.parentNode)av.parentNode.removeChild(av);fire(txt);var f=c.closest("form"),m=f&&f.querySelector("textarea");if(m){m.focus();if(!m.value)m.setAttribute("placeholder","Zeitraum oder mögliche Termine, z. B. „Sommer 2027, ein Samstag“");}});
   wrap.parentNode.insertBefore(b,wrap.nextSibling);
 }
 function init(){[].forEach.call(document.querySelectorAll(".wpforms-form .wpforms-field-text"),setup);}

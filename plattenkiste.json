@@ -1,9 +1,9 @@
 {
- "version": "1.24.1",
- "download_url": "dj-kolja-one-plattenkiste-1.24.1.zip",
- "sha256": "0bfe014081515005add14487f160dcf7c68cb82a647665266a2bbf8186e1be28",
+ "version": "1.25.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.25.0.zip",
+ "sha256": "8ec52777edefbae452aa06af14b71c3b4f9be0bc1093d54ab05699102f2a0530",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Kalender im DJ-Anfrageformular öffnet zuverlässig"
+ "changelog": "Terminverwaltung mit Kalender, Verfügbarkeitshinweisen, iCal-Abo und Import"
 }
