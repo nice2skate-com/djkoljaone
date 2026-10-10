@@ -9,7 +9,7 @@ PHONE="+49 172 7273707"; TEL="tel:+491727273707"; WA="https://wa.me/491727273707
 LOGO_NAV="/wp-content/uploads/2026/09/dj-kolja-one-logo-ohne-claim.png"
 LOGO_FULL="/wp-content/uploads/2026/09/dj-kolja-one-logo-transparent.png"
 KONTAKT="/kontakt/"
-INSTA="https://www.instagram.com/djkoljaone/"; FACEBOOK="https://www.facebook.com/share/1C7dYSH3jM/?mibextid=wwXIfr"
+INSTA="https://www.instagram.com/djkoljaone/"; GOOGLE="https://share.google/gXC6dNNjgA7h19JOq"; FACEBOOK="https://www.facebook.com/share/1C7dYSH3jM/?mibextid=wwXIfr"
 
 def px(v,u="px"): return {"unit":u,"size":v,"sizes":[]}
 def box(t,r,b,l,u="px"): return {"unit":u,"top":str(t),"right":str(r),"bottom":str(b),"left":str(l),"isLinked":False}
@@ -125,7 +125,8 @@ def SOCIAL(align="left"):
          ".kjo-soc a:hover,.kjo-soc a:focus-visible{background:#B29D75;color:#0F0C07;outline:none}.kjo-soc svg{width:21px;height:21px;display:block}</style>")%("center" if align=="center" else "flex-start")
     ig='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/></svg>'
     fb='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-7.5h2.6l.5-3h-3.1V8.6c0-.9.3-1.5 1.6-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.5v3h2.5V21z"/></svg>'
-    html=css+'<div class="kjo-soc"><a href="%s" target="_blank" rel="noopener" aria-label="DJ KOLJA ONE auf Instagram" title="DJ KOLJA ONE auf Instagram">%s</a><a href="%s" target="_blank" rel="noopener" aria-label="DJ KOLJA ONE auf Facebook" title="DJ KOLJA ONE auf Facebook">%s</a></div>'%(INSTA,ig,FACEBOOK,fb)
+    go='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.35 11.1H12v3.2h5.35c-.5 2.5-2.6 3.9-5.35 3.9a6.2 6.2 0 1 1 0-12.4c1.55 0 2.95.55 4.05 1.5l2.4-2.4A9.6 9.6 0 0 0 12 2.4a9.6 9.6 0 1 0 0 19.2c5.55 0 9.5-3.9 9.5-9.4 0-.4-.05-.75-.15-1.1z"/></svg>'
+    html=css+'<div class="kjo-soc"><a href="%s" target="_blank" rel="noopener" aria-label="DJ KOLJA ONE auf Instagram" title="DJ KOLJA ONE auf Instagram">%s</a><a href="%s" target="_blank" rel="noopener" aria-label="DJ KOLJA ONE auf Facebook" title="DJ KOLJA ONE auf Facebook">%s</a><a href="%s" target="_blank" rel="noopener" aria-label="DJ KOLJA ONE auf Google" title="DJ KOLJA ONE auf Google">%s</a></div>'%(INSTA,ig,FACEBOOK,fb,GOOGLE,go)
     return W("html",{"html":html})
 
 def footer():
