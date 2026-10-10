@@ -4,9 +4,9 @@
 
 **Pflicht**
 - [x] GA4: Stern bei `generate_lead`, `click_whatsapp`, `click_phone`, `click_email` (Admin → Data display → Events → „Recent events“). **Keinen** Stern bei `contact_link_click`, `click`, `form_start`, `submit_lead_form` (doppelte Zählung).
-- [ ] Google-Ads-Konto anlegen (Expertenmodus, keine Smart-Kampagne; Rechnungsdaten Artificial Sentiments).
-- [ ] GA4 ↔ Google Ads verknüpfen (GA4 Admin → Product links → Google Ads links); personalisierte Werbung aus, Auto-Tagging an.
-- [ ] Conversions aus GA4 importieren: `generate_lead` Wert 100 €, die anderen 50 €, alle primär, Zählung „Eine“.
+- [x] Google-Ads-Konto anlegen (Expertenmodus, keine Smart-Kampagne; Rechnungsdaten Artificial Sentiments).
+- [x] GA4 ↔ Google Ads verknüpfen (GA4 Admin → Product links → Google Ads links); personalisierte Werbung aus, Auto-Tagging an.
+- [x] Conversions aus GA4 importieren: `generate_lead` Wert 100 €, die anderen 50 €, alle primär, Zählung „Eine“.
 - [ ] **USt-IdNr.** ins Impressum und in die strukturierten Daten, sobald die Nummer vorliegt.
 - [x] Cookie-Banner (Complianz), Consent Mode, Clarity blockiert, Datenschutz mit Google Ads.
 - [x] Conversion-Events auf der Seite (live geprüft 09.10.2026).
@@ -16,7 +16,11 @@
 - [x] Profil-Beschreibung (750 Zeichen) und Leistungstexte – Beschreibung eingetragen; Leistungen und Eröffnungsdatum (echtes DJ-Startjahr statt 2021) noch prüfen.
 - [x] Profil-Link in Webseite und Schema (`sameAs`) eintragen (1.26.3).
 - [ ] 3–5 echte Google-Bewertungen sammeln (WhatsApp-Vorlage von Claude); danach Bewertungen auf der Seite durch echte ersetzen.
-- [ ] Kampagnenplan „Hochzeits-DJ“ (Keywords, ausschließende Keywords, Anzeigentexte, Region, 10–15 €/Tag für 4 Wochen) – Claude schreibt Entwurf.
+- [x] Suchkampagne „Weihnachtsfeier DJ 2026“ live seit 11.10.2026 (Plan: docs/ads-weihnachtsfeier.md); alte PMax-Kampagne pausiert.
+- [ ] Werbetreibenden-Überprüfung abschließen (D&B / Zugehörigkeit, Frist 09.11.2026).
+- [ ] Ende Okt.: Impressionen zu niedrig? → Keywords "dj memmingen", "dj ulm", "dj kempten", "dj allgäu" ergänzen.
+- [ ] Nach ca. 15 Conversions: „Conversions maximieren“, Anruf-Lead („Anrufe über Anzeigen“ primär) wieder als Zielvorhaben.
+- [ ] Januar 2027: Kampagnenplan „Hochzeits-DJ“ (Keywords, ausschließende Keywords, Anzeigentexte, Region, 10–15 €/Tag für 4 Wochen) – Claude schreibt Entwurf.
 
 **Nach dem Start**
 - [ ] Nach 1–2 Tagen: Conversion-Status „Aktiv“ prüfen.
