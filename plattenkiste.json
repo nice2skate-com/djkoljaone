@@ -1,9 +1,9 @@
 {
- "version": "1.26.3",
- "download_url": "dj-kolja-one-plattenkiste-1.26.3.zip",
- "sha256": "19ef4fe6519e8390b55baf51855633a7cd81e9e8d81bb7f56f3b8c6e2cd46c50",
+ "version": "1.27.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.27.0.zip",
+ "sha256": "0f0e29588b3b8b6d2e165ae06a77f16c396943a0de66ee63c493fef308765002",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Google-Unternehmensprofil verlinkt (Social-Symbole, Kontakt, Schema). Seiten neu einspielen."
+ "changelog": "Leistungsseiten: Überschrift passend zur Suchanzeige (kw={keyword})."
 }
