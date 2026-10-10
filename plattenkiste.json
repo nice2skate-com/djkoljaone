@@ -1,9 +1,9 @@
 {
- "version": "1.26.0",
- "download_url": "dj-kolja-one-plattenkiste-1.26.0.zip",
- "sha256": "2c73231d04b80bdfd71a04448718539b580031b8df25a341aa32d5ae7fc8aecd",
+ "version": "1.26.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.26.1.zip",
+ "sha256": "6afc4de596ae34d788d2a572827b95bb38df270d771f33b2ce5970b73d9c4ec9",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Bilder und Videos für Geräte und Pakete aus der Mediathek wählen"
+ "changelog": "Startseite: Leistungs-Kacheln mit einheitlicher Bildgröße; goldenes Symbol, solange ein Foto fehlt."
 }
