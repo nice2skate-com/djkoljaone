@@ -818,8 +818,8 @@ function kjo_vl_cart_html() {
 </form>
 <div class="kjo-vl-ok" hidden><h3>Danke für eure Anfrage!</h3><p>Ich prüfe die Verfügbarkeit und melde mich innerhalb von 24 Stunden mit Angebot und Mietbedingungen bei euch. Eine Bestätigung ist per E-Mail unterwegs.</p><button type="button" class="kjo-vl-btn kjo-vl-x2">Schließen</button></div>
 </div></div>
-<script>window.KJO_VL={api:<?php echo wp_json_encode( $api ); ?>,cat:<?php echo wp_json_encode( (object) $cat ); ?>,ts:<?php echo (int) time(); ?>};</script>
 	<?php
+	$GLOBALS['kjo_vl_data'] = array( 'api' => $api, 'cat' => (object) $cat, 'ts' => time() );
 	return (string) ob_get_clean();
 }
 
@@ -830,8 +830,20 @@ function kjo_vl_assets() {
 		return '';
 	}
 	$done = true;
-	return '<style id="kjo-vl-css">' . KJO_VL_CSS . '</style><script id="kjo-vl-js">' . KJO_VL_JS . '</script>';
+	$GLOBALS['kjo_vl_js'] = true; // Skript kommt in den Footer – so verändern Inhaltsfilter (z. B. „&“ → „&#038;“) es nicht.
+	return '<style id="kjo-vl-css">' . KJO_VL_CSS . '</style>';
 }
+add_action(
+	'wp_footer',
+	function () {
+		if ( empty( $GLOBALS['kjo_vl_js'] ) ) {
+			return;
+		}
+		$d = isset( $GLOBALS['kjo_vl_data'] ) ? $GLOBALS['kjo_vl_data'] : array();
+		echo '<script id="kjo-vl-js">window.KJO_VL=' . wp_json_encode( $d ) . ';' . KJO_VL_JS . '</script>' . "\n"; // phpcs:ignore
+	},
+	40
+);
 
 define(
 	'KJO_VL_CSS',
@@ -925,6 +937,10 @@ function count(){return cart.reduce(function(a,e){return a+e.q;},0);}
 function add(k){if(!C[k])return;var e=cart.filter(function(x){return x.k===k;})[0];if(e)e.q++;else cart.push({k:k,q:1});save();render();toast(C[k].n+" liegt im Mietkorb");}
 function toast(t){var d=document.createElement("div");d.textContent=t;d.setAttribute("role","status");d.style.cssText="position:fixed;left:50%;bottom:96px;transform:translateX(-50%);z-index:99995;background:#1A1712;color:#F3F1E9;border:1px solid #B29D75;border-radius:4px;padding:10px 16px;font:15px/1.4 'Fira Sans',sans-serif;max-width:90vw;text-align:center";document.body.appendChild(d);setTimeout(function(){d.remove();},1900);}
 function sums(){var p=0,k=0,pk=true,kk=true;cart.forEach(function(e){var c=C[e.k];if(c.p==null)pk=false;else p+=c.p*e.q;if(c.k==null)kk=false;else k+=c.k*e.q;});return{p:pk?p:null,k:kk?k:null};}
+var AV={};
+function stTxt(k){var v=AV[k];return v==="frei"?["frei","✓ verfügbar"]:v==="vor"?["vor","◐ vorreserviert, gerne trotzdem anfragen"]:v==="belegt"?["belegt","✕ in diesem Zeitraum vergeben"]:null;}
+function avail(){var f=q$(".kjo-vl-form"),K=window.KJO_KAL;if(!f||!K||!window.fetch)return;var v=f.elements.von.value,b=f.elements.bis.value;if(!v){AV={};render();return;}
+  fetch(K.api+(K.api.indexOf("?")>-1?"&":"?")+"von="+v+"&bis="+(b||v),{credentials:"omit"}).then(function(r){return r.json()}).then(function(j){if(f.elements.von.value!==v)return;AV=(j&&j.items)||{};render();}).catch(function(){});}
 function render(){
   var bar=q$(".kjo-vl-bar");if(!bar)return;var n=count(),s=sums();
   bar.hidden=!n;document.body.classList.toggle("kjo-vl-has-bar",!!n);
@@ -933,11 +949,12 @@ function render(){
   if(!n){var li=document.createElement("li");li.className="kjo-vl-empty";li.textContent="Euer Mietkorb ist leer.";ul.appendChild(li);}
   cart.forEach(function(e){var c=C[e.k],li=document.createElement("li");
     li.innerHTML='<span class="n"></span><button type="button" data-d="-1" aria-label="weniger">−</button><span class="q"></span><button type="button" data-d="1" aria-label="mehr">+</button><span class="p"></span><button type="button" data-d="x" aria-label="entfernen">×</button>';
-    li.querySelector(".n").textContent=c.n;li.querySelector(".q").textContent=e.q;li.querySelector(".p").textContent=c.p==null?"auf Anfrage":eur(c.p*e.q);
+    li.querySelector(".n").textContent=c.n;var st=stTxt(e.k);if(st){var sp=document.createElement("span");sp.className="st "+st[0];sp.textContent=st[1];li.querySelector(".n").appendChild(sp);}li.querySelector(".q").textContent=e.q;li.querySelector(".p").textContent=c.p==null?"auf Anfrage":eur(c.p*e.q);
     all("button",li).forEach(function(b){b.addEventListener("click",function(){var d=b.getAttribute("data-d");if(d==="x")e.q=0;else e.q+=+d;cart=cart.filter(function(x){return x.q>0;});save();render();});});
     ul.appendChild(li);});
   var sum=q$(".kjo-vl-sum");
-  sum.innerHTML=!n?"":(s.p!=null?"Summe: <strong>ca. "+eur(s.p)+" pro Tag</strong>"+(s.k!=null?" · Kaution "+eur(s.k):"")+"<br>Unverbindliche Schätzung, der endgültige Preis kommt mit dem Angebot.":"Den Gesamtpreis bekommt ihr mit dem Angebot, kostenlos und unverbindlich.");
+  var bad=cart.some(function(e){return AV[e.k]==="belegt"||AV[e.k]==="vor";});
+  sum.innerHTML=!n?"":(bad?"<strong>Nicht alles ist in diesem Zeitraum frei.</strong> Fragt trotzdem an, oft finde ich eine Alternative.<br>":"")+(s.p!=null?"Summe: <strong>ca. "+eur(s.p)+" pro Tag</strong>"+(s.k!=null?" · Kaution "+eur(s.k):"")+"<br>Unverbindliche Schätzung, der endgültige Preis kommt mit dem Angebot.":"Den Gesamtpreis bekommt ihr mit dem Angebot, kostenlos und unverbindlich.");
 }
 function openM(){var m=q$(".kjo-vl-modal");if(!m)return;m.hidden=false;document.documentElement.style.overflow="hidden";var x=q$(".kjo-vl-x",m);x&&x.focus();}
 function closeM(){var m=q$(".kjo-vl-modal");if(!m)return;m.hidden=true;document.documentElement.style.overflow="";}
@@ -966,7 +983,9 @@ function init(){
   function iso(dt){return dt.getFullYear()+"-"+("0"+(dt.getMonth()+1)).slice(-2)+"-"+("0"+dt.getDate()).slice(-2);}
   var today=iso(new Date()),fv=f.elements.von,fb=f.elements.bis;
   fv.min=today;fb.min=today;
-  fv.addEventListener("change",function(){if(fv.value){fb.min=fv.value;if(!fb.value||fb.value<fv.value)fb.value=fv.value;fb.classList.remove("kjo-vl-bad");}});
+  fv.addEventListener("change",function(){if(fv.value){fb.min=fv.value;if(!fb.value||fb.value<fv.value)fb.value=fv.value;fb.classList.remove("kjo-vl-bad");}avail();});
+  fb.addEventListener("change",avail);
+  try{var pv=(location.search.match(/[?&]von=(\d{4}-\d{2}-\d{2})/)||[])[1];if(pv&&pv>=today){fv.value=pv;fb.value=pv;fb.min=pv;avail();}}catch(e){}
   function clearBad(el){if(!el.classList.contains("kjo-vl-bad"))return;el.classList.remove("kjo-vl-bad");if(!q$(".kjo-vl-bad",f)){var e=q$(".kjo-vl-err",f);e.hidden=true;e.textContent="";}}
   all("input,textarea",f).forEach(function(el){["input","change","blur"].forEach(function(t){el.addEventListener(t,function(){if((el.value||"").trim())clearBad(el);});});});
   fv.addEventListener("change",function(){clearBad(fb);});
@@ -1064,6 +1083,7 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 		return kjo_vl_err( 'Bitte prüft den Mietzeitraum: Beginn ab heute, Rückgabe nicht vor dem Beginn.' );
 	}
 	$lines = array();
+	$keys  = array();
 	$sp    = 0;
 	$sk    = 0;
 	$pk    = true;
@@ -1090,6 +1110,7 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 		} else {
 			$sk += $ka * $q;
 		}
+		$keys[]  = $k;
 		$lines[] = $q . ' × ' . $p->post_title . ( null === $pr ? '' : ' (' . kjo_vl_eur( $pr ) . '/Tag)' );
 	}
 	if ( ! $lines ) {
@@ -1121,6 +1142,10 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 	);
 	if ( $pid && ! is_wp_error( $pid ) ) {
 		update_post_meta( $pid, '_kjo_text', $text );
+		update_post_meta( $pid, '_kjo_von', $von ); // für „Als vorreserviert eintragen“ (Kalender)
+		update_post_meta( $pid, '_kjo_bis', $bis );
+		update_post_meta( $pid, '_kjo_name', $name );
+		update_post_meta( $pid, '_kjo_items', $keys );
 	}
 	$to   = kjo_vl_mail_to();
 	$hdrs = array( 'Content-Type: text/plain; charset=UTF-8', 'Reply-To: ' . str_replace( array( "\r", "\n", '<', '>' ), '', $name ) . ' <' . $email . '>' );

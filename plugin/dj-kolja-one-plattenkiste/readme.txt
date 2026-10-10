@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.25.0: Terminverwaltung (Admin „Kalender“): Monatsansicht, DJ-Auftritte, private Blocker und Vermietungen (fest/vorreserviert, Equipment sperren ja/nein/Auswahl), „Belegt an“ bei jedem Gerät, „Als vorreserviert eintragen“ in Mietanfragen. Verfügbarkeitshinweise im Wunschtermin-Formular und im Mietkorb. Privates iCal-Abo der Termine und stündlicher Import von iCal-Quellen (z. B. Google „DJ-Blocker“) unter Kalender → Abo & Import.
 Seit 1.24.1: Kalender im DJ-Anfrageformular öffnet zuverlässig (WPForms-Styles hatten die Position des Kalenderfeldes überschrieben).
 Seit 1.24.0: DJ-Pult „Meine Musik“: Display-Kasten über dem Mixer entfernt (Tonart-Anzeige bleibt als Zeile), Drehregler und FX-Knöpfe deutlich größer und leichter zu greifen; neuer Knopf ↺ zum Zurücksetzen des Versatzes auf „auto“.
 Seit 1.23.0: DJ-Anfrageformular (WPForms): Das Feld „Wunschdatum“ öffnet einen Kalender; in die Anfrage kommt z. B. „Samstag, 14.11.2026“. Vergangene Tage sind gesperrt. Link „Noch kein festes Datum?“ trägt „noch offen – siehe Nachricht“ ein.
