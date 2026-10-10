@@ -671,6 +671,75 @@
    "title": "DJ Landsberg am Lech für Hochzeit & Event | DJ KOLJA ONE",
    "desc": "Euer DJ für Landsberg am Lech und Umgebung: Hochzeit, Geburtstag, Firmenfeier oder Event mit Musik und Moderation. Wunschtermin prüfen."
   },
+  "equipment": {
+   "name": "Mein Equipment",
+   "faq": [],
+   "kind": "page",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "Mein Equipment",
+     "/equipment/"
+    ]
+   ],
+   "title": "Mein Equipment: Bose, Pronomic, Pioneer & Lichtshow | DJ KOLJA ONE",
+   "desc": "Bose- und Pronomic-Soundsystem, Pioneer DDJ-FLX10, Moving Heads und Lichttraverse: Mit dieser Technik legt DJ KOLJA ONE bei Hochzeiten, Geburtstagen und Firmenfeiern in Memmingen, Allgäu & Schwaben auf."
+  },
+  "technik-mieten": {
+   "name": "Musikanlage, Licht & Partyequipment mieten",
+   "faq": [
+    [
+     "Wie lange im Voraus sollte ich anfragen?",
+     "Für Samstage im Sommer 4–6 Wochen vorher, sonst oft auch kurzfristig. Fragt einfach."
+    ],
+    [
+     "Brauche ich Technik-Kenntnisse?",
+     "Nein. Ihr bekommt eine Einweisung und die deutsche Anleitung als PDF. Die Pakete sind so zusammengestellt, dass alles zusammenpasst."
+    ],
+    [
+     "Was passiert, wenn etwas kaputtgeht?",
+     "Meldet es sofort. Für Schäden haftet der Mieter laut Mietbedingungen. Mit der Sorglos-Option ist euer Risiko begrenzt."
+    ],
+    [
+     "Und bei Diebstahl?",
+     "Sofort Anzeige bei der Polizei erstatten und mich informieren. Die Details stehen in den Mietbedingungen."
+    ],
+    [
+     "Wie laut ist die Anlage?",
+     "Laut genug für jede Tanzfläche. Bitte achtet auf Nachbarn und die Nachtruhe ab 22 Uhr; für die Lautstärke ist der Mieter verantwortlich."
+    ],
+    [
+     "Funktioniert das mit Handy oder Laptop?",
+     "Ja. Die Aktivboxen von Bose und Pronomic haben Bluetooth, jeweils ohne Subwoofer. Mit Subwoofer schließt ihr Handy oder Laptop per Kabel an. Für den DDJ-FLX10 bringt ihr euren Laptop mit rekordbox oder Serato mit."
+    ],
+    [
+     "Kann ich auch draußen feiern?",
+     "Ja, bei trockenem Wetter oder unter einem Dach. Ob ein Gerät Regen verträgt, sprechen wir vorher ab; im Equipment-Browser seht ihr die Wetterfestigkeit jedes Geräts. Die Akku-Scheinwerfer sind ideal für Garten und Terrasse, weil sie ohne Kabel auskommen."
+    ],
+    [
+     "Liefert ihr auch?",
+     "Ja, nach Verfügbarkeit und gegen Gebühr: Lieferung, Aufbau/Verkabelung, Abbau und Abholung. Den Preis bekommt ihr mit dem Angebot, abhängig von Entfernung und Aufwand."
+    ]
+   ],
+   "kind": "service",
+   "serviceType": "Vermietung von Musikanlagen, Licht- und Partytechnik",
+   "description": "Musikanlage, Licht und Partyequipment mieten: Bose, Pronomic, Pioneer DJ, Moving Heads und Partylicht als Paket S, M oder L oder einzeln, mit Einweisung. Abholung in Fellheim bei Memmingen.",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "Technik mieten",
+     "/technik-mieten/"
+    ]
+   ],
+   "title": "Musikanlage, Licht & Partyequipment mieten Memmingen, Allgäu & Schwaben | DJ KOLJA ONE",
+   "desc": "Musikanlage, Licht & Partyequipment mieten: Bose, Pronomic, Pioneer DJ, Moving Heads und Partylicht als Paket S, M oder L oder einzeln. Abholung in Fellheim bei Memmingen, nach Verfügbarkeit und gegen Gebühr mit Lieferung und Aufbau."
+  },
   "kontakt": {
    "name": "Kontakt",
    "faq": [],

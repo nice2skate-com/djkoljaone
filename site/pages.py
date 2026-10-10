@@ -431,7 +431,7 @@ def datenschutz():
       "<h3>2. Allgemeines</h3><p>Der Schutz deiner persönlichen Daten ist mir wichtig. Ich verarbeite personenbezogene Daten nur im Rahmen der gesetzlichen Bestimmungen, insbesondere der Datenschutz-Grundverordnung (DSGVO). Diese Erklärung informiert dich darüber, welche Daten beim Besuch dieser Website erhoben werden und wofür sie genutzt werden.</p>",
       "<h3>3. Hosting</h3><p>Diese Website wird bei der STRATO AG, Otto-Ostrowski-Straße 7, 10249 Berlin, gehostet. Beim Aufruf der Website werden durch den Hoster automatisch Informationen in sogenannten Server-Logfiles gespeichert (z. B. IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Seite, Browsertyp). Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO; mein berechtigtes Interesse liegt in einem sicheren und stabilen Betrieb der Website. Mit STRATO besteht ein Vertrag zur Auftragsverarbeitung.</p>",
       "<h3>4. SSL-/TLS-Verschlüsselung</h3><p>Diese Seite nutzt aus Sicherheitsgründen eine SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennst du am Schloss-Symbol in der Adresszeile deines Browsers.</p>",
-      "<h3>5. Kontaktaufnahme per Formular, E-Mail oder Telefon</h3><p>Wenn du mir eine Anfrage sendest, verarbeite ich die von dir angegebenen Daten (z. B. Name, E-Mail-Adresse, Telefonnummer, Veranstaltungsdatum und -ort, Nachricht) ausschließlich zur Bearbeitung deiner Anfrage und für mögliche Anschlussfragen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen) bzw. Art. 6 Abs. 1 lit. f DSGVO. Die Daten werden gelöscht, sobald sie für den Zweck nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten entgegenstehen.</p>",
+      "<h3>5. Kontaktaufnahme per Formular, E-Mail oder Telefon</h3><p>Wenn du mir eine Anfrage sendest, verarbeite ich die von dir angegebenen Daten (z. B. Name, E-Mail-Adresse, Telefonnummer, Veranstaltungsdatum und -ort, Nachricht) ausschließlich zur Bearbeitung deiner Anfrage und für mögliche Anschlussfragen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen) bzw. Art. 6 Abs. 1 lit. f DSGVO. Die Daten werden gelöscht, sobald sie für den Zweck nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten entgegenstehen.</p><p>Für Mietanfragen auf der Seite „Musikanlage, Licht &amp; Partyequipment mieten“ merkt sich dein Browser den Inhalt des Mietkorbs im lokalen Speicher, bis du ihn leerst oder die Anfrage absendest; das ist für die von dir gewünschte Funktion erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG). Eine Kopie jeder Mietanfrage wird zusätzlich im Verwaltungsbereich der Website gespeichert, damit keine Anfrage verloren geht. Zum Schutz vor massenhaften Anfragen wird für eine Stunde ein verschlüsselter, nicht umkehrbarer Prüfwert gespeichert, der aus deiner IP-Adresse gebildet wird; die IP-Adresse selbst wird nicht gespeichert. Meldest du einen fehlerhaften Link zu einer Bedienungsanleitung, werden dabei keine personenbezogenen Daten gespeichert.</p>",
       "<h3>6. WhatsApp</h3><p>Auf dieser Website befindet sich ein Link zu WhatsApp. Beim bloßen Besuch der Website werden keine Daten an WhatsApp übertragen. Erst wenn du den Link anklickst, wirst du zu WhatsApp weitergeleitet. Anbieter ist die WhatsApp Ireland Limited, 4 Grand Canal Square, Dublin 2, Irland, ein Unternehmen der Meta-Gruppe. Dabei können Daten auch in die USA übertragen werden. Bitte nutze WhatsApp nur, wenn du mit der Datenverarbeitung durch WhatsApp einverstanden bist; alternativ erreichst du mich jederzeit per Telefon, E-Mail oder Kontaktformular. Weitere Informationen findest du in der Datenschutzrichtlinie von WhatsApp.</p>",
       "<h3>7. Schriftarten</h3><p>Die auf dieser Website verwendeten Schriftarten werden lokal von meinem Server geladen. Eine Verbindung zu Servern von Google oder anderen Drittanbietern findet dabei nicht statt.</p>",
       "<h3>8. Song-Bewertungen</h3><p>Auf der Seite „Meine Musik“ kannst du Songs mit 1 bis 5 Sternen bewerten. Gespeichert wird nur die abgegebene Sternezahl, nicht dein Name. Damit jeder Song pro Besucher nur einmal bewertet werden kann, speichere ich für 30 Tage einen verschlüsselten, nicht umkehrbaren Prüfwert (Hash), der aus deiner IP-Adresse und dem Song gebildet wird; die IP-Adresse selbst wird nicht gespeichert. Zusätzlich merkt sich dein Browser im lokalen Speicher, welche Songs du bewertet hast. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an unverfälschten Bewertungen) bzw. § 25 Abs. 2 Nr. 2 TDDDG für die von dir angeforderte Bewertungsfunktion. Den Eintrag im Browser kannst du jederzeit über deine Browsereinstellungen löschen.</p>",
@@ -443,10 +443,87 @@ def datenschutz():
       "<h3>14. Beschwerderecht</h3><p>Du hast das Recht, dich bei einer Datenschutz-Aufsichtsbehörde zu beschweren. Zuständig ist das Bayerische Landesamt für Datenschutzaufsicht (BayLDA), Promenade 18, 91522 Ansbach.</p>",
       "<h3>15. Aktualität</h3><p>Stand: Oktober 2026. Ich passe diese Datenschutzerklärung an, sobald sich die Website oder die rechtlichen Vorgaben ändern.</p>"])
 
+# ---------------- Equipment ----------------
+MIETEN=("Musikanlage, Licht &amp; Partyequipment mieten","/technik-mieten/")
+def equipment():
+    vorteile=[("fas fa-volume-up","Laut genug zum Tanzen, leise genug zum Reden.","Das System wächst mit eurer Feier: kompakt für den Sektempfang, mit voller Bass-Power für die Tanzfläche."),
+        ("fas fa-microphone","Reden, die jeder versteht.","Mein Funkmikrofon-Set ist immer dabei, für Trauzeugen, Chefs und Gratulanten."),
+        ("fas fa-lightbulb","Eine Lichtshow statt Deckenlicht.","Traverse, Moving Heads und Ambientelicht machen aus jedem Raum eine Tanzfläche."),
+        ("fas fa-magic","Ein Aufbau, der ins Bild passt.","Beleuchtetes DJ-Pult, weitgehend verdeckte Kabel, alles fertig, bevor eure Gäste kommen.")]
+    licht=[("3-m-Lichttraverse","Mit LED-PAR-Scheinwerfern: Farbe und Stimmung passend zur Musik."),
+        ("2 Moving Heads","Bewegte Lichtstrahlen für echte Club-Momente."),
+        ("KLS-Lightbar","Partylicht auf eigenem Stativ für die ganze Tanzfläche."),
+        ("8 kabellose Akku-Scheinwerfer","Ambientelicht an Wänden und Säulen, ganz ohne Kabelsalat."),
+        ("LED-Laufschrift (ca. 70 cm)","Eure Namen, „Happy Birthday“ oder euer Hashtag, mittig an der Traverse."),
+        ("Nebel, UV- und Farb-Scheinwerfer","Nach Bedarf. Nebel nur nach Absprache mit der Location, wegen der Rauchmelder.")]
+    erfahrung=["Seit 1996 hinter dem Mikrofon: angefangen beim Radio, heute auf Hochzeiten, Geburtstagen und Firmenfeiern.",
+        "Über 10 Jahre als DJ, von Memmingen über das Allgäu und Schwaben bis nach NRW.",
+        "Hochzeiten in Frankfurt, München und Ulm.",
+        "Firmenpartys eines großen Tech-Konzerns in Dortmund, Frankfurt und Ulm.",
+        "Geburtstagsfeiern und Sportfeste im Allgäu und bis nach NRW.",
+        "Markentechnik von Bose, Pronomic und Pioneer DJ, geprüft und gepflegt."]
+    plan=IMG(400,240,name="equip_lichtplan.jpg",width=px(100,"%"))
+    return [nav(),
+        hero("Equipment · Memmingen · Allgäu · Schwaben","Mein Equipment für eure Feier",
+             "Guter Sound fällt nicht immer sofort auf, schlechter schon. Deshalb bringe ich Technik mit, auf die ich mich verlasse: abgestimmt auf euren Raum, sauber aufgebaut, stark im Klang.",
+             [BTN(*WISH),BTN(*MIETEN,False)],stats=None,minh=60),
+        staerken("Was ihr davon habt",vorteile,eye="Euer Vorteil"),
+        section(head("Sound","Zwei Systeme für jede Größe")+[cards([
+            ("Bose S1 Pro mit Bose-Subwoofer","Mein kompaktes System für Sektempfang, Dinner und Feiern bis ca. 100 Gäste. Es klingt klar und ist dezent im Raum."),
+            ("Pronomic PA mit 2× C-215 MA (15\") und 2× C-118SA (18\"-Subwoofer)","Für große Säle, Sportveranstaltungen, Festzelte und volle Tanzflächen. Druckvoller Bass, den man spürt.")],w=48)],bg=B1),
+        section(head("DJ-Technik","Mein Arbeitsplatz: Pioneer DDJ-FLX10",
+            "Vier Kanäle, damit verbinde ich Songs nahtlos und reagiere live auf eure Tanzfläche. Er steht in einem beleuchteten DJ-Pult, das sich optisch in eure Location einfügt."),bg=B2),
+        section(head("Licht &amp; Effekte","Eine Lichtshow für eure Tanzfläche")+[cards(licht,bg=B2)],bg=B1),
+        section(head("Beispiel-Setup","So sieht ein Setup aus")+[plan,
+            T("<em>Beispiel-Setup für eine Geburtstagsfeier mit 3-m-Traverse, Moving Heads und Ambientelicht. Je nach Raum stelle ich das Setup individuell zusammen.</em>",MUTED,"center",15)],bg=B2),
+        section(head("Erfahrung","Erfahrung, auf die ihr euch verlassen könnt")+[con([ILIST(erfahrung)],max_width=px(860),width=px(100,"%"))],bg=B1),
+        section([H("Welche Technik passt zu eurer Location?","h2",44,m=32),
+            T("Schreibt mir Raum und Gästezahl, ich sage euch, was ich mitbringe.",OFF),SPACER(8),
+            BTNS(BTN(*WISH),BTN(*MIETEN,False))],bg=B2,border_border="solid",border_width=box(1,0,1,0),border_color=LINE),
+        footer()]
+
+# ---------------- Technik mieten ----------------
+MIET_FAQ=[("Wie lange im Voraus sollte ich anfragen?","Für Samstage im Sommer 4–6 Wochen vorher, sonst oft auch kurzfristig. Fragt einfach."),
+    ("Brauche ich Technik-Kenntnisse?","Nein. Ihr bekommt eine Einweisung und die deutsche Anleitung als PDF. Die Pakete sind so zusammengestellt, dass alles zusammenpasst."),
+    ("Was passiert, wenn etwas kaputtgeht?","Meldet es sofort. Für Schäden haftet der Mieter laut Mietbedingungen. Mit der Sorglos-Option ist euer Risiko begrenzt."),
+    ("Und bei Diebstahl?","Sofort Anzeige bei der Polizei erstatten und mich informieren. Die Details stehen in den Mietbedingungen."),
+    ("Wie laut ist die Anlage?","Laut genug für jede Tanzfläche. Bitte achtet auf Nachbarn und die Nachtruhe ab 22 Uhr; für die Lautstärke ist der Mieter verantwortlich."),
+    ("Funktioniert das mit Handy oder Laptop?","Ja. Die Aktivboxen von Bose und Pronomic haben Bluetooth, jeweils ohne Subwoofer. Mit Subwoofer schließt ihr Handy oder Laptop per Kabel an. Für den DDJ-FLX10 bringt ihr euren Laptop mit rekordbox oder Serato mit."),
+    ("Kann ich auch draußen feiern?","Ja, bei trockenem Wetter oder unter einem Dach. Ob ein Gerät Regen verträgt, sprechen wir vorher ab; im Equipment-Browser seht ihr die Wetterfestigkeit jedes Geräts. Die Akku-Scheinwerfer sind ideal für Garten und Terrasse, weil sie ohne Kabel auskommen."),
+    ("Liefert ihr auch?","Ja, nach Verfügbarkeit und gegen Gebühr: Lieferung, Aufbau/Verkabelung, Abbau und Abholung. Den Preis bekommt ihr mit dem Angebot, abhängig von Entfernung und Aufwand.")]
+def SC(code): return W("shortcode",{"shortcode":code,"_element_width":"inherit","width":px(100,"%")})
+def mieten():
+    vorteile=[("fas fa-headphones","Die Technik eines Profi-DJs","Bose, Pronomic, Pioneer und Lichttechnik, die bei echten Events im Einsatz ist."),
+        ("fas fa-box-open","Fertig zusammengestellte Pakete","Ihr wählt nach Gästezahl. Alle Kabel sind dabei, alles passt zusammen."),
+        ("fas fa-chalkboard-teacher","Einweisung inklusive","Bei der Abholung zeige ich euch jeden Handgriff. Zu jedem Gerät gibt es die deutsche Bedienungsanleitung als PDF, zum Abruf vor Ort."),
+        ("fab fa-whatsapp","Ein Ansprechpartner","Fragen am Abend? Ihr erreicht mich per WhatsApp.")]
+    erfahrung=["Technik aus dem echten Einsatz: Ihr mietet die Anlage, mit der ich seit über 10 Jahren Hochzeiten in Frankfurt, München und Ulm, Firmenpartys und Sportfeste beschalle, vom Allgäu bis nach NRW.",
+        "Profi-Marken: Bose, Pronomic, Pioneer DJ und Stairville. Gepflegt, getestet und mit deutscher Anleitung.",
+        "Persönliche Übergabe: Ihr bekommt keine Kiste vom Lager, sondern eine Einweisung vom DJ selbst."]
+    return [nav(),
+        hero("Verleih · Memmingen · Allgäu · Schwaben","Musikanlage, Licht &amp; Partyequipment mieten in Memmingen, Allgäu &amp; Schwaben",
+             "Ihr feiert selbst und wollt richtigen Sound und/oder Licht statt Bluetooth-Box und Neonlicht der Location? Mietet die Technik, mit der ich selbst auflege: als fertiges Paket oder einzeln zusammengestellt.",
+             [BTN("Pakete ansehen","#pakete"),BTN("Einzelgeräte suchen","#geraete",False)],stats=None,minh=60),
+        staerken("Warum bei mir mieten",vorteile,eye="Euer Vorteil"),
+        section(head("So funktioniert's","In vier Schritten zu eurer Anlage")+[steps([
+            ("Auswählen","Paket oder Geräte in den Mietkorb legen."),
+            ("Anfragen","Datum und Abholung oder Lieferung angeben und absenden. Das ist kostenlos und unverbindlich."),
+            ("Bestätigen","Ich prüfe die Verfügbarkeit und schicke euch Angebot und Mietbedingungen."),
+            ("Abholen &amp; feiern","Übergabe mit Einweisung, Vertrag und Kaution in Fellheim. Nach Verfügbarkeit und gegen Gebühr auch mit Lieferung, Aufbau/Verkabelung, Abbau und Abholung.")])],bg=B1),
+        section(head("Party-Pakete","Fertig zusammengestellt, nach Gästezahl")+[SC("[kjo_pakete]")],bg=B2,anchor="pakete"),
+        section(head("Einzelgeräte","Eure Anlage nach Maß",
+            "Euch fehlt nur ein Gerät, Subwoofer oder ihr benötigt Einzel-Lichter? Sucht nach Gerät oder Kategorie und legt es mit + in den Mietkorb. Bei jedem Gerät findet ihr Maße, Gewicht, Wetterfestigkeit, Lieferumfang und die deutsche Bedienungsanleitung als PDF.")+[SC("[kjo_verleih]")],bg=B1,anchor="geraete"),
+        section(head("Gut zu wissen","Kaution, Transport und Co.")+[SC("[kjo_verleih_hinweise]")],bg=B2),
+        section(head("Erfahrung","Erfahrung, auf die ihr euch verlassen könnt")+[con([ILIST(erfahrung)],max_width=px(860),width=px(100,"%"))],bg=B1),
+        faq(MIET_FAQ,title="Fragen zum Verleih",more=False,bg=B2,eye="Häufige Fragen"),
+        cta("Lieber selbst feiern statt selbst auflegen?","Bucht dieselbe Technik mit DJ KOLJA ONE dazu, dann seid ihr Gast auf eurer eigenen Party."),
+        footer()]
+
 PAGES=[("Start","start",start),
  ("Hochzeits-DJ","hochzeits-dj",lambda: service(HOCHZEIT)),("Geburtstags-DJ","geburtstags-dj",lambda: service(GEBURTSTAG)),
  ("Firmenfeier-DJ","firmenfeier-dj",lambda: service(FIRMA)),("Event-DJ","event-dj",lambda: service(EVENT)),
  ("Meine Musik","meine-musik",musik),
  ("Über mich","ueber-mich",ueber),("FAQ","faq",faqpage),("Einsatzgebiete","einsatzgebiete",regionen)]
 PAGES+=[("DJ "+o,s,(lambda o=o: city(o))) for o,s in ORTE]
+PAGES+=[("Mein Equipment","equipment",equipment),("Musikanlage, Licht & Partyequipment mieten","technik-mieten",mieten)]
 PAGES+=[("Kontakt","kontakt",kontakt),("Impressum","impressum",impressum),("Datenschutz","datenschutz",datenschutz)]

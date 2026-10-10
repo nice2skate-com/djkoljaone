@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.21.7
+ * Version:     1.22.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,8 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.21.7' );
+define( 'KJO_VERSION', '1.22.0' );
+require_once __DIR__ . '/kjo-verleih.php';
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -69,6 +70,19 @@ function kjo_seiten_sync( $only = null ) {
 			continue;
 		}
 		$page = get_page_by_path( $slug );
+		$neu  = array( 'equipment' => 'Mein Equipment', 'technik-mieten' => 'Musikanlage, Licht & Partyequipment mieten' );
+		if ( ! $page && isset( $neu[ $slug ] ) ) { // Neue Seiten (seit 1.22.0) werden beim ersten Einspielen angelegt.
+			$pid = wp_insert_post(
+				array(
+					'post_type'   => 'page',
+					'post_status' => 'publish',
+					'post_title'  => $neu[ $slug ],
+					'post_name'   => $slug,
+					'meta_input'  => array( '_wp_page_template' => 'elementor_canvas' ),
+				)
+			);
+			$page = $pid && ! is_wp_error( $pid ) ? get_post( $pid ) : null;
+		}
 		if ( ! $page ) {
 			$out[ $slug ] = 'Seite nicht gefunden';
 			continue;
@@ -127,8 +141,8 @@ function kjo_seiten_sync( $only = null ) {
 add_action(
 	'admin_init',
 	function () {
-		if ( current_user_can( 'manage_options' ) && '2026-10-ads' !== get_option( 'kjo_ds_stand' ) ) {
-			update_option( 'kjo_ds_stand', '2026-10-ads', false );
+		if ( current_user_can( 'manage_options' ) && '2026-10-verleih' !== get_option( 'kjo_ds_stand' ) ) {
+			update_option( 'kjo_ds_stand', '2026-10-verleih', false );
 			kjo_seiten_sync( 'datenschutz' );
 			if ( function_exists( 'kjm_purge_caches' ) ) {
 				kjm_purge_caches();
@@ -991,7 +1005,7 @@ add_shortcode( 'kjo_musikpult', 'kjm_deck_html' );
 
 /* ------------------------------------------------------------------
  * Bild-/Video-Platzhalter (seit 1.2.0)
- * Dateien in der Mediathek, die start_*, event_*, ueber_*, kolja_* oder
+ * Dateien in der Mediathek, die start_*, event_*, ueber_*, kolja_*, equip_*, paket_* oder
  * region_* heissen, werden automatisch dem gleichnamigen Platzhalter
  * zugeordnet. Bild = Hintergrund, Video = Player mit Start/Stop-Knopf.
  * ------------------------------------------------------------------ */
@@ -1018,7 +1032,7 @@ function kjo_media_map() {
 			continue;
 		}
 		$base = strtolower( wp_basename( $file ) );
-		if ( ! preg_match( '/^((?:start|event|ueber|kolja|region)_[a-z0-9_]+?)(?:-scaled|-rotated|-\d+)*(?:\.(?:jpe?g|png|webp|gif|mp4|m4v|webm|mov)_?)*\.(jpe?g|png|webp|gif|mp4|m4v|webm|mov)$/', $base, $m ) ) {
+		if ( ! preg_match( '/^((?:start|event|ueber|kolja|region|equip|paket)_[a-z0-9_]+?)(?:-scaled|-rotated|-\d+)*(?:\.(?:jpe?g|png|webp|gif|mp4|m4v|webm|mov)_?)*\.(jpe?g|png|webp|gif|mp4|m4v|webm|mov)$/', $base, $m ) ) {
 			continue;
 		}
 		$kind = in_array( $m[2], array( 'mp4', 'm4v', 'webm', 'mov' ), true ) ? 'vid' : 'img';
@@ -2233,6 +2247,7 @@ function send(name,params){
   try{if(typeof window.gtag==="function"){window.gtag("event",name,params);}else{(window.dataLayer=window.dataLayer||[]).push(Object.assign({event:name},params));}}catch(e){}
   try{if(typeof window.clarity==="function"){window.clarity("event",name);}}catch(e){}
 }
+window.kjoTrack=send;
 function toast(msg){
   var d=document.createElement("div");d.textContent=msg;d.setAttribute("role","status");
   d.style.cssText="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:100000;background:#1A1712;color:#F3F1E9;border:1px solid #B29D75;border-radius:4px;padding:12px 18px;font:15px/1.4 'Fira Sans',sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:90vw;text-align:center";

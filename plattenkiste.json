@@ -1,9 +1,9 @@
 {
- "version": "1.21.7",
- "download_url": "dj-kolja-one-plattenkiste-1.21.7.zip",
- "sha256": "2c221325e2bbed98982376cfbb4c23722a043001cdef6d81a52f044fe67f5dfd",
+ "version": "1.22.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.22.0.zip",
+ "sha256": "943c19713e598622bff35fc4b3f2a29474473533169e6ef4509ebe001b131765",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Mediathek: eigene Höhe in px pro Bild/Video."
+ "changelog": "Verleih: Equipment-Seite, Technik mieten mit Paketen, Equipment-Browser, Mietkorb, Mietanfrage und Verwaltung"
 }

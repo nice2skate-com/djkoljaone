@@ -25,7 +25,7 @@
 ## B. Equipment-Seite & Verleih (neu)
 
 **Entscheidungen (Kolja)**
-- [ ] Shop-Variante wählen: Mietanfrage-Formular / WooCommerce + Mietplugin / externe Mietsoftware.
+- [x] Shop-Variante wählen: Mietanfrage-Formular / WooCommerce + Mietplugin / externe Mietsoftware.
 - [x] Equipmentliste geliefert (10.10.2026); PA = Pronomic C-215 MA (2×) + C-118SA (2×).
 - [ ] Offene Modelle: Bose-Sub, Funkmikrofon, Moving Heads, KLS, ALGAM, UV, Wash, Nebel, Laufschrift; PAR-Abgleich 4 vs. 6.
 - [ ] Was davon wird vermietet, was nur bei DJ-Buchungen eingesetzt?
@@ -46,7 +46,7 @@
 - [ ] Datenblätter recherchieren: Maße, Gewicht, Leistung (W), max. Schalldruck (dB), Anschlüsse, Stromanschluss, empfohlene Gästezahl, Transport (passt in Kombi?).
 - [ ] Produktbeschreibungen in eigenen Worten (keine Herstellertexte kopieren).
 - [ ] Party-Pakete S / M / L (Gästezahl, Raumgröße, Inhalt, Preis, Kaution) zur Freigabe.
-- [ ] Seitentexte „Mein Equipment“ und „Technik mieten“ zur Freigabe.
+- [x] Seitentexte „Mein Equipment“ und „Technik mieten“ zur Freigabe.
 - [ ] Vorlagen: Mietvertrag, Mietbedingungen, Übergabe-/Rückgabeprotokoll, Kurzanleitung je Paket.
 - [ ] FAQ Verleih (Kaution, Schaden, Diebstahl, Stornierung, Lieferung, Strom, Lautstärke/Nachbarn).
 
@@ -56,11 +56,11 @@
 - [ ] Optional: Plugin für Mediathek-Ordner (z. B. FileBird Lite) – nur zur Übersicht, nicht nötig für die Seite.
 
 **Technik (Claude)**
-- [ ] Unterseiten `equipment` und `technik-mieten` in `site/pages.py` anlegen, Navigation und interne Links ergänzen.
-- [ ] Verwaltung „Plattenkiste → Equipment“: Felder je Gerät inkl. **Bedienungsanleitung (DE)** (Link oder Mediathek-PDF, öffentlich) und interner Inventardaten.
-- [ ] Button „Link defekt?“ an der Anleitung: E-Mail an anfrage@dj-kolja-one.de (Gerät, Link, Seite), Spam-Schutz, Hinweis „gemeldet“ in der Verwaltung.
-- [ ] Spalte **Wetterfestigkeit** je Gerät (nur innen / trocken überdacht / spritzwassergeschützt / wetterfest), auch im Browser angezeigt.
-- [ ] Preise, Kaution, Wochenendmiete, Sorglos-Option nur anzeigen, wenn in der Verwaltung eingetragen; sonst Ersatztext ohne Preis.
-- [ ] Mietanfrage-Formular (Geräte/Paket, Datum von–bis, Abholung/Lieferung, Gästezahl) mit Ereignis `generate_lead` (Parameter `type: rental`).
+- [x] Unterseiten `equipment` und `technik-mieten` in `site/pages.py` anlegen, Navigation und interne Links ergänzen.
+- [x] Verwaltung „Plattenkiste → Equipment“: Felder je Gerät inkl. **Bedienungsanleitung (DE)** (Link oder Mediathek-PDF, öffentlich) und interner Inventardaten.
+- [x] Button „Link defekt?“ an der Anleitung: E-Mail an anfrage@dj-kolja-one.de (Gerät, Link, Seite), Spam-Schutz, Hinweis „gemeldet“ in der Verwaltung.
+- [x] Spalte **Wetterfestigkeit** je Gerät (nur innen / trocken überdacht / spritzwassergeschützt / wetterfest), auch im Browser angezeigt.
+- [x] Preise, Kaution, Wochenendmiete, Sorglos-Option nur anzeigen, wenn in der Verwaltung eingetragen; sonst Ersatztext ohne Preis.
+- [x] Mietanfrage-Formular (Geräte/Paket, Datum von–bis, Abholung/Lieferung, Gästezahl) mit Ereignis `generate_lead` (Parameter `type: rental`).
 - [ ] Schema: `Product`/`Offer` bzw. `Service` für Verleih; SEO-Titel „Musikanlage mieten Memmingen, Allgäu & Schwaben“.
 - [ ] Datenschutz ergänzen, falls neue Dienste (Zahlungsanbieter, Mietsoftware) dazukommen.
