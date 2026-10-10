@@ -50,7 +50,8 @@ function kjo_vl_fields( $type ) {
 			'hinweis'  => array( 'Hinweis / Empfehlung', 'textarea', '' ),
 			'preis'    => array( 'Mietpreis pro Tag in € (leer = „Preis auf Anfrage“)', 'price', 'z. B. 89' ),
 			'kaution'  => array( 'Kaution in € (leer = „Kaution laut Angebot“)', 'price', 'z. B. 200' ),
-			'bild'     => array( 'Bildname in der Mediathek', 'bild', '' ),
+			'medien'   => array( 'Bilder & Videos', 'medien', '' ),
+			'bild'     => array( 'Bildname in der Mediathek (alternativ)', 'bild', '' ),
 		);
 	}
 	return array(
@@ -72,7 +73,8 @@ function kjo_vl_fields( $type ) {
 		'wetter'       => array( 'Wetterfestigkeit (wird im Browser angezeigt)', 'wetter', '' ),
 		'wetter_ip'    => array( 'Schutzart', 'text', 'z. B. IP65' ),
 		'anleitung'    => array( 'Bedienungsanleitung (Deutsch): Link oder PDF aus der Mediathek', 'anleitung', 'https://…' ),
-		'bild'         => array( 'Bildname in der Mediathek', 'bild', '' ),
+		'medien'       => array( 'Bilder & Videos', 'medien', '' ),
+		'bild'         => array( 'Bildname in der Mediathek (alternativ)', 'bild', '' ),
 	);
 }
 function kjo_vl_intern_fields() {
@@ -121,6 +123,24 @@ function kjo_vl_bild( $post ) {
 	return preg_replace( '/[^a-z0-9_]/', '', strtolower( $b ) );
 }
 /** Alle Bilder/Videos zu einem Bildnamen: name, name_1 … name_8. */
+/** Bilder/Videos eines Geräts oder Pakets: zuerst die in der Mediathek ausgewählten (Reihenfolge wie sortiert), dann die über den Dateinamen gefundenen. */
+function kjo_vl_media_post( $post ) {
+	$out = array();
+	foreach ( array_filter( array_map( 'absint', explode( ',', (string) get_post_meta( $post->ID, '_kjo_medien', true ) ) ) ) as $aid ) {
+		$url  = wp_get_attachment_url( $aid );
+		$mime = (string) get_post_mime_type( $aid );
+		if ( ! $url ) {
+			continue;
+		}
+		if ( 0 === strpos( $mime, 'video/' ) ) {
+			$out[] = array( 'vid' => set_url_scheme( $url ) );
+		} elseif ( 0 === strpos( $mime, 'image/' ) ) {
+			$big   = wp_get_attachment_image_url( $aid, 'large' );
+			$out[] = array( 'img' => set_url_scheme( $big ? $big : $url ) );
+		}
+	}
+	return array_merge( $out, kjo_vl_media( kjo_vl_bild( $post ) ) );
+}
 function kjo_vl_media( $key ) {
 	$map = function_exists( 'kjo_media_map' ) ? kjo_media_map() : array();
 	$out = array();
@@ -351,12 +371,21 @@ function kjo_vl_box( $post ) {
 				}
 				echo '</p><p class="description">Öffentlich: Erscheint in den Gerätedetails als „Bedienungsanleitung (PDF, Deutsch)“ mit dem Knopf „Link defekt? Melden“.</p>';
 				break;
+			case 'medien':
+				$ids = array_filter( array_map( 'absint', explode( ',', $v ) ) );
+				echo '<input type="hidden" id="kjo_vl_medien" name="' . esc_attr( $name ) . '" value="' . esc_attr( implode( ',', $ids ) ) . '"><ul id="kjo-vl-medien" class="kjo-vl-medien">';
+				foreach ( $ids as $aid ) {
+					$th = wp_attachment_is( 'video', $aid ) ? '' : wp_get_attachment_image_url( $aid, 'thumbnail' );
+					echo '<li data-id="' . (int) $aid . '">' . ( $th ? '<img src="' . esc_url( $th ) . '" alt="">' : '<span class="kjo-vl-vid">▶ Video</span>' ) . '<button type="button" class="kjo-vl-mx" aria-label="Entfernen">×</button></li>';
+				}
+				echo '</ul><p><button type="button" class="button" id="kjo-vl-medien-add">Bilder/Videos aus der Mediathek wählen</button></p><p class="description">Mehrere auf einmal wählbar. Reihenfolge per Ziehen ändern – das erste Bild ist das Vorschaubild. Der Dateiname ist egal.</p>';
+				break;
 			case 'bild':
 				$auto = kjo_vl_bild( (object) array( 'ID' => 0, 'post_type' => $post->post_type, 'post_name' => $post->post_name, 'post_title' => $post->post_title ) );
 				echo '<input type="text" id="kjo_vl_bild" name="' . esc_attr( $name ) . '" value="' . esc_attr( $v ) . '" class="regular-text" placeholder="' . esc_attr( $auto ) . '">';
 				$key = $v ? $v : $auto;
 				$n   = count( kjo_vl_media( $key ) );
-				echo '<p class="description">So müssen die Dateien in der Mediathek heißen: <code>' . esc_html( $key ) . '.jpg</code>, <code>' . esc_html( $key ) . '_1.jpg</code>, <code>' . esc_html( $key ) . '_2.jpg</code> … (Videos: <code>.mp4</code>). Gefunden: <strong>' . (int) $n . '</strong>. Leer lassen = Vorschlag übernehmen.</p>';
+				echo '<p class="description">Nur nötig, wenn ihr Bilder lieber über den Dateinamen zuordnet: <code>' . esc_html( $key ) . '.jpg</code>, <code>' . esc_html( $key ) . '_1.jpg</code> … (Videos: <code>.mp4</code>). Über den Namen gefunden: <strong>' . (int) $n . '</strong>. Leer lassen = Vorschlag übernehmen.</p>';
 				break;
 			default:
 				$type = 'number' === $f[1] ? 'number' : 'text';
@@ -372,10 +401,18 @@ function kjo_vl_box( $post ) {
 	}
 	echo '</table>';
 	?>
+<style>.kjo-vl-medien{display:flex;flex-wrap:wrap;gap:8px;margin:0}.kjo-vl-medien li{position:relative;width:96px;height:96px;margin:0;border:1px solid #c3c4c7;background:#f6f7f7;cursor:move;display:flex;align-items:center;justify-content:center}.kjo-vl-medien img{width:100%;height:100%;object-fit:cover}.kjo-vl-mx{position:absolute;top:2px;right:2px;width:22px;height:22px;border-radius:50%;border:0;background:#d63638;color:#fff;cursor:pointer;line-height:1}.kjo-vl-vid{font-size:12px}</style>
 <script>
-(function(){var b=document.getElementById("kjo-vl-pdf");if(!b||!window.wp||!wp.media)return;var fr;
+window.addEventListener("load",function(){var b=document.getElementById("kjo-vl-pdf");if(!b||!window.wp||!wp.media)return;var fr;
 b.addEventListener("click",function(e){e.preventDefault();if(!fr){fr=wp.media({title:"Bedienungsanleitung wählen",library:{type:"application/pdf"},button:{text:"Übernehmen"},multiple:false});
-fr.on("select",function(){var a=fr.state().get("selection").first().toJSON();document.getElementById("kjo_vl_anleitung").value=a.url;});}fr.open();});})();
+fr.on("select",function(){var a=fr.state().get("selection").first().toJSON();document.getElementById("kjo_vl_anleitung").value=a.url;});}fr.open();});});
+window.addEventListener("load",function(){var ul=document.getElementById("kjo-vl-medien"),inp=document.getElementById("kjo_vl_medien"),add=document.getElementById("kjo-vl-medien-add");if(!ul||!inp||!add||!window.wp||!wp.media)return;var fm;
+function sync(){inp.value=[].map.call(ul.querySelectorAll("li"),function(li){return li.getAttribute("data-id")}).join(",");}
+function item(a){var li=document.createElement("li");li.setAttribute("data-id",a.id);var th=a.type==="image"?((a.sizes&&a.sizes.thumbnail&&a.sizes.thumbnail.url)||a.url):"";li.innerHTML=(th?'<img alt="">':'<span class="kjo-vl-vid">▶ Video</span>')+'<button type="button" class="kjo-vl-mx" aria-label="Entfernen">×</button>';if(th)li.querySelector("img").src=th;ul.appendChild(li);}
+add.addEventListener("click",function(e){e.preventDefault();if(!fm){fm=wp.media({title:"Bilder & Videos wählen",library:{type:["image","video"]},button:{text:"Übernehmen"},multiple:"add"});
+fm.on("select",function(){var have=inp.value.split(",");fm.state().get("selection").each(function(m){var a=m.toJSON();if(have.indexOf(String(a.id))<0)item(a);});sync();});}fm.open();});
+ul.addEventListener("click",function(e){var b=e.target.closest(".kjo-vl-mx");if(b){b.parentNode.remove();sync();}});
+if(window.jQuery&&jQuery.fn.sortable)jQuery(ul).sortable({update:sync});});
 </script>
 	<?php
 }
@@ -402,6 +439,7 @@ add_action(
 		$s = get_current_screen();
 		if ( $s && in_array( $s->post_type, array( 'kjo_geraet', 'kjo_paket' ), true ) && 'post' === $s->base ) {
 			wp_enqueue_media();
+			wp_enqueue_script( 'jquery-ui-sortable' );
 		}
 	}
 );
@@ -434,6 +472,8 @@ add_action(
 			} elseif ( 'price' === $f[1] ) {
 				$n = kjo_vl_num( $v );
 				$v = null === $n ? '' : rtrim( rtrim( number_format( $n, 2, '.', '' ), '0' ), '.' );
+			} elseif ( 'medien' === $f[1] ) {
+				$v = implode( ',', array_filter( array_map( 'absint', explode( ',', $v ) ) ) );
 			} elseif ( 'bild' === $f[1] ) {
 				$v = preg_replace( '/[^a-z0-9_]/', '', strtolower( $v ) );
 			} else {
@@ -518,7 +558,7 @@ function kjo_vl_column( $col, $id ) {
 			break;
 		case 'bild':
 			$key = kjo_vl_bild( $p );
-			echo '<code>' . esc_html( $key ) . '</code> (' . count( kjo_vl_media( $key ) ) . ')';
+			echo '<code>' . esc_html( $key ) . '</code> (' . count( kjo_vl_media_post( $p ) ) . ')';
 			break;
 	}
 }
@@ -606,8 +646,8 @@ function kjo_vl_items( $type ) {
 	}
 	return get_posts( $args );
 }
-function kjo_vl_img_html( $key, $alt, $cls ) {
-	$m = kjo_vl_media( $key );
+function kjo_vl_img_html( $post, $alt, $cls ) {
+	$m = kjo_vl_media_post( $post );
 	foreach ( $m as $e ) {
 		if ( ! empty( $e['img'] ) ) {
 			return '<img class="' . esc_attr( $cls ) . '" src="' . esc_url( $e['img'] ) . '" alt="' . esc_attr( $alt ) . '" loading="lazy" decoding="async">';
@@ -624,7 +664,7 @@ add_shortcode(
 		foreach ( kjo_vl_items( 'kjo_paket' ) as $p ) {
 			$pr  = kjo_vl_num( kjo_vl_get( $p->ID, 'preis' ) );
 			$ka  = kjo_vl_num( kjo_vl_get( $p->ID, 'kaution' ) );
-			$h  .= '<article class="kjo-vl-paket">' . kjo_vl_img_html( kjo_vl_bild( $p ), $p->post_title, 'kjo-vl-pimg' );
+			$h  .= '<article class="kjo-vl-paket">' . kjo_vl_img_html( $p, $p->post_title, 'kjo-vl-pimg' );
 			$h  .= '<h3>' . esc_html( $p->post_title ) . '</h3>';
 			$gae = trim( kjo_vl_get( $p->ID, 'gaeste' ) . ': ' . kjo_vl_get( $p->ID, 'anlaesse' ), ': ' );
 			if ( $gae ) {
@@ -683,7 +723,7 @@ add_shortcode(
 			$key  = kjo_vl_bild( $g );
 			$hay  = strtolower( $g->post_title . ' ' . ( isset( $kats[ $kat ] ) ? $kats[ $kat ] : '' ) . ' ' . kjo_vl_get( $id, 'kurz' ) . ' ' . kjo_vl_get( $id, 'beschr' ) );
 			$h   .= '<li class="kjo-vl-item" data-kat="' . esc_attr( $kat ) . '" data-q="' . esc_attr( $hay ) . '">';
-			$h   .= '<div class="kjo-vl-row"><button type="button" class="kjo-vl-open" aria-expanded="false" aria-controls="kjo-vl-d' . (int) $id . '">' . kjo_vl_img_html( $key, $g->post_title, 'kjo-vl-thumb' );
+			$h   .= '<div class="kjo-vl-row"><button type="button" class="kjo-vl-open" aria-expanded="false" aria-controls="kjo-vl-d' . (int) $id . '">' . kjo_vl_img_html( $g, $g->post_title, 'kjo-vl-thumb' );
 			$h   .= '<span class="kjo-vl-main"><span class="kjo-vl-name">' . esc_html( $g->post_title ) . '</span>';
 			$h   .= '<span class="kjo-vl-meta">' . esc_html( implode( ' · ', $kurz ? $kurz : array( kjo_vl_get( $id, 'kurz' ) ) ) ) . '</span>';
 			$h   .= '<span class="kjo-vl-wet">' . esc_html( $wtxt ) . '</span></span></button>';
@@ -692,7 +732,7 @@ add_shortcode(
 			/* Details */
 			$h .= '<div class="kjo-vl-det" id="kjo-vl-d' . (int) $id . '" hidden>';
 			$gal = '';
-			foreach ( kjo_vl_media( $key ) as $e ) {
+			foreach ( kjo_vl_media_post( $g ) as $e ) {
 				if ( ! empty( $e['vid'] ) ) {
 					$gal .= '<video src="' . esc_url( $e['vid'] ) . '" controls preload="none" playsinline' . ( ! empty( $e['img'] ) ? ' poster="' . esc_url( $e['img'] ) . '"' : '' ) . '></video>';
 				} elseif ( ! empty( $e['img'] ) ) {
