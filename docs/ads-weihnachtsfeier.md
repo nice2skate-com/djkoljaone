@@ -13,6 +13,9 @@ Laufzeit: sofort bis 14.12.2026 · Budget 12 €/Tag · Zielseite https://dj-kol
 - AI Max / automatisch erstellte Assets / weitgehend passende Keywords: **aus**
 - Enddatum: 14.12.2026
 
+## Dynamische Überschrift (Plugin 1.27.0)
+Kampagne → Einstellungen → Weitere Einstellungen → Kampagnen-URL-Optionen → **Suffix der finalen URL**: `kw={keyword}`
+
 ## Keywords (Wortgruppe, mit Anführungszeichen eintragen)
 "dj weihnachtsfeier" · "dj für weihnachtsfeier" · "weihnachtsfeier dj buchen" · "dj firmenfeier" · "dj für firmenfeier" · "firmenfeier dj" · "dj betriebsfeier" · "dj firmenevent" · "dj weihnachtsfeier memmingen" · "dj weihnachtsfeier ulm" · "dj firmenfeier ulm" · "dj firmenfeier memmingen" · "dj firmenfeier allgäu" · "dj weihnachtsfeier allgäu"
 

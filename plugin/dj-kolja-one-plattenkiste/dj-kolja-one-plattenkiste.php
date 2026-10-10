@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.26.3
+ * Version:     1.27.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.26.3' );
+define( 'KJO_VERSION', '1.27.0' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 
@@ -2338,4 +2338,44 @@ if(document.querySelector(".wpforms-form,.wpforms-confirmation-container-full"))
 }
 })();
 KJOCONV
+);
+
+/**
+ * Überschrift passend zur Suchanzeige (seit 1.27.0).
+ * Google Ads hängt per „Suffix der finalen URL“ kw={keyword} an. Erkennt das Skript darin einen bekannten Anlass
+ * (und optional einen Ort), wird die H1 der Leistungsseite z. B. zu „DJ für eure Weihnachtsfeier in Ulm“.
+ * Es werden nur feste Wörter aus den Listen unten angezeigt – nie Text aus der URL.
+ * Abschalten: add_filter( 'kjo_dyn_h1', '__return_false' );
+ */
+add_action(
+	'wp_footer',
+	function () {
+		if ( is_admin() || ! apply_filters( 'kjo_dyn_h1', true ) ) {
+			return;
+		}
+		if ( ! is_page( array( 'firmenfeier-dj', 'hochzeits-dj', 'geburtstags-dj', 'event-dj' ) ) ) {
+			return;
+		}
+		echo '<script id="kjo-dyn-h1">' . KJO_DYN_H1_JS . '</script>' . "\n";
+	},
+	32
+);
+
+define( 'KJO_DYN_H1_JS', <<<'KJODYN'
+(function(){
+try{
+  var m=location.search.match(/[?&]kw=([^&]*)/);if(!m)return;
+  var kw=decodeURIComponent(m[1].replace(/\+/g," ")).toLowerCase();
+  kw=kw.replace(/ae/g,"ä").replace(/oe/g,"ö").replace(/ue/g,"ü");
+  var A=[["weihnachtsfeier","eure Weihnachtsfeier"],["betriebsfeier","eure Betriebsfeier"],["firmenevent","euer Firmenevent"],["firmenfeier","eure Firmenfeier"],["sommerfest","euer Sommerfest"],["jubiläum","euer Jubiläum"],["hochzeit","eure Hochzeit"],["geburtstag","euren Geburtstag"],["stadtfest","euer Stadtfest"],["vereinsfeier","eure Vereinsfeier"],["silvester","eure Silvesterparty"]];
+  var O=[["neu-ulm","in Neu-Ulm"],["neu ulm","in Neu-Ulm"],["memmingen","in Memmingen"],["ulm","in Ulm"],["kempten","in Kempten"],["kaufbeuren","in Kaufbeuren"],["füssen","in Füssen"],["ravensburg","in Ravensburg"],["biberach","in Biberach"],["landsberg","in Landsberg am Lech"],["mindelheim","in Mindelheim"],["illertissen","in Illertissen"],["oberschwaben","in Oberschwaben"],["schwaben","in Schwaben"],["allgäu","im Allgäu"]];
+  function find(L){for(var i=0;i<L.length;i++){if(kw.indexOf(L[i][0])>-1)return L[i][1];}return "";}
+  var a=find(A);if(!a)return;
+  var o=find(O)||"im Allgäu & Oberschwaben";
+  var h=document.querySelector("h1");if(!h)return;
+  var t=h.querySelector(".elementor-heading-title")||h;
+  t.textContent="DJ für "+a+" "+o;
+}catch(e){}
+})();
+KJODYN
 );
