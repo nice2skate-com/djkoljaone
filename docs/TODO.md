@@ -26,7 +26,8 @@
 
 **Entscheidungen (Kolja)**
 - [ ] Shop-Variante wählen: Mietanfrage-Formular / WooCommerce + Mietplugin / externe Mietsoftware.
-- [ ] Vollständige Equipment-Liste mit **Hersteller + exakter Modellbezeichnung + Stückzahl** liefern.
+- [x] Equipmentliste geliefert (10.10.2026); PA = Pronomic C-215 MA (2×) + C-118SA (2×).
+- [ ] Offene Modelle: Bose-Sub, Funkmikrofon, Moving Heads, KLS, ALGAM, UV, Wash, Nebel, Laufschrift; PAR-Abgleich 4 vs. 6.
 - [ ] Was davon wird vermietet, was nur bei DJ-Buchungen eingesetzt?
 - [ ] Übergabe: nur Abholung in Fellheim / Lieferung / Lieferung + Aufbau (jeweils Preis bzw. km-Pauschale).
 - [ ] Zielgruppe: Privat, Vereine, Firmen?
@@ -58,6 +59,8 @@
 - [ ] Unterseiten `equipment` und `technik-mieten` in `site/pages.py` anlegen, Navigation und interne Links ergänzen.
 - [ ] Verwaltung „Plattenkiste → Equipment“: Felder je Gerät inkl. **Bedienungsanleitung (DE)** (Link oder Mediathek-PDF, öffentlich) und interner Inventardaten.
 - [ ] Button „Link defekt?“ an der Anleitung: E-Mail an anfrage@dj-kolja-one.de (Gerät, Link, Seite), Spam-Schutz, Hinweis „gemeldet“ in der Verwaltung.
+- [ ] Spalte **Wetterfestigkeit** je Gerät (nur innen / trocken überdacht / spritzwassergeschützt / wetterfest), auch im Browser angezeigt.
+- [ ] Preise, Kaution, Wochenendmiete, Sorglos-Option nur anzeigen, wenn in der Verwaltung eingetragen; sonst Ersatztext ohne Preis.
 - [ ] Mietanfrage-Formular (Geräte/Paket, Datum von–bis, Abholung/Lieferung, Gästezahl) mit Ereignis `generate_lead` (Parameter `type: rental`).
 - [ ] Schema: `Product`/`Offer` bzw. `Service` für Verleih; SEO-Titel „Musikanlage mieten Memmingen, Allgäu & Schwaben“.
 - [ ] Datenschutz ergänzen, falls neue Dienste (Zahlungsanbieter, Mietsoftware) dazukommen.
