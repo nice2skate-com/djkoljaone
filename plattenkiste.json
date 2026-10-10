@@ -1,9 +1,9 @@
 {
- "version": "1.22.2",
- "download_url": "dj-kolja-one-plattenkiste-1.22.2.zip",
- "sha256": "f15904e0da9f25281397ebe6bada0028fb1eb35fff8766e344853691df86f03b",
+ "version": "1.22.3",
+ "download_url": "dj-kolja-one-plattenkiste-1.22.3.zip",
+ "sha256": "27562e8de6cae0a2a7aa0d89015a079e3b97c5eb47406a2a12ca4c93c783a5cb",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Mietanfrage: klarere Datumsfelder und Fehlermeldungen am Feld"
+ "changelog": "Mietanfrage: Fehlermeldung verschwindet nach Korrektur"
 }

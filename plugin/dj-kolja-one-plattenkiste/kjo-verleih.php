@@ -895,7 +895,9 @@ define(
 .kjo-vl-form input[type=date]::-webkit-datetime-edit{color:inherit}
 .kjo-vl-hint{color:#A39E93;font-size:12px;font-weight:400}
 .kjo-vl-form label:has(input[type=date]:valid) .kjo-vl-hint{display:none}
+.kjo-vl-form input:-webkit-autofill{-webkit-box-shadow:0 0 0 40px #0F0C07 inset!important;-webkit-text-fill-color:#F3F1E9!important;caret-color:#F3F1E9}
 .kjo-vl-form .kjo-vl-bad{border-color:#ff9b8a!important;box-shadow:0 0 0 1px #ff9b8a}
+.kjo-vl-form input.kjo-vl-bad:-webkit-autofill{-webkit-box-shadow:0 0 0 40px #0F0C07 inset,0 0 0 1px #ff9b8a!important}
 .kjo-vl-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
 .kjo-vl-form fieldset{border:0;margin:0 0 12px;padding:0}.kjo-vl-form legend{color:#F3F1E9;font-size:14px;margin-bottom:6px}
 .kjo-vl-r{display:flex!important;gap:8px;align-items:flex-start;color:#A39E93!important;margin:0 0 6px!important}.kjo-vl-r input{margin-top:4px;accent-color:#B29D75}
@@ -965,7 +967,9 @@ function init(){
   var today=iso(new Date()),fv=f.elements.von,fb=f.elements.bis;
   fv.min=today;fb.min=today;
   fv.addEventListener("change",function(){if(fv.value){fb.min=fv.value;if(!fb.value||fb.value<fv.value)fb.value=fv.value;fb.classList.remove("kjo-vl-bad");}});
-  all("input,textarea",f).forEach(function(el){["input","change"].forEach(function(t){el.addEventListener(t,function(){el.classList.remove("kjo-vl-bad");});});});
+  function clearBad(el){if(!el.classList.contains("kjo-vl-bad"))return;el.classList.remove("kjo-vl-bad");if(!q$(".kjo-vl-bad",f)){var e=q$(".kjo-vl-err",f);e.hidden=true;e.textContent="";}}
+  all("input,textarea",f).forEach(function(el){["input","change","blur"].forEach(function(t){el.addEventListener(t,function(){if((el.value||"").trim())clearBad(el);});});});
+  fv.addEventListener("change",function(){clearBad(fb);});
   f.addEventListener("submit",function(ev){ev.preventDefault();var err=q$(".kjo-vl-err",f),b=q$(".kjo-vl-send",f);err.hidden=true;
     all(".kjo-vl-bad",f).forEach(function(e){e.classList.remove("kjo-vl-bad");});
     function fail(m,el){err.textContent=m;err.hidden=false;if(el){el.classList.add("kjo-vl-bad");try{el.scrollIntoView({block:"center",behavior:"smooth"});}catch(e){}setTimeout(function(){try{el.focus({preventScroll:true});}catch(e){el.focus();}},250);}}
@@ -977,6 +981,7 @@ function init(){
     if(d.bis<d.von)return fail("Die Rückgabe liegt vor dem Beginn – bitte prüft die Daten.",fb);
     if(d.uebergabe.indexOf("Lieferung")>-1&&!d.ort)return fail("Bitte gebt den Ort der Feier für die Lieferung an.",f.elements.ort);
     if(!d.name)return fail("Bitte gebt euren Namen an.",f.elements.name);
+    if(!d.email)return fail("Bitte gebt eure E-Mail-Adresse an. Tipp: Schlägt der Browser eine Adresse vor, bitte antippen, damit sie übernommen wird.",f.elements.email);
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email))return fail("Bitte gebt eine gültige E-Mail-Adresse an, damit ich euch antworten kann.",f.elements.email);
     d.items=cart;d.ts=V.ts;d.seite=location.href;b.disabled=true;b.textContent="wird gesendet …";
     post("mietanfrage",d).then(function(r){b.disabled=false;b.textContent="Mietanfrage senden";
