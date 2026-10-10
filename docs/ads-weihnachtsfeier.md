@@ -50,6 +50,7 @@ Pfad: `dj-kolja-one.de/Firmenfeier/Weihnachtsfeier`
 - Über mich → /ueber-mich/ · „Seit über 10 Jahren am DJ-Pult“ / „DJ und Moderator aus Fellheim“
 - Meine Musik → /meine-musik/ · „Hört rein und legt selbst auf“ / „Das DJ-Pult zum Ausprobieren“
 - Häufige Fragen → /faq/ · „Ablauf, Technik und Musikwünsche“ / „Alles vor der Buchung geklärt“
+- Technik mieten → /technik-mieten/ · „Musikanlage & Licht mieten“ / „Party-Pakete S, M und L“
 
 **Zusatzinformationen** (max. 25): Moderation inklusive · Antwort in 24 Stunden · Seit über 10 Jahren · Sound & Licht dabei
 
