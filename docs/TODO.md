@@ -56,6 +56,8 @@
 
 **Technik (Claude)**
 - [ ] Unterseiten `equipment` und `technik-mieten` in `site/pages.py` anlegen, Navigation und interne Links ergänzen.
+- [ ] Verwaltung „Plattenkiste → Equipment“: Felder je Gerät inkl. **Bedienungsanleitung (DE)** (Link oder Mediathek-PDF, öffentlich) und interner Inventardaten.
+- [ ] Button „Link defekt?“ an der Anleitung: E-Mail an anfrage@dj-kolja-one.de (Gerät, Link, Seite), Spam-Schutz, Hinweis „gemeldet“ in der Verwaltung.
 - [ ] Mietanfrage-Formular (Geräte/Paket, Datum von–bis, Abholung/Lieferung, Gästezahl) mit Ereignis `generate_lead` (Parameter `type: rental`).
 - [ ] Schema: `Product`/`Offer` bzw. `Service` für Verleih; SEO-Titel „Musikanlage mieten Memmingen, Allgäu & Schwaben“.
 - [ ] Datenschutz ergänzen, falls neue Dienste (Zahlungsanbieter, Mietsoftware) dazukommen.
