@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.26.0
+ * Version:     1.26.1
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.26.0' );
+define( 'KJO_VERSION', '1.26.1' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 
@@ -1076,7 +1076,7 @@ add_action(
 				$keep .= ':not(.kjo-m-' . preg_replace( '/[^a-z0-9_]/', '', (string) $name ) . ')';
 			}
 		}
-		echo '<style id="kjo-media-hide">[class*="kjo-m-"]' . $keep . '{display:none!important}</style>' . "\n"; // phpcs:ignore
+		echo '<style id="kjo-media-hide">[class*="kjo-m-"]:not(.kjo-tile)' . $keep . '{display:none!important}</style>' . "\n"; // phpcs:ignore
 	},
 	5
 );
@@ -1657,7 +1657,7 @@ function kjo_update_box() {
 }
 
 define( 'KJO_MEDIA_CSS', <<<'KJOCSS'
-[class*="kjo-m-"]{border:1px solid rgba(178,157,117,.55)!important;border-radius:6px!important;box-shadow:0 14px 30px rgba(0,0,0,.5)!important;overflow:hidden;box-sizing:border-box!important;min-height:0!important;height:auto!important;flex:0 1 auto!important;align-self:center!important;margin-left:auto;margin-right:auto;background-position:center!important;background-size:cover!important;aspect-ratio:4/3;width:min(100%,300px)}@media(max-width:1024px){.kjo-tiles,.kjo-tiles>.e-con-inner{flex-direction:row!important;flex-wrap:nowrap!important;justify-content:flex-start!important;align-items:flex-start!important}.kjo-tiles{overflow-x:auto!important;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:14px!important}.kjo-tiles::-webkit-scrollbar{display:none}.kjo-tiles .kjo-tilecard{flex:0 0 72%!important;width:72%!important;max-width:72%!important;scroll-snap-align:start}}@media(min-width:768px) and (max-width:1024px){.kjo-tiles .kjo-tilecard{flex-basis:42%!important;width:42%!important;max-width:42%!important}}.kjo-vid>video.kjo-hold{opacity:0}.kjo-vid{position:relative!important;overflow:hidden!important}.kjo-solo{justify-content:center!important}.kjo-solo>.kjo-txt{width:100%!important;max-width:780px;margin-left:auto;margin-right:auto}.kjo-vid>video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;cursor:pointer;background:#1A1712;z-index:1}.kjo-vid>.kjo-pb{position:absolute;left:5%;bottom:4%;width:clamp(32px,20%,54px);aspect-ratio:1;height:auto;min-height:0;border-radius:50%!important;background:#161310!important;border:1.5px solid #B29D75!important;color:#B29D75!important;box-shadow:0 0 0 5px rgba(178,157,117,.16),0 8px 20px rgba(0,0,0,.55);padding:0!important;margin:0;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;transition:background .2s,color .2s,box-shadow .2s;-webkit-appearance:none;appearance:none}.kjo-vid>.kjo-pb:hover,.kjo-vid>.kjo-pb:focus-visible{box-shadow:0 0 0 7px rgba(178,157,117,.28),0 8px 20px rgba(0,0,0,.55);outline:none}.kjo-vid>.kjo-pb svg{width:46%;height:46%;display:block;fill:currentColor}.kjo-vid>.kjo-pb .kjo-i2{display:none}.kjo-vid.kjo-on>.kjo-pb{background:#B29D75!important;color:#0F0C07!important}.kjo-vid.kjo-on>.kjo-pb .kjo-i1{display:none}.kjo-vid.kjo-on>.kjo-pb .kjo-i2{display:block}
+[class*="kjo-m-"]{border:1px solid rgba(178,157,117,.55)!important;border-radius:6px!important;box-shadow:0 14px 30px rgba(0,0,0,.5)!important;overflow:hidden;box-sizing:border-box!important;min-height:0!important;height:auto!important;flex:0 1 auto!important;align-self:center!important;margin-left:auto;margin-right:auto;background-position:center!important;background-size:cover!important;aspect-ratio:4/3;width:min(100%,300px)}@media(max-width:1024px){.kjo-tiles,.kjo-tiles>.e-con-inner{flex-direction:row!important;flex-wrap:nowrap!important;justify-content:flex-start!important;align-items:flex-start!important}.kjo-tiles{overflow-x:auto!important;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:14px!important}.kjo-tiles::-webkit-scrollbar{display:none}.kjo-tiles .kjo-tilecard{flex:0 0 72%!important;width:72%!important;max-width:72%!important;scroll-snap-align:start}}@media(min-width:768px) and (max-width:1024px){.kjo-tiles .kjo-tilecard{flex-basis:42%!important;width:42%!important;max-width:42%!important}}.kjo-vid>video.kjo-hold{opacity:0}.kjo-vid{position:relative!important;overflow:hidden!important}.kjo-solo{justify-content:center!important}.kjo-solo>.kjo-txt{width:100%!important;max-width:780px;margin-left:auto;margin-right:auto}.kjo-vid>video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;cursor:pointer;background:#1A1712;z-index:1}.kjo-vid>.kjo-pb{position:absolute;left:5%;bottom:4%;width:clamp(32px,20%,54px);aspect-ratio:1;height:auto;min-height:0;border-radius:50%!important;background:#161310!important;border:1.5px solid #B29D75!important;color:#B29D75!important;box-shadow:0 0 0 5px rgba(178,157,117,.16),0 8px 20px rgba(0,0,0,.55);padding:0!important;margin:0;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;transition:background .2s,color .2s,box-shadow .2s;-webkit-appearance:none;appearance:none}.kjo-vid>.kjo-pb:hover,.kjo-vid>.kjo-pb:focus-visible{box-shadow:0 0 0 7px rgba(178,157,117,.28),0 8px 20px rgba(0,0,0,.55);outline:none}.kjo-vid>.kjo-pb svg{width:46%;height:46%;display:block;fill:currentColor}.kjo-vid>.kjo-pb .kjo-i2{display:none}.kjo-vid.kjo-on>.kjo-pb{background:#B29D75!important;color:#0F0C07!important}.kjo-vid.kjo-on>.kjo-pb .kjo-i1{display:none}.kjo-vid.kjo-on>.kjo-pb .kjo-i2{display:block}.kjo-tilecard{justify-content:flex-start!important}.kjo-tilecard>:last-child{margin-top:auto!important}.kjo-tile.kjo-tile[class*="kjo-m-"]{width:100%!important;max-width:none!important;aspect-ratio:4/3!important;align-self:stretch!important;margin:0!important;background-position:center 35%!important;background-size:cover!important}.kjo-tile.kjo-ph{display:flex!important;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 42%,rgba(178,157,117,.2),rgba(178,157,117,0) 62%),#16130F!important}.kjo-tile.kjo-ph svg{width:30%;max-width:84px;height:auto;fill:none;stroke:#B29D75;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;opacity:.9}
 KJOCSS
 );
 define( 'KJO_MEDIA_JS', <<<'KJOJS'
@@ -1672,6 +1672,10 @@ function altFor(n){n=String(n||"").toLowerCase();var x;
   if((x=n.match(/^start_(\d+)$/)))return "DJ KOLJA ONE live im Einsatz – Eindruck "+x[1];
   return "";}
 window.KJO_ALT=altFor;
+var ICO={hochzeit:'<circle cx="18" cy="28" r="10"/><circle cx="30" cy="28" r="10"/><path d="M27 10l3-4 3 4-3 3z"/>',
+geburtstag:'<path d="M10 40h28V26H10z"/><path d="M10 31c3 3 6 3 9 0s6-3 10 0 6 3 9 0"/><path d="M18 26v-7M24 26v-7M30 26v-7"/><path d="M18 15c-1.5-1.5 0-3.5 0-4.5 1 1 1.5 3 0 4.5zM24 15c-1.5-1.5 0-3.5 0-4.5 1 1 1.5 3 0 4.5zM30 15c-1.5-1.5 0-3.5 0-4.5 1 1 1.5 3 0 4.5z"/>',
+firmenfeier:'<path d="M14 8h8l-1 12a3 3 0 0 1-6 0zM26 8h8l-1 12a3 3 0 0 1-6 0zM18 23v15M30 23v15M13 38h10M25 38h10"/>',
+events:'<path d="M19 34V12l18-4v22"/><circle cx="14" cy="34" r="5"/><circle cx="32" cy="30" r="5"/>'};
 function one(el){
   if(el.getAttribute("data-kjo"))return;
   var m=(String(el.className).match(/kjo-m-([a-z0-9_]+)/i)||[])[1]; if(!m)return;
@@ -1679,7 +1683,9 @@ function one(el){
   var e=M[m.toLowerCase()]||{};
   if(e.img){el.style.backgroundImage='url("'+e.img+'")';el.style.backgroundSize="cover";el.style.backgroundPosition="center";}
   var al=altFor(m);if(al&&e.img&&!e.vid){el.setAttribute("role","img");el.setAttribute("aria-label",al);}
-  function fit(w,h){if(!w||!h)return;var H=(e.h>0?e.h:400),W=Math.round(H*w/h),S=function(k,v){el.style.setProperty(k,v,"important");};S("aspect-ratio",w+" / "+h);S("width","min(100%,"+W+"px)");S("max-width","none");S("height","auto");S("min-height","0");}
+  var tl=el.classList.contains("kjo-tile");
+  if(tl&&!e.img&&!e.vid){el.classList.add("kjo-ph");el.style.backgroundImage="none";el.setAttribute("aria-hidden","true");el.innerHTML='<svg viewBox="0 0 48 48" aria-hidden="true">'+(ICO[m.replace(/^start_/,"")]||ICO.events)+'</svg>';return;}
+  function fit(w,h){if(tl||!w||!h)return;var H=(e.h>0?e.h:400),W=Math.round(H*w/h),S=function(k,v){el.style.setProperty(k,v,"important");};S("aspect-ratio",w+" / "+h);S("width","min(100%,"+W+"px)");S("max-width","none");S("height","auto");S("min-height","0");}
   if(e.img){var pi=new Image();pi.onload=function(){fit(pi.naturalWidth,pi.naturalHeight);};pi.src=e.img;}
   if(!e.vid)return;
   el.classList.add("kjo-vid");
