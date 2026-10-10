@@ -28,6 +28,7 @@
 - [x] Shop-Variante wählen: Mietanfrage-Formular / WooCommerce + Mietplugin / externe Mietsoftware.
 - [x] Equipmentliste geliefert (10.10.2026); PA = Pronomic C-215 MA (2×) + C-118SA (2×).
 - [ ] Offene Modelle: Bose-Sub, Funkmikrofon, Moving Heads, KLS, ALGAM, UV, Wash, Nebel, Laufschrift; PAR-Abgleich 4 vs. 6.
+- [x] Laptop für den DJ-Controller bringt immer der Mieter mit (steht in Gerät und FAQ).
 - [ ] Was davon wird vermietet, was nur bei DJ-Buchungen eingesetzt?
 - [ ] Übergabe: nur Abholung in Fellheim / Lieferung / Lieferung + Aufbau (jeweils Preis bzw. km-Pauschale).
 - [ ] Zielgruppe: Privat, Vereine, Firmen?
@@ -48,12 +49,14 @@
 - [ ] Party-Pakete S / M / L (Gästezahl, Raumgröße, Inhalt, Preis, Kaution) zur Freigabe.
 - [x] Seitentexte „Mein Equipment“ und „Technik mieten“ zur Freigabe.
 - [ ] Vorlagen: Mietvertrag, Mietbedingungen, Übergabe-/Rückgabeprotokoll, Kurzanleitung je Paket.
-- [ ] FAQ Verleih (Kaution, Schaden, Diebstahl, Stornierung, Lieferung, Strom, Lautstärke/Nachbarn).
+- [x] FAQ Verleih (Schaden, Diebstahl, Lieferung, Lautstärke, Bluetooth/Laptop, draußen). Stornierung bewusst ohne FAQ (nur falls rechtlich nötig in den Mietbedingungen).
 
 **Bilder & Videos (Kolja)**
 - [ ] Eigene Produktfotos: einheitlicher dunkler Hintergrund, Front/Rückseite/Anschlüsse, je Paket ein Aufbau-Foto; kurze Videos (Aufbau, Klang ohne GEMA-Musik).
 - [ ] Dateinamen nach Schema `verleih_<geraet>_1.jpg`, `paket_s_1.jpg` usw. (Liste von Claude).
-- [ ] Optional: Plugin für Mediathek-Ordner (z. B. FileBird Lite) – nur zur Übersicht, nicht nötig für die Seite.
+- [x] Optional: Mediathek-Ordner mit FileBird Lite – nur zur Übersicht, die Seite hängt nicht davon ab.
+- [ ] Herstellerbilder (z. B. Bose) nur mit Erlaubnis laut Nutzungsbedingungen; Pronomic-Bilder sind Thomann-Shopbilder → nur mit schriftlicher Erlaubnis oder durch eigene Fotos ersetzen.
+- [ ] Startseite: Fotos `start_hochzeit.jpg`, `start_geburtstag.jpg`, `start_firmenfeier.jpg` (Querformat, ≥ 1200 px); `start_events.jpg` ohne Balken hochladen, alte `.webp` löschen.
 
 **Technik (Claude)**
 - [x] Unterseiten `equipment` und `technik-mieten` in `site/pages.py` anlegen, Navigation und interne Links ergänzen.

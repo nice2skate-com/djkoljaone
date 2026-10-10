@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.26.3: Google-Unternehmensprofil verlinkt (Social-Symbole, Kontaktseite, strukturierte Daten „sameAs“ zusammen mit Instagram und Facebook). Seiten neu einspielen.
 Seit 1.26.2: Technik mieten: Gerätebilder und Paketbilder per Klick groß ansehen (Vollbild, Blättern mit Pfeilen, Wischen oder Tastatur, Schließen mit × oder Esc).
 Seit 1.26.1: Startseite: Leistungs-Kacheln mit einheitlicher Bildgröße; fehlt ein Foto, erscheint ein goldenes Symbol statt einer Lücke. „Mehr erfahren“ steht in allen Kacheln auf einer Höhe.
 Seit 1.26.0: Geräte und Pakete: Bilder und Videos direkt aus der Mediathek wählen (Dateiname egal, Reihenfolge per Ziehen, erstes Bild = Vorschaubild). Knopf „PDF aus der Mediathek wählen“ bei der Anleitung funktioniert wieder.

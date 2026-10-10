@@ -403,7 +403,7 @@ def kontakt():
              border_border="solid",border_width=box(2,0,0,0),border_color=GOLD)
     side=con([H("Lieber direkt?","h3",26,OFF,"left","300")]+[con([ICONBOX(i,t,d,"left",u)],bg=B2,pad=box(28,26,28,26)) for i,t,d,u in [
         ("fas fa-phone","Anrufen",PHONE+" – direkt mit mir sprechen",TEL),("fab fa-whatsapp","WhatsApp","Schnell und unkompliziert – gern auch per Sprachnachricht",WA),
-        ("fas fa-envelope","E-Mail",MAIL,"mailto:"+MAIL),("fab fa-instagram","Instagram","Einblicke von meinen Events, Playlisten und nützliche Infos",INSTA),("fab fa-facebook-f","Facebook","DJ KOLJA ONE",FACEBOOK)]],g=16,**col(38,100,100))
+        ("fas fa-envelope","E-Mail",MAIL,"mailto:"+MAIL),("fab fa-instagram","Instagram","Einblicke von meinen Events, Playlisten und nützliche Infos",INSTA),("fab fa-facebook-f","Facebook","DJ KOLJA ONE",FACEBOOK),("fab fa-google","Google","Profil, Fotos und Bewertungen",GOOGLE)]],g=16,**col(38,100,100))
     return [nav(),hero("Anfrage","Wunschtermin prüfen","Schickt mir euer Datum – ich prüfe sofort, ob es noch frei ist, und melde mich innerhalb von 24 Stunden persönlich bei euch. Unverbindlich und kostenlos.",
             [BTN("Zum Formular","#formular"),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=55),
         section([con([form,side],"row",g=30,**ROW,flex_justify_content="space-between",flex_align_items="flex-start")],anchor="formular"),

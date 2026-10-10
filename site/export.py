@@ -29,7 +29,7 @@ for title,slug,fn in PAGES:
     if slug in AUTO: open(f"{sd}/{slug}.json","w",encoding="utf-8").write(json.dumps(fn(),ensure_ascii=False,separators=(",",":")))
 # ---- Strukturierte Daten (JSON-LD): das Plugin baut daraus pro Seite das Schema ----
 import re, html as _html
-from lib import PHONE, MAIL, INSTA, ORTE
+from lib import PHONE, MAIL, INSTA, FACEBOOK, GOOGLE, ORTE
 import pages as _pg
 def _faq(content):
     out=[]
@@ -53,7 +53,7 @@ SEOKIND={"start":"home","ueber-mich":"about","kontakt":"contact","faq":"faq","ei
 sch={"business":{"name":"DJ KOLJA ONE","legalName":"Artificial Sentiments","founder":"Kolja Tönges",
      "telephone":PHONE,"email":MAIL,"locality":"Fellheim","postalCode":"87748","country":"DE",
      "description":"Mobiler DJ und Moderator aus Fellheim für Hochzeiten, Geburtstage, Firmenfeiern und Events in Memmingen, Ulm, dem Allgäu und Oberschwaben.",
-     "sameAs":[INSTA],"areas":[LANG.get(o,o) for o,_ in ORTE],"regions":["Allgäu","Oberschwaben"]},"pages":{}}
+     "sameAs":[INSTA,FACEBOOK,GOOGLE],"areas":[LANG.get(o,o) for o,_ in ORTE],"regions":["Allgäu","Oberschwaben"]},"pages":{}}
 for title,slug,fn in PAGES:
     if slug not in AUTO or slug in ("impressum","datenschutz"): continue
     content=fn(); e={"name":title,"faq":_faq(content)}
