@@ -1,9 +1,9 @@
 {
- "version": "1.22.3",
- "download_url": "dj-kolja-one-plattenkiste-1.22.3.zip",
- "sha256": "27562e8de6cae0a2a7aa0d89015a079e3b97c5eb47406a2a12ca4c93c783a5cb",
+ "version": "1.23.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.23.0.zip",
+ "sha256": "51a8f9965ed284c2608df631736b0c49bc6c12fa105517b0981527e26c6b63be",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Mietanfrage: Fehlermeldung verschwindet nach Korrektur"
+ "changelog": "DJ-Anfrage: Kalender für das Wunschdatum"
 }
