@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.24.0
+ * Version:     1.24.1
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.24.0' );
+define( 'KJO_VERSION', '1.24.1' );
 require_once __DIR__ . '/kjo-verleih.php';
 
 /* ---------------------------------------------------------------
@@ -2252,7 +2252,7 @@ add_action(
 		if ( is_admin() || ! apply_filters( 'kjo_wpf_kalender', true ) ) {
 			return;
 		}
-		echo '<style id="kjo-wpf-date-css">.kjo-dp-wrap{position:relative}.kjo-dp-wrap input.kjo-dp-txt{cursor:pointer;padding-right:44px!important;background-image:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Cpath fill=%27%23B29D75%27 d=%27M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2zm-2 8h14v10H5z%27/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 14px center!important;background-size:20px!important}.kjo-dp-wrap input.kjo-dp{position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;cursor:pointer;margin:0;padding:0;border:0;z-index:2;-webkit-appearance:none;appearance:none}.kjo-dp-open{background:none;border:0;padding:6px 0 0;color:#B29D75;font:13px "Fira Sans",sans-serif;text-decoration:underline;cursor:pointer}</style>';
+		echo '<style id="kjo-wpf-date-css">.kjo-dp-wrap{position:relative!important;display:block!important;width:100%}.kjo-dp-wrap input.kjo-dp-txt{cursor:pointer;padding-right:44px!important;background-image:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Cpath fill=%27%23B29D75%27 d=%27M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2zm-2 8h14v10H5z%27/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 14px center!important;background-size:20px!important}.kjo-dp-wrap input.kjo-dp{position:absolute!important;left:0!important;top:0!important;width:100%;height:100%;opacity:0;cursor:pointer;margin:0;padding:0;border:0;z-index:2;-webkit-appearance:none;appearance:none}.kjo-dp-open{background:none;border:0;padding:6px 0 0;color:#B29D75;font:13px "Fira Sans",sans-serif;text-decoration:underline;cursor:pointer}</style>';
 		echo '<script id="kjo-wpf-date">' . KJO_WPF_DATE_JS . '</script>' . "\n";
 	},
 	31
@@ -2272,6 +2272,7 @@ function setup(c){
   if(!txt.getAttribute("placeholder"))txt.setAttribute("placeholder","Tag im Kalender wählen");
   function open(){try{if(dp.showPicker){dp.showPicker();return;}}catch(e){}try{dp.focus();dp.click();}catch(e){}}
   dp.addEventListener("click",function(){open();});
+  txt.addEventListener("click",function(e){e.preventDefault();open();}); /* falls das Overlay vom Theme verschoben wird */
   txt.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "||e.key==="ArrowDown"){e.preventDefault();open();}});
   dp.addEventListener("change",function(){if(dp.value){txt.value=nice(dp.value);fire(txt);}});
   var b=document.createElement("button");b.type="button";b.className="kjo-dp-open";b.textContent="Noch kein festes Datum?";
