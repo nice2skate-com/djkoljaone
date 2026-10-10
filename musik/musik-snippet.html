@@ -81,7 +81,7 @@ window.KJM_DEMO = [
 #kjm .tab.fit{border-color:#8FC79A;color:#8FC79A}#kjm .tab.fit.on{background:#8FC79A;color:var(--b1)}
 #kjm .keys{max-width:1000px;margin:14px auto 0;text-align:center;font-size:11px;letter-spacing:2px;color:var(--muted)}#kjm .keys b{font-weight:400;color:var(--gold)}
 #kjm .pf{cursor:ns-resize;touch-action:none;outline:none}#kjm .pf:focus-visible rect:nth-of-type(2){stroke:#F3F1E9}#kjm .sync{cursor:pointer;outline:none}#kjm .sync:focus-visible circle{stroke:#F3F1E9}
-#kjm .brow{display:flex;justify-content:center;align-items:center;position:relative;margin:0 0 10px}#kjm .lat{position:absolute;right:0;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:6px;font-size:11px;letter-spacing:1px;color:var(--muted)}#kjm .lat button{width:26px;height:26px;border:1px solid rgba(178,157,117,.4);border-radius:50%;background:none;color:var(--gold);font:inherit;font-size:14px;line-height:1;cursor:pointer;padding:0}#kjm .lat output{min-width:44px;text-align:center}@media(max-width:700px){#kjm .lat{position:static;transform:none;margin-left:10px}#kjm .lat span{display:none}}
+#kjm .brow{display:flex;justify-content:center;align-items:center;position:relative;margin:0 0 10px}#kjm .lat{position:absolute;right:0;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:6px;font-size:11px;letter-spacing:1px;color:var(--muted)}#kjm .lat button{width:26px;height:26px;border:1px solid rgba(178,157,117,.4);border-radius:50%;background:none;color:var(--gold);font:inherit;font-size:14px;line-height:1;cursor:pointer;padding:0}#kjm .lat output{min-width:44px;text-align:center}#kjm .lat .latr{font-size:15px}#kjm .lat .latr:disabled{opacity:.35;cursor:default}@media(max-width:700px){#kjm .lat{position:static;transform:none;margin-left:10px}#kjm .lat span{display:none}}
 #kjm #kjmBrowse{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border:1px solid var(--gold);border-radius:3px;background:linear-gradient(#26211a,#15120d);color:var(--gold);font:inherit;font-size:12px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:.15s}
 #kjm #kjmBrowse svg{width:16px;height:16px;fill:currentColor}#kjm #kjmBrowse:hover,#kjm #kjmBrowse:focus-visible{background:var(--gold);color:var(--b1);outline:none}
 .kjmbw{--b1:#0F0C07;--b2:#1A1712;--gold:#B29D75;--off:#F3F1E9;--muted:#A39E93;position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(8,6,3,.9);font-family:"Fira Sans",sans-serif;color:var(--off);-webkit-tap-highlight-color:transparent}.kjmbw.on{display:flex}
@@ -144,7 +144,7 @@ window.KJM_DEMO = [
 #kjm .seek{cursor:pointer;touch-action:none;outline:none}#kjm .seek:focus-visible{stroke:#B29D75;stroke-width:1}#kjm .kn{cursor:ns-resize;touch-action:none;outline:none}#kjm .kn:focus-visible circle:nth-of-type(3){stroke:#E0B36A}#kjm .fxb{cursor:pointer;outline:none}#kjm .fxb:focus-visible rect:nth-of-type(2){stroke:#F3F1E9}#kjm .chf{cursor:ns-resize;touch-action:none;outline:none}#kjm .chf:focus-visible rect:nth-of-type(2){stroke:#F3F1E9}</style>
 <p class="hint" id="kjmHint">Wähle eine Platte aus der Kiste und lade sie auf ein Deck</p>
 <div class="rig">
- <div class="ctrl"><div class="brow"><button type="button" id="kjmBrowse" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v2H3zM3 11h18v2H3zM3 17h12v2H3z"/></svg>BROWSE · Titel laden</button><div class="lat" title="Wellenform-Versatz: verschiebt die rote Linie, wenn sie bei Bluetooth oder Lautsprechern dem Ton hinterherläuft oder vorauseilt"><span>VERSATZ</span><button type="button" id="kjmLatM" aria-label="Anzeige früher">−</button><output id="kjmLatV" aria-live="polite">auto</output><button type="button" id="kjmLatP" aria-label="Anzeige später">+</button></div></div><canvas id="kjmWv" aria-label="Wellenformen beider Decks – klicken zum Springen" role="img"></canvas><div class="cwrap"><svg id="kjmSvg" viewBox="0 0 1200 600" role="img" aria-label="DJ-Controller mit zwei Decks, Mixer und Crossfader"></svg><div class="toast" id="kjmToast" role="status" aria-live="polite"></div></div></div>
+ <div class="ctrl"><div class="brow"><button type="button" id="kjmBrowse" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v2H3zM3 11h18v2H3zM3 17h12v2H3z"/></svg>BROWSE · Titel laden</button><div class="lat" title="Wellenform-Versatz: verschiebt die rote Linie, wenn sie bei Bluetooth oder Lautsprechern dem Ton hinterherläuft oder vorauseilt"><span>VERSATZ</span><button type="button" id="kjmLatM" aria-label="Anzeige früher">−</button><output id="kjmLatV" aria-live="polite">auto</output><button type="button" id="kjmLatP" aria-label="Anzeige später">+</button><button type="button" id="kjmLatR" class="latr" aria-label="Versatz zurücksetzen (automatisch)" title="Zurücksetzen auf automatisch">↺</button></div></div><canvas id="kjmWv" aria-label="Wellenformen beider Decks – klicken zum Springen" role="img"></canvas><div class="cwrap"><svg id="kjmSvg" viewBox="0 0 1200 600" role="img" aria-label="DJ-Controller mit zwei Decks, Mixer und Crossfader"></svg><div class="toast" id="kjmToast" role="status" aria-live="polite"></div></div></div>
  <div class="lap" aria-label="Laptop mit Video-Anzeige">
   <div class="lid"><div class="cam"></div><div class="scr">
    <div class="cov" id="kjmCov"></div><canvas id="kjmVis" width="640" height="400"></canvas>
@@ -222,13 +222,12 @@ E("line",{x1:445,y1:30,x2:445,y2:570,stroke:"#000",opacity:.6,"stroke-width":2},
 T(600,578,"DJ KOLJA ONE",{"text-anchor":"middle","font-size":13,"letter-spacing":6,fill:"#B29D75",opacity:.8},svg);
 function knob(x,y,r,p,col){var g=E("g",{},p);E("circle",{cx:x,cy:y,r:r+3,fill:"#0a0806"},g);E("circle",{cx:x,cy:y,r:r,fill:"url(#mknob)",stroke:col||"#2e2a23","stroke-width":col?2:1},g);var a=(-140+Math.random()*280)*Math.PI/180;E("line",{x1:x,y1:y,x2:x+Math.sin(a)*(r-3),y2:y-Math.cos(a)*(r-3),stroke:"#F3F1E9","stroke-width":2,"stroke-linecap":"round"},g)}
 var mx=E("g",{},svg),meters=[],KN=[];
-E("rect",{x:452,y:22,width:296,height:100,rx:4,fill:"#050403",stroke:"#2d281f"},mx);
-var mixL=T(600,76,"MIX",{"text-anchor":"middle","font-size":10,"letter-spacing":4,fill:"#6f685c"},mx);
+var mixL=T(600,48,"MIX",{"text-anchor":"middle","font-size":11,"letter-spacing":4,fill:"#6f685c"},mx); /* seit 1.24: ohne Display-Kasten, mehr Platz für größere Regler */
 function klOn(o){return o.keylock||(typeof AM!=="undefined"&&AM.on)}
 function dk(o){return o&&o.song?effKey(o.song.key,klOn(o)?1:o.rate):""}
 function updCompat(){var ka=dk(decks[0]),kb=dk(decks[1]),c=ka&&kb?camComp(ka,kb):null;
- if(c){mixL.textContent=ka+" + "+kb+" · "+c.t;mixL.setAttribute("fill",c.c);mixL.setAttribute("letter-spacing",1.5);mixL.setAttribute("font-size",10.5)}
- else{mixL.textContent="MIX";mixL.setAttribute("fill","#6f685c");mixL.setAttribute("letter-spacing",4);mixL.setAttribute("font-size",10)}}
+ if(c){mixL.textContent=ka+" + "+kb+" · "+c.t;mixL.setAttribute("fill",c.c);mixL.setAttribute("letter-spacing",1.5);mixL.setAttribute("font-size",13)}
+ else{mixL.textContent="MIX";mixL.setAttribute("fill","#6f685c");mixL.setAttribute("letter-spacing",4);mixL.setAttribute("font-size",11)}}
 var mixT=T(600,508,"CROSSFADER ZIEHEN",{"text-anchor":"middle","font-size":10.5,"letter-spacing":2,fill:"#B29D75"},mx);
 var MIX=[{trim:0,hi:0,mid:0,lo:0,filt:0,fx:false,vol:1},{trim:0,hi:0,mid:0,lo:0,filt:0,fx:false,vol:1}],fxBtn=[];
 function mixChanged(i){var o=decks[i];if(o){if(!ac&&o.song)audio();applyMix(o)}}
@@ -247,12 +246,12 @@ function knobCtl(x,y,r,p,col,label,get,set){var g=E("g",{"class":"kn",role:"slid
  draw();g.redraw=draw;return g}
 function knobStill_unused(x,y,r,p){var g=E("g",{opacity:.55},p);E("circle",{cx:x,cy:y,r:r+3,fill:"#0a0806"},g);E("circle",{cx:x,cy:y,r:r,fill:"url(#mknob)",stroke:"#2e2a23","stroke-width":1},g);E("line",{x1:x,y1:y,x2:x,y2:y-(r-3),stroke:"#F3F1E9","stroke-width":2,"stroke-linecap":"round"},g)}
 [540,660].forEach(function(x,i){
- var rows=[["TRIM","trim",168,13],["HIGH","hi",206,13],["MID","mid",240,13],["LOW","lo",274,13],["FILTER","filt",322,15]];
- rows.forEach(function(rw){T(x-21,rw[2]+(rw[3]>13?-17:-15),rw[0],{"font-size":7,"letter-spacing":1,fill:"#a3987f"},mx);
+ var rows=[["TRIM","trim",86,18],["HIGH","hi",140,18],["MID","mid",194,18],["LOW","lo",248,18],["FILTER","filt",306,20]];
+ rows.forEach(function(rw){T(x,rw[2]-rw[3]-7,rw[0],{"text-anchor":"middle","font-size":8.5,"letter-spacing":1,fill:"#a3987f"},mx);
   (KN[i]=KN[i]||{})[rw[1]]=knobCtl(x,rw[2],rw[3],mx,rw[1]==="filt"?"#B29D75":null,rw[0]+" Deck "+(i?"B":"A"),function(){return MIX[i][rw[1]]},function(v){MIX[i][rw[1]]=v;mixChanged(i)});});
  if(i<2){var fb=E("g",{"class":"fxb",role:"button",tabindex:0,"aria-pressed":"false","aria-label":"Echo-Effekt Deck "+(i?"B":"A")},mx);
-  E("rect",{x:x-22,y:338,width:44,height:28,fill:"transparent"},fb);var fr=E("rect",{x:x-16,y:344,width:32,height:16,rx:3,fill:"#1f1b16",stroke:"#B29D75","stroke-width":1},fb);
-  var ft=T(x,355.5,"FX",{"text-anchor":"middle","font-size":8,"letter-spacing":1.5,"font-weight":500,fill:"#B29D75"},fb);
+  E("rect",{x:x-26,y:336,width:52,height:34,fill:"transparent"},fb);var fr=E("rect",{x:x-20,y:341,width:40,height:22,rx:4,fill:"#1f1b16",stroke:"#B29D75","stroke-width":1},fb);
+  var ft=T(x,356,"FX",{"text-anchor":"middle","font-size":10,"letter-spacing":1.5,"font-weight":500,fill:"#B29D75"},fb);
   var tg=function(){var m=MIX[i];m.fx=!m.fx;fr.setAttribute("fill",m.fx?"#E0B36A":"#1f1b16");ft.setAttribute("fill",m.fx?"#0F0C07":"#B29D75");fr.setAttribute("stroke-width",m.fx?2:1);fb.setAttribute("aria-pressed",m.fx?"true":"false");mixChanged(i)};
   fb.addEventListener("click",tg);fb.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();tg()}});fxBtn[i]=fb}
  E("rect",{x:x-3,y:372,width:6,height:120,rx:3,fill:"#050403"},mx);
@@ -593,10 +592,10 @@ function curT(o){if(!o.media)return o.demoPos||0;var m=o.media,ct=m.currentTime|
  if(o.__est!=null&&e<o.__est&&o.__est-e<.25)e=o.__est;o.__est=e;return e}
 var LAT=null;try{var lv=localStorage.getItem("kjmLat");if(lv!==null&&lv!=="")LAT=+lv}catch(e){}
 function wvLat(){if(LAT!==null&&!isNaN(LAT))return LAT/1000;return ac?Math.min(.5,(ac.outputLatency||0)+(ac.baseLatency||0)):0}
-function latShow(){document.getElementById("kjmLatV").textContent=LAT===null?"auto":(LAT>0?"+":"")+LAT+" ms"}
+function latShow(){document.getElementById("kjmLatV").textContent=LAT===null?"auto":(LAT>0?"+":"")+LAT+" ms";var r=document.getElementById("kjmLatR");if(r)r.disabled=LAT===null}
 function latStep(d){var c=LAT===null?Math.round(wvLat()*1000/10)*10:LAT;LAT=Math.max(-300,Math.min(600,c+d));try{localStorage.setItem("kjmLat",String(LAT))}catch(e){}latShow();wvDirty=true}
 document.getElementById("kjmLatM").addEventListener("click",function(){latStep(-20)});document.getElementById("kjmLatP").addEventListener("click",function(){latStep(20)});
-document.getElementById("kjmLatV").addEventListener("dblclick",function(){LAT=null;try{localStorage.removeItem("kjmLat")}catch(e){}latShow();wvDirty=true});latShow();
+function latReset(){LAT=null;try{localStorage.removeItem("kjmLat")}catch(e){}latShow();wvDirty=true}document.getElementById("kjmLatV").addEventListener("dblclick",latReset);document.getElementById("kjmLatR").addEventListener("click",latReset);latShow();
 function wvDraw(){var k=WV.k,W=wvC.width,sy=wvC.height/198,x=wvX,pps=W/WV.win;if(!wvC.width)return;x.clearRect(0,0,wvC.width,wvC.height);
  decks.forEach(function(o,i){var lz=LZ[i],oy=OVY[i],y0=lz.y*sy,h=lz.h*sy,wv=o.wv,t=curT(o);o.__wt=t;if(o.media&&o.speed>.06)t=Math.max(0,t-wvLat());
   x.fillStyle="#0a0806";x.fillRect(0,y0,W,h);x.fillRect(0,oy.y*sy,W,oy.h*sy);

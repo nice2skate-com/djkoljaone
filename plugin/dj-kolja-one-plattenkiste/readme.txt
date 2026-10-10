@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.24.0: DJ-Pult „Meine Musik“: Display-Kasten über dem Mixer entfernt (Tonart-Anzeige bleibt als Zeile), Drehregler und FX-Knöpfe deutlich größer und leichter zu greifen; neuer Knopf ↺ zum Zurücksetzen des Versatzes auf „auto“.
 Seit 1.23.0: DJ-Anfrageformular (WPForms): Das Feld „Wunschdatum“ öffnet einen Kalender; in die Anfrage kommt z. B. „Samstag, 14.11.2026“. Vergangene Tage sind gesperrt. Link „Noch kein festes Datum?“ trägt „noch offen – siehe Nachricht“ ein.
 Seit 1.22.3: Mietanfrage: Fehlermeldung verschwindet, sobald das markierte Feld ausgefüllt ist; eigene Meldung bei leerer E-Mail (z. B. nicht übernommener Browser-Vorschlag); Autofill im dunklen Design.
 Seit 1.22.2: Mietanfrage: Leere Datumsfelder sehen leer aus (Safari zeigt sonst das heutige Datum als Platzhalter), Fehler werden direkt am Feld markiert und angesprungen, Rückgabe wird beim Wählen des Beginns vorbelegt, keine Daten in der Vergangenheit.

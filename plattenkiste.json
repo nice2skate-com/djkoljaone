@@ -1,9 +1,9 @@
 {
- "version": "1.23.0",
- "download_url": "dj-kolja-one-plattenkiste-1.23.0.zip",
- "sha256": "51a8f9965ed284c2608df631736b0c49bc6c12fa105517b0981527e26c6b63be",
+ "version": "1.24.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.24.0.zip",
+ "sha256": "8c903a5667f4ca277a3e9266938b0bbd6279e345860b9ab28dd0f5eaa64fde7c",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "DJ-Anfrage: Kalender für das Wunschdatum"
+ "changelog": "DJ-Pult: größere Regler, ohne Display-Kasten, Versatz zurücksetzen; DJ-Anfrage mit Kalender"
 }
