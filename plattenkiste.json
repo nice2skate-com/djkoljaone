@@ -1,9 +1,9 @@
 {
- "version": "1.22.0",
- "download_url": "dj-kolja-one-plattenkiste-1.22.0.zip",
- "sha256": "943c19713e598622bff35fc4b3f2a29474473533169e6ef4509ebe001b131765",
+ "version": "1.22.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.22.1.zip",
+ "sha256": "c419caa5a6e1b1e8bc94c1e05dad82e76f1779ddbfed5306106f3eb460b599ae",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Verleih: Equipment-Seite, Technik mieten mit Paketen, Equipment-Browser, Mietkorb, Mietanfrage und Verwaltung"
+ "changelog": "Spaltenbreiten für Elementor 4.3.4 repariert, neues Menü ohne Umbruch"
 }

@@ -29,6 +29,8 @@ def typo(p,size,weight="400",m=None,lh=None,ls=None,tr=None):
 def W(t,s): return {"id":uid(),"elType":"widget","widgetType":t,"settings":s,"elements":[]}
 
 def con(children,direction="column",bg=None,pad=None,inner=True,full=False,g=20,**extra):
+    # Elementor (ab 4.3.4) wendet „width“ nur bei content_width=full an – Spalten mit Breitenangabe daher immer „full“.
+    if any(k in extra for k in ("width","width_tablet","width_mobile")): full=True
     s={"content_width":"full" if full else "boxed","flex_direction":direction,"flex_gap":gap(g)}
     if not full: s["boxed_width"]=px(1200)
     if bg: s.update({"background_background":"classic","background_color":bg})
@@ -97,21 +99,22 @@ def head(eye,title,intro=None):
     out.append(SPACER(6)); return out
 
 # ---------------- global parts ----------------
-NAV=[("Hochzeit","/hochzeits-dj/"),("Geburtstag","/geburtstags-dj/"),("Firmenfeier","/firmenfeier-dj/"),
-     ("Events","/event-dj/"),("Über mich","/ueber-mich/"),("Meine Musik","/meine-musik/"),("FAQ","/faq/"),("Regionen","/einsatzgebiete/")]
+NAV=[("Hochzeit","/hochzeits-dj/"),("Geburtstag","/geburtstags-dj/"),("Firmen","/firmenfeier-dj/"),
+     ("Events","/event-dj/"),("Technik","/equipment/"),("Mieten","/technik-mieten/"),("Über mich","/ueber-mich/"),("Meine Musik","/meine-musik/")]
+NAV_MOBIL=NAV+[("FAQ","/faq/"),("Regionen","/einsatzgebiete/"),("Kontakt","/kontakt/")]
 SERVICES=[("Hochzeits-DJ","/hochzeits-dj/"),("Geburtstags-DJ","/geburtstags-dj/"),("Firmenfeier-DJ","/firmenfeier-dj/"),("Event-DJ","/event-dj/")]
 ORTE=[("Memmingen","dj-memmingen"),("Ulm","dj-ulm"),("Biberach","dj-biberach"),("Ravensburg","dj-ravensburg"),
       ("Kempten","dj-kempten"),("Füssen","dj-fuessen"),("Kaufbeuren","dj-kaufbeuren"),("Landsberg","dj-landsberg")]
 
 def nav():
     links=con([H(t,"p",16,OFF,"center","400",link=u,ls=0.3,_flex_size="none") for t,u in NAV],"row",g=20,flex_justify_content="center",
-              flex_align_items="center",hide_tablet="hidden-tablet",hide_mobile="hidden-mobile")
+              flex_align_items="center",hide_tablet="hidden-tablet",hide_mobile="hidden-mobile",flex_wrap="nowrap",css_classes="kjo-navlinks")
     top=con([LOGO(LOGO_NAV,210,170),links,
              BTN("Wunschtermin prüfen",KONTAKT,True,"right",text_padding=box(12,18,12,18),_flex_size="none",hide_mobile="hidden-mobile",
                  typography_font_size=px(13))],
             "row",g=18,flex_justify_content="space-between",flex_align_items="center",flex_direction_mobile="row",
             content_width="full")
-    mob=con([H(t,"p",13,OFF,"center","400",link=u) for t,u in NAV+[("Kontakt",KONTAKT)]],"row",g=14,
+    mob=con([H(t,"p",13,OFF,"center","400",link=u) for t,u in NAV_MOBIL],"row",g=14,
             flex_wrap="wrap",flex_justify_content="center",flex_direction_mobile="row",hide_desktop="hidden-desktop",
             padding=box(12,0,0,0),border_border="solid",border_width=box(1,0,0,0),border_color=LINE)
     return con([top,mob],"column",bg=B1,pad=box(16,40,16,40),inner=False,full=True,g=8,padding_mobile=box(14,20,14,20),
