@@ -3,7 +3,7 @@
 ## A. Google Ads – vor dem Start (geparkt)
 
 **Pflicht**
-- [ ] GA4: Stern bei `generate_lead`, `click_whatsapp`, `click_phone`, `click_email` (Admin → Data display → Events → „Recent events“). **Keinen** Stern bei `contact_link_click`, `click`, `form_start`, `submit_lead_form` (doppelte Zählung).
+- [x] GA4: Stern bei `generate_lead`, `click_whatsapp`, `click_phone`, `click_email` (Admin → Data display → Events → „Recent events“). **Keinen** Stern bei `contact_link_click`, `click`, `form_start`, `submit_lead_form` (doppelte Zählung).
 - [ ] Google-Ads-Konto anlegen (Expertenmodus, keine Smart-Kampagne; Rechnungsdaten Artificial Sentiments).
 - [ ] GA4 ↔ Google Ads verknüpfen (GA4 Admin → Product links → Google Ads links); personalisierte Werbung aus, Auto-Tagging an.
 - [ ] Conversions aus GA4 importieren: `generate_lead` Wert 100 €, die anderen 50 €, alle primär, Zählung „Eine“.
@@ -12,9 +12,9 @@
 - [x] Conversion-Events auf der Seite (live geprüft 09.10.2026).
 
 **Empfohlen**
-- [ ] Google Unternehmensprofil anlegen: Name nur „DJ KOLJA ONE“, Kategorie DJ-Service, ohne Ladengeschäft (Adresse verborgen), Einzugsgebiet = Ortsseiten, Website-Link mit `?utm_source=google&utm_medium=organic&utm_campaign=gbp`, Bestätigung (Video/Post/Telefon).
-- [ ] Profil-Beschreibung (750 Zeichen) und Leistungstexte – Claude schreibt Entwurf.
-- [ ] Profil-Link in Webseite und Schema (`sameAs`) eintragen.
+- [x] Google Unternehmensprofil anlegen: Name nur „DJ KOLJA ONE“, Kategorie DJ-Service, ohne Ladengeschäft (Adresse verborgen), Einzugsgebiet = Ortsseiten, Website-Link mit `?utm_source=google&utm_medium=organic&utm_campaign=gbp`, Bestätigung (Video/Post/Telefon).
+- [x] Profil-Beschreibung (750 Zeichen) und Leistungstexte – Beschreibung eingetragen; Leistungen und Eröffnungsdatum (echtes DJ-Startjahr statt 2021) noch prüfen.
+- [x] Profil-Link in Webseite und Schema (`sameAs`) eintragen (1.26.3).
 - [ ] 3–5 echte Google-Bewertungen sammeln (WhatsApp-Vorlage von Claude); danach Bewertungen auf der Seite durch echte ersetzen.
 - [ ] Kampagnenplan „Hochzeits-DJ“ (Keywords, ausschließende Keywords, Anzeigentexte, Region, 10–15 €/Tag für 4 Wochen) – Claude schreibt Entwurf.
 
