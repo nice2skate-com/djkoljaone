@@ -1,9 +1,9 @@
 {
- "version": "1.22.1",
- "download_url": "dj-kolja-one-plattenkiste-1.22.1.zip",
- "sha256": "c419caa5a6e1b1e8bc94c1e05dad82e76f1779ddbfed5306106f3eb460b599ae",
+ "version": "1.22.2",
+ "download_url": "dj-kolja-one-plattenkiste-1.22.2.zip",
+ "sha256": "f15904e0da9f25281397ebe6bada0028fb1eb35fff8766e344853691df86f03b",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Spaltenbreiten für Elementor 4.3.4 repariert, neues Menü ohne Umbruch"
+ "changelog": "Mietanfrage: klarere Datumsfelder und Fehlermeldungen am Feld"
 }

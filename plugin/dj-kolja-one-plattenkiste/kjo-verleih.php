@@ -792,8 +792,8 @@ function kjo_vl_cart_html() {
 <form class="kjo-vl-form" novalidate>
 <h3>Mietanfrage – kostenlos und unverbindlich</h3>
 <div class="kjo-vl-grid">
-<label>Abholung bzw. Beginn *<input type="date" name="von" required></label>
-<label>Rückgabe bzw. Ende *<input type="date" name="bis" required></label>
+<label>Abholung bzw. Beginn * <small class="kjo-vl-hint">Datum wählen</small><input type="date" name="von" required></label>
+<label>Rückgabe bzw. Ende * <small class="kjo-vl-hint">Datum wählen</small><input type="date" name="bis" required></label>
 </div>
 <fieldset><legend>Übergabe *</legend>
 <label class="kjo-vl-r"><input type="radio" name="uebergabe" value="Abholung in Fellheim" checked> Abholung in Fellheim (mit Einweisung)</label>
@@ -891,6 +891,11 @@ define(
 .kjo-vl-form label{display:block;color:#F3F1E9;font-size:14px;margin:0 0 12px}
 .kjo-vl-form input[type=text],.kjo-vl-form input[type=email],.kjo-vl-form input[type=tel],.kjo-vl-form input[type=date],.kjo-vl-form input[type=number],.kjo-vl-form textarea{display:block;width:100%;box-sizing:border-box;margin-top:6px;background:#0F0C07;border:1px solid rgba(178,157,117,.45);color:#F3F1E9;padding:11px 12px;font:16px "Fira Sans",sans-serif;border-radius:2px;color-scheme:dark}
 .kjo-vl-form input:focus,.kjo-vl-form textarea:focus{outline:none;border-color:#B29D75}
+.kjo-vl-form input[type=date]:invalid{color:#7d776c;font-style:italic}
+.kjo-vl-form input[type=date]::-webkit-datetime-edit{color:inherit}
+.kjo-vl-hint{color:#A39E93;font-size:12px;font-weight:400}
+.kjo-vl-form label:has(input[type=date]:valid) .kjo-vl-hint{display:none}
+.kjo-vl-form .kjo-vl-bad{border-color:#ff9b8a!important;box-shadow:0 0 0 1px #ff9b8a}
 .kjo-vl-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
 .kjo-vl-form fieldset{border:0;margin:0 0 12px;padding:0}.kjo-vl-form legend{color:#F3F1E9;font-size:14px;margin-bottom:6px}
 .kjo-vl-r{display:flex!important;gap:8px;align-items:flex-start;color:#A39E93!important;margin:0 0 6px!important}.kjo-vl-r input{margin-top:4px;accent-color:#B29D75}
@@ -956,15 +961,23 @@ function init(){
   var qi=q$(".kjo-vl-q");if(qi)qi.addEventListener("input",filter);
   var f=q$(".kjo-vl-form");if(!f)return;
   all('input[name="uebergabe"]',f).forEach(function(i){i.addEventListener("change",function(){var l=f.uebergabe.value.indexOf("Lieferung")>-1;q$(".kjo-vl-ort",f).hidden=!l;});});
+  function iso(dt){return dt.getFullYear()+"-"+("0"+(dt.getMonth()+1)).slice(-2)+"-"+("0"+dt.getDate()).slice(-2);}
+  var today=iso(new Date()),fv=f.elements.von,fb=f.elements.bis;
+  fv.min=today;fb.min=today;
+  fv.addEventListener("change",function(){if(fv.value){fb.min=fv.value;if(!fb.value||fb.value<fv.value)fb.value=fv.value;fb.classList.remove("kjo-vl-bad");}});
+  all("input,textarea",f).forEach(function(el){["input","change"].forEach(function(t){el.addEventListener(t,function(){el.classList.remove("kjo-vl-bad");});});});
   f.addEventListener("submit",function(ev){ev.preventDefault();var err=q$(".kjo-vl-err",f),b=q$(".kjo-vl-send",f);err.hidden=true;
-    function fail(m){err.textContent=m;err.hidden=false;}
+    all(".kjo-vl-bad",f).forEach(function(e){e.classList.remove("kjo-vl-bad");});
+    function fail(m,el){err.textContent=m;err.hidden=false;if(el){el.classList.add("kjo-vl-bad");try{el.scrollIntoView({block:"center",behavior:"smooth"});}catch(e){}setTimeout(function(){try{el.focus({preventScroll:true});}catch(e){el.focus();}},250);}}
     if(!cart.length)return fail("Bitte legt zuerst ein Paket oder Gerät in den Mietkorb.");
     var d={};["von","bis","uebergabe","ort","anlass","gaeste","name","email","telefon","nachricht","website"].forEach(function(n){var el=f.elements[n];d[n]=el?(el.value||"").trim():"";});
-    if(!d.von||!d.bis)return fail("Bitte gebt Beginn und Ende der Miete an.");
-    if(d.bis<d.von)return fail("Das Ende liegt vor dem Beginn – bitte prüft die Daten.");
-    if(!d.name)return fail("Bitte gebt euren Namen an.");
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email))return fail("Bitte gebt eine gültige E-Mail-Adresse an.");
-    if(d.uebergabe.indexOf("Lieferung")>-1&&!d.ort)return fail("Bitte gebt den Ort für die Lieferung an.");
+    if(!d.von)return fail("Bitte wählt das Datum für Abholung bzw. Beginn – tippt dazu auf das Feld.",fv);
+    if(d.von<today)return fail("Der Beginn liegt in der Vergangenheit – bitte wählt ein Datum ab heute.",fv);
+    if(!d.bis)return fail("Bitte wählt das Datum für Rückgabe bzw. Ende – tippt dazu auf das Feld.",fb);
+    if(d.bis<d.von)return fail("Die Rückgabe liegt vor dem Beginn – bitte prüft die Daten.",fb);
+    if(d.uebergabe.indexOf("Lieferung")>-1&&!d.ort)return fail("Bitte gebt den Ort der Feier für die Lieferung an.",f.elements.ort);
+    if(!d.name)return fail("Bitte gebt euren Namen an.",f.elements.name);
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email))return fail("Bitte gebt eine gültige E-Mail-Adresse an, damit ich euch antworten kann.",f.elements.email);
     d.items=cart;d.ts=V.ts;d.seite=location.href;b.disabled=true;b.textContent="wird gesendet …";
     post("mietanfrage",d).then(function(r){b.disabled=false;b.textContent="Mietanfrage senden";
       if(r.ok&&r.j&&r.j.ok){track();cart=[];save();render();f.hidden=true;q$(".kjo-vl-cart").hidden=true;q$(".kjo-vl-sum").hidden=true;q$(".kjo-vl-ok").hidden=false;}
@@ -1041,6 +1054,9 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 	$ueb   = in_array( $s( 'uebergabe' ), array( 'Abholung in Fellheim', 'Lieferung und Abholung', 'Lieferung, Aufbau/Verkabelung, Abbau und Abholung' ), true ) ? $s( 'uebergabe' ) : 'Abholung in Fellheim';
 	if ( ! $name || ! is_email( $email ) || ! $von || ! $bis ) {
 		return kjo_vl_err( 'Bitte füllt Name, E-Mail und Mietzeitraum aus.' );
+	}
+	if ( $von < wp_date( 'Y-m-d' ) || $bis < $von ) {
+		return kjo_vl_err( 'Bitte prüft den Mietzeitraum: Beginn ab heute, Rückgabe nicht vor dem Beginn.' );
 	}
 	$lines = array();
 	$sp    = 0;
