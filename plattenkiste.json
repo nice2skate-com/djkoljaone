@@ -1,9 +1,9 @@
 {
- "version": "1.35.1",
- "download_url": "dj-kolja-one-plattenkiste-1.35.1.zip",
- "sha256": "8f499430c924b3ddcae3f8d0c75469c1ef4bede9f2132efaaa52a8994132ee00",
+ "version": "1.36.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.36.0.zip",
+ "sha256": "ff23ad98f503d9898c768e780ab76f9e26adcc5a84e72b2d175aa829c5b9f3fe",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "DDJ-FLX10 AlphaTheta-Links"
+ "changelog": "Gerätefeld Herstellerseite"
 }

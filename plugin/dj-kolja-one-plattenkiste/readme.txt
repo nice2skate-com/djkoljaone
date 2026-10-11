@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.36.0: Neues Gerätefeld „Herstellerseite“ (öffentlich als Link in den Gerätedetails); befüllt für DDJ-FLX10 (AlphaTheta), Hero Spot 60, Wild Wash UV, Pronomic C-215.
 Seit 1.35.1: DDJ-FLX10: Bedienungsanleitung (DE) bei AlphaTheta statt alter Pioneer-Link, Firmware-Stand 1.14 als interne Notiz.
 Seit 1.35.0: Anfrageformular direkt auf den Leistungsseiten (Abschnitt #anfrage, Anlass vorausgewählt); Buttons „Wunschtermin prüfen“ springen dorthin. Seiten neu einspielen.
 Seit 1.34.0: Aktionen mit Enddatum (KJO_AKTIONEN): Hinweis-Kasten auf der Firmenfeier-Seite „Licht-Upgrade gratis“ bis 31.10.2026, Code WEIHNACHT26 wird ins Formular übernommen und Anfragen im Lead-System markiert.

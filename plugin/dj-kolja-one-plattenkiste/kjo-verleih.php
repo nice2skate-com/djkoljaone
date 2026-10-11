@@ -76,6 +76,7 @@ function kjo_vl_fields( $type ) {
 		'wetter'       => array( 'Wetterfestigkeit (wird im Browser angezeigt)', 'wetter', '' ),
 		'wetter_ip'    => array( 'Schutzart', 'text', 'z. B. IP65' ),
 		'anleitung'    => array( 'Bedienungsanleitung (Deutsch): Link oder PDF aus der Mediathek', 'anleitung', 'https://…' ),
+		'hersteller'   => array( 'Herstellerseite (Infos, Downloads, Bildanfrage)', 'url', 'https://…' ),
 		'medien'       => array( 'Bilder & Videos', 'medien', '' ),
 		'bild'         => array( 'Bildname in der Mediathek (alternativ)', 'bild', '' ),
 	);
@@ -377,6 +378,7 @@ const KJO_VL_DATEN = array(
 			'anleitung'    => 'https://images.thomann.de/pics/atg/atgdata/document/manual/c_449221_481679_v5_de_online.pdf',
 			'wert'         => '299',
 			'wert_quelle'  => 'thomann.de 299 € inkl. MwSt. (Stand 11.10.2026), Art.-Nr. 449221',
+			'hersteller'   => 'https://www.thomann.de/de/varytec_hero_spot_60.htm',
 		),
 	),
 	'uv-strahler'  => array(
@@ -397,6 +399,7 @@ const KJO_VL_DATEN = array(
 			'wetter'      => 'innen',
 			'wert'        => '89',
 			'wert_quelle' => 'thomann.de 89 € inkl. MwSt. (Stand 11.10.2026), Art.-Nr. 426835',
+			'hersteller'  => 'https://www.thomann.de/de/stairville_wild_wash_9x3w_led_uv_bk_dmx.htm',
 		),
 	),
 	'pronomic-c-215-ma' => array(
@@ -415,6 +418,7 @@ const KJO_VL_DATEN = array(
 			'gaeste'      => 'bis ca. 250 Gäste (als Paar mit Subwoofern)',
 			'wert'        => '289',
 			'wert_quelle' => 'Musikhaus Kirstein ca. 289–295 € pro Box, 2 Boxen + 2 Stative als Set 588 € (Geizhals/heise, Stand 11.10.2026); nicht bei Thomann',
+			'hersteller'  => 'https://www.kirstein.de/Aktivboxen/Pronomic-C-215-MA-15-Aktivbox-1000-Watt.html',
 		),
 	),
 	'pioneer-ddj-flx10' => array(
@@ -423,6 +427,7 @@ const KJO_VL_DATEN = array(
 		'',
 		'',
 		array(
+			'hersteller' => 'https://support.alphatheta.com/de/products/16715825715481',
 			'notiz' => "Firmware: aktuell Ver. 1.14 (29.07.2025, u. a. djay-Pro-Unterstützung). Vor jeder Vermietung prüfen/aktualisieren:\nhttps://support.alphatheta.com/de/products/16715825715481",
 		),
 		array(
@@ -431,7 +436,7 @@ const KJO_VL_DATEN = array(
 	),
 );
 /* Aktualisierung bestehender Geräte (läuft einmal je Stand von KJO_VL_MIG – bei neuen Recherchedaten hochzählen): Maße in Breite/Länge/Höhe aufteilen, KJO_VL_DATEN ergänzen. Nur leere Felder werden befüllt. */
-const KJO_VL_MIG = 4;
+const KJO_VL_MIG = 5;
 add_action(
 	'admin_init',
 	function () {
@@ -631,7 +636,7 @@ add_action(
 			$v = isset( $in[ $k ] ) ? (string) $in[ $k ] : '';
 			if ( 'textarea' === $f[1] ) {
 				$v = sanitize_textarea_field( $v );
-			} elseif ( 'anleitung' === $f[1] ) {
+			} elseif ( 'anleitung' === $f[1] || 'url' === $f[1] ) {
 				$v = esc_url_raw( trim( $v ) );
 			} elseif ( 'check' === $f[1] ) {
 				$v = '1' === $v ? '1' : '0';
@@ -936,6 +941,10 @@ add_shortcode(
 			$anl = kjo_vl_get( $id, 'anleitung' );
 			if ( $anl ) {
 				$h .= '<p class="kjo-vl-anl"><a href="' . esc_url( $anl ) . '" target="_blank" rel="noopener">📄 Bedienungsanleitung (PDF, Deutsch)</a> <button type="button" class="kjo-vl-report" data-id="' . (int) $id . '">Link defekt? Melden</button></p>';
+			}
+			$her = kjo_vl_get( $id, 'hersteller' );
+			if ( $her ) {
+				$h .= '<p class="kjo-vl-anl"><a href="' . esc_url( $her ) . '" target="_blank" rel="noopener nofollow">🔗 Herstellerseite</a></p>';
 			}
 			$h .= '</div></li>';
 		}
