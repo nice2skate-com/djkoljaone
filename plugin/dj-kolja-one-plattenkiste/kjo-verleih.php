@@ -298,7 +298,7 @@ function kjo_vl_seed_data() {
 		array( 'stairville-tri-flat-par', 'Stairville Tri Flat PAR Profile 5 × 3 W', 'licht', 4, 'Flacher LED-Scheinwerfer für farbiges Party- und Flächenlicht, z. B. an der Traverse.', array( 'breite' => '165', 'laenge' => '105', 'hoehe' => '165', 'masse' => 'mit Bügel 255 × 235 × 105 mm', 'gewicht' => '2,04 kg', 'leistung' => '15 W, RGB-LED', 'anschluesse' => 'DMX, Musiksteuerung, Automatik' ) ),
 		array( 'moving-head', KJO_VL_DATEN['moving-head'][1], 'licht', 2, KJO_VL_DATEN['moving-head'][3], KJO_VL_DATEN['moving-head'][4] ),
 		array( 'kls-lightbar', 'KLS-Lightbar mit Lichtstativ', 'licht', 1, 'Partylicht auf eigenem Stativ, das die ganze Tanzfläche ausleuchtet.', array( 'lieferumfang' => 'Lichtstativ' ) ),
-		array( 'algam-akku-par', 'ALGAM Akku-Parlight', 'licht', 8, 'Kabelloses Ambientelicht für Wände, Säulen, Garten und Terrasse.', array( 'lieferumfang' => 'Ladegerät', 'strom' => 'Akku' ) ),
+		array( 'algam-akku-par', 'ALGAM Akku-Parlight', 'licht', 6, 'Kabelloses Ambientelicht für Wände, Säulen, Garten und Terrasse.', array( 'lieferumfang' => 'Ladegerät', 'strom' => 'Akku' ) ),
 		array( 'uv-strahler', KJO_VL_DATEN['uv-strahler'][1], 'effekte', 1, KJO_VL_DATEN['uv-strahler'][3], KJO_VL_DATEN['uv-strahler'][4] ),
 		array( 'wash-scheinwerfer', 'Wash-/Color-Scheinwerfer', 'licht', 1, 'Zusätzliche farbige Flächenbeleuchtung.', array() ),
 		array( 'nebelmaschine', 'Nebelmaschine', 'effekte', 1, 'Macht Lichtstrahlen sichtbar. Bitte vorher mit der Location wegen der Rauchmelder abstimmen.', array() ),
@@ -308,8 +308,8 @@ function kjo_vl_seed_data() {
 	);
 	$p = array(
 		array( 'paket-s', 'Paket S – „Sound kompakt“', 'Für bis zu ca. 50 Gäste', 'bspw. Geburtstag, Gartenparty, Sektempfang, etc.', "2× Bose S1 Pro Aktivlautsprecher (mit Bluetooth)\n2× Lautsprecherstative\nAudiokabel für Handy oder Laptop\nOptional: Funkmikrofon-Set", '' ),
-		array( 'paket-m', 'Paket M – „Party“', 'Für bis zu ca. 100 Gäste', 'bspw. runder Geburtstag, Vereinsfeier, Firmenfeier, etc.', "Alles aus Paket S\n1× Bose Subwoofer\nFunkmikrofon-Set\nKLS-Lightbar mit Lichtstativ\n8× Akku-Parlights mit Ladegerät", '' ),
-		array( 'paket-l', 'Paket L – „Komplett-Show“', 'Für bis zu ca. 250 Gäste', 'bspw. Hochzeit, Abiball, Sommerfest, etc. Die komplette Bühne aus meinem Beispiel-Lichtplan.', "Pronomic PA: 2× C-215 MA (15\", mit Bluetooth) und 2× C-118SA (18\"-Subwoofer), inklusive Kabelsatz\nPioneer DDJ-FLX10 + beleuchtetes DJ-Pult mit Zusatzplatten\n3-m-Traverse mit Ständern und 4 LED-PARs\n2 Moving Heads, KLS-Lightbar, 8 Akku-Parlights\nLED-Laufschrift, Nebelmaschine\nFunkmikrofon-Set\nEuren Laptop mit DJ-Software (rekordbox oder Serato) bringt ihr selbst mit.", 'Empfehlung: Nach Verfügbarkeit und gegen Gebühr mit Lieferung, Aufbau/Verkabelung, Abbau und Abholung. Traverse und Moving Heads baue ich für euch sicher auf.' ),
+		array( 'paket-m', 'Paket M – „Party“', 'Für bis zu ca. 100 Gäste', 'bspw. runder Geburtstag, Vereinsfeier, Firmenfeier, etc.', "Alles aus Paket S\n1× Bose Subwoofer\nFunkmikrofon-Set\nKLS-Lightbar mit Lichtstativ\n6 Akku-Scheinwerfer (IP65) im Lade-Case", '' ),
+		array( 'paket-l', 'Paket L – „Komplett-Show“', 'Für bis zu ca. 250 Gäste', 'bspw. Hochzeit, Abiball, Sommerfest, etc. Die komplette Bühne aus meinem Beispiel-Lichtplan.', "Pronomic PA: 2× C-215 MA (15\", mit Bluetooth) und 2× C-118SA (18\"-Subwoofer), inklusive Kabelsatz\nPioneer DDJ-FLX10 + beleuchtetes DJ-Pult mit Zusatzplatten\n3-m-Traverse mit Ständern und 4 LED-PARs\n2 Moving Heads, KLS-Lightbar, 6 Akku-Scheinwerfer (IP65)\nLED-Laufschrift, Nebelmaschine\nFunkmikrofon-Set\nEuren Laptop mit DJ-Software (rekordbox oder Serato) bringt ihr selbst mit.", 'Empfehlung: Nach Verfügbarkeit und gegen Gebühr mit Lieferung, Aufbau/Verkabelung, Abbau und Abholung. Traverse und Moving Heads baue ich für euch sicher auf.' ),
 	);
 	return array( $g, $p );
 }
@@ -375,10 +375,14 @@ const KJO_VL_DATEN = array(
 			'anschluesse'  => 'DMX In/Out (XLR 3-polig), Stromeingang Power Twist',
 			'strom'        => '100–240 V, 50/60 Hz, 100 W Leistungsaufnahme',
 			'lieferumfang' => "Haltebügel\nNetzkabel\nDMX-Kabel",
-			'anleitung'    => 'https://images.thomann.de/pics/atg/atgdata/document/manual/c_449221_481679_v5_de_online.pdf',
+			'anleitung'    => 'https://fast-images.static-thomann.de/pics/atg/atgdata/document/manual/c_449221_v5_de_online.pdf',
+			'wetter'       => 'innen',
 			'wert'         => '299',
 			'wert_quelle'  => 'thomann.de 299 € inkl. MwSt. (Stand 11.10.2026), Art.-Nr. 449221',
 			'hersteller'   => 'https://www.thomann.de/de/varytec_hero_spot_60.htm',
+		),
+		array(
+			'anleitung' => array( 'https://images.thomann.de/pics/atg/atgdata/document/manual/c_449221_481679_v5_de_online.pdf', 'https://fast-images.static-thomann.de/pics/atg/atgdata/document/manual/c_449221_v5_de_online.pdf' ),
 		),
 	),
 	'uv-strahler'  => array(
@@ -408,7 +412,7 @@ const KJO_VL_DATEN = array(
 		'2-Wege-Aktivbox mit 15"-Tieftöner und Bluetooth – kraftvoller Sound für große Säle und Festzelte.',
 		'Set aus zwei 2-Wege-Aktivboxen mit 15"-Tieftöner und Bluetooth – kraftvoller Sound für große Säle und Festzelte.',
 		array(
-			'beschr'      => "Set aus zwei aktiven 2-Wege-Boxen mit je 15\"-Tieftöner und 1,75\"-Titan-Hochtöner: 400 W + 100 W RMS (800 W + 200 W Peak) pro Box, max. 123 dB SPL, Frequenzgang 55 Hz – 20 kHz.\nZwei Eingänge (XLR/Klinke-Combo) mit getrennter Lautstärke plus Bluetooth, DSP-Presets und ein schaltbarer XLR-Ausgang (Summe oder Kanal 1). Robustes Kunststoffgehäuse mit Monitorschräge.",
+			'beschr'      => "Set aus zwei aktiven 2-Wege-Boxen mit je 15\"-Tieftöner und 1,75\"-Titan-Hochtöner: 400 W + 100 W RMS (800 W + 200 W Peak) pro Box, max. 123 dB SPL, Frequenzgang 55 Hz – 20 kHz.\nZwei Eingänge (XLR/Klinke-Combo) mit getrennter Lautstärke plus Bluetooth, DSP-Presets und ein schaltbarer XLR-Ausgang (Summe oder Kanal 1). Abstrahlwinkel 90° × 60°, Strom-Ausgang zum Durchschleifen, robustes Kunststoffgehäuse mit Monitorschräge.",
 			'breite'      => '450',
 			'laenge'      => '390',
 			'hoehe'       => '695',
@@ -416,9 +420,15 @@ const KJO_VL_DATEN = array(
 			'leistung'    => '400 W + 100 W RMS, max. 123 dB',
 			'anschluesse' => '2 × XLR/Klinke-Combo, Bluetooth, XLR-Ausgang',
 			'gaeste'      => 'bis ca. 250 Gäste (als Paar mit Subwoofern)',
-			'wert'        => '289',
-			'wert_quelle' => 'Musikhaus Kirstein ca. 289–295 € pro Box, 2 Boxen + 2 Stative als Set 588 € (Geizhals/heise, Stand 11.10.2026); nicht bei Thomann',
+			'wert'        => '269',
+			'wert_quelle' => 'Kirstein: Stereo-Set (2 Boxen) 538 € → 269 € pro Box (Stand 11.10.2026)',
+			'strom'       => '230 V, Strom-Ausgang zum Durchschleifen (max. 7 A)',
+			'lieferumfang' => 'Netzkabel',
 			'hersteller'  => 'https://www.kirstein.de/Aktivboxen/Pronomic-C-215-MA-15-Aktivbox-1000-Watt.html',
+		),
+		array(
+			'wert'        => array( '289', '269' ),
+			'wert_quelle' => array( 'Musikhaus Kirstein ca. 289–295 € pro Box, 2 Boxen + 2 Stative als Set 588 € (Geizhals/heise, Stand 11.10.2026); nicht bei Thomann', 'Kirstein: Stereo-Set (2 Boxen) 538 € → 269 € pro Box (Stand 11.10.2026)' ),
 		),
 	),
 	'pioneer-ddj-flx10' => array(
@@ -434,9 +444,122 @@ const KJO_VL_DATEN = array(
 			'anleitung' => array( 'https://www.pioneerdj.com/de/product/dj-controllers/ddj-flx10/', 'https://support.alphatheta.com/de/articles/16716272919193' ),
 		),
 	),
+	'bose-s1-pro' => array(
+		'Bose S1 Pro Aktivlautsprecher',
+		'Bose S1 Pro Aktivlautsprecher',
+		'',
+		'',
+		array(
+			'beschr'      => "Kompakter Aktivlautsprecher mit eingebautem Akku (bis zu 11 Stunden) und Bluetooth – ideal für Reden, Sektempfang, Garten und kleinere Feiern bis ca. 50 Gäste pro Paar.\nAufstellbar stehend, liegend oder auf einem Stativ. Mit Sub1 als Bassergänzung für Partys bis ca. 100 Gäste.",
+			'anschluesse' => '2 × XLR/Klinke-Combo (Mikro/Line), AUX 3,5 mm, Bluetooth, Line-Out XLR',
+			'strom'       => 'Akku (bis zu 11 h) oder 230 V',
+			'wetter'      => 'trocken',
+			'wert'        => '650',
+			'wert_quelle' => 'S1 Pro wird nicht mehr gebaut; Ersatz S1 Pro+ ca. 608–699 € (Geizhals/Baur, Stand 11.10.2026)',
+		),
+	),
+	'bose-subwoofer' => array(
+		'Bose Subwoofer',
+		'Bose Sub1 Aktiv-Subwoofer',
+		'',
+		'',
+		array(
+			'beschr'      => "Kompakter Aktiv-Subwoofer (7 × 13\"-Treiber, 480 W, 40–180 Hz) – bringt hörbar mehr Druck auf die Tanzfläche.\nPasst per Line-Ausgang an die Bose S1 Pro und reicht das Signal über zwei XLR-Ausgänge weiter.",
+			'breite'      => '250',
+			'laenge'      => '530',
+			'hoehe'       => '530',
+			'gewicht'     => '16,1 kg',
+			'leistung'    => '480 W Class-D, max. 124,6 dB (Spitze), 40–180 Hz',
+			'anschluesse' => 'Line-In XLR/Klinke-Combo, SubMatch-In/Thru, 2 × XLR-Ausgang (volle Bandbreite)',
+			'strom'       => '230 V',
+			'wetter'      => 'innen',
+			'wert'        => '885',
+			'wert_quelle' => 'ca. 743 € netto / 885 € brutto (Volt Music Store); USA 899 $ (CCI) – Stand 11.10.2026, Maße laut CCI',
+		),
+	),
+	'stairville-tri-flat-par' => array(
+		'Stairville Tri Flat PAR Profile 5 × 3 W',
+		'Stairville Tri Flat PAR Profile 5 × 3 W (40°)',
+		'',
+		'',
+		array(
+			'beschr'      => "Flacher LED-Scheinwerfer mit 5 × 3-W-RGB-LEDs und 40° Abstrahlwinkel für farbiges Party- und Flächenlicht, z. B. an der Traverse oder als Wandfluter.\nSteuerung per DMX (3, 5 oder 7 Kanäle), Musiksteuerung und Automatik.",
+			'leistung'    => '5 × 3-W-RGB-LED, 40°, 15 W',
+			'strom'       => '100–240 V, 50/60 Hz',
+			'wetter'      => 'innen',
+			'wert'        => '71',
+			'wert_quelle' => 'thomann.de 71 € (45°/40°-Version, Art.-Nr. 414495; Preis laut Suche, live prüfen)',
+			'hersteller'  => 'https://www.thomann.de/de/stairville_tri_flat_par_profile_5x3w_40.htm',
+		),
+	),
+	'pronomic-c-118sa' => array(
+		'Pronomic C-118SA 18"-Aktiv-Subwoofer',
+		'Pronomic C-118SA 18"-Aktiv-Subwoofer',
+		'',
+		'',
+		array(
+			'beschr'      => "18\"-Aktiv-Subwoofer mit 3\"-Schwingspule: 800 W RMS (1.600 W Spitze), 30–200 Hz, max. 126 dB – Bass, den man spürt.\n4 DSP-Presets (Live, Music, DJ, C-Serie), Trennfrequenz 80–150 Hz, Delay 0–16 ms, 2 Combo-Eingänge und 2 XLR-Ausgänge zum Weiterleiten an die Tops, robustes Holzgehäuse mit M20-Flansch für die Distanzstange.",
+			'breite'      => '550',
+			'laenge'      => '695',
+			'hoehe'       => '600',
+			'gewicht'     => '39,5 kg',
+			'leistung'    => '800 W RMS / 1.600 W Spitze (Class D), 30–200 Hz, max. 126 dB',
+			'wetter'      => 'innen',
+			'wert'        => '498',
+			'wert_quelle' => 'Kirstein: 2er-Set 916 € statt einzeln 996 € → 498 € pro Stück (Stand 11.10.2026)',
+			'hersteller'  => 'https://www.kirstein.de/Aktiv-Subwoofer/Pronomic-C-118SA-Aktiv-Subwoofer.html',
+		),
+	),
+	'funkmikrofon-set' => array(
+		'Funkmikrofon-Set',
+		'Omnitronic UHF-604 Funkmikrofon-Set (4 Kanäle)',
+		'Für Reden, Spiele und Ansagen – ohne Kabelsalat.',
+		'Vier Funk-Handmikrofone für Reden, Spiele und Ansagen – ohne Kabelsalat.',
+		array(
+			'beschr'       => "4-Kanal-Funksystem mit vier Handmikrofonen und True-Diversity-Empfänger – stabile Übertragung bis ca. 60 m bei Sichtverbindung.\nIdeal für Trauzeugen-Reden, Spiele und Moderation. Jedes Mikrofon hat einen eigenen Ausgang, zusätzlich gibt es einen Summenausgang.",
+			'breite'       => '485',
+			'laenge'       => '210',
+			'hoehe'        => '44',
+			'masse'        => 'Empfänger, 19"-Rackformat 1 HE',
+			'gewicht'      => 'ca. 3,3 kg (Set)',
+			'leistung'     => 'UHF 520–554 MHz, Reichweite bis 60 m',
+			'anschluesse'  => '4 × XLR-Ausgang (je Mikrofon), Summenausgang 6,3-mm-Klinke, BNC-Antennenanschlüsse',
+			'strom'        => 'Empfänger 230 V (Netzteil), Mikrofone je 2 × AA',
+			'lieferumfang' => "Empfänger\n4 Handmikrofone\nNetzteil\nim Original-Karton (kein Koffer)\nBatterien (AA) bringe ich frisch mit",
+			'wetter'       => 'trocken',
+			'wert'         => '329',
+			'wert_quelle'  => 'Steinigke/Omnitronic 329 € (520–554-MHz-Version, Art.-Nr. 13063605); Musikhaus Korn 329 € (Stand 11.10.2026)',
+			'hersteller'   => 'https://www.kirstein.de/Drahtlos-Komplett-Sets/Omnitronic-UHF-604-520-554-MHz.html',
+		),
+	),
+	'algam-akku-par' => array(
+		'ALGAM Akku-Parlight',
+		'ALGAM EVENTPAR412-HEX-IP Akku-Scheinwerfer',
+		'Kabelloses Ambientelicht für Wände, Säulen, Garten und Terrasse.',
+		'Kabelloses, wetterfestes Akku-Licht (IP65) für Wände, Säulen, Garten und Terrasse.',
+		array(
+			'beschr'      => "Kabelloser Akku-Scheinwerfer mit 4 × 12-W-LEDs (RGBWA+UV, 40°) – setzt Wände, Säulen, Bäume und Deko in jede Farbe, drinnen wie draußen (IP65).\nSteuerung per Funk-DMX oder IR-Fernbedienung, Akku bis zu 20 Stunden bei fester Farbe. Geliefert im Lade-Case für alle 6 Scheinwerfer oder im kompakten Koffer.",
+			'breite'      => '131',
+			'laenge'      => '131',
+			'hoehe'       => '163',
+			'gewicht'     => '2,8 kg pro Scheinwerfer',
+			'leistung'    => '4 × 12-W-LED RGBWA+UV, 40°',
+			'anschluesse' => 'Funk-DMX (6 oder 10 Kanäle), IR-Fernbedienung',
+			'wetter'      => 'wetterfest',
+			'wetter_ip'   => 'IP65',
+			'wert'        => '219',
+			'wert_quelle' => 'Kirstein 219 € pro Stück (UVP 229 €); Tourset 6 Stück + Lade-Case 1.599 € (Stand 11.10.2026)',
+			'hersteller'  => 'https://www.kirstein.de/Licht-Sparsets/Algam-Lighting-EVENTPAR412-HEX-IP-Akku-LED-Tourset.html',
+		),
+		array(
+			'bestand'      => array( '8', '6' ),
+			'strom'        => array( 'Akku', 'Akku 12,6 V / 7,8 Ah: bis 4 h (alle Farben), bis 20 h (feste Farbe/Automatik)' ),
+			'lieferumfang' => array( 'Ladegerät', "Lade-Case mit Ladestation (für 6 Scheinwerfer) oder kompakter Koffer\nIR-Fernbedienung" ),
+		),
+	),
 );
 /* Aktualisierung bestehender Geräte (läuft einmal je Stand von KJO_VL_MIG – bei neuen Recherchedaten hochzählen): Maße in Breite/Länge/Höhe aufteilen, KJO_VL_DATEN ergänzen. Nur leere Felder werden befüllt. */
-const KJO_VL_MIG = 5;
+const KJO_VL_MIG = 10;
 add_action(
 	'admin_init',
 	function () {
@@ -477,6 +600,17 @@ add_action(
 			foreach ( isset( $d[5] ) ? $d[5] : array() as $k => $ab ) { // Feld ersetzen, solange noch der alte Wert drinsteht
 				if ( $ab[0] === kjo_vl_get( $g->ID, $k ) ) {
 					update_post_meta( $g->ID, '_kjo_' . $k, $ab[1] );
+				}
+			}
+		}
+		// Textkorrekturen in Paketen (nur exakte Altformulierung wird ersetzt).
+		foreach ( array( 'paket-m', 'paket-l' ) as $slug ) {
+			$pk = get_page_by_path( $slug, OBJECT, 'kjo_paket' );
+			if ( $pk ) {
+				$t = (string) get_post_meta( $pk->ID, '_kjo_inhalt', true );
+				$n = str_replace( array( '8× Akku-Parlights mit Ladegerät', '8 Akku-Parlights' ), array( '6 Akku-Scheinwerfer (IP65) im Lade-Case', '6 Akku-Scheinwerfer (IP65)' ), $t );
+				if ( $n !== $t ) {
+					update_post_meta( $pk->ID, '_kjo_inhalt', $n );
 				}
 			}
 		}
@@ -970,7 +1104,7 @@ add_shortcode(
 			array( 'Kaution', ( $any ? 'Die Höhe steht bei jedem Paket und Gerät.' : 'Die Höhe steht im Angebot.' ) . ' Bar bei der Abholung oder vorab per Überweisung. Ihr bekommt sie nach Prüfung der Rückgabe innerhalb von 3 Werktagen zurück.' ),
 			array( 'Mitbringen', 'Personalausweis. Mieten ab 18 Jahren.' ),
 			array( 'Passt das in mein Auto?', 'Paket S passt in jeden Kleinwagen, für M reicht ein Kombi. Für L braucht ihr einen Transporter, oder ihr bucht nach Verfügbarkeit und gegen Gebühr Lieferung, Aufbau/Verkabelung, Abbau und Abholung.' ),
-			array( 'Akku-Scheinwerfer', 'Ich übergebe sie vollgeladen, das Ladegerät ist dabei.' ),
+			array( 'Akku-Scheinwerfer', 'Ich übergebe sie vollgeladen im Lade-Case – zum Nachladen einfach das Case einstecken.' ),
 			array( 'Nebel', 'Bitte vorher mit der Location klären, wegen der Rauchmelder.' ),
 			array( 'Strom', 'Normale 230-V-Steckdosen. Verteiler und Verlängerungen bekommt ihr mit.' ),
 			array( 'Sorglos-Option', ( null !== $sp && null !== $sm ) ? 'Für ' . str_replace( '.', ',', (string) $sp ) . ' % Aufpreis haftet ihr bei Schäden höchstens mit ' . kjo_vl_eur( $sm ) . ', außer bei Vorsatz oder grober Fahrlässigkeit.' : 'Auf Wunsch könnt ihr euer Haftungsrisiko gegen Aufpreis begrenzen. Die Details stehen im Angebot.' ),
