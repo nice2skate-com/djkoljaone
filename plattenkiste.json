@@ -1,9 +1,9 @@
 {
- "version": "1.43.0",
- "download_url": "dj-kolja-one-plattenkiste-1.43.0.zip",
- "sha256": "781cfdea402cf212cf0e2280c16e328425f7f8da09131e67f1b7faa6c9828156",
+ "version": "1.43.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.43.1.zip",
+ "sha256": "06e9f4b71b21a4c457837a03aaf732b098f7bb2066b25b01ed47ac8819c30237",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Genre-Automixe"
+ "changelog": "Paket-Buttons unten"
 }
