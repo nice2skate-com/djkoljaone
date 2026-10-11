@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.39.0
+ * Version:     1.39.1
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.39.0' );
+define( 'KJO_VERSION', '1.39.1' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 require_once __DIR__ . '/kjo-bilder.php';
@@ -1400,6 +1400,14 @@ add_action(
 add_action(
 	'do_faviconico',
 	function () {
+		// Direkt ausliefern statt umleiten: Google holt /favicon.ico gern ohne Weiterleitung.
+		$f = __DIR__ . '/assets/favicon.ico';
+		if ( is_readable( $f ) ) {
+			header( 'Content-Type: image/x-icon' );
+			header( 'Cache-Control: public, max-age=604800' );
+			readfile( $f ); // phpcs:ignore
+			exit;
+		}
 		wp_safe_redirect( kjo_asset( 'favicon.ico' ), 301 );
 		exit;
 	},
@@ -1410,6 +1418,7 @@ add_action(
 	'wp_head',
 	function () {
 		echo "\n" . '<link rel="icon" href="' . esc_url( kjo_asset( 'favicon.ico' ) ) . '" sizes="48x48">' . "\n";
+		echo '<link rel="icon" href="' . esc_url( kjo_asset( 'icon-192.png' ) ) . '" type="image/png" sizes="192x192">' . "\n";
 		echo '<link rel="icon" href="' . esc_url( kjo_asset( 'icon.svg' ) ) . '" type="image/svg+xml">' . "\n";
 		echo '<link rel="apple-touch-icon" href="' . esc_url( kjo_asset( 'apple-touch-icon.png' ) ) . '">' . "\n";
 		echo '<link rel="manifest" href="' . esc_url( kjo_asset( 'site.webmanifest' ) ) . '">' . "\n";

@@ -1,9 +1,9 @@
 {
- "version": "1.39.0",
- "download_url": "dj-kolja-one-plattenkiste-1.39.0.zip",
- "sha256": "1356c840ac9b2a5ccc212abf61a05b090e74cc355b0dfea6fa755f1a0ca26984",
+ "version": "1.39.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.39.1.zip",
+ "sha256": "e5f159a2de3812169157384f46dc67a5aff98c08301306618e4b9fc6d6027f4b",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Mietpreise und Wochenendtarif"
+ "changelog": "Favicon für Google"
 }
