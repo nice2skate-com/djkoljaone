@@ -1,9 +1,9 @@
 {
- "version": "1.32.0",
- "download_url": "dj-kolja-one-plattenkiste-1.32.0.zip",
- "sha256": "3888a6e7863772808575a08ee19c791cf644084cc1c9fe5aad5f6c0029b3f164",
+ "version": "1.33.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.33.0.zip",
+ "sha256": "d2696c31df1596ecae9f17da96a4c0a4160fffb06dc517d6fa32f76a8fb2ec67",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Video-Vorschaubilder, Videos laden erst beim Abspielen"
+ "changelog": "Lead-System, Backup-Wächter"
 }
