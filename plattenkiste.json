@@ -1,9 +1,9 @@
 {
- "version": "1.44.1",
- "download_url": "dj-kolja-one-plattenkiste-1.44.1.zip",
- "sha256": "1485e02d03dbf32f0babf190cfb69e774a7922106f773cdb90ebc4b9ed245e93",
+ "version": "1.44.2",
+ "download_url": "dj-kolja-one-plattenkiste-1.44.2.zip",
+ "sha256": "6802ae9cdcce2f56d17d7e8358f31c0cc1c992861054064285dcb07d4bc62b87",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Fix Song-Link"
+ "changelog": "Startseite: Hinweis über dem DJ-Pult entfernt"
 }

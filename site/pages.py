@@ -44,7 +44,7 @@ def start():
       hero("DJ &amp; Moderator aus Fellheim · seit über 10 Jahren","Premium DJ für Hochzeiten &amp; Events in Memmingen, Allgäu &amp; Schwaben",
            "Ihr feiert – ich sorge für die volle Tanzfläche und einen Abend, der einfach läuft. Mit eurer Musik und einer Moderation, die euch alles abnimmt.",
            [BTN(*WISH),BTN("Per WhatsApp anfragen",WA,False)],
-           stats=None,extra=[T("Unverbindlich · Antwort innerhalb von 24 Stunden",MUTED,"center",14),
+           stats=None,extra=[
                              W("html",{"html":open("./deck/deck-snippet.html").read(),"_element_width":"inherit","width":px(100,"%")})]),
       con([VIDEOS("start")],"column",bg=B1,pad=box(0,20,56,20),inner=False,flex_align_items="center",padding_mobile=box(0,20,40,20)),
       section(head("Meine Leistungen","Wofür bucht ihr mich?")+[tiles()],anchor="leistungen"),
