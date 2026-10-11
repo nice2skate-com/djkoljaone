@@ -1,9 +1,9 @@
 {
- "version": "1.37.6",
- "download_url": "dj-kolja-one-plattenkiste-1.37.6.zip",
- "sha256": "a0ff04b9082e535d0f88603b0f2289d0980f0aa4e7fe6b1450a2d6fe8a46e5ef",
+ "version": "1.37.7",
+ "download_url": "dj-kolja-one-plattenkiste-1.37.7.zip",
+ "sha256": "c8c2baf5622b97672eb3ba05b87e7eb2d0891fbfd0ad5cdcd74cfd689c6cd5ad",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "FLX10 Neupreis"
+ "changelog": "Traverse"
 }

@@ -303,7 +303,7 @@ function kjo_vl_seed_data() {
 		array( 'wash-scheinwerfer', 'Wash-/Color-Scheinwerfer', 'licht', 1, 'Zusätzliche farbige Flächenbeleuchtung.', array() ),
 		array( 'nebelmaschine', 'Nebelmaschine', 'effekte', 1, 'Macht Lichtstrahlen sichtbar. Bitte vorher mit der Location wegen der Rauchmelder abstimmen.', array() ),
 		array( 'led-laufschrift', 'Eurolite ESN LED-Laufschrift (65 cm)', 'effekte', 1, 'Eure Namen, „Happy Birthday“ oder euer Hashtag in Leuchtschrift.', array() ),
-		array( 'traverse-3m', 'Traversen-Set 3 m', 'buehne', 1, 'Lichttraverse mit zwei Ständern – die Bühne für Scheinwerfer und Laufschrift.', array( 'lieferumfang' => "2 Traversenständer\n2 Adapter Traverse/Ständer\n2 Traversenstücke\nVerbinder, Schrauben und Sicherungen" ) ),
+		array( 'traverse-3m', 'Stageworx LB-3 Traversen-Set 3 m', 'buehne', 1, 'Lichttraverse mit zwei Ständern – die Bühne für Scheinwerfer und Laufschrift.', array( 'lieferumfang' => "2 Lichtstative\n2 Traversenaufnehmer\n2 Traversenstücke (je 1,5 m, 3-Punkt)\n4 Haken (Hookclamps, je bis 15 kg)\n2 Transporttaschen (Traverse, Stative)" ) ),
 		array( 'lautsprecherstativ', 'Roadworx Speakerstand 2 Lautsprecherstativ', 'buehne', 2, 'Stabiles Alu-Stativ mit Gasdruckfeder für Aktivlautsprecher, 1,30–2,00 m hoch.', array() ),
 	);
 	$p = array(
@@ -616,9 +616,30 @@ const KJO_VL_DATEN = array(
 			'hersteller'   => 'https://www.thomann.de/de/eurolite_esn_moving_message.htm',
 		),
 	),
+	'traverse-3m' => array(
+		'Traversen-Set 3 m',
+		'Stageworx LB-3 Traversen-Set 3 m',
+		'',
+		'',
+		array(
+			'beschr'      => "Lichtstativ-Set mit 3-Punkt-Traverse: 3 m breit, Höhe 1,5–3,1 m einstellbar, Platz für bis zu 8 Scheinwerfer oder Effekte, belastbar mit 60 kg (gleichmäßig verteilt). Von einer Person schnell aufgebaut.\nStative aus Stahl (Rohr 28 mm, Standfläche Ø 1,2 m), Traverse 18-mm-Rohr. Transport in zwei Taschen (154 × 34 cm und 127 × 26 cm).",
+			'breite'      => '3000',
+			'laenge'      => '1200',
+			'hoehe'       => '3100',
+			'gewicht'     => '21 kg (Set ohne Taschen und Haken)',
+			'leistung'    => 'belastbar bis 60 kg (gleichmäßig verteilt), Haken je bis 15 kg',
+			'wetter'      => 'innen',
+			'wert'        => '219',
+			'wert_quelle' => 'thomann.de 219 € (Bundle mit Taschen und 4 Hookclamps, Art.-Nr. 306960, Stand 11.10.2026)',
+			'hersteller'  => 'https://www.thomann.de/de/stairville_lb_3_lighting_stand_set_bundle.htm',
+		),
+		array(
+			'lieferumfang' => array( "2 Traversenständer\n2 Adapter Traverse/Ständer\n2 Traversenstücke\nVerbinder, Schrauben und Sicherungen", "2 Lichtstative\n2 Traversenaufnehmer\n2 Traversenstücke (je 1,5 m, 3-Punkt)\n4 Haken (Hookclamps, je bis 15 kg)\n2 Transporttaschen (Traverse, Stative)" ),
+		),
+	),
 );
 /* Aktualisierung bestehender Geräte (läuft einmal je Stand von KJO_VL_MIG – bei neuen Recherchedaten hochzählen): Maße in Breite/Länge/Höhe aufteilen, KJO_VL_DATEN ergänzen. Nur leere Felder werden befüllt. */
-const KJO_VL_MIG = 13;
+const KJO_VL_MIG = 14;
 add_action(
 	'admin_init',
 	function () {
