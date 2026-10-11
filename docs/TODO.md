@@ -1,5 +1,13 @@
 # Offene Punkte
 
+## 0. Erledigt am 11.10.2026
+- [x] Eigenes Anfrageformular statt WPForms (1.31.0), Mail und Bestätigung getestet, Tracking `generate_lead` unverändert.
+- [x] Lead-System „DJ-Anfragen“ mit Pipeline (1.33.0).
+- [x] Bildoptimierung ohne Credits (1.30.0/1.31.0), Video-Vorschaubilder (1.32.0).
+- [x] Backup: UpdraftPlus → Google Drive (Dateien wöchentlich/8, DB täglich/30), erste volle Sicherung 11.10.2026 erfolgreich; Backup-Wächter aktiv. Wiederherstellungstest einmal im Quartal (nächster: Januar 2027).
+- [ ] Kontrolle: GA4 Echtzeit zeigt `generate_lead` nach Testanfrage; Ads-Conversion „Aktiv“.
+- [ ] WPForms deaktivieren, sobald das neue Formular 2 Wochen ohne Probleme läuft.
+
 ## A. Google Ads – vor dem Start (geparkt)
 
 **Pflicht**
