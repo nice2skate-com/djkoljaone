@@ -217,17 +217,70 @@ function kjo_vl_bild( $post ) {
 }
 /** Alle Bilder/Videos zu einem Bildnamen: name, name_1 … name_8. */
 /** Bilder/Videos eines Geräts oder Pakets: zuerst die in der Mediathek ausgewählten (Reihenfolge wie sortiert), dann die über den Dateinamen gefundenen. */
-function kjo_vl_media_post( $post ) {
-	$out = array();
-	foreach ( array_filter( array_map( 'absint', explode( ',', (string) get_post_meta( $post->ID, '_kjo_medien', true ) ) ) ) as $aid ) {
-		$url  = wp_get_attachment_url( $aid );
-		$mime = (string) get_post_mime_type( $aid );
-		if ( ! $url ) {
+/** Bildname (Schlüssel) einer Mediendatei, z. B. „equip_bose_s1_pro_1“ – leer, wenn der Name nicht dem Schema folgt. */
+function kjo_vl_att_key( $aid ) {
+	$file = (string) get_post_meta( $aid, '_wp_attached_file', true );
+	if ( preg_match( '/^((?:equip|paket)_[a-z0-9_]+?)(?:-scaled|-rotated|-\d+)*(?:\.(?:jpe?g|png|webp|gif|mp4|m4v|webm|mov)_?)*\.(?:jpe?g|png|webp|gif|mp4|m4v|webm|mov)$/', strtolower( wp_basename( $file ) ), $m ) ) {
+		return $m[1];
+	}
+	return '';
+}
+/** Über den Dateinamen gefundene Bilder/Videos eines Geräts (name, name_1 … name_8) als Anhang-IDs, in dieser Reihenfolge, Video vor Bild. */
+function kjo_vl_auto_ids( $post ) {
+	global $wpdb;
+	$key  = kjo_vl_bild( $post );
+	$rows = $wpdb->get_col( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_wp_attached_file' AND meta_value LIKE %s", '%' . $wpdb->esc_like( $key ) . '%' ) ); // phpcs:ignore
+	$out  = array();
+	foreach ( array_map( 'absint', $rows ) as $aid ) {
+		$k = kjo_vl_att_key( $aid );
+		if ( $k === $key ) {
+			$n = 0;
+		} elseif ( preg_match( '/^' . preg_quote( $key, '/' ) . '_([1-8])$/', $k, $m ) ) {
+			$n = (int) $m[1];
+		} else {
 			continue;
 		}
-		if ( 0 === strpos( $mime, 'video/' ) ) {
-			$out[] = array( 'vid' => set_url_scheme( $url ) );
-		} elseif ( 0 === strpos( $mime, 'image/' ) ) {
+		$out[ $aid ] = $n * 10 + ( wp_attachment_is( 'video', $aid ) ? 0 : 1 );
+	}
+	asort( $out );
+	return array_keys( $out );
+}
+/** Anzeige-Einträge aus Anhang-IDs; ein Bild mit gleichem Namen wie ein Video (oder dessen Vorschaubild) wird zum Poster des Videos. */
+function kjo_vl_media_ids( $ids ) {
+	$out    = array();
+	$poster = array();
+	foreach ( $ids as $aid ) {
+		if ( wp_attachment_is( 'video', $aid ) ) {
+			$p = (int) get_post_meta( $aid, '_kjo_poster', true );
+			if ( ! $p ) {
+				$k = kjo_vl_att_key( $aid );
+				foreach ( $ids as $b ) {
+					if ( $k && $b !== $aid && wp_attachment_is( 'image', $b ) && kjo_vl_att_key( $b ) === $k ) {
+						$p = $b;
+						break;
+					}
+				}
+			}
+			if ( $p ) {
+				$poster[ $aid ] = $p;
+			}
+		}
+	}
+	foreach ( $ids as $aid ) {
+		$url = wp_get_attachment_url( $aid );
+		if ( ! $url || in_array( $aid, $poster, true ) ) {
+			continue;
+		}
+		if ( wp_attachment_is( 'video', $aid ) ) {
+			$e = array( 'vid' => set_url_scheme( $url ) );
+			if ( isset( $poster[ $aid ] ) ) {
+				$pi = wp_get_attachment_image_url( $poster[ $aid ], 'large' );
+				if ( $pi ) {
+					$e['img'] = set_url_scheme( $pi );
+				}
+			}
+			$out[] = $e;
+		} elseif ( wp_attachment_is( 'image', $aid ) ) {
 			$big   = wp_get_attachment_image_url( $aid, 'large' );
 			$out[] = array(
 				'img'  => set_url_scheme( $big ? $big : $url ),
@@ -235,7 +288,15 @@ function kjo_vl_media_post( $post ) {
 			);
 		}
 	}
-	return array_merge( $out, kjo_vl_media( kjo_vl_bild( $post ) ) );
+	return $out;
+}
+/** Bilder/Videos eines Geräts oder Pakets: Ist die Reihenfolge im Feld „Bilder & Videos“ gespeichert, gilt genau diese; sonst die ausgewählten, dann die über den Dateinamen gefundenen. */
+function kjo_vl_media_post( $post ) {
+	$sel = array_values( array_filter( array_map( 'absint', explode( ',', (string) get_post_meta( $post->ID, '_kjo_medien', true ) ) ) ) );
+	if ( '1' === get_post_meta( $post->ID, '_kjo_medien_fix', true ) ) {
+		return kjo_vl_media_ids( $sel );
+	}
+	return array_merge( kjo_vl_media_ids( $sel ), kjo_vl_media( kjo_vl_bild( $post ) ) );
 }
 function kjo_vl_media( $key ) {
 	$map = function_exists( 'kjo_media_map' ) ? kjo_media_map() : array();
@@ -370,7 +431,7 @@ function kjo_vl_seed_data() {
 	$p = array(
 		array( 'paket-s', 'Paket S – „Sound & Party“', 'Für bis zu ca. 50 Gäste', 'bspw. Geburtstag, Gartenparty, Sektempfang, etc.', "2× Bose S1 Pro Aktivlautsprecher (mit Bluetooth) auf Stativen\nPartylicht: Eurolite KLS Laser Bar mit Laser, Derbys, Spots und Strobe, auf eigenem Lichtstativ\nShure Beta 58A Mikrofon mit Kabel\nAudiokabel für Handy oder Laptop", 'Zubehör: DJ-Pult 20 €, Pioneer DDJ-FLX10 60 € pro Tag. Transport: passt in einen Kombi (Lightbar 1,30 m).' ),
 		array( 'paket-m', 'Paket M – „Party“', 'Für bis zu ca. 100 Gäste', 'bspw. runder Geburtstag, Vereinsfeier, Firmenfeier, etc.', "Alles aus Paket S, dazu der Bose Sub1 Subwoofer\nFunkmikrofon-Set mit 4 Handmikros statt Kabelmikro\n3-m-Lichttraverse mit 4 LED-PARs und Cameo Thunder Wash (Wash, Blinder, Strobe)\nLED-Laufschrift, z. B. mit euren Namen\nNebelmaschine\nDJ-Pult (Roadworx DJ Table, schwarz)", 'Zubehör: Pioneer DDJ-FLX10 60 € pro Tag. Transport: Van oder Transporter (Traversentasche 1,54 m) – oder ich liefere und baue auf.' ),
-		array( 'paket-l', 'Paket L – „Komplett-Show“', 'Für bis zu ca. 250 Gäste', 'bspw. Hochzeit, Abiball, Sommerfest, etc. Die komplette Bühne aus meinem Beispiel-Lichtplan.', "Pronomic PA: 2× C-215 MA (15\") auf 2× C-118SA (18\"-Subwoofer), mit Distanzstangen und Kabelsatz\n3-m-Lichttraverse mit 2 Moving Heads, 4 LED-PARs, Thunder Wash und LED-Laufschrift\n6 kabellose Akku-Scheinwerfer (IP65), auch für draußen\nKLS Laser Bar, UV-Schwarzlicht, Spiegelkugel, Nebelmaschine\nFunkmikrofon-Set (4 Handmikros), DJ-Pult", 'Nur mit Lieferung, Aufbau und Abbau durch mich – wegen der Moving Heads und der 40-kg-Subwoofer. Zubehör: Pioneer DDJ-FLX10 60 € pro Tag, Bose-Set für Sektempfang oder Nebenraum 99 € pro Tag.' ),
+		array( 'paket-l', 'Paket L – „Komplett-Show“', 'Für bis zu ca. 250 Gäste', 'bspw. Hochzeit, Abiball, Sommerfest, etc. Die komplette Bühne aus meinem Beispiel-Lichtplan.', "Pronomic PA: 2× C-215 MA (15\") auf 2× C-118SA (18\"-Subwoofer), mit Distanzstangen und Kabelsatz\n3-m-Lichttraverse mit 2 Moving Heads, 4 LED-PARs, Thunder Wash und LED-Laufschrift\n6 kabellose Akku-Scheinwerfer (IP65), auch für draußen\nKLS Laser Bar, UV-Schwarzlicht, Spiegelkugel, Nebelmaschine\nFunkmikrofon-Set (4 Handmikros), DJ-Pult", 'Empfehlung: Lieferung, Aufbau und Abbau durch mich – wegen der Moving Heads und der 40-kg-Subwoofer. Kaution bei Selbstabholung 1.000 €, mit Lieferung und Aufbau 300 €. Zubehör: Pioneer DDJ-FLX10 60 € pro Tag, Bose-Set für Sektempfang oder Nebenraum 99 € pro Tag.' ),
 		array( 'paket-bose-zusatz', 'Zusatz zu Paket L: Bose-Set für Sektempfang & Nebenraum', 'Zweites Soundsystem', 'bspw. Sektempfang, Außenbereich, Nebenraum, Dinner', "2× Bose S1 Pro Aktivlautsprecher (mit Bluetooth) auf Stativen\nBose Sub1 Subwoofer\nAudiokabel für Handy oder Laptop", 'Nur zusammen mit Paket L buchbar.' ),
 	);
 	return array( $g, $p );
@@ -823,7 +884,7 @@ const KJO_VL_PREISE = array(
 	'kjo_paket'  => array(
 		'paket-s'           => array( 89, 129, 300 ),
 		'paket-m'           => array( 209, 299, 600 ),
-		'paket-l'           => array( 329, 479, 300 ),
+		'paket-l'           => array( 329, 479, 1000 ),
 		'paket-bose-zusatz' => array( 99, 149, 400 ),
 	),
 );
@@ -832,8 +893,8 @@ const KJO_VL_OPT_DEFAULT = array(
 	'lieferung'  => 'Bringen und Holen ab Fellheim: bis 15 km 40 €, bis 30 km 70 €, bis 50 km (z. B. Ulm, Kempten, Kaufbeuren) 110 €, darüber 0,60 € je gefahrenem km.',
 	'aufbau'     => 'Auf- und Abbau: Paket S 40 €, Paket M 100 €, Paket L 180 €, sonst 40 € pro Stunde; Abbau nach 23 Uhr +50 %. Die Einweisung ist immer kostenlos.',
 );
-const KJO_VL_PAKETE_V = 2; // Pakete S/M/L neu (12.10.2026): einmalig vollständig überschreiben
-const KJO_VL_MIG      = 19;
+const KJO_VL_PAKETE_V = 3; // Pakete S/M/L neu (12.10.2026): einmalig vollständig überschreiben
+const KJO_VL_MIG      = 20;
 add_action(
 	'admin_init',
 	function () {
@@ -1022,13 +1083,21 @@ function kjo_vl_box( $post ) {
 				echo '</p><p class="description">Öffentlich: Erscheint in den Gerätedetails als „Bedienungsanleitung (PDF, Deutsch)“ mit dem Knopf „Link defekt? Melden“.</p>';
 				break;
 			case 'medien':
-				$ids = array_filter( array_map( 'absint', explode( ',', $v ) ) );
-				echo '<input type="hidden" id="kjo_vl_medien" name="' . esc_attr( $name ) . '" value="' . esc_attr( implode( ',', $ids ) ) . '"><ul id="kjo-vl-medien" class="kjo-vl-medien">';
+				$ids  = array_values( array_filter( array_map( 'absint', explode( ',', $v ) ) ) );
+				$neu  = array();
+				if ( '1' !== get_post_meta( $post->ID, '_kjo_medien_fix', true ) && $post->post_name ) {
+					$neu = array_values( array_diff( kjo_vl_auto_ids( $post ), $ids ) ); // über den Dateinamen gefunden
+					$ids = array_merge( $ids, $neu );
+				}
+				echo '<input type="hidden" id="kjo_vl_medien" name="' . esc_attr( $name ) . '" value="' . esc_attr( implode( ',', $ids ) ) . '"><input type="hidden" name="kjo_vl_medien_fix" value="1"><ul id="kjo-vl-medien" class="kjo-vl-medien">';
 				foreach ( $ids as $aid ) {
 					$th = wp_attachment_is( 'video', $aid ) ? '' : wp_get_attachment_image_url( $aid, 'thumbnail' );
-					echo '<li data-id="' . (int) $aid . '">' . ( $th ? '<img src="' . esc_url( $th ) . '" alt="">' : '<span class="kjo-vl-vid">▶ Video</span>' ) . '<button type="button" class="kjo-vl-mx" aria-label="Entfernen">×</button></li>';
+					echo '<li data-id="' . (int) $aid . '" title="' . esc_attr( wp_basename( (string) get_post_meta( $aid, '_wp_attached_file', true ) ) ) . '">' . ( $th ? '<img src="' . esc_url( $th ) . '" alt="">' : '<span class="kjo-vl-vid">▶ Video</span>' ) . '<button type="button" class="kjo-vl-mx" aria-label="Entfernen">×</button><span class="kjo-vl-mv"><button type="button" data-d="-1" aria-label="Nach vorne">◀</button><button type="button" data-d="1" aria-label="Nach hinten">▶</button></span></li>';
 				}
-				echo '</ul><p><button type="button" class="button" id="kjo-vl-medien-add">Bilder/Videos aus der Mediathek wählen</button></p><p class="description">Mehrere auf einmal wählbar. Reihenfolge per Ziehen ändern – das erste Bild ist das Vorschaubild. Der Dateiname ist egal.</p>';
+				echo '</ul><p><button type="button" class="button" id="kjo-vl-medien-add">Bilder/Videos aus der Mediathek wählen</button></p><p class="description">Reihenfolge per Ziehen oder mit ◀ ▶ ändern und „Aktualisieren“ klicken – das erste Bild ist das Vorschaubild. Mehrere auf einmal wählbar, der Dateiname ist egal. Gespeichert wird genau diese Liste (× entfernt ein Bild von der Seite, nicht aus der Mediathek).</p>';
+				if ( $neu ) {
+					echo '<p class="description" style="color:#996800">' . (int) count( $neu ) . ' Bild(er)/Video(s) wurden über den Dateinamen gefunden und hinten angehängt. Mit „Aktualisieren“ wird die Reihenfolge fest gespeichert.</p>';
+				}
 				break;
 			case 'bild':
 				$auto = kjo_vl_bild( (object) array( 'ID' => 0, 'post_type' => $post->post_type, 'post_name' => $post->post_name, 'post_title' => $post->post_title ) );
@@ -1057,17 +1126,17 @@ function kjo_vl_box( $post ) {
 	}
 	echo '</table>';
 	?>
-<style>.kjo-vl-medien{display:flex;flex-wrap:wrap;gap:8px;margin:0}.kjo-vl-medien li{position:relative;width:96px;height:96px;margin:0;border:1px solid #c3c4c7;background:#f6f7f7;cursor:move;display:flex;align-items:center;justify-content:center}.kjo-vl-medien img{width:100%;height:100%;object-fit:cover}.kjo-vl-mx{position:absolute;top:2px;right:2px;width:22px;height:22px;border-radius:50%;border:0;background:#d63638;color:#fff;cursor:pointer;line-height:1}.kjo-vl-vid{font-size:12px}</style>
+<style>.kjo-vl-medien{display:flex;flex-wrap:wrap;gap:8px;margin:0}.kjo-vl-medien li{position:relative;width:96px;height:96px;margin:0;border:1px solid #c3c4c7;background:#f6f7f7;cursor:move;display:flex;align-items:center;justify-content:center}.kjo-vl-medien img{width:100%;height:100%;object-fit:cover}.kjo-vl-mx{position:absolute;top:2px;right:2px;width:22px;height:22px;border-radius:50%;border:0;background:#d63638;color:#fff;cursor:pointer;line-height:1}.kjo-vl-vid{font-size:12px}.kjo-vl-mv{position:absolute;left:2px;right:2px;bottom:2px;display:flex;justify-content:space-between}.kjo-vl-mv button{width:24px;height:22px;border:0;border-radius:3px;background:rgba(0,0,0,.6);color:#fff;cursor:pointer;font-size:11px;line-height:1;padding:0}.kjo-vl-medien li:first-child{outline:2px solid #2271b1}</style>
 <script>
 window.addEventListener("load",function(){var b=document.getElementById("kjo-vl-pdf");if(!b||!window.wp||!wp.media)return;var fr;
 b.addEventListener("click",function(e){e.preventDefault();if(!fr){fr=wp.media({title:"Bedienungsanleitung wählen",library:{type:"application/pdf"},button:{text:"Übernehmen"},multiple:false});
 fr.on("select",function(){var a=fr.state().get("selection").first().toJSON();document.getElementById("kjo_vl_anleitung").value=a.url;});}fr.open();});});
 window.addEventListener("load",function(){var ul=document.getElementById("kjo-vl-medien"),inp=document.getElementById("kjo_vl_medien"),add=document.getElementById("kjo-vl-medien-add");if(!ul||!inp||!add||!window.wp||!wp.media)return;var fm;
 function sync(){inp.value=[].map.call(ul.querySelectorAll("li"),function(li){return li.getAttribute("data-id")}).join(",");}
-function item(a){var li=document.createElement("li");li.setAttribute("data-id",a.id);var th=a.type==="image"?((a.sizes&&a.sizes.thumbnail&&a.sizes.thumbnail.url)||a.url):"";li.innerHTML=(th?'<img alt="">':'<span class="kjo-vl-vid">▶ Video</span>')+'<button type="button" class="kjo-vl-mx" aria-label="Entfernen">×</button>';if(th)li.querySelector("img").src=th;ul.appendChild(li);}
+function item(a){var li=document.createElement("li");li.setAttribute("data-id",a.id);var th=a.type==="image"?((a.sizes&&a.sizes.thumbnail&&a.sizes.thumbnail.url)||a.url):"";li.innerHTML=(th?'<img alt="">':'<span class="kjo-vl-vid">▶ Video</span>')+'<button type="button" class="kjo-vl-mx" aria-label="Entfernen">×</button><span class="kjo-vl-mv"><button type="button" data-d="-1" aria-label="Nach vorne">◀</button><button type="button" data-d="1" aria-label="Nach hinten">▶</button></span>';if(th)li.querySelector("img").src=th;ul.appendChild(li);}
 add.addEventListener("click",function(e){e.preventDefault();if(!fm){fm=wp.media({title:"Bilder & Videos wählen",library:{type:["image","video"]},button:{text:"Übernehmen"},multiple:"add"});
 fm.on("select",function(){var have=inp.value.split(",");fm.state().get("selection").each(function(m){var a=m.toJSON();if(have.indexOf(String(a.id))<0)item(a);});sync();});}fm.open();});
-ul.addEventListener("click",function(e){var b=e.target.closest(".kjo-vl-mx");if(b){b.parentNode.remove();sync();}});
+ul.addEventListener("click",function(e){var b=e.target.closest(".kjo-vl-mx");if(b){b.parentNode.remove();sync();return;}var m=e.target.closest(".kjo-vl-mv button");if(m){e.preventDefault();var li=m.closest("li");if(m.getAttribute("data-d")==="-1"){if(li.previousElementSibling)ul.insertBefore(li,li.previousElementSibling);}else if(li.nextElementSibling){ul.insertBefore(li.nextElementSibling,li);}sync();}});
 if(window.jQuery&&jQuery.fn.sortable)jQuery(ul).sortable({update:sync});});
 </script>
 	<?php
@@ -1130,6 +1199,9 @@ add_action(
 				$v = null === $n ? '' : rtrim( rtrim( number_format( $n, 2, '.', '' ), '0' ), '.' );
 			} elseif ( 'medien' === $f[1] ) {
 				$v = implode( ',', array_filter( array_map( 'absint', explode( ',', $v ) ) ) );
+				if ( ! empty( $_POST['kjo_vl_medien_fix'] ) ) { // phpcs:ignore -- Nonce wird oben geprüft
+					update_post_meta( $id, '_kjo_medien_fix', '1' );
+				}
 			} elseif ( 'bild' === $f[1] ) {
 				$v = preg_replace( '/[^a-z0-9_]/', '', strtolower( $v ) );
 			} else {
@@ -1597,7 +1669,7 @@ add_shortcode(
 			array( 'Lieferung', kjo_vl_opt( 'lieferung' ) ? kjo_vl_opt( 'lieferung' ) : 'Nach Verfügbarkeit gegen Gebühr, der Preis steht im Angebot.' ),
 			array( 'Aufbau', kjo_vl_opt( 'aufbau' ) ? kjo_vl_opt( 'aufbau' ) : 'Nach Verfügbarkeit gegen Gebühr, der Preis steht im Angebot.' ),
 			array( 'Mitbringen', 'Personalausweis. Mieten ab 18 Jahren.' ),
-			array( 'Passt das in mein Auto?', 'Paket S passt in einen Kombi (die Lightbar ist 1,30 m lang). Für M braucht ihr einen Van oder Transporter (Traversentasche 1,54 m). Paket L liefere und baue ich selbst auf; auf Wunsch auch S und M, nach Verfügbarkeit und gegen Gebühr.' ),
+			array( 'Passt das in mein Auto?', 'Paket S passt in einen Kombi (die Lightbar ist 1,30 m lang). Für M und L braucht ihr einen sehr großen Kombi, Van, Anhänger oder Transporter. Nach Verfügbarkeit und gegen Gebühr liefere ich das Equipment zu eurer Location.' ),
 			array( 'Akku-Scheinwerfer', 'Ich übergebe sie vollgeladen im Lade-Case – zum Nachladen einfach das Case einstecken.' ),
 			array( 'Nebel', 'Bitte vorher mit der Location klären, wegen der Rauchmelder.' ),
 			array( 'Strom', 'Normale 230-V-Steckdosen. Verteiler und Verlängerungen bekommt ihr mit.' ),
