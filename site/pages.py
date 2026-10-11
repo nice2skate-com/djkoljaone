@@ -459,12 +459,12 @@ def equipment():
         ("fas fa-microphone","Reden, die jeder versteht.","Mein Funkmikrofon-Set ist immer dabei, für Trauzeugen, Chefs und Gratulanten."),
         ("fas fa-lightbulb","Eine Lichtshow statt Deckenlicht.","Traverse, Moving Heads und Ambientelicht machen aus jedem Raum eine Tanzfläche."),
         ("fas fa-magic","Ein Aufbau, der ins Bild passt.","Schwarzes DJ-Pult mit Stoffverkleidung, weitgehend verdeckte Kabel, alles fertig, bevor eure Gäste kommen.")]
-    licht=[("3-m-Lichttraverse","Mit LED-PAR-Scheinwerfern: Farbe und Stimmung passend zur Musik."),
-        ("2 Moving Heads","Bewegte Lichtstrahlen für echte Club-Momente."),
-        ("KLS-Lightbar","Partylicht auf eigenem Stativ für die ganze Tanzfläche."),
-        ("6 kabellose Akku-Scheinwerfer","Wetterfestes Ambientelicht für Wände, Säulen und Garten – ganz ohne Kabelsalat."),
-        ("LED-Laufschrift (65 cm)","Eure Namen, „Happy Birthday“ oder euer Hashtag, mittig an der Traverse."),
-        ("Nebel, UV- und Farb-Scheinwerfer","Nach Bedarf. Nebel nur nach Absprache mit der Location, wegen der Rauchmelder.")]
+    licht=[("3-m-Lichttraverse","Mit LED-PAR-Scheinwerfern: Farbe und Stimmung passend zur Musik.","traverse-3m"),
+        ("2 Moving Heads","Bewegte Lichtstrahlen für echte Club-Momente.","moving-head"),
+        ("KLS-Lightbar","Partylicht auf eigenem Stativ für die ganze Tanzfläche.","kls-lightbar"),
+        ("6 kabellose Akku-Scheinwerfer","Wetterfestes Ambientelicht für Wände, Säulen und Garten – ganz ohne Kabelsalat.","algam-akku-par"),
+        ("LED-Laufschrift (65 cm)","Eure Namen, „Happy Birthday“ oder euer Hashtag, mittig an der Traverse.","led-laufschrift"),
+        ("Nebel, UV- und Farb-Scheinwerfer","Nach Bedarf. Nebel nur nach Absprache mit der Location, wegen der Rauchmelder.","nebelmaschine,uv-strahler,wash-scheinwerfer")]
     erfahrung=["Seit 1996 hinter dem Mikrofon: angefangen beim Radio, heute auf Hochzeiten, Geburtstagen und Firmenfeiern.",
         "Über 10 Jahre als DJ, von Memmingen über das Allgäu und Schwaben bis nach NRW.",
         "Hochzeiten in Frankfurt, München und Ulm.",
@@ -483,7 +483,7 @@ def equipment():
         section(head("DJ-Technik","Mein Arbeitsplatz: Pioneer DDJ-FLX10",
             "Vier Kanäle, damit verbinde ich Songs nahtlos und reagiere live auf eure Tanzfläche. Er steht in einem schlichten schwarzen DJ-Pult, das sich optisch in eure Location einfügt."),bg=B2),
         section(head("Licht &amp; Effekte","Eine Lichtshow für eure Tanzfläche")+[cards(licht,bg=B2)],bg=B1),
-        section(head("Beispiel-Setup","So sieht ein Setup aus")+[plan,
+        section(head("Beispiel-Setup","So sieht ein Beispiel-Setup aus")+[plan,
             T("<em>Beispiel-Setup für eine Geburtstagsfeier mit 3-m-Traverse, Moving Heads und Ambientelicht. Je nach Raum stelle ich das Setup individuell zusammen.</em>",MUTED,"center",15)],bg=B2),
         section(head("Technik-Pakete","Diese Technik bringe ich zu eurer Feier mit",
             "Bucht ihr mich als DJ, wählt ihr das passende Technik-Paket nach Gästezahl dazu. Gerne berate ich euch zum optimalen Setup und Aufbau – in diesem Fall könnt ihr das Paket in der Anfrage einfach weglassen. Ich liefere, baue auf und betreue alles während der Feier. Den Preis bekommt ihr mit dem Angebot.")+[SC('[kjo_pakete modus="dj"]')],bg=B1,anchor="pakete"),
