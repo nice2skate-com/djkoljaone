@@ -1,9 +1,9 @@
 {
- "version": "1.29.1",
- "download_url": "dj-kolja-one-plattenkiste-1.29.1.zip",
- "sha256": "61cf74611562d3ae9f029737f2e2b5c81df49caf46a3065139d0058767c3774b",
+ "version": "1.30.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.30.0.zip",
+ "sha256": "5b64eb584b4f233854ac6238bd62c9de31661a4dd616a9ff80aea33802ce55dd",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "UV-Strahler Stairville Wild Wash 9x3W"
+ "changelog": "Bildoptimierung ohne Credits (WebP, 1600 px)"
 }

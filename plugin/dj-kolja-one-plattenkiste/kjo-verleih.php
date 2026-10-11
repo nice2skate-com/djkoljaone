@@ -169,7 +169,10 @@ function kjo_vl_media_post( $post ) {
 			$out[] = array( 'vid' => set_url_scheme( $url ) );
 		} elseif ( 0 === strpos( $mime, 'image/' ) ) {
 			$big   = wp_get_attachment_image_url( $aid, 'large' );
-			$out[] = array( 'img' => set_url_scheme( $big ? $big : $url ) );
+			$out[] = array(
+				'img'  => set_url_scheme( $big ? $big : $url ),
+				'full' => set_url_scheme( function_exists( 'kjo_img_web_url' ) ? kjo_img_web_url( $aid ) : $url ),
+			);
 		}
 	}
 	return array_merge( $out, kjo_vl_media( kjo_vl_bild( $post ) ) );
@@ -286,7 +289,7 @@ function kjo_vl_seed_data() {
 	$g    = array(
 		array( 'bose-s1-pro', 'Bose S1 Pro Aktivlautsprecher', 'lautsprecher', 2, 'Kompakter Aktivlautsprecher mit Bluetooth: klarer Klang für Sprache und Musik, dezent im Raum.', array( 'breite' => '241', 'laenge' => '286', 'hoehe' => '330', 'gewicht' => '7,1 kg', 'volumen' => '22,75 l', 'anschluesse' => 'Bluetooth, Kabel-Eingänge', 'gaeste' => 'bis ca. 50 Gäste (als Paar)', 'anleitung' => $bose ) ),
 		array( 'bose-subwoofer', 'Bose Subwoofer', 'subwoofer', 1, 'Bassergänzung für das Bose-System – mehr Druck auf der Tanzfläche.', array( 'gaeste' => 'bis ca. 100 Gäste (mit 2 × Bose S1 Pro)' ) ),
-		array( 'pronomic-c-215-ma', 'Pronomic C-215 MA 15"-Aktivbox', 'lautsprecher', 2, '2-Wege-Aktivbox mit 15"-Tieftöner und Bluetooth – kraftvoller Sound für große Säle und Festzelte.', array( 'breite' => '450', 'laenge' => '390', 'hoehe' => '695', 'gewicht' => '25,2 kg', 'volumen' => 'ca. 122 l', 'leistung' => '400 W + 100 W RMS, max. 123 dB', 'anschluesse' => '2 × XLR/Klinke-Combo, Bluetooth', 'gaeste' => 'bis ca. 250 Gäste (als Paar mit Subwoofern)' ) ),
+		array( 'pronomic-c-215-ma', KJO_VL_DATEN['pronomic-c-215-ma'][1], 'lautsprecher', 2, KJO_VL_DATEN['pronomic-c-215-ma'][3], KJO_VL_DATEN['pronomic-c-215-ma'][4] ),
 		array( 'pronomic-c-118sa', 'Pronomic C-118SA 18"-Aktiv-Subwoofer', 'subwoofer', 2, '18"-Aktiv-Subwoofer für druckvollen Bass, den man spürt.', array( 'leistung' => '800 W RMS, 30–200 Hz, max. 126 dB', 'anschluesse' => '2 × Combo-Eingang, 2 × XLR-Ausgang, M20-Flansch für Distanzstange' ) ),
 		array( 'pioneer-ddj-flx10', 'Pioneer DJ DDJ-FLX10', 'dj', 1, 'Vierkanaliger DJ-Controller für rekordbox und Serato – den Laptop bringt ihr mit.', array( 'breite' => '716', 'laenge' => '400.3', 'hoehe' => '73.4', 'gewicht' => '6,7 kg', 'volumen' => '21,04 l', 'anschluesse' => 'USB zum Laptop (rekordbox oder Serato)', 'lieferumfang' => "Netzteil\nUSB-Kabel\nAudiokabel", 'anleitung' => 'https://www.pioneerdj.com/de/product/dj-controllers/ddj-flx10/' ) ),
 		array( 'dj-pult', 'DJ-Pult, beleuchtet', 'buehne', 1, 'Beleuchtetes DJ-Pult mit zwei Zusatzplatten – eine saubere Bühne für Controller und Laptop.', array( 'lieferumfang' => '2 Zusatzplatten' ) ),
@@ -396,9 +399,27 @@ const KJO_VL_DATEN = array(
 			'wert_quelle' => 'thomann.de 89 € inkl. MwSt. (Stand 11.10.2026), Art.-Nr. 426835',
 		),
 	),
+	'pronomic-c-215-ma' => array(
+		'Pronomic C-215 MA 15"-Aktivbox',
+		'Pronomic C-215 MA 15"-Aktivboxen (Set mit 2 Boxen)',
+		'2-Wege-Aktivbox mit 15"-Tieftöner und Bluetooth – kraftvoller Sound für große Säle und Festzelte.',
+		'Set aus zwei 2-Wege-Aktivboxen mit 15"-Tieftöner und Bluetooth – kraftvoller Sound für große Säle und Festzelte.',
+		array(
+			'beschr'      => "Set aus zwei aktiven 2-Wege-Boxen mit je 15\"-Tieftöner und 1,75\"-Titan-Hochtöner: 400 W + 100 W RMS (800 W + 200 W Peak) pro Box, max. 123 dB SPL, Frequenzgang 55 Hz – 20 kHz.\nZwei Eingänge (XLR/Klinke-Combo) mit getrennter Lautstärke plus Bluetooth, DSP-Presets und ein schaltbarer XLR-Ausgang (Summe oder Kanal 1). Robustes Kunststoffgehäuse mit Monitorschräge.",
+			'breite'      => '450',
+			'laenge'      => '390',
+			'hoehe'       => '695',
+			'gewicht'     => '25,2 kg pro Box',
+			'leistung'    => '400 W + 100 W RMS, max. 123 dB',
+			'anschluesse' => '2 × XLR/Klinke-Combo, Bluetooth, XLR-Ausgang',
+			'gaeste'      => 'bis ca. 250 Gäste (als Paar mit Subwoofern)',
+			'wert'        => '289',
+			'wert_quelle' => 'Musikhaus Kirstein ca. 289–295 € pro Box, 2 Boxen + 2 Stative als Set 588 € (Geizhals/heise, Stand 11.10.2026); nicht bei Thomann',
+		),
+	),
 );
 /* Aktualisierung bestehender Geräte (läuft einmal je Stand von KJO_VL_MIG – bei neuen Recherchedaten hochzählen): Maße in Breite/Länge/Höhe aufteilen, KJO_VL_DATEN ergänzen. Nur leere Felder werden befüllt. */
-const KJO_VL_MIG = 2;
+const KJO_VL_MIG = 3;
 add_action(
 	'admin_init',
 	function () {
@@ -780,7 +801,7 @@ function kjo_vl_img_html( $post, $alt, $cls ) {
 	$m = kjo_vl_media_post( $post );
 	foreach ( $m as $e ) {
 		if ( ! empty( $e['img'] ) ) {
-			return '<img class="' . esc_attr( $cls ) . '" src="' . esc_url( $e['img'] ) . '" alt="' . esc_attr( $alt ) . '" loading="lazy" decoding="async">';
+			return '<img class="' . esc_attr( $cls ) . '" src="' . esc_url( $e['img'] ) . '"' . ( ! empty( $e['full'] ) ? ' data-full="' . esc_url( $e['full'] ) . '"' : '' ) . ' alt="' . esc_attr( $alt ) . '" loading="lazy" decoding="async">';
 		}
 	}
 	return '<span class="' . esc_attr( $cls ) . ' kjo-vl-ph" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 2a7 7 0 1 1 0 14 7 7 0 0 1 0-14zm0 4a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg></span>';
@@ -866,7 +887,7 @@ add_shortcode(
 				if ( ! empty( $e['vid'] ) ) {
 					$gal .= '<video src="' . esc_url( $e['vid'] ) . '" controls preload="none" playsinline' . ( ! empty( $e['img'] ) ? ' poster="' . esc_url( $e['img'] ) . '"' : '' ) . '></video>';
 				} elseif ( ! empty( $e['img'] ) ) {
-					$gal .= '<img src="' . esc_url( $e['img'] ) . '" alt="' . esc_attr( $g->post_title ) . '" loading="lazy" decoding="async">';
+					$gal .= '<img src="' . esc_url( $e['img'] ) . '"' . ( ! empty( $e['full'] ) ? ' data-full="' . esc_url( $e['full'] ) . '"' : '' ) . ' alt="' . esc_attr( $g->post_title ) . '" loading="lazy" decoding="async">';
 				}
 			}
 			if ( $gal ) {
@@ -1127,7 +1148,7 @@ function render(){
   sum.innerHTML=!n?"":(bad?"<strong>Nicht alles ist in diesem Zeitraum frei.</strong> Fragt trotzdem an, oft finde ich eine Alternative.<br>":"")+(s.p!=null?"Summe: <strong>ca. "+eur(s.p)+" pro Tag</strong>"+(s.k!=null?" · Kaution "+eur(s.k):"")+"<br>Unverbindliche Schätzung, der endgültige Preis kommt mit dem Angebot.":"Den Gesamtpreis bekommt ihr mit dem Angebot, kostenlos und unverbindlich.");
 }
 var LB=null,LBL=[],LBI=0;
-function lbShow(i){LBI=(i+LBL.length)%LBL.length;var im=LBL[LBI],e=q$("img",LB),sm=im.currentSrc||im.src,big=sm.replace(/-\d+x\d+(\.[a-z0-9]+)(\?.*)?$/i,"$1$2");e.onerror=big!==sm?function(){e.onerror=null;e.src=sm;}:null;e.src=big;e.alt=im.alt||"";q$("p",LB).textContent=(im.alt||"")+(LBL.length>1?" · "+(LBI+1)+" / "+LBL.length:"");q$(".kjo-vl-lbp",LB).hidden=q$(".kjo-vl-lbn",LB).hidden=LBL.length<2;}
+function lbShow(i){LBI=(i+LBL.length)%LBL.length;var im=LBL[LBI],e=q$("img",LB),sm=im.currentSrc||im.src,big=im.getAttribute("data-full")||sm.replace(/-\d+x\d+(\.[a-z0-9]+)(\?.*)?$/i,"$1$2");e.onerror=big!==sm?function(){e.onerror=null;e.src=sm;}:null;e.src=big;e.alt=im.alt||"";q$("p",LB).textContent=(im.alt||"")+(LBL.length>1?" · "+(LBI+1)+" / "+LBL.length:"");q$(".kjo-vl-lbp",LB).hidden=q$(".kjo-vl-lbn",LB).hidden=LBL.length<2;}
 function lbOpen(im){
   if(!LB){LB=document.createElement("div");LB.className="kjo-vl-lb";LB.hidden=true;LB.setAttribute("role","dialog");LB.setAttribute("aria-modal","true");LB.setAttribute("aria-label","Bildansicht");
     LB.innerHTML='<img alt=""><p></p><button type="button" class="kjo-vl-lbp" aria-label="Vorheriges Bild">\u2039</button><button type="button" class="kjo-vl-lbn" aria-label="N\u00e4chstes Bild">\u203a</button><button type="button" class="kjo-vl-lbx" aria-label="Schlie\u00dfen">\u00d7</button>';

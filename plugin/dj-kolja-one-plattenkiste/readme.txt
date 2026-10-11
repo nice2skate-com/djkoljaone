@@ -13,6 +13,8 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.30.0: Eigene Bildoptimierung ohne Credits: Medien → „Bilder optimieren“ erzeugt Web-Versionen (WebP, max. 1600 px) für vorhandene Bilder, neue Uploads automatisch; die Website liefert nur noch die kleinen Versionen aus.
+Seit 1.29.2: Pronomic C-215 MA als Set mit 2 Boxen, mit vollständigen Daten und Neupreis.
 Seit 1.29.1: UV-Strahler mit Daten des Stairville Wild Wash 9x3W LED UV (thomann.de); recherchierte Gerätedaten werden zentral gepflegt und nur in leere Felder übernommen.
 Seit 1.29.0: Geräteverwaltung mit eigenen Feldern für Breite, Länge und Höhe (mm, Volumen wird berechnet) sowie Neupreis/Wiederbeschaffungswert mit Preisquelle; Moving Head mit Daten des Varytec Hero Spot 60.
 Seit 1.28.0: Galerie „Eindrücke“ als Karussell auf einer Höhe (Desktop 400 px, Handy 260 px) mit Pfeilen und Wischen, auf allen Seiten mit Eindrücken; wird direkt vom Plugin ausgeliefert. Bild-Text-Abschnitte stehen am Desktop wieder nebeneinander.

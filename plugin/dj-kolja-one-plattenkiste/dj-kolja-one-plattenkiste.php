@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.29.1
+ * Version:     1.30.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,9 +12,10 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.29.1' );
+define( 'KJO_VERSION', '1.30.0' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
+require_once __DIR__ . '/kjo-bilder.php';
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -1017,7 +1018,7 @@ add_shortcode( 'kjo_musikpult', 'kjm_deck_html' );
  * zugeordnet. Bild = Hintergrund, Video = Player mit Start/Stop-Knopf.
  * ------------------------------------------------------------------ */
 function kjo_media_map() {
-	$map = get_transient( 'kjo_media_map' );
+	$map = get_transient( 'kjo_media_map2' );
 	if ( is_array( $map ) ) {
 		return $map;
 	}
@@ -1043,7 +1044,7 @@ function kjo_media_map() {
 			continue;
 		}
 		$kind = in_array( $m[2], array( 'mp4', 'm4v', 'webm', 'mov' ), true ) ? 'vid' : 'img';
-		$url  = wp_get_attachment_url( $id );
+		$url  = 'img' === $kind && function_exists( 'kjo_img_web_url' ) ? kjo_img_web_url( $id ) : wp_get_attachment_url( $id ); // Fotos in Web-Größe statt Original
 		if ( $url ) {
 			$map[ $m[1] ][ $kind ] = set_url_scheme( $url );
 			$h = (int) get_post_meta( $id, 'kjo_h', true );
@@ -1052,11 +1053,11 @@ function kjo_media_map() {
 			}
 		}
 	}
-	set_transient( 'kjo_media_map', $map, DAY_IN_SECONDS );
+	set_transient( 'kjo_media_map2', $map, DAY_IN_SECONDS );
 	return $map;
 }
 function kjo_media_flush() {
-	delete_transient( 'kjo_media_map' );
+	delete_transient( 'kjo_media_map2' );
 }
 add_action( 'add_attachment', 'kjo_media_flush' );
 add_action( 'edit_attachment', 'kjo_media_flush' );
