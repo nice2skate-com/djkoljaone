@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.27.0
+ * Version:     1.27.1
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.27.0' );
+define( 'KJO_VERSION', '1.27.1' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 
@@ -1675,7 +1675,7 @@ window.KJO_ALT=altFor;
 var ICO={hochzeit:'<circle cx="18" cy="28" r="10"/><circle cx="30" cy="28" r="10"/><path d="M27 10l3-4 3 4-3 3z"/>',
 geburtstag:'<path d="M10 40h28V26H10z"/><path d="M10 31c3 3 6 3 9 0s6-3 10 0 6 3 9 0"/><path d="M18 26v-7M24 26v-7M30 26v-7"/><path d="M18 15c-1.5-1.5 0-3.5 0-4.5 1 1 1.5 3 0 4.5zM24 15c-1.5-1.5 0-3.5 0-4.5 1 1 1.5 3 0 4.5zM30 15c-1.5-1.5 0-3.5 0-4.5 1 1 1.5 3 0 4.5z"/>',
 firmenfeier:'<path d="M14 8h8l-1 12a3 3 0 0 1-6 0zM26 8h8l-1 12a3 3 0 0 1-6 0zM18 23v15M30 23v15M13 38h10M25 38h10"/>',
-events:'<path d="M19 34V12l18-4v22"/><circle cx="14" cy="34" r="5"/><circle cx="32" cy="30" r="5"/>'};
+events:'<path d="M24 44V30"/><path d="M24 20v-8M24 20l6-6M24 20l8 0M24 20l6 6M24 20l-6 6M24 20h-8M24 20l-6-6"/><circle cx="24" cy="9.5" r="1.3"/><circle cx="32" cy="12" r="1.3"/><circle cx="34.5" cy="20" r="1.3"/><circle cx="32" cy="28" r="1.3"/><circle cx="16" cy="28" r="1.3"/><circle cx="13.5" cy="20" r="1.3"/><circle cx="16" cy="12" r="1.3"/><path d="M38 6l1 2.5 2.5 1-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1zM9 33l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>'};
 function one(el){
   if(el.getAttribute("data-kjo"))return;
   var m=(String(el.className).match(/kjo-m-([a-z0-9_]+)/i)||[])[1]; if(!m)return;

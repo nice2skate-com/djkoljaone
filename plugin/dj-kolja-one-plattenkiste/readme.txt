@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.27.1: Startseite: Platten in der Plattenkiste mit goldenen Symbolen (Ringe, Torte, Sektgläser, Feuerwerk) und goldenem Titel; Event-Kachel nutzt das neue Feuerwerk-Symbol.
 Seit 1.27.0: Überschrift passend zur Suchanzeige: Mit „kw={keyword}“ als URL-Suffix in Google Ads zeigen die Leistungsseiten z. B. „DJ für eure Weihnachtsfeier in Ulm“. Nur feste Wörter, nie Text aus der URL; ohne Parameter bleibt alles wie bisher.
 Seit 1.26.3: Google-Unternehmensprofil verlinkt (Social-Symbole, Kontaktseite, strukturierte Daten „sameAs“ zusammen mit Instagram und Facebook). Seiten neu einspielen.
 Seit 1.26.2: Technik mieten: Gerätebilder und Paketbilder per Klick groß ansehen (Vollbild, Blättern mit Pfeilen, Wischen oder Tastatur, Schließen mit × oder Esc).

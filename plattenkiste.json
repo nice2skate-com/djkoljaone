@@ -1,9 +1,9 @@
 {
- "version": "1.27.0",
- "download_url": "dj-kolja-one-plattenkiste-1.27.0.zip",
- "sha256": "0f0e29588b3b8b6d2e165ae06a77f16c396943a0de66ee63c493fef308765002",
+ "version": "1.27.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.27.1.zip",
+ "sha256": "927a84f411b2941d2a3a2a68921bb865f845d0f136a1691f45512e97875b046e",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Leistungsseiten: Überschrift passend zur Suchanzeige (kw={keyword})."
+ "changelog": "Startseite: Plattenkiste mit goldenen Symbolen und Titeln."
 }
