@@ -353,22 +353,23 @@ add_action(
 	30
 );
 
-/* Daten Moving Head (Recherche 11.10.2026, Thomann-Produktseiten und deutsche Anleitung). */
+/* Daten Moving Head (thomann.de, Art.-Nr. 449221, Stand 11.10.2026). */
 const KJO_VL_MH = array(
 	'Varytec Hero Spot 60 Moving Head',
-	'LED-Spot-Moving-Head mit Farbrad, Gobos und Prisma – bewegte Lichtstrahlen für echte Club-Momente.',
+	'LED-Spot-Moving-Head mit Farbrad, rotierenden Gobos und Prisma – bewegte Lichtstrahlen für echte Club-Momente.',
 	array(
-		'beschr'      => "60-W-LED mit 10° Abstrahlwinkel, Farbrad mit 7 Farben plus Weiß, 5 rotierende Gobos plus offen, 3-Facetten-Prisma.\nPan 540° und Tilt 190° (16 Bit). Steuerung per DMX (8 oder 14 Kanäle), Master/Slave, Automatikprogramme und Musiksteuerung.",
-		'breite'      => '214',
-		'laenge'      => '144',
-		'hoehe'       => '355',
-		'gewicht'     => '4,6 kg',
-		'leistung'    => '60-W-LED, 100 W Leistungsaufnahme',
-		'anschluesse' => 'DMX In/Out (XLR 3-polig), Stromeingang Powercon',
-		'strom'       => '100–240 V, 50/60 Hz',
-		'anleitung'   => 'https://images.thomann.de/pics/atg/atgdata/document/manual/c_449221_481679_v5_de_online.pdf',
-		'wert'        => '299',
-		'wert_quelle' => 'Thomann 298–299 € (Thomann/Preisvergleich, Stand 11.10.2026), Art.-Nr. 449221',
+		'beschr'       => "60-W-LED mit 10° Abstrahlwinkel, Farbrad mit 7 Farben plus Weiß, 5 rotierende Gobos plus offen (davon ein Glas-Gobo) mit Gobo Flow und Gobo Shake, 3-Facetten-Prisma, motorischer Fokus.\nPan 540° und Tilt 190° (16 Bit), Dimmer 0–100 %, Shutter 0–20 Hz. Steuerung per DMX (8 oder 14 Kanäle), Master/Slave, 8 Automatikprogramme und Musiksteuerung.",
+		'breite'       => '214',
+		'laenge'       => '144',
+		'hoehe'        => '355',
+		'gewicht'      => '4,6 kg',
+		'leistung'     => '60-W-LED, 30.250 lx @ 1 m, 9.700 K',
+		'anschluesse'  => 'DMX In/Out (XLR 3-polig), Stromeingang Power Twist',
+		'strom'        => '100–240 V, 50/60 Hz, 100 W Leistungsaufnahme',
+		'lieferumfang' => "Haltebügel\nNetzkabel\nDMX-Kabel",
+		'anleitung'    => 'https://images.thomann.de/pics/atg/atgdata/document/manual/c_449221_481679_v5_de_online.pdf',
+		'wert'         => '299',
+		'wert_quelle'  => 'thomann.de 299 € inkl. MwSt. (Stand 11.10.2026), Art.-Nr. 449221',
 	),
 );
 /* Einmalige Aktualisierung bestehender Geräte: Maße in Breite/Länge/Höhe aufteilen, Moving-Head-Daten ergänzen. Nur leere Felder werden befüllt. */
