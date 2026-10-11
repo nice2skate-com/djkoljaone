@@ -36,7 +36,7 @@ Hängt an einen Link schon `?…` dran (z. B. `?song=123`), dann mit `&` weiterm
 - [ ] Instagram-Bio-Link bis 31.10.: `https://dj-kolja-one.de/firmenfeier-dj/?utm_source=instagram&utm_medium=bio&utm_campaign=weihnacht26`
 - [ ] Facebook-Seite: Button „Kontaktieren“ auf denselben Link mit `utm_source=facebook`
 - [ ] 5 Karussell-Grafiken im Website-Look (dunkel/Gold)
-- [ ] Reel 15–20 s: Licht an, Moving Heads, Laufschrift „Eure Firma“ – Ton: **eigene Musik** (fremde Songs in Anzeigen nicht erlaubt)
+- [ ] Reel 15–20 s: Licht an (Akku-Scheinwerfer, Wash, UV), Laufschrift „Eure Firma“ – ohne Moving Heads, die sind gerade nicht greifbar. Ton: **eigene Musik** (fremde Songs in Anzeigen nicht erlaubt)
 
 ### Zeitplan
 
