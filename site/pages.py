@@ -486,7 +486,7 @@ def equipment():
         section(head("Beispiel-Setup","So sieht ein Setup aus")+[plan,
             T("<em>Beispiel-Setup für eine Geburtstagsfeier mit 3-m-Traverse, Moving Heads und Ambientelicht. Je nach Raum stelle ich das Setup individuell zusammen.</em>",MUTED,"center",15)],bg=B2),
         section(head("Technik-Pakete","Diese Technik bringe ich zu eurer Feier mit",
-            "Bucht ihr mich als DJ, wählt ihr das passende Technik-Paket nach Gästezahl dazu. Ich liefere, baue auf und betreue alles während der Feier. Den Preis bekommt ihr mit dem Angebot, abgestimmt auf Raum und Ablauf.")+[SC('[kjo_pakete modus="dj"]')],bg=B1,anchor="pakete"),
+            "Bucht ihr mich als DJ, wählt ihr das passende Technik-Paket nach Gästezahl dazu. Gerne berate ich euch zum optimalen Setup und Aufbau – in diesem Fall könnt ihr das Paket in der Anfrage einfach weglassen. Ich liefere, baue auf und betreue alles während der Feier. Den Preis bekommt ihr mit dem Angebot.")+[SC('[kjo_pakete modus="dj"]')],bg=B1,anchor="pakete"),
         section(head("Erfahrung","Erfahrung, auf die ihr euch verlassen könnt")+[con([ILIST(erfahrung)],max_width=px(860),width=px(100,"%"))],bg=B2),
         section([H("Welche Technik passt zu eurer Location?","h2",44,m=32),
             T("Schreibt mir Raum und Gästezahl, ich sage euch, was ich mitbringe.",OFF),SPACER(8),
