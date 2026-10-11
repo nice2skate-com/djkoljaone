@@ -63,7 +63,10 @@ function kjo_vl_fields( $type ) {
 		'preis'        => array( 'Mietpreis pro Tag in € (leer = „auf Anfrage“)', 'price', 'z. B. 25' ),
 		'kaution'      => array( 'Kaution in € (leer = „laut Angebot“)', 'price', '' ),
 		'gaeste'       => array( 'Geeignet für', 'text', 'z. B. bis ca. 50 Gäste (als Paar)' ),
-		'masse'        => array( 'Maße (B × H × T)', 'text', 'z. B. 241 × 330 × 286 mm' ),
+		'breite'       => array( 'Breite (mm)', 'mm', 'z. B. 241' ),
+		'laenge'       => array( 'Länge / Tiefe (mm)', 'mm', 'z. B. 286' ),
+		'hoehe'        => array( 'Höhe (mm)', 'mm', 'z. B. 330' ),
+		'masse'        => array( 'Maße – Zusatz (optional)', 'text', 'z. B. mit Bügel 255 × 235 × 105 mm' ),
 		'gewicht'      => array( 'Gewicht', 'text', 'z. B. 7,1 kg' ),
 		'volumen'      => array( 'Transportvolumen', 'text', 'z. B. 22,75 l' ),
 		'leistung'     => array( 'Leistung / Pegel', 'text', '' ),
@@ -81,7 +84,8 @@ function kjo_vl_intern_fields() {
 	return array(
 		'seriennr'   => 'Seriennummer(n)',
 		'kaufdatum'  => 'Kaufdatum / Rechnung',
-		'wert'       => 'Wiederbeschaffungswert (€)',
+		'wert'       => 'Neupreis / Wiederbeschaffungswert pro Stück (€)',
+		'wert_quelle' => 'Preisquelle & Stand',
 		'pruefdatum' => 'Letzte Prüfung (DGUV V3)',
 		'lagerort'   => 'Lagerort',
 		'zustand'    => 'Zustand',
@@ -90,6 +94,35 @@ function kjo_vl_intern_fields() {
 }
 function kjo_vl_get( $id, $k ) {
 	return (string) get_post_meta( $id, '_kjo_' . $k, true );
+}
+/** Maße aus Breite, Länge und Höhe (mm), ergänzt um den Freitext. */
+function kjo_vl_masse( $id ) {
+	$d = array();
+	foreach ( array( 'breite', 'laenge', 'hoehe' ) as $k ) {
+		$n = kjo_vl_num( kjo_vl_get( $id, $k ) );
+		if ( null === $n ) {
+			return kjo_vl_get( $id, 'masse' );
+		}
+		$d[] = str_replace( '.', ',', (string) $n );
+	}
+	$z = kjo_vl_get( $id, 'masse' );
+	return implode( ' × ', $d ) . ' mm' . ( '' !== $z ? ' (' . $z . ')' : '' );
+}
+/** Transportvolumen: eingetragen oder aus den Maßen berechnet. */
+function kjo_vl_volumen( $id ) {
+	$v = kjo_vl_get( $id, 'volumen' );
+	if ( '' !== $v ) {
+		return $v;
+	}
+	$l = 1;
+	foreach ( array( 'breite', 'laenge', 'hoehe' ) as $k ) {
+		$n = kjo_vl_num( kjo_vl_get( $id, $k ) );
+		if ( ! $n ) {
+			return '';
+		}
+		$l *= $n / 100; // mm → dm
+	}
+	return 'ca. ' . number_format( $l, $l < 10 ? 1 : 0, ',', '.' ) . ' l';
 }
 /** Preis als Zahl (oder null, wenn nicht eingetragen). */
 function kjo_vl_num( $v ) {
@@ -251,15 +284,15 @@ add_action(
 function kjo_vl_seed_data() {
 	$bose = 'https://assets.bose.com/content/dam/Bose_DAM/Web/consumer_electronics/global/products/speakers/s1_pro_system/pdfs/807173_og_s1-pro-system_de.pdf';
 	$g    = array(
-		array( 'bose-s1-pro', 'Bose S1 Pro Aktivlautsprecher', 'lautsprecher', 2, 'Kompakter Aktivlautsprecher mit Bluetooth: klarer Klang für Sprache und Musik, dezent im Raum.', array( 'masse' => '241 × 330 × 286 mm', 'gewicht' => '7,1 kg', 'volumen' => '22,75 l', 'anschluesse' => 'Bluetooth, Kabel-Eingänge', 'gaeste' => 'bis ca. 50 Gäste (als Paar)', 'anleitung' => $bose ) ),
+		array( 'bose-s1-pro', 'Bose S1 Pro Aktivlautsprecher', 'lautsprecher', 2, 'Kompakter Aktivlautsprecher mit Bluetooth: klarer Klang für Sprache und Musik, dezent im Raum.', array( 'breite' => '241', 'laenge' => '286', 'hoehe' => '330', 'gewicht' => '7,1 kg', 'volumen' => '22,75 l', 'anschluesse' => 'Bluetooth, Kabel-Eingänge', 'gaeste' => 'bis ca. 50 Gäste (als Paar)', 'anleitung' => $bose ) ),
 		array( 'bose-subwoofer', 'Bose Subwoofer', 'subwoofer', 1, 'Bassergänzung für das Bose-System – mehr Druck auf der Tanzfläche.', array( 'gaeste' => 'bis ca. 100 Gäste (mit 2 × Bose S1 Pro)' ) ),
-		array( 'pronomic-c-215-ma', 'Pronomic C-215 MA 15"-Aktivbox', 'lautsprecher', 2, '2-Wege-Aktivbox mit 15"-Tieftöner und Bluetooth – kraftvoller Sound für große Säle und Festzelte.', array( 'masse' => '450 × 695 × 390 mm', 'gewicht' => '25,2 kg', 'volumen' => 'ca. 122 l', 'leistung' => '400 W + 100 W RMS, max. 123 dB', 'anschluesse' => '2 × XLR/Klinke-Combo, Bluetooth', 'gaeste' => 'bis ca. 250 Gäste (als Paar mit Subwoofern)' ) ),
+		array( 'pronomic-c-215-ma', 'Pronomic C-215 MA 15"-Aktivbox', 'lautsprecher', 2, '2-Wege-Aktivbox mit 15"-Tieftöner und Bluetooth – kraftvoller Sound für große Säle und Festzelte.', array( 'breite' => '450', 'laenge' => '390', 'hoehe' => '695', 'gewicht' => '25,2 kg', 'volumen' => 'ca. 122 l', 'leistung' => '400 W + 100 W RMS, max. 123 dB', 'anschluesse' => '2 × XLR/Klinke-Combo, Bluetooth', 'gaeste' => 'bis ca. 250 Gäste (als Paar mit Subwoofern)' ) ),
 		array( 'pronomic-c-118sa', 'Pronomic C-118SA 18"-Aktiv-Subwoofer', 'subwoofer', 2, '18"-Aktiv-Subwoofer für druckvollen Bass, den man spürt.', array( 'leistung' => '800 W RMS, 30–200 Hz, max. 126 dB', 'anschluesse' => '2 × Combo-Eingang, 2 × XLR-Ausgang, M20-Flansch für Distanzstange' ) ),
-		array( 'pioneer-ddj-flx10', 'Pioneer DJ DDJ-FLX10', 'dj', 1, 'Vierkanaliger DJ-Controller für rekordbox und Serato – den Laptop bringt ihr mit.', array( 'masse' => '716 × 73,4 × 400,3 mm', 'gewicht' => '6,7 kg', 'volumen' => '21,04 l', 'anschluesse' => 'USB zum Laptop (rekordbox oder Serato)', 'lieferumfang' => "Netzteil\nUSB-Kabel\nAudiokabel", 'anleitung' => 'https://www.pioneerdj.com/de/product/dj-controllers/ddj-flx10/' ) ),
+		array( 'pioneer-ddj-flx10', 'Pioneer DJ DDJ-FLX10', 'dj', 1, 'Vierkanaliger DJ-Controller für rekordbox und Serato – den Laptop bringt ihr mit.', array( 'breite' => '716', 'laenge' => '400.3', 'hoehe' => '73.4', 'gewicht' => '6,7 kg', 'volumen' => '21,04 l', 'anschluesse' => 'USB zum Laptop (rekordbox oder Serato)', 'lieferumfang' => "Netzteil\nUSB-Kabel\nAudiokabel", 'anleitung' => 'https://www.pioneerdj.com/de/product/dj-controllers/ddj-flx10/' ) ),
 		array( 'dj-pult', 'DJ-Pult, beleuchtet', 'buehne', 1, 'Beleuchtetes DJ-Pult mit zwei Zusatzplatten – eine saubere Bühne für Controller und Laptop.', array( 'lieferumfang' => '2 Zusatzplatten' ) ),
 		array( 'funkmikrofon-set', 'Funkmikrofon-Set', 'mikrofone', 1, 'Für Reden, Spiele und Ansagen – ohne Kabelsalat.', array() ),
-		array( 'stairville-tri-flat-par', 'Stairville Tri Flat PAR Profile 5 × 3 W', 'licht', 4, 'Flacher LED-Scheinwerfer für farbiges Party- und Flächenlicht, z. B. an der Traverse.', array( 'masse' => '165 × 165 × 105 mm (mit Bügel 255 × 235 × 105 mm)', 'gewicht' => '2,04 kg', 'leistung' => '15 W, RGB-LED', 'anschluesse' => 'DMX, Musiksteuerung, Automatik' ) ),
-		array( 'moving-head', 'Moving Head', 'licht', 2, 'Bewegte Lichtstrahlen für echte Club-Momente.', array() ),
+		array( 'stairville-tri-flat-par', 'Stairville Tri Flat PAR Profile 5 × 3 W', 'licht', 4, 'Flacher LED-Scheinwerfer für farbiges Party- und Flächenlicht, z. B. an der Traverse.', array( 'breite' => '165', 'laenge' => '105', 'hoehe' => '165', 'masse' => 'mit Bügel 255 × 235 × 105 mm', 'gewicht' => '2,04 kg', 'leistung' => '15 W, RGB-LED', 'anschluesse' => 'DMX, Musiksteuerung, Automatik' ) ),
+		array( 'moving-head', KJO_VL_MH[0], 'licht', 2, KJO_VL_MH[1], KJO_VL_MH[2] ),
 		array( 'kls-lightbar', 'KLS-Lightbar mit Lichtstativ', 'licht', 1, 'Partylicht auf eigenem Stativ, das die ganze Tanzfläche ausleuchtet.', array( 'lieferumfang' => 'Lichtstativ' ) ),
 		array( 'algam-akku-par', 'ALGAM Akku-Parlight', 'licht', 8, 'Kabelloses Ambientelicht für Wände, Säulen, Garten und Terrasse.', array( 'lieferumfang' => 'Ladegerät', 'strom' => 'Akku' ) ),
 		array( 'uv-strahler', 'UV-Strahler', 'effekte', 1, 'Schwarzlicht-Effekt für leuchtende Outfits und Deko.', array() ),
@@ -318,6 +351,68 @@ add_action(
 		}
 	},
 	30
+);
+
+/* Daten Moving Head (thomann.de, Art.-Nr. 449221, Stand 11.10.2026). */
+const KJO_VL_MH = array(
+	'Varytec Hero Spot 60 Moving Head',
+	'LED-Spot-Moving-Head mit Farbrad, rotierenden Gobos und Prisma – bewegte Lichtstrahlen für echte Club-Momente.',
+	array(
+		'beschr'       => "60-W-LED mit 10° Abstrahlwinkel, Farbrad mit 7 Farben plus Weiß, 5 rotierende Gobos plus offen (davon ein Glas-Gobo) mit Gobo Flow und Gobo Shake, 3-Facetten-Prisma, motorischer Fokus.\nPan 540° und Tilt 190° (16 Bit), Dimmer 0–100 %, Shutter 0–20 Hz. Steuerung per DMX (8 oder 14 Kanäle), Master/Slave, 8 Automatikprogramme und Musiksteuerung.",
+		'breite'       => '214',
+		'laenge'       => '144',
+		'hoehe'        => '355',
+		'gewicht'      => '4,6 kg',
+		'leistung'     => '60-W-LED, 30.250 lx @ 1 m, 9.700 K',
+		'anschluesse'  => 'DMX In/Out (XLR 3-polig), Stromeingang Power Twist',
+		'strom'        => '100–240 V, 50/60 Hz, 100 W Leistungsaufnahme',
+		'lieferumfang' => "Haltebügel\nNetzkabel\nDMX-Kabel",
+		'anleitung'    => 'https://images.thomann.de/pics/atg/atgdata/document/manual/c_449221_481679_v5_de_online.pdf',
+		'wert'         => '299',
+		'wert_quelle'  => 'thomann.de 299 € inkl. MwSt. (Stand 11.10.2026), Art.-Nr. 449221',
+	),
+);
+/* Einmalige Aktualisierung bestehender Geräte: Maße in Breite/Länge/Höhe aufteilen, Moving-Head-Daten ergänzen. Nur leere Felder werden befüllt. */
+add_action(
+	'admin_init',
+	function () {
+		if ( ! current_user_can( 'edit_pages' ) || (int) get_option( 'kjo_vl_mig', 0 ) >= 1 ) {
+			return;
+		}
+		update_option( 'kjo_vl_mig', 1, false );
+		foreach ( get_posts( array( 'post_type' => 'kjo_geraet', 'post_status' => 'any', 'numberposts' => -1 ) ) as $g ) {
+			$m = kjo_vl_get( $g->ID, 'masse' );
+			if ( '' === kjo_vl_get( $g->ID, 'breite' ) && preg_match( '/^\s*([\d.,]+)\s*[×x]\s*([\d.,]+)\s*[×x]\s*([\d.,]+)\s*mm\s*(?:\((.*)\))?\s*$/u', $m, $r ) ) {
+				// Altes Format B × H × T.
+				update_post_meta( $g->ID, '_kjo_breite', (string) kjo_vl_num( $r[1] ) );
+				update_post_meta( $g->ID, '_kjo_hoehe', (string) kjo_vl_num( $r[2] ) );
+				update_post_meta( $g->ID, '_kjo_laenge', (string) kjo_vl_num( $r[3] ) );
+				if ( empty( $r[4] ) ) {
+					delete_post_meta( $g->ID, '_kjo_masse' );
+				} else {
+					update_post_meta( $g->ID, '_kjo_masse', $r[4] );
+				}
+			}
+		}
+		$mh = get_page_by_path( 'moving-head', OBJECT, 'kjo_geraet' );
+		if ( $mh ) {
+			if ( 'Moving Head' === $mh->post_title ) {
+				wp_update_post( array( 'ID' => $mh->ID, 'post_title' => KJO_VL_MH[0] ) );
+			}
+			if ( 'Bewegte Lichtstrahlen für echte Club-Momente.' === kjo_vl_get( $mh->ID, 'kurz' ) ) {
+				update_post_meta( $mh->ID, '_kjo_kurz', KJO_VL_MH[1] );
+			}
+			foreach ( KJO_VL_MH[2] as $k => $v ) {
+				if ( '' === kjo_vl_get( $mh->ID, $k ) ) {
+					update_post_meta( $mh->ID, '_kjo_' . $k, $v );
+				}
+			}
+		}
+		if ( function_exists( 'kjm_purge_caches' ) ) {
+			kjm_purge_caches();
+		}
+	},
+	31
 );
 
 /* ---------------------------------------------------------------
@@ -389,12 +484,18 @@ function kjo_vl_box( $post ) {
 				break;
 			default:
 				$type = 'number' === $f[1] ? 'number' : 'text';
-				if ( 'price' === $f[1] ) {
+				if ( 'price' === $f[1] || 'mm' === $f[1] ) {
 					$v = str_replace( '.', ',', $v ); // 30.5 → 30,5
 				}
-				echo '<input type="' . esc_attr( $type ) . '" id="kjo_vl_' . esc_attr( $k ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $v ) . '" class="' . ( 'text' === $type ? 'large-text' : 'small-text' ) . '" placeholder="' . esc_attr( $f[2] ) . '"' . ( 'number' === $type ? ' min="0" step="1"' : '' ) . '>';
+				echo '<input type="' . esc_attr( $type ) . '" id="kjo_vl_' . esc_attr( $k ) . '" name="' . esc_attr( $name ) . '" value="' . esc_attr( $v ) . '" class="' . ( 'text' === $type && 'mm' !== $f[1] ? 'large-text' : 'small-text' ) . '" placeholder="' . esc_attr( $f[2] ) . '"' . ( 'number' === $type ? ' min="0" step="1"' : '' ) . '>';
 				if ( 'price' === $f[1] ) {
 					echo ' <span class="description">Nur Zahl, z. B. 89 oder 89,50. Leer = Ersatztext ohne Preis.</span>';
+				}
+				if ( 'mm' === $f[1] ) {
+					echo ' mm';
+					if ( 'hoehe' === $k ) {
+						echo '<p class="description">Breite × Länge × Höhe erscheinen zusammen als „Maße“; ist das Transportvolumen leer, wird es daraus berechnet.</p>';
+					}
 				}
 		}
 		echo '</td></tr>';
@@ -469,7 +570,7 @@ add_action(
 				$v = '1' === $v ? '1' : '0';
 			} elseif ( 'number' === $f[1] ) {
 				$v = '' === trim( $v ) ? '' : (string) absint( $v );
-			} elseif ( 'price' === $f[1] ) {
+			} elseif ( 'price' === $f[1] || 'mm' === $f[1] ) {
 				$n = kjo_vl_num( $v );
 				$v = null === $n ? '' : rtrim( rtrim( number_format( $n, 2, '.', '' ), '0' ), '.' );
 			} elseif ( 'medien' === $f[1] ) {
@@ -748,9 +849,9 @@ add_shortcode(
 			}
 			$rows = array(
 				'Geeignet für'     => kjo_vl_get( $id, 'gaeste' ),
-				'Maße (B × H × T)' => kjo_vl_get( $id, 'masse' ),
+				'Maße (B × L × H)' => kjo_vl_masse( $id ),
 				'Gewicht'          => kjo_vl_get( $id, 'gewicht' ),
-				'Transportvolumen' => kjo_vl_get( $id, 'volumen' ),
+				'Transportvolumen' => kjo_vl_volumen( $id ),
 				'Leistung / Pegel' => kjo_vl_get( $id, 'leistung' ),
 				'Anschlüsse'       => kjo_vl_get( $id, 'anschluesse' ),
 				'Strom'            => kjo_vl_get( $id, 'strom' ),
