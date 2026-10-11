@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.42.1: Texte: Lightbar/Stative ca. 1,5 m, Kaution L mit Lieferung, Auf- und Abbau und Abholung, FAQ Paket L.
 Seit 1.42.0: Bild-Reihenfolge pro Gerät/Paket: über den Dateinamen gefundene Bilder erscheinen im Feld „Bilder & Videos“, sortierbar per Ziehen oder ◀ ▶; gespeichert gilt genau diese Liste.
 Seit 1.41.1: Paket L auch zur Selbstabholung (Kaution 1.000 €, mit Lieferung 300 €); Transport-Hinweis für M und L angepasst.
 Seit 1.41.0: Geräte in den Paketen verlinkt – Info-Fenster mit Bild, Kurztext und Daten bei Mouse-over oder Klick (Technik- und Mietseite).

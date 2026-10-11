@@ -501,7 +501,7 @@ MIET_FAQ=[("Wie lange im Voraus sollte ich anfragen?","Für Samstage im Sommer 4
     ("Wie laut ist die Anlage?","Laut genug für jede Tanzfläche. Bitte achtet auf Nachbarn und die Nachtruhe ab 22 Uhr; für die Lautstärke ist der Mieter verantwortlich."),
     ("Funktioniert das mit Handy oder Laptop?","Ja. Die Aktivboxen von Bose und Pronomic haben Bluetooth, jeweils ohne Subwoofer. Mit Subwoofer schließt ihr Handy oder Laptop per Kabel an. Für den DDJ-FLX10 bringt ihr euren Laptop mit rekordbox oder Serato mit."),
     ("Kann ich auch draußen feiern?","Ja, bei trockenem Wetter oder unter einem Dach. Ob ein Gerät Regen verträgt, sprechen wir vorher ab; im Equipment-Browser seht ihr die Wetterfestigkeit jedes Geräts. Die Akku-Scheinwerfer sind ideal für Garten und Terrasse, weil sie ohne Kabel auskommen."),
-    ("Liefert ihr auch?","Ja, nach Verfügbarkeit: Bringen und Holen ab 40 € (bis 15 km ab Fellheim), Auf- und Abbau ab 40 €. Für Paket L empfehle ich Lieferung und Aufbau. Alle Preise stehen unten unter „Gut zu wissen“.")]
+    ("Liefert ihr auch?","Ja, nach Verfügbarkeit: Bringen und Holen ab 40 € (bis 15 km ab Fellheim), Auf- und Abbau ab 40 €. Für Paket L empfehle ich Lieferung, Auf- und Abbau und Abholung durch mich. Alle Preise stehen unten unter „Gut zu wissen“.")]
 def SC(code): return W("shortcode",{"shortcode":code,"_element_width":"inherit","width":px(100,"%")})
 def mieten():
     vorteile=[("fas fa-headphones","Die Technik eines Profi-DJs","Bose, Pronomic, Pioneer und Lichttechnik, die bei echten Events im Einsatz ist."),
