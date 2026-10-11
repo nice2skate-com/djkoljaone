@@ -1,9 +1,9 @@
 {
- "version": "1.37.5",
- "download_url": "dj-kolja-one-plattenkiste-1.37.5.zip",
- "sha256": "0faa25efcc2baf700c2e2871c82863bef197264548fe485227c120efdaa18a98",
+ "version": "1.37.6",
+ "download_url": "dj-kolja-one-plattenkiste-1.37.6.zip",
+ "sha256": "a0ff04b9082e535d0f88603b0f2289d0980f0aa4e7fe6b1450a2d6fe8a46e5ef",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "LED-Laufschrift"
+ "changelog": "FLX10 Neupreis"
 }

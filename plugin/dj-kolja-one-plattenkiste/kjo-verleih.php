@@ -438,6 +438,8 @@ const KJO_VL_DATEN = array(
 		'',
 		array(
 			'hersteller' => 'https://support.alphatheta.com/de/products/16715825715481',
+			'wert'        => '1500',
+			'wert_quelle' => 'Kaufpreis laut Kolja: 1.500 € (Stand 11.10.2026)',
 			'notiz' => "Firmware: aktuell Ver. 1.14 (29.07.2025, u. a. djay-Pro-Unterstützung). Vor jeder Vermietung prüfen/aktualisieren:\nhttps://support.alphatheta.com/de/products/16715825715481",
 		),
 		array(
@@ -616,7 +618,7 @@ const KJO_VL_DATEN = array(
 	),
 );
 /* Aktualisierung bestehender Geräte (läuft einmal je Stand von KJO_VL_MIG – bei neuen Recherchedaten hochzählen): Maße in Breite/Länge/Höhe aufteilen, KJO_VL_DATEN ergänzen. Nur leere Felder werden befüllt. */
-const KJO_VL_MIG = 12;
+const KJO_VL_MIG = 13;
 add_action(
 	'admin_init',
 	function () {
