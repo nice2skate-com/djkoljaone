@@ -29,7 +29,7 @@ Hängt an einen Link schon `?…` dran (z. B. `?song=123`), dann mit `&` weiterm
 
 ---
 
-## Phase 1: Weihnachtsaktion (13.–31.10.2026)
+## Phase 1: Weihnachtsaktion (12.–31.10.2026)
 
 ### Vorbereitung
 
@@ -42,14 +42,14 @@ Hängt an einen Link schon `?…` dran (z. B. `?song=123`), dann mit `&` weiterm
 
 | Datum | Was | Kanal |
 |---|---|---|
-| Mo 13.10. | Hauptbeitrag (Karussell, 5 Bilder) + Story mit Link-Sticker | IG + FB |
-| Di 14.10. | **Meta-Anzeige starten** | Meta |
-| Mi 15.10. | Reel „Licht-Upgrade“ | IG + FB |
-| Sa 18.10. | Story „So läuft ein Abend mit mir ab“ + Link | IG |
-| Di 21.10. | Beitrag „Was ist im Licht-Upgrade?“ mit echten Gerätefotos | IG + FB |
-| Fr 24.10. | Story „Noch 7 Tage“ | IG + FB |
-| Mi 29.10. | Reel/Story „Noch 3 Tage – Dezember-Termine werden knapp“ | IG + FB |
-| Fr 31.10. | Story „Heute letzter Tag“ | IG + FB |
+| Mo 12.10. | Hauptbeitrag (Karussell, 5 Bilder) + Story mit Link-Sticker | IG + FB |
+| Di 13.10. | **Meta-Anzeige starten** | Meta |
+| Mi 14.10. | Reel „Licht-Upgrade“ | IG + FB |
+| Sa 17.10. | Story „So läuft ein Abend mit mir ab“ + Link | IG |
+| Di 20.10. | Beitrag „Was ist im Licht-Upgrade?“ mit echten Gerätefotos | IG + FB |
+| Fr 23.10. | Story „Noch 8 Tage“ | IG + FB |
+| Mi 28.10. | Reel/Story „Noch 3 Tage – Dezember-Termine werden knapp“ | IG + FB |
+| Sa 31.10. | Story „Heute letzter Tag“ | IG + FB |
 
 ### Karussell
 
@@ -86,8 +86,8 @@ Hängt an einen Link schon `?…` dran (z. B. `?song=123`), dann mit `&` weiterm
 | Gebiet | 40 km um Memmingen, Ulm, Kempten, Kaufbeuren |
 | Alter | 25–60 |
 | Interessen | Personalwesen, Office-Management, Eventplanung, Unternehmer, Betriebsfeier |
-| Budget | 7–10 € pro Tag, 14.–31.10. (ca. 125–180 € gesamt) |
-| Motiv | Reel vom 15.10., eigene Musik |
+| Budget | 7–10 € pro Tag, 13.–31.10. (ca. 135–190 € gesamt) |
+| Motiv | Reel vom 14.10., eigene Musik |
 | Haupttext | Bucht euren DJ für die Weihnachtsfeier bis 31.10. – das Licht-Upgrade mit Moving Heads, Akku-Scheinwerfern und LED-Laufschrift gibt’s gratis dazu (Wert 150 €). |
 | Überschrift | Licht-Upgrade gratis bis 31.10. |
 | Button | Mehr dazu |
