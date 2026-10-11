@@ -79,7 +79,11 @@ function kjo_kf_form() {
 		return '<div class="kjo-kf-f' . ( $cls ? ' ' . $cls : '' ) . '"><label for="kjo-kf-' . $id . '">' . $label . '</label>' . $input . '</div>';
 	};
 	$req = ' <span class="kjo-kf-r" aria-hidden="true">*</span>';
-	$h   = '<form class="kjo-kf" id="kjo-kf" novalidate data-api="' . $api . '">';
+	$akt = array();
+	foreach ( function_exists( 'kjo_aktionen' ) ? kjo_aktionen() : array() as $c => $a ) {
+		$akt[ $c ] = array( $a['kurz'], $a['ende'] * 1000 );
+	}
+	$h   = '<form class="kjo-kf" id="kjo-kf" novalidate data-api="' . $api . '" data-akt="' . esc_attr( wp_json_encode( (object) $akt ) ) . '">';
 	$h  .= '<div class="kjo-kf-g">';
 	$h  .= $f( 'vn', 'Vorname' . $req, '<input id="kjo-kf-vn" name="vorname" type="text" autocomplete="given-name" required maxlength="80">' );
 	$h  .= $f( 'nn', 'Nachname' . $req, '<input id="kjo-kf-nn" name="nachname" type="text" autocomplete="family-name" required maxlength="80">' );
@@ -110,6 +114,7 @@ define(
 	. '.kjo-kf input[type=date]::-webkit-calendar-picker-indicator{filter:invert(72%) sepia(18%) saturate(500%) hue-rotate(5deg);cursor:pointer}.kjo-kf input[type=date]:disabled{opacity:.45}'
 	. '.kjo-kf-offen{background:none;border:0;padding:8px 0 0;color:#B29D75;font:13px "Fira Sans",sans-serif;text-decoration:underline;cursor:pointer}'
 	. '.kjo-kf-av:empty{display:none}.kjo-kf-av{margin:10px 0 0;padding:10px 14px;border-left:3px solid #B29D75;background:rgba(178,157,117,.08);font-size:15px;line-height:1.55}.kjo-kf-av.ok{border-color:#7fb77e}.kjo-kf-av.vor{border-color:#E0B36A}.kjo-kf-av.no{border-color:#ff9b8a}.kjo-kf-av a{color:#B29D75}.kjo-kf-av strong{font-weight:500}'
+	. '.kjo-kf-akt{margin:0 0 20px;padding:12px 16px;border:1px solid #B29D75;background:rgba(178,157,117,.1);color:#F3F1E9;font-size:15px;line-height:1.5}.kjo-kf-akt strong{color:#B29D75;font-weight:500}'
 	. '.kjo-kf-hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}'
 	. '.kjo-kf-ds{display:flex;gap:10px;align-items:flex-start;margin:22px 0 0;font-size:15px;line-height:1.5;cursor:pointer}.kjo-kf-ds input{width:20px;height:20px;margin:2px 0 0;flex:none;accent-color:#B29D75}.kjo-kf-ds a{color:#B29D75}'
 	. '.kjo-kf-msgbox{margin:16px 0 0;padding:12px 14px;border-left:3px solid #E0B36A;background:rgba(224,179,106,.08);font-size:15px}'
@@ -123,6 +128,7 @@ define(
 var ok=document.getElementById("kjo-kf-ok"),box=f.querySelector(".kjo-kf-msgbox"),btn=f.querySelector(".kjo-kf-send"),dt=f.querySelector("#kjo-kf-dt"),off=f.querySelector(".kjo-kf-offen"),av=f.querySelector(".kjo-kf-av"),ts=Math.floor(Date.now()/1000),offen=false;
 function val(n){var e=f.elements[n];return e?(e.type==="checkbox"?(e.checked?"1":""):String(e.value||"").trim()):"";}
 function msg(t){box.textContent=t;box.hidden=!t;}
+var akt="";try{var A=JSON.parse(f.getAttribute("data-akt")||"{}"),q=(new URLSearchParams(location.search).get("aktion")||"").toUpperCase();if(A[q]&&Date.now()<A[q][1]){akt=q;var n=document.createElement("p");n.className="kjo-kf-akt";n.innerHTML="🎁 Aktion <strong>"+q+"</strong> ist vorgemerkt: "+A[q][0]+".";f.insertBefore(n,f.firstChild);}}catch(x){}
 function hint(c,h){av.className="kjo-kf-av "+c;av.innerHTML=h;}
 function check(v){var K=window.KJO_KAL;av.innerHTML="";if(!K||!window.fetch||!v)return;fetch(K.api+(K.api.indexOf("?")>-1?"&":"?")+"von="+v,{credentials:"omit"}).then(function(r){return r.json()}).then(function(j){if(dt.value!==v||!j||!j.dj)return;
  if(j.dj==="frei")hint("ok","✓ <strong>Termin noch verfügbar!</strong> Schickt mir eure Anfrage, ich melde mich innerhalb von 24 Stunden bei euch.");
@@ -137,7 +143,7 @@ f.addEventListener("submit",function(e){e.preventDefault();msg("");var bad=null;
  [].forEach.call(f.querySelectorAll("[required]"),function(el){var good=el.checkValidity();el.setAttribute("aria-invalid",good?"false":"true");if(!good&&!bad)bad=el;});
  if(bad){msg(bad.type==="checkbox"?"Bitte bestätigt die Datenschutzerklärung.":bad.type==="email"?"Bitte prüft eure E-Mail-Adresse.":"Bitte füllt alle Pflichtfelder (*) aus.");try{bad.focus();}catch(x){}return;}
  btn.disabled=true;btn.textContent="Wird gesendet …";
- var d={vorname:val("vorname"),nachname:val("nachname"),email:val("email"),telefon:val("telefon"),datum:offen?"":val("datum"),offen:offen?1:0,ort:val("ort"),gaeste:val("gaeste"),anlass:val("anlass"),nachricht:val("nachricht"),datenschutz:val("datenschutz"),website:val("website"),ts:ts,seite:location.pathname};
+ var d={vorname:val("vorname"),nachname:val("nachname"),email:val("email"),telefon:val("telefon"),datum:offen?"":val("datum"),offen:offen?1:0,ort:val("ort"),gaeste:val("gaeste"),anlass:val("anlass"),nachricht:val("nachricht"),datenschutz:val("datenschutz"),website:val("website"),aktion:akt,ts:ts,seite:location.pathname};
  fetch(f.getAttribute("data-api"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(d),credentials:"omit"}).then(function(r){return r.json().catch(function(){return{ok:false};});}).then(function(j){
   if(j&&j.ok){f.hidden=true;ok.hidden=false;try{ok.focus({preventScroll:true});}catch(x){}ok.scrollIntoView({behavior:"smooth",block:"center"});
    try{if(typeof window.kjoTrack==="function")window.kjoTrack("generate_lead",{method:"formular"});}catch(x){}}
@@ -213,7 +219,9 @@ function kjo_kf_rest( WP_REST_Request $req ) {
 		$st   = kjo_kal_status( $datum, $datum );
 		$verf = is_array( $st ) && isset( $st['dj'] ) ? array( 'frei' => 'frei', 'vor' => 'vorreserviert', 'belegt' => 'BELEGT' )[ $st['dj'] ] ?? '' : '';
 	}
+	$akt   = function_exists( 'kjo_aktion_finden' ) ? kjo_aktion_finden( $s( 'aktion' ) . ' ' . $s( 'nachricht', true ) ) : '';
 	$text  = "Neue DJ-Anfrage über dj-kolja-one.de\n\n";
+	$text .= $akt ? '*** AKTION ' . $akt . ': ' . kjo_aktionen()[ $akt ]['titel'] . " ***\n\n" : '';
 	$text .= 'Anlass: ' . $anlass . "\n";
 	$text .= 'Wunschdatum: ' . ( $datum ? $de : 'noch offen' ) . ( $verf ? ' (Kalender: ' . $verf . ')' : '' ) . "\n";
 	$text .= 'Ort / Location: ' . $s( 'ort' ) . "\n";
@@ -236,6 +244,9 @@ function kjo_kf_rest( WP_REST_Request $req ) {
 		update_post_meta( $pid, '_kjo_email', $email );
 		update_post_meta( $pid, '_kjo_anlass', $anlass );
 		update_post_meta( $pid, '_kjo_ort', $s( 'ort' ) );
+		if ( $akt ) {
+			update_post_meta( $pid, '_kjo_aktion', $akt );
+		}
 	} else {
 		$pid = 0;
 	}

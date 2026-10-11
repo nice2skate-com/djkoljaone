@@ -63,3 +63,10 @@ Pfad: `dj-kolja-one.de/Firmenfeier/Weihnachtsfeier`
 - Tag 1–2: Status der Conversions „Aktiv“? Anzeige genehmigt?
 - Wöchentlich: Suchbegriffe prüfen, unpassende ausschließen.
 - Performance-Max-Kampagne „DJ für Weihnachtsfeier“ pausiert lassen.
+
+## Aktion „Licht-Upgrade gratis“ (Code WEIHNACHT26, bis 31.10.2026)
+Angebots-Asset geht nicht (verlangt % oder € Rabatt) – stattdessen mit Enddatum:
+- **Zusatzinformation** (Assets → + → Zusatzinformation, Erweiterte Optionen → Enddatum 31.10.2026): „Licht-Upgrade gratis“ · „Aktion bis 31.10.“
+- **Sitelink** (Enddatum 31.10.2026): Text „Licht-Upgrade gratis“ · Beschreibung 1 „Bei Buchung bis 31. Oktober“ · Beschreibung 2 „Moving Heads, UV & Laufschrift“ · URL https://dj-kolja-one.de/firmenfeier-dj/
+- Optional Anzeigentitel „Gratis Licht-Upgrade bis 31.10“ (30 Zeichen) – Titel haben kein Enddatum, **am 01.11. löschen**.
+Website: Kasten auf /firmenfeier-dj/ bis 31.10. (Plugin 1.34.0, KJO_AKTIONEN), Anfragen mit Code tragen 🎁 im Lead-System.

@@ -1,9 +1,9 @@
 {
- "version": "1.33.0",
- "download_url": "dj-kolja-one-plattenkiste-1.33.0.zip",
- "sha256": "d2696c31df1596ecae9f17da96a4c0a4160fffb06dc517d6fa32f76a8fb2ec67",
+ "version": "1.34.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.34.0.zip",
+ "sha256": "28ecb121eccab3597dd7175e5417f2205aaef0cac2070c61ee0285b4da620857",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Lead-System, Backup-Wächter"
+ "changelog": "Aktion Licht-Upgrade (WEIHNACHT26)"
 }

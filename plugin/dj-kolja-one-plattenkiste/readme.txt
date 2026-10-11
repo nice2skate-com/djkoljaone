@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.34.0: Aktionen mit Enddatum (KJO_AKTIONEN): Hinweis-Kasten auf der Firmenfeier-Seite „Licht-Upgrade gratis“ bis 31.10.2026, Code WEIHNACHT26 wird ins Formular übernommen und Anfragen im Lead-System markiert.
 Seit 1.33.0: Lead-System für DJ-Anfragen: Status (Neu bis Durchgeführt, Absagen), Pipeline-Board zum Ziehen, Angebotsbetrag, Wiedervorlage, Verlauf mit Notizen, Kalender-Kopplung (Gebucht = fester Termin), Dashboard-Kasten. Backup-Wächter für UpdraftPlus.
 Seit 1.32.0: Video-Vorschaubilder: Medien → Bilder optimieren erzeugt sie per Klick aus dem Video; mit Vorschaubild lädt die Galerie ein Video erst beim Abspielen (spart am Handy mehrere MB).
 Seit 1.31.0: Eigenes Anfrageformular „Wunschtermin prüfen“ statt WPForms: Anfragen werden unter „DJ-Anfragen“ gespeichert und per E-Mail geschickt, Kunde erhält Bestätigung, Wunschdatum mit Verfügbarkeit und „Als vorreserviert eintragen“; Tracking (generate_lead) unverändert. Bilder optimieren: sehr große Fotos verkleinert der Browser automatisch auf 2560 px.

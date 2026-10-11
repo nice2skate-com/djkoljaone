@@ -32,6 +32,11 @@ function kjo_lead_get( $id ) {
 	$s = (string) get_post_meta( $id, '_kjo_lead_status', true );
 	return isset( kjo_lead_stati()[ $s ] ) ? $s : 'neu';
 }
+/** Markierung für Anfragen mit Aktionscode. */
+function kjo_lead_akt( $id ) {
+	$a = (string) get_post_meta( $id, '_kjo_aktion', true );
+	return $a ? ' <span class="kjo-la" title="Anfrage über Aktion">🎁 ' . esc_html( $a ) . '</span>' : '';
+}
 function kjo_lead_badge( $s ) {
 	$st = kjo_lead_stati();
 	return '<span class="kjo-lb" style="background:' . esc_attr( $st[ $s ][1] ) . '">' . esc_html( $st[ $s ][0] ) . '</span>';
@@ -208,7 +213,7 @@ add_action(
 	'manage_kjo_anfrage_posts_custom_column',
 	function ( $col, $id ) {
 		if ( 'kjo_lead_st' === $col ) {
-			echo kjo_lead_badge( kjo_lead_get( $id ) ); // phpcs:ignore
+			echo kjo_lead_badge( kjo_lead_get( $id ) ) . kjo_lead_akt( $id ); // phpcs:ignore
 		} elseif ( 'kjo_lead_wv' === $col ) {
 			$wv = (string) get_post_meta( $id, '_kjo_lead_wv', true );
 			echo $wv ? '<span' . ( kjo_lead_due( $id ) ? ' style="color:#d63638;font-weight:600"' : '' ) . '>' . esc_html( wp_date( 'd.m.Y', strtotime( $wv ) ) ) . '</span>' : '–';
@@ -292,7 +297,7 @@ add_action(
 add_action(
 	'admin_head',
 	function () {
-		echo '<style>.kjo-lb{display:inline-block;padding:2px 9px;border-radius:10px;color:#fff;font-size:12px;line-height:18px;white-space:nowrap}</style>';
+		echo '<style>.kjo-la{display:inline-block;margin:2px 0;padding:1px 8px;border-radius:10px;background:#fcf3dc;color:#7a5a00;border:1px solid #e3c46a;font-size:11.5px;white-space:nowrap}.kjo-lb{display:inline-block;padding:2px 9px;border-radius:10px;color:#fff;font-size:12px;line-height:18px;white-space:nowrap}</style>';
 	}
 );
 
@@ -313,6 +318,7 @@ function kjo_lead_board() {
 		$h   = '<div class="kjo-pc' . ( kjo_lead_due( $id ) ? ' due' : '' ) . '" draggable="true" data-id="' . (int) $id . '" data-b="' . esc_attr( $b ? $b : 0 ) . '">';
 		$h  .= '<a href="' . esc_url( get_edit_post_link( $id ) ) . '"><strong>' . esc_html( get_post_meta( $id, '_kjo_name', true ) ? get_post_meta( $id, '_kjo_name', true ) : $p->post_title ) . '</strong></a>';
 		$h  .= '<div>' . esc_html( trim( get_post_meta( $id, '_kjo_anlass', true ) . ( $von ? ' · ' . wp_date( 'd.m.Y', strtotime( $von ) ) : ' · Datum offen' ), ' ·' ) ) . '</div>';
+		$h  .= kjo_lead_akt( $id );
 		$h  .= '<div class="m">' . esc_html( (string) get_post_meta( $id, '_kjo_ort', true ) ) . ( $b ? ' · <b>' . esc_html( kjo_vl_eur( (float) $b ) ) . '</b>' : '' ) . '</div>';
 		$h  .= $wv ? '<div class="wv">⏰ ' . esc_html( wp_date( 'd.m.', strtotime( $wv ) ) ) . '</div>' : '';
 		$h  .= '<select class="kjo-pc-s" aria-label="Status ändern">';
