@@ -1,9 +1,9 @@
 {
- "version": "1.38.0",
- "download_url": "dj-kolja-one-plattenkiste-1.38.0.zip",
- "sha256": "ed3a4866b21126d528845e71b27b9b811f9393700de16ba0cd52ff703e4c3720",
+ "version": "1.39.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.39.0.zip",
+ "sha256": "1356c840ac9b2a5ccc212abf61a05b090e74cc355b0dfea6fa755f1a0ca26984",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Thunder Wash, Spiegelkugel"
+ "changelog": "Mietpreise und Wochenendtarif"
 }
