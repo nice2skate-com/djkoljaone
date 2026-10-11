@@ -212,7 +212,9 @@ function kjo_img_admin_page() {
 		$opt = get_post_meta( $id, '_kjo_img_opt', true );
 		echo '<tr data-id="' . (int) $id . '" data-b="' . (int) $i['bytes'] . '" data-opt="' . ( $opt ? 1 : 0 ) . '" data-big="' . esc_url( max( $i['w'], $i['h'] ) > KJO_IMG_MAX ? (string) wp_get_attachment_url( $id ) : '' ) . '"><td>' . wp_get_attachment_image( $id, array( 48, 48 ) ) . ' ' . esc_html( get_the_title( $id ) ) . '</td><td class="n">' . esc_html( $i['name'] ) . '</td><td class="d">' . (int) $i['w'] . ' × ' . (int) $i['h'] . '</td><td class="b">' . esc_html( kjo_img_kb( $i['bytes'] ) ) . '</td><td class="s">' . ( $opt ? 'optimiert' : '–' ) . '</td></tr>';
 	}
-	echo '</tbody></table></div>';
+	echo '</tbody></table>';
+	kjo_vid_admin_section();
+	echo '</div>';
 	$nonce = wp_create_nonce( 'kjo_img' );
 	?>
 <script>
@@ -265,5 +267,97 @@ add_action(
 			wp_send_json_error( $r->get_error_message() );
 		}
 		wp_send_json_success( $r );
+	}
+);
+
+/* ---------------------------------------------------------------
+ * Videos: Vorschaubilder (seit 1.32.0)
+ * Ein Vorschaubild <name>.jpg zum Video <name>.mp4 wird als Poster gezeigt; dann lädt die Seite
+ * vom Video nichts, bis jemand es abspielt (spart am Handy mehrere MB pro Seitenaufruf).
+ * Das Bild schneidet der Browser aus dem Video (Sekunde 0,3) – ohne Zusatzsoftware auf dem Server.
+ * ------------------------------------------------------------- */
+function kjo_vid_key( $id ) {
+	$f = strtolower( wp_basename( (string) get_post_meta( $id, '_wp_attached_file', true ) ) );
+	return preg_match( '/^((?:start|event|ueber|kolja|region|equip|paket)_[a-z0-9_]+?)(?:-\d+)*\.(?:mp4|m4v|webm|mov)$/', $f, $m ) ? $m[1] : '';
+}
+function kjo_vid_admin_section() {
+	$map  = function_exists( 'kjo_media_map' ) ? kjo_media_map() : array();
+	$rows = array();
+	foreach ( get_posts( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'post_mime_type' => 'video', 'posts_per_page' => 500, 'fields' => 'ids' ) ) as $id ) {
+		$k = kjo_vid_key( $id );
+		if ( $k ) {
+			$rows[ $k ] = array( $id, ! empty( $map[ $k ]['img'] ) );
+		}
+	}
+	echo '<h2 style="margin-top:40px">Videos: Vorschaubilder</h2>';
+	echo '<p>Mit Vorschaubild lädt die Seite ein Video erst, wenn jemand es abspielt – am Handy spart das mehrere MB pro Seitenaufruf. Das Vorschaubild wird aus dem Video geschnitten (Sekunde 0,3) und als <code>&lt;name&gt;.jpg</code> in der Mediathek abgelegt; ein eigenes Bild mit diesem Namen geht genauso.</p>';
+	if ( ! $rows ) {
+		echo '<p>Keine Website-Videos gefunden.</p>';
+		return;
+	}
+	$fehlt = count( array_filter( $rows, function ( $r ) { return ! $r[1]; } ) );
+	echo '<p><button type="button" class="button button-primary" id="kjo-vid-all"' . ( $fehlt ? '' : ' disabled' ) . '>Fehlende Vorschaubilder erzeugen (' . (int) $fehlt . ')</button> <span id="kjo-vid-st"></span></p>';
+	echo '<table class="widefat striped" style="max-width:900px"><thead><tr><th>Video</th><th>Größe</th><th>Vorschaubild</th></tr></thead><tbody>';
+	foreach ( $rows as $k => $r ) {
+		$f = get_attached_file( $r[0] );
+		echo '<tr data-vid="' . (int) $r[0] . '" data-has="' . ( $r[1] ? 1 : 0 ) . '" data-src="' . esc_url( (string) wp_get_attachment_url( $r[0] ) ) . '"><td>' . esc_html( $k ) . '</td><td>' . esc_html( $f && file_exists( $f ) ? kjo_img_kb( filesize( $f ) ) : '–' ) . '</td><td class="s">' . ( $r[1] ? '✓ vorhanden' : '– fehlt' ) . '</td></tr>';
+	}
+	echo '</tbody></table>';
+	$nonce = wp_create_nonce( 'kjo_img' );
+	?>
+<script>
+(function(){var b=document.getElementById("kjo-vid-all"),st=document.getElementById("kjo-vid-st");if(!b)return;
+function grab(src){return new Promise(function(res,rej){var v=document.createElement("video");v.muted=true;v.playsInline=true;v.preload="auto";v.crossOrigin="anonymous";
+var t=setTimeout(function(){rej("Zeitüberschreitung")},30000);
+v.addEventListener("loadeddata",function(){try{v.currentTime=Math.min(.3,(v.duration||1)/2);}catch(e){rej(e)}});
+v.addEventListener("seeked",function(){try{var c=document.createElement("canvas");c.width=v.videoWidth;c.height=v.videoHeight;c.getContext("2d").drawImage(v,0,0);c.toBlob(function(bl){clearTimeout(t);bl?res(bl):rej("leer")},"image/jpeg",.88);}catch(e){clearTimeout(t);rej(e)}},{once:true});
+v.addEventListener("error",function(){clearTimeout(t);rej("Video nicht lesbar")});v.src=src;});}
+b.addEventListener("click",function(){b.disabled=true;var rows=[].slice.call(document.querySelectorAll("tr[data-vid][data-has='0']")),i=0,ok=0;
+function next(){if(i>=rows.length){st.textContent="Fertig: "+ok+" von "+rows.length+" erzeugt.";return;}var tr=rows[i++];tr.querySelector(".s").textContent="läuft …";st.textContent=i+" / "+rows.length;
+grab(tr.getAttribute("data-src")).then(function(bl){var fd=new FormData();fd.append("action","kjo_vid_poster");fd.append("id",tr.getAttribute("data-vid"));fd.append("bild",bl,"poster.jpg");fd.append("_ajax_nonce","<?php echo esc_js( $nonce ); ?>");
+return fetch(ajaxurl,{method:"POST",body:fd,credentials:"same-origin"}).then(function(r){return r.json()});}).then(function(j){
+if(j&&j.success){tr.querySelector(".s").textContent="✓ erzeugt";tr.setAttribute("data-has","1");ok++;}else tr.querySelector(".s").textContent="Fehler: "+((j&&j.data)||"unbekannt");
+},function(e){tr.querySelector(".s").textContent="Fehler: "+(typeof e==="string"?e:"Video nicht lesbar");}).then(next);}
+next();});})();
+</script>
+	<?php
+}
+add_action(
+	'wp_ajax_kjo_vid_poster',
+	function () {
+		check_ajax_referer( 'kjo_img' );
+		$vid = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
+		$key = $vid ? kjo_vid_key( $vid ) : '';
+		$tmp = isset( $_FILES['bild']['tmp_name'] ) ? $_FILES['bild']['tmp_name'] : ''; // phpcs:ignore
+		$sz  = $tmp ? @getimagesize( $tmp ) : false; // phpcs:ignore
+		if ( ! $key || ! current_user_can( 'upload_files' ) || ! $sz || 'image/jpeg' !== $sz['mime'] || max( $sz[0], $sz[1] ) > 4000 ) {
+			wp_send_json_error( 'Ungültig.' );
+		}
+		$dir  = dirname( get_attached_file( $vid ) );
+		$name = wp_unique_filename( $dir, $key . '.jpg' );
+		$file = trailingslashit( $dir ) . $name;
+		if ( ! @move_uploaded_file( $tmp, $file ) ) { // phpcs:ignore
+			wp_send_json_error( 'Datei konnte nicht gespeichert werden.' );
+		}
+		@chmod( $file, 0644 ); // phpcs:ignore
+		$aid = wp_insert_attachment(
+			array(
+				'post_mime_type' => 'image/jpeg',
+				'post_title'     => $key . ' (Vorschaubild)',
+				'post_status'    => 'inherit',
+			),
+			$file,
+			(int) wp_get_post_parent_id( $vid )
+		);
+		if ( ! $aid || is_wp_error( $aid ) ) {
+			@unlink( $file ); // phpcs:ignore
+			wp_send_json_error( 'Konnte nicht in der Mediathek angelegt werden.' );
+		}
+		$r = kjo_img_optimize( $aid );
+		update_post_meta( $vid, '_kjo_poster', $aid );
+		if ( function_exists( 'kjo_media_flush' ) ) {
+			kjo_media_flush();
+		}
+		wp_send_json_success( is_wp_error( $r ) ? array() : $r );
 	}
 );

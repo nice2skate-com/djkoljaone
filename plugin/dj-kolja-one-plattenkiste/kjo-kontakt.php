@@ -84,7 +84,7 @@ function kjo_kf_form() {
 	$h  .= $f( 'vn', 'Vorname' . $req, '<input id="kjo-kf-vn" name="vorname" type="text" autocomplete="given-name" required maxlength="80">' );
 	$h  .= $f( 'nn', 'Nachname' . $req, '<input id="kjo-kf-nn" name="nachname" type="text" autocomplete="family-name" required maxlength="80">' );
 	$h  .= $f( 'em', 'E-Mail-Adresse' . $req, '<input id="kjo-kf-em" name="email" type="email" autocomplete="email" required maxlength="120">' );
-	$h  .= $f( 'tel', 'Telefon <span class="kjo-kf-o">(optional, für Rückfragen)</span>', '<input id="kjo-kf-tel" name="telefon" type="tel" autocomplete="tel" maxlength="40">' );
+	$h  .= $f( 'tel', 'Telefon <span class="kjo-kf-o">(optional, für schnellere Abklärung)</span>', '<input id="kjo-kf-tel" name="telefon" type="tel" autocomplete="tel" maxlength="40">' );
 	$h  .= $f( 'dt', 'Wunschdatum' . $req, '<input id="kjo-kf-dt" name="datum" type="date" required min="' . esc_attr( wp_date( 'Y-m-d' ) ) . '"><button type="button" class="kjo-kf-offen" aria-pressed="false">Noch kein festes Datum?</button><div class="kjo-kf-av" aria-live="polite"></div>', 'kjo-kf-w' );
 	$h  .= $f( 'ort', 'Ort / Location <span class="kjo-kf-o">(voraussichtlich)</span>' . $req, '<input id="kjo-kf-ort" name="ort" type="text" required maxlength="150">' );
 	$h  .= $f( 'gs', 'Gästezahl <span class="kjo-kf-o">(voraussichtlich)</span>' . $req, '<input id="kjo-kf-gs" name="gaeste" type="text" inputmode="numeric" required maxlength="40" placeholder="z. B. 80">' );
