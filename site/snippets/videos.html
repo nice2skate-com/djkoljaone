@@ -17,6 +17,9 @@
 @media(max-width:767px){#kjv .vs{gap:12px;margin:0 -20px;padding:4px 20px 16px;scroll-padding:0 20px}#kjv .vt{height:260px}#kjv .nv{display:none}#kjv .pb{width:56px;height:56px;margin:-28px 0 0 -28px}#kjv .pb:before{left:22px;top:17px;border-width:11px 0 11px 17px}}
 #kjv .lb img{max-width:100%;max-height:100%;border-radius:3px;box-shadow:0 20px 60px rgba(0,0,0,.7)}
 #kjv .vt.im .pb{display:none}
+#kjv.city .vs{padding:18px 16px 44px;gap:34px}#kjv.city .vt{height:520px;border-radius:2px;outline:0;box-shadow:0 0 0 1px #B29D75,0 0 0 7px #120F0B,0 0 0 8px rgba(178,157,117,.55),0 28px 60px rgba(0,0,0,.6),0 0 46px rgba(178,157,117,.14)}#kjv.city .vt:hover,#kjv.city .vt:focus-visible{box-shadow:0 0 0 1px #D4BF94,0 0 0 7px #120F0B,0 0 0 8px #B29D75,0 34px 70px rgba(0,0,0,.65),0 0 60px rgba(178,157,117,.25)}#kjv.city .vt:after{background:linear-gradient(180deg,rgba(15,12,7,0) 70%,rgba(15,12,7,.35))}
+#kjv.city .vt{max-width:calc(100% - 4px)}
+@media(max-width:767px){#kjv.city .vs{padding:14px 26px 30px;gap:24px}#kjv.city .vt{height:auto;width:calc(100vw - 52px);max-width:none;max-height:460px}}
 </style>
 <div id="kjv" data-key="__KEY__" hidden>
 <button type="button" class="nv p" aria-label="Zurück" hidden><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><div class="vs"></div><button type="button" class="nv n" aria-label="Weiter" hidden><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
@@ -25,6 +28,7 @@
 <script>
 (function(){function go(){var r=document.getElementById("kjv");if(!r||r.dataset.on)return;r.dataset.on=1;
 var keys=r.dataset.key.split(","),M=window.KJO_MEDIA||{},row=r.querySelector(".vs"),lb=r.querySelector(".lb"),lv=lb.querySelector("video"),li=lb.querySelector("img"),n=0,last=null;
+if(keys.indexOf("region")>0)r.classList.add("city"); /* Ortsseiten: größer, goldener Rahmen */
 function close(){lb.classList.remove("on");try{lv.pause()}catch(e){}lv.removeAttribute("src");lv.load();li.removeAttribute("src");document.documentElement.style.overflow="";if(last)try{last.focus()}catch(e){}}
 function open(e,b){last=b;lv.hidden=!e.vid;li.hidden=!!e.vid;li.alt=b.dataset.alt||"";lv.setAttribute("aria-label",b.dataset.alt||"");if(e.vid){lv.src=e.vid;lv.muted=false;var p=lv.play();if(p&&p.catch)p.catch(function(){lv.muted=true;lv.play().catch(function(){})})}else li.src=e.img;lb.classList.add("on");document.documentElement.style.overflow="hidden"}
 for(var i=1;i<=8;i++)(function(i){var e=null,nm="";for(var k=0;k<keys.length&&!e;k++){nm=(keys[k]==="ueber"||keys[k]==="start"?keys[k]+"_":"event_"+keys[k]+"_")+i;var c=M[nm];if(c&&(c.vid||c.img))e=c}if(!e)return;n++;

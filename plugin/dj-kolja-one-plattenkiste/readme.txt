@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.30.1: Ortsseiten: Stadtbilder 30 % größer (520 px) mit goldenem Doppelrahmen und edlem Schatten; am Handy in voller Breite.
 Seit 1.30.0: Eigene Bildoptimierung ohne Credits: Medien → „Bilder optimieren“ erzeugt Web-Versionen (WebP, max. 1600 px) für vorhandene Bilder, neue Uploads automatisch; die Website liefert nur noch die kleinen Versionen aus.
 Seit 1.29.2: Pronomic C-215 MA als Set mit 2 Boxen, mit vollständigen Daten und Neupreis.
 Seit 1.29.1: UV-Strahler mit Daten des Stairville Wild Wash 9x3W LED UV (thomann.de); recherchierte Gerätedaten werden zentral gepflegt und nur in leere Felder übernommen.
