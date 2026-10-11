@@ -1,9 +1,9 @@
 {
- "version": "1.37.4",
- "download_url": "dj-kolja-one-plattenkiste-1.37.4.zip",
- "sha256": "074a0068d3a7e9d991699af4c99d72501b2a1769e03811c06891ce09324ab348",
+ "version": "1.37.5",
+ "download_url": "dj-kolja-one-plattenkiste-1.37.5.zip",
+ "sha256": "0faa25efcc2baf700c2e2871c82863bef197264548fe485227c120efdaa18a98",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "DJ-Pult und Lautsprecherstative"
+ "changelog": "LED-Laufschrift"
 }

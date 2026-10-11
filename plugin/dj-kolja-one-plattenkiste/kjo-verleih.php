@@ -302,7 +302,7 @@ function kjo_vl_seed_data() {
 		array( 'uv-strahler', KJO_VL_DATEN['uv-strahler'][1], 'effekte', 1, KJO_VL_DATEN['uv-strahler'][3], KJO_VL_DATEN['uv-strahler'][4] ),
 		array( 'wash-scheinwerfer', 'Wash-/Color-Scheinwerfer', 'licht', 1, 'Zusätzliche farbige Flächenbeleuchtung.', array() ),
 		array( 'nebelmaschine', 'Nebelmaschine', 'effekte', 1, 'Macht Lichtstrahlen sichtbar. Bitte vorher mit der Location wegen der Rauchmelder abstimmen.', array() ),
-		array( 'led-laufschrift', 'LED-Laufschrift (ca. 70 cm)', 'effekte', 1, 'Eure Namen, „Happy Birthday“ oder euer Hashtag in Leuchtschrift.', array() ),
+		array( 'led-laufschrift', 'Eurolite ESN LED-Laufschrift (65 cm)', 'effekte', 1, 'Eure Namen, „Happy Birthday“ oder euer Hashtag in Leuchtschrift.', array() ),
 		array( 'traverse-3m', 'Traversen-Set 3 m', 'buehne', 1, 'Lichttraverse mit zwei Ständern – die Bühne für Scheinwerfer und Laufschrift.', array( 'lieferumfang' => "2 Traversenständer\n2 Adapter Traverse/Ständer\n2 Traversenstücke\nVerbinder, Schrauben und Sicherungen" ) ),
 		array( 'lautsprecherstativ', 'Roadworx Speakerstand 2 Lautsprecherstativ', 'buehne', 2, 'Stabiles Alu-Stativ mit Gasdruckfeder für Aktivlautsprecher, 1,30–2,00 m hoch.', array() ),
 	);
@@ -592,9 +592,31 @@ const KJO_VL_DATEN = array(
 			'hersteller'  => 'https://www.thomann.de/de/roadworx_speakerstand_2.htm',
 		),
 	),
+	'led-laufschrift' => array(
+		'LED-Laufschrift (ca. 70 cm)',
+		'Eurolite ESN LED-Laufschrift (65 cm)',
+		'',
+		'',
+		array(
+			'beschr'       => "LED-Laufschrift mit 560 SMD-LEDs (Rot/Grün, bis 16 Farbtöne), Anzeigefläche 60 × 5,5 cm: eine Zeile mit 13 sichtbaren Zeichen, die durchlaufen – für eure Namen, „Happy Birthday“, den Firmennamen oder euren Hashtag. Auch kleine Bilder wie Herzen (7 × 80 Pixel), 7 Schriftarten.\nProgrammierung per IR-Fernbedienung oder PC-Software (USB oder Netzwerk). Lautlos, ohne Lüfter.",
+			'breite'       => '647',
+			'laenge'       => '97',
+			'hoehe'        => '35',
+			'gewicht'      => '1,25 kg',
+			'leistung'     => '560 SMD-LEDs (RG), 7 × 80 Pixel, 12 W',
+			'anschluesse'  => 'USB (Micro-USB), Netzwerk (RJ-45, TCP/IP)',
+			'strom'        => 'Netzteil 100–240 V, 50/60 Hz (Bar: 5 V DC, 3 A)',
+			'lieferumfang' => "IR-Fernbedienung\nNetzteil (1,8-m-Kabel)\nNetzwerkkabel\nUSB-Kabel",
+			'wetter'       => 'innen',
+			'wetter_ip'    => 'IP20',
+			'wert'         => '245',
+			'wert_quelle'  => 'thomann.de 245 € (Art.-Nr. 523364, Stand 11.10.2026)',
+			'hersteller'   => 'https://www.thomann.de/de/eurolite_esn_moving_message.htm',
+		),
+	),
 );
 /* Aktualisierung bestehender Geräte (läuft einmal je Stand von KJO_VL_MIG – bei neuen Recherchedaten hochzählen): Maße in Breite/Länge/Höhe aufteilen, KJO_VL_DATEN ergänzen. Nur leere Felder werden befüllt. */
-const KJO_VL_MIG = 11;
+const KJO_VL_MIG = 12;
 add_action(
 	'admin_init',
 	function () {
