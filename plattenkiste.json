@@ -1,9 +1,9 @@
 {
- "version": "1.31.0",
- "download_url": "dj-kolja-one-plattenkiste-1.31.0.zip",
- "sha256": "3ab6375c8f6ddf750a67dc581eaa05845842c5781121b71b0a86fd6dbc707401",
+ "version": "1.32.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.32.0.zip",
+ "sha256": "3888a6e7863772808575a08ee19c791cf644084cc1c9fe5aad5f6c0029b3f164",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Eigenes Anfrageformular, Bilder: Verkleinern im Browser"
+ "changelog": "Video-Vorschaubilder, Videos laden erst beim Abspielen"
 }
