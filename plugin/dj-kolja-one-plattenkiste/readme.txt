@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.40.1: Pakete auch auf der Equipment-Seite (Technik), Mietkorb funktioniert dort ebenfalls; Liefer-FAQ mit Preisen.
 Seit 1.40.0: Pakete S/M/L neu zusammengestellt (S 89/129 €, M 209/299 €, L 329/479 €), Zusatz Bose-Set zu L, neues Gerät Shure Beta 58A, Traverse mit 8 Haken, C-215 mit Distanzstange, Aktion mit Wert 150 €.
 Seit 1.39.1: /favicon.ico wird direkt ausgeliefert (statt Weiterleitung), zusätzlich 192-px-PNG-Icon für Google.
 Seit 1.39.0: Mietpreise mit Wochenendtarif (Fr 15 – Mo 21 Uhr, sobald Sa/So im Zeitraum), Kaution, Liefer- und Aufbaupauschalen; Mietkorb rechnet den Zeitraum aus.

@@ -1348,7 +1348,7 @@ add_shortcode(
 		}
 		$w  = kjo_vl_opt( 'wochenende' );
 		$h .= '</div><p class="kjo-vl-wochenende">' . ( $w ? 'Wochenendmiete: ' . esc_html( $w ) : 'Ihr feiert das ganze Wochenende? Fragt nach unserem Wochenendtarif.' ) . '</p>';
-		return $h . kjo_vl_assets();
+		return $h . kjo_vl_cart_html() . kjo_vl_assets(); // Mietkorb auch auf Seiten ohne Geräteliste (z. B. Equipment)
 	}
 );
 

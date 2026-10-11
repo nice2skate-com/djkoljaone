@@ -485,7 +485,10 @@ def equipment():
         section(head("Licht &amp; Effekte","Eine Lichtshow für eure Tanzfläche")+[cards(licht,bg=B2)],bg=B1),
         section(head("Beispiel-Setup","So sieht ein Setup aus")+[plan,
             T("<em>Beispiel-Setup für eine Geburtstagsfeier mit 3-m-Traverse, Moving Heads und Ambientelicht. Je nach Raum stelle ich das Setup individuell zusammen.</em>",MUTED,"center",15)],bg=B2),
-        section(head("Erfahrung","Erfahrung, auf die ihr euch verlassen könnt")+[con([ILIST(erfahrung)],max_width=px(860),width=px(100,"%"))],bg=B1),
+        section(head("Technik mieten","Selbst feiern: meine Technik als Paket",
+            "Ihr feiert ohne DJ? Dann mietet mein Equipment als fertiges Paket – mit Einweisung, auf Wunsch geliefert und aufgebaut. Freitag bis Montag zum Wochenendpreis.")+[SC("[kjo_pakete]"),SPACER(8),
+            BTNS(BTN("Alle Geräte, Preise &amp; Mietkorb","/technik-mieten/#geraete",False))],bg=B1,anchor="pakete"),
+        section(head("Erfahrung","Erfahrung, auf die ihr euch verlassen könnt")+[con([ILIST(erfahrung)],max_width=px(860),width=px(100,"%"))],bg=B2),
         section([H("Welche Technik passt zu eurer Location?","h2",44,m=32),
             T("Schreibt mir Raum und Gästezahl, ich sage euch, was ich mitbringe.",OFF),SPACER(8),
             BTNS(BTN(*WISH),BTN(*MIETEN,False))],bg=B2,border_border="solid",border_width=box(1,0,1,0),border_color=LINE),
@@ -499,7 +502,7 @@ MIET_FAQ=[("Wie lange im Voraus sollte ich anfragen?","Für Samstage im Sommer 4
     ("Wie laut ist die Anlage?","Laut genug für jede Tanzfläche. Bitte achtet auf Nachbarn und die Nachtruhe ab 22 Uhr; für die Lautstärke ist der Mieter verantwortlich."),
     ("Funktioniert das mit Handy oder Laptop?","Ja. Die Aktivboxen von Bose und Pronomic haben Bluetooth, jeweils ohne Subwoofer. Mit Subwoofer schließt ihr Handy oder Laptop per Kabel an. Für den DDJ-FLX10 bringt ihr euren Laptop mit rekordbox oder Serato mit."),
     ("Kann ich auch draußen feiern?","Ja, bei trockenem Wetter oder unter einem Dach. Ob ein Gerät Regen verträgt, sprechen wir vorher ab; im Equipment-Browser seht ihr die Wetterfestigkeit jedes Geräts. Die Akku-Scheinwerfer sind ideal für Garten und Terrasse, weil sie ohne Kabel auskommen."),
-    ("Liefert ihr auch?","Ja, nach Verfügbarkeit und gegen Gebühr: Lieferung, Aufbau/Verkabelung, Abbau und Abholung. Den Preis bekommt ihr mit dem Angebot, abhängig von Entfernung und Aufwand.")]
+    ("Liefert ihr auch?","Ja, nach Verfügbarkeit: Bringen und Holen ab 40 € (bis 15 km ab Fellheim), Auf- und Abbau ab 40 €. Paket L liefere und baue ich immer selbst auf. Alle Preise stehen unten unter „Gut zu wissen“.")]
 def SC(code): return W("shortcode",{"shortcode":code,"_element_width":"inherit","width":px(100,"%")})
 def mieten():
     vorteile=[("fas fa-headphones","Die Technik eines Profi-DJs","Bose, Pronomic, Pioneer und Lichttechnik, die bei echten Events im Einsatz ist."),
