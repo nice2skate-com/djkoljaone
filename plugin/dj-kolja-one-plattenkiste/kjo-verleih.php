@@ -49,6 +49,7 @@ function kjo_vl_fields( $type ) {
 			'inhalt'   => array( 'Inhalt (eine Zeile pro Punkt)', 'textarea', '' ),
 			'hinweis'  => array( 'Hinweis / Empfehlung', 'textarea', '' ),
 			'preis'    => array( 'Mietpreis pro Tag in € (leer = „Preis auf Anfrage“)', 'price', 'z. B. 89' ),
+			'preis_we' => array( 'Mietpreis Wochenende Fr 15 – Mo 21 Uhr in € (leer = 1,5 × Tagespreis)', 'price', 'z. B. 129' ),
 			'kaution'  => array( 'Kaution in € (leer = „Kaution laut Angebot“)', 'price', 'z. B. 200' ),
 			'medien'   => array( 'Bilder & Videos', 'medien', '' ),
 			'bild'     => array( 'Bildname in der Mediathek (alternativ)', 'bild', '' ),
@@ -61,6 +62,7 @@ function kjo_vl_fields( $type ) {
 		'mietbar'      => array( 'Im Verleih anbieten', 'check', '' ),
 		'bestand'      => array( 'Bestand (Stück)', 'number', '' ),
 		'preis'        => array( 'Mietpreis pro Tag in € (leer = „auf Anfrage“)', 'price', 'z. B. 25' ),
+		'preis_we'     => array( 'Mietpreis Wochenende Fr 15 – Mo 21 Uhr in € (leer = 1,5 × Tagespreis)', 'price', 'z. B. 35' ),
 		'kaution'      => array( 'Kaution in € (leer = „laut Angebot“)', 'price', '' ),
 		'gaeste'       => array( 'Geeignet für', 'text', 'z. B. bis ca. 50 Gäste (als Paar)' ),
 		'breite'       => array( 'Breite (mm)', 'mm', 'z. B. 241' ),
@@ -138,6 +140,63 @@ function kjo_vl_num( $v ) {
 }
 function kjo_vl_eur( $n ) {
 	return ( floor( $n ) == $n ? number_format( $n, 0, ',', '.' ) : number_format( $n, 2, ',', '.' ) ) . ' €'; // phpcs:ignore
+}
+/** Wochenendpreis (Fr 15 – Mo 21 Uhr): eingetragener Wert oder 1,5 × Tagespreis (auf volle Euro). */
+function kjo_vl_we( $id ) {
+	$w = kjo_vl_num( kjo_vl_get( $id, 'preis_we' ) );
+	$p = kjo_vl_num( kjo_vl_get( $id, 'preis' ) );
+	return null !== $w ? $w : ( null === $p ? null : ceil( $p * 1.5 ) );
+}
+/**
+ * Tarif für einen Zeitraum: Liegt Samstag oder Sonntag darin, gilt je Wochenende der Wochenendpreis (Fr 15 – Mo 21 Uhr),
+ * zusätzliche Werktage (Di–Do bzw. Fr/Mo außerhalb) kosten den Tagespreis. Ohne Wochenende: Anzahl Tage, mindestens 1.
+ */
+function kjo_vl_tarif( $von, $bis ) {
+	$a = date_create( $von );
+	$b = date_create( $bis ? $bis : $von );
+	if ( ! $a || ! $b || $b < $a ) {
+		return null;
+	}
+	$sat = array();
+	$all = array();
+	for ( $d = clone $a; $d <= $b; $d->modify( '+1 day' ) ) {
+		$w     = (int) $d->format( 'w' );
+		$all[] = array( clone $d, $w );
+		if ( 6 === $w || 0 === $w ) {
+			$x                              = clone $d;
+			$sat[ $x->modify( 6 === $w ? '+0 day' : '-1 day' )->format( 'Y-m-d' ) ] = 1;
+		}
+	}
+	if ( ! $sat ) {
+		return array( 'we' => 0, 'd' => max( 1, (int) $a->diff( $b )->days ) );
+	}
+	$n = 0;
+	foreach ( $all as $e ) {
+		list( $d, $w ) = $e;
+		if ( 6 === $w || 0 === $w ) {
+			continue;
+		}
+		$x = clone $d;
+		if ( 5 === $w && isset( $sat[ $x->modify( '+1 day' )->format( 'Y-m-d' ) ] ) ) {
+			continue;
+		}
+		$x = clone $d;
+		if ( 1 === $w && isset( $sat[ $x->modify( '-2 day' )->format( 'Y-m-d' ) ] ) ) {
+			continue;
+		}
+		++$n;
+	}
+	return array( 'we' => count( $sat ), 'd' => $n );
+}
+function kjo_vl_tarif_txt( $t ) {
+	$p = array();
+	if ( $t['we'] ) {
+		$p[] = $t['we'] . ( 1 === $t['we'] ? ' Wochenende' : ' Wochenenden' );
+	}
+	if ( $t['d'] ) {
+		$p[] = $t['d'] . ( 1 === $t['d'] ? ' Tag' : ' Tage' );
+	}
+	return implode( ' + ', $p );
 }
 function kjo_vl_opt( $k ) {
 	$o = get_option( 'kjo_verleih', array() );
@@ -721,7 +780,40 @@ const KJO_VL_DATEN = array(
 	),
 );
 /* Aktualisierung bestehender Geräte (läuft einmal je Stand von KJO_VL_MIG – bei neuen Recherchedaten hochzählen): Maße in Breite/Länge/Höhe aufteilen, KJO_VL_DATEN ergänzen. Nur leere Felder werden befüllt. */
-const KJO_VL_MIG = 17;
+/* Mietpreise (Tag, Wochenende Fr 15 – Mo 21 Uhr, Kaution) je Stück bzw. Paket, Vorschlag vom 11.10.2026. Werden nur in leere Felder geschrieben. */
+const KJO_VL_PREISE = array(
+	'kjo_geraet' => array(
+		'bose-s1-pro'            => array( 35, 50, 150 ),
+		'bose-subwoofer'         => array( 45, 65, 250 ),
+		'pronomic-c-215-ma'      => array( 30, 45, 100 ),
+		'pronomic-c-118sa'       => array( 40, 60, 150 ),
+		'pioneer-ddj-flx10'      => array( 60, 90, 500 ),
+		'funkmikrofon-set'       => array( 30, 45, 100 ),
+		'moving-head'            => array( 25, 35, 100 ),
+		'kls-lightbar'           => array( 30, 45, 100 ),
+		'algam-akku-par'         => array( 10, 15, 50 ),
+		'stairville-tri-flat-par' => array( 7, 10, 20 ),
+		'traverse-3m'            => array( 25, 35, 80 ),
+		'led-laufschrift'        => array( 20, 30, 80 ),
+		'dj-pult'                => array( 20, 30, 80 ),
+		'nebelmaschine'          => array( 15, 25, 50 ),
+		'uv-strahler'            => array( 10, 15, 30 ),
+		'wash-scheinwerfer'      => array( 10, 15, 30 ),
+		'spiegelkugel'           => array( 10, 15, 30 ),
+		'lautsprecherstativ'     => array( 5, 8, 20 ),
+	),
+	'kjo_paket'  => array(
+		'paket-s' => array( 69, 99, 300 ),
+		'paket-m' => array( 169, 249, 600 ),
+		'paket-l' => array( 349, 499, 300 ),
+	),
+);
+const KJO_VL_OPT_DEFAULT = array(
+	'wochenende' => 'Freitag ab 15 Uhr bis Montag 21 Uhr. Sobald Samstag oder Sonntag im Mietzeitraum liegt, gilt der Wochenendpreis.',
+	'lieferung'  => 'Bringen und Holen ab Fellheim: bis 15 km 40 €, bis 30 km 70 €, bis 50 km (z. B. Ulm, Kempten, Kaufbeuren) 110 €, darüber 0,60 € je gefahrenem km.',
+	'aufbau'     => 'Auf- und Abbau: Paket S 40 €, Paket M 80 €, Paket L 180 €, sonst 40 € pro Stunde; Abbau nach 23 Uhr +50 %. Die Einweisung ist immer kostenlos.',
+);
+const KJO_VL_MIG = 18;
 add_action(
 	'admin_init',
 	function () {
@@ -743,6 +835,28 @@ add_action(
 				}
 			}
 		}
+		// Mietpreise und Texte nur dort eintragen, wo noch nichts steht.
+		foreach ( KJO_VL_PREISE as $type => $rows ) {
+			foreach ( $rows as $slug => $r ) {
+				$g = get_page_by_path( $slug, OBJECT, $type );
+				if ( ! $g ) {
+					continue;
+				}
+				foreach ( array( 'preis', 'preis_we', 'kaution' ) as $i => $k ) {
+					if ( '' === trim( (string) get_post_meta( $g->ID, '_kjo_' . $k, true ) ) ) {
+						update_post_meta( $g->ID, '_kjo_' . $k, (string) $r[ $i ] );
+					}
+				}
+			}
+		}
+		$o = get_option( 'kjo_verleih', array() );
+		$o = is_array( $o ) ? $o : array();
+		foreach ( KJO_VL_OPT_DEFAULT as $k => $v ) {
+			if ( empty( $o[ $k ] ) ) {
+				$o[ $k ] = $v;
+			}
+		}
+		update_option( 'kjo_verleih', $o );
 		// Neu hinzugekommene Geräte anlegen (nur diese Slugs, damit gelöschte Geräte nicht zurückkommen).
 		list( $seed ) = kjo_vl_seed_data();
 		foreach ( $seed as $i => $r ) {
@@ -1093,6 +1207,8 @@ add_action(
 						'wochenende'      => sanitize_text_field( isset( $v['wochenende'] ) ? $v['wochenende'] : '' ),
 						'sorglos_prozent' => sanitize_text_field( isset( $v['sorglos_prozent'] ) ? $v['sorglos_prozent'] : '' ),
 						'sorglos_max'     => sanitize_text_field( isset( $v['sorglos_max'] ) ? $v['sorglos_max'] : '' ),
+						'lieferung'       => sanitize_text_field( isset( $v['lieferung'] ) ? $v['lieferung'] : '' ),
+						'aufbau'          => sanitize_text_field( isset( $v['aufbau'] ) ? $v['aufbau'] : '' ),
 					);
 				},
 			)
@@ -1105,6 +1221,8 @@ function kjo_vl_options_page() {
 		'wochenende'      => array( 'Wochenendtarif (Freitag bis Montag)', 'z. B. 1,5-facher Tagespreis – leer = „Fragt nach unserem Wochenendtarif.“' ),
 		'sorglos_prozent' => array( 'Sorglos-Option: Aufpreis in %', 'z. B. 10 – nur wenn beide Felder ausgefüllt sind, stehen Zahlen auf der Seite' ),
 		'sorglos_max'     => array( 'Sorglos-Option: Selbstbeteiligung höchstens (€)', 'z. B. 250' ),
+		'lieferung'       => array( 'Lieferung und Abholung (Text)', 'z. B. Zonen ab Fellheim – leer = „gegen Gebühr laut Angebot“' ),
+		'aufbau'          => array( 'Auf- und Abbau (Text)', 'z. B. Paket S 40 €, M 80 €, L 180 € – leer = „gegen Gebühr laut Angebot“' ),
 	);
 	echo '<div class="wrap"><h1>Verleih – Einstellungen</h1><form method="post" action="options.php">';
 	settings_fields( 'kjo_verleih' );
@@ -1160,7 +1278,8 @@ add_shortcode(
 				}
 				$h .= '</ul>';
 			}
-			$h .= '<p class="kjo-vl-preis">' . ( null === $pr ? 'Preis auf Anfrage: ihr bekommt ihn mit dem Angebot' : 'ab <strong>' . esc_html( kjo_vl_eur( $pr ) ) . '</strong> pro Tag' );
+			$we = kjo_vl_we( $p->ID );
+			$h .= '<p class="kjo-vl-preis">' . ( null === $pr ? 'Preis auf Anfrage: ihr bekommt ihn mit dem Angebot' : '<strong>' . esc_html( kjo_vl_eur( $pr ) ) . '</strong> pro Tag · <strong>' . esc_html( kjo_vl_eur( $we ) ) . '</strong> am Wochenende (Fr 15 – Mo 21 Uhr)' );
 			$h .= ' · ' . ( null === $ka ? 'Kaution laut Angebot' : 'Kaution ' . esc_html( kjo_vl_eur( $ka ) ) ) . '</p>';
 			if ( kjo_vl_get( $p->ID, 'hinweis' ) ) {
 				$h .= '<p class="kjo-vl-hinweis">' . esc_html( kjo_vl_get( $p->ID, 'hinweis' ) ) . '</p>';
@@ -1168,7 +1287,7 @@ add_shortcode(
 			$h .= '<button type="button" class="kjo-vl-add kjo-vl-btn" data-k="p' . (int) $p->ID . '">In den Mietkorb</button></article>';
 		}
 		$w  = kjo_vl_opt( 'wochenende' );
-		$h .= '</div><p class="kjo-vl-wochenende">' . ( $w ? 'Wochenendmiete Freitag bis Montag: ' . esc_html( $w ) : 'Ihr feiert das ganze Wochenende? Fragt nach unserem Wochenendtarif.' ) . '</p>';
+		$h .= '</div><p class="kjo-vl-wochenende">' . ( $w ? 'Wochenendmiete: ' . esc_html( $w ) : 'Ihr feiert das ganze Wochenende? Fragt nach unserem Wochenendtarif.' ) . '</p>';
 		return $h . kjo_vl_assets();
 	}
 );
@@ -1209,7 +1328,7 @@ add_shortcode(
 			$h   .= '<span class="kjo-vl-main"><span class="kjo-vl-name">' . esc_html( $g->post_title ) . '</span>';
 			$h   .= '<span class="kjo-vl-meta">' . esc_html( implode( ' · ', $kurz ? $kurz : array( kjo_vl_get( $id, 'kurz' ) ) ) ) . '</span>';
 			$h   .= '<span class="kjo-vl-wet">' . esc_html( $wtxt ) . '</span></span></button>';
-			$h   .= '<span class="kjo-vl-price">' . ( null === $pr ? 'auf Anfrage' : esc_html( kjo_vl_eur( $pr ) ) . '<small> / Tag</small>' ) . '</span>';
+			$h   .= '<span class="kjo-vl-price">' . ( null === $pr ? 'auf Anfrage' : esc_html( kjo_vl_eur( $pr ) ) . '<small> / Tag</small><small class="kjo-vl-we">' . esc_html( kjo_vl_eur( kjo_vl_we( $id ) ) ) . ' / WE</small>' ) . '</span>';
 			$h   .= '<button type="button" class="kjo-vl-add kjo-vl-plus" data-k="g' . (int) $id . '" aria-label="' . esc_attr( $g->post_title . ' in den Mietkorb' ) . '">+</button></div>';
 			/* Details */
 			$h .= '<div class="kjo-vl-det" id="kjo-vl-d' . (int) $id . '" hidden>';
@@ -1238,6 +1357,7 @@ add_shortcode(
 				'Strom'            => kjo_vl_get( $id, 'strom' ),
 				'Wetterfestigkeit' => $wtxt,
 				'Lieferumfang'     => str_replace( "\n", ', ', kjo_vl_get( $id, 'lieferumfang' ) ),
+				'Miete'            => null === $pr ? '' : kjo_vl_eur( $pr ) . ' pro Tag · ' . kjo_vl_eur( kjo_vl_we( $id ) ) . ' am Wochenende (Fr 15 – Mo 21 Uhr)',
 				'Kaution'          => null === $ka ? 'laut Angebot' : kjo_vl_eur( $ka ),
 			);
 			$h .= '<dl class="kjo-vl-dl">';
@@ -1277,6 +1397,9 @@ add_shortcode(
 		$sm = kjo_vl_num( kjo_vl_opt( 'sorglos_max' ) );
 		$l  = array(
 			array( 'Kaution', ( $any ? 'Die Höhe steht bei jedem Paket und Gerät.' : 'Die Höhe steht im Angebot.' ) . ' Bar bei der Abholung oder vorab per Überweisung. Ihr bekommt sie nach Prüfung der Rückgabe innerhalb von 3 Werktagen zurück.' ),
+			array( 'Wochenende', kjo_vl_opt( 'wochenende' ) ? kjo_vl_opt( 'wochenende' ) : 'Freitag bis Montag zum Wochenendpreis.' ),
+			array( 'Lieferung', kjo_vl_opt( 'lieferung' ) ? kjo_vl_opt( 'lieferung' ) : 'Nach Verfügbarkeit gegen Gebühr, der Preis steht im Angebot.' ),
+			array( 'Aufbau', kjo_vl_opt( 'aufbau' ) ? kjo_vl_opt( 'aufbau' ) : 'Nach Verfügbarkeit gegen Gebühr, der Preis steht im Angebot.' ),
 			array( 'Mitbringen', 'Personalausweis. Mieten ab 18 Jahren.' ),
 			array( 'Passt das in mein Auto?', 'Paket S passt in jeden Kleinwagen, für M reicht ein Kombi. Für L braucht ihr einen Transporter, oder ihr bucht nach Verfügbarkeit und gegen Gebühr Lieferung, Aufbau/Verkabelung, Abbau und Abholung.' ),
 			array( 'Akku-Scheinwerfer', 'Ich übergebe sie vollgeladen im Lade-Case – zum Nachladen einfach das Case einstecken.' ),
@@ -1301,10 +1424,10 @@ function kjo_vl_cart_html() {
 	$done = true;
 	$cat  = array();
 	foreach ( kjo_vl_items( 'kjo_geraet' ) as $g ) {
-		$cat[ 'g' . $g->ID ] = array( 'n' => $g->post_title, 'p' => kjo_vl_num( kjo_vl_get( $g->ID, 'preis' ) ), 'k' => kjo_vl_num( kjo_vl_get( $g->ID, 'kaution' ) ) );
+		$cat[ 'g' . $g->ID ] = array( 'n' => $g->post_title, 'p' => kjo_vl_num( kjo_vl_get( $g->ID, 'preis' ) ), 'w' => kjo_vl_we( $g->ID ), 'k' => kjo_vl_num( kjo_vl_get( $g->ID, 'kaution' ) ) );
 	}
 	foreach ( kjo_vl_items( 'kjo_paket' ) as $p ) {
-		$cat[ 'p' . $p->ID ] = array( 'n' => $p->post_title, 'p' => kjo_vl_num( kjo_vl_get( $p->ID, 'preis' ) ), 'k' => kjo_vl_num( kjo_vl_get( $p->ID, 'kaution' ) ) );
+		$cat[ 'p' . $p->ID ] = array( 'n' => $p->post_title, 'p' => kjo_vl_num( kjo_vl_get( $p->ID, 'preis' ) ), 'w' => kjo_vl_we( $p->ID ), 'k' => kjo_vl_num( kjo_vl_get( $p->ID, 'kaution' ) ) );
 	}
 	$api = esc_url_raw( rest_url( 'kjo/v1/' ) );
 	ob_start();
@@ -1405,7 +1528,7 @@ define(
 .kjo-vl-ph{display:flex;align-items:center;justify-content:center;color:#B29D75;background:#1A1712}.kjo-vl-ph svg{width:28px;height:28px}
 .kjo-vl-main{display:flex;flex-direction:column;gap:3px;min-width:0}
 .kjo-vl-name{font-size:17px;color:#F3F1E9}.kjo-vl-meta{font-size:14px;color:#A39E93}.kjo-vl-wet{font-size:13px;color:#A39E93}
-.kjo-vl-price{flex:none;color:#B29D75;font-size:15px;white-space:nowrap}.kjo-vl-price small{color:#A39E93}
+.kjo-vl-price{flex:none;color:#B29D75;font-size:15px;white-space:nowrap}.kjo-vl-price small{color:#A39E93}.kjo-vl-price .kjo-vl-we{display:block;text-align:right;font-size:12px}
 .kjo-vl .kjo-vl-plus{display:flex;align-items:center;justify-content:center;flex:none;width:44px;height:44px;border-radius:50%;border:1px solid #B29D75;background:transparent;color:#B29D75;font:300 26px/1 "Fira Sans",sans-serif;cursor:pointer}
 .kjo-vl .kjo-vl-plus:hover{background:#B29D75;color:#0F0C07}
 .kjo-vl-det{padding:4px 0 22px 78px;color:#A39E93;line-height:1.7}
@@ -1462,7 +1585,13 @@ function all(s,r){return [].slice.call((r||document).querySelectorAll(s));}
 function count(){return cart.reduce(function(a,e){return a+e.q;},0);}
 function add(k){if(!C[k])return;var e=cart.filter(function(x){return x.k===k;})[0];if(e)e.q++;else cart.push({k:k,q:1});save();render();toast(C[k].n+" liegt im Mietkorb");}
 function toast(t){var d=document.createElement("div");d.textContent=t;d.setAttribute("role","status");d.style.cssText="position:fixed;left:50%;bottom:96px;transform:translateX(-50%);z-index:99995;background:#1A1712;color:#F3F1E9;border:1px solid #B29D75;border-radius:4px;padding:10px 16px;font:15px/1.4 'Fira Sans',sans-serif;max-width:90vw;text-align:center";document.body.appendChild(d);setTimeout(function(){d.remove();},1900);}
-function sums(){var p=0,k=0,pk=true,kk=true;cart.forEach(function(e){var c=C[e.k];if(c.p==null)pk=false;else p+=c.p*e.q;if(c.k==null)kk=false;else k+=c.k*e.q;});return{p:pk?p:null,k:kk?k:null};}
+function tarif(){var f=q$(".kjo-vl-form");if(!f||!f.elements.von.value)return null;var a=new Date(f.elements.von.value+"T12:00:00"),b=new Date((f.elements.bis.value||f.elements.von.value)+"T12:00:00");if(isNaN(a)||isNaN(b)||b<a)return null;
+  var D=864e5,ds=[],sat={},d,w,n=0;for(d=new Date(a);d<=b;d=new Date(d.getTime()+D)){w=d.getDay();ds.push([d,w]);if(w===6||w===0)sat[new Date(d.getTime()-(w===0?D:0)).toDateString()]=1;}
+  var we=Object.keys(sat).length;if(!we)return{we:0,d:Math.max(1,Math.round((b-a)/D))};
+  ds.forEach(function(x){var d=x[0],w=x[1];if(w===6||w===0)return;if(w===5&&sat[new Date(d.getTime()+D).toDateString()])return;if(w===1&&sat[new Date(d.getTime()-2*D).toDateString()])return;n++;});return{we:we,d:n};}
+function tTxt(t){var p=[];if(t.we)p.push(t.we+(t.we===1?" Wochenende":" Wochenenden"));if(t.d)p.push(t.d+(t.d===1?" Tag":" Tage"));return p.join(" + ");}
+function iPrice(c,t){if(c.p==null)return null;if(!t)return c.p;return t.we*(c.w!=null?c.w:Math.ceil(c.p*1.5))+t.d*c.p;}
+function sums(){var t=tarif(),p=0,k=0,pk=true,kk=true;cart.forEach(function(e){var c=C[e.k],ip=iPrice(c,t);if(ip==null)pk=false;else p+=ip*e.q;if(c.k==null)kk=false;else k+=c.k*e.q;});return{p:pk?p:null,k:kk?k:null,t:t};}
 var AV={};
 function stTxt(k){var v=AV[k];return v==="frei"?["frei","✓ verfügbar"]:v==="vor"?["vor","◐ vorreserviert, gerne trotzdem anfragen"]:v==="belegt"?["belegt","✕ in diesem Zeitraum vergeben"]:null;}
 function avail(){var f=q$(".kjo-vl-form"),K=window.KJO_KAL;if(!f||!K||!window.fetch)return;var v=f.elements.von.value,b=f.elements.bis.value;if(!v){AV={};render();return;}
@@ -1470,17 +1599,17 @@ function avail(){var f=q$(".kjo-vl-form"),K=window.KJO_KAL;if(!f||!K||!window.fe
 function render(){
   var bar=q$(".kjo-vl-bar");if(!bar)return;var n=count(),s=sums();
   bar.hidden=!n;document.body.classList.toggle("kjo-vl-has-bar",!!n);
-  q$(".kjo-vl-bar-txt").textContent="🛒 "+n+(n===1?" Artikel":" Artikel")+(s.p!=null?" · ca. "+eur(s.p)+" pro Tag":"")+(s.k!=null?" · Kaution "+eur(s.k):"");
+  q$(".kjo-vl-bar-txt").textContent="🛒 "+n+(n===1?" Artikel":" Artikel")+(s.p!=null?" · ca. "+eur(s.p)+(s.t?"":" pro Tag"):"")+(s.k!=null?" · Kaution "+eur(s.k):"");
   var ul=q$(".kjo-vl-cart");ul.innerHTML="";
   if(!n){var li=document.createElement("li");li.className="kjo-vl-empty";li.textContent="Euer Mietkorb ist leer.";ul.appendChild(li);}
   cart.forEach(function(e){var c=C[e.k],li=document.createElement("li");
     li.innerHTML='<span class="n"></span><button type="button" data-d="-1" aria-label="weniger">−</button><span class="q"></span><button type="button" data-d="1" aria-label="mehr">+</button><span class="p"></span><button type="button" data-d="x" aria-label="entfernen">×</button>';
-    li.querySelector(".n").textContent=c.n;var st=stTxt(e.k);if(st){var sp=document.createElement("span");sp.className="st "+st[0];sp.textContent=st[1];li.querySelector(".n").appendChild(sp);}li.querySelector(".q").textContent=e.q;li.querySelector(".p").textContent=c.p==null?"auf Anfrage":eur(c.p*e.q);
+    li.querySelector(".n").textContent=c.n;var st=stTxt(e.k);if(st){var sp=document.createElement("span");sp.className="st "+st[0];sp.textContent=st[1];li.querySelector(".n").appendChild(sp);}li.querySelector(".q").textContent=e.q;li.querySelector(".p").textContent=c.p==null?"auf Anfrage":eur(iPrice(c,s.t)*e.q);
     all("button",li).forEach(function(b){b.addEventListener("click",function(){var d=b.getAttribute("data-d");if(d==="x")e.q=0;else e.q+=+d;cart=cart.filter(function(x){return x.q>0;});save();render();});});
     ul.appendChild(li);});
   var sum=q$(".kjo-vl-sum");
   var bad=cart.some(function(e){return AV[e.k]==="belegt"||AV[e.k]==="vor";});
-  sum.innerHTML=!n?"":(bad?"<strong>Nicht alles ist in diesem Zeitraum frei.</strong> Fragt trotzdem an, oft finde ich eine Alternative.<br>":"")+(s.p!=null?"Summe: <strong>ca. "+eur(s.p)+" pro Tag</strong>"+(s.k!=null?" · Kaution "+eur(s.k):"")+"<br>Unverbindliche Schätzung, der endgültige Preis kommt mit dem Angebot.":"Den Gesamtpreis bekommt ihr mit dem Angebot, kostenlos und unverbindlich.");
+  sum.innerHTML=!n?"":(bad?"<strong>Nicht alles ist in diesem Zeitraum frei.</strong> Fragt trotzdem an, oft finde ich eine Alternative.<br>":"")+(s.p!=null?(s.t?"Summe für "+tTxt(s.t)+": <strong>ca. "+eur(s.p)+"</strong>":"Summe: <strong>ca. "+eur(s.p)+" pro Tag</strong>")+(s.k!=null?" · Kaution "+eur(s.k):"")+"<br>"+(s.t&&s.t.we?"Sobald Samstag oder Sonntag dabei ist, gilt der Wochenendpreis (Fr 15 – Mo 21 Uhr). ":"")+"Unverbindliche Schätzung ohne Lieferung und Aufbau, der endgültige Preis kommt mit dem Angebot.":"Den Gesamtpreis bekommt ihr mit dem Angebot, kostenlos und unverbindlich.");
 }
 var LB=null,LBL=[],LBI=0;
 function lbShow(i){LBI=(i+LBL.length)%LBL.length;var im=LBL[LBI],e=q$("img",LB),sm=im.currentSrc||im.src,big=im.getAttribute("data-full")||sm.replace(/-\d+x\d+(\.[a-z0-9]+)(\?.*)?$/i,"$1$2");e.onerror=big!==sm?function(){e.onerror=null;e.src=sm;}:null;e.src=big;e.alt=im.alt||"";q$("p",LB).textContent=(im.alt||"")+(LBL.length>1?" · "+(LBI+1)+" / "+LBL.length:"");q$(".kjo-vl-lbp",LB).hidden=q$(".kjo-vl-lbn",LB).hidden=LBL.length<2;}
@@ -1522,8 +1651,8 @@ function init(){
   function iso(dt){return dt.getFullYear()+"-"+("0"+(dt.getMonth()+1)).slice(-2)+"-"+("0"+dt.getDate()).slice(-2);}
   var today=iso(new Date()),fv=f.elements.von,fb=f.elements.bis;
   fv.min=today;fb.min=today;
-  fv.addEventListener("change",function(){if(fv.value){fb.min=fv.value;if(!fb.value||fb.value<fv.value)fb.value=fv.value;fb.classList.remove("kjo-vl-bad");}avail();});
-  fb.addEventListener("change",avail);
+  fv.addEventListener("change",function(){if(fv.value){fb.min=fv.value;if(!fb.value||fb.value<fv.value)fb.value=fv.value;fb.classList.remove("kjo-vl-bad");}render();avail();});
+  fb.addEventListener("change",function(){render();avail();});
   try{var pv=(location.search.match(/[?&]von=(\d{4}-\d{2}-\d{2})/)||[])[1];if(pv&&pv>=today){fv.value=pv;fb.value=pv;fb.min=pv;avail();}}catch(e){}
   function clearBad(el){if(!el.classList.contains("kjo-vl-bad"))return;el.classList.remove("kjo-vl-bad");if(!q$(".kjo-vl-bad",f)){var e=q$(".kjo-vl-err",f);e.hidden=true;e.textContent="";}}
   all("input,textarea",f).forEach(function(el){["input","change","blur"].forEach(function(t){el.addEventListener(t,function(){if((el.value||"").trim())clearBad(el);});});});
@@ -1627,6 +1756,7 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 	$sk    = 0;
 	$pk    = true;
 	$kk    = true;
+	$tf = kjo_vl_tarif( $von, $bis );
 	foreach ( ( isset( $d['items'] ) && is_array( $d['items'] ) ? array_slice( $d['items'], 0, 60 ) : array() ) as $it ) {
 		$k = isset( $it['k'] ) ? (string) $it['k'] : '';
 		$q = isset( $it['q'] ) ? max( 0, min( 99, (int) $it['q'] ) ) : 0;
@@ -1642,7 +1772,7 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 		if ( null === $pr ) {
 			$pk = false;
 		} else {
-			$sp += $pr * $q;
+			$sp += ( $tf ? $tf['we'] * kjo_vl_we( $p->ID ) + $tf['d'] * $pr : $pr ) * $q;
 		}
 		if ( null === $ka ) {
 			$kk = false;
@@ -1662,7 +1792,7 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 	};
 	$text  = "Neue Mietanfrage über dj-kolja-one.de\n\n";
 	$text .= "Mietkorb:\n- " . implode( "\n- ", $lines ) . "\n";
-	$text .= $pk ? 'Summe laut Website: ca. ' . kjo_vl_eur( $sp ) . " pro Tag\n" : "Summe: nicht alle Preise eingetragen\n";
+	$text .= $pk ? 'Summe laut Website: ca. ' . kjo_vl_eur( $sp ) . ( $tf ? ' für ' . kjo_vl_tarif_txt( $tf ) : ' pro Tag' ) . " (ohne Lieferung/Aufbau)\n" : "Summe: nicht alle Preise eingetragen\n";
 	$text .= $kk ? 'Kaution laut Website: ' . kjo_vl_eur( $sk ) . "\n" : '';
 	$text .= "\nZeitraum: " . $fmt( $von ) . ' bis ' . $fmt( $bis ) . "\n";
 	$text .= 'Übergabe: ' . $ueb . "\n";
