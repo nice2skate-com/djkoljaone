@@ -499,9 +499,31 @@ const KJO_VL_DATEN = array(
 			'hersteller'  => 'https://www.kirstein.de/Aktiv-Subwoofer/Pronomic-C-118SA-Aktiv-Subwoofer.html',
 		),
 	),
+	'funkmikrofon-set' => array(
+		'Funkmikrofon-Set',
+		'Omnitronic UHF-604 Funkmikrofon-Set (4 Kanäle)',
+		'Für Reden, Spiele und Ansagen – ohne Kabelsalat.',
+		'Vier Funk-Handmikrofone für Reden, Spiele und Ansagen – ohne Kabelsalat.',
+		array(
+			'beschr'       => "4-Kanal-Funksystem mit vier Handmikrofonen und True-Diversity-Empfänger – stabile Übertragung bis ca. 60 m bei Sichtverbindung.\nIdeal für Trauzeugen-Reden, Spiele und Moderation. Jedes Mikrofon hat einen eigenen Ausgang, zusätzlich gibt es einen Summenausgang.",
+			'breite'       => '485',
+			'laenge'       => '210',
+			'hoehe'        => '44',
+			'masse'        => 'Empfänger, 19"-Rackformat 1 HE',
+			'gewicht'      => 'ca. 3,3 kg (Set)',
+			'leistung'     => 'UHF 520–554 MHz, Reichweite bis 60 m',
+			'anschluesse'  => '4 × XLR-Ausgang (je Mikrofon), Summenausgang 6,3-mm-Klinke, BNC-Antennenanschlüsse',
+			'strom'        => 'Empfänger 230 V (Netzteil), Mikrofone je 2 × AA',
+			'lieferumfang' => "Empfänger\n4 Handmikrofone\nNetzteil\nBatterien (AA) bringe ich frisch mit",
+			'wetter'       => 'trocken',
+			'wert'         => '329',
+			'wert_quelle'  => 'Steinigke/Omnitronic 329 € (520–554-MHz-Version, Art.-Nr. 13063605); Musikhaus Korn 329 € (Stand 11.10.2026)',
+			'hersteller'   => 'https://www.kirstein.de/Drahtlos-Komplett-Sets/Omnitronic-UHF-604-520-554-MHz.html',
+		),
+	),
 );
 /* Aktualisierung bestehender Geräte (läuft einmal je Stand von KJO_VL_MIG – bei neuen Recherchedaten hochzählen): Maße in Breite/Länge/Höhe aufteilen, KJO_VL_DATEN ergänzen. Nur leere Felder werden befüllt. */
-const KJO_VL_MIG = 7;
+const KJO_VL_MIG = 8;
 add_action(
 	'admin_init',
 	function () {

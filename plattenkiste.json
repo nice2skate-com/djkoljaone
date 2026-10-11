@@ -1,9 +1,9 @@
 {
- "version": "1.37.0",
- "download_url": "dj-kolja-one-plattenkiste-1.37.0.zip",
- "sha256": "8d2a09915fd33ae3aa967f7dc655a4220a12809f25a1c914effcc18eaaababd5",
+ "version": "1.37.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.37.1.zip",
+ "sha256": "31cbaadcd027466ffe070e4408860c36023e16f7beccd3aad88b743cad8ec893",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Gerätedaten Bose, PAR, C-118SA"
+ "changelog": "Omnitronic UHF-604"
 }
