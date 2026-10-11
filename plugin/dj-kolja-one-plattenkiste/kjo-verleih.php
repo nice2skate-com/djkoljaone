@@ -438,9 +438,70 @@ const KJO_VL_DATEN = array(
 			'anleitung' => array( 'https://www.pioneerdj.com/de/product/dj-controllers/ddj-flx10/', 'https://support.alphatheta.com/de/articles/16716272919193' ),
 		),
 	),
+	'bose-s1-pro' => array(
+		'Bose S1 Pro Aktivlautsprecher',
+		'Bose S1 Pro Aktivlautsprecher',
+		'',
+		'',
+		array(
+			'beschr'      => "Kompakter Aktivlautsprecher mit eingebautem Akku (bis zu 11 Stunden) und Bluetooth – ideal für Reden, Sektempfang, Garten und kleinere Feiern bis ca. 50 Gäste pro Paar.\nAufstellbar stehend, liegend oder auf einem Stativ. Mit Sub1 als Bassergänzung für Partys bis ca. 100 Gäste.",
+			'anschluesse' => '2 × XLR/Klinke-Combo (Mikro/Line), AUX 3,5 mm, Bluetooth, Line-Out XLR',
+			'strom'       => 'Akku (bis zu 11 h) oder 230 V',
+			'wetter'      => 'trocken',
+			'wert'        => '650',
+			'wert_quelle' => 'S1 Pro wird nicht mehr gebaut; Ersatz S1 Pro+ ca. 608–699 € (Geizhals/Baur, Stand 11.10.2026)',
+		),
+	),
+	'bose-subwoofer' => array(
+		'Bose Subwoofer',
+		'Bose Sub1 Aktiv-Subwoofer',
+		'',
+		'',
+		array(
+			'beschr'      => "Kompakter Aktiv-Subwoofer (7 × 13\"-Treiber, 480 W, 40–180 Hz) – bringt hörbar mehr Druck auf die Tanzfläche.\nPasst per Line-Ausgang an die Bose S1 Pro und reicht das Signal über zwei XLR-Ausgänge weiter.",
+			'breite'      => '250',
+			'laenge'      => '530',
+			'hoehe'       => '530',
+			'gewicht'     => '16,1 kg',
+			'leistung'    => '480 W Class-D, max. 124,6 dB (Spitze), 40–180 Hz',
+			'anschluesse' => 'Line-In XLR/Klinke-Combo, SubMatch-In/Thru, 2 × XLR-Ausgang (volle Bandbreite)',
+			'strom'       => '230 V',
+			'wetter'      => 'innen',
+			'wert'        => '885',
+			'wert_quelle' => 'ca. 743 € netto / 885 € brutto (Volt Music Store); USA 899 $ (CCI) – Stand 11.10.2026, Maße laut CCI',
+		),
+	),
+	'stairville-tri-flat-par' => array(
+		'Stairville Tri Flat PAR Profile 5 × 3 W',
+		'Stairville Tri Flat PAR Profile 5 × 3 W (40°)',
+		'',
+		'',
+		array(
+			'beschr'      => "Flacher LED-Scheinwerfer mit 5 × 3-W-RGB-LEDs und 40° Abstrahlwinkel für farbiges Party- und Flächenlicht, z. B. an der Traverse oder als Wandfluter.\nSteuerung per DMX (3, 5 oder 7 Kanäle), Musiksteuerung und Automatik.",
+			'leistung'    => '5 × 3-W-RGB-LED, 40°, 15 W',
+			'strom'       => '100–240 V, 50/60 Hz',
+			'wetter'      => 'innen',
+			'wert'        => '71',
+			'wert_quelle' => 'thomann.de 71 € (45°/40°-Version, Art.-Nr. 414495; Preis laut Suche, live prüfen)',
+			'hersteller'  => 'https://www.thomann.de/de/stairville_tri_flat_par_profile_5x3w_40.htm',
+		),
+	),
+	'pronomic-c-118sa' => array(
+		'Pronomic C-118SA 18"-Aktiv-Subwoofer',
+		'Pronomic C-118SA 18"-Aktiv-Subwoofer',
+		'',
+		'',
+		array(
+			'beschr'      => "18\"-Aktiv-Subwoofer mit 3\"-Schwingspule: 800 W RMS (1.600 W Spitze), 30–200 Hz, max. 126 dB – Bass, den man spürt.\n4 DSP-Presets mit einstellbarer Trennfrequenz, 2 Combo-Eingänge und 2 XLR-Ausgänge zum Weiterleiten an die Tops, Holzgehäuse mit M20-Flansch für die Distanzstange.",
+			'wetter'      => 'innen',
+			'wert'        => '539',
+			'wert_quelle' => 'Musikhaus Kirstein 539 € pro Stück, 2er-Set 916 € (Stand 11.10.2026)',
+			'hersteller'  => 'https://www.kirstein.de/Aktiv-Subwoofer/Pronomic-C-118SA-Aktiv-Subwoofer.html',
+		),
+	),
 );
 /* Aktualisierung bestehender Geräte (läuft einmal je Stand von KJO_VL_MIG – bei neuen Recherchedaten hochzählen): Maße in Breite/Länge/Höhe aufteilen, KJO_VL_DATEN ergänzen. Nur leere Felder werden befüllt. */
-const KJO_VL_MIG = 6;
+const KJO_VL_MIG = 7;
 add_action(
 	'admin_init',
 	function () {
