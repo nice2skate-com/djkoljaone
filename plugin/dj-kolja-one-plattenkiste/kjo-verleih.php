@@ -1317,10 +1317,134 @@ function kjo_vl_img_html( $post, $alt, $cls ) {
 }
 
 /* [kjo_pakete] */
+/** Begriffe in Paketzeilen, die auf ein Gerät verlinken (längere zuerst). */
+const KJO_VL_LINKS = array(
+	'Eurolite KLS Laser Bar' => 'kls-lightbar',
+	'KLS Laser Bar'          => 'kls-lightbar',
+	'Cameo Thunder Wash'     => 'wash-scheinwerfer',
+	'Thunder Wash'           => 'wash-scheinwerfer',
+	'Shure Beta 58A'         => 'shure-beta-58a',
+	'Bose S1 Pro'            => 'bose-s1-pro',
+	'Bose Sub1'              => 'bose-subwoofer',
+	'Funkmikrofon-Set'       => 'funkmikrofon-set',
+	'3-m-Lichttraverse'      => 'traverse-3m',
+	'LED-PARs'               => 'stairville-tri-flat-par',
+	'LED-Laufschrift'        => 'led-laufschrift',
+	'Nebelmaschine'          => 'nebelmaschine',
+	'DJ-Pult'                => 'dj-pult',
+	'C-215 MA'               => 'pronomic-c-215-ma',
+	'C-118SA'                => 'pronomic-c-118sa',
+	'Moving Heads'           => 'moving-head',
+	'Akku-Scheinwerfer'      => 'algam-akku-par',
+	'UV-Schwarzlicht'        => 'uv-strahler',
+	'Spiegelkugel'           => 'spiegelkugel',
+	'Stativen'               => 'lautsprecherstativ',
+);
+/** Paketzeile als HTML: bekannte Gerätenamen werden zu Info-Buttons (Hover/Klick zeigt das Gerät). */
+function kjo_vl_zeile_html( $l ) {
+	static $ids = array();
+	$keys = array_keys( KJO_VL_LINKS );
+	usort( $keys, function ( $a, $b ) { return strlen( $b ) - strlen( $a ); } );
+	$re = '/' . implode( '|', array_map( function ( $k ) { return preg_quote( esc_html( $k ), '/' ); }, $keys ) ) . '/u';
+	return preg_replace_callback(
+		$re,
+		function ( $m ) use ( &$ids ) {
+			$slug = KJO_VL_LINKS[ html_entity_decode( $m[0], ENT_QUOTES, 'UTF-8' ) ];
+			if ( ! isset( $ids[ $slug ] ) ) {
+				$g            = get_page_by_path( $slug, OBJECT, 'kjo_geraet' );
+				$ids[ $slug ] = ( $g && 'publish' === $g->post_status ) ? $g->ID : 0;
+			}
+			if ( ! $ids[ $slug ] ) {
+				return $m[0];
+			}
+			$GLOBALS['kjo_vl_gi'][ $ids[ $slug ] ] = 1;
+			return '<button type="button" class="kjo-vl-gl" data-g="' . (int) $ids[ $slug ] . '" aria-label="' . esc_attr( $m[0] ) . ': Gerät ansehen">' . $m[0] . '</button>';
+		},
+		esc_html( $l )
+	);
+}
+/** Kurzinfos der verlinkten Geräte für das Info-Fenster. */
+function kjo_vl_geraet_info( $id ) {
+	$g = get_post( $id );
+	if ( ! $g ) {
+		return null;
+	}
+	$img = '';
+	foreach ( kjo_vl_media_post( $g ) as $e ) {
+		if ( ! empty( $e['img'] ) ) {
+			$img = $e['img'];
+			break;
+		}
+	}
+	$wet  = kjo_vl_wetter();
+	$w    = kjo_vl_get( $id, 'wetter' );
+	$rows = array_filter(
+		array(
+			'Leistung'     => kjo_vl_get( $id, 'leistung' ),
+			'Maße (B × L × H)' => kjo_vl_masse( $id ),
+			'Gewicht'      => kjo_vl_get( $id, 'gewicht' ),
+			'Wetter'       => isset( $wet[ $w ] ) ? $wet[ $w ][2] . ' ' . $wet[ $w ][1] : '',
+		)
+	);
+	$txt = kjo_vl_get( $id, 'beschr' ) ? kjo_vl_get( $id, 'beschr' ) : kjo_vl_get( $id, 'kurz' );
+	return array(
+		'n' => $g->post_title,
+		'i' => $img,
+		't' => wp_trim_words( str_replace( "\n", ' ', $txt ), 40, ' …' ),
+		'r' => $rows,
+		'h' => kjo_vl_get( $id, 'hersteller' ),
+	);
+}
+add_action(
+	'wp_footer',
+	function () {
+		if ( empty( $GLOBALS['kjo_vl_gi'] ) ) {
+			return;
+		}
+		$d = array();
+		foreach ( array_keys( $GLOBALS['kjo_vl_gi'] ) as $id ) {
+			$i = kjo_vl_geraet_info( $id );
+			if ( $i ) {
+				$d[ $id ] = $i;
+			}
+		}
+		echo '<script id="kjo-vl-gi">window.KJO_GI=' . wp_json_encode( $d, JSON_HEX_TAG | JSON_HEX_AMP ) . ';' . KJO_VL_GI_JS . '</script>' . "\n"; // phpcs:ignore
+	},
+	41
+);
+define(
+	'KJO_VL_GI_JS',
+	<<<'KJOGI'
+(function(){var D=window.KJO_GI||{},P=null,cur=null,pin=false,tm=0;
+function mk(){P=document.createElement("div");P.className="kjo-vl-pop";P.setAttribute("role","dialog");P.hidden=true;document.body.appendChild(P);
+ P.addEventListener("mouseenter",function(){clearTimeout(tm);});P.addEventListener("mouseleave",function(){if(!pin)hideSoon();});}
+function show(b,p){var d=D[b.getAttribute("data-g")];if(!d)return;if(!P)mk();clearTimeout(tm);cur=b;pin=!!p;P.innerHTML="";
+ var x=document.createElement("button");x.type="button";x.className="kjo-vl-pop-x";x.setAttribute("aria-label","Schließen");x.textContent="×";x.onclick=hide;P.appendChild(x);
+ if(d.i){var im=document.createElement("img");im.src=d.i;im.alt=d.n;im.loading="lazy";P.appendChild(im);}
+ var h=document.createElement("strong");h.textContent=d.n;P.appendChild(h);
+ if(d.t){var t=document.createElement("p");t.textContent=d.t;P.appendChild(t);}
+ var dl=document.createElement("dl");Object.keys(d.r||{}).forEach(function(k){var dt=document.createElement("dt"),dd=document.createElement("dd");dt.textContent=k;dd.textContent=d.r[k];dl.appendChild(dt);dl.appendChild(dd);});if(dl.childNodes.length)P.appendChild(dl);
+ if(d.h){var a=document.createElement("a");a.href=d.h;a.target="_blank";a.rel="noopener nofollow";a.textContent="🔗 Herstellerseite";P.appendChild(a);}
+ P.hidden=false;var r=b.getBoundingClientRect(),w=Math.min(320,window.innerWidth-16);P.style.width=w+"px";
+ var l=Math.max(8,Math.min(r.left,window.innerWidth-w-8)),top=r.bottom+8;if(top+P.offsetHeight>window.innerHeight-8&&r.top-P.offsetHeight-8>8)top=r.top-P.offsetHeight-8;
+ P.style.left=(l+window.scrollX)+"px";P.style.top=(top+window.scrollY)+"px";b.setAttribute("aria-expanded","true");}
+function hide(){if(P)P.hidden=true;if(cur)cur.setAttribute("aria-expanded","false");cur=null;pin=false;}
+function hideSoon(){clearTimeout(tm);tm=setTimeout(hide,250);}
+var fine=window.matchMedia&&window.matchMedia("(hover:hover) and (pointer:fine)").matches;
+document.addEventListener("click",function(e){var b=e.target.closest(".kjo-vl-gl");if(b){e.preventDefault();if(cur===b&&pin)hide();else show(b,true);return;}if(P&&!P.hidden&&!e.target.closest(".kjo-vl-pop"))hide();});
+if(fine){document.addEventListener("mouseover",function(e){var b=e.target.closest&&e.target.closest(".kjo-vl-gl");if(b&&!pin&&cur!==b)show(b,false);});
+ document.addEventListener("mouseout",function(e){var b=e.target.closest&&e.target.closest(".kjo-vl-gl");if(b&&!pin&&!(e.relatedTarget&&e.relatedTarget.closest&&e.relatedTarget.closest(".kjo-vl-pop")))hideSoon();});}
+document.addEventListener("keydown",function(e){if(e.key==="Escape")hide();});
+window.addEventListener("resize",hide);})();
+KJOGI
+);
+
 add_shortcode(
 	'kjo_pakete',
-	function () {
-		$h = '<div class="kjo-vl-pakete">';
+	function ( $atts ) {
+		// modus="dj": Technik, die ich zur DJ-Buchung mitbringe – ohne Mietpreise und Mietkorb, mit Anfrage-Link.
+		$dj = is_array( $atts ) && isset( $atts['modus'] ) && 'dj' === $atts['modus'];
+		$h  = '<div class="kjo-vl-pakete">';
 		foreach ( kjo_vl_items( 'kjo_paket' ) as $p ) {
 			$pr  = kjo_vl_num( kjo_vl_get( $p->ID, 'preis' ) );
 			$ka  = kjo_vl_num( kjo_vl_get( $p->ID, 'kaution' ) );
@@ -1334,9 +1458,18 @@ add_shortcode(
 			if ( $lines ) {
 				$h .= '<ul>';
 				foreach ( $lines as $l ) {
-					$h .= '<li>' . esc_html( $l ) . '</li>';
+					if ( $dj && 0 === strpos( $l, 'Audiokabel' ) ) {
+						continue;
+					}
+					$h .= '<li>' . kjo_vl_zeile_html( $l ) . '</li>';
 				}
 				$h .= '</ul>';
+			}
+			if ( $dj ) {
+				$kurz = trim( preg_replace( '/[–:].*$/u', '', $p->post_title ) );
+				$url  = add_query_arg( 'paket', rawurlencode( $p->post_title ), home_url( '/kontakt/' ) ) . '#formular';
+				$h   .= '<a class="kjo-vl-btn" href="' . esc_url( $url ) . '">' . esc_html( 0 === strpos( $p->post_title, 'Paket' ) ? 'Mit ' . $kurz . ' anfragen' : 'Dazu anfragen' ) . '</a></article>';
+				continue;
 			}
 			$we = kjo_vl_we( $p->ID );
 			$h .= '<p class="kjo-vl-preis">' . ( null === $pr ? 'Preis auf Anfrage: ihr bekommt ihn mit dem Angebot' : '<strong>' . esc_html( kjo_vl_eur( $pr ) ) . '</strong> pro Tag · <strong>' . esc_html( kjo_vl_eur( $we ) ) . '</strong> am Wochenende (Fr 15 – Mo 21 Uhr)' );
@@ -1346,9 +1479,12 @@ add_shortcode(
 			}
 			$h .= '<button type="button" class="kjo-vl-add kjo-vl-btn" data-k="p' . (int) $p->ID . '">In den Mietkorb</button></article>';
 		}
+		if ( $dj ) {
+			return $h . '</div>' . kjo_vl_assets();
+		}
 		$w  = kjo_vl_opt( 'wochenende' );
 		$h .= '</div><p class="kjo-vl-wochenende">' . ( $w ? 'Wochenendmiete: ' . esc_html( $w ) : 'Ihr feiert das ganze Wochenende? Fragt nach unserem Wochenendtarif.' ) . '</p>';
-		return $h . kjo_vl_assets();
+		return $h . kjo_vl_cart_html() . kjo_vl_assets(); // Mietkorb auch auf Seiten ohne Geräteliste (z. B. Equipment)
 	}
 );
 
@@ -1562,7 +1698,12 @@ define(
 .kjo-vl button:focus-visible,.kjo-vl-pakete button:focus-visible,.kjo-vl-bar button:focus-visible,.kjo-vl-modal button:focus-visible{outline:2px solid #B29D75;outline-offset:2px}
 .kjo-vl,.kjo-vl-pakete,.kjo-vl-tips,.kjo-vl-modal{font-family:"Fira Sans",sans-serif;color:#F3F1E9;text-align:left}
 .kjo-vl-pakete .kjo-vl-btn,.kjo-vl-modal .kjo-vl-btn{display:inline-block;background:#B29D75;color:#0F0C07;border:0;border-radius:2px;padding:14px 26px;font:500 14px/1 "Fira Sans",sans-serif;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:.2s}
-.kjo-vl-pakete .kjo-vl-btn:hover,.kjo-vl-modal .kjo-vl-btn:hover{background:#C4B08A}.kjo-vl-pakete .kjo-vl-btn{align-self:flex-start}
+.kjo-vl-pakete .kjo-vl-btn:hover,.kjo-vl-modal .kjo-vl-btn:hover{background:#C4B08A}.kjo-vl-pakete .kjo-vl-btn{align-self:flex-start}.kjo-vl-pakete a.kjo-vl-btn{color:#0F0C07!important;text-decoration:none!important}
+.kjo-vl-gl{background:none;border:0;border-bottom:1px dotted #B29D75;padding:0;margin:0;color:inherit;font:inherit;line-height:inherit;letter-spacing:inherit;text-transform:none;cursor:help;border-radius:0}.kjo-vl-gl:hover,.kjo-vl-gl[aria-expanded=true]{color:#B29D75;background:none}
+.kjo-vl-pop{position:absolute;z-index:99990;background:#1A1712;border:1px solid #B29D75;border-radius:4px;padding:16px;color:#F3F1E9;font:14px/1.5 "Fira Sans",sans-serif;box-shadow:0 18px 50px rgba(0,0,0,.55);box-sizing:border-box}.kjo-vl-pop[hidden]{display:none}
+.kjo-vl-pop img{display:block;width:100%;height:150px;object-fit:contain;background:#0F0C07;border-radius:3px;margin:0 0 10px}.kjo-vl-pop strong{display:block;font-size:15px;font-weight:500;margin:0 22px 6px 0}.kjo-vl-pop p{margin:0 0 8px;color:#D9D5CA}
+.kjo-vl-pop dl{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;margin:0 0 8px;font-size:13px}.kjo-vl-pop dt{color:#A39E93}.kjo-vl-pop dd{margin:0}.kjo-vl-pop a{color:#B29D75;font-size:13px}
+.kjo-vl-pop-x{position:absolute;top:6px;right:8px;background:none;border:0;color:#A39E93;font-size:22px;line-height:1;cursor:pointer;padding:2px 6px}
 .kjo-vl-pakete{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;width:100%;max-width:1200px}
 .kjo-vl-paket{background:#1A1712;border-top:2px solid #B29D75;padding:30px 28px;display:flex;flex-direction:column;gap:12px}
 .kjo-vl-paket h3{margin:0;font:400 24px/1.25 "Fira Sans",sans-serif;color:#F3F1E9}

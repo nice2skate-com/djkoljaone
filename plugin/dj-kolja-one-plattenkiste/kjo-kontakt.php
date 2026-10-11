@@ -130,6 +130,7 @@ var ok=document.getElementById("kjo-kf-ok"),box=f.querySelector(".kjo-kf-msgbox"
 function val(n){var e=f.elements[n];return e?(e.type==="checkbox"?(e.checked?"1":""):String(e.value||"").trim()):"";}
 function msg(t){box.textContent=t;box.hidden=!t;}
 var akt="";try{var A=JSON.parse(f.getAttribute("data-akt")||"{}"),q=(new URLSearchParams(location.search).get("aktion")||"").toUpperCase();if(A[q]&&Date.now()<A[q][1]){akt=q;var n=document.createElement("p");n.className="kjo-kf-akt";n.innerHTML="🎁 Aktion <strong>"+q+"</strong> ist vorgemerkt: "+A[q][0]+".";f.insertBefore(n,f.firstChild);}}catch(x){}
+try{var pk=new URLSearchParams(location.search).get("paket"),tm=f.elements.nachricht;if(pk&&tm&&!tm.value)tm.value="Technik-Paket: "+pk.slice(0,120)+"\n";}catch(x){}
 function hint(c,h){av.className="kjo-kf-av "+c;av.innerHTML=h;}
 function check(v){var K=window.KJO_KAL;av.innerHTML="";if(!K||!window.fetch||!v)return;fetch(K.api+(K.api.indexOf("?")>-1?"&":"?")+"von="+v,{credentials:"omit"}).then(function(r){return r.json()}).then(function(j){if(dt.value!==v||!j||!j.dj)return;
  if(j.dj==="frei")hint("ok","✓ <strong>Termin noch verfügbar!</strong> Schickt mir eure Anfrage, ich melde mich innerhalb von 24 Stunden bei euch.");
