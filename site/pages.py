@@ -463,7 +463,7 @@ def equipment():
         ("2 Moving Heads","Bewegte Lichtstrahlen für echte Club-Momente."),
         ("KLS-Lightbar","Partylicht auf eigenem Stativ für die ganze Tanzfläche."),
         ("6 kabellose Akku-Scheinwerfer","Wetterfestes Ambientelicht für Wände, Säulen und Garten – ganz ohne Kabelsalat."),
-        ("LED-Laufschrift (ca. 70 cm)","Eure Namen, „Happy Birthday“ oder euer Hashtag, mittig an der Traverse."),
+        ("LED-Laufschrift (65 cm)","Eure Namen, „Happy Birthday“ oder euer Hashtag, mittig an der Traverse."),
         ("Nebel, UV- und Farb-Scheinwerfer","Nach Bedarf. Nebel nur nach Absprache mit der Location, wegen der Rauchmelder.")]
     erfahrung=["Seit 1996 hinter dem Mikrofon: angefangen beim Radio, heute auf Hochzeiten, Geburtstagen und Firmenfeiern.",
         "Über 10 Jahre als DJ, von Memmingen über das Allgäu und Schwaben bis nach NRW.",
