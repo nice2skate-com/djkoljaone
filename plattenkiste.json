@@ -1,9 +1,9 @@
 {
- "version": "1.28.0",
- "download_url": "dj-kolja-one-plattenkiste-1.28.0.zip",
- "sha256": "19ac768d967c04a6e43f7d96b22e115914721f96582f668ae6bddc55cf296ec9",
+ "version": "1.29.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.29.0.zip",
+ "sha256": "bd82152223de886936e04ffb46acedfb38bdfbd15c9becb1ce28b8aa166f73e3",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Galerie als Karussell, Bild-Text-Abschnitte nebeneinander."
+ "changelog": "Geräte: Breite/Länge/Höhe, Neupreis; Moving Head Varytec Hero Spot 60"
 }
