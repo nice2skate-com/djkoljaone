@@ -1,9 +1,9 @@
 {
- "version": "1.40.1",
- "download_url": "dj-kolja-one-plattenkiste-1.40.1.zip",
- "sha256": "ab5fbf09f73535c7f82182371829bf4b65f38ea66b8058ae16d1bd78ce03ea7c",
+ "version": "1.40.2",
+ "download_url": "dj-kolja-one-plattenkiste-1.40.2.zip",
+ "sha256": "ae8ad3374aabf28bceb1d281866e8f109aedadd23881ea3330eccb81863cf127",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Pakete auf Equipment-Seite"
+ "changelog": "Technik-Pakete zur DJ-Buchung"
 }

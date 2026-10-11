@@ -1319,8 +1319,10 @@ function kjo_vl_img_html( $post, $alt, $cls ) {
 /* [kjo_pakete] */
 add_shortcode(
 	'kjo_pakete',
-	function () {
-		$h = '<div class="kjo-vl-pakete">';
+	function ( $atts ) {
+		// modus="dj": Technik, die ich zur DJ-Buchung mitbringe – ohne Mietpreise und Mietkorb, mit Anfrage-Link.
+		$dj = is_array( $atts ) && isset( $atts['modus'] ) && 'dj' === $atts['modus'];
+		$h  = '<div class="kjo-vl-pakete">';
 		foreach ( kjo_vl_items( 'kjo_paket' ) as $p ) {
 			$pr  = kjo_vl_num( kjo_vl_get( $p->ID, 'preis' ) );
 			$ka  = kjo_vl_num( kjo_vl_get( $p->ID, 'kaution' ) );
@@ -1334,9 +1336,18 @@ add_shortcode(
 			if ( $lines ) {
 				$h .= '<ul>';
 				foreach ( $lines as $l ) {
+					if ( $dj && 0 === strpos( $l, 'Audiokabel' ) ) {
+						continue;
+					}
 					$h .= '<li>' . esc_html( $l ) . '</li>';
 				}
 				$h .= '</ul>';
+			}
+			if ( $dj ) {
+				$kurz = trim( preg_replace( '/[–:].*$/u', '', $p->post_title ) );
+				$url  = add_query_arg( 'paket', rawurlencode( $p->post_title ), home_url( '/kontakt/' ) ) . '#formular';
+				$h   .= '<a class="kjo-vl-btn" href="' . esc_url( $url ) . '">' . esc_html( 0 === strpos( $p->post_title, 'Paket' ) ? 'Mit ' . $kurz . ' anfragen' : 'Dazu anfragen' ) . '</a></article>';
+				continue;
 			}
 			$we = kjo_vl_we( $p->ID );
 			$h .= '<p class="kjo-vl-preis">' . ( null === $pr ? 'Preis auf Anfrage: ihr bekommt ihn mit dem Angebot' : '<strong>' . esc_html( kjo_vl_eur( $pr ) ) . '</strong> pro Tag · <strong>' . esc_html( kjo_vl_eur( $we ) ) . '</strong> am Wochenende (Fr 15 – Mo 21 Uhr)' );
@@ -1345,6 +1356,9 @@ add_shortcode(
 				$h .= '<p class="kjo-vl-hinweis">' . esc_html( kjo_vl_get( $p->ID, 'hinweis' ) ) . '</p>';
 			}
 			$h .= '<button type="button" class="kjo-vl-add kjo-vl-btn" data-k="p' . (int) $p->ID . '">In den Mietkorb</button></article>';
+		}
+		if ( $dj ) {
+			return $h . '</div>' . kjo_vl_assets();
 		}
 		$w  = kjo_vl_opt( 'wochenende' );
 		$h .= '</div><p class="kjo-vl-wochenende">' . ( $w ? 'Wochenendmiete: ' . esc_html( $w ) : 'Ihr feiert das ganze Wochenende? Fragt nach unserem Wochenendtarif.' ) . '</p>';
@@ -1562,7 +1576,7 @@ define(
 .kjo-vl button:focus-visible,.kjo-vl-pakete button:focus-visible,.kjo-vl-bar button:focus-visible,.kjo-vl-modal button:focus-visible{outline:2px solid #B29D75;outline-offset:2px}
 .kjo-vl,.kjo-vl-pakete,.kjo-vl-tips,.kjo-vl-modal{font-family:"Fira Sans",sans-serif;color:#F3F1E9;text-align:left}
 .kjo-vl-pakete .kjo-vl-btn,.kjo-vl-modal .kjo-vl-btn{display:inline-block;background:#B29D75;color:#0F0C07;border:0;border-radius:2px;padding:14px 26px;font:500 14px/1 "Fira Sans",sans-serif;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:.2s}
-.kjo-vl-pakete .kjo-vl-btn:hover,.kjo-vl-modal .kjo-vl-btn:hover{background:#C4B08A}.kjo-vl-pakete .kjo-vl-btn{align-self:flex-start}
+.kjo-vl-pakete .kjo-vl-btn:hover,.kjo-vl-modal .kjo-vl-btn:hover{background:#C4B08A}.kjo-vl-pakete .kjo-vl-btn{align-self:flex-start}.kjo-vl-pakete a.kjo-vl-btn{color:#0F0C07!important;text-decoration:none!important}
 .kjo-vl-pakete{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;width:100%;max-width:1200px}
 .kjo-vl-paket{background:#1A1712;border-top:2px solid #B29D75;padding:30px 28px;display:flex;flex-direction:column;gap:12px}
 .kjo-vl-paket h3{margin:0;font:400 24px/1.25 "Fira Sans",sans-serif;color:#F3F1E9}
