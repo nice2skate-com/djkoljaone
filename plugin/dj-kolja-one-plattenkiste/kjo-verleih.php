@@ -76,6 +76,7 @@ function kjo_vl_fields( $type ) {
 		'wetter'       => array( 'Wetterfestigkeit (wird im Browser angezeigt)', 'wetter', '' ),
 		'wetter_ip'    => array( 'Schutzart', 'text', 'z. B. IP65' ),
 		'anleitung'    => array( 'Bedienungsanleitung (Deutsch): Link oder PDF aus der Mediathek', 'anleitung', 'https://…' ),
+		'hersteller'   => array( 'Herstellerseite (Infos, Downloads, Bildanfrage)', 'url', 'https://…' ),
 		'medien'       => array( 'Bilder & Videos', 'medien', '' ),
 		'bild'         => array( 'Bildname in der Mediathek (alternativ)', 'bild', '' ),
 	);
@@ -291,7 +292,7 @@ function kjo_vl_seed_data() {
 		array( 'bose-subwoofer', 'Bose Subwoofer', 'subwoofer', 1, 'Bassergänzung für das Bose-System – mehr Druck auf der Tanzfläche.', array( 'gaeste' => 'bis ca. 100 Gäste (mit 2 × Bose S1 Pro)' ) ),
 		array( 'pronomic-c-215-ma', KJO_VL_DATEN['pronomic-c-215-ma'][1], 'lautsprecher', 2, KJO_VL_DATEN['pronomic-c-215-ma'][3], KJO_VL_DATEN['pronomic-c-215-ma'][4] ),
 		array( 'pronomic-c-118sa', 'Pronomic C-118SA 18"-Aktiv-Subwoofer', 'subwoofer', 2, '18"-Aktiv-Subwoofer für druckvollen Bass, den man spürt.', array( 'leistung' => '800 W RMS, 30–200 Hz, max. 126 dB', 'anschluesse' => '2 × Combo-Eingang, 2 × XLR-Ausgang, M20-Flansch für Distanzstange' ) ),
-		array( 'pioneer-ddj-flx10', 'Pioneer DJ DDJ-FLX10', 'dj', 1, 'Vierkanaliger DJ-Controller für rekordbox und Serato – den Laptop bringt ihr mit.', array( 'breite' => '716', 'laenge' => '400.3', 'hoehe' => '73.4', 'gewicht' => '6,7 kg', 'volumen' => '21,04 l', 'anschluesse' => 'USB zum Laptop (rekordbox oder Serato)', 'lieferumfang' => "Netzteil\nUSB-Kabel\nAudiokabel", 'anleitung' => 'https://www.pioneerdj.com/de/product/dj-controllers/ddj-flx10/' ) ),
+		array( 'pioneer-ddj-flx10', 'Pioneer DJ DDJ-FLX10', 'dj', 1, 'Vierkanaliger DJ-Controller für rekordbox und Serato – den Laptop bringt ihr mit.', array( 'breite' => '716', 'laenge' => '400.3', 'hoehe' => '73.4', 'gewicht' => '6,7 kg', 'volumen' => '21,04 l', 'anschluesse' => 'USB zum Laptop (rekordbox oder Serato)', 'lieferumfang' => "Netzteil\nUSB-Kabel\nAudiokabel", 'anleitung' => 'https://support.alphatheta.com/de/articles/16716272919193' ) ),
 		array( 'dj-pult', 'DJ-Pult, beleuchtet', 'buehne', 1, 'Beleuchtetes DJ-Pult mit zwei Zusatzplatten – eine saubere Bühne für Controller und Laptop.', array( 'lieferumfang' => '2 Zusatzplatten' ) ),
 		array( 'funkmikrofon-set', 'Funkmikrofon-Set', 'mikrofone', 1, 'Für Reden, Spiele und Ansagen – ohne Kabelsalat.', array() ),
 		array( 'stairville-tri-flat-par', 'Stairville Tri Flat PAR Profile 5 × 3 W', 'licht', 4, 'Flacher LED-Scheinwerfer für farbiges Party- und Flächenlicht, z. B. an der Traverse.', array( 'breite' => '165', 'laenge' => '105', 'hoehe' => '165', 'masse' => 'mit Bügel 255 × 235 × 105 mm', 'gewicht' => '2,04 kg', 'leistung' => '15 W, RGB-LED', 'anschluesse' => 'DMX, Musiksteuerung, Automatik' ) ),
@@ -377,6 +378,7 @@ const KJO_VL_DATEN = array(
 			'anleitung'    => 'https://images.thomann.de/pics/atg/atgdata/document/manual/c_449221_481679_v5_de_online.pdf',
 			'wert'         => '299',
 			'wert_quelle'  => 'thomann.de 299 € inkl. MwSt. (Stand 11.10.2026), Art.-Nr. 449221',
+			'hersteller'   => 'https://www.thomann.de/de/varytec_hero_spot_60.htm',
 		),
 	),
 	'uv-strahler'  => array(
@@ -397,6 +399,7 @@ const KJO_VL_DATEN = array(
 			'wetter'      => 'innen',
 			'wert'        => '89',
 			'wert_quelle' => 'thomann.de 89 € inkl. MwSt. (Stand 11.10.2026), Art.-Nr. 426835',
+			'hersteller'  => 'https://www.thomann.de/de/stairville_wild_wash_9x3w_led_uv_bk_dmx.htm',
 		),
 	),
 	'pronomic-c-215-ma' => array(
@@ -415,11 +418,25 @@ const KJO_VL_DATEN = array(
 			'gaeste'      => 'bis ca. 250 Gäste (als Paar mit Subwoofern)',
 			'wert'        => '289',
 			'wert_quelle' => 'Musikhaus Kirstein ca. 289–295 € pro Box, 2 Boxen + 2 Stative als Set 588 € (Geizhals/heise, Stand 11.10.2026); nicht bei Thomann',
+			'hersteller'  => 'https://www.kirstein.de/Aktivboxen/Pronomic-C-215-MA-15-Aktivbox-1000-Watt.html',
+		),
+	),
+	'pioneer-ddj-flx10' => array(
+		'Pioneer DJ DDJ-FLX10',
+		'Pioneer DJ DDJ-FLX10',
+		'',
+		'',
+		array(
+			'hersteller' => 'https://support.alphatheta.com/de/products/16715825715481',
+			'notiz' => "Firmware: aktuell Ver. 1.14 (29.07.2025, u. a. djay-Pro-Unterstützung). Vor jeder Vermietung prüfen/aktualisieren:\nhttps://support.alphatheta.com/de/products/16715825715481",
+		),
+		array(
+			'anleitung' => array( 'https://www.pioneerdj.com/de/product/dj-controllers/ddj-flx10/', 'https://support.alphatheta.com/de/articles/16716272919193' ),
 		),
 	),
 );
 /* Aktualisierung bestehender Geräte (läuft einmal je Stand von KJO_VL_MIG – bei neuen Recherchedaten hochzählen): Maße in Breite/Länge/Höhe aufteilen, KJO_VL_DATEN ergänzen. Nur leere Felder werden befüllt. */
-const KJO_VL_MIG = 3;
+const KJO_VL_MIG = 5;
 add_action(
 	'admin_init',
 	function () {
@@ -455,6 +472,11 @@ add_action(
 			foreach ( $d[4] as $k => $v ) {
 				if ( '' === kjo_vl_get( $g->ID, $k ) ) {
 					update_post_meta( $g->ID, '_kjo_' . $k, $v );
+				}
+			}
+			foreach ( isset( $d[5] ) ? $d[5] : array() as $k => $ab ) { // Feld ersetzen, solange noch der alte Wert drinsteht
+				if ( $ab[0] === kjo_vl_get( $g->ID, $k ) ) {
+					update_post_meta( $g->ID, '_kjo_' . $k, $ab[1] );
 				}
 			}
 		}
@@ -614,7 +636,7 @@ add_action(
 			$v = isset( $in[ $k ] ) ? (string) $in[ $k ] : '';
 			if ( 'textarea' === $f[1] ) {
 				$v = sanitize_textarea_field( $v );
-			} elseif ( 'anleitung' === $f[1] ) {
+			} elseif ( 'anleitung' === $f[1] || 'url' === $f[1] ) {
 				$v = esc_url_raw( trim( $v ) );
 			} elseif ( 'check' === $f[1] ) {
 				$v = '1' === $v ? '1' : '0';
@@ -919,6 +941,10 @@ add_shortcode(
 			$anl = kjo_vl_get( $id, 'anleitung' );
 			if ( $anl ) {
 				$h .= '<p class="kjo-vl-anl"><a href="' . esc_url( $anl ) . '" target="_blank" rel="noopener">📄 Bedienungsanleitung (PDF, Deutsch)</a> <button type="button" class="kjo-vl-report" data-id="' . (int) $id . '">Link defekt? Melden</button></p>';
+			}
+			$her = kjo_vl_get( $id, 'hersteller' );
+			if ( $her ) {
+				$h .= '<p class="kjo-vl-anl"><a href="' . esc_url( $her ) . '" target="_blank" rel="noopener nofollow">🔗 Herstellerseite</a></p>';
 			}
 			$h .= '</div></li>';
 		}
