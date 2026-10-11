@@ -1,9 +1,9 @@
 {
- "version": "1.27.2",
- "download_url": "dj-kolja-one-plattenkiste-1.27.2.zip",
- "sha256": "b229f7ab47cb15f66d483e956e0c4a55adc3592dc8190ccda1d96f1f5bfc195b",
+ "version": "1.28.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.28.0.zip",
+ "sha256": "19ac768d967c04a6e43f7d96b22e115914721f96582f668ae6bddc55cf296ec9",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Startseite: Kachelbilder 400 px hoch, eingepasst statt beschnitten."
+ "changelog": "Galerie als Karussell, Bild-Text-Abschnitte nebeneinander."
 }

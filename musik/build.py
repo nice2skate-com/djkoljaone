@@ -16,6 +16,9 @@ open(P('plugin', 'dj-kolja-one-plattenkiste', 'assets', 'musikpult.html'), 'w', 
 deck = open(P('deck', 'deck-snippet.html'), encoding='utf-8').read()
 open(P('plugin', 'dj-kolja-one-plattenkiste', 'assets', 'startdeck.html'), 'w', encoding='utf-8').write(deck)
 print('Start-Pult geschrieben:', len(deck) // 1024, 'KB')
+gal = open(P('site', 'snippets', 'videos.html'), encoding='utf-8').read()
+open(P('plugin', 'dj-kolja-one-plattenkiste', 'assets', 'galerie.html'), 'w', encoding='utf-8').write(gal)
+print('Galerie geschrieben:', len(gal) // 1024, 'KB')
 print('Plugin-Pult geschrieben:', len(final) // 1024, 'KB')
 if os.path.exists(P('songs', 'preview-128.mp3')) and os.path.exists(P('songs', 'cover-300.jpg')):
     song, cover = b64(P('songs', 'preview-128.mp3')), b64(P('songs', 'cover-300.jpg'))
