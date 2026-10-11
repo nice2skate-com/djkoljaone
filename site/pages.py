@@ -46,11 +46,11 @@ def start():
            [BTN(*WISH),BTN("Per WhatsApp anfragen",WA,False)],
            stats=None,extra=[
                              W("html",{"html":open("./deck/deck-snippet.html").read(),"_element_width":"inherit","width":px(100,"%")})]),
+      vor,  # Vorstellung direkt unter dem DJ-Pult
       con([VIDEOS("start")],"column",bg=B1,pad=box(0,20,56,20),inner=False,flex_align_items="center",padding_mobile=box(0,20,40,20)),
       section(head("Meine Leistungen","Wofür bucht ihr mich?")+[tiles()],anchor="leistungen"),
       staerken("Ihr feiert. Ich kümmere mich um den Rest.",START_STAERKEN,eye="Was ihr davon habt"),
       reviews(["h1","f1","g1","h2","f2","g2","h3"]),
-      vor,
       section(head("So einfach geht's","In drei Schritten zu eurem DJ")+[steps([
           ("Wunschtermin prüfen","Datum, Ort und Anlass – per Formular oder WhatsApp in 2 Minuten. Ich melde mich innerhalb von 24 Stunden."),
           ("Kennenlernen","Telefonisch oder per Video besprechen wir Musik, Ablauf und Wünsche – kostenlos und unverbindlich."),
