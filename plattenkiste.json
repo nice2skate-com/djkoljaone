@@ -1,9 +1,9 @@
 {
- "version": "1.37.2",
- "download_url": "dj-kolja-one-plattenkiste-1.37.2.zip",
- "sha256": "4f4f683eb9174d2510a64885e740405bb60e2907eb401bb1c4829f2a1befa969",
+ "version": "1.37.3",
+ "download_url": "dj-kolja-one-plattenkiste-1.37.3.zip",
+ "sha256": "0ca65144c59c8ef0b4c72b27d406785ee57113bd67a6901a5a8bed50b9ec5642",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "ALGAM EVENTPAR412"
+ "changelog": "Kirstein-Gerätedaten (C-118SA, C-215 MA, UHF-604, ALGAM)"
 }

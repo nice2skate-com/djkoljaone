@@ -412,7 +412,7 @@ const KJO_VL_DATEN = array(
 		'2-Wege-Aktivbox mit 15"-Tieftöner und Bluetooth – kraftvoller Sound für große Säle und Festzelte.',
 		'Set aus zwei 2-Wege-Aktivboxen mit 15"-Tieftöner und Bluetooth – kraftvoller Sound für große Säle und Festzelte.',
 		array(
-			'beschr'      => "Set aus zwei aktiven 2-Wege-Boxen mit je 15\"-Tieftöner und 1,75\"-Titan-Hochtöner: 400 W + 100 W RMS (800 W + 200 W Peak) pro Box, max. 123 dB SPL, Frequenzgang 55 Hz – 20 kHz.\nZwei Eingänge (XLR/Klinke-Combo) mit getrennter Lautstärke plus Bluetooth, DSP-Presets und ein schaltbarer XLR-Ausgang (Summe oder Kanal 1). Robustes Kunststoffgehäuse mit Monitorschräge.",
+			'beschr'      => "Set aus zwei aktiven 2-Wege-Boxen mit je 15\"-Tieftöner und 1,75\"-Titan-Hochtöner: 400 W + 100 W RMS (800 W + 200 W Peak) pro Box, max. 123 dB SPL, Frequenzgang 55 Hz – 20 kHz.\nZwei Eingänge (XLR/Klinke-Combo) mit getrennter Lautstärke plus Bluetooth, DSP-Presets und ein schaltbarer XLR-Ausgang (Summe oder Kanal 1). Abstrahlwinkel 90° × 60°, Strom-Ausgang zum Durchschleifen, robustes Kunststoffgehäuse mit Monitorschräge.",
 			'breite'      => '450',
 			'laenge'      => '390',
 			'hoehe'       => '695',
@@ -420,9 +420,15 @@ const KJO_VL_DATEN = array(
 			'leistung'    => '400 W + 100 W RMS, max. 123 dB',
 			'anschluesse' => '2 × XLR/Klinke-Combo, Bluetooth, XLR-Ausgang',
 			'gaeste'      => 'bis ca. 250 Gäste (als Paar mit Subwoofern)',
-			'wert'        => '289',
-			'wert_quelle' => 'Musikhaus Kirstein ca. 289–295 € pro Box, 2 Boxen + 2 Stative als Set 588 € (Geizhals/heise, Stand 11.10.2026); nicht bei Thomann',
+			'wert'        => '269',
+			'wert_quelle' => 'Kirstein: Stereo-Set (2 Boxen) 538 € → 269 € pro Box (Stand 11.10.2026)',
+			'strom'       => '230 V, Strom-Ausgang zum Durchschleifen (max. 7 A)',
+			'lieferumfang' => 'Netzkabel',
 			'hersteller'  => 'https://www.kirstein.de/Aktivboxen/Pronomic-C-215-MA-15-Aktivbox-1000-Watt.html',
+		),
+		array(
+			'wert'        => array( '289', '269' ),
+			'wert_quelle' => array( 'Musikhaus Kirstein ca. 289–295 € pro Box, 2 Boxen + 2 Stative als Set 588 € (Geizhals/heise, Stand 11.10.2026); nicht bei Thomann', 'Kirstein: Stereo-Set (2 Boxen) 538 € → 269 € pro Box (Stand 11.10.2026)' ),
 		),
 	),
 	'pioneer-ddj-flx10' => array(
@@ -492,10 +498,15 @@ const KJO_VL_DATEN = array(
 		'',
 		'',
 		array(
-			'beschr'      => "18\"-Aktiv-Subwoofer mit 3\"-Schwingspule: 800 W RMS (1.600 W Spitze), 30–200 Hz, max. 126 dB – Bass, den man spürt.\n4 DSP-Presets mit einstellbarer Trennfrequenz, 2 Combo-Eingänge und 2 XLR-Ausgänge zum Weiterleiten an die Tops, Holzgehäuse mit M20-Flansch für die Distanzstange.",
+			'beschr'      => "18\"-Aktiv-Subwoofer mit 3\"-Schwingspule: 800 W RMS (1.600 W Spitze), 30–200 Hz, max. 126 dB – Bass, den man spürt.\n4 DSP-Presets (Live, Music, DJ, C-Serie), Trennfrequenz 80–150 Hz, Delay 0–16 ms, 2 Combo-Eingänge und 2 XLR-Ausgänge zum Weiterleiten an die Tops, robustes Holzgehäuse mit M20-Flansch für die Distanzstange.",
+			'breite'      => '550',
+			'laenge'      => '695',
+			'hoehe'       => '600',
+			'gewicht'     => '39,5 kg',
+			'leistung'    => '800 W RMS / 1.600 W Spitze (Class D), 30–200 Hz, max. 126 dB',
 			'wetter'      => 'innen',
-			'wert'        => '539',
-			'wert_quelle' => 'Musikhaus Kirstein 539 € pro Stück, 2er-Set 916 € (Stand 11.10.2026)',
+			'wert'        => '498',
+			'wert_quelle' => 'Kirstein: 2er-Set 916 € statt einzeln 996 € → 498 € pro Stück (Stand 11.10.2026)',
 			'hersteller'  => 'https://www.kirstein.de/Aktiv-Subwoofer/Pronomic-C-118SA-Aktiv-Subwoofer.html',
 		),
 	),
@@ -514,7 +525,7 @@ const KJO_VL_DATEN = array(
 			'leistung'     => 'UHF 520–554 MHz, Reichweite bis 60 m',
 			'anschluesse'  => '4 × XLR-Ausgang (je Mikrofon), Summenausgang 6,3-mm-Klinke, BNC-Antennenanschlüsse',
 			'strom'        => 'Empfänger 230 V (Netzteil), Mikrofone je 2 × AA',
-			'lieferumfang' => "Empfänger\n4 Handmikrofone\nNetzteil\nBatterien (AA) bringe ich frisch mit",
+			'lieferumfang' => "Empfänger\n4 Handmikrofone\nNetzteil\nim Original-Karton (kein Koffer)\nBatterien (AA) bringe ich frisch mit",
 			'wetter'       => 'trocken',
 			'wert'         => '329',
 			'wert_quelle'  => 'Steinigke/Omnitronic 329 € (520–554-MHz-Version, Art.-Nr. 13063605); Musikhaus Korn 329 € (Stand 11.10.2026)',
@@ -527,7 +538,7 @@ const KJO_VL_DATEN = array(
 		'Kabelloses Ambientelicht für Wände, Säulen, Garten und Terrasse.',
 		'Kabelloses, wetterfestes Akku-Licht (IP65) für Wände, Säulen, Garten und Terrasse.',
 		array(
-			'beschr'      => "Kabelloser Akku-Scheinwerfer mit 4 × 12-W-LEDs (RGBWA+UV, 40°) – setzt Wände, Säulen, Bäume und Deko in jede Farbe, drinnen wie draußen (IP65).\nSteuerung per Funk-DMX oder IR-Fernbedienung, Akku bis zu 20 Stunden bei fester Farbe. Geliefert im Lade-Case für alle 6 Scheinwerfer.",
+			'beschr'      => "Kabelloser Akku-Scheinwerfer mit 4 × 12-W-LEDs (RGBWA+UV, 40°) – setzt Wände, Säulen, Bäume und Deko in jede Farbe, drinnen wie draußen (IP65).\nSteuerung per Funk-DMX oder IR-Fernbedienung, Akku bis zu 20 Stunden bei fester Farbe. Geliefert im Lade-Case für alle 6 Scheinwerfer oder im kompakten Koffer.",
 			'breite'      => '131',
 			'laenge'      => '131',
 			'hoehe'       => '163',
@@ -543,12 +554,12 @@ const KJO_VL_DATEN = array(
 		array(
 			'bestand'      => array( '8', '6' ),
 			'strom'        => array( 'Akku', 'Akku 12,6 V / 7,8 Ah: bis 4 h (alle Farben), bis 20 h (feste Farbe/Automatik)' ),
-			'lieferumfang' => array( 'Ladegerät', "Lade-Case mit Ladestation (für 6 Scheinwerfer)\nIR-Fernbedienung" ),
+			'lieferumfang' => array( 'Ladegerät', "Lade-Case mit Ladestation (für 6 Scheinwerfer) oder kompakter Koffer\nIR-Fernbedienung" ),
 		),
 	),
 );
 /* Aktualisierung bestehender Geräte (läuft einmal je Stand von KJO_VL_MIG – bei neuen Recherchedaten hochzählen): Maße in Breite/Länge/Höhe aufteilen, KJO_VL_DATEN ergänzen. Nur leere Felder werden befüllt. */
-const KJO_VL_MIG = 9;
+const KJO_VL_MIG = 10;
 add_action(
 	'admin_init',
 	function () {
