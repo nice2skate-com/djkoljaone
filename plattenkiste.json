@@ -1,9 +1,9 @@
 {
- "version": "1.42.1",
- "download_url": "dj-kolja-one-plattenkiste-1.42.1.zip",
- "sha256": "75c68c113d38b21123c181d87efad26a4dd71d80fe5fe93c42b74a0104780317",
+ "version": "1.43.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.43.0.zip",
+ "sha256": "781cfdea402cf212cf0e2280c16e328425f7f8da09131e67f1b7faa6c9828156",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Texte Transport/Kaution"
+ "changelog": "Genre-Automixe"
 }
