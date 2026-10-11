@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.37.2: ALGAM EVENTPAR412-HEX-IP (6 Stück im Lade-Case, IP65): Daten, Neupreis; Bestand 8 → 6, Paket- und Aktionstexte angepasst.
 Seit 1.37.1: Funkmikrofon-Set = Omnitronic UHF-604 (520–554 MHz), Daten und Neupreis.
 Seit 1.37.0: Gerätedaten ergänzt: Bose S1 Pro, Bose Sub1, Stairville Tri Flat PAR (40°), Pronomic C-118SA (Beschreibung, Anschlüsse, Neupreis, Herstellerseite).
 Seit 1.36.1: Hero Spot 60: Anleitungs-Link (schwarze Version, Thomann) aktualisiert, Wetterfestigkeit „Nur innen“.

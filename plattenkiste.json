@@ -1,9 +1,9 @@
 {
- "version": "1.37.1",
- "download_url": "dj-kolja-one-plattenkiste-1.37.1.zip",
- "sha256": "31cbaadcd027466ffe070e4408860c36023e16f7beccd3aad88b743cad8ec893",
+ "version": "1.37.2",
+ "download_url": "dj-kolja-one-plattenkiste-1.37.2.zip",
+ "sha256": "4f4f683eb9174d2510a64885e740405bb60e2907eb401bb1c4829f2a1befa969",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Omnitronic UHF-604"
+ "changelog": "ALGAM EVENTPAR412"
 }

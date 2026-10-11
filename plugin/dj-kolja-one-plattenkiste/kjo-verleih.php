@@ -298,7 +298,7 @@ function kjo_vl_seed_data() {
 		array( 'stairville-tri-flat-par', 'Stairville Tri Flat PAR Profile 5 × 3 W', 'licht', 4, 'Flacher LED-Scheinwerfer für farbiges Party- und Flächenlicht, z. B. an der Traverse.', array( 'breite' => '165', 'laenge' => '105', 'hoehe' => '165', 'masse' => 'mit Bügel 255 × 235 × 105 mm', 'gewicht' => '2,04 kg', 'leistung' => '15 W, RGB-LED', 'anschluesse' => 'DMX, Musiksteuerung, Automatik' ) ),
 		array( 'moving-head', KJO_VL_DATEN['moving-head'][1], 'licht', 2, KJO_VL_DATEN['moving-head'][3], KJO_VL_DATEN['moving-head'][4] ),
 		array( 'kls-lightbar', 'KLS-Lightbar mit Lichtstativ', 'licht', 1, 'Partylicht auf eigenem Stativ, das die ganze Tanzfläche ausleuchtet.', array( 'lieferumfang' => 'Lichtstativ' ) ),
-		array( 'algam-akku-par', 'ALGAM Akku-Parlight', 'licht', 8, 'Kabelloses Ambientelicht für Wände, Säulen, Garten und Terrasse.', array( 'lieferumfang' => 'Ladegerät', 'strom' => 'Akku' ) ),
+		array( 'algam-akku-par', 'ALGAM Akku-Parlight', 'licht', 6, 'Kabelloses Ambientelicht für Wände, Säulen, Garten und Terrasse.', array( 'lieferumfang' => 'Ladegerät', 'strom' => 'Akku' ) ),
 		array( 'uv-strahler', KJO_VL_DATEN['uv-strahler'][1], 'effekte', 1, KJO_VL_DATEN['uv-strahler'][3], KJO_VL_DATEN['uv-strahler'][4] ),
 		array( 'wash-scheinwerfer', 'Wash-/Color-Scheinwerfer', 'licht', 1, 'Zusätzliche farbige Flächenbeleuchtung.', array() ),
 		array( 'nebelmaschine', 'Nebelmaschine', 'effekte', 1, 'Macht Lichtstrahlen sichtbar. Bitte vorher mit der Location wegen der Rauchmelder abstimmen.', array() ),
@@ -308,8 +308,8 @@ function kjo_vl_seed_data() {
 	);
 	$p = array(
 		array( 'paket-s', 'Paket S – „Sound kompakt“', 'Für bis zu ca. 50 Gäste', 'bspw. Geburtstag, Gartenparty, Sektempfang, etc.', "2× Bose S1 Pro Aktivlautsprecher (mit Bluetooth)\n2× Lautsprecherstative\nAudiokabel für Handy oder Laptop\nOptional: Funkmikrofon-Set", '' ),
-		array( 'paket-m', 'Paket M – „Party“', 'Für bis zu ca. 100 Gäste', 'bspw. runder Geburtstag, Vereinsfeier, Firmenfeier, etc.', "Alles aus Paket S\n1× Bose Subwoofer\nFunkmikrofon-Set\nKLS-Lightbar mit Lichtstativ\n8× Akku-Parlights mit Ladegerät", '' ),
-		array( 'paket-l', 'Paket L – „Komplett-Show“', 'Für bis zu ca. 250 Gäste', 'bspw. Hochzeit, Abiball, Sommerfest, etc. Die komplette Bühne aus meinem Beispiel-Lichtplan.', "Pronomic PA: 2× C-215 MA (15\", mit Bluetooth) und 2× C-118SA (18\"-Subwoofer), inklusive Kabelsatz\nPioneer DDJ-FLX10 + beleuchtetes DJ-Pult mit Zusatzplatten\n3-m-Traverse mit Ständern und 4 LED-PARs\n2 Moving Heads, KLS-Lightbar, 8 Akku-Parlights\nLED-Laufschrift, Nebelmaschine\nFunkmikrofon-Set\nEuren Laptop mit DJ-Software (rekordbox oder Serato) bringt ihr selbst mit.", 'Empfehlung: Nach Verfügbarkeit und gegen Gebühr mit Lieferung, Aufbau/Verkabelung, Abbau und Abholung. Traverse und Moving Heads baue ich für euch sicher auf.' ),
+		array( 'paket-m', 'Paket M – „Party“', 'Für bis zu ca. 100 Gäste', 'bspw. runder Geburtstag, Vereinsfeier, Firmenfeier, etc.', "Alles aus Paket S\n1× Bose Subwoofer\nFunkmikrofon-Set\nKLS-Lightbar mit Lichtstativ\n6 Akku-Scheinwerfer (IP65) im Lade-Case", '' ),
+		array( 'paket-l', 'Paket L – „Komplett-Show“', 'Für bis zu ca. 250 Gäste', 'bspw. Hochzeit, Abiball, Sommerfest, etc. Die komplette Bühne aus meinem Beispiel-Lichtplan.', "Pronomic PA: 2× C-215 MA (15\", mit Bluetooth) und 2× C-118SA (18\"-Subwoofer), inklusive Kabelsatz\nPioneer DDJ-FLX10 + beleuchtetes DJ-Pult mit Zusatzplatten\n3-m-Traverse mit Ständern und 4 LED-PARs\n2 Moving Heads, KLS-Lightbar, 6 Akku-Scheinwerfer (IP65)\nLED-Laufschrift, Nebelmaschine\nFunkmikrofon-Set\nEuren Laptop mit DJ-Software (rekordbox oder Serato) bringt ihr selbst mit.", 'Empfehlung: Nach Verfügbarkeit und gegen Gebühr mit Lieferung, Aufbau/Verkabelung, Abbau und Abholung. Traverse und Moving Heads baue ich für euch sicher auf.' ),
 	);
 	return array( $g, $p );
 }
@@ -521,9 +521,34 @@ const KJO_VL_DATEN = array(
 			'hersteller'   => 'https://www.kirstein.de/Drahtlos-Komplett-Sets/Omnitronic-UHF-604-520-554-MHz.html',
 		),
 	),
+	'algam-akku-par' => array(
+		'ALGAM Akku-Parlight',
+		'ALGAM EVENTPAR412-HEX-IP Akku-Scheinwerfer',
+		'Kabelloses Ambientelicht für Wände, Säulen, Garten und Terrasse.',
+		'Kabelloses, wetterfestes Akku-Licht (IP65) für Wände, Säulen, Garten und Terrasse.',
+		array(
+			'beschr'      => "Kabelloser Akku-Scheinwerfer mit 4 × 12-W-LEDs (RGBWA+UV, 40°) – setzt Wände, Säulen, Bäume und Deko in jede Farbe, drinnen wie draußen (IP65).\nSteuerung per Funk-DMX oder IR-Fernbedienung, Akku bis zu 20 Stunden bei fester Farbe. Geliefert im Lade-Case für alle 6 Scheinwerfer.",
+			'breite'      => '131',
+			'laenge'      => '131',
+			'hoehe'       => '163',
+			'gewicht'     => '2,8 kg pro Scheinwerfer',
+			'leistung'    => '4 × 12-W-LED RGBWA+UV, 40°',
+			'anschluesse' => 'Funk-DMX (6 oder 10 Kanäle), IR-Fernbedienung',
+			'wetter'      => 'wetterfest',
+			'wetter_ip'   => 'IP65',
+			'wert'        => '219',
+			'wert_quelle' => 'Kirstein 219 € pro Stück (UVP 229 €); Tourset 6 Stück + Lade-Case 1.599 € (Stand 11.10.2026)',
+			'hersteller'  => 'https://www.kirstein.de/Licht-Sparsets/Algam-Lighting-EVENTPAR412-HEX-IP-Akku-LED-Tourset.html',
+		),
+		array(
+			'bestand'      => array( '8', '6' ),
+			'strom'        => array( 'Akku', 'Akku 12,6 V / 7,8 Ah: bis 4 h (alle Farben), bis 20 h (feste Farbe/Automatik)' ),
+			'lieferumfang' => array( 'Ladegerät', "Lade-Case mit Ladestation (für 6 Scheinwerfer)\nIR-Fernbedienung" ),
+		),
+	),
 );
 /* Aktualisierung bestehender Geräte (läuft einmal je Stand von KJO_VL_MIG – bei neuen Recherchedaten hochzählen): Maße in Breite/Länge/Höhe aufteilen, KJO_VL_DATEN ergänzen. Nur leere Felder werden befüllt. */
-const KJO_VL_MIG = 8;
+const KJO_VL_MIG = 9;
 add_action(
 	'admin_init',
 	function () {
@@ -564,6 +589,17 @@ add_action(
 			foreach ( isset( $d[5] ) ? $d[5] : array() as $k => $ab ) { // Feld ersetzen, solange noch der alte Wert drinsteht
 				if ( $ab[0] === kjo_vl_get( $g->ID, $k ) ) {
 					update_post_meta( $g->ID, '_kjo_' . $k, $ab[1] );
+				}
+			}
+		}
+		// Textkorrekturen in Paketen (nur exakte Altformulierung wird ersetzt).
+		foreach ( array( 'paket-m', 'paket-l' ) as $slug ) {
+			$pk = get_page_by_path( $slug, OBJECT, 'kjo_paket' );
+			if ( $pk ) {
+				$t = (string) get_post_meta( $pk->ID, '_kjo_inhalt', true );
+				$n = str_replace( array( '8× Akku-Parlights mit Ladegerät', '8 Akku-Parlights' ), array( '6 Akku-Scheinwerfer (IP65) im Lade-Case', '6 Akku-Scheinwerfer (IP65)' ), $t );
+				if ( $n !== $t ) {
+					update_post_meta( $pk->ID, '_kjo_inhalt', $n );
 				}
 			}
 		}
@@ -1057,7 +1093,7 @@ add_shortcode(
 			array( 'Kaution', ( $any ? 'Die Höhe steht bei jedem Paket und Gerät.' : 'Die Höhe steht im Angebot.' ) . ' Bar bei der Abholung oder vorab per Überweisung. Ihr bekommt sie nach Prüfung der Rückgabe innerhalb von 3 Werktagen zurück.' ),
 			array( 'Mitbringen', 'Personalausweis. Mieten ab 18 Jahren.' ),
 			array( 'Passt das in mein Auto?', 'Paket S passt in jeden Kleinwagen, für M reicht ein Kombi. Für L braucht ihr einen Transporter, oder ihr bucht nach Verfügbarkeit und gegen Gebühr Lieferung, Aufbau/Verkabelung, Abbau und Abholung.' ),
-			array( 'Akku-Scheinwerfer', 'Ich übergebe sie vollgeladen, das Ladegerät ist dabei.' ),
+			array( 'Akku-Scheinwerfer', 'Ich übergebe sie vollgeladen im Lade-Case – zum Nachladen einfach das Case einstecken.' ),
 			array( 'Nebel', 'Bitte vorher mit der Location klären, wegen der Rauchmelder.' ),
 			array( 'Strom', 'Normale 230-V-Steckdosen. Verteiler und Verlängerungen bekommt ihr mit.' ),
 			array( 'Sorglos-Option', ( null !== $sp && null !== $sm ) ? 'Für ' . str_replace( '.', ',', (string) $sp ) . ' % Aufpreis haftet ihr bei Schäden höchstens mit ' . kjo_vl_eur( $sm ) . ', außer bei Vorsatz oder grober Fahrlässigkeit.' : 'Auf Wunsch könnt ihr euer Haftungsrisiko gegen Aufpreis begrenzen. Die Details stehen im Angebot.' ),
