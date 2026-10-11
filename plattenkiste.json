@@ -1,9 +1,9 @@
 {
- "version": "1.37.8",
- "download_url": "dj-kolja-one-plattenkiste-1.37.8.zip",
- "sha256": "ba0f4b289394e4c2f86f0c43bdfab86962f768f34b864eb74020f49178f1a655",
+ "version": "1.37.9",
+ "download_url": "dj-kolja-one-plattenkiste-1.37.9.zip",
+ "sha256": "0adf6cec11aa46a4e72fba290ebeefe354f2f2d9ff1fdb132e58d0c26afa3e87",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "KLS Laser Bar, S1 Pro Preis"
+ "changelog": "Nebelmaschine"
 }

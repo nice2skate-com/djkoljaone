@@ -301,7 +301,7 @@ function kjo_vl_seed_data() {
 		array( 'algam-akku-par', 'ALGAM Akku-Parlight', 'licht', 6, 'Kabelloses Ambientelicht für Wände, Säulen, Garten und Terrasse.', array( 'lieferumfang' => 'Ladegerät', 'strom' => 'Akku' ) ),
 		array( 'uv-strahler', KJO_VL_DATEN['uv-strahler'][1], 'effekte', 1, KJO_VL_DATEN['uv-strahler'][3], KJO_VL_DATEN['uv-strahler'][4] ),
 		array( 'wash-scheinwerfer', 'Wash-/Color-Scheinwerfer', 'licht', 1, 'Zusätzliche farbige Flächenbeleuchtung.', array() ),
-		array( 'nebelmaschine', 'Nebelmaschine', 'effekte', 1, 'Macht Lichtstrahlen sichtbar. Bitte vorher mit der Location wegen der Rauchmelder abstimmen.', array() ),
+		array( 'nebelmaschine', 'Showlite SN-1200 Nebelmaschine (1.200 W)', 'effekte', 1, 'Macht Lichtstrahlen sichtbar. Bitte vorher mit der Location wegen der Rauchmelder abstimmen.', array() ),
 		array( 'led-laufschrift', 'Eurolite ESN LED-Laufschrift (65 cm)', 'effekte', 1, 'Eure Namen, „Happy Birthday“ oder euer Hashtag in Leuchtschrift.', array() ),
 		array( 'traverse-3m', 'Stageworx LB-3 Traversen-Set 3 m', 'buehne', 1, 'Lichttraverse mit zwei Ständern – die Bühne für Scheinwerfer und Laufschrift.', array( 'lieferumfang' => "2 Lichtstative\n2 Traversenaufnehmer\n2 Traversenstücke (je 1,5 m, 3-Punkt)\n4 Haken (Hookclamps, je bis 15 kg)\n2 Transporttaschen (Traverse, Stative)" ) ),
 		array( 'lautsprecherstativ', 'Roadworx Speakerstand 2 Lautsprecherstativ', 'buehne', 2, 'Stabiles Alu-Stativ mit Gasdruckfeder für Aktivlautsprecher, 1,30–2,00 m hoch.', array() ),
@@ -404,6 +404,7 @@ const KJO_VL_DATEN = array(
 			'wert'        => '89',
 			'wert_quelle' => 'thomann.de 89 € inkl. MwSt. (Stand 11.10.2026), Art.-Nr. 426835',
 			'hersteller'  => 'https://www.thomann.de/de/stairville_wild_wash_9x3w_led_uv_bk_dmx.htm',
+			'anleitung'   => 'https://fast-images.static-thomann.de/pics/atg/atgdata/document/manual/c_426835_426836_v3_en_online.pdf',
 		),
 	),
 	'pronomic-c-215-ma' => array(
@@ -665,9 +666,24 @@ const KJO_VL_DATEN = array(
 			'lieferumfang' => array( 'Lichtstativ', "Lichtstativ Stageworx BLS-315 Pro (1,50–3,10 m)\nTransporttasche\nFunk-Fußschalter\nIR-Fernbedienung" ),
 		),
 	),
+	'nebelmaschine' => array(
+		'Nebelmaschine',
+		'Showlite SN-1200 Nebelmaschine (1.200 W)',
+		'',
+		'',
+		array(
+			'beschr'       => "Nebelmaschine mit 1.200 W und 350 m³/min Nebelausstoß – macht Lichtstrahlen von Moving Heads und Laser sichtbar, für kleine bis mittlere Säle und Bühnen.\n2-Liter-Tank, Bedienung per Kabelfernbedienung (4 m) oder Funkfernbedienung (bis 10 m). Bitte vorher mit der Location wegen der Rauchmelder abstimmen.",
+			'leistung'     => '1.200 W, 350 m³/min, Tank 2 l',
+			'lieferumfang' => "Kabelfernbedienung (4 m)\nFunkfernbedienung (bis 10 m)",
+			'wetter'       => 'innen',
+			'wert'         => '120',
+			'wert_quelle'  => 'Kirstein 119,90 € regulär (bis 31.10.2026 reduziert auf 113 €; Set mit 5 l Fluid 132,90 €), Stand 11.10.2026',
+			'hersteller'   => 'https://www.kirstein.de/Nebelmaschinen/Showlite-SN-1200-Nebelmaschine-1200W-inkl-Fernbedienung.html',
+		),
+	),
 );
 /* Aktualisierung bestehender Geräte (läuft einmal je Stand von KJO_VL_MIG – bei neuen Recherchedaten hochzählen): Maße in Breite/Länge/Höhe aufteilen, KJO_VL_DATEN ergänzen. Nur leere Felder werden befüllt. */
-const KJO_VL_MIG = 15;
+const KJO_VL_MIG = 16;
 add_action(
 	'admin_init',
 	function () {
