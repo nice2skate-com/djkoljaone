@@ -458,7 +458,7 @@ def equipment():
     vorteile=[("fas fa-volume-up","Laut genug zum Tanzen, leise genug zum Reden.","Das System wächst mit eurer Feier: kompakt für den Sektempfang, mit voller Bass-Power für die Tanzfläche."),
         ("fas fa-microphone","Reden, die jeder versteht.","Mein Funkmikrofon-Set ist immer dabei, für Trauzeugen, Chefs und Gratulanten."),
         ("fas fa-lightbulb","Eine Lichtshow statt Deckenlicht.","Traverse, Moving Heads und Ambientelicht machen aus jedem Raum eine Tanzfläche."),
-        ("fas fa-magic","Ein Aufbau, der ins Bild passt.","Beleuchtetes DJ-Pult, weitgehend verdeckte Kabel, alles fertig, bevor eure Gäste kommen.")]
+        ("fas fa-magic","Ein Aufbau, der ins Bild passt.","Schwarzes DJ-Pult mit Stoffverkleidung, weitgehend verdeckte Kabel, alles fertig, bevor eure Gäste kommen.")]
     licht=[("3-m-Lichttraverse","Mit LED-PAR-Scheinwerfern: Farbe und Stimmung passend zur Musik."),
         ("2 Moving Heads","Bewegte Lichtstrahlen für echte Club-Momente."),
         ("KLS-Lightbar","Partylicht auf eigenem Stativ für die ganze Tanzfläche."),
@@ -481,7 +481,7 @@ def equipment():
             ("Bose S1 Pro mit Bose-Subwoofer","Mein kompaktes System für Sektempfang, Dinner und Feiern bis ca. 100 Gäste. Es klingt klar und ist dezent im Raum."),
             ("Pronomic PA mit 2× C-215 MA (15\") und 2× C-118SA (18\"-Subwoofer)","Für große Säle, Sportveranstaltungen, Festzelte und volle Tanzflächen. Druckvoller Bass, den man spürt.")],w=48)],bg=B1),
         section(head("DJ-Technik","Mein Arbeitsplatz: Pioneer DDJ-FLX10",
-            "Vier Kanäle, damit verbinde ich Songs nahtlos und reagiere live auf eure Tanzfläche. Er steht in einem beleuchteten DJ-Pult, das sich optisch in eure Location einfügt."),bg=B2),
+            "Vier Kanäle, damit verbinde ich Songs nahtlos und reagiere live auf eure Tanzfläche. Er steht in einem schlichten schwarzen DJ-Pult, das sich optisch in eure Location einfügt."),bg=B2),
         section(head("Licht &amp; Effekte","Eine Lichtshow für eure Tanzfläche")+[cards(licht,bg=B2)],bg=B1),
         section(head("Beispiel-Setup","So sieht ein Setup aus")+[plan,
             T("<em>Beispiel-Setup für eine Geburtstagsfeier mit 3-m-Traverse, Moving Heads und Ambientelicht. Je nach Raum stelle ich das Setup individuell zusammen.</em>",MUTED,"center",15)],bg=B2),

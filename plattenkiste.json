@@ -1,9 +1,9 @@
 {
- "version": "1.37.3",
- "download_url": "dj-kolja-one-plattenkiste-1.37.3.zip",
- "sha256": "0ca65144c59c8ef0b4c72b27d406785ee57113bd67a6901a5a8bed50b9ec5642",
+ "version": "1.37.4",
+ "download_url": "dj-kolja-one-plattenkiste-1.37.4.zip",
+ "sha256": "074a0068d3a7e9d991699af4c99d72501b2a1769e03811c06891ce09324ab348",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Kirstein-Gerätedaten (C-118SA, C-215 MA, UHF-604, ALGAM)"
+ "changelog": "DJ-Pult und Lautsprecherstative"
 }

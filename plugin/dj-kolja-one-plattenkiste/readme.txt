@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.37.4: Roadworx DJ Table (schwarz, mit Zwischenboden, nicht beleuchtet) und Roadworx Speakerstand 2: Daten, Neupreis, Herstellerseite; Paket L und Equipment-Seite angepasst.
 Seit 1.37.3: Kirstein-Daten: Pronomic C-118SA (Maße, Gewicht, DSP, Neupreis 498 €), C-215 MA (269 €/Box, Strom-Ausgang), UHF-604 im Original-Karton, ALGAM im Lade-Case oder Koffer.
 Seit 1.37.2: ALGAM EVENTPAR412-HEX-IP (6 Stück im Lade-Case, IP65): Daten, Neupreis; Bestand 8 → 6, Paket- und Aktionstexte angepasst.
 Seit 1.37.1: Funkmikrofon-Set = Omnitronic UHF-604 (520–554 MHz), Daten und Neupreis.
