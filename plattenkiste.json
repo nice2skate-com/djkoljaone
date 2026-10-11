@@ -1,9 +1,9 @@
 {
- "version": "1.44.0",
- "download_url": "dj-kolja-one-plattenkiste-1.44.0.zip",
- "sha256": "db67e28a29124fe1b82d304c0c2a8bd676b1416ad43a95ae80d73fb7d5f09531",
+ "version": "1.44.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.44.1.zip",
+ "sha256": "1485e02d03dbf32f0babf190cfb69e774a7922106f773cdb90ebc4b9ed245e93",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Teilen + Sicherheitsheader"
+ "changelog": "Fix Song-Link"
 }
