@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.39.1: /favicon.ico wird direkt ausgeliefert (statt Weiterleitung), zusätzlich 192-px-PNG-Icon für Google.
 Seit 1.39.0: Mietpreise mit Wochenendtarif (Fr 15 – Mo 21 Uhr, sobald Sa/So im Zeitraum), Kaution, Liefer- und Aufbaupauschalen; Mietkorb rechnet den Zeitraum aus.
 Seit 1.38.0: Wash-Scheinwerfer = Cameo Thunder Wash 100 RGB (99 €); neues Gerät Eurolite Spiegelkugel 30 cm mit Motor MD-1515 (71 €) wird automatisch angelegt.
 Seit 1.37.9: Nebelmaschine = Showlite SN-1200 (Daten, Neupreis 120 €, Kirstein-Link); UV-Strahler mit Anleitung.
