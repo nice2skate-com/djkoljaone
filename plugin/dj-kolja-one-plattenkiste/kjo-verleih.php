@@ -297,7 +297,7 @@ function kjo_vl_seed_data() {
 		array( 'funkmikrofon-set', 'Funkmikrofon-Set', 'mikrofone', 1, 'Für Reden, Spiele und Ansagen – ohne Kabelsalat.', array() ),
 		array( 'stairville-tri-flat-par', 'Stairville Tri Flat PAR Profile 5 × 3 W', 'licht', 4, 'Flacher LED-Scheinwerfer für farbiges Party- und Flächenlicht, z. B. an der Traverse.', array( 'breite' => '165', 'laenge' => '105', 'hoehe' => '165', 'masse' => 'mit Bügel 255 × 235 × 105 mm', 'gewicht' => '2,04 kg', 'leistung' => '15 W, RGB-LED', 'anschluesse' => 'DMX, Musiksteuerung, Automatik' ) ),
 		array( 'moving-head', KJO_VL_DATEN['moving-head'][1], 'licht', 2, KJO_VL_DATEN['moving-head'][3], KJO_VL_DATEN['moving-head'][4] ),
-		array( 'kls-lightbar', 'KLS-Lightbar mit Lichtstativ', 'licht', 1, 'Partylicht auf eigenem Stativ, das die ganze Tanzfläche ausleuchtet.', array( 'lieferumfang' => 'Lichtstativ' ) ),
+		array( 'kls-lightbar', 'Eurolite KLS Laser Bar FX-Set mit Lichtstativ', 'licht', 1, 'Partylicht auf eigenem Stativ, das die ganze Tanzfläche ausleuchtet.', array( 'lieferumfang' => "Lichtstativ Stageworx BLS-315 Pro (1,50–3,10 m)\nTransporttasche\nFunk-Fußschalter\nIR-Fernbedienung" ) ),
 		array( 'algam-akku-par', 'ALGAM Akku-Parlight', 'licht', 6, 'Kabelloses Ambientelicht für Wände, Säulen, Garten und Terrasse.', array( 'lieferumfang' => 'Ladegerät', 'strom' => 'Akku' ) ),
 		array( 'uv-strahler', KJO_VL_DATEN['uv-strahler'][1], 'effekte', 1, KJO_VL_DATEN['uv-strahler'][3], KJO_VL_DATEN['uv-strahler'][4] ),
 		array( 'wash-scheinwerfer', 'Wash-/Color-Scheinwerfer', 'licht', 1, 'Zusätzliche farbige Flächenbeleuchtung.', array() ),
@@ -456,8 +456,12 @@ const KJO_VL_DATEN = array(
 			'anschluesse' => '2 × XLR/Klinke-Combo (Mikro/Line), AUX 3,5 mm, Bluetooth, Line-Out XLR',
 			'strom'       => 'Akku (bis zu 11 h) oder 230 V',
 			'wetter'      => 'trocken',
-			'wert'        => '650',
-			'wert_quelle' => 'S1 Pro wird nicht mehr gebaut; Ersatz S1 Pro+ ca. 608–699 € (Geizhals/Baur, Stand 11.10.2026)',
+			'wert'        => '631',
+			'wert_quelle' => 'Kaufpreis Thomann „Bose S1 Pro Stand Bundle“ 666 € (Art.-Nr. 431261, inkl. Roadworx Speakerstand 2 à 35 €) → 631 € für die Box',
+		),
+		array(
+			'wert'        => array( '650', '631' ),
+			'wert_quelle' => array( 'S1 Pro wird nicht mehr gebaut; Ersatz S1 Pro+ ca. 608–699 € (Geizhals/Baur, Stand 11.10.2026)', 'Kaufpreis Thomann „Bose S1 Pro Stand Bundle“ 666 € (Art.-Nr. 431261, inkl. Roadworx Speakerstand 2 à 35 €) → 631 € für die Box' ),
 		),
 	),
 	'bose-subwoofer' => array(
@@ -637,9 +641,33 @@ const KJO_VL_DATEN = array(
 			'lieferumfang' => array( "2 Traversenständer\n2 Adapter Traverse/Ständer\n2 Traversenstücke\nVerbinder, Schrauben und Sicherungen", "2 Lichtstative\n2 Traversenaufnehmer\n2 Traversenstücke (je 1,5 m, 3-Punkt)\n4 Haken (Hookclamps, je bis 15 kg)\n2 Transporttaschen (Traverse, Stative)" ),
 		),
 	),
+	'kls-lightbar' => array(
+		'KLS-Lightbar mit Lichtstativ',
+		'Eurolite KLS Laser Bar FX-Set mit Lichtstativ',
+		'Partylicht auf eigenem Stativ, das die ganze Tanzfläche ausleuchtet.',
+		'Lichteffekt-Leiste mit Laser, Derbys, Spots und Strobe auf eigenem Stativ – leuchtet die ganze Tanzfläche aus.',
+		array(
+			'beschr'      => "4-in-1-Lichteffektleiste: 2 rotierende LED-Derbys (Spiegelkugel-Effekt), 2 LED-Spots in Rot/Grün/Blau, Strobe mit 4 weißen LEDs und ein Laser mit hunderten roten und grünen Strahlen. 37 Showprogramme im Auto- und Musikmodus, bedienbar per Funk-Fußschalter oder IR-Fernbedienung, optional per DMX.\nLaserklasse 2M: keine Abnahme und kein Laserschutzbeauftragter nötig. Auf dem Stativ in 1,50–3,10 m Höhe.",
+			'breite'      => '1320',
+			'laenge'      => '145',
+			'hoehe'       => '320',
+			'gewicht'     => '7,3 kg (Leiste), Stativ 5,6 kg',
+			'leistung'    => 'Spots 2 × 3 × 3 W RGB (13°), Derbys 2 × 3 × 1 W RGB, Strobe 4 × 1 W weiß, Laser 100 mW rot / 30 mW grün (Klasse 2M); Stativ belastbar bis 30 kg',
+			'anschluesse' => 'DMX In/Out (XLR 3-polig, 3/5/9/27 Kanäle), Kaltgeräte-Strom In/Out, Stativaufnahme 36 mm',
+			'strom'       => '100–240 V, 50/60 Hz, 50 W',
+			'wetter'      => 'innen',
+			'wert'        => '366',
+			'wert_quelle' => 'thomann.de: Eurolite LED KLS Laser Bar FX-Set 321 € (UVP 379 €, Art.-Nr. 396055) + Stageworx BLS-315 Pro Lighting Stand B 45 € (Stand 11.10.2026)',
+			'hersteller'  => 'https://www.thomann.de/de/eurolite_led_kls_laser_bar_fx_set.htm',
+			'notiz'       => "Lichtstativ: Stageworx BLS-315 Pro Lighting Stand B, Höhe 150–310 cm, Standfläche Ø 120 cm, belastbar bis 30 kg, Transportlänge 124 cm:\nhttps://www.thomann.de/de/stairville_bls315_pro_lighting_stand_b.htm",
+		),
+		array(
+			'lieferumfang' => array( 'Lichtstativ', "Lichtstativ Stageworx BLS-315 Pro (1,50–3,10 m)\nTransporttasche\nFunk-Fußschalter\nIR-Fernbedienung" ),
+		),
+	),
 );
 /* Aktualisierung bestehender Geräte (läuft einmal je Stand von KJO_VL_MIG – bei neuen Recherchedaten hochzählen): Maße in Breite/Länge/Höhe aufteilen, KJO_VL_DATEN ergänzen. Nur leere Felder werden befüllt. */
-const KJO_VL_MIG = 14;
+const KJO_VL_MIG = 15;
 add_action(
 	'admin_init',
 	function () {
