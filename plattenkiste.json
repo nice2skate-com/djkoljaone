@@ -1,9 +1,9 @@
 {
- "version": "1.30.0",
- "download_url": "dj-kolja-one-plattenkiste-1.30.0.zip",
- "sha256": "5b64eb584b4f233854ac6238bd62c9de31661a4dd616a9ff80aea33802ce55dd",
+ "version": "1.31.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.31.0.zip",
+ "sha256": "3ab6375c8f6ddf750a67dc581eaa05845842c5781121b71b0a86fd6dbc707401",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Bildoptimierung ohne Credits (WebP, 1600 px)"
+ "changelog": "Eigenes Anfrageformular, Bilder: Verkleinern im Browser"
 }

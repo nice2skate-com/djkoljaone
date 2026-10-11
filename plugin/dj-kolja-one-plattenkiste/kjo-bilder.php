@@ -123,7 +123,44 @@ function kjo_img_optimize( $id ) {
 	if ( function_exists( 'kjo_media_flush' ) ) {
 		kjo_media_flush();
 	}
-	return kjo_img_web_info( $id );
+	return kjo_img_result( $id );
+}
+/** Info für die Übersicht; „resize“ = URL des Originals, wenn der Browser verkleinern soll (Server schafft es nicht). */
+function kjo_img_result( $id ) {
+	$i = kjo_img_web_info( $id );
+	if ( $i['bytes'] > 1500000 && max( $i['w'], $i['h'] ) > KJO_IMG_MAX ) {
+		$i['resize'] = wp_get_attachment_url( $id );
+	}
+	return $i;
+}
+/** Vom Browser verkleinerte Fassung (max. 2560 px, JPG) übernehmen; das Original bleibt als „original_image“ erhalten. */
+function kjo_img_replace( $id, $tmp ) {
+	$old = get_attached_file( $id );
+	$sz  = $tmp ? @getimagesize( $tmp ) : false; // phpcs:ignore
+	if ( ! $old || ! $sz || 'image/jpeg' !== $sz['mime'] || max( $sz[0], $sz[1] ) > 2600 ) {
+		return new WP_Error( 'kjo_img', 'Verkleinerte Datei ungültig.' );
+	}
+	$dir  = dirname( $old );
+	$base = preg_replace( '/-scaled$/', '', pathinfo( $old, PATHINFO_FILENAME ) );
+	$name = wp_unique_filename( $dir, $base . '-scaled.jpg' );
+	$new  = trailingslashit( $dir ) . $name;
+	if ( ! @move_uploaded_file( $tmp, $new ) ) { // phpcs:ignore
+		return new WP_Error( 'kjo_img', 'Datei konnte nicht gespeichert werden.' );
+	}
+	@chmod( $new, 0644 ); // phpcs:ignore
+	$meta = wp_get_attachment_metadata( $id );
+	$orig = is_array( $meta ) && ! empty( $meta['original_image'] ) ? $meta['original_image'] : wp_basename( $old );
+	update_attached_file( $id, $new );
+	$r = kjo_img_optimize( $id );
+	if ( is_wp_error( $r ) ) {
+		update_attached_file( $id, $old );
+		@unlink( $new ); // phpcs:ignore
+		return $r;
+	}
+	$meta                   = wp_get_attachment_metadata( $id );
+	$meta['original_image'] = $orig;
+	wp_update_attachment_metadata( $id, $meta );
+	return kjo_img_result( $id );
 }
 
 /* ---------------------------------------------------------------
@@ -166,14 +203,14 @@ function kjo_img_admin_page() {
 	if ( ! kjo_img_webp_ok() ) {
 		echo '<div class="notice notice-warning inline"><p>Der Server kann kein WebP schreiben – es werden verkleinerte JPG/PNG-Versionen erzeugt.</p></div>';
 	}
-	echo '<p>Neue Uploads werden ab jetzt automatisch so verarbeitet. Tipp: Fotos vor dem Hochladen nicht größer als ca. 2500 px machen – sehr große Handyfotos (über 8000 px) kann der Server teils nicht verarbeiten.</p>';
-	echo '<p><button type="button" class="button button-primary" id="kjo-img-all">Alle ' . count( $rows ) . ' Bilder optimieren</button> <span id="kjo-img-st"></span></p>';
+	echo '<p>Neue Uploads werden ab jetzt automatisch so verarbeitet. Bereits optimierte Bilder werden übersprungen. Sehr große Fotos, die der Server nicht schafft, verkleinert euer Browser automatisch auf 2560 px (das Original bleibt erhalten).</p>';
+	echo '<p><button type="button" class="button button-primary" id="kjo-img-all">Bilder optimieren (' . count( $rows ) . ' Bilder)</button> <span id="kjo-img-st"></span></p>';
 	echo '<p>Ausgeliefert insgesamt: <strong id="kjo-img-sum">' . esc_html( kjo_img_kb( $sum ) ) . '</strong></p>';
 	echo '<table class="widefat striped"><thead><tr><th>Bild</th><th>Ausgelieferte Datei</th><th>Maße</th><th>Größe</th><th>Status</th></tr></thead><tbody>';
 	foreach ( $rows as $r ) {
 		list( $id, $i ) = $r;
 		$opt = get_post_meta( $id, '_kjo_img_opt', true );
-		echo '<tr data-id="' . (int) $id . '" data-b="' . (int) $i['bytes'] . '"><td>' . wp_get_attachment_image( $id, array( 48, 48 ) ) . ' ' . esc_html( get_the_title( $id ) ) . '</td><td class="n">' . esc_html( $i['name'] ) . '</td><td class="d">' . (int) $i['w'] . ' × ' . (int) $i['h'] . '</td><td class="b">' . esc_html( kjo_img_kb( $i['bytes'] ) ) . '</td><td class="s">' . ( $opt ? 'optimiert' : '–' ) . '</td></tr>';
+		echo '<tr data-id="' . (int) $id . '" data-b="' . (int) $i['bytes'] . '" data-opt="' . ( $opt ? 1 : 0 ) . '" data-big="' . esc_url( max( $i['w'], $i['h'] ) > KJO_IMG_MAX ? (string) wp_get_attachment_url( $id ) : '' ) . '"><td>' . wp_get_attachment_image( $id, array( 48, 48 ) ) . ' ' . esc_html( get_the_title( $id ) ) . '</td><td class="n">' . esc_html( $i['name'] ) . '</td><td class="d">' . (int) $i['w'] . ' × ' . (int) $i['h'] . '</td><td class="b">' . esc_html( kjo_img_kb( $i['bytes'] ) ) . '</td><td class="s">' . ( $opt ? 'optimiert' : '–' ) . '</td></tr>';
 	}
 	echo '</tbody></table></div>';
 	$nonce = wp_create_nonce( 'kjo_img' );
@@ -181,15 +218,21 @@ function kjo_img_admin_page() {
 <script>
 (function(){var b=document.getElementById("kjo-img-all"),st=document.getElementById("kjo-img-st"),sum=document.getElementById("kjo-img-sum");if(!b)return;
 function kb(x){return x>=1048576?(x/1048576).toFixed(1).replace(".",",")+" MB":Math.round(x/1024)+" KB";}
-b.addEventListener("click",function(){b.disabled=true;var rows=[].slice.call(document.querySelectorAll("tr[data-id]")),i=0,ok=0,err=0;
-function next(){if(i>=rows.length){st.textContent="Fertig: "+ok+" optimiert"+(err?", "+err+" mit Fehler":"")+".";b.disabled=false;return;}
-var tr=rows[i++];tr.querySelector(".s").textContent="läuft …";st.textContent=i+" / "+rows.length;
-var fd=new FormData();fd.append("action","kjo_img_opt");fd.append("id",tr.getAttribute("data-id"));fd.append("_ajax_nonce","<?php echo esc_js( $nonce ); ?>");
-fetch(ajaxurl,{method:"POST",body:fd,credentials:"same-origin"}).then(function(r){return r.json();}).then(function(j){
-if(j&&j.success){var d=j.data,old=+tr.getAttribute("data-b");tr.querySelector(".n").textContent=d.name;tr.querySelector(".d").textContent=d.w+" × "+d.h;tr.querySelector(".b").textContent=kb(old)+" → "+kb(d.bytes);tr.querySelector(".s").textContent="optimiert";tr.setAttribute("data-b",d.bytes);ok++;}
-else{tr.querySelector(".s").textContent="Fehler: "+(j&&j.data?j.data:"unbekannt");err++;}
-}).catch(function(){tr.querySelector(".s").textContent="Fehler: Server hat abgebrochen (Bild zu groß?) – bitte verkleinert neu hochladen";err++;}).then(function(){
-var t=0;rows.forEach(function(r){t+=+r.getAttribute("data-b");});sum.textContent=kb(t);next();});}
+function done(tr,d,old){tr.querySelector(".n").textContent=d.name;tr.querySelector(".d").textContent=d.w+" × "+d.h;tr.querySelector(".b").textContent=kb(old)+" → "+kb(d.bytes);tr.setAttribute("data-b",d.bytes);}
+function post(fd){fd.append("_ajax_nonce","<?php echo esc_js( $nonce ); ?>");return fetch(ajaxurl,{method:"POST",body:fd,credentials:"same-origin"}).then(function(r){return r.json();});}
+function shrink(tr,url){tr.querySelector(".s").textContent="verkleinere im Browser …";return new Promise(function(res,rej){var im=new Image();im.onload=function(){try{var k=Math.min(1,2560/Math.max(im.naturalWidth,im.naturalHeight)),w=Math.round(im.naturalWidth*k),h=Math.round(im.naturalHeight*k),c=document.createElement("canvas");c.width=w;c.height=h;var x=c.getContext("2d");x.imageSmoothingQuality="high";x.drawImage(im,0,0,w,h);c.toBlob(function(bl){if(!bl)return rej();var fd=new FormData();fd.append("action","kjo_img_replace");fd.append("id",tr.getAttribute("data-id"));fd.append("bild",bl,"web.jpg");post(fd).then(res,rej);},"image/jpeg",.86);}catch(e){rej(e);}};im.onerror=rej;im.src=url+(url.indexOf("?")>-1?"&":"?")+"v="+Date.now();});}
+b.addEventListener("click",function(){b.disabled=true;var rows=[].slice.call(document.querySelectorAll("tr[data-id]")).filter(function(r){return r.getAttribute("data-opt")!=="1"||+r.getAttribute("data-b")>1500000;}),i=0,ok=0,err=0;
+function fin(){var t=0;[].forEach.call(document.querySelectorAll("tr[data-id]"),function(r){t+=+r.getAttribute("data-b");});sum.textContent=kb(t);next();}
+function next(){if(i>=rows.length){st.textContent=rows.length?"Fertig: "+ok+" optimiert"+(err?", "+err+" mit Fehler":"")+".":"Alles bereits optimiert.";b.disabled=false;return;}
+var tr=rows[i++],old=+tr.getAttribute("data-b");tr.querySelector(".s").textContent="läuft …";st.textContent=i+" / "+rows.length;
+function fail(m){tr.querySelector(".s").textContent="Fehler: "+(m||"bitte verkleinert neu hochladen");err++;}
+function big(url){return shrink(tr,url).then(function(j){if(j&&j.success){done(tr,j.data,old);tr.querySelector(".s").textContent="verkleinert & optimiert";tr.setAttribute("data-opt","1");ok++;}else fail(j&&j.data);},function(){fail("Verkleinern im Browser fehlgeschlagen");});}
+var fd=new FormData();fd.append("action","kjo_img_opt");fd.append("id",tr.getAttribute("data-id"));
+post(fd).then(function(j){
+if(j&&j.success&&j.data.resize)return big(j.data.resize);
+if(j&&j.success){done(tr,j.data,old);tr.querySelector(".s").textContent="optimiert";tr.setAttribute("data-opt","1");ok++;}
+else if(tr.getAttribute("data-big"))return big(tr.getAttribute("data-big"));else fail(j&&j.data);
+}).catch(function(){if(tr.getAttribute("data-big"))return big(tr.getAttribute("data-big"));fail("Server hat abgebrochen");}).then(fin);}
 next();});})();
 </script>
 	<?php
@@ -203,6 +246,21 @@ add_action(
 			wp_send_json_error( 'Kein Bild.' );
 		}
 		$r = kjo_img_optimize( $id );
+		if ( is_wp_error( $r ) ) {
+			wp_send_json_error( $r->get_error_message() );
+		}
+		wp_send_json_success( $r );
+	}
+);
+add_action(
+	'wp_ajax_kjo_img_replace',
+	function () {
+		check_ajax_referer( 'kjo_img' );
+		$id = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
+		if ( ! $id || ! current_user_can( 'upload_files' ) || ! current_user_can( 'edit_post', $id ) || ! wp_attachment_is_image( $id ) || empty( $_FILES['bild']['tmp_name'] ) ) {
+			wp_send_json_error( 'Kein Bild.' );
+		}
+		$r = kjo_img_replace( $id, $_FILES['bild']['tmp_name'] ); // phpcs:ignore
 		if ( is_wp_error( $r ) ) {
 			wp_send_json_error( $r->get_error_message() );
 		}
