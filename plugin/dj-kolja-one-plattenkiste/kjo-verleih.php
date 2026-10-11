@@ -293,7 +293,7 @@ function kjo_vl_seed_data() {
 		array( 'pronomic-c-215-ma', KJO_VL_DATEN['pronomic-c-215-ma'][1], 'lautsprecher', 2, KJO_VL_DATEN['pronomic-c-215-ma'][3], KJO_VL_DATEN['pronomic-c-215-ma'][4] ),
 		array( 'pronomic-c-118sa', 'Pronomic C-118SA 18"-Aktiv-Subwoofer', 'subwoofer', 2, '18"-Aktiv-Subwoofer für druckvollen Bass, den man spürt.', array( 'leistung' => '800 W RMS, 30–200 Hz, max. 126 dB', 'anschluesse' => '2 × Combo-Eingang, 2 × XLR-Ausgang, M20-Flansch für Distanzstange' ) ),
 		array( 'pioneer-ddj-flx10', 'Pioneer DJ DDJ-FLX10', 'dj', 1, 'Vierkanaliger DJ-Controller für rekordbox und Serato – den Laptop bringt ihr mit.', array( 'breite' => '716', 'laenge' => '400.3', 'hoehe' => '73.4', 'gewicht' => '6,7 kg', 'volumen' => '21,04 l', 'anschluesse' => 'USB zum Laptop (rekordbox oder Serato)', 'lieferumfang' => "Netzteil\nUSB-Kabel\nAudiokabel", 'anleitung' => 'https://support.alphatheta.com/de/articles/16716272919193' ) ),
-		array( 'dj-pult', 'DJ-Pult, beleuchtet', 'buehne', 1, 'Beleuchtetes DJ-Pult mit zwei Zusatzplatten – eine saubere Bühne für Controller und Laptop.', array( 'lieferumfang' => '2 Zusatzplatten' ) ),
+		array( 'dj-pult', 'Roadworx DJ Table (schwarz, mit Zwischenboden)', 'buehne', 1, 'Schwarzes, faltbares DJ-Pult mit Zwischenboden und Stoffverkleidung – eine saubere Bühne für Controller und Laptop.', array( 'lieferumfang' => "Zwischenboden\nStoffverkleidung (schwarz, 4 Teile)\nTragetasche" ) ),
 		array( 'funkmikrofon-set', 'Funkmikrofon-Set', 'mikrofone', 1, 'Für Reden, Spiele und Ansagen – ohne Kabelsalat.', array() ),
 		array( 'stairville-tri-flat-par', 'Stairville Tri Flat PAR Profile 5 × 3 W', 'licht', 4, 'Flacher LED-Scheinwerfer für farbiges Party- und Flächenlicht, z. B. an der Traverse.', array( 'breite' => '165', 'laenge' => '105', 'hoehe' => '165', 'masse' => 'mit Bügel 255 × 235 × 105 mm', 'gewicht' => '2,04 kg', 'leistung' => '15 W, RGB-LED', 'anschluesse' => 'DMX, Musiksteuerung, Automatik' ) ),
 		array( 'moving-head', KJO_VL_DATEN['moving-head'][1], 'licht', 2, KJO_VL_DATEN['moving-head'][3], KJO_VL_DATEN['moving-head'][4] ),
@@ -302,14 +302,14 @@ function kjo_vl_seed_data() {
 		array( 'uv-strahler', KJO_VL_DATEN['uv-strahler'][1], 'effekte', 1, KJO_VL_DATEN['uv-strahler'][3], KJO_VL_DATEN['uv-strahler'][4] ),
 		array( 'wash-scheinwerfer', 'Wash-/Color-Scheinwerfer', 'licht', 1, 'Zusätzliche farbige Flächenbeleuchtung.', array() ),
 		array( 'nebelmaschine', 'Nebelmaschine', 'effekte', 1, 'Macht Lichtstrahlen sichtbar. Bitte vorher mit der Location wegen der Rauchmelder abstimmen.', array() ),
-		array( 'led-laufschrift', 'LED-Laufschrift (ca. 70 cm)', 'effekte', 1, 'Eure Namen, „Happy Birthday“ oder euer Hashtag in Leuchtschrift.', array() ),
+		array( 'led-laufschrift', 'Eurolite ESN LED-Laufschrift (65 cm)', 'effekte', 1, 'Eure Namen, „Happy Birthday“ oder euer Hashtag in Leuchtschrift.', array() ),
 		array( 'traverse-3m', 'Traversen-Set 3 m', 'buehne', 1, 'Lichttraverse mit zwei Ständern – die Bühne für Scheinwerfer und Laufschrift.', array( 'lieferumfang' => "2 Traversenständer\n2 Adapter Traverse/Ständer\n2 Traversenstücke\nVerbinder, Schrauben und Sicherungen" ) ),
-		array( 'lautsprecherstativ', 'Lautsprecherstativ', 'buehne', 2, 'Stabiles Stativ für Aktivlautsprecher.', array() ),
+		array( 'lautsprecherstativ', 'Roadworx Speakerstand 2 Lautsprecherstativ', 'buehne', 2, 'Stabiles Alu-Stativ mit Gasdruckfeder für Aktivlautsprecher, 1,30–2,00 m hoch.', array() ),
 	);
 	$p = array(
 		array( 'paket-s', 'Paket S – „Sound kompakt“', 'Für bis zu ca. 50 Gäste', 'bspw. Geburtstag, Gartenparty, Sektempfang, etc.', "2× Bose S1 Pro Aktivlautsprecher (mit Bluetooth)\n2× Lautsprecherstative\nAudiokabel für Handy oder Laptop\nOptional: Funkmikrofon-Set", '' ),
 		array( 'paket-m', 'Paket M – „Party“', 'Für bis zu ca. 100 Gäste', 'bspw. runder Geburtstag, Vereinsfeier, Firmenfeier, etc.', "Alles aus Paket S\n1× Bose Subwoofer\nFunkmikrofon-Set\nKLS-Lightbar mit Lichtstativ\n6 Akku-Scheinwerfer (IP65) im Lade-Case", '' ),
-		array( 'paket-l', 'Paket L – „Komplett-Show“', 'Für bis zu ca. 250 Gäste', 'bspw. Hochzeit, Abiball, Sommerfest, etc. Die komplette Bühne aus meinem Beispiel-Lichtplan.', "Pronomic PA: 2× C-215 MA (15\", mit Bluetooth) und 2× C-118SA (18\"-Subwoofer), inklusive Kabelsatz\nPioneer DDJ-FLX10 + beleuchtetes DJ-Pult mit Zusatzplatten\n3-m-Traverse mit Ständern und 4 LED-PARs\n2 Moving Heads, KLS-Lightbar, 6 Akku-Scheinwerfer (IP65)\nLED-Laufschrift, Nebelmaschine\nFunkmikrofon-Set\nEuren Laptop mit DJ-Software (rekordbox oder Serato) bringt ihr selbst mit.", 'Empfehlung: Nach Verfügbarkeit und gegen Gebühr mit Lieferung, Aufbau/Verkabelung, Abbau und Abholung. Traverse und Moving Heads baue ich für euch sicher auf.' ),
+		array( 'paket-l', 'Paket L – „Komplett-Show“', 'Für bis zu ca. 250 Gäste', 'bspw. Hochzeit, Abiball, Sommerfest, etc. Die komplette Bühne aus meinem Beispiel-Lichtplan.', "Pronomic PA: 2× C-215 MA (15\", mit Bluetooth) und 2× C-118SA (18\"-Subwoofer), inklusive Kabelsatz\nPioneer DDJ-FLX10 + DJ-Pult mit Zwischenboden\n3-m-Traverse mit Ständern und 4 LED-PARs\n2 Moving Heads, KLS-Lightbar, 6 Akku-Scheinwerfer (IP65)\nLED-Laufschrift, Nebelmaschine\nFunkmikrofon-Set\nEuren Laptop mit DJ-Software (rekordbox oder Serato) bringt ihr selbst mit.", 'Empfehlung: Nach Verfügbarkeit und gegen Gebühr mit Lieferung, Aufbau/Verkabelung, Abbau und Abholung. Traverse und Moving Heads baue ich für euch sicher auf.' ),
 	);
 	return array( $g, $p );
 }
@@ -438,6 +438,8 @@ const KJO_VL_DATEN = array(
 		'',
 		array(
 			'hersteller' => 'https://support.alphatheta.com/de/products/16715825715481',
+			'wert'        => '1500',
+			'wert_quelle' => 'Kaufpreis laut Kolja: 1.500 € (Stand 11.10.2026)',
 			'notiz' => "Firmware: aktuell Ver. 1.14 (29.07.2025, u. a. djay-Pro-Unterstützung). Vor jeder Vermietung prüfen/aktualisieren:\nhttps://support.alphatheta.com/de/products/16715825715481",
 		),
 		array(
@@ -557,9 +559,66 @@ const KJO_VL_DATEN = array(
 			'lieferumfang' => array( 'Ladegerät', "Lade-Case mit Ladestation (für 6 Scheinwerfer) oder kompakter Koffer\nIR-Fernbedienung" ),
 		),
 	),
+	'dj-pult' => array(
+		'DJ-Pult, beleuchtet',
+		'Roadworx DJ Table (schwarz, mit Zwischenboden)',
+		'Beleuchtetes DJ-Pult mit zwei Zusatzplatten – eine saubere Bühne für Controller und Laptop.',
+		'Schwarzes, faltbares DJ-Pult mit Zwischenboden und Stoffverkleidung – eine saubere Bühne für Controller und Laptop.',
+		array(
+			'beschr'      => "Faltbarer DJ-Tisch aus Vierkantstahlrohr, Aufbau ohne Werkzeug. Große Arbeitsfläche (1.137 × 570 mm) in 932 mm Höhe für Controller, Mixer und Laptop, belastbar bis 50 kg.\nMit Zwischenboden für Taschen und Technik und schwarzer Stoffverkleidung (2 Front- und 2 Seitenteile, waschbar), die Kabel und Kisten verdeckt.",
+			'breite'      => '1203',
+			'laenge'      => '605',
+			'hoehe'       => '1125',
+			'gewicht'     => '27,8 kg (Tisch 21 kg, Zwischenboden 6,5 kg, Verkleidung 0,3 kg)',
+			'wetter'      => 'innen',
+			'wert'        => '315',
+			'wert_quelle' => 'thomann.de 315 € (Set „DJ Table Black Shelf“: Tisch, Zwischenboden, Stoffverkleidung; Art.-Nr. 546794, Stand 11.10.2026)',
+			'hersteller'  => 'https://www.thomann.de/de/roadworx_dj_table_black_shelf.htm',
+		),
+		array(
+			'lieferumfang' => array( '2 Zusatzplatten', "Zwischenboden\nStoffverkleidung (schwarz, 4 Teile)\nTragetasche" ),
+		),
+	),
+	'lautsprecherstativ' => array(
+		'Lautsprecherstativ',
+		'Roadworx Speakerstand 2 Lautsprecherstativ',
+		'Stabiles Stativ für Aktivlautsprecher.',
+		'Stabiles Alu-Stativ mit Gasdruckfeder für Aktivlautsprecher, 1,30–2,00 m hoch.',
+		array(
+			'beschr'      => "Dreibein-Stativ aus Aluminium mit 35-mm-Aufnahme für Aktivlautsprecher mit Hochständerflansch.\nHöhe 1,30–2,00 m, die Gasdruckfeder (Pneumatik) federt das Gewicht beim Verstellen ab. Belastbar bis 20 kg.",
+			'hoehe'       => '2000',
+			'gewicht'     => '2,1 kg',
+			'leistung'    => 'belastbar bis 20 kg, Aufnahme 35 mm, Höhe 1.300–2.000 mm',
+			'wert'        => '35',
+			'wert_quelle' => 'thomann.de 35 € pro Stativ (Art.-Nr. 442423, Stand 11.10.2026)',
+			'hersteller'  => 'https://www.thomann.de/de/roadworx_speakerstand_2.htm',
+		),
+	),
+	'led-laufschrift' => array(
+		'LED-Laufschrift (ca. 70 cm)',
+		'Eurolite ESN LED-Laufschrift (65 cm)',
+		'',
+		'',
+		array(
+			'beschr'       => "LED-Laufschrift mit 560 SMD-LEDs (Rot/Grün, bis 16 Farbtöne), Anzeigefläche 60 × 5,5 cm: eine Zeile mit 13 sichtbaren Zeichen, die durchlaufen – für eure Namen, „Happy Birthday“, den Firmennamen oder euren Hashtag. Auch kleine Bilder wie Herzen (7 × 80 Pixel), 7 Schriftarten.\nProgrammierung per IR-Fernbedienung oder PC-Software (USB oder Netzwerk). Lautlos, ohne Lüfter.",
+			'breite'       => '647',
+			'laenge'       => '97',
+			'hoehe'        => '35',
+			'gewicht'      => '1,25 kg',
+			'leistung'     => '560 SMD-LEDs (RG), 7 × 80 Pixel, 12 W',
+			'anschluesse'  => 'USB (Micro-USB), Netzwerk (RJ-45, TCP/IP)',
+			'strom'        => 'Netzteil 100–240 V, 50/60 Hz (Bar: 5 V DC, 3 A)',
+			'lieferumfang' => "IR-Fernbedienung\nNetzteil (1,8-m-Kabel)\nNetzwerkkabel\nUSB-Kabel",
+			'wetter'       => 'innen',
+			'wetter_ip'    => 'IP20',
+			'wert'         => '245',
+			'wert_quelle'  => 'thomann.de 245 € (Art.-Nr. 523364, Stand 11.10.2026)',
+			'hersteller'   => 'https://www.thomann.de/de/eurolite_esn_moving_message.htm',
+		),
+	),
 );
 /* Aktualisierung bestehender Geräte (läuft einmal je Stand von KJO_VL_MIG – bei neuen Recherchedaten hochzählen): Maße in Breite/Länge/Höhe aufteilen, KJO_VL_DATEN ergänzen. Nur leere Felder werden befüllt. */
-const KJO_VL_MIG = 10;
+const KJO_VL_MIG = 13;
 add_action(
 	'admin_init',
 	function () {
@@ -608,7 +667,7 @@ add_action(
 			$pk = get_page_by_path( $slug, OBJECT, 'kjo_paket' );
 			if ( $pk ) {
 				$t = (string) get_post_meta( $pk->ID, '_kjo_inhalt', true );
-				$n = str_replace( array( '8× Akku-Parlights mit Ladegerät', '8 Akku-Parlights' ), array( '6 Akku-Scheinwerfer (IP65) im Lade-Case', '6 Akku-Scheinwerfer (IP65)' ), $t );
+				$n = str_replace( array( '8× Akku-Parlights mit Ladegerät', '8 Akku-Parlights', 'beleuchtetes DJ-Pult mit Zusatzplatten' ), array( '6 Akku-Scheinwerfer (IP65) im Lade-Case', '6 Akku-Scheinwerfer (IP65)', 'DJ-Pult mit Zwischenboden' ), $t );
 				if ( $n !== $t ) {
 					update_post_meta( $pk->ID, '_kjo_inhalt', $n );
 				}
