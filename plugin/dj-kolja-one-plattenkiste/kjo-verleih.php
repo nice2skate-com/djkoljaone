@@ -220,7 +220,7 @@ function kjo_vl_bild( $post ) {
 /** Bildname (Schlüssel) einer Mediendatei, z. B. „equip_bose_s1_pro_1“ – leer, wenn der Name nicht dem Schema folgt. */
 function kjo_vl_att_key( $aid ) {
 	$file = (string) get_post_meta( $aid, '_wp_attached_file', true );
-	if ( preg_match( '/^((?:equip|paket)_[a-z0-9_]+?)(?:-scaled|-rotated|-\d+)*(?:\.(?:jpe?g|png|webp|gif|mp4|m4v|webm|mov)_?)*\.(?:jpe?g|png|webp|gif|mp4|m4v|webm|mov)$/', strtolower( wp_basename( $file ) ), $m ) ) {
+	if ( preg_match( '/^((?:equip|paket)_[a-z0-9_]+?)(?:-scaled|-rotated|-frei|-\d+)*(?:\.(?:jpe?g|png|webp|gif|mp4|m4v|webm|mov)_?)*\.(?:jpe?g|png|webp|gif|mp4|m4v|webm|mov)$/', strtolower( wp_basename( $file ) ), $m ) ) {
 		return $m[1];
 	}
 	return '';
@@ -1511,32 +1511,57 @@ window.addEventListener("resize",hide);})();
 KJOGI
 );
 
+/* [kjo_geraet_bild slug="a,b"] (seit 1.46.0): erstes Bild je Gerät aus der Geräte-Datenbank, Klick/Mouse-over zeigt die Gerätekarte. */
+add_shortcode(
+	'kjo_geraet_bild',
+	function ( $atts ) {
+		$slugs = array_filter( array_map( 'sanitize_title', explode( ',', is_array( $atts ) && isset( $atts['slug'] ) ? (string) $atts['slug'] : '' ) ) );
+		$h     = '';
+		foreach ( $slugs as $slug ) {
+			$g = get_page_by_path( $slug, OBJECT, 'kjo_geraet' );
+			if ( ! $g || 'publish' !== $g->post_status ) {
+				continue;
+			}
+			$img = '';
+			foreach ( kjo_vl_media_post( $g ) as $e ) {
+				if ( ! empty( $e['img'] ) ) {
+					$img = $e['img'];
+					break;
+				}
+			}
+			if ( ! $img ) {
+				continue;
+			}
+			$GLOBALS['kjo_vl_gi'][ $g->ID ] = 1;
+			$h .= '<button type="button" class="kjo-vl-gl kjo-vl-gb" data-g="' . (int) $g->ID . '" aria-label="' . esc_attr( $g->post_title ) . ': Gerät ansehen"><img src="' . esc_url( $img ) . '" alt="' . esc_attr( $g->post_title ) . '" loading="lazy" decoding="async"></button>';
+		}
+		return $h ? '<div class="kjo-vl-gbs">' . $h . '</div>' . kjo_vl_assets() : '';
+	}
+);
 add_shortcode(
 	'kjo_pakete',
 	function ( $atts ) {
 		// modus="dj": Technik, die ich zur DJ-Buchung mitbringe – ohne Mietpreise und Mietkorb, mit Anfrage-Link.
 		$dj = is_array( $atts ) && isset( $atts['modus'] ) && 'dj' === $atts['modus'];
-		$h  = '<div class="kjo-vl-pakete">';
+		$h  = '<div class="kjo-vl-pakete kjo-vl-sub ' . ( $dj ? 'kjo-vl-sub5' : 'kjo-vl-sub7' ) . '">'; // Unterraster: Preise und Knöpfe aller Spalten auf gleicher Höhe
 		foreach ( kjo_vl_items( 'kjo_paket' ) as $p ) {
 			$pr  = kjo_vl_num( kjo_vl_get( $p->ID, 'preis' ) );
 			$ka  = kjo_vl_num( kjo_vl_get( $p->ID, 'kaution' ) );
 			$h  .= '<article class="kjo-vl-paket">' . kjo_vl_img_html( $p, $p->post_title, 'kjo-vl-pimg' );
 			$h  .= '<h3>' . esc_html( $p->post_title ) . '</h3>';
 			$gae = trim( kjo_vl_get( $p->ID, 'gaeste' ) . ': ' . kjo_vl_get( $p->ID, 'anlaesse' ), ': ' );
-			if ( $gae ) {
-				$h .= '<p class="kjo-vl-gaeste">' . esc_html( $gae ) . '</p>';
-			}
+			$h  .= '<p class="kjo-vl-gaeste">' . esc_html( $gae ) . '</p>';
 			$lines = array_filter( array_map( 'trim', explode( "\n", kjo_vl_get( $p->ID, 'inhalt' ) ) ) );
+			$h .= '<ul>';
 			if ( $lines ) {
-				$h .= '<ul>';
 				foreach ( $lines as $l ) {
 					if ( $dj && 0 === strpos( $l, 'Audiokabel' ) ) {
 						continue;
 					}
 					$h .= '<li>' . kjo_vl_zeile_html( $l ) . '</li>';
 				}
-				$h .= '</ul>';
 			}
+			$h .= '</ul>';
 			if ( $dj ) {
 				$kurz = trim( preg_replace( '/[–:].*$/u', '', $p->post_title ) );
 				$url  = add_query_arg( 'paket', rawurlencode( $p->post_title ), home_url( '/kontakt/' ) ) . '#formular';
@@ -1546,9 +1571,7 @@ add_shortcode(
 			$we = kjo_vl_we( $p->ID );
 			$h .= '<p class="kjo-vl-preis">' . ( null === $pr ? 'Preis auf Anfrage: ihr bekommt ihn mit dem Angebot' : '<strong>' . esc_html( kjo_vl_eur( $pr ) ) . '</strong> pro Tag · <strong>' . esc_html( kjo_vl_eur( $we ) ) . '</strong> am Wochenende (Fr 15 – Mo 21 Uhr)' );
 			$h .= ' · ' . ( null === $ka ? 'Kaution laut Angebot' : 'Kaution ' . esc_html( kjo_vl_eur( $ka ) ) ) . '</p>';
-			if ( kjo_vl_get( $p->ID, 'hinweis' ) ) {
-				$h .= '<p class="kjo-vl-hinweis">' . esc_html( kjo_vl_get( $p->ID, 'hinweis' ) ) . '</p>';
-			}
+			$h .= '<p class="kjo-vl-hinweis">' . esc_html( kjo_vl_get( $p->ID, 'hinweis' ) ) . '</p>';
 			$h .= '<button type="button" class="kjo-vl-add kjo-vl-btn" data-k="p' . (int) $p->ID . '">In den Mietkorb</button></article>';
 		}
 		if ( $dj ) {
@@ -1785,6 +1808,9 @@ define(
 .kjo-vl-hinweis{margin:0;color:#A39E93;font-size:14px;line-height:1.6;border-left:2px solid rgba(178,157,117,.4);padding-left:12px}
 .kjo-vl-pimg{width:100%;aspect-ratio:16/10;object-fit:cover;border:1px solid #B29D75;display:block}
 .kjo-vl-pimg.kjo-vl-ph{display:none}
+.kjo-vl-gaeste:empty,.kjo-vl-hinweis:empty{display:none}
+@supports (grid-template-rows:subgrid){.kjo-vl-sub .kjo-vl-paket{display:grid;grid-template-rows:subgrid;row-gap:12px;align-content:start}.kjo-vl-sub7 .kjo-vl-paket{grid-row:span 7}.kjo-vl-sub5 .kjo-vl-paket{grid-row:span 5}.kjo-vl-sub .kjo-vl-paket>ul{margin-bottom:0!important}.kjo-vl-sub .kjo-vl-paket>.kjo-vl-btn{align-self:end}.kjo-vl-sub .kjo-vl-hinweis{align-self:start}.kjo-vl-sub .kjo-vl-pimg.kjo-vl-ph{display:block;visibility:hidden;height:0;border:0;aspect-ratio:auto}.kjo-vl-sub .kjo-vl-gaeste:empty,.kjo-vl-sub .kjo-vl-hinweis:empty{display:block;margin:0;padding:0;border:0;min-height:0}}
+.kjo-vl-gbs{display:flex;gap:12px;align-items:center;justify-content:center;height:160px;margin:0 0 8px}button.kjo-vl-gb{all:unset;box-sizing:border-box;cursor:pointer;flex:1 1 0;min-width:0;height:100%;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}button.kjo-vl-gb img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;transition:transform .25s}button.kjo-vl-gb:hover img,button.kjo-vl-gb:focus-visible img{transform:scale(1.05)}button.kjo-vl-gb:focus-visible{outline:2px solid #B29D75;outline-offset:2px}
 .kjo-vl-wochenende{margin:18px 0 0;color:#A39E93;text-align:center;font-family:"Fira Sans",sans-serif}
 .kjo-vl{width:100%;max-width:1000px}
 .kjo-vl-tools{display:flex;flex-direction:column;gap:14px;margin-bottom:18px}
@@ -1806,7 +1832,7 @@ define(
 .kjo-vl .kjo-vl-plus:hover{background:#B29D75;color:#0F0C07}
 .kjo-vl-det{padding:4px 0 22px 78px;color:#A39E93;line-height:1.7}
 .kjo-vl-det p{margin:0 0 12px}
-.kjo-vl-gal{display:flex;gap:10px;overflow-x:auto;margin-bottom:14px}.kjo-vl-gal img,img.kjo-vl-pimg{cursor:zoom-in}.kjo-vl-lb{position:fixed;inset:0;z-index:99995;background:rgba(8,6,4,.94);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:56px 64px 24px;box-sizing:border-box}.kjo-vl-lb[hidden],.kjo-vl-lb [hidden]{display:none!important}.kjo-vl-lb img{max-width:100%;max-height:calc(100vh - 120px);width:auto;height:auto;object-fit:contain;border:1px solid #B29D75;background:#000;box-shadow:0 20px 50px rgba(0,0,0,.6)}.kjo-vl-lb p{margin:14px 0 0;font:400 15px/1.4 "Fira Sans",sans-serif;color:#C9C3B5;text-align:center}.kjo-vl-lb button{all:unset;box-sizing:border-box;cursor:pointer;position:absolute;display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;border:1px solid rgba(178,157,117,.7);color:#F3F1E9;background:rgba(22,19,16,.85);font:300 30px/1 "Fira Sans",sans-serif;-webkit-tap-highlight-color:transparent}.kjo-vl-lb button:hover,.kjo-vl-lb button:focus-visible{background:#B29D75;color:#0F0C07;outline:none}.kjo-vl-lb .kjo-vl-lbx{top:12px;right:12px}.kjo-vl-lb .kjo-vl-lbp{left:10px;top:50%;margin-top:-23px}.kjo-vl-lb .kjo-vl-lbn{right:10px;top:50%;margin-top:-23px}@media(max-width:600px){.kjo-vl-lb{padding:56px 8px 16px}.kjo-vl-lb .kjo-vl-lbp,.kjo-vl-lb .kjo-vl-lbn{top:auto;bottom:14px;margin:0}.kjo-vl-lb .kjo-vl-lbp{left:calc(50% - 56px)}.kjo-vl-lb .kjo-vl-lbn{right:calc(50% - 56px)}.kjo-vl-lb img{max-height:calc(100vh - 170px)}}.kjo-vl-gal img,.kjo-vl-gal video{height:180px;width:auto;border:1px solid #B29D75;flex:none;background:#000}
+.kjo-vl-gal{display:flex;gap:10px;overflow-x:auto;margin-bottom:14px}.kjo-vl-gal img,img.kjo-vl-pimg{cursor:zoom-in}.kjo-vl-lb{position:fixed;inset:0;z-index:99995;background:rgba(8,6,4,.94);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:56px 64px 24px;box-sizing:border-box}.kjo-vl-lb[hidden],.kjo-vl-lb [hidden]{display:none!important}.kjo-vl-lb img{max-width:100%;max-height:calc(100vh - 120px);width:auto;height:auto;object-fit:contain;border:1px solid #B29D75;background:#000;box-shadow:0 20px 50px rgba(0,0,0,.6)}.kjo-vl-lb p{margin:14px 0 0;font:400 15px/1.4 "Fira Sans",sans-serif;color:#C9C3B5;text-align:center}.kjo-vl-lb button{all:unset;box-sizing:border-box;cursor:pointer;position:absolute;display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;border:1px solid rgba(178,157,117,.7);color:#F3F1E9;background:rgba(22,19,16,.85);font:300 30px/1 "Fira Sans",sans-serif;-webkit-tap-highlight-color:transparent}.kjo-vl-lb button:hover,.kjo-vl-lb button:focus-visible{background:#B29D75;color:#0F0C07;outline:none}.kjo-vl-lb .kjo-vl-lbx{top:12px;right:12px}.kjo-vl-lb .kjo-vl-lbp{left:10px;top:50%;margin-top:-23px}.kjo-vl-lb .kjo-vl-lbn{right:10px;top:50%;margin-top:-23px}@media(max-width:600px){.kjo-vl-lb{padding:56px 8px 16px}.kjo-vl-lb .kjo-vl-lbp,.kjo-vl-lb .kjo-vl-lbn{top:auto;bottom:14px;margin:0}.kjo-vl-lb .kjo-vl-lbp{left:calc(50% - 56px)}.kjo-vl-lb .kjo-vl-lbn{right:calc(50% - 56px)}.kjo-vl-lb img{max-height:calc(100vh - 170px)}}.kjo-vl-gal img,.kjo-vl-gal video{height:180px;width:auto;border:1px solid #B29D75;flex:none;background:#000}.kjo-vl-gal img{background:#16130F}
 .kjo-vl-dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 18px;margin:0 0 12px}.kjo-vl-dl dt{color:#F3F1E9}.kjo-vl-dl dd{margin:0}
 .kjo-vl-anl a{color:#B29D75}.kjo-vl .kjo-vl-report{background:none;border:0;color:#A39E93;font:13px "Fira Sans",sans-serif;text-decoration:underline;cursor:pointer;margin-left:8px;padding:4px}
 .kjo-vl-tips{list-style:none;margin:0;padding:0;width:100%;max-width:860px}.kjo-vl-tips li{padding:12px 0;border-bottom:1px solid rgba(178,157,117,.2);color:#A39E93;line-height:1.7}.kjo-vl-tips strong{color:#F3F1E9;font-weight:500}

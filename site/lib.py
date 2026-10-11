@@ -199,11 +199,12 @@ def steps(items):
     w={3:31,4:23,5:18}[len(items)]
     return con([step(f"{i+1:02d}",t,d,w) for i,(t,d) in enumerate(items)],"row",g=24,**ROW,flex_justify_content="space-between")
 
-def card(title,text,w=31,bg=B2,top=True):
+def card(title,text,w=31,bg=B2,top=True,geraet=None):
     kw=dict(border_border="solid",border_width=box(2,0,0,0),border_color=GOLD) if top else {}
-    return con([H(title,"h3",23,OFF,"left","400"),T(text,MUTED,"left",16)],bg=bg,pad=box(34,28,34,28),g=12,**col(w,48,100),**kw)
+    bild=[W("shortcode",{"shortcode":'[kjo_geraet_bild slug="%s"]'%geraet,"_element_width":"inherit","width":px(100,"%")})] if geraet else []  # Bild(er) aus der Geräte-Datenbank
+    return con(bild+[H(title,"h3",23,OFF,"left","400"),T(text,MUTED,"left",16)],bg=bg,pad=box(34,28,34,28),g=12,**col(w,48,100),**kw)
 def cards(items,w=31,bg=B2):
-    return con([card(t,d,w,bg) for t,d in items],"row",g=24,**ROW,flex_justify_content="center")
+    return con([card(it[0],it[1],w,bg,geraet=it[2] if len(it)>2 else None) for it in items],"row",g=24,**ROW,flex_justify_content="center")
 
 def list_card(title,items,w=31,bg=B1):
     return con([H(title,"h3",23,OFF,"left","400"),ILIST(items,size=16)],bg=bg,pad=box(34,28,34,28),g=16,

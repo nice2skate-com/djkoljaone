@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.44.2
+ * Version:     1.46.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,10 +12,11 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.44.2' );
+define( 'KJO_VERSION', '1.46.0' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 require_once __DIR__ . '/kjo-bilder.php';
+require_once __DIR__ . '/kjo-freistellen.php';
 require_once __DIR__ . '/kjo-kontakt.php';
 require_once __DIR__ . '/kjo-leads.php';
 require_once __DIR__ . '/kjo-backup.php';
@@ -1076,7 +1077,7 @@ function kjo_media_map() {
 			continue;
 		}
 		$base = strtolower( wp_basename( $file ) );
-		if ( ! preg_match( '/^((?:start|event|ueber|kolja|region|equip|paket)_[a-z0-9_]+?)(?:-scaled|-rotated|-\d+)*(?:\.(?:jpe?g|png|webp|gif|mp4|m4v|webm|mov)_?)*\.(jpe?g|png|webp|gif|mp4|m4v|webm|mov)$/', $base, $m ) ) {
+		if ( ! preg_match( '/^((?:start|event|ueber|kolja|region|equip|paket)_[a-z0-9_]+?)(?:-scaled|-rotated|-frei|-\d+)*(?:\.(?:jpe?g|png|webp|gif|mp4|m4v|webm|mov)_?)*\.(jpe?g|png|webp|gif|mp4|m4v|webm|mov)$/', $base, $m ) ) {
 			continue;
 		}
 		$kind = in_array( $m[2], array( 'mp4', 'm4v', 'webm', 'mov' ), true ) ? 'vid' : 'img';

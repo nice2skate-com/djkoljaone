@@ -1,9 +1,9 @@
 {
- "version": "1.44.2",
- "download_url": "dj-kolja-one-plattenkiste-1.44.2.zip",
- "sha256": "6802ae9cdcce2f56d17d7e8358f31c0cc1c992861054064285dcb07d4bc62b87",
+ "version": "1.46.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.46.0.zip",
+ "sha256": "95a62c8d8373301e9409b1ba48073b8e8e763a26f89cff1047fed921ed1c9593",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Startseite: Hinweis über dem DJ-Pult entfernt"
+ "changelog": "Gerätebilder freistellen, Licht-Karten mit Bildern, Paket-Ausrichtung"
 }

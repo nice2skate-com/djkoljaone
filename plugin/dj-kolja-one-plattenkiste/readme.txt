@@ -13,7 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
-Seit 1.44.2: Startseite ohne Hinweis „Unverbindlich · Antwort innerhalb von 24 Stunden“ über dem DJ-Pult.
+Seit 1.46.0: Gerätebilder mit weißem Hintergrund werden automatisch freigestellt (auch vorhandene, im Hintergrund); Licht-Karten auf der Equipment-Seite zeigen das Gerätebild; Paket-Spalten: Preise und Knöpfe auf gleicher Höhe.
 Seit 1.44.0: Teilen-Knopf an jeder Platte im DJ-Pult (Handy: Teilen-Menü, sonst Link kopieren/WhatsApp/Facebook), Zähler „Geteilt“ in der Mediathek; Sicherheitsheader (HSTS 30 Tage, nosniff, SAMEORIGIN, Referrer-Policy).
 Seit 1.43.1: Paket-Buttons (und Preiszeile) stehen in jeder Spalte ganz unten auf gleicher Höhe.
 Seit 1.43.0: DJ-Pult: fertige Automixe pro Genre (nach Tempo und Tonart sortiert, ein Klick startet), Direkt-Links ?song=ID (Song auf Deck A) und ?mix=Genre, „Link zum Teilen“ in der Mediathek.
