@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.43.0
+ * Version:     1.44.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.43.0' );
+define( 'KJO_VERSION', '1.44.0' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 require_once __DIR__ . '/kjo-bilder.php';
@@ -448,6 +448,11 @@ add_filter(
 			'input' => 'html',
 			'html'  => '<input type="text" readonly class="widefat" onclick="this.select()" value="' . esc_attr( home_url( '/meine-musik/?song=' . $id ) ) . '"><br><small>Öffnet „Meine Musik“ mit diesem Song auf Deck A – ein Tipp startet ihn. Für ein Genre: <code>' . esc_html( home_url( '/meine-musik/?mix=house' ) ) . '</code></small>',
 		);
+		$fields['kjm_shares'] = array(
+			'label' => 'Geteilt',
+			'input' => 'html',
+			'html'  => esc_html( (int) get_post_meta( $id, 'kjm_shares', true ) . '-mal über den Teilen-Knopf im DJ-Pult' ),
+		);
 		$fields['kjm_hide']  = array(
 			'label' => 'Plattenkiste',
 			'input' => 'html',
@@ -542,6 +547,28 @@ add_action(
 					$res = rest_ensure_response( $w );
 					$res->header( 'Cache-Control', 'private, max-age=3600' );
 					return $res;
+				},
+			)
+		);
+		register_rest_route(
+			'kjm/v1',
+			'/share',
+			array(
+				'methods'             => 'POST',
+				'permission_callback' => '__return_true',
+				'callback'            => function ( WP_REST_Request $req ) {
+					$id = (int) $req['id'];
+					if ( ! kjm_is_audio( get_post( $id ) ) || ! kjm_visible( $id ) ) {
+						return new WP_Error( 'kjm_share', 'Unbekannter Song.', array( 'status' => 404 ) );
+					}
+					$ip = md5( 'kjm_sh' . $id . ( isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '' ) );
+					if ( get_transient( 'kjm_sh_' . $ip ) ) {
+						return array( 'ok' => true ); // pro Besucher und Song höchstens einmal pro Stunde zählen
+					}
+					set_transient( 'kjm_sh_' . $ip, 1, HOUR_IN_SECONDS );
+					$n = (int) get_post_meta( $id, 'kjm_shares', true ) + 1;
+					update_post_meta( $id, 'kjm_shares', $n );
+					return array( 'ok' => true );
 				},
 			)
 		);
@@ -1394,6 +1421,22 @@ function kjo_description() {
 	}
 	return 'DJ KOLJA ONE – Premium DJ für Hochzeiten, Firmenevents und besondere Feste. Jedes Event findet nur einmal statt.';
 }
+
+// Sicherheitsheader (seit 1.44.0) – bewusst ohne Content-Security-Policy, damit Elementor, YouTube, GA4 und Clarity weiterlaufen.
+add_action(
+	'send_headers',
+	function () {
+		if ( headers_sent() || is_admin() ) {
+			return;
+		}
+		header( 'X-Content-Type-Options: nosniff' );
+		header( 'X-Frame-Options: SAMEORIGIN' );
+		header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+		if ( is_ssl() ) {
+			header( 'Strict-Transport-Security: max-age=' . (int) apply_filters( 'kjo_hsts_max_age', 2592000 ) ); // 30 Tage, ohne Subdomains
+		}
+	}
+);
 
 // Eigene Icons statt des WordPress-Standards.
 add_action(
