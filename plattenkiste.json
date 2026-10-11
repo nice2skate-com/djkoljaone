@@ -1,9 +1,9 @@
 {
- "version": "1.29.0",
- "download_url": "dj-kolja-one-plattenkiste-1.29.0.zip",
- "sha256": "f6e1e9e596fc3b3266fecc5b8e686c6d04cf86637075bf38bbbc742eb492fa31",
+ "version": "1.29.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.29.1.zip",
+ "sha256": "61cf74611562d3ae9f029737f2e2b5c81df49caf46a3065139d0058767c3774b",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Geräte: Breite/Länge/Höhe, Neupreis; Moving Head Varytec Hero Spot 60"
+ "changelog": "UV-Strahler Stairville Wild Wash 9x3W"
 }

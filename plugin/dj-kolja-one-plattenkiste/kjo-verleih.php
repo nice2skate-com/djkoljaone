@@ -292,10 +292,10 @@ function kjo_vl_seed_data() {
 		array( 'dj-pult', 'DJ-Pult, beleuchtet', 'buehne', 1, 'Beleuchtetes DJ-Pult mit zwei Zusatzplatten – eine saubere Bühne für Controller und Laptop.', array( 'lieferumfang' => '2 Zusatzplatten' ) ),
 		array( 'funkmikrofon-set', 'Funkmikrofon-Set', 'mikrofone', 1, 'Für Reden, Spiele und Ansagen – ohne Kabelsalat.', array() ),
 		array( 'stairville-tri-flat-par', 'Stairville Tri Flat PAR Profile 5 × 3 W', 'licht', 4, 'Flacher LED-Scheinwerfer für farbiges Party- und Flächenlicht, z. B. an der Traverse.', array( 'breite' => '165', 'laenge' => '105', 'hoehe' => '165', 'masse' => 'mit Bügel 255 × 235 × 105 mm', 'gewicht' => '2,04 kg', 'leistung' => '15 W, RGB-LED', 'anschluesse' => 'DMX, Musiksteuerung, Automatik' ) ),
-		array( 'moving-head', KJO_VL_MH[0], 'licht', 2, KJO_VL_MH[1], KJO_VL_MH[2] ),
+		array( 'moving-head', KJO_VL_DATEN['moving-head'][1], 'licht', 2, KJO_VL_DATEN['moving-head'][3], KJO_VL_DATEN['moving-head'][4] ),
 		array( 'kls-lightbar', 'KLS-Lightbar mit Lichtstativ', 'licht', 1, 'Partylicht auf eigenem Stativ, das die ganze Tanzfläche ausleuchtet.', array( 'lieferumfang' => 'Lichtstativ' ) ),
 		array( 'algam-akku-par', 'ALGAM Akku-Parlight', 'licht', 8, 'Kabelloses Ambientelicht für Wände, Säulen, Garten und Terrasse.', array( 'lieferumfang' => 'Ladegerät', 'strom' => 'Akku' ) ),
-		array( 'uv-strahler', 'UV-Strahler', 'effekte', 1, 'Schwarzlicht-Effekt für leuchtende Outfits und Deko.', array() ),
+		array( 'uv-strahler', KJO_VL_DATEN['uv-strahler'][1], 'effekte', 1, KJO_VL_DATEN['uv-strahler'][3], KJO_VL_DATEN['uv-strahler'][4] ),
 		array( 'wash-scheinwerfer', 'Wash-/Color-Scheinwerfer', 'licht', 1, 'Zusätzliche farbige Flächenbeleuchtung.', array() ),
 		array( 'nebelmaschine', 'Nebelmaschine', 'effekte', 1, 'Macht Lichtstrahlen sichtbar. Bitte vorher mit der Location wegen der Rauchmelder abstimmen.', array() ),
 		array( 'led-laufschrift', 'LED-Laufschrift (ca. 70 cm)', 'effekte', 1, 'Eure Namen, „Happy Birthday“ oder euer Hashtag in Leuchtschrift.', array() ),
@@ -353,33 +353,59 @@ add_action(
 	30
 );
 
-/* Daten Moving Head (thomann.de, Art.-Nr. 449221, Stand 11.10.2026). */
-const KJO_VL_MH = array(
-	'Varytec Hero Spot 60 Moving Head',
-	'LED-Spot-Moving-Head mit Farbrad, rotierenden Gobos und Prisma – bewegte Lichtstrahlen für echte Club-Momente.',
-	array(
-		'beschr'       => "60-W-LED mit 10° Abstrahlwinkel, Farbrad mit 7 Farben plus Weiß, 5 rotierende Gobos plus offen (davon ein Glas-Gobo) mit Gobo Flow und Gobo Shake, 3-Facetten-Prisma, motorischer Fokus.\nPan 540° und Tilt 190° (16 Bit), Dimmer 0–100 %, Shutter 0–20 Hz. Steuerung per DMX (8 oder 14 Kanäle), Master/Slave, 8 Automatikprogramme und Musiksteuerung.",
-		'breite'       => '214',
-		'laenge'       => '144',
-		'hoehe'        => '355',
-		'gewicht'      => '4,6 kg',
-		'leistung'     => '60-W-LED, 30.250 lx @ 1 m, 9.700 K',
-		'anschluesse'  => 'DMX In/Out (XLR 3-polig), Stromeingang Power Twist',
-		'strom'        => '100–240 V, 50/60 Hz, 100 W Leistungsaufnahme',
-		'lieferumfang' => "Haltebügel\nNetzkabel\nDMX-Kabel",
-		'anleitung'    => 'https://images.thomann.de/pics/atg/atgdata/document/manual/c_449221_481679_v5_de_online.pdf',
-		'wert'         => '299',
-		'wert_quelle'  => 'thomann.de 299 € inkl. MwSt. (Stand 11.10.2026), Art.-Nr. 449221',
+/* Recherchierte Gerätedaten (thomann.de, Stand 11.10.2026): Slug => array( alter Titel, neuer Titel, alte Kurzbeschreibung, neue Kurzbeschreibung, Felder ).
+ * Beim Aktualisieren werden Titel/Kurztext nur ersetzt, wenn sie noch dem alten Platzhalter entsprechen, und nur leere Felder befüllt. */
+const KJO_VL_DATEN = array(
+	'moving-head' => array(
+		'Moving Head',
+		'Varytec Hero Spot 60 Moving Head',
+		'Bewegte Lichtstrahlen für echte Club-Momente.',
+		'LED-Spot-Moving-Head mit Farbrad, rotierenden Gobos und Prisma – bewegte Lichtstrahlen für echte Club-Momente.',
+		array(
+			'beschr'       => "60-W-LED mit 10° Abstrahlwinkel, Farbrad mit 7 Farben plus Weiß, 5 rotierende Gobos plus offen (davon ein Glas-Gobo) mit Gobo Flow und Gobo Shake, 3-Facetten-Prisma, motorischer Fokus.\nPan 540° und Tilt 190° (16 Bit), Dimmer 0–100 %, Shutter 0–20 Hz. Steuerung per DMX (8 oder 14 Kanäle), Master/Slave, 8 Automatikprogramme und Musiksteuerung.",
+			'breite'       => '214',
+			'laenge'       => '144',
+			'hoehe'        => '355',
+			'gewicht'      => '4,6 kg',
+			'leistung'     => '60-W-LED, 30.250 lx @ 1 m, 9.700 K',
+			'anschluesse'  => 'DMX In/Out (XLR 3-polig), Stromeingang Power Twist',
+			'strom'        => '100–240 V, 50/60 Hz, 100 W Leistungsaufnahme',
+			'lieferumfang' => "Haltebügel\nNetzkabel\nDMX-Kabel",
+			'anleitung'    => 'https://images.thomann.de/pics/atg/atgdata/document/manual/c_449221_481679_v5_de_online.pdf',
+			'wert'         => '299',
+			'wert_quelle'  => 'thomann.de 299 € inkl. MwSt. (Stand 11.10.2026), Art.-Nr. 449221',
+		),
+	),
+	'uv-strahler'  => array(
+		'UV-Strahler',
+		'Stairville Wild Wash 9x3W LED UV',
+		'Schwarzlicht-Effekt für leuchtende Outfits und Deko.',
+		'UV-Fluter (Schwarzlicht) mit 9 × 3-W-LEDs – lässt weiße Outfits und Neon-Deko leuchten.',
+		array(
+			'beschr'      => "9 UV-LEDs à 3 W, Wellenlänge 398 nm, Abstrahlwinkel 110°, LEDs einzeln ansteuerbar.\nSteuerung per DMX (2 oder 11 Kanäle), interne Programme und Musiksteuerung. Lüfterlos und damit geräuschlos.",
+			'breite'      => '350',
+			'laenge'      => '75',
+			'hoehe'       => '125',
+			'masse'       => 'mit Bügel',
+			'gewicht'     => '1,3 kg',
+			'leistung'    => '9 × 3-W-UV-LED, 398 nm, 110°',
+			'anschluesse' => 'DMX In/Out (XLR 3-polig), Stromeingang IEC (Kaltgeräte)',
+			'strom'       => '100–240 V, 50/60 Hz, 34 W Leistungsaufnahme',
+			'wetter'      => 'innen',
+			'wert'        => '89',
+			'wert_quelle' => 'thomann.de 89 € inkl. MwSt. (Stand 11.10.2026), Art.-Nr. 426835',
+		),
 	),
 );
-/* Einmalige Aktualisierung bestehender Geräte: Maße in Breite/Länge/Höhe aufteilen, Moving-Head-Daten ergänzen. Nur leere Felder werden befüllt. */
+/* Aktualisierung bestehender Geräte (läuft einmal je Stand von KJO_VL_MIG – bei neuen Recherchedaten hochzählen): Maße in Breite/Länge/Höhe aufteilen, KJO_VL_DATEN ergänzen. Nur leere Felder werden befüllt. */
+const KJO_VL_MIG = 2;
 add_action(
 	'admin_init',
 	function () {
-		if ( ! current_user_can( 'edit_pages' ) || (int) get_option( 'kjo_vl_mig', 0 ) >= 1 ) {
+		if ( ! current_user_can( 'edit_pages' ) || (int) get_option( 'kjo_vl_mig', 0 ) >= KJO_VL_MIG ) {
 			return;
 		}
-		update_option( 'kjo_vl_mig', 1, false );
+		update_option( 'kjo_vl_mig', KJO_VL_MIG, false );
 		foreach ( get_posts( array( 'post_type' => 'kjo_geraet', 'post_status' => 'any', 'numberposts' => -1 ) ) as $g ) {
 			$m = kjo_vl_get( $g->ID, 'masse' );
 			if ( '' === kjo_vl_get( $g->ID, 'breite' ) && preg_match( '/^\s*([\d.,]+)\s*[×x]\s*([\d.,]+)\s*[×x]\s*([\d.,]+)\s*mm\s*(?:\((.*)\))?\s*$/u', $m, $r ) ) {
@@ -394,17 +420,20 @@ add_action(
 				}
 			}
 		}
-		$mh = get_page_by_path( 'moving-head', OBJECT, 'kjo_geraet' );
-		if ( $mh ) {
-			if ( 'Moving Head' === $mh->post_title ) {
-				wp_update_post( array( 'ID' => $mh->ID, 'post_title' => KJO_VL_MH[0] ) );
+		foreach ( KJO_VL_DATEN as $slug => $d ) {
+			$g = get_page_by_path( $slug, OBJECT, 'kjo_geraet' );
+			if ( ! $g ) {
+				continue;
 			}
-			if ( 'Bewegte Lichtstrahlen für echte Club-Momente.' === kjo_vl_get( $mh->ID, 'kurz' ) ) {
-				update_post_meta( $mh->ID, '_kjo_kurz', KJO_VL_MH[1] );
+			if ( $d[0] === $g->post_title ) {
+				wp_update_post( array( 'ID' => $g->ID, 'post_title' => $d[1] ) );
 			}
-			foreach ( KJO_VL_MH[2] as $k => $v ) {
-				if ( '' === kjo_vl_get( $mh->ID, $k ) ) {
-					update_post_meta( $mh->ID, '_kjo_' . $k, $v );
+			if ( $d[2] === kjo_vl_get( $g->ID, 'kurz' ) ) {
+				update_post_meta( $g->ID, '_kjo_kurz', $d[3] );
+			}
+			foreach ( $d[4] as $k => $v ) {
+				if ( '' === kjo_vl_get( $g->ID, $k ) ) {
+					update_post_meta( $g->ID, '_kjo_' . $k, $v );
 				}
 			}
 		}
