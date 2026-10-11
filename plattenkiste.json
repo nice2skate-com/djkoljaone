@@ -1,9 +1,9 @@
 {
- "version": "1.29.1",
- "download_url": "dj-kolja-one-plattenkiste-1.29.1.zip",
- "sha256": "61cf74611562d3ae9f029737f2e2b5c81df49caf46a3065139d0058767c3774b",
+ "version": "1.29.2",
+ "download_url": "dj-kolja-one-plattenkiste-1.29.2.zip",
+ "sha256": "c27c23cfcf834cb09a283671710cac2b523ab8e2e7c762dc61fef8eb1550404a",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "UV-Strahler Stairville Wild Wash 9x3W"
+ "changelog": "Pronomic C-215 MA Set"
 }
