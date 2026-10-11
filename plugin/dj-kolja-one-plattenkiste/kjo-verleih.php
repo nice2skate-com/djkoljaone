@@ -353,6 +353,7 @@ function kjo_vl_seed_data() {
 		array( 'pronomic-c-118sa', 'Pronomic C-118SA 18"-Aktiv-Subwoofer', 'subwoofer', 2, '18"-Aktiv-Subwoofer für druckvollen Bass, den man spürt.', array( 'leistung' => '800 W RMS, 30–200 Hz, max. 126 dB', 'anschluesse' => '2 × Combo-Eingang, 2 × XLR-Ausgang, M20-Flansch für Distanzstange' ) ),
 		array( 'pioneer-ddj-flx10', 'Pioneer DJ DDJ-FLX10', 'dj', 1, 'Vierkanaliger DJ-Controller für rekordbox und Serato – den Laptop bringt ihr mit.', array( 'breite' => '716', 'laenge' => '400.3', 'hoehe' => '73.4', 'gewicht' => '6,7 kg', 'volumen' => '21,04 l', 'anschluesse' => 'USB zum Laptop (rekordbox oder Serato)', 'lieferumfang' => "Netzteil\nUSB-Kabel\nAudiokabel", 'anleitung' => 'https://support.alphatheta.com/de/articles/16716272919193' ) ),
 		array( 'dj-pult', 'Roadworx DJ Table (schwarz, mit Zwischenboden)', 'buehne', 1, 'Schwarzes, faltbares DJ-Pult mit Zwischenboden und Stoffverkleidung – eine saubere Bühne für Controller und Laptop.', array( 'lieferumfang' => "Zwischenboden\nStoffverkleidung (schwarz, 4 Teile)\nTragetasche" ) ),
+		array( 'shure-beta-58a', KJO_VL_DATEN['shure-beta-58a'][1], 'mikrofone', 1, KJO_VL_DATEN['shure-beta-58a'][3], KJO_VL_DATEN['shure-beta-58a'][4] ),
 		array( 'funkmikrofon-set', 'Funkmikrofon-Set', 'mikrofone', 1, 'Für Reden, Spiele und Ansagen – ohne Kabelsalat.', array() ),
 		array( 'stairville-tri-flat-par', 'Stairville Tri Flat PAR Profile 5 × 3 W', 'licht', 4, 'Flacher LED-Scheinwerfer für farbiges Party- und Flächenlicht, z. B. an der Traverse.', array( 'breite' => '165', 'laenge' => '105', 'hoehe' => '165', 'masse' => 'mit Bügel 255 × 235 × 105 mm', 'gewicht' => '2,04 kg', 'leistung' => '15 W, RGB-LED', 'anschluesse' => 'DMX, Musiksteuerung, Automatik' ) ),
 		array( 'moving-head', KJO_VL_DATEN['moving-head'][1], 'licht', 2, KJO_VL_DATEN['moving-head'][3], KJO_VL_DATEN['moving-head'][4] ),
@@ -363,13 +364,14 @@ function kjo_vl_seed_data() {
 		array( 'spiegelkugel', KJO_VL_DATEN['spiegelkugel'][1], 'effekte', 1, KJO_VL_DATEN['spiegelkugel'][3], KJO_VL_DATEN['spiegelkugel'][4] ),
 		array( 'nebelmaschine', 'Showlite SN-1200 Nebelmaschine (1.200 W)', 'effekte', 1, 'Macht Lichtstrahlen sichtbar. Bitte vorher mit der Location wegen der Rauchmelder abstimmen.', array() ),
 		array( 'led-laufschrift', 'Eurolite ESN LED-Laufschrift (65 cm)', 'effekte', 1, 'Eure Namen, „Happy Birthday“ oder euer Hashtag in Leuchtschrift.', array() ),
-		array( 'traverse-3m', 'Stageworx LB-3 Traversen-Set 3 m', 'buehne', 1, 'Lichttraverse mit zwei Ständern – die Bühne für Scheinwerfer und Laufschrift.', array( 'lieferumfang' => "2 Lichtstative\n2 Traversenaufnehmer\n2 Traversenstücke (je 1,5 m, 3-Punkt)\n4 Haken (Hookclamps, je bis 15 kg)\n2 Transporttaschen (Traverse, Stative)" ) ),
+		array( 'traverse-3m', 'Stageworx LB-3 Traversen-Set 3 m', 'buehne', 1, 'Lichttraverse mit zwei Ständern – die Bühne für Scheinwerfer und Laufschrift.', array( 'lieferumfang' => "2 Lichtstative\n2 Traversenaufnehmer\n2 Traversenstücke (je 1,5 m, 3-Punkt)\n8 Haken (Hookclamps, je bis 15 kg) mit Sicherungsseilen\n2 Transporttaschen (Traverse, Stative)" ) ),
 		array( 'lautsprecherstativ', 'Roadworx Speakerstand 2 Lautsprecherstativ', 'buehne', 2, 'Stabiles Alu-Stativ mit Gasdruckfeder für Aktivlautsprecher, 1,30–2,00 m hoch.', array() ),
 	);
 	$p = array(
-		array( 'paket-s', 'Paket S – „Sound kompakt“', 'Für bis zu ca. 50 Gäste', 'bspw. Geburtstag, Gartenparty, Sektempfang, etc.', "2× Bose S1 Pro Aktivlautsprecher (mit Bluetooth)\n2× Lautsprecherstative\nAudiokabel für Handy oder Laptop\nOptional: Funkmikrofon-Set", '' ),
-		array( 'paket-m', 'Paket M – „Party“', 'Für bis zu ca. 100 Gäste', 'bspw. runder Geburtstag, Vereinsfeier, Firmenfeier, etc.', "Alles aus Paket S\n1× Bose Subwoofer\nFunkmikrofon-Set\nKLS-Lightbar mit Lichtstativ\n6 Akku-Scheinwerfer (IP65) im Lade-Case", '' ),
-		array( 'paket-l', 'Paket L – „Komplett-Show“', 'Für bis zu ca. 250 Gäste', 'bspw. Hochzeit, Abiball, Sommerfest, etc. Die komplette Bühne aus meinem Beispiel-Lichtplan.', "Pronomic PA: 2× C-215 MA (15\", mit Bluetooth) und 2× C-118SA (18\"-Subwoofer), inklusive Kabelsatz\nPioneer DDJ-FLX10 + DJ-Pult mit Zwischenboden\n3-m-Traverse mit Ständern und 4 LED-PARs\n2 Moving Heads, KLS-Lightbar, 6 Akku-Scheinwerfer (IP65)\nLED-Laufschrift, Nebelmaschine\nFunkmikrofon-Set\nEuren Laptop mit DJ-Software (rekordbox oder Serato) bringt ihr selbst mit.", 'Empfehlung: Nach Verfügbarkeit und gegen Gebühr mit Lieferung, Aufbau/Verkabelung, Abbau und Abholung. Traverse und Moving Heads baue ich für euch sicher auf.' ),
+		array( 'paket-s', 'Paket S – „Sound & Party“', 'Für bis zu ca. 50 Gäste', 'bspw. Geburtstag, Gartenparty, Sektempfang, etc.', "2× Bose S1 Pro Aktivlautsprecher (mit Bluetooth) auf Stativen\nPartylicht: Eurolite KLS Laser Bar mit Laser, Derbys, Spots und Strobe, auf eigenem Lichtstativ\nShure Beta 58A Mikrofon mit Kabel\nAudiokabel für Handy oder Laptop", 'Zubehör: DJ-Pult 20 €, Pioneer DDJ-FLX10 60 € pro Tag. Transport: passt in einen Kombi (Lightbar 1,30 m).' ),
+		array( 'paket-m', 'Paket M – „Party“', 'Für bis zu ca. 100 Gäste', 'bspw. runder Geburtstag, Vereinsfeier, Firmenfeier, etc.', "Alles aus Paket S, dazu der Bose Sub1 Subwoofer\nFunkmikrofon-Set mit 4 Handmikros statt Kabelmikro\n3-m-Lichttraverse mit 4 LED-PARs und Cameo Thunder Wash (Wash, Blinder, Strobe)\nLED-Laufschrift, z. B. mit euren Namen\nNebelmaschine\nDJ-Pult (Roadworx DJ Table, schwarz)", 'Zubehör: Pioneer DDJ-FLX10 60 € pro Tag. Transport: Van oder Transporter (Traversentasche 1,54 m) – oder ich liefere und baue auf.' ),
+		array( 'paket-l', 'Paket L – „Komplett-Show“', 'Für bis zu ca. 250 Gäste', 'bspw. Hochzeit, Abiball, Sommerfest, etc. Die komplette Bühne aus meinem Beispiel-Lichtplan.', "Pronomic PA: 2× C-215 MA (15\") auf 2× C-118SA (18\"-Subwoofer), mit Distanzstangen und Kabelsatz\n3-m-Lichttraverse mit 2 Moving Heads, 4 LED-PARs, Thunder Wash und LED-Laufschrift\n6 kabellose Akku-Scheinwerfer (IP65), auch für draußen\nKLS Laser Bar, UV-Schwarzlicht, Spiegelkugel, Nebelmaschine\nFunkmikrofon-Set (4 Handmikros), DJ-Pult", 'Nur mit Lieferung, Aufbau und Abbau durch mich – wegen der Moving Heads und der 40-kg-Subwoofer. Zubehör: Pioneer DDJ-FLX10 60 € pro Tag, Bose-Set für Sektempfang oder Nebenraum 99 € pro Tag.' ),
+		array( 'paket-bose-zusatz', 'Zusatz zu Paket L: Bose-Set für Sektempfang & Nebenraum', 'Zweites Soundsystem', 'bspw. Sektempfang, Außenbereich, Nebenraum, Dinner', "2× Bose S1 Pro Aktivlautsprecher (mit Bluetooth) auf Stativen\nBose Sub1 Subwoofer\nAudiokabel für Handy oder Laptop", 'Nur zusammen mit Paket L buchbar.' ),
 	);
 	return array( $g, $p );
 }
@@ -420,6 +422,21 @@ add_action(
 /* Recherchierte Gerätedaten (thomann.de, Stand 11.10.2026): Slug => array( alter Titel, neuer Titel, alte Kurzbeschreibung, neue Kurzbeschreibung, Felder ).
  * Beim Aktualisieren werden Titel/Kurztext nur ersetzt, wenn sie noch dem alten Platzhalter entsprechen, und nur leere Felder befüllt. */
 const KJO_VL_DATEN = array(
+	'shure-beta-58a' => array(
+		'',
+		'Shure Beta 58A Gesangsmikrofon mit Kabel',
+		'',
+		'Bühnenklassiker für Reden und Gesang – robust, klar und unempfindlich gegen Rückkopplungen.',
+		array(
+			'beschr'       => "Dynamisches Gesangsmikrofon mit Supernieren-Charakteristik: nimmt vor allem die Stimme auf und unterdrückt Umgebungsgeräusche und Rückkopplungen. Robust und ohne Batterie – einfach einstecken und loslegen.",
+			'anschluesse'  => 'XLR (3-polig)',
+			'lieferumfang' => 'Mikrofonkabel (XLR)',
+			'wetter'       => 'innen',
+			'wert'         => '185',
+			'wert_quelle'  => 'Kirstein 185 € (UVP 214,20 €), Stand 11.10.2026',
+			'hersteller'   => 'https://www.thomann.de/de/shure_beta_58_a.htm',
+		),
+	),
 	'moving-head' => array(
 		'Moving Head',
 		'Varytec Hero Spot 60 Moving Head',
@@ -484,7 +501,7 @@ const KJO_VL_DATEN = array(
 			'wert'        => '269',
 			'wert_quelle' => 'Kirstein: Stereo-Set (2 Boxen) 538 € → 269 € pro Box (Stand 11.10.2026)',
 			'strom'       => '230 V, Strom-Ausgang zum Durchschleifen (max. 7 A)',
-			'lieferumfang' => 'Netzkabel',
+			'lieferumfang' => "Netzkabel\nDistanzstange (M20) für den Subwoofer",
 			'hersteller'  => 'https://www.kirstein.de/Aktivboxen/Pronomic-C-215-MA-15-Aktivbox-1000-Watt.html',
 		),
 		array(
@@ -692,14 +709,14 @@ const KJO_VL_DATEN = array(
 			'laenge'      => '1200',
 			'hoehe'       => '3100',
 			'gewicht'     => '21 kg (Set ohne Taschen und Haken)',
-			'leistung'    => 'belastbar bis 60 kg (gleichmäßig verteilt), Haken je bis 15 kg',
+			'leistung'    => 'belastbar bis 60 kg (gleichmäßig verteilt), 8 Haken je bis 15 kg',
 			'wetter'      => 'innen',
 			'wert'        => '219',
 			'wert_quelle' => 'thomann.de 219 € (Bundle mit Taschen und 4 Hookclamps, Art.-Nr. 306960, Stand 11.10.2026)',
 			'hersteller'  => 'https://www.thomann.de/de/stairville_lb_3_lighting_stand_set_bundle.htm',
 		),
 		array(
-			'lieferumfang' => array( "2 Traversenständer\n2 Adapter Traverse/Ständer\n2 Traversenstücke\nVerbinder, Schrauben und Sicherungen", "2 Lichtstative\n2 Traversenaufnehmer\n2 Traversenstücke (je 1,5 m, 3-Punkt)\n4 Haken (Hookclamps, je bis 15 kg)\n2 Transporttaschen (Traverse, Stative)" ),
+			'lieferumfang' => array( "2 Traversenständer\n2 Adapter Traverse/Ständer\n2 Traversenstücke\nVerbinder, Schrauben und Sicherungen", "2 Lichtstative\n2 Traversenaufnehmer\n2 Traversenstücke (je 1,5 m, 3-Punkt)\n8 Haken (Hookclamps, je bis 15 kg) mit Sicherungsseilen\n2 Transporttaschen (Traverse, Stative)" ),
 		),
 	),
 	'kls-lightbar' => array(
@@ -801,19 +818,22 @@ const KJO_VL_PREISE = array(
 		'wash-scheinwerfer'      => array( 10, 15, 30 ),
 		'spiegelkugel'           => array( 10, 15, 30 ),
 		'lautsprecherstativ'     => array( 5, 8, 20 ),
+		'shure-beta-58a'         => array( 10, 15, 50 ),
 	),
 	'kjo_paket'  => array(
-		'paket-s' => array( 69, 99, 300 ),
-		'paket-m' => array( 169, 249, 600 ),
-		'paket-l' => array( 349, 499, 300 ),
+		'paket-s'           => array( 89, 129, 300 ),
+		'paket-m'           => array( 209, 299, 600 ),
+		'paket-l'           => array( 329, 479, 300 ),
+		'paket-bose-zusatz' => array( 99, 149, 400 ),
 	),
 );
 const KJO_VL_OPT_DEFAULT = array(
 	'wochenende' => 'Freitag ab 15 Uhr bis Montag 21 Uhr. Sobald Samstag oder Sonntag im Mietzeitraum liegt, gilt der Wochenendpreis.',
 	'lieferung'  => 'Bringen und Holen ab Fellheim: bis 15 km 40 €, bis 30 km 70 €, bis 50 km (z. B. Ulm, Kempten, Kaufbeuren) 110 €, darüber 0,60 € je gefahrenem km.',
-	'aufbau'     => 'Auf- und Abbau: Paket S 40 €, Paket M 80 €, Paket L 180 €, sonst 40 € pro Stunde; Abbau nach 23 Uhr +50 %. Die Einweisung ist immer kostenlos.',
+	'aufbau'     => 'Auf- und Abbau: Paket S 40 €, Paket M 100 €, Paket L 180 €, sonst 40 € pro Stunde; Abbau nach 23 Uhr +50 %. Die Einweisung ist immer kostenlos.',
 );
-const KJO_VL_MIG = 18;
+const KJO_VL_PAKETE_V = 2; // Pakete S/M/L neu (12.10.2026): einmalig vollständig überschreiben
+const KJO_VL_MIG      = 19;
 add_action(
 	'admin_init',
 	function () {
@@ -835,6 +855,43 @@ add_action(
 				}
 			}
 		}
+		// Pakete einmalig auf den neuen Stand bringen (Texte und Preise), fehlende anlegen.
+		if ( (int) get_option( 'kjo_vl_pakete_v', 1 ) < KJO_VL_PAKETE_V ) {
+			update_option( 'kjo_vl_pakete_v', KJO_VL_PAKETE_V, false );
+			list( , $pk ) = kjo_vl_seed_data();
+			foreach ( $pk as $i => $r ) {
+				$g  = get_page_by_path( $r[0], OBJECT, 'kjo_paket' );
+				$id = $g ? $g->ID : wp_insert_post( array( 'post_type' => 'kjo_paket', 'post_status' => 'publish', 'post_title' => $r[1], 'post_name' => $r[0], 'menu_order' => $i + 1 ) );
+				if ( ! $id || is_wp_error( $id ) ) {
+					continue;
+				}
+				if ( $g ) {
+					wp_update_post( array( 'ID' => $id, 'post_title' => $r[1] ) );
+				} else {
+					update_post_meta( $id, '_kjo_bild', str_replace( '-', '_', $r[0] ) );
+				}
+				update_post_meta( $id, '_kjo_gaeste', $r[2] );
+				update_post_meta( $id, '_kjo_anlaesse', $r[3] );
+				update_post_meta( $id, '_kjo_inhalt', $r[4] );
+				update_post_meta( $id, '_kjo_hinweis', $r[5] );
+				if ( isset( KJO_VL_PREISE['kjo_paket'][ $r[0] ] ) ) {
+					foreach ( array( 'preis', 'preis_we', 'kaution' ) as $n => $k ) {
+						update_post_meta( $id, '_kjo_' . $k, (string) KJO_VL_PREISE['kjo_paket'][ $r[0] ][ $n ] );
+					}
+				}
+			}
+		}
+		// Lieferumfang-Korrekturen (nur wenn noch eine der bekannten Altfassungen drinsteht).
+		$fix = array(
+			'traverse-3m'       => array( array( "2 Lichtstative\n2 Traversenaufnehmer\n2 Traversenstücke (je 1,5 m, 3-Punkt)\n4 Haken (Hookclamps, je bis 15 kg)\n2 Transporttaschen (Traverse, Stative)" ), "2 Lichtstative\n2 Traversenaufnehmer\n2 Traversenstücke (je 1,5 m, 3-Punkt)\n8 Haken (Hookclamps, je bis 15 kg) mit Sicherungsseilen\n2 Transporttaschen (Traverse, Stative)" ),
+			'pronomic-c-215-ma' => array( array( 'Netzkabel' ), "Netzkabel\nDistanzstange (M20) für den Subwoofer" ),
+		);
+		foreach ( $fix as $slug => $f ) {
+			$g = get_page_by_path( $slug, OBJECT, 'kjo_geraet' );
+			if ( $g && in_array( kjo_vl_get( $g->ID, 'lieferumfang' ), $f[0], true ) ) {
+				update_post_meta( $g->ID, '_kjo_lieferumfang', $f[1] );
+			}
+		}
 		// Mietpreise und Texte nur dort eintragen, wo noch nichts steht.
 		foreach ( KJO_VL_PREISE as $type => $rows ) {
 			foreach ( $rows as $slug => $r ) {
@@ -851,6 +908,9 @@ add_action(
 		}
 		$o = get_option( 'kjo_verleih', array() );
 		$o = is_array( $o ) ? $o : array();
+		if ( isset( $o['aufbau'] ) && false !== strpos( $o['aufbau'], 'Paket M 80 €' ) ) {
+			$o['aufbau'] = str_replace( 'Paket M 80 €', 'Paket M 100 €', $o['aufbau'] );
+		}
 		foreach ( KJO_VL_OPT_DEFAULT as $k => $v ) {
 			if ( empty( $o[ $k ] ) ) {
 				$o[ $k ] = $v;
@@ -860,7 +920,7 @@ add_action(
 		// Neu hinzugekommene Geräte anlegen (nur diese Slugs, damit gelöschte Geräte nicht zurückkommen).
 		list( $seed ) = kjo_vl_seed_data();
 		foreach ( $seed as $i => $r ) {
-			if ( in_array( $r[0], array( 'spiegelkugel' ), true ) && ! get_page_by_path( $r[0], OBJECT, 'kjo_geraet' ) ) {
+			if ( in_array( $r[0], array( 'spiegelkugel', 'shure-beta-58a' ), true ) && ! get_page_by_path( $r[0], OBJECT, 'kjo_geraet' ) ) {
 				$id = wp_insert_post( array( 'post_type' => 'kjo_geraet', 'post_status' => 'publish', 'post_title' => $r[1], 'post_name' => $r[0], 'menu_order' => $i + 1 ) );
 				if ( $id && ! is_wp_error( $id ) ) {
 					update_post_meta( $id, '_kjo_kat', $r[2] );
@@ -1401,7 +1461,7 @@ add_shortcode(
 			array( 'Lieferung', kjo_vl_opt( 'lieferung' ) ? kjo_vl_opt( 'lieferung' ) : 'Nach Verfügbarkeit gegen Gebühr, der Preis steht im Angebot.' ),
 			array( 'Aufbau', kjo_vl_opt( 'aufbau' ) ? kjo_vl_opt( 'aufbau' ) : 'Nach Verfügbarkeit gegen Gebühr, der Preis steht im Angebot.' ),
 			array( 'Mitbringen', 'Personalausweis. Mieten ab 18 Jahren.' ),
-			array( 'Passt das in mein Auto?', 'Paket S passt in jeden Kleinwagen, für M reicht ein Kombi. Für L braucht ihr einen Transporter, oder ihr bucht nach Verfügbarkeit und gegen Gebühr Lieferung, Aufbau/Verkabelung, Abbau und Abholung.' ),
+			array( 'Passt das in mein Auto?', 'Paket S passt in einen Kombi (die Lightbar ist 1,30 m lang). Für M braucht ihr einen Van oder Transporter (Traversentasche 1,54 m). Paket L liefere und baue ich selbst auf; auf Wunsch auch S und M, nach Verfügbarkeit und gegen Gebühr.' ),
 			array( 'Akku-Scheinwerfer', 'Ich übergebe sie vollgeladen im Lade-Case – zum Nachladen einfach das Case einstecken.' ),
 			array( 'Nebel', 'Bitte vorher mit der Location klären, wegen der Rauchmelder.' ),
 			array( 'Strom', 'Normale 230-V-Steckdosen. Verteiler und Verlängerungen bekommt ihr mit.' ),
