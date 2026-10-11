@@ -169,7 +169,10 @@ function kjo_vl_media_post( $post ) {
 			$out[] = array( 'vid' => set_url_scheme( $url ) );
 		} elseif ( 0 === strpos( $mime, 'image/' ) ) {
 			$big   = wp_get_attachment_image_url( $aid, 'large' );
-			$out[] = array( 'img' => set_url_scheme( $big ? $big : $url ) );
+			$out[] = array(
+				'img'  => set_url_scheme( $big ? $big : $url ),
+				'full' => set_url_scheme( function_exists( 'kjo_img_web_url' ) ? kjo_img_web_url( $aid ) : $url ),
+			);
 		}
 	}
 	return array_merge( $out, kjo_vl_media( kjo_vl_bild( $post ) ) );
@@ -798,7 +801,7 @@ function kjo_vl_img_html( $post, $alt, $cls ) {
 	$m = kjo_vl_media_post( $post );
 	foreach ( $m as $e ) {
 		if ( ! empty( $e['img'] ) ) {
-			return '<img class="' . esc_attr( $cls ) . '" src="' . esc_url( $e['img'] ) . '" alt="' . esc_attr( $alt ) . '" loading="lazy" decoding="async">';
+			return '<img class="' . esc_attr( $cls ) . '" src="' . esc_url( $e['img'] ) . '"' . ( ! empty( $e['full'] ) ? ' data-full="' . esc_url( $e['full'] ) . '"' : '' ) . ' alt="' . esc_attr( $alt ) . '" loading="lazy" decoding="async">';
 		}
 	}
 	return '<span class="' . esc_attr( $cls ) . ' kjo-vl-ph" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 2a7 7 0 1 1 0 14 7 7 0 0 1 0-14zm0 4a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg></span>';
@@ -884,7 +887,7 @@ add_shortcode(
 				if ( ! empty( $e['vid'] ) ) {
 					$gal .= '<video src="' . esc_url( $e['vid'] ) . '" controls preload="none" playsinline' . ( ! empty( $e['img'] ) ? ' poster="' . esc_url( $e['img'] ) . '"' : '' ) . '></video>';
 				} elseif ( ! empty( $e['img'] ) ) {
-					$gal .= '<img src="' . esc_url( $e['img'] ) . '" alt="' . esc_attr( $g->post_title ) . '" loading="lazy" decoding="async">';
+					$gal .= '<img src="' . esc_url( $e['img'] ) . '"' . ( ! empty( $e['full'] ) ? ' data-full="' . esc_url( $e['full'] ) . '"' : '' ) . ' alt="' . esc_attr( $g->post_title ) . '" loading="lazy" decoding="async">';
 				}
 			}
 			if ( $gal ) {
@@ -1145,7 +1148,7 @@ function render(){
   sum.innerHTML=!n?"":(bad?"<strong>Nicht alles ist in diesem Zeitraum frei.</strong> Fragt trotzdem an, oft finde ich eine Alternative.<br>":"")+(s.p!=null?"Summe: <strong>ca. "+eur(s.p)+" pro Tag</strong>"+(s.k!=null?" · Kaution "+eur(s.k):"")+"<br>Unverbindliche Schätzung, der endgültige Preis kommt mit dem Angebot.":"Den Gesamtpreis bekommt ihr mit dem Angebot, kostenlos und unverbindlich.");
 }
 var LB=null,LBL=[],LBI=0;
-function lbShow(i){LBI=(i+LBL.length)%LBL.length;var im=LBL[LBI],e=q$("img",LB),sm=im.currentSrc||im.src,big=sm.replace(/-\d+x\d+(\.[a-z0-9]+)(\?.*)?$/i,"$1$2");e.onerror=big!==sm?function(){e.onerror=null;e.src=sm;}:null;e.src=big;e.alt=im.alt||"";q$("p",LB).textContent=(im.alt||"")+(LBL.length>1?" · "+(LBI+1)+" / "+LBL.length:"");q$(".kjo-vl-lbp",LB).hidden=q$(".kjo-vl-lbn",LB).hidden=LBL.length<2;}
+function lbShow(i){LBI=(i+LBL.length)%LBL.length;var im=LBL[LBI],e=q$("img",LB),sm=im.currentSrc||im.src,big=im.getAttribute("data-full")||sm.replace(/-\d+x\d+(\.[a-z0-9]+)(\?.*)?$/i,"$1$2");e.onerror=big!==sm?function(){e.onerror=null;e.src=sm;}:null;e.src=big;e.alt=im.alt||"";q$("p",LB).textContent=(im.alt||"")+(LBL.length>1?" · "+(LBI+1)+" / "+LBL.length:"");q$(".kjo-vl-lbp",LB).hidden=q$(".kjo-vl-lbn",LB).hidden=LBL.length<2;}
 function lbOpen(im){
   if(!LB){LB=document.createElement("div");LB.className="kjo-vl-lb";LB.hidden=true;LB.setAttribute("role","dialog");LB.setAttribute("aria-modal","true");LB.setAttribute("aria-label","Bildansicht");
     LB.innerHTML='<img alt=""><p></p><button type="button" class="kjo-vl-lbp" aria-label="Vorheriges Bild">\u2039</button><button type="button" class="kjo-vl-lbn" aria-label="N\u00e4chstes Bild">\u203a</button><button type="button" class="kjo-vl-lbx" aria-label="Schlie\u00dfen">\u00d7</button>';
