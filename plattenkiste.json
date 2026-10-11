@@ -1,9 +1,9 @@
 {
- "version": "1.37.9",
- "download_url": "dj-kolja-one-plattenkiste-1.37.9.zip",
- "sha256": "0adf6cec11aa46a4e72fba290ebeefe354f2f2d9ff1fdb132e58d0c26afa3e87",
+ "version": "1.38.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.38.0.zip",
+ "sha256": "ed3a4866b21126d528845e71b27b9b811f9393700de16ba0cd52ff703e4c3720",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Nebelmaschine"
+ "changelog": "Thunder Wash, Spiegelkugel"
 }

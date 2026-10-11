@@ -300,7 +300,8 @@ function kjo_vl_seed_data() {
 		array( 'kls-lightbar', 'Eurolite KLS Laser Bar FX-Set mit Lichtstativ', 'licht', 1, 'Partylicht auf eigenem Stativ, das die ganze Tanzfläche ausleuchtet.', array( 'lieferumfang' => "Lichtstativ Stageworx BLS-315 Pro (1,50–3,10 m)\nTransporttasche\nFunk-Fußschalter\nIR-Fernbedienung" ) ),
 		array( 'algam-akku-par', 'ALGAM Akku-Parlight', 'licht', 6, 'Kabelloses Ambientelicht für Wände, Säulen, Garten und Terrasse.', array( 'lieferumfang' => 'Ladegerät', 'strom' => 'Akku' ) ),
 		array( 'uv-strahler', KJO_VL_DATEN['uv-strahler'][1], 'effekte', 1, KJO_VL_DATEN['uv-strahler'][3], KJO_VL_DATEN['uv-strahler'][4] ),
-		array( 'wash-scheinwerfer', 'Wash-/Color-Scheinwerfer', 'licht', 1, 'Zusätzliche farbige Flächenbeleuchtung.', array() ),
+		array( 'wash-scheinwerfer', KJO_VL_DATEN['wash-scheinwerfer'][1], 'licht', 1, KJO_VL_DATEN['wash-scheinwerfer'][3], KJO_VL_DATEN['wash-scheinwerfer'][4] ),
+		array( 'spiegelkugel', KJO_VL_DATEN['spiegelkugel'][1], 'effekte', 1, KJO_VL_DATEN['spiegelkugel'][3], KJO_VL_DATEN['spiegelkugel'][4] ),
 		array( 'nebelmaschine', 'Showlite SN-1200 Nebelmaschine (1.200 W)', 'effekte', 1, 'Macht Lichtstrahlen sichtbar. Bitte vorher mit der Location wegen der Rauchmelder abstimmen.', array() ),
 		array( 'led-laufschrift', 'Eurolite ESN LED-Laufschrift (65 cm)', 'effekte', 1, 'Eure Namen, „Happy Birthday“ oder euer Hashtag in Leuchtschrift.', array() ),
 		array( 'traverse-3m', 'Stageworx LB-3 Traversen-Set 3 m', 'buehne', 1, 'Lichttraverse mit zwei Ständern – die Bühne für Scheinwerfer und Laufschrift.', array( 'lieferumfang' => "2 Lichtstative\n2 Traversenaufnehmer\n2 Traversenstücke (je 1,5 m, 3-Punkt)\n4 Haken (Hookclamps, je bis 15 kg)\n2 Transporttaschen (Traverse, Stative)" ) ),
@@ -681,9 +682,46 @@ const KJO_VL_DATEN = array(
 			'hersteller'   => 'https://www.kirstein.de/Nebelmaschinen/Showlite-SN-1200-Nebelmaschine-1200W-inkl-Fernbedienung.html',
 		),
 	),
+	'wash-scheinwerfer' => array(
+		'Wash-/Color-Scheinwerfer',
+		'Cameo Thunder Wash 100 RGB (Wash, Blinder, Strobe)',
+		'Zusätzliche farbige Flächenbeleuchtung.',
+		'3-in-1-Effekt: farbiges Flächenlicht, Blinder und Strobe für die Höhepunkte auf der Tanzfläche.',
+		array(
+			'beschr'      => "LED-Leiste mit 132 RGB-SMD-LEDs (je 0,2 W) und 80° Abstrahlwinkel: taucht Flächen in Farbe, blendet als Blinder ins Publikum oder blitzt als Strobe (1–30 Blitze pro Sekunde).\nSteuerung per DMX (8 Modi), Master/Slave oder eigenständig mit eingebautem Mikrofon zur Musiksteuerung. Kompaktes Metallgehäuse mit Montagebügel.",
+			'leistung'    => '132 × 0,2-W-RGB-SMD-LED, 80°, Strobe 1–30 Hz',
+			'anschluesse' => 'DMX In/Out (XLR 3-polig)',
+			'lieferumfang' => 'Montagebügel',
+			'wetter'      => 'innen',
+			'wert'        => '99',
+			'wert_quelle' => 'thomann.de 99 € (Cameo Thunder Wash 100 RGB, CLTW100RGB, Art.-Nr. 376242, Stand 11.10.2026)',
+			'hersteller'  => 'https://www.thomann.de/de/cameo_thunder_wash_100rgb.htm',
+		),
+	),
+	'spiegelkugel' => array(
+		'',
+		'Eurolite Spiegelkugel 30 cm mit Motor',
+		'',
+		'Der Disco-Klassiker: Die drehende Spiegelkugel verteilt das Licht eines Spots als funkelnde Punkte im ganzen Raum.',
+		array(
+			'beschr'       => "Spiegelkugel mit 30 cm Durchmesser am Motor MD-1515, der sie langsam dreht (ca. 1,5 Umdrehungen pro Minute). Angestrahlt von einem Spot oder Moving Head wandern Lichtpunkte über Wände, Decke und Tanzfläche.\nAufhängung an Decke oder Traverse; der Motor trägt bis 4 kg.",
+			'breite'       => '300',
+			'laenge'       => '300',
+			'hoehe'        => '385',
+			'masse'        => 'Kugel Ø 30 cm, Höhe mit Motor (8,5 cm)',
+			'gewicht'      => '2,4 kg (Kugel 2 kg, Motor 0,4 kg)',
+			'leistung'     => 'Motor 4 W, ca. 1,5 U/min, Traglast 4 kg',
+			'strom'        => '230 V, 50 Hz, Schukostecker',
+			'lieferumfang' => "Motor MD-1515 mit Netzkabel\nKette\n4 Karabiner\nSchrauben und Dübel",
+			'wetter'       => 'innen',
+			'wert'         => '71',
+			'wert_quelle'  => 'Steinigke-Listenpreis 71,28 € (Art.-Nr. 42109225); Kirstein ab 59,90 € (Stand 11.10.2026)',
+			'hersteller'   => 'https://www.kirstein.de/Spiegelkugeln/Eurolite-Spiegelkugel-30cm-mit-Motor-MD-1515.html',
+		),
+	),
 );
 /* Aktualisierung bestehender Geräte (läuft einmal je Stand von KJO_VL_MIG – bei neuen Recherchedaten hochzählen): Maße in Breite/Länge/Höhe aufteilen, KJO_VL_DATEN ergänzen. Nur leere Felder werden befüllt. */
-const KJO_VL_MIG = 16;
+const KJO_VL_MIG = 17;
 add_action(
 	'admin_init',
 	function () {
@@ -702,6 +740,19 @@ add_action(
 					delete_post_meta( $g->ID, '_kjo_masse' );
 				} else {
 					update_post_meta( $g->ID, '_kjo_masse', $r[4] );
+				}
+			}
+		}
+		// Neu hinzugekommene Geräte anlegen (nur diese Slugs, damit gelöschte Geräte nicht zurückkommen).
+		list( $seed ) = kjo_vl_seed_data();
+		foreach ( $seed as $i => $r ) {
+			if ( in_array( $r[0], array( 'spiegelkugel' ), true ) && ! get_page_by_path( $r[0], OBJECT, 'kjo_geraet' ) ) {
+				$id = wp_insert_post( array( 'post_type' => 'kjo_geraet', 'post_status' => 'publish', 'post_title' => $r[1], 'post_name' => $r[0], 'menu_order' => $i + 1 ) );
+				if ( $id && ! is_wp_error( $id ) ) {
+					update_post_meta( $id, '_kjo_kat', $r[2] );
+					update_post_meta( $id, '_kjo_bestand', (string) $r[3] );
+					update_post_meta( $id, '_kjo_kurz', $r[4] );
+					update_post_meta( $id, '_kjo_mietbar', '1' );
 				}
 			}
 		}

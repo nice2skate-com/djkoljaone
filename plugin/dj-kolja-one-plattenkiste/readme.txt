@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.38.0: Wash-Scheinwerfer = Cameo Thunder Wash 100 RGB (99 €); neues Gerät Eurolite Spiegelkugel 30 cm mit Motor MD-1515 (71 €) wird automatisch angelegt.
 Seit 1.37.9: Nebelmaschine = Showlite SN-1200 (Daten, Neupreis 120 €, Kirstein-Link); UV-Strahler mit Anleitung.
 Seit 1.37.8: KLS-Lightbar = Eurolite KLS Laser Bar FX-Set mit Stageworx BLS-315 Pro (Daten, Neupreis 366 €); Bose S1 Pro Neupreis aus Kaufbeleg (631 €).
 Seit 1.37.7: Traverse = Stageworx LB-3 Lighting Stand Set Bundle (3 m, mit Taschen und 4 Haken): Daten, Neupreis 219 €, Herstellerseite.
