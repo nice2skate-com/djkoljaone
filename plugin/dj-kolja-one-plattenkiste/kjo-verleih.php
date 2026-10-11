@@ -375,10 +375,14 @@ const KJO_VL_DATEN = array(
 			'anschluesse'  => 'DMX In/Out (XLR 3-polig), Stromeingang Power Twist',
 			'strom'        => '100–240 V, 50/60 Hz, 100 W Leistungsaufnahme',
 			'lieferumfang' => "Haltebügel\nNetzkabel\nDMX-Kabel",
-			'anleitung'    => 'https://images.thomann.de/pics/atg/atgdata/document/manual/c_449221_481679_v5_de_online.pdf',
+			'anleitung'    => 'https://fast-images.static-thomann.de/pics/atg/atgdata/document/manual/c_449221_v5_de_online.pdf',
+			'wetter'       => 'innen',
 			'wert'         => '299',
 			'wert_quelle'  => 'thomann.de 299 € inkl. MwSt. (Stand 11.10.2026), Art.-Nr. 449221',
 			'hersteller'   => 'https://www.thomann.de/de/varytec_hero_spot_60.htm',
+		),
+		array(
+			'anleitung' => array( 'https://images.thomann.de/pics/atg/atgdata/document/manual/c_449221_481679_v5_de_online.pdf', 'https://fast-images.static-thomann.de/pics/atg/atgdata/document/manual/c_449221_v5_de_online.pdf' ),
 		),
 	),
 	'uv-strahler'  => array(
@@ -436,7 +440,7 @@ const KJO_VL_DATEN = array(
 	),
 );
 /* Aktualisierung bestehender Geräte (läuft einmal je Stand von KJO_VL_MIG – bei neuen Recherchedaten hochzählen): Maße in Breite/Länge/Höhe aufteilen, KJO_VL_DATEN ergänzen. Nur leere Felder werden befüllt. */
-const KJO_VL_MIG = 5;
+const KJO_VL_MIG = 6;
 add_action(
 	'admin_init',
 	function () {

@@ -1,9 +1,9 @@
 {
- "version": "1.36.0",
- "download_url": "dj-kolja-one-plattenkiste-1.36.0.zip",
- "sha256": "ff23ad98f503d9898c768e780ab76f9e26adcc5a84e72b2d175aa829c5b9f3fe",
+ "version": "1.36.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.36.1.zip",
+ "sha256": "d6c0da033d52469b1f5c044910fb101cf587bf50297c60d32e645cc69df2d7a4",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Gerätefeld Herstellerseite"
+ "changelog": "Hero Spot 60 Anleitung"
 }
