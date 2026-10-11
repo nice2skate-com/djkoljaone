@@ -69,11 +69,12 @@ add_filter(
 /* ---------------------------------------------------------------
  * Formular
  * ------------------------------------------------------------- */
-function kjo_kf_form() {
+function kjo_kf_form( $atts = array() ) {
+	$pre = is_array( $atts ) && isset( $atts['anlass'] ) ? (string) $atts['anlass'] : '';
 	$api = esc_url( rest_url( 'kjo/v1/kontakt' ) );
 	$opt = '';
 	foreach ( KJO_KF_ANLAESSE as $a ) {
-		$opt .= '<option>' . esc_html( $a ) . '</option>';
+		$opt .= '<option' . selected( $pre, $a, false ) . '>' . esc_html( $a ) . '</option>';
 	}
 	$f = function ( $id, $label, $input, $cls = '' ) {
 		return '<div class="kjo-kf-f' . ( $cls ? ' ' . $cls : '' ) . '"><label for="kjo-kf-' . $id . '">' . $label . '</label>' . $input . '</div>';

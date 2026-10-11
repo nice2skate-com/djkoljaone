@@ -66,9 +66,18 @@ def start():
       footer()]
 
 # ---------------- Leistungsseiten ----------------
+ANLASS={"hochzeit":"Hochzeit","geburtstag":"Geburtstag / Party","firmenfeier":"Firmenfeier","events":"Sonstiges"}
+def anfrage(anlass,title="Wunschtermin prüfen",text="Datum, Ort und Gästezahl – mehr brauche ich für den Anfang nicht. Ich prüfe sofort, ob euer Termin frei ist, und melde mich innerhalb von 24 Stunden.",bg=B2):
+    form=con([H(title,"h2",36,OFF,"left","300"),T(text,MUTED,"left",16),W("shortcode",{"shortcode":f'[kjo_kontakt anlass="{anlass}"]'}),
+              T("Eure Daten nutze ich nur für eure Anfrage. Keine Werbung, kein Newsletter.",MUTED,"left",13)],bg=B1 if bg==B2 else B2,pad=box(40,36,40,36),g=16,**col(62,100,100),
+             border_border="solid",border_width=box(2,0,0,0),border_color=GOLD)
+    side=con([H("Lieber direkt?","h3",24,OFF,"left","300")]+[con([ICONBOX(i,t,d,"left",u)],bg=B1 if bg==B2 else B2,pad=box(24,22,24,22)) for i,t,d,u in [
+        ("fab fa-whatsapp","WhatsApp","Schnell und unkompliziert – gern auch per Sprachnachricht",WA),("fas fa-phone","Anrufen",PHONE+" – direkt mit mir sprechen",TEL)]],g=16,**col(34,100,100))
+    return section([con([form,side],"row",g=30,**ROW,flex_justify_content="space-between",flex_align_items="flex-start")],bg=bg,anchor="anfrage")
+
 def service_v2(c):
     note=T("Unverbindlich · Antwort innerhalb von 24 Stunden",MUTED,"center",14)
-    out=[nav(),hero(c["eye"],c["h1"],c["sub"],[BTN(*WISH),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=90,extra=[note]),
+    out=[nav(),hero(c["eye"],c["h1"],c["sub"],[BTN(WISH[0],"#anfrage"),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=90,extra=[note]),
          section(head("Eindrücke",c.get("gal_title","So feiert ihr mit mir"))+[VIDEOS(c["key"])],bg=B2)]
     alt=[B1]
     def bg():
@@ -79,21 +88,21 @@ def service_v2(c):
         sb=bg(); out.append(section(head("Anlässe",c["anl_title"])+[cards(c["anlaesse"],bg=B2 if sb==B1 else B1)],bg=sb))
     out.append(split(*c["split1"],img=f"event_{c['key']}_text.jpg",bg=bg()))
     out.append(reviews(c["reviews"],bg=bg()))
-    out.append(section(head("Ablauf",c["steps_title"])+[steps(c["steps"]),SPACER(10),BTN("Jetzt Wunschtermin prüfen",KONTAKT)],anchor="ablauf",bg=bg()))
-    if c.get("fit"): out.append(section(head("Passen wir zusammen?",c.get("fit_title","Finden wir das heraus!"))+[fit(*c["fit"]),SPACER(10),BTN("Passt? Dann Wunschtermin prüfen",KONTAKT)],bg=bg()))
+    out.append(section(head("Ablauf",c["steps_title"])+[steps(c["steps"]),SPACER(10),BTN("Jetzt Wunschtermin prüfen","#anfrage")],anchor="ablauf",bg=bg()))
+    if c.get("fit"): out.append(section(head("Passen wir zusammen?",c.get("fit_title","Finden wir das heraus!"))+[fit(*c["fit"]),SPACER(10),BTN("Passt? Dann Wunschtermin prüfen","#anfrage")],bg=bg()))
     for blk in c.get("lists",[]):
         out.append(section(head(blk[0],blk[1],blk[2])+[con([list_card(t,it,w=48 if len(blk[3])==2 else 31) for t,it in blk[3]],"row",g=24,**ROW,flex_justify_content="center")],bg=bg()))
     if c.get("compare"):
         sb=bg(); out.append(section(head(*c["compare"][0])+[cards(c["compare"][1],bg=B2 if sb==B1 else B1)],bg=sb))
     out.append(faq(c["faq"],eye="Häufige Fragen",title=c.get("faq_title","Gut zu wissen"),bg=bg()))
     out.append(orte(c.get("orte_title","Euer DJ in Oberschwaben, Ulm und dem Allgäu"),bg=bg()))
-    out.append(cta(*c.get("cta",())))
+    out.append(anfrage(ANLASS.get(c["key"],""),*c.get("cta",())))
     out.append(section(head("Weitere Leistungen","Auch für andere Anlässe")+[tiles(c["cross"],w=31)],bg=B1))
     out.append(footer()); return out
 
 def service(c):
     if c.get("v2"): return service_v2(c)
-    out=[nav(),hero(c["eye"],c["h1"],c["sub"],[BTN(*WISH),BTN("So läuft's ab","#ablauf",False)],stats=None,minh=90),
+    out=[nav(),hero(c["eye"],c["h1"],c["sub"],[BTN(WISH[0],"#anfrage"),BTN("So läuft's ab","#ablauf",False)],stats=None,minh=90),
          section(head("Eindrücke","So sieht ein Abend mit mir aus")+[VIDEOS(c["key"])],bg=B2)]
     if c.get("anlaesse"): out.append(section(head("Anlässe",c["anl_title"])+[cards(c["anlaesse"])]))
     out.append(split(*c["split1"],img=f"event_{c['key']}_text.jpg"))
@@ -103,13 +112,13 @@ def service(c):
         out.append(section(head(blk[0],blk[1],blk[2])+[con([list_card(t,it,w=48 if len(blk[3])==2 else 31) for t,it in blk[3]],"row",g=24,**ROW,flex_justify_content="center")],bg=blk[4] if len(blk)>4 else B2))
     if c.get("split2"): out.append(split(*c["split2"],img_left=False))
     if c.get("compare"): out.append(section(head(*c["compare"][0])+[cards(c["compare"][1],bg=B1)],bg=B2))
-    out.append(section(head("Ablauf",c["steps_title"])+[steps(c["steps"]),SPACER(10),BTN("Jetzt Wunschtermin prüfen",KONTAKT)],anchor="ablauf"))
+    out.append(section(head("Ablauf",c["steps_title"])+[steps(c["steps"]),SPACER(10),BTN("Jetzt Wunschtermin prüfen","#anfrage")],anchor="ablauf"))
     out.append(staerken())
     out.append(reviews(c["reviews"]))
     out.append(faq(c["faq"],eye="Häufige Fragen",title=c.get("faq_title","Gut zu wissen")))
     out.append(orte(c.get("orte_title","Euer DJ in Oberschwaben, Ulm und dem Allgäu")))
     out.append(QUIET())
-    out.append(cta(*c.get("cta",())))
+    out.append(anfrage(ANLASS.get(c["key"],""),*c.get("cta",())))
     out.append(section(head("Weitere Leistungen","Auch für andere Anlässe")+[tiles(c["cross"],w=31)],bg=B1))
     out.append(footer()); return out
 
