@@ -398,7 +398,7 @@ def city(name):
 # ---------------- Kontakt ----------------
 def kontakt():
     form=con([H("In 2 Minuten angefragt","h2",32,OFF,"left","300"),T("Datum, Ort, Anlass und Gästezahl – mehr brauche ich für den Anfang nicht. Alles Weitere besprechen wir im kostenlosen Kennenlerngespräch.",MUTED,"left",16),
-              W("html",{"html":open("./formcss/wpforms-dark.html").read()}),W("shortcode",{"shortcode":"[wpforms id=5020]"}),
+              W("shortcode",{"shortcode":"[kjo_kontakt]"}),
               T("Eure Daten nutze ich nur für eure Anfrage. Keine Werbung, kein Newsletter.",MUTED,"left",13)],bg=B2,pad=box(44,40,44,40),g=16,**col(58,100,100),
              border_border="solid",border_width=box(2,0,0,0),border_color=GOLD)
     side=con([H("Lieber direkt?","h3",26,OFF,"left","300")]+[con([ICONBOX(i,t,d,"left",u)],bg=B2,pad=box(28,26,28,26)) for i,t,d,u in [
