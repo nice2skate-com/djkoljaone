@@ -1,9 +1,9 @@
 {
- "version": "1.47.2",
- "download_url": "dj-kolja-one-plattenkiste-1.47.2.zip",
- "sha256": "8a905a32f0a047f228b40e80fa779315ca1aa213fbf3bc9a2921348612a7906b",
+ "version": "1.47.3",
+ "download_url": "dj-kolja-one-plattenkiste-1.47.3.zip",
+ "sha256": "32a6525fe63ec7b3799bd5b10960e553d825ee31d6d08b9fb0ea94934f78b648",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Mietkorb: kompakte Zeilen"
+ "changelog": "Mietkorb: Fix Mengen-Pille"
 }
