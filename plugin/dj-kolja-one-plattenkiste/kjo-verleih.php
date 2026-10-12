@@ -48,6 +48,8 @@ function kjo_vl_fields( $type ) {
 			'anlaesse' => array( 'Anlässe', 'text', 'z. B. bspw. Geburtstag, Gartenparty, Sektempfang, etc.' ),
 			'inhalt'   => array( 'Inhalt (eine Zeile pro Punkt)', 'textarea', '' ),
 			'hinweis'  => array( 'Hinweis / Empfehlung', 'textarea', '' ),
+			'geraete'  => array( 'Enthaltene Geräte für die Bestandsprüfung (eine Zeile pro Gerät: Anzahl × Geräte-Kürzel; leer = Standard)', 'textarea', 'z. B. 2 × bose-s1-pro' ),
+			'nur_mit'  => array( 'Nur buchbar zusammen mit (Paket-Kürzel, leer = frei buchbar)', 'text', 'z. B. paket-l' ),
 			'preis'    => array( 'Mietpreis pro Tag in € (leer = „Preis auf Anfrage“)', 'price', 'z. B. 89' ),
 			'preis_we' => array( 'Mietpreis Wochenende Fr 15 – Mo 21 Uhr in € (leer = 1,5 × Tagespreis)', 'price', 'z. B. 129' ),
 			'kaution'  => array( 'Kaution in € (leer = „Kaution laut Angebot“)', 'price', 'z. B. 200' ),
@@ -94,6 +96,54 @@ function kjo_vl_intern_fields() {
 		'zustand'    => 'Zustand',
 		'notiz'      => 'Interne Notiz',
 	);
+}
+/* Bestand (seit 1.47.0): Pakete belegen ihre Geräte, damit der Mietkorb nie mehr anbietet, als da ist. */
+const KJO_VL_PAKET_GERAETE = array(
+	'paket-s'           => array( 'bose-s1-pro' => 2, 'lautsprecherstativ' => 2, 'kls-lightbar' => 1, 'shure-beta-58a' => 1 ),
+	'paket-m'           => array( 'bose-s1-pro' => 2, 'lautsprecherstativ' => 2, 'kls-lightbar' => 1, 'bose-subwoofer' => 1, 'funkmikrofon-set' => 1, 'traverse-3m' => 1, 'stairville-tri-flat-par' => 4, 'wash-scheinwerfer' => 1, 'led-laufschrift' => 1, 'nebelmaschine' => 1, 'dj-pult' => 1 ),
+	'paket-l'           => array( 'pronomic-c-215-ma' => 2, 'pronomic-c-118sa' => 2, 'traverse-3m' => 1, 'moving-head' => 2, 'stairville-tri-flat-par' => 4, 'wash-scheinwerfer' => 1, 'led-laufschrift' => 1, 'algam-akku-par' => 6, 'kls-lightbar' => 1, 'uv-strahler' => 1, 'spiegelkugel' => 1, 'nebelmaschine' => 1, 'funkmikrofon-set' => 1, 'dj-pult' => 1 ),
+	'paket-bose-zusatz' => array( 'bose-s1-pro' => 2, 'lautsprecherstativ' => 2, 'bose-subwoofer' => 1 ),
+);
+const KJO_VL_PAKET_NUR_MIT = array( 'paket-bose-zusatz' => 'paket-l' );
+/** Bestand eines Geräts als Zahl, null = nicht eingetragen (unbegrenzt). */
+function kjo_vl_bestand( $gid ) {
+	$b = trim( (string) get_post_meta( $gid, '_kjo_bestand', true ) );
+	return '' === $b || ! is_numeric( $b ) ? null : max( 0, (int) $b );
+}
+/** Geräte eines Pakets: Geräte-ID => Anzahl (Feld „Enthaltene Geräte“ oder Standard). */
+function kjo_vl_paket_geraete( $pid ) {
+	$p   = get_post( $pid );
+	$raw = trim( kjo_vl_get( $pid, 'geraete' ) );
+	$map = array();
+	if ( '' !== $raw ) {
+		foreach ( preg_split( '/[\r\n,;]+/', $raw ) as $l ) {
+			if ( preg_match( '/^\s*(\d+)\s*[×x*]?\s*([a-z0-9-]+)\s*$/i', $l, $m ) ) {
+				$map[ strtolower( $m[2] ) ] = (int) $m[1];
+			} elseif ( preg_match( '/^\s*([a-z0-9-]+)\s*[:=]\s*(\d+)\s*$/i', $l, $m ) ) {
+				$map[ strtolower( $m[1] ) ] = (int) $m[2];
+			}
+		}
+	} elseif ( $p && isset( KJO_VL_PAKET_GERAETE[ $p->post_name ] ) ) {
+		$map = KJO_VL_PAKET_GERAETE[ $p->post_name ];
+	}
+	$out = array();
+	foreach ( $map as $slug => $n ) {
+		$g = get_page_by_path( $slug, OBJECT, 'kjo_geraet' );
+		if ( $g && $n > 0 ) {
+			$out[ $g->ID ] = (int) $n;
+		}
+	}
+	return $out;
+}
+/** Paket, ohne das dieses Paket nicht buchbar ist (Post-ID oder 0). */
+function kjo_vl_paket_nur_mit( $pid ) {
+	$p    = get_post( $pid );
+	$slug = trim( kjo_vl_get( $pid, 'nur_mit' ) );
+	if ( '' === $slug && $p && isset( KJO_VL_PAKET_NUR_MIT[ $p->post_name ] ) ) {
+		$slug = KJO_VL_PAKET_NUR_MIT[ $p->post_name ];
+	}
+	$q = '' !== $slug ? get_page_by_path( sanitize_title( $slug ), OBJECT, 'kjo_paket' ) : null;
+	return $q ? (int) $q->ID : 0;
 }
 function kjo_vl_get( $id, $k ) {
 	return (string) get_post_meta( $id, '_kjo_' . $k, true );
@@ -1572,7 +1622,7 @@ add_shortcode(
 			$h .= '<p class="kjo-vl-preis">' . ( null === $pr ? 'Preis auf Anfrage: ihr bekommt ihn mit dem Angebot' : '<strong>' . esc_html( kjo_vl_eur( $pr ) ) . '</strong> pro Tag · <strong>' . esc_html( kjo_vl_eur( $we ) ) . '</strong> am Wochenende (Fr 15 – Mo 21 Uhr)' );
 			$h .= ' · ' . ( null === $ka ? 'Kaution laut Angebot' : 'Kaution ' . esc_html( kjo_vl_eur( $ka ) ) ) . '</p>';
 			$h .= '<p class="kjo-vl-hinweis">' . esc_html( kjo_vl_get( $p->ID, 'hinweis' ) ) . '</p>';
-			$h .= '<button type="button" class="kjo-vl-add kjo-vl-btn" data-k="p' . (int) $p->ID . '">In den Mietkorb</button></article>';
+			$h .= '<button type="button" class="kjo-vl-add kjo-vl-btn" data-k="p' . (int) $p->ID . '" data-t="In den Mietkorb">In den Mietkorb</button></article>';
 		}
 		if ( $dj ) {
 			return $h . '</div>' . kjo_vl_assets();
@@ -1715,10 +1765,15 @@ function kjo_vl_cart_html() {
 	$done = true;
 	$cat  = array();
 	foreach ( kjo_vl_items( 'kjo_geraet' ) as $g ) {
-		$cat[ 'g' . $g->ID ] = array( 'n' => $g->post_title, 'p' => kjo_vl_num( kjo_vl_get( $g->ID, 'preis' ) ), 'w' => kjo_vl_we( $g->ID ), 'k' => kjo_vl_num( kjo_vl_get( $g->ID, 'kaution' ) ) );
+		$cat[ 'g' . $g->ID ] = array( 'n' => $g->post_title, 'p' => kjo_vl_num( kjo_vl_get( $g->ID, 'preis' ) ), 'w' => kjo_vl_we( $g->ID ), 'k' => kjo_vl_num( kjo_vl_get( $g->ID, 'kaution' ) ), 'b' => kjo_vl_bestand( $g->ID ) );
 	}
 	foreach ( kjo_vl_items( 'kjo_paket' ) as $p ) {
-		$cat[ 'p' . $p->ID ] = array( 'n' => $p->post_title, 'p' => kjo_vl_num( kjo_vl_get( $p->ID, 'preis' ) ), 'w' => kjo_vl_we( $p->ID ), 'k' => kjo_vl_num( kjo_vl_get( $p->ID, 'kaution' ) ) );
+		$gg = array();
+		foreach ( kjo_vl_paket_geraete( $p->ID ) as $gid => $n ) {
+			$gg[ 'g' . $gid ] = $n;
+		}
+		$nm                  = kjo_vl_paket_nur_mit( $p->ID );
+		$cat[ 'p' . $p->ID ] = array( 'n' => $p->post_title, 'p' => kjo_vl_num( kjo_vl_get( $p->ID, 'preis' ) ), 'w' => kjo_vl_we( $p->ID ), 'k' => kjo_vl_num( kjo_vl_get( $p->ID, 'kaution' ) ), 'b' => 1, 'g' => (object) $gg, 'm' => $nm ? 'p' . $nm : null );
 	}
 	$api = esc_url_raw( rest_url( 'kjo/v1/' ) );
 	ob_start();
@@ -1809,6 +1864,7 @@ define(
 .kjo-vl-pimg{width:100%;aspect-ratio:16/10;object-fit:cover;border:1px solid #B29D75;display:block}
 .kjo-vl-pimg.kjo-vl-ph{display:none}
 .kjo-vl-gaeste:empty,.kjo-vl-hinweis:empty{display:none}
+.kjo-vl-add.off{opacity:.4;cursor:not-allowed}.kjo-vl-pakete .kjo-vl-btn.on{background:transparent!important;color:#B29D75!important;box-shadow:inset 0 0 0 1px #B29D75}
 @supports (grid-template-rows:subgrid){.kjo-vl-sub .kjo-vl-paket{display:grid;grid-template-rows:subgrid;row-gap:12px;align-content:start}.kjo-vl-sub7 .kjo-vl-paket{grid-row:span 7}.kjo-vl-sub5 .kjo-vl-paket{grid-row:span 5}.kjo-vl-sub .kjo-vl-paket>ul{margin-bottom:0!important}.kjo-vl-sub .kjo-vl-paket>.kjo-vl-btn{align-self:end}.kjo-vl-sub .kjo-vl-hinweis{align-self:start}.kjo-vl-sub .kjo-vl-pimg.kjo-vl-ph{display:block;visibility:hidden;height:0;border:0;aspect-ratio:auto}.kjo-vl-sub .kjo-vl-gaeste:empty,.kjo-vl-sub .kjo-vl-hinweis:empty{display:block;margin:0;padding:0;border:0;min-height:0}}
 .kjo-vl-gbs{display:flex;gap:12px;align-items:center;justify-content:center;height:160px;margin:0 0 8px}button.kjo-vl-gb{all:unset;box-sizing:border-box;cursor:pointer;flex:1 1 0;min-width:0;height:100%;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}button.kjo-vl-gb img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;transition:transform .25s}button.kjo-vl-gb:hover img,button.kjo-vl-gb:focus-visible img{transform:scale(1.05)}button.kjo-vl-gb:focus-visible{outline:2px solid #B29D75;outline-offset:2px}
 .kjo-vl-wochenende{margin:18px 0 0;color:#A39E93;text-align:center;font-family:"Fira Sans",sans-serif}
@@ -1876,13 +1932,39 @@ define(
 	<<<'KJOJS'
 (function(){
 var V={},C={},K="kjo_mietkorb",cart=[];
-function load(){try{var j=JSON.parse(localStorage.getItem(K)||"[]");cart=(Array.isArray(j)?j:[]).filter(function(e){return e&&C[e.k]&&e.q>0;});}catch(e){cart=[];}}
+function load(){try{var j=JSON.parse(localStorage.getItem(K)||"[]");cart=(Array.isArray(j)?j:[]).filter(function(e){return e&&C[e.k]&&e.q>0;});}catch(e){cart=[];}normalize();}
 function save(){try{localStorage.setItem(K,JSON.stringify(cart));}catch(e){}}
 function eur(n){return (Math.round(n*100)/100).toLocaleString("de-DE",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2})+" €";}
 function q$(s,r){return (r||document).querySelector(s);}
 function all(s,r){return [].slice.call((r||document).querySelectorAll(s));}
 function count(){return cart.reduce(function(a,e){return a+e.q;},0);}
-function add(k){if(!C[k])return;var e=cart.filter(function(x){return x.k===k;})[0];if(e)e.q++;else cart.push({k:k,q:1});save();render();toast(C[k].n+" liegt im Mietkorb");}
+/* Bestand: Pakete belegen ihre Geräte (c.g), jedes Paket gibt es einmal, Geräte bis zum Bestand (c.b). */
+function short(n){return String(n||"").split(/\s+[–:]\s+/)[0];}
+function inCart(k){return cart.some(function(e){return e.k===k;});}
+function used(){var u={};cart.forEach(function(e){var c=C[e.k];if(!c)return;if(c.g){for(var g in c.g)u[g]=(u[g]||0)+c.g[g]*e.q;}else u[e.k]=(u[e.k]||0)+e.q;});return u;}
+function fits(c,u){for(var g in c.g){var b=C[g]?C[g].b:null;if(b!=null&&(u[g]||0)+c.g[g]>b)return false;}return true;}
+function check(k){var c=C[k];if(!c)return{ok:false,why:""};
+  if(c.g){
+    if(inCart(k))return{ok:false,on:true,why:short(c.n)+" liegt schon im Mietkorb – jedes Paket gibt es einmal."};
+    if(c.m&&!inCart(c.m))return{ok:false,req:c.m,why:"Nur zusammen mit "+short(C[c.m]?C[c.m].n:"dem Hauptpaket")+" buchbar."};
+    var u=used();if(fits(c,u))return{ok:true};
+    var bad=[];for(var g in c.g){var b=C[g]?C[g].b:null;if(b!=null&&(u[g]||0)+c.g[g]>b)bad.push(g);}
+    var sw=[],single=false;cart.forEach(function(e){var x=C[e.k];if(!x)return;if(bad.some(function(g){return x.g?x.g[g]:e.k===g;})){if(x.g)sw.push(e.k);else single=true;}});
+    if(!single&&sw.length){cart.forEach(function(e){var x=C[e.k];if(x&&x.m&&sw.indexOf(x.m)>-1&&sw.indexOf(e.k)<0)sw.push(e.k);});
+      var u2=used();sw.forEach(function(s){var x=C[s];for(var g in x.g)u2[g]-=x.g[g];});
+      if(fits(c,u2))return{ok:false,swap:sw,why:"Statt "+sw.map(function(s){return short(C[s].n);}).join(" und ")+" buchen"};}
+    return{ok:false,why:"Nicht zusätzlich buchbar: "+bad.map(function(g){return C[g]?C[g].n:g;}).join(", ")+" "+(bad.length>1?"liegen":"liegt")+" schon im Mietkorb."};}
+  var b=c.b;if(b==null)return{ok:true};var n=used()[k]||0;if(n<b)return{ok:true,left:b-n};
+  var inP=cart.some(function(e){return C[e.k]&&C[e.k].g&&C[e.k].g[k];});
+  return{ok:false,why:b===0?c.n+" ist zurzeit nicht verfügbar.":(b===1?"Von "+c.n+" gibt es 1 Stück, es":"Alle "+b+" × "+c.n)+" "+(b===1?"liegt":"liegen")+" schon im Mietkorb"+(inP?" (im Paket enthalten)":"")+"."};}
+/* Mietkorb bereinigen: Pakete einmal, Zusatzpakete nur mit Hauptpaket, Geräte höchstens bis zum Bestand. */
+function normalize(){var n;do{n=cart.length;cart=cart.filter(function(e){var c=C[e.k];if(!c||!(e.q>0))return false;if(c.g&&e.q>1)e.q=1;return!(c.m&&!inCart(c.m));});}while(cart.length!==n);
+  var u=used();cart.forEach(function(e){var c=C[e.k];if(c.g||c.b==null)return;var over=(u[e.k]||0)-c.b;if(over>0){var r=Math.min(over,e.q);e.q-=r;u[e.k]-=r;}});cart=cart.filter(function(e){return e.q>0;});}
+function add(k){if(!C[k])return;var r=check(k);
+  if(!r.ok){if(r.on){openM();return;}
+    if(r.swap){var old=r.swap.filter(function(s){return!C[s].m;}).map(function(s){return short(C[s].n);}).join(" und ");cart=cart.filter(function(e){return r.swap.indexOf(e.k)<0;});normalize();cart.push({k:k,q:1});save();render();toast(old+" ersetzt durch "+short(C[k].n));return;}
+    toast(r.why);return;}
+  var e=cart.filter(function(x){return x.k===k;})[0];if(e)e.q++;else cart.push({k:k,q:1});save();render();toast(C[k].n+" liegt im Mietkorb");}
 function toast(t){var d=document.createElement("div");d.textContent=t;d.setAttribute("role","status");d.style.cssText="position:fixed;left:50%;bottom:96px;transform:translateX(-50%);z-index:99995;background:#1A1712;color:#F3F1E9;border:1px solid #B29D75;border-radius:4px;padding:10px 16px;font:15px/1.4 'Fira Sans',sans-serif;max-width:90vw;text-align:center";document.body.appendChild(d);setTimeout(function(){d.remove();},1900);}
 function tarif(){var f=q$(".kjo-vl-form");if(!f||!f.elements.von.value)return null;var a=new Date(f.elements.von.value+"T12:00:00"),b=new Date((f.elements.bis.value||f.elements.von.value)+"T12:00:00");if(isNaN(a)||isNaN(b)||b<a)return null;
   var D=864e5,ds=[],sat={},d,w,n=0;for(d=new Date(a);d<=b;d=new Date(d.getTime()+D)){w=d.getDay();ds.push([d,w]);if(w===6||w===0)sat[new Date(d.getTime()-(w===0?D:0)).toDateString()]=1;}
@@ -1903,12 +1985,14 @@ function render(){
   if(!n){var li=document.createElement("li");li.className="kjo-vl-empty";li.textContent="Euer Mietkorb ist leer.";ul.appendChild(li);}
   cart.forEach(function(e){var c=C[e.k],li=document.createElement("li");
     li.innerHTML='<span class="n"></span><button type="button" data-d="-1" aria-label="weniger">−</button><span class="q"></span><button type="button" data-d="1" aria-label="mehr">+</button><span class="p"></span><button type="button" data-d="x" aria-label="entfernen">×</button>';
-    li.querySelector(".n").textContent=c.n;var st=stTxt(e.k);if(st){var sp=document.createElement("span");sp.className="st "+st[0];sp.textContent=st[1];li.querySelector(".n").appendChild(sp);}li.querySelector(".q").textContent=e.q;li.querySelector(".p").textContent=c.p==null?"auf Anfrage":eur(iPrice(c,s.t)*e.q);
-    all("button",li).forEach(function(b){b.addEventListener("click",function(){var d=b.getAttribute("data-d");if(d==="x")e.q=0;else e.q+=+d;cart=cart.filter(function(x){return x.q>0;});save();render();});});
+    var ck=check(e.k);li.querySelector('[data-d="1"]').hidden=!ck.ok;li.querySelector(".n").textContent=c.n;var st=stTxt(e.k);if(st){var sp=document.createElement("span");sp.className="st "+st[0];sp.textContent=st[1];li.querySelector(".n").appendChild(sp);}li.querySelector(".q").textContent=e.q;li.querySelector(".p").textContent=c.p==null?"auf Anfrage":eur(iPrice(c,s.t)*e.q);
+    all("button",li).forEach(function(b){b.addEventListener("click",function(){var d=b.getAttribute("data-d");if(d==="x")e.q=0;else if(d==="1"){if(!check(e.k).ok)return;e.q++;}else e.q+=+d;cart=cart.filter(function(x){return x.q>0;});normalize();save();render();});});
     ul.appendChild(li);});
   var sum=q$(".kjo-vl-sum");
   var bad=cart.some(function(e){return AV[e.k]==="belegt"||AV[e.k]==="vor";});
   sum.innerHTML=!n?"":(bad?"<strong>Nicht alles ist in diesem Zeitraum frei.</strong> Fragt trotzdem an, oft finde ich eine Alternative.<br>":"")+(s.p!=null?(s.t?"Summe für "+tTxt(s.t)+": <strong>ca. "+eur(s.p)+"</strong>":"Summe: <strong>ca. "+eur(s.p)+" pro Tag</strong>")+(s.k!=null?" · Kaution "+eur(s.k):"")+"<br>"+(s.t&&s.t.we?"Sobald Samstag oder Sonntag dabei ist, gilt der Wochenendpreis (Fr 15 – Mo 21 Uhr). ":"")+"Unverbindliche Schätzung ohne Lieferung und Aufbau, der endgültige Preis kommt mit dem Angebot.":"Den Gesamtpreis bekommt ihr mit dem Angebot, kostenlos und unverbindlich.");
+  all(".kjo-vl-add").forEach(function(b){var k=b.getAttribute("data-k"),r=check(k),pk=!!(C[k]&&C[k].g);b.classList.toggle("off",!r.ok&&!r.on&&!r.swap);b.setAttribute("aria-disabled",!r.ok&&!r.on&&!r.swap?"true":"false");b.title=r.ok?"":r.why;
+    if(pk){b.classList.toggle("on",!!r.on);b.textContent=r.ok?(b.getAttribute("data-t")||"In den Mietkorb"):r.on?"✓ Im Mietkorb":r.swap?r.why:r.req?"Nur mit "+short(C[r.req].n):"Nicht zusätzlich buchbar";}});
 }
 var LB=null,LBL=[],LBI=0;
 function lbShow(i){LBI=(i+LBL.length)%LBL.length;var im=LBL[LBI],e=q$("img",LB),sm=im.currentSrc||im.src,big=im.getAttribute("data-full")||sm.replace(/-\d+x\d+(\.[a-z0-9]+)(\?.*)?$/i,"$1$2");e.onerror=big!==sm?function(){e.onerror=null;e.src=sm;}:null;e.src=big;e.alt=im.alt||"";q$("p",LB).textContent=(im.alt||"")+(LBL.length>1?" · "+(LBI+1)+" / "+LBL.length:"");q$(".kjo-vl-lbp",LB).hidden=q$(".kjo-vl-lbn",LB).hidden=LBL.length<2;}
@@ -2055,7 +2139,9 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 	$sk    = 0;
 	$pk    = true;
 	$kk    = true;
-	$tf = kjo_vl_tarif( $von, $bis );
+	$tf   = kjo_vl_tarif( $von, $bis );
+	$use  = array();
+	$need = array();
 	foreach ( ( isset( $d['items'] ) && is_array( $d['items'] ) ? array_slice( $d['items'], 0, 60 ) : array() ) as $it ) {
 		$k = isset( $it['k'] ) ? (string) $it['k'] : '';
 		$q = isset( $it['q'] ) ? max( 0, min( 99, (int) $it['q'] ) ) : 0;
@@ -2065,6 +2151,9 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 		$p = get_post( (int) $m[2] );
 		if ( ! $p || 'publish' !== $p->post_status || $p->post_type !== ( 'g' === $m[1] ? 'kjo_geraet' : 'kjo_paket' ) ) {
 			continue;
+		}
+		if ( 'p' === $m[1] ) {
+			$q = 1; // jedes Paket gibt es einmal
 		}
 		$pr = kjo_vl_num( kjo_vl_get( $p->ID, 'preis' ) );
 		$ka = kjo_vl_num( kjo_vl_get( $p->ID, 'kaution' ) );
@@ -2078,11 +2167,31 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 		} else {
 			$sk += $ka * $q;
 		}
+		if ( 'p' === $m[1] ) {
+			foreach ( kjo_vl_paket_geraete( $p->ID ) as $gid => $n ) {
+				$use[ $gid ] = ( isset( $use[ $gid ] ) ? $use[ $gid ] : 0 ) + $n;
+			}
+			$need[ $p->ID ] = kjo_vl_paket_nur_mit( $p->ID );
+		} else {
+			$use[ $p->ID ] = ( isset( $use[ $p->ID ] ) ? $use[ $p->ID ] : 0 ) + $q;
+		}
 		$keys[]  = $k;
 		$lines[] = $q . ' × ' . $p->post_title . ( null === $pr ? '' : ' (' . kjo_vl_eur( $pr ) . '/Tag)' );
 	}
 	if ( ! $lines ) {
 		return kjo_vl_err( 'Euer Mietkorb ist leer.' );
+	}
+	$warn = array(); // Bestand überschritten (z. B. veralteter Mietkorb) – Anfrage geht trotzdem raus, mit Hinweis für mich
+	foreach ( $use as $gid => $n ) {
+		$b = kjo_vl_bestand( $gid );
+		if ( null !== $b && $n > $b ) {
+			$warn[] = get_the_title( $gid ) . ': ' . $n . ' angefragt, Bestand ' . $b;
+		}
+	}
+	foreach ( $need as $pid => $req ) {
+		if ( $req && ! in_array( 'p' . $req, $keys, true ) ) {
+			$warn[] = get_the_title( $pid ) . ' nur zusammen mit ' . get_the_title( $req );
+		}
 	}
 	set_transient( $rk, $rl + 1, HOUR_IN_SECONDS );
 	$fmt  = function ( $x ) {
@@ -2091,6 +2200,7 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 	};
 	$text  = "Neue Mietanfrage über dj-kolja-one.de\n\n";
 	$text .= "Mietkorb:\n- " . implode( "\n- ", $lines ) . "\n";
+	$text .= $warn ? "ACHTUNG Bestand:\n- " . implode( "\n- ", $warn ) . "\n" : '';
 	$text .= $pk ? 'Summe laut Website: ca. ' . kjo_vl_eur( $sp ) . ( $tf ? ' für ' . kjo_vl_tarif_txt( $tf ) : ' pro Tag' ) . " (ohne Lieferung/Aufbau)\n" : "Summe: nicht alle Preise eingetragen\n";
 	$text .= $kk ? 'Kaution laut Website: ' . kjo_vl_eur( $sk ) . "\n" : '';
 	$text .= "\nZeitraum: " . $fmt( $von ) . ' bis ' . $fmt( $bis ) . "\n";

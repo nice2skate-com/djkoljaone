@@ -1,9 +1,9 @@
 {
- "version": "1.46.1",
- "download_url": "dj-kolja-one-plattenkiste-1.46.1.zip",
- "sha256": "c41e2f8db6dace26899ad58ec49978380176b9f3a036b40eac3736bf4334a36c",
+ "version": "1.47.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.47.0.zip",
+ "sha256": "5c4b1737e7a6f77e65a019d60c71b248833cc675ca06add8ca3181acaa296232",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Startseite: Vorstellung unter dem DJ-Pult"
+ "changelog": "Mietkorb mit Bestandsprüfung"
 }
