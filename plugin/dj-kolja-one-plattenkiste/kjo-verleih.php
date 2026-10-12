@@ -1899,8 +1899,8 @@ define(
 .kjo-vl-panel{position:relative;background:#1A1712;border-top:2px solid #B29D75;width:100%;max-width:640px;padding:32px 24px;box-sizing:border-box}
 .kjo-vl-panel h2{margin:0 0 14px;font:300 30px/1.2 "Fira Sans",sans-serif;color:#F3F1E9}.kjo-vl-panel h3{margin:20px 0 12px;font:400 20px/1.3 "Fira Sans",sans-serif;color:#F3F1E9}
 .kjo-vl-modal .kjo-vl-x{position:absolute;top:8px;right:10px;background:none;border:0;color:#F3F1E9;font-size:32px;line-height:1;cursor:pointer;padding:6px 10px}
-.kjo-vl-cart{list-style:none;margin:0;padding:0}.kjo-vl-cart li{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(178,157,117,.2)}
-.kjo-vl-cart .n{flex:1;min-width:0}.kjo-vl-cart .p{color:#B29D75;font-size:14px;white-space:nowrap}
+.kjo-vl-cart{list-style:none;margin:0;padding:0}.kjo-vl-cart li{display:grid;grid-template-columns:minmax(0,1fr) 32px 22px 32px 4.6em 32px;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid rgba(178,157,117,.2)}.kjo-vl-cart li.kjo-vl-empty{display:block}.kjo-vl-cart button[hidden]{display:flex!important;visibility:hidden}.kjo-vl-cart .n{overflow-wrap:break-word;hyphens:auto}@media(max-width:520px){.kjo-vl-cart li{row-gap:6px}.kjo-vl-cart .n{grid-column:1/-1}.kjo-vl-cart li>button:first-of-type{grid-column:2}}
+.kjo-vl-cart .n{flex:1;min-width:0}.kjo-vl-cart .p{color:#B29D75;font-size:14px;white-space:nowrap;text-align:right}
 .kjo-vl-modal .kjo-vl-cart button{display:flex;align-items:center;justify-content:center;flex:none;width:32px;height:32px;border:1px solid rgba(178,157,117,.6);background:none;color:#F3F1E9;border-radius:50%;cursor:pointer;font-size:17px;line-height:1}
 .kjo-vl-cart .q{min-width:22px;text-align:center}
 .kjo-vl-sum{color:#A39E93;font-size:14px;line-height:1.6;margin:12px 0 0}.kjo-vl-sum strong{color:#F3F1E9}

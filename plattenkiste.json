@@ -1,9 +1,9 @@
 {
- "version": "1.47.0",
- "download_url": "dj-kolja-one-plattenkiste-1.47.0.zip",
- "sha256": "5c4b1737e7a6f77e65a019d60c71b248833cc675ca06add8ca3181acaa296232",
+ "version": "1.47.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.47.1.zip",
+ "sha256": "3b6fd459f958a042ff34f42b2093d32a08efebcbe5016ed1bcf296e02ffc17ca",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Mietkorb mit Bestandsprüfung"
+ "changelog": "Mietkorb: Spalten bündig"
 }
