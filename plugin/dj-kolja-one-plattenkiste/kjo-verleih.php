@@ -814,7 +814,7 @@ const KJO_VL_DATEN = array(
 		'',
 		'',
 		array(
-			'beschr'      => "Lichtstativ-Set mit 3-Punkt-Traverse: 3 m breit, höhenverstellbar, Platz für bis zu 8 Scheinwerfer oder Effekte, belastbar mit 60 kg (gleichmäßig verteilt). Von einer Person schnell aufgebaut.\nMit 2 Stativen. Transport in zwei Taschen (154 × 34 cm und 127 × 26 cm).",
+			'beschr'      => "Lichtstativ-Set mit 3-Punkt-Traverse: 3 m breit, Höhe 1,5–3,1 m einstellbar, Platz für bis zu 8 Scheinwerfer oder Effekte, belastbar mit 60 kg (gleichmäßig verteilt). Von einer Person schnell aufgebaut.\nMit 2 Stativen. Transport in zwei Taschen (154 × 34 cm und 127 × 26 cm).",
 			'breite'      => '3000',
 			'laenge'      => '1200',
 			'hoehe'       => '3100',
@@ -826,7 +826,7 @@ const KJO_VL_DATEN = array(
 			'hersteller'  => 'https://www.thomann.de/de/stairville_lb_3_lighting_stand_set_bundle.htm',
 		),
 		array(
-			'beschr'       => array( "Lichtstativ-Set mit 3-Punkt-Traverse: 3 m breit, Höhe 1,5–3,1 m einstellbar, Platz für bis zu 8 Scheinwerfer oder Effekte, belastbar mit 60 kg (gleichmäßig verteilt). Von einer Person schnell aufgebaut.\nStative aus Stahl (Rohr 28 mm, Standfläche Ø 1,2 m), Traverse 18-mm-Rohr. Transport in zwei Taschen (154 × 34 cm und 127 × 26 cm).", "Lichtstativ-Set mit 3-Punkt-Traverse: 3 m breit, höhenverstellbar, Platz für bis zu 8 Scheinwerfer oder Effekte, belastbar mit 60 kg (gleichmäßig verteilt). Von einer Person schnell aufgebaut.\nMit 2 Stativen. Transport in zwei Taschen (154 × 34 cm und 127 × 26 cm)." ),
+			'beschr'       => array( "Lichtstativ-Set mit 3-Punkt-Traverse: 3 m breit, Höhe 1,5–3,1 m einstellbar, Platz für bis zu 8 Scheinwerfer oder Effekte, belastbar mit 60 kg (gleichmäßig verteilt). Von einer Person schnell aufgebaut.\nStative aus Stahl (Rohr 28 mm, Standfläche Ø 1,2 m), Traverse 18-mm-Rohr. Transport in zwei Taschen (154 × 34 cm und 127 × 26 cm).", "Lichtstativ-Set mit 3-Punkt-Traverse: 3 m breit, Höhe 1,5–3,1 m einstellbar, Platz für bis zu 8 Scheinwerfer oder Effekte, belastbar mit 60 kg (gleichmäßig verteilt). Von einer Person schnell aufgebaut.\nMit 2 Stativen. Transport in zwei Taschen (154 × 34 cm und 127 × 26 cm)." ),
 			'lieferumfang' => array( "2 Traversenständer\n2 Adapter Traverse/Ständer\n2 Traversenstücke\nVerbinder, Schrauben und Sicherungen", "2 Lichtstative\n2 Traversenaufnehmer\n2 Traversenstücke (je 1,5 m, 3-Punkt)\n8 Haken (Hookclamps, je bis 15 kg) mit Sicherungsseilen\n2 Transporttaschen (Traverse, Stative)" ),
 		),
 	),
@@ -836,7 +836,7 @@ const KJO_VL_DATEN = array(
 		'Partylicht auf eigenem Stativ, das die ganze Tanzfläche ausleuchtet.',
 		'Lichteffekt-Leiste mit Laser, Derbys, Spots und Strobe auf eigenem Stativ – leuchtet die ganze Tanzfläche aus.',
 		array(
-			'beschr'      => "4-in-1-Lichteffektleiste: 2 rotierende LED-Derbys (Spiegelkugel-Effekt), 2 LED-Spots in Rot/Grün/Blau, Strobe mit 4 weißen LEDs und ein Laser mit hunderten roten und grünen Strahlen. 37 Showprogramme im Auto- und Musikmodus, bedienbar per Funk-Fußschalter oder IR-Fernbedienung, optional per DMX.\nLaserklasse 2M: keine Abnahme und kein Laserschutzbeauftragter nötig. Auf dem mitgelieferten Lichtstativ.",
+			'beschr'      => "4-in-1-Lichteffektleiste: 2 rotierende LED-Derbys (Spiegelkugel-Effekt), 2 LED-Spots in Rot/Grün/Blau, Strobe mit 4 weißen LEDs und ein Laser mit hunderten roten und grünen Strahlen. 37 Showprogramme im Auto- und Musikmodus, bedienbar per Funk-Fußschalter oder IR-Fernbedienung, optional per DMX.\nLaserklasse 2M: keine Abnahme und kein Laserschutzbeauftragter nötig. Auf dem Stativ in 1,50–3,10 m Höhe.",
 			'breite'      => '1320',
 			'laenge'      => '145',
 			'hoehe'       => '320',
@@ -852,7 +852,6 @@ const KJO_VL_DATEN = array(
 		),
 		array(
 			'lieferumfang' => array( "Lichtstativ Stageworx BLS-315 Pro (1,50–3,10 m)\nTransporttasche\nFunk-Fußschalter\nIR-Fernbedienung", "Lichtstativ\nTransporttasche\nFunk-Fußschalter\nIR-Fernbedienung" ),
-			'beschr'       => array( "4-in-1-Lichteffektleiste: 2 rotierende LED-Derbys (Spiegelkugel-Effekt), 2 LED-Spots in Rot/Grün/Blau, Strobe mit 4 weißen LEDs und ein Laser mit hunderten roten und grünen Strahlen. 37 Showprogramme im Auto- und Musikmodus, bedienbar per Funk-Fußschalter oder IR-Fernbedienung, optional per DMX.\nLaserklasse 2M: keine Abnahme und kein Laserschutzbeauftragter nötig. Auf dem Stativ in 1,50–3,10 m Höhe.", "4-in-1-Lichteffektleiste: 2 rotierende LED-Derbys (Spiegelkugel-Effekt), 2 LED-Spots in Rot/Grün/Blau, Strobe mit 4 weißen LEDs und ein Laser mit hunderten roten und grünen Strahlen. 37 Showprogramme im Auto- und Musikmodus, bedienbar per Funk-Fußschalter oder IR-Fernbedienung, optional per DMX.\nLaserklasse 2M: keine Abnahme und kein Laserschutzbeauftragter nötig. Auf dem mitgelieferten Lichtstativ." ),
 			'gewicht'      => array( '7,3 kg (Leiste), Stativ 5,6 kg', '7,3 kg (Leiste, ohne Stativ)' ),
 			'leistung'     => array( 'Spots 2 × 3 × 3 W RGB (13°), Derbys 2 × 3 × 1 W RGB, Strobe 4 × 1 W weiß, Laser 100 mW rot / 30 mW grün (Klasse 2M); Stativ belastbar bis 30 kg', 'Spots 2 × 3 × 3 W RGB (13°), Derbys 2 × 3 × 1 W RGB, Strobe 4 × 1 W weiß, Laser 100 mW rot / 30 mW grün (Klasse 2M)' ),
 		),
