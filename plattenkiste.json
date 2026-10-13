@@ -1,9 +1,9 @@
 {
- "version": "1.51.0",
- "download_url": "dj-kolja-one-plattenkiste-1.51.0.zip",
- "sha256": "77f111050d1aed57f3df490bc4ea878bcb1fa603fb7fe3657dd8b7fbdb424973",
+ "version": "1.51.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.51.1.zip",
+ "sha256": "b9ca2c256b1281c466e7fb3537237ef7ac035ca7ffdfe1c1e99fbf2bd1b970ff",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Datums-Check"
+ "changelog": "Kein weißer Rand beim Zoomen"
 }

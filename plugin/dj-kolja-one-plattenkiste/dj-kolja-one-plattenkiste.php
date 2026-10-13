@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.51.0
+ * Version:     1.51.1
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.51.0' );
+define( 'KJO_VERSION', '1.51.1' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 require_once __DIR__ . '/kjo-bilder.php';
@@ -1864,6 +1864,7 @@ if ( ! defined( 'KJO_WA' ) ) {
 }
 
 define( 'KJO_HEAD_CSS', <<<'KJOCSS'
+html,body{background-color:#0F0C07!important}@supports (overflow-x:clip){html,body{overflow-x:clip}}
 #kjm,#kjo,#kjm svg,#kjo svg,#kjm svg text,#kjo svg text{-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-touch-callout:none}
 #kjm ::selection,#kjo ::selection{background:transparent}
 #kjm ::-moz-selection,#kjo ::-moz-selection{background:transparent}
