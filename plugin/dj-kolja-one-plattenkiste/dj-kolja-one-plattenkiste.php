@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.47.3
+ * Version:     1.49.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.47.3' );
+define( 'KJO_VERSION', '1.49.0' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 require_once __DIR__ . '/kjo-bilder.php';
@@ -448,6 +448,12 @@ add_filter(
 			'label' => 'Link zum Teilen',
 			'input' => 'html',
 			'html'  => '<input type="text" readonly class="widefat" onclick="this.select()" value="' . esc_attr( home_url( '/meine-musik/?song=' . $id ) ) . '"><br><small>Öffnet „Meine Musik“ mit diesem Song auf Deck A – ein Tipp startet ihn. Für ein Genre: <code>' . esc_html( home_url( '/meine-musik/?mix=house' ) ) . '</code></small>',
+		);
+		$qr_url = home_url( '/meine-musik/?song=' . $id . '&bewerten=1&utm_source=qr&utm_medium=karte&utm_campaign=bewerten' );
+		$fields['kjm_qr'] = array(
+			'label' => 'QR-Code zum Bewerten',
+			'input' => 'html',
+			'html'  => '<div class="kjm-qr" data-url="' . esc_attr( $qr_url ) . '" data-titel="' . esc_attr( get_the_title( $id ) ) . '" data-file="' . esc_attr( 'qr-bewerten-' . sanitize_title( get_the_title( $id ) ) . '.png' ) . '"></div><small>Für Karte am DJ-Pult, Bildschirm oder Story: Der Scan öffnet „Meine Musik“ mit diesem Song auf Deck A und den Bewertungs-Sternen. Link: <code>' . esc_html( $qr_url ) . '</code></small>',
 		);
 		$fields['kjm_shares'] = array(
 			'label' => 'Geteilt',
@@ -1045,6 +1051,29 @@ add_filter(
 	2
 );
 add_shortcode( 'kjo_startpult', 'kjo_start_deck_html' );
+
+/* QR-Code zum Bewerten in der Mediathek (seit 1.48.0): Generator lokal (qrcode-generator, MIT), keine externen Dienste. */
+add_action(
+	'admin_enqueue_scripts',
+	function ( $hook ) {
+		if ( ! current_user_can( 'upload_files' ) || ! in_array( $hook, array( 'upload.php', 'post.php' ), true ) ) {
+			return;
+		}
+		wp_enqueue_script( 'kjm-qrcode', plugins_url( 'assets/qrcode.js', __FILE__ ), array(), KJO_VERSION, true );
+		wp_add_inline_script( 'kjm-qrcode', <<<'KJMQR'
+(function(){function draw(el){if(el.getAttribute("data-done")||typeof qrcode!=="function")return;el.setAttribute("data-done","1");var u=el.getAttribute("data-url"),t=el.getAttribute("data-titel")||"";
+ var q=qrcode(0,"M");q.addData(u);q.make();var n=q.getModuleCount(),W=1200,cell=Math.floor((W-180)/n),qs=cell*n,off=Math.floor((W-qs)/2),H=W+250;
+ var c=document.createElement("canvas");c.width=W;c.height=H;var x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,W,H);x.fillStyle="#0F0C07";
+ for(var r=0;r<n;r++)for(var k=0;k<n;k++)if(q.isDark(r,k))x.fillRect(off+k*cell,off+r*cell,cell,cell);
+ x.textAlign="center";x.font="600 66px sans-serif";x.fillText("★★★★★  Song bewerten",W/2,W+60);x.font="46px sans-serif";x.fillText(t.length>42?t.slice(0,41)+"…":t,W/2,W+135);x.fillStyle="#8C7650";x.font="38px sans-serif";x.fillText("DJ KOLJA ONE · dj-kolja-one.de",W/2,W+205);
+ var d=c.toDataURL("image/png"),img=new Image();img.src=d;img.alt="QR-Code";img.style.cssText="width:170px;height:auto;border:1px solid #ccd0d4;display:block;margin:4px 0 6px";
+ var a=document.createElement("a");a.href=d;a.download=el.getAttribute("data-file")||"qr-bewerten.png";a.className="button";a.textContent="Als PNG herunterladen";el.appendChild(img);el.appendChild(a)}
+ function scan(){[].forEach.call(document.querySelectorAll(".kjm-qr:not([data-done])"),draw)}
+ scan();if(window.MutationObserver)new MutationObserver(scan).observe(document.body,{childList:true,subtree:true})})();
+KJMQR
+		);
+	}
+);
 add_shortcode( 'kjo_musikpult', 'kjm_deck_html' );
 
 

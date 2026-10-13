@@ -99,10 +99,10 @@ function kjo_vl_intern_fields() {
 }
 /* Bestand (seit 1.47.0): Pakete belegen ihre Geräte, damit der Mietkorb nie mehr anbietet, als da ist. */
 const KJO_VL_PAKET_GERAETE = array(
-	'paket-s'           => array( 'bose-s1-pro' => 2, 'lautsprecherstativ' => 2, 'kls-lightbar' => 1, 'shure-beta-58a' => 1 ),
-	'paket-m'           => array( 'bose-s1-pro' => 2, 'lautsprecherstativ' => 2, 'kls-lightbar' => 1, 'bose-subwoofer' => 1, 'funkmikrofon-set' => 1, 'traverse-3m' => 1, 'stairville-tri-flat-par' => 4, 'wash-scheinwerfer' => 1, 'led-laufschrift' => 1, 'nebelmaschine' => 1, 'dj-pult' => 1 ),
+	'paket-s'           => array( 'bose-s1-pro' => 2, 'kls-lightbar' => 1, 'shure-beta-58a' => 1 ),
+	'paket-m'           => array( 'bose-s1-pro' => 2, 'kls-lightbar' => 1, 'bose-subwoofer' => 1, 'funkmikrofon-set' => 1, 'traverse-3m' => 1, 'stairville-tri-flat-par' => 4, 'wash-scheinwerfer' => 1, 'led-laufschrift' => 1, 'nebelmaschine' => 1, 'dj-pult' => 1 ),
 	'paket-l'           => array( 'pronomic-c-215-ma' => 2, 'pronomic-c-118sa' => 2, 'traverse-3m' => 1, 'moving-head' => 2, 'stairville-tri-flat-par' => 4, 'wash-scheinwerfer' => 1, 'led-laufschrift' => 1, 'algam-akku-par' => 6, 'kls-lightbar' => 1, 'uv-strahler' => 1, 'spiegelkugel' => 1, 'nebelmaschine' => 1, 'funkmikrofon-set' => 1, 'dj-pult' => 1 ),
-	'paket-bose-zusatz' => array( 'bose-s1-pro' => 2, 'lautsprecherstativ' => 2, 'bose-subwoofer' => 1 ),
+	'paket-bose-zusatz' => array( 'bose-s1-pro' => 2, 'bose-subwoofer' => 1 ),
 );
 const KJO_VL_PAKET_NUR_MIT = array( 'paket-bose-zusatz' => 'paket-l' );
 /** Bestand eines Geräts als Zahl, null = nicht eingetragen (unbegrenzt). */
@@ -468,7 +468,7 @@ function kjo_vl_seed_data() {
 		array( 'funkmikrofon-set', 'Funkmikrofon-Set', 'mikrofone', 1, 'Für Reden, Spiele und Ansagen – ohne Kabelsalat.', array() ),
 		array( 'stairville-tri-flat-par', 'Stairville Tri Flat PAR Profile 5 × 3 W', 'licht', 4, 'Flacher LED-Scheinwerfer für farbiges Party- und Flächenlicht, z. B. an der Traverse.', array( 'breite' => '165', 'laenge' => '105', 'hoehe' => '165', 'masse' => 'mit Bügel 255 × 235 × 105 mm', 'gewicht' => '2,04 kg', 'leistung' => '15 W, RGB-LED', 'anschluesse' => 'DMX, Musiksteuerung, Automatik' ) ),
 		array( 'moving-head', KJO_VL_DATEN['moving-head'][1], 'licht', 2, KJO_VL_DATEN['moving-head'][3], KJO_VL_DATEN['moving-head'][4] ),
-		array( 'kls-lightbar', 'Eurolite KLS Laser Bar FX-Set mit Lichtstativ', 'licht', 1, 'Partylicht auf eigenem Stativ, das die ganze Tanzfläche ausleuchtet.', array( 'lieferumfang' => "Lichtstativ Stageworx BLS-315 Pro (1,50–3,10 m)\nTransporttasche\nFunk-Fußschalter\nIR-Fernbedienung" ) ),
+		array( 'kls-lightbar', 'Eurolite KLS Laser Bar FX-Set mit Lichtstativ', 'licht', 1, 'Partylicht auf eigenem Stativ, das die ganze Tanzfläche ausleuchtet.', array( 'lieferumfang' => "Lichtstativ\nTransporttasche\nFunk-Fußschalter\nIR-Fernbedienung" ) ),
 		array( 'algam-akku-par', 'ALGAM Akku-Parlight', 'licht', 6, 'Kabelloses Ambientelicht für Wände, Säulen, Garten und Terrasse.', array( 'lieferumfang' => 'Ladegerät', 'strom' => 'Akku' ) ),
 		array( 'uv-strahler', KJO_VL_DATEN['uv-strahler'][1], 'effekte', 1, KJO_VL_DATEN['uv-strahler'][3], KJO_VL_DATEN['uv-strahler'][4] ),
 		array( 'wash-scheinwerfer', KJO_VL_DATEN['wash-scheinwerfer'][1], 'licht', 1, KJO_VL_DATEN['wash-scheinwerfer'][3], KJO_VL_DATEN['wash-scheinwerfer'][4] ),
@@ -476,7 +476,6 @@ function kjo_vl_seed_data() {
 		array( 'nebelmaschine', 'Showlite SN-1200 Nebelmaschine (1.200 W)', 'effekte', 1, 'Macht Lichtstrahlen sichtbar. Bitte vorher mit der Location wegen der Rauchmelder abstimmen.', array() ),
 		array( 'led-laufschrift', 'Eurolite ESN LED-Laufschrift (65 cm)', 'effekte', 1, 'Eure Namen, „Happy Birthday“ oder euer Hashtag in Leuchtschrift.', array() ),
 		array( 'traverse-3m', 'Stageworx LB-3 Traversen-Set 3 m', 'buehne', 1, 'Lichttraverse mit zwei Ständern – die Bühne für Scheinwerfer und Laufschrift.', array( 'lieferumfang' => "2 Lichtstative\n2 Traversenaufnehmer\n2 Traversenstücke (je 1,5 m, 3-Punkt)\n8 Haken (Hookclamps, je bis 15 kg) mit Sicherungsseilen\n2 Transporttaschen (Traverse, Stative)" ) ),
-		array( 'lautsprecherstativ', 'Roadworx Speakerstand 2 Lautsprecherstativ', 'buehne', 2, 'Stabiles Alu-Stativ mit Gasdruckfeder für Aktivlautsprecher, 1,30–2,00 m hoch.', array() ),
 	);
 	$p = array(
 		array( 'paket-s', 'Paket S – „Sound & Party“', 'Für bis zu ca. 50 Gäste', 'bspw. Geburtstag, Gartenparty, Sektempfang, etc.', "2× Bose S1 Pro Aktivlautsprecher (mit Bluetooth) auf Stativen\nPartylicht: Eurolite KLS Laser Bar mit Laser, Derbys, Spots und Strobe, auf eigenem Lichtstativ\nShure Beta 58A Mikrofon mit Kabel\nAudiokabel für Handy oder Laptop", 'Zubehör: DJ-Pult 20 €, Pioneer DDJ-FLX10 60 € pro Tag. Transport: passt in einen Kombi (Lightbar und Stative ca. 1,5 m).' ),
@@ -815,7 +814,7 @@ const KJO_VL_DATEN = array(
 		'',
 		'',
 		array(
-			'beschr'      => "Lichtstativ-Set mit 3-Punkt-Traverse: 3 m breit, Höhe 1,5–3,1 m einstellbar, Platz für bis zu 8 Scheinwerfer oder Effekte, belastbar mit 60 kg (gleichmäßig verteilt). Von einer Person schnell aufgebaut.\nStative aus Stahl (Rohr 28 mm, Standfläche Ø 1,2 m), Traverse 18-mm-Rohr. Transport in zwei Taschen (154 × 34 cm und 127 × 26 cm).",
+			'beschr'      => "Lichtstativ-Set mit 3-Punkt-Traverse: 3 m breit, Höhe 1,5–3,1 m einstellbar, Platz für bis zu 8 Scheinwerfer oder Effekte, belastbar mit 60 kg (gleichmäßig verteilt). Von einer Person schnell aufgebaut.\nMit 2 Stativen. Transport in zwei Taschen (154 × 34 cm und 127 × 26 cm).",
 			'breite'      => '3000',
 			'laenge'      => '1200',
 			'hoehe'       => '3100',
@@ -827,6 +826,7 @@ const KJO_VL_DATEN = array(
 			'hersteller'  => 'https://www.thomann.de/de/stairville_lb_3_lighting_stand_set_bundle.htm',
 		),
 		array(
+			'beschr'       => array( "Lichtstativ-Set mit 3-Punkt-Traverse: 3 m breit, Höhe 1,5–3,1 m einstellbar, Platz für bis zu 8 Scheinwerfer oder Effekte, belastbar mit 60 kg (gleichmäßig verteilt). Von einer Person schnell aufgebaut.\nStative aus Stahl (Rohr 28 mm, Standfläche Ø 1,2 m), Traverse 18-mm-Rohr. Transport in zwei Taschen (154 × 34 cm und 127 × 26 cm).", "Lichtstativ-Set mit 3-Punkt-Traverse: 3 m breit, Höhe 1,5–3,1 m einstellbar, Platz für bis zu 8 Scheinwerfer oder Effekte, belastbar mit 60 kg (gleichmäßig verteilt). Von einer Person schnell aufgebaut.\nMit 2 Stativen. Transport in zwei Taschen (154 × 34 cm und 127 × 26 cm)." ),
 			'lieferumfang' => array( "2 Traversenständer\n2 Adapter Traverse/Ständer\n2 Traversenstücke\nVerbinder, Schrauben und Sicherungen", "2 Lichtstative\n2 Traversenaufnehmer\n2 Traversenstücke (je 1,5 m, 3-Punkt)\n8 Haken (Hookclamps, je bis 15 kg) mit Sicherungsseilen\n2 Transporttaschen (Traverse, Stative)" ),
 		),
 	),
@@ -840,8 +840,8 @@ const KJO_VL_DATEN = array(
 			'breite'      => '1320',
 			'laenge'      => '145',
 			'hoehe'       => '320',
-			'gewicht'     => '7,3 kg (Leiste), Stativ 5,6 kg',
-			'leistung'    => 'Spots 2 × 3 × 3 W RGB (13°), Derbys 2 × 3 × 1 W RGB, Strobe 4 × 1 W weiß, Laser 100 mW rot / 30 mW grün (Klasse 2M); Stativ belastbar bis 30 kg',
+			'gewicht'     => '7,3 kg (Leiste, ohne Stativ)',
+			'leistung'    => 'Spots 2 × 3 × 3 W RGB (13°), Derbys 2 × 3 × 1 W RGB, Strobe 4 × 1 W weiß, Laser 100 mW rot / 30 mW grün (Klasse 2M)',
 			'anschluesse' => 'DMX In/Out (XLR 3-polig, 3/5/9/27 Kanäle), Kaltgeräte-Strom In/Out, Stativaufnahme 36 mm',
 			'strom'       => '100–240 V, 50/60 Hz, 50 W',
 			'wetter'      => 'innen',
@@ -851,7 +851,9 @@ const KJO_VL_DATEN = array(
 			'notiz'       => "Lichtstativ: Stageworx BLS-315 Pro Lighting Stand B, Höhe 150–310 cm, Standfläche Ø 120 cm, belastbar bis 30 kg, Transportlänge 124 cm:\nhttps://www.thomann.de/de/stairville_bls315_pro_lighting_stand_b.htm",
 		),
 		array(
-			'lieferumfang' => array( 'Lichtstativ', "Lichtstativ Stageworx BLS-315 Pro (1,50–3,10 m)\nTransporttasche\nFunk-Fußschalter\nIR-Fernbedienung" ),
+			'lieferumfang' => array( "Lichtstativ Stageworx BLS-315 Pro (1,50–3,10 m)\nTransporttasche\nFunk-Fußschalter\nIR-Fernbedienung", "Lichtstativ\nTransporttasche\nFunk-Fußschalter\nIR-Fernbedienung" ),
+			'gewicht'      => array( '7,3 kg (Leiste), Stativ 5,6 kg', '7,3 kg (Leiste, ohne Stativ)' ),
+			'leistung'     => array( 'Spots 2 × 3 × 3 W RGB (13°), Derbys 2 × 3 × 1 W RGB, Strobe 4 × 1 W weiß, Laser 100 mW rot / 30 mW grün (Klasse 2M); Stativ belastbar bis 30 kg', 'Spots 2 × 3 × 3 W RGB (13°), Derbys 2 × 3 × 1 W RGB, Strobe 4 × 1 W weiß, Laser 100 mW rot / 30 mW grün (Klasse 2M)' ),
 		),
 	),
 	'nebelmaschine' => array(
@@ -944,7 +946,7 @@ const KJO_VL_OPT_DEFAULT = array(
 	'aufbau'     => 'Auf- und Abbau: Paket S 40 €, Paket M 100 €, Paket L 180 €, sonst 40 € pro Stunde; Abbau nach 23 Uhr +50 %. Die Einweisung ist immer kostenlos.',
 );
 const KJO_VL_PAKETE_V = 4; // Pakete S/M/L neu (12.10.2026): einmalig vollständig überschreiben
-const KJO_VL_MIG      = 21;
+const KJO_VL_MIG      = 22;
 add_action(
 	'admin_init',
 	function () {
@@ -1001,6 +1003,17 @@ add_action(
 			$g = get_page_by_path( $slug, OBJECT, 'kjo_geraet' );
 			if ( $g && in_array( kjo_vl_get( $g->ID, 'lieferumfang' ), $f[0], true ) ) {
 				update_post_meta( $g->ID, '_kjo_lieferumfang', $f[1] );
+			}
+		}
+		// Stative (seit 1.49.0): kein Einzelartikel mehr, sondern bei Bose S1 Pro, Pronomic C-215 MA, KLS und Traverse enthalten.
+		$st = get_page_by_path( 'lautsprecherstativ', OBJECT, 'kjo_geraet' );
+		if ( $st ) {
+			update_post_meta( $st->ID, '_kjo_mietbar', '' );
+		}
+		foreach ( array( 'bose-s1-pro' => 'Lautsprecherstativ', 'pronomic-c-215-ma' => '2 Lautsprecherstative (eins pro Box)' ) as $slug => $line ) {
+			$g = get_page_by_path( $slug, OBJECT, 'kjo_geraet' );
+			if ( $g && false === stripos( kjo_vl_get( $g->ID, 'lieferumfang' ), 'stativ' ) ) {
+				update_post_meta( $g->ID, '_kjo_lieferumfang', trim( $line . "\n" . kjo_vl_get( $g->ID, 'lieferumfang' ) ) );
 			}
 		}
 		// Mietpreise und Texte nur dort eintragen, wo noch nichts steht.
@@ -1460,7 +1473,6 @@ const KJO_VL_LINKS = array(
 	'Akku-Scheinwerfer'      => 'algam-akku-par',
 	'UV-Schwarzlicht'        => 'uv-strahler',
 	'Spiegelkugel'           => 'spiegelkugel',
-	'Stativen'               => 'lautsprecherstativ',
 );
 /** Paketzeile als HTML: bekannte Gerätenamen werden zu Info-Buttons (Hover/Klick zeigt das Gerät). */
 function kjo_vl_zeile_html( $l ) {

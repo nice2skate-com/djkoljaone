@@ -64,7 +64,7 @@ window.KJM_DEMO = [
 #kjm .gdiv{grid-column:1/-1;display:flex;align-items:center;gap:14px;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin:10px 0 calc((100% - 70px)*.04 + 12px);position:relative;z-index:4}#kjm .gdiv:first-child{margin-top:0}#kjm .sleeves.one{padding-top:calc((100% - 70px)*.04 + 4px)}#kjm .gdiv:first-child{margin-top:0}
 #kjm .gdiv:after{content:"";flex:1;height:1px;background:rgba(178,157,117,.25)}
 #kjm .sl .r{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--gold);position:relative;z-index:2;margin-top:4px}
-#kjm .rate{margin-top:26px;text-align:center;opacity:.35;transition:opacity .3s}#kjm .rate.on{opacity:1}
+#kjm .rate{margin-top:26px;text-align:center;opacity:.35;transition:opacity .3s}#kjm .rate.on{opacity:1}#kjm .rate.call .st{animation:kjmRateCall 1.4s ease-in-out 4}@keyframes kjmRateCall{50%{transform:scale(1.12)}}
 #kjm .rate .q{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
 #kjm .rate .st{display:flex;justify-content:center;gap:6px;margin:10px 0 8px}
 #kjm .rate button{background:none;border:0;padding:4px;cursor:pointer;color:#4a443a;transition:color .15s,transform .15s}
@@ -438,7 +438,7 @@ function showRate(s){if(s===rateSong)return;rateSong=s;rateBox.classList.toggle(
  document.getElementById("kjmRateQ").textContent=s?(r?"Danke für deine Bewertung":"Wie gefällt dir „"+s.titel+"“?"):"Leg einen Song auf und bewerte ihn";avgText()}
 function avgText(){var s=rateSong,el=document.getElementById("kjmAvg");if(!s){el.innerHTML="&nbsp;";return}
  el.innerHTML=s.count?"Durchschnitt <b>"+de(s.avg.toFixed(1))+"</b> von 5 · "+s.count+(s.count===1?" Bewertung":" Bewertungen"):"Noch keine Bewertung – sei die oder der Erste"}
-function vote(n){var s=rateSong;if(!s||rated(s.id))return;setRated(s.id,n);[].forEach.call(starsBox.children,function(b){b.disabled=true});hl(n);
+function vote(n){var s=rateSong;if(!s||rated(s.id))return;setRated(s.id,n);rateBox.classList.remove("call");[].forEach.call(starsBox.children,function(b){b.disabled=true});hl(n);
  document.getElementById("kjmRateQ").textContent="Danke für deine Bewertung";
  function apply(avg,cnt){s.avg=avg;s.count=cnt;avgText();if(sleeves[S.indexOf(s)])sleeves[S.indexOf(s)].querySelector(".r").innerHTML=sleeveRating(s)}
  if(MODE==="live"){fetch(window.KJM_API+"/rate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:s.id,stars:n})}).then(function(r){return r.json()}).then(function(j){if(j&&j.count)apply(j.avg,j.count);else if(j&&j.data&&j.data.count){apply(j.data.avg,j.data.count);if(j.code==="kjm_voted")document.getElementById("kjmRateQ").textContent="Du hast diesen Song schon bewertet"}}).catch(function(){})}
@@ -524,14 +524,15 @@ function amGenres(){var box=document.getElementById("kjmAmG");if(!box)return;box
 /* Direkt-Links: ?song=ID legt den Song auf Deck A, ?mix=Genre bereitet den Automix vor – Start per Tipp (Browser erlauben Ton erst nach einer Berührung) */
 var LINKED=false;
 function applyLink(){if(LINKED||!S.length)return;LINKED=true;var q;try{q=new URLSearchParams(location.search)}catch(e){return}
- var id=q.get("song"),mx=(q.get("mix")||"").toLowerCase(),idx=-1,g=null;
+ var id=q.get("song"),mx=(q.get("mix")||"").toLowerCase(),rq=q.get("bewerten"),idx=-1,g=null;
  if(id)S.forEach(function(s,i){if(String(s.id)===id)idx=i});
  if(mx){if(mx==="alle")g="Alle";else S.forEach(function(s){if(s.genre.toLowerCase()===mx)g=s.genre})}
  if(idx<0&&!g)return;var root=document.getElementById("kjm");if(!root)return;
  var b=document.createElement("button");b.type="button";b.className="kjm-go";b.textContent=idx>=0?"▶ "+S[idx].titel+" abspielen":"▶ Automix "+g+" starten";
  if(idx>=0){try{loadTo(decks[0],idx,false);afterLoad(decks[0],idx)}catch(e){lg("Direkt-Link: Vorladen fehlgeschlagen "+e)}}
+ if(rq&&idx>=0){showRate(S[idx]);if(!rated(S[idx].id))rateBox.classList.add("call")} /* QR-Code zum Bewerten (seit 1.48.0): Sterne gleich sichtbar */
  b.onclick=function(){b.remove();if(idx>=0){try{audio();if(ac&&ac.state==="suspended")ac.resume()}catch(e){}unlockMedia();loadTo(decks[0],idx,true);afterLoad(decks[0],idx)}else amGenre(g)};document.body.appendChild(b);try{var hd=document.querySelector(".kjo-head")||document.querySelector("header");var hb=hd?hd.getBoundingClientRect().bottom:0;if(hb>0&&hb<window.innerHeight/2)b.style.top=Math.round(hb+12)+"px"}catch(e){}
- setTimeout(function(){try{root.scrollIntoView({behavior:"smooth",block:"start"})}catch(e){}},400)}
+ setTimeout(function(){try{(rq&&idx>=0?rateBox:root).scrollIntoView({behavior:"smooth",block:rq&&idx>=0?"center":"start"})}catch(e){}},400)}
 function amMove(i,d){var j=i+d;if(j<0||j>=AM.q.length)return;var t=AM.q[i];AM.q[i]=AM.q[j];AM.q[j]=t;amSyncQi();amUI();markQ()}
 function markQ(){if(typeof bwEl!=="undefined"&&bwEl&&bwEl.classList.contains("on"))setTimeout(bwRows,0);S.forEach(function(sg,i){var b=sleeves[i];if(!b)return;var qa=b.querySelector(".qa");if(!qa)return;var k=AM.q.indexOf(sg);qa.className="qa"+(k>=0?" in":"");qa.innerHTML=k>=0?ICHK+String(k+1):ILADD;
   qa.setAttribute("aria-label",k>=0?"Aus dem Automix entfernen (Platz "+(k+1)+")":"Zum Automix hinzufügen");qa.title=k>=0?"Aus dem Automix entfernen":"Zum Automix hinzufügen"})}
