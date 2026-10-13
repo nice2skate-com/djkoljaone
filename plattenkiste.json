@@ -1,9 +1,9 @@
 {
- "version": "1.50.0",
- "download_url": "dj-kolja-one-plattenkiste-1.50.0.zip",
- "sha256": "48f531e99e768b1c8b60ebc29291af83ca1b823f11a0410d70d27f3cbb81749b",
+ "version": "1.51.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.51.0.zip",
+ "sha256": "77f111050d1aed57f3df490bc4ea878bcb1fa603fb7fe3657dd8b7fbdb424973",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Testdaten-Bewertungen"
+ "changelog": "Datums-Check"
 }
