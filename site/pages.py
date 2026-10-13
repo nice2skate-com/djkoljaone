@@ -44,7 +44,7 @@ def start():
       hero("DJ &amp; Moderator aus Fellheim · seit über 10 Jahren","Premium DJ für Hochzeiten &amp; Events in Memmingen, Allgäu &amp; Schwaben",
            "Ihr feiert – ich sorge für die volle Tanzfläche und einen Abend, der einfach läuft. Mit eurer Musik und einer Moderation, die euch alles abnimmt.",
            [BTN(*WISH),BTN("Per WhatsApp anfragen",WA,False)],
-           stats=None,extra=[
+           stats=None,extra=[DATUM(),SPACER(10),
                              W("html",{"html":open("./deck/deck-snippet.html").read(),"_element_width":"inherit","width":px(100,"%")})]),
       vor,  # Vorstellung direkt unter dem DJ-Pult
       con([VIDEOS("start")],"column",bg=B1,pad=box(0,20,56,20),inner=False,flex_align_items="center",padding_mobile=box(0,20,40,20)),
@@ -65,6 +65,9 @@ def start():
             ("fab fa-whatsapp","WhatsApp","Schnell und unkompliziert – gern auch per Sprachnachricht",WA)]],"row",g=24,**ROW,flex_justify_content="space-between")],bg=B1),
       footer()]
 
+# Datums-Check „Ist euer Datum noch frei?“ (Shortcode aus dem Plugin, seit 1.51.0)
+def DATUM(): return W("shortcode",{"shortcode":"[kjo_datum_check]","_element_width":"inherit","width":px(100,"%")})
+
 # ---------------- Leistungsseiten ----------------
 ANLASS={"hochzeit":"Hochzeit","geburtstag":"Geburtstag / Party","firmenfeier":"Firmenfeier","events":"Sonstiges"}
 def anfrage(anlass,title="Wunschtermin prüfen",text="Datum, Ort und Gästezahl – mehr brauche ich für den Anfang nicht. Ich prüfe sofort, ob euer Termin frei ist, und melde mich innerhalb von 24 Stunden.",bg=B2):
@@ -77,7 +80,7 @@ def anfrage(anlass,title="Wunschtermin prüfen",text="Datum, Ort und Gästezahl 
 
 def service_v2(c):
     note=T("Unverbindlich · Antwort innerhalb von 24 Stunden",MUTED,"center",14)
-    out=[nav(),hero(c["eye"],c["h1"],c["sub"],[BTN(WISH[0],"#anfrage"),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=90,extra=[note]),
+    out=[nav(),hero(c["eye"],c["h1"],c["sub"],[BTN(WISH[0],"#anfrage"),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=90,extra=[DATUM(),note]),
          section(head("Eindrücke",c.get("gal_title","So feiert ihr mit mir"))+[VIDEOS(c["key"])],bg=B2)]
     alt=[B1]
     def bg():
@@ -102,7 +105,7 @@ def service_v2(c):
 
 def service(c):
     if c.get("v2"): return service_v2(c)
-    out=[nav(),hero(c["eye"],c["h1"],c["sub"],[BTN(WISH[0],"#anfrage"),BTN("So läuft's ab","#ablauf",False)],stats=None,minh=90),
+    out=[nav(),hero(c["eye"],c["h1"],c["sub"],[BTN(WISH[0],"#anfrage"),BTN("So läuft's ab","#ablauf",False)],stats=None,minh=90,extra=[DATUM()]),
          section(head("Eindrücke","So sieht ein Abend mit mir aus")+[VIDEOS(c["key"])],bg=B2)]
     if c.get("anlaesse"): out.append(section(head("Anlässe",c["anl_title"])+[cards(c["anlaesse"])]))
     out.append(split(*c["split1"],img=f"event_{c['key']}_text.jpg"))

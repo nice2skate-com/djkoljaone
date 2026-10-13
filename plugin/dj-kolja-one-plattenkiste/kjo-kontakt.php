@@ -54,6 +54,52 @@ add_action(
 	20
 );
 add_shortcode( 'kjo_kontakt', 'kjo_kf_form' );
+
+/* [kjo_datum_check] (seit 1.51.0): „Ist euer Datum noch frei?“ – Datum wählen, Ergebnis aus dem Kalender sofort sehen,
+ * dann ins Formular (gleiche Seite: Datum wird übernommen) oder zur Kontaktseite mit ?datum=. Zeigt nur frei/vorgemerkt/vergeben. */
+add_shortcode(
+	'kjo_datum_check',
+	function () {
+		static $n = 0;
+		$n++;
+		$GLOBALS['kjo_dc'] = true;
+		$id = 'kjo-dc-' . $n;
+		return '<div class="kjo-dc" data-kontakt="' . esc_url( home_url( '/kontakt/' ) ) . '"><label class="kjo-dc-l" for="' . $id . '">Ist euer Datum noch frei?</label><div class="kjo-dc-row"><input id="' . $id . '" type="date" min="' . esc_attr( wp_date( 'Y-m-d' ) ) . '" aria-describedby="' . $id . '-o"><button type="button" class="kjo-dc-btn">Prüfen</button></div><div class="kjo-dc-out" id="' . $id . '-o" aria-live="polite"></div></div>';
+	}
+);
+add_action(
+	'wp_footer',
+	function () {
+		if ( empty( $GLOBALS['kjo_dc'] ) ) {
+			return;
+		}
+		echo '<style id="kjo-dc-css">.kjo-dc{width:100%;max-width:560px;margin:0 auto;text-align:center;font-family:"Fira Sans",sans-serif;color:#F3F1E9}.kjo-dc-l{display:block;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:#B29D75;margin:0 0 10px}.kjo-dc-row{display:flex;gap:10px;justify-content:center}.kjo-dc input[type=date]{flex:1 1 auto;max-width:260px;min-height:48px;padding:10px 14px;background:#0F0C07;color:#F3F1E9;border:1px solid rgba(178,157,117,.7);border-radius:2px;font:16px "Fira Sans",sans-serif;color-scheme:dark}button.kjo-dc-btn{all:unset;box-sizing:border-box;cursor:pointer;min-height:48px;padding:0 22px;background:#B29D75;color:#0F0C07;font:500 14px/48px "Fira Sans",sans-serif;letter-spacing:1.5px;text-transform:uppercase;border-radius:2px}button.kjo-dc-btn:hover,button.kjo-dc-btn:focus-visible{background:#C4B08A}.kjo-dc-out:empty{display:none}.kjo-dc-out{margin:14px auto 0;padding:12px 16px;border-left:3px solid #B29D75;background:rgba(178,157,117,.08);text-align:left;font-size:15px;line-height:1.55}.kjo-dc-out.ok{border-color:#7fb77e}.kjo-dc-out.vor{border-color:#E0B36A}.kjo-dc-out.no{border-color:#ff9b8a}.kjo-dc-out strong{font-weight:500}.kjo-dc-out a{color:#B29D75}.kjo-dc-out a.kjo-dc-go{display:inline-block;margin-top:10px;padding:10px 18px;background:#B29D75;color:#0F0C07!important;text-decoration:none;font-weight:500;letter-spacing:1px;text-transform:uppercase;font-size:13px;border-radius:2px}</style>';
+		?>
+<script id="kjo-dc-js">(function(){var WT=["So","Mo","Di","Mi","Do","Fr","Sa"];
+function de(v){var d=new Date(v+"T12:00:00");return WT[d.getDay()]+", "+("0"+d.getDate()).slice(-2)+"."+("0"+(d.getMonth()+1)).slice(-2)+"."+d.getFullYear();}
+function run(box){var inp=box.querySelector("input"),out=box.querySelector(".kjo-dc-out"),v=inp.value,K=window.KJO_KAL;
+ if(!v){out.className="kjo-dc-out";out.innerHTML="Bitte wählt zuerst euer Datum.";try{inp.showPicker&&inp.showPicker();}catch(e){}return;}
+ if(v<inp.min){out.className="kjo-dc-out no";out.innerHTML="Dieses Datum liegt in der Vergangenheit.";return;}
+ var form=document.getElementById("kjo-kf-dt"),href=form?"#anfrage":box.getAttribute("data-kontakt")+"?datum="+v+"#formular";
+ var go='<br><a class="kjo-dc-go" href="'+href+'">Jetzt unverbindlich anfragen →</a>';
+ out.className="kjo-dc-out";out.textContent="Ich schaue in meinen Kalender …";
+ if(!K||!window.fetch){out.innerHTML="Fragt einfach an, ich prüfe den "+de(v)+" sofort."+go;return;}
+ fetch(K.api+(K.api.indexOf("?")>-1?"&":"?")+"von="+v,{credentials:"omit"}).then(function(r){return r.json();}).then(function(j){if(inp.value!==v)return;var s=j&&j.dj;
+  if(s==="frei"){out.className="kjo-dc-out ok";out.innerHTML="✓ <strong>"+de(v)+": Ich bin noch frei!</strong> Schickt mir eure Anfrage, ich melde mich innerhalb von 24 Stunden."+go;}
+  else if(s==="vor"){out.className="kjo-dc-out vor";out.innerHTML="◐ <strong>"+de(v)+" ist vorgemerkt.</strong> Fragt gern trotzdem an: Wird die Vormerkung nicht bestätigt, seid ihr als Nächste dran."+go;}
+  else{out.className="kjo-dc-out no";out.innerHTML="✕ <strong>"+de(v)+": Da bin ich leider schon ausgebucht.</strong> Probiert gern einen anderen Tag"+(j&&j.equip&&j.equip!=="belegt"?" oder <a href=\""+K.mieten+"?von="+v+"#pakete\">mietet Musikanlage und Licht</a> für eure Feier":"")+".";}
+  try{if(window.kjoTrack)window.kjoTrack("datum_check",{status:s||"?"});}catch(e){}
+ }).catch(function(){out.innerHTML="Fragt einfach an, ich prüfe den "+de(v)+" sofort."+go;});}
+document.addEventListener("change",function(e){var b=e.target.closest&&e.target.closest(".kjo-dc");if(b&&e.target.type==="date")run(b);});
+document.addEventListener("click",function(e){var t=e.target;if(!t.closest)return;var b=t.closest(".kjo-dc");if(!b)return;
+ if(t.closest(".kjo-dc-btn")){run(b);return;}
+ if(t.type==="date"){try{t.showPicker&&t.showPicker();}catch(x){}return;}
+ var a=t.closest("a.kjo-dc-go"),f=document.getElementById("kjo-kf-dt");if(a&&f&&a.getAttribute("href")==="#anfrage"){var v=b.querySelector("input").value;if(v&&!f.disabled){f.value=v;f.dispatchEvent(new Event("change",{bubbles:true}));}}});
+})();</script>
+		<?php
+	},
+	33
+);
 function kjo_kf_ersetzt( $a ) {
 	return apply_filters( 'kjo_kontakt_statt_wpforms', true ) && is_array( $a ) && isset( $a['id'] ) && 5020 === (int) $a['id'];
 }
@@ -138,6 +184,7 @@ function check(v){var K=window.KJO_KAL;av.innerHTML="";if(!K||!window.fetch||!v)
  else if(j.equip!=="belegt")hint("no","✕ <strong>An diesem Tag bin ich leider schon ausgebucht.</strong> Musikanlage und Licht sind aber "+(j.equip==="teil"?"teilweise ":"")+"noch frei: <a href=\""+K.mieten+"?von="+v+"#pakete\">Nur Equipment mieten? →</a>");
  else hint("no","✕ <strong>An diesem Tag bin ich leider schon ausgebucht.</strong> Gerne frage ich in meinem DJ-Netzwerk nach einem Kollegen für euch, oder ihr wählt einen anderen Tag.");}).catch(function(){});}
 dt.addEventListener("change",function(){check(dt.value);});
+try{var pd=new URLSearchParams(location.search).get("datum");if(pd&&/^\d{4}-\d{2}-\d{2}$/.test(pd)&&pd>=dt.min){dt.value=pd;check(pd);}}catch(x){}
 dt.addEventListener("click",function(){try{dt.showPicker&&dt.showPicker();}catch(e){}});
 off.addEventListener("click",function(){offen=!offen;dt.disabled=offen;dt.required=!offen;off.setAttribute("aria-pressed",offen?"true":"false");off.textContent=offen?"Doch ein festes Datum wählen":"Noch kein festes Datum?";if(offen){dt.value="";av.innerHTML="";dt.removeAttribute("aria-invalid");var m=f.elements.nachricht;if(!m.value)m.setAttribute("placeholder","Zeitraum oder mögliche Termine, z. B. „Sommer 2027, ein Samstag“");m.focus();}});
 f.addEventListener("input",function(e){if(!box.hidden)msg("");if(e.target.getAttribute("aria-invalid")==="true"&&e.target.checkValidity())e.target.removeAttribute("aria-invalid");});
