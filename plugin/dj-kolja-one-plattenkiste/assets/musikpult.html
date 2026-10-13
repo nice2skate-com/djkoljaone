@@ -68,7 +68,7 @@ window.KJM_DEMO = [
 #kjm .rate .st{display:flex;justify-content:center;gap:6px;margin:10px 0 8px}
 #kjm .rate button{background:none;border:0;padding:4px;cursor:pointer;color:#4a443a;transition:color .15s,transform .15s}
 #kjm .rate button:hover{transform:scale(1.12)}#kjm .rate button.hi{color:var(--gold)}#kjm .rate button:disabled{cursor:default;transform:none}
-#kjm .rate .avg{font-size:13px;color:var(--muted)}#kjm .rate .avg b{color:var(--off);font-weight:400;font-size:17px}
+#kjm .rate .avg{font-size:13px;color:var(--muted)}#kjm .tst{font-style:normal;color:#E0B36A;font-size:.85em;letter-spacing:.5px;border:1px solid rgba(224,179,106,.6);border-radius:3px;padding:0 4px;margin-left:3px;white-space:nowrap}#kjm .rate .avg b{color:var(--off);font-weight:400;font-size:17px}
 #kjm .np .a{font-size:12px;color:var(--gold);margin-top:6px;display:flex;align-items:center;gap:5px}
 #kjm .front{height:28px;margin:0 -22px;margin-top:-6px;position:relative;z-index:3;background:linear-gradient(#2a241b,#171309);border-top:1px solid rgba(178,157,117,.35);border-radius:0 0 6px 6px;display:flex;align-items:center;justify-content:center;font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase}
 @media(max-width:1000px){#kjm .cratewrap{grid-template-columns:1fr}#kjm .cratewrap .amx{position:static;order:-1}#kjm .amx #kjmAmTog{display:block}#kjm .amx .aq{display:none}#kjm .amx.open .aq{display:flex}#kjm .amx .as{min-height:4.4em}#kjm .rig{grid-template-columns:1fr}#kjm .lap{order:-1;max-width:520px;width:100%;margin:0 auto}#kjm .sleeves{grid-template-columns:repeat(3,1fr)}}
@@ -384,7 +384,7 @@ function de(n){return String(n).replace(".",",")}
 function rated(id){try{return +localStorage.getItem("kjm_r_"+id)||0}catch(e){return 0}}
 function setRated(id,v){try{localStorage.setItem("kjm_r_"+id,v)}catch(e){}}
 var PAL=["#F3F1E9","#B29D75","#0F0C07","#8C7650","#D9CBB0","#5E4E33","#C4B08A","#3A3429"],genres=[],curG="Alle";
-function sleeveRating(s){return s.count?star(10)+" "+de(s.avg.toFixed(1))+" · "+s.count:"Noch unbewertet"}
+function sleeveRating(s){return s.count?star(10)+" "+de(s.avg.toFixed(1))+" · "+s.count+(s.test?' <em class="tst">Testdaten</em>':""):"Noch unbewertet"}
 var refK="",refS=null,onlyFit=false;
 var AM={on:false,man:false,q:[],qi:-1,main:0,trans:null,len:16,loFx:false,endT:0,glideT:0};
 var IPLAY='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>',ISHR='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 16.1c-.8 0-1.4.3-2 .8l-7.1-4.1c.1-.3.1-.5.1-.8s0-.5-.1-.8l7-4.1c.5.5 1.2.8 2 .8 1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3c0 .3 0 .5.1.8L8 9.8C7.5 9.3 6.8 9 6 9c-1.7 0-3 1.3-3 3s1.3 3 3 3c.8 0 1.5-.3 2-.8l7.1 4.2c-.1.2-.1.5-.1.7 0 1.6 1.3 2.9 2.9 2.9s2.9-1.3 2.9-2.9-1.2-3-2.8-3z"/></svg>',ILADD='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h12v2H3zM3 11h12v2H3zM3 16h8v2H3zM18 11v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>',ICHK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 16.2 5.3 12l-1.4 1.4 5.6 5.6L21 7.5l-1.4-1.4z"/></svg>';
@@ -436,10 +436,10 @@ function showRate(s){if(s===rateSong)return;rateSong=s;rateBox.classList.toggle(
  [].forEach.call(starsBox.children,function(b){b.disabled=!s||!!r});hl(r);
  document.getElementById("kjmRateQ").textContent=s?(r?"Danke für deine Bewertung":"Wie gefällt dir „"+s.titel+"“?"):"Leg einen Song auf und bewerte ihn";avgText()}
 function avgText(){var s=rateSong,el=document.getElementById("kjmAvg");if(!s){el.innerHTML="&nbsp;";return}
- el.innerHTML=s.count?"Durchschnitt <b>"+de(s.avg.toFixed(1))+"</b> von 5 · "+s.count+(s.count===1?" Bewertung":" Bewertungen"):"Noch keine Bewertung – sei die oder der Erste"}
+ el.innerHTML=s.count?(s.test?'<em class="tst">Testdaten</em> ':"")+"Durchschnitt <b>"+de(s.avg.toFixed(1))+"</b> von 5 · "+s.count+(s.count===1?" Bewertung":" Bewertungen")+(s.test?" (keine echten Bewertungen)":""):"Noch keine Bewertung – sei die oder der Erste"}
 function vote(n){var s=rateSong;if(!s||rated(s.id))return;setRated(s.id,n);rateBox.classList.remove("call");[].forEach.call(starsBox.children,function(b){b.disabled=true});hl(n);
  document.getElementById("kjmRateQ").textContent="Danke für deine Bewertung";
- function apply(avg,cnt){s.avg=avg;s.count=cnt;avgText();if(sleeves[S.indexOf(s)])sleeves[S.indexOf(s)].querySelector(".r").innerHTML=sleeveRating(s)}
+ function apply(avg,cnt){if(s.test)return;s.avg=avg;s.count=cnt;avgText();if(sleeves[S.indexOf(s)])sleeves[S.indexOf(s)].querySelector(".r").innerHTML=sleeveRating(s)}
  if(MODE==="live"){fetch(window.KJM_API+"/rate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:s.id,stars:n})}).then(function(r){return r.json()}).then(function(j){if(j&&j.count)apply(j.avg,j.count);else if(j&&j.data&&j.data.count){apply(j.data.avg,j.data.count);if(j.code==="kjm_voted")document.getElementById("kjmRateQ").textContent="Du hast diesen Song schon bewertet"}}).catch(function(){})}
  else apply(+(((s.avg*s.count)+n)/(s.count+1)).toFixed(1),s.count+1)}
 /* Nächsten Titel komplett in den Speicher laden und von dort abspielen: Safari puffert sonst nur wenig voraus und der Start des zweiten Songs stockt */
@@ -745,7 +745,7 @@ function loop(now){var raw=(now-last)/1000,dt=Math.min(.05,raw);last=now;frame++
  decks.forEach(function(o){var v=!!(best===o&&o.media===o.vEl);if(o.__von!==v){o.__von=v;o.vEl.classList.toggle("on",v)}});
  var iv=best?"0":"1",nv=best?"1":"0";if(idle.__o!==iv){idle.__o=iv;idle.style.opacity=iv}if(np.__o!==nv){np.__o=nv;np.style.opacity=nv}
  if(best&&slow){var l1="Now playing · Deck "+(best.side?"B":"A"),l3=[best.song.genre,best.song.info,best.song.bpm?(Math.abs(best.rate-1)<.0005?best.song.bpm:ebpm(best).toFixed(1).replace(".",","))+" BPM":"",dk(best)?dk(best)+" ("+(CAMN[dk(best)]||"")+")":""].filter(Boolean).join(" · "),
-   l4=best.song.count?star(12)+" "+de(best.song.avg.toFixed(1))+" von 5":"",key=l1+"|"+best.song.titel+"|"+l3+"|"+l4;
+   l4=best.song.count?star(12)+" "+de(best.song.avg.toFixed(1))+" von 5"+(best.song.test?" · Testdaten":""):"",key=l1+"|"+best.song.titel+"|"+l3+"|"+l4;
   if(key!==npKey){npKey=key;npL.textContent=l1;npT.textContent=best.song.titel;npS.textContent=l3;npA.innerHTML=l4}}
  showRate(best?best.song:rateSong);
  if(best){var ek=dk(best);if(best.song!==refS||ek!==refK){refS=best.song;refK=ek;buildCrate()}}

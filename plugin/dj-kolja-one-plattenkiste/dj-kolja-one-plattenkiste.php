@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.49.0
+ * Version:     1.50.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.49.0' );
+define( 'KJO_VERSION', '1.50.0' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 require_once __DIR__ . '/kjo-bilder.php';
@@ -336,6 +336,21 @@ function kjm_rating( $id ) {
 	);
 }
 
+/* Testdaten-Bewertungen (seit 1.50.0): nur zum Testen der Darstellung, im Pult überall als „Testdaten“ gekennzeichnet.
+ * Echte Bewertungen werden weiter gespeichert und nicht verändert; ausschalten zeigt wieder die echten Werte. */
+function kjm_testdaten() {
+	return '1' === get_option( 'kjm_testdaten', '' );
+}
+function kjm_test_rating( $id ) {
+	$h   = crc32( 'kjm-test-' . $id );
+	$neu = strtotime( get_post_field( 'post_date_gmt', $id ) . ' UTC' ) > (int) get_option( 'kjm_testdaten_ab', 0 );
+	$cnt = $neu ? 100 + $h % 101 : 300 + $h % 201; // bestehende Songs 300–500, neue 100–200
+	return array(
+		'avg'   => round( 4 + ( ( $h >> 8 ) % 11 ) / 10, 1 ), // 4,0–5,0
+		'count' => $cnt,
+	);
+}
+
 function kjm_visible( $id ) {
 	return '' !== kjm_genre( $id ) && ! get_post_meta( $id, 'kjm_hide', true );
 }
@@ -621,7 +636,7 @@ function kjm_rest_songs() {
 			continue;
 		}
 		$m     = wp_get_attachment_metadata( $p->ID );
-		$r     = kjm_rating( $p->ID );
+		$r     = kjm_testdaten() ? kjm_test_rating( $p->ID ) : kjm_rating( $p->ID );
 		$order = get_post_meta( $p->ID, 'kjm_order', true );
 		$out[] = array(
 			'id'    => $p->ID,
@@ -639,6 +654,7 @@ function kjm_rest_songs() {
 			'dauer' => ! empty( $m['length_formatted'] ) ? $m['length_formatted'] : '',
 			'avg'   => $r['avg'],
 			'count' => $r['count'],
+			'test'  => kjm_testdaten() ? 1 : 0,
 			'_o'    => '' === $order ? PHP_INT_MAX : (int) $order,
 		);
 	}
@@ -794,6 +810,16 @@ function kjm_admin_page() {
 			echo '<div class="notice notice-success inline"><p>' . implode( ' · ', $l ) . '. ' . esc_html( implode( ', ', kjm_purge_caches() ) ) . ' geleert.</p></div>';
 		}
 	}
+	if ( isset( $_POST['kjm_test_nonce'] ) && current_user_can( 'manage_options' ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['kjm_test_nonce'] ) ), 'kjm_test' ) ) {
+		$an = ! empty( $_POST['kjm_testdaten'] );
+		if ( $an && ! kjm_testdaten() ) {
+			update_option( 'kjm_testdaten_ab', time(), false );
+		}
+		update_option( 'kjm_testdaten', $an ? '1' : '', false );
+		kjm_purge_caches();
+		echo '<div class="notice notice-success inline"><p>' . ( $an ? 'Testdaten-Bewertungen sind an – im Pult als „Testdaten“ gekennzeichnet.' : 'Testdaten aus – das Pult zeigt wieder die echten Bewertungen.' ) . '</p></div>';
+	}
+	echo '<form method="post" style="margin:12px 0;padding:10px 14px;border-left:4px solid ' . ( kjm_testdaten() ? '#dba617' : '#c3c4c7' ) . ';background:#fff">' . wp_nonce_field( 'kjm_test', 'kjm_test_nonce', true, false ) . '<label><input type="checkbox" name="kjm_testdaten" value="1" ' . checked( kjm_testdaten(), true, false ) . '> <strong>Testdaten-Bewertungen anzeigen</strong></label> <button class="button">Speichern</button><br><span class="description">Zum Testen der Darstellung: bestehende Songs 300–500, neue 100–200 Bewertungen mit 4,0–5,0 Sternen. Im Pult steht an jeder Bewertung sichtbar „Testdaten“. Echte Bewertungen werden weiter gezählt und sind nach dem Ausschalten wieder zu sehen.</span></form>';
 	echo '<p>So kommt ein Song ins DJ-Pult: MP3 unter <strong>Medien → Datei hinzufügen</strong> hochladen, Titel prüfen und ein <strong>Genre</strong> eintragen. Ein Video erscheint automatisch, wenn eine MP4 mit gleichem Dateinamen in der Mediathek liegt.</p>';
 	kjo_update_box();
 	echo '<p><a class="button" href="' . esc_url( wp_nonce_url( admin_url( 'upload.php?page=kjm-plattenkiste&kjm_purge=1' ), 'kjm_purge' ) ) . '">Zwischenspeicher leeren</a> <span class="description">Wenn nach einem Update auf der Seite noch die alte Version erscheint.</span></p>';
