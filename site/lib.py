@@ -85,7 +85,7 @@ def IMG(h=320,hm=240,name=None,**kw):
     kw.setdefault("min_height_mobile",px(hm)); return con([],bg=B2,min_height=px(h),**kw)
 
 def LOGO(url,w,wm,align="left"):
-    return W("image",{"image":{"url":url,"id":""},"image_size":"full","width":px(w),"width_mobile":px(wm),"align":align,
+    return W("image",{"image":{"url":url,"id":"","alt":"DJ KOLJA ONE – zur Startseite"},"image_size":"full","width":px(w),"width_mobile":px(wm),"align":align,
                       "link_to":"custom","link":lnk("/"),"_flex_size":"none"})
 
 SEC=box(72,20,72,20)

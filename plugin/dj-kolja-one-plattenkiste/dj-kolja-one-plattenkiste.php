@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.53.3
+ * Version:     1.53.4
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.53.3' );
+define( 'KJO_VERSION', '1.53.4' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 require_once __DIR__ . '/kjo-bilder.php';
@@ -2359,6 +2359,24 @@ add_action(
 		}
 	},
 	4
+);
+
+/**
+ * Barrierefreiheit (seit 1.53.4): korrigiert zwei Ausgaben von Elementor, die Lighthouse bemängelt.
+ *  - Akkordeon-Titel haben role="button", Elementor setzt aber aria-selected (nur für Tabs erlaubt) → entfernen.
+ *  - Logo-Links ohne Text (Bild mit leerem alt) bekommen einen Namen.
+ */
+add_action(
+	'wp_footer',
+	function () {
+		if ( is_admin() ) {
+			return;
+		}
+		echo '<script id="kjo-a11y">(function(){function fix(r){(r||document).querySelectorAll("[role=button][aria-selected]").forEach(function(e){e.removeAttribute("aria-selected")});'
+			. 'document.querySelectorAll("a[href]").forEach(function(a){if(a.textContent.trim()||a.getAttribute("aria-label"))return;var i=a.querySelector("img");if(i&&!i.getAttribute("alt"))i.setAttribute("alt",/^(\\/|https?:\\/\\/[^\\/]+\\/?)$/.test(a.getAttribute("href"))?"DJ KOLJA ONE – zur Startseite":(a.title||"Link"))})}'
+			. 'fix();try{new MutationObserver(function(m){m.forEach(function(x){if(x.attributeName==="aria-selected"&&x.target.getAttribute("role")==="button")x.target.removeAttribute("aria-selected")})}).observe(document.body,{subtree:true,attributes:true,attributeFilter:["aria-selected"]})}catch(e){}})();</script>' . "\n";
+	},
+	30
 );
 
 /**
