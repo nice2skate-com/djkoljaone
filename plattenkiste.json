@@ -1,9 +1,9 @@
 {
- "version": "1.53.2",
- "download_url": "dj-kolja-one-plattenkiste-1.53.2.zip",
- "sha256": "361abe9374c75a13fc139a839786c2c5a3928cf0a29c03e393c88535ce90fce7",
+ "version": "1.53.3",
+ "download_url": "dj-kolja-one-plattenkiste-1.53.3.zip",
+ "sha256": "d4704d2f94e39e8b3b570abdcb6512fd27f8df34d1c5374e0b90681f32d49ab3",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Plattenkiste: 4 pro Reihe, Automix für alle Genres; Meta-Angaben nicht mehr doppelt; Seitenname für Google."
+ "changelog": "Meine Musik: Doppelklick auf den Crossfader stellt ihn in die Mitte."
 }
