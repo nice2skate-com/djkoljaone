@@ -1,9 +1,9 @@
 {
- "version": "1.53.0",
- "download_url": "dj-kolja-one-plattenkiste-1.53.0.zip",
- "sha256": "ce1944dad0d6db83707ac6d609d589bc6a1a99c4d4954af0849fcf46fac29cce",
+ "version": "1.53.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.53.1.zip",
+ "sha256": "1d40c0cb4f024a6752fdaae8b8c018bb5433bc78774437d782edb2d982dbfd43",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Musikwunschlisten für Paare und Gastgeber; neue Ortsseite DJ Neu-Ulm; Ortsbilder ohne Nummer werden angezeigt (z. B. Biberach)."
+ "changelog": "Plattenkiste: höchstens 4 Platten pro Reihe, Trennstriche bleiben in der Kiste; Automix auch für R&B und Progressive House."
 }
