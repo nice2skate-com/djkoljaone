@@ -1,9 +1,9 @@
 {
- "version": "1.52.0",
- "download_url": "dj-kolja-one-plattenkiste-1.52.0.zip",
- "sha256": "c3e571ccad3ef147eec3a24d7c6c08d558ce9f041b285a22edc56f5957b9e416",
+ "version": "1.53.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.53.0.zip",
+ "sha256": "ce1944dad0d6db83707ac6d609d589bc6a1a99c4d4954af0849fcf46fac29cce",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Songwünsche per QR-Code: Abend im Menü „Songwünsche“ starten, QR-Code für die Tische herunterladen, Gäste schicken Wünsche, Live-Liste mit Zähler; Wünsche werden nach 14 Tagen gelöscht. Datenschutz um Abschnitt 9 ergänzt."
+ "changelog": "Musikwunschlisten für Paare und Gastgeber; neue Ortsseite DJ Neu-Ulm; Ortsbilder ohne Nummer werden angezeigt (z. B. Biberach)."
 }

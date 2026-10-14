@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.52.0
+ * Version:     1.53.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.52.0' );
+define( 'KJO_VERSION', '1.53.0' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 require_once __DIR__ . '/kjo-bilder.php';
@@ -22,6 +22,7 @@ require_once __DIR__ . '/kjo-leads.php';
 require_once __DIR__ . '/kjo-backup.php';
 require_once __DIR__ . '/kjo-aktion.php';
 require_once __DIR__ . '/kjo-songwunsch.php';
+require_once __DIR__ . '/kjo-musikliste.php';
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -78,8 +79,8 @@ function kjo_seiten_sync( $only = null ) {
 			continue;
 		}
 		$page = get_page_by_path( $slug );
-		$neu  = array( 'equipment' => 'Mein Equipment', 'technik-mieten' => 'Musikanlage, Licht & Partyequipment mieten' );
-		if ( ! $page && isset( $neu[ $slug ] ) ) { // Neue Seiten (seit 1.22.0) werden beim ersten Einspielen angelegt.
+		$neu  = array( 'dj-neu-ulm' => 'DJ Neu-Ulm', 'equipment' => 'Mein Equipment', 'technik-mieten' => 'Musikanlage, Licht & Partyequipment mieten' );
+		if ( ! $page && isset( $neu[ $slug ] ) ) { // Neue Seiten (seit 1.22.0, DJ Neu-Ulm seit 1.53.0) werden beim ersten Einspielen angelegt.
 			$pid = wp_insert_post(
 				array(
 					'post_type'   => 'page',
@@ -1111,7 +1112,7 @@ add_shortcode( 'kjo_musikpult', 'kjm_deck_html' );
  * zugeordnet. Bild = Hintergrund, Video = Player mit Start/Stop-Knopf.
  * ------------------------------------------------------------------ */
 function kjo_media_map() {
-	$map = get_transient( 'kjo_media_map2' );
+	$map = get_transient( 'kjo_media_map3' );
 	if ( is_array( $map ) ) {
 		return $map;
 	}
@@ -1146,11 +1147,17 @@ function kjo_media_map() {
 			}
 		}
 	}
-	set_transient( 'kjo_media_map2', $map, DAY_IN_SECONDS );
+	/* Ortsbild ohne Nummer (z. B. event_biberach.jpg) zählt als Platz 1. */
+	foreach ( array_keys( $map ) as $k ) {
+		if ( preg_match( '/^event_[a-z_]+$/', $k ) && ! preg_match( '/_(text|\d+)$/', $k ) && ! isset( $map[ $k . '_1' ] ) ) {
+			$map[ $k . '_1' ] = $map[ $k ];
+		}
+	}
+	set_transient( 'kjo_media_map3', $map, DAY_IN_SECONDS );
 	return $map;
 }
 function kjo_media_flush() {
-	delete_transient( 'kjo_media_map2' );
+	delete_transient( 'kjo_media_map3' );
 }
 add_action( 'add_attachment', 'kjo_media_flush' );
 add_action( 'edit_attachment', 'kjo_media_flush' );
@@ -1458,7 +1465,7 @@ function kjo_description() {
 		'meine-musik'    => 'Legt selbst auf: Am interaktiven DJ-Pult könnt ihr eigene Songs von DJ KOLJA ONE anhören, mixen und mit Sternen bewerten.',
 		'ueber-mich'     => 'Über DJ KOLJA ONE: seit über 10 Jahren DJ und Moderator aus Fellheim bei Memmingen. Jedes Event findet nur einmal statt.',
 		'faq'            => 'Häufige Fragen zu Buchung, Kosten, Musikwünschen, Technik und Ablauf – kurz und ehrlich beantwortet von DJ KOLJA ONE.',
-		'einsatzgebiete' => 'Mobiler DJ für Memmingen, Ulm, Biberach, Ravensburg, Kempten, Füssen, Kaufbeuren, Landsberg und Umgebung.',
+		'einsatzgebiete' => 'Mobiler DJ für Memmingen, Ulm, Neu-Ulm, Biberach, Ravensburg, Kempten, Füssen, Kaufbeuren, Landsberg und Umgebung.',
 		'kontakt'        => 'Wunschtermin unverbindlich anfragen: per Formular, Telefon oder WhatsApp. Ich melde mich innerhalb von 24 Stunden.',
 	);
 	if ( is_front_page() ) {
@@ -1567,7 +1574,7 @@ add_action(
 					'addressRegion'   => 'Bayern',
 					'addressCountry'  => 'DE',
 				),
-				'areaServed'  => array( 'Memmingen', 'Ulm', 'Biberach', 'Ravensburg', 'Kempten', 'Füssen', 'Kaufbeuren', 'Landsberg am Lech', 'Allgäu', 'Oberschwaben' ),
+				'areaServed'  => array( 'Memmingen', 'Ulm', 'Neu-Ulm', 'Biberach', 'Ravensburg', 'Kempten', 'Füssen', 'Kaufbeuren', 'Landsberg am Lech', 'Allgäu', 'Oberschwaben' ),
 			);
 			echo '<script type="application/ld+json">' . wp_json_encode( $ld, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n";
 		}

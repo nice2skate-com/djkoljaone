@@ -103,7 +103,7 @@ NAV=[("Hochzeit","/hochzeits-dj/"),("Geburtstag","/geburtstags-dj/"),("Firmen","
      ("Events","/event-dj/"),("Technik","/equipment/"),("Mieten","/technik-mieten/"),("Über mich","/ueber-mich/"),("Meine Musik","/meine-musik/")]
 NAV_MOBIL=NAV+[("FAQ","/faq/"),("Regionen","/einsatzgebiete/"),("Kontakt","/kontakt/")]
 SERVICES=[("Hochzeits-DJ","/hochzeits-dj/"),("Geburtstags-DJ","/geburtstags-dj/"),("Firmenfeier-DJ","/firmenfeier-dj/"),("Event-DJ","/event-dj/")]
-ORTE=[("Memmingen","dj-memmingen"),("Ulm","dj-ulm"),("Biberach","dj-biberach"),("Ravensburg","dj-ravensburg"),
+ORTE=[("Memmingen","dj-memmingen"),("Ulm","dj-ulm"),("Neu-Ulm","dj-neu-ulm"),("Biberach","dj-biberach"),("Ravensburg","dj-ravensburg"),
       ("Kempten","dj-kempten"),("Füssen","dj-fuessen"),("Kaufbeuren","dj-kaufbeuren"),("Landsberg","dj-landsberg")]
 
 def nav():
@@ -265,7 +265,7 @@ def faq(items,title="Gut zu wissen",more=True,bg=B2,eye="Häufige Fragen"):
 
 def orte(title="Euer DJ in Oberschwaben, Ulm und dem Allgäu",exclude=None,bg=B1):
     chips=[con([H("DJ "+o,"p",19,OFF,"center","300",link=f"/{s}/")],pad=box(18,10,18,10),border_border="solid",
-               border_width=box(1,1,1,1),border_color="rgba(178,157,117,0.35)",**col(23,31,48)) for o,s in ORTE if o!=exclude]
+               border_width=box(1,1,1,1),border_color="rgba(178,157,117,0.35)",**col(18,31,48)) for o,s in ORTE if o!=exclude]
     return section(head("Einsatzgebiete",title)+[T("Von Fellheim aus bin ich schnell bei euch – und gern auch darüber hinaus.",MUTED),
         con(chips,"row",g=16,flex_wrap="wrap",flex_direction_mobile="row",flex_justify_content="center"),SPACER(6),
         H("Alle Einsatzgebiete →","p",13,GOLD,"center","500",link="/einsatzgebiete/",ls=1.5,tr="uppercase")],bg=bg)
