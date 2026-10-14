@@ -142,7 +142,7 @@ add_action(
 		$art   = $p ? (string) get_post_meta( $p->ID, '_kjo_ml_art', true ) : '';
 		$d     = $p ? kjo_ml_daten( $p->ID ) : array();
 		$datum = $p ? (string) get_post_meta( $p->ID, '_kjo_ml_datum', true ) : '';
-		$logo  = plugins_url( 'assets/icon-192.png', __FILE__ );
+		$logo  = plugins_url( 'assets/logo-voll.png', __FILE__ );
 		$e     = function ( $k, $sub = null ) use ( $d ) {
 			$v = null === $sub ? ( $d[ $k ] ?? '' ) : ( $d[ $k ][ $sub ] ?? '' );
 			return esc_textarea( (string) $v );
@@ -152,7 +152,7 @@ add_action(
 <title>Musikwunschliste · DJ KOLJA ONE</title><link rel="icon" href="<?php echo esc_url( home_url( '/favicon.ico' ) ); ?>">
 <style>
 :root{--g:#B29D75;--o:#F3F1E9;--m:#A39E93;--b:#1A1712}*{box-sizing:border-box}[hidden]{display:none!important}html,body{margin:0;background:#0F0C07;color:var(--o);font:16px/1.5 "Fira Sans",system-ui,-apple-system,sans-serif}
-main{max-width:640px;margin:0 auto;padding:28px 20px 120px}.top{text-align:center}.top img{width:64px;height:64px;border-radius:12px}
+main{max-width:640px;margin:0 auto;padding:28px 20px 120px}.top{text-align:center}.top img{display:block;width:280px;max-width:80%;height:auto;margin:6px auto 22px}
 .brand{letter-spacing:6px;font-size:13px;color:var(--g);text-transform:uppercase;margin:12px 0 2px}h1{font-weight:300;font-size:30px;margin:6px 0 4px;line-height:1.2}.ev{color:var(--m);margin:0 0 6px}
 .intro{color:var(--m);text-align:center;margin:0 0 26px}
 fieldset{border:0;border-top:2px solid var(--g);background:var(--b);padding:22px 18px;margin:0 0 22px}legend{float:left;width:100%;padding:0;font-size:22px;font-weight:300;margin:0 0 4px}legend+*{clear:both}
@@ -171,7 +171,7 @@ button{padding:13px 16px;background:var(--g);color:#0F0C07;border:0;border-radiu
 .small{font-size:12px;color:var(--m);text-align:center;margin-top:26px}.small a{color:var(--m)}
 @media(max-width:420px){.gr{grid-template-columns:1fr}.gr .seg{margin-bottom:8px}}
 </style></head><body><main>
-<div class="top"><img src="<?php echo esc_url( $logo ); ?>" alt=""><div class="brand">DJ KOLJA ONE</div>
+<div class="top"><img src="<?php echo esc_url( $logo ); ?>" alt="DJ KOLJA ONE – Jedes Event findet nur einmal statt." width="280" height="51">
 <?php if ( ! $p ) : ?>
 <h1>Diese Liste gibt es nicht (mehr)</h1><p class="ev">Bitte prüft den Link oder meldet euch kurz bei mir.</p></div>
 <?php else : ?>

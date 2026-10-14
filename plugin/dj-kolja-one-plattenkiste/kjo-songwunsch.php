@@ -160,13 +160,13 @@ add_action(
 		header( 'X-Robots-Tag: noindex, nofollow', true );
 		$api  = esc_url_raw( rest_url( 'kjo/v1/songwunsch' ) );
 		$ig   = 'https://www.instagram.com/djkoljaone/';
-		$logo = plugins_url( 'assets/icon-192.png', __FILE__ );
+		$logo = plugins_url( 'assets/logo-voll.png', __FILE__ );
 		?><!doctype html>
 <html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#0F0C07">
 <title>Songwunsch · DJ KOLJA ONE</title><link rel="icon" href="<?php echo esc_url( home_url( '/favicon.ico' ) ); ?>">
 <style>
 :root{--g:#B29D75;--o:#F3F1E9;--m:#A39E93}*{box-sizing:border-box}[hidden]{display:none!important}html,body{margin:0;background:#0F0C07;color:var(--o);font:16px/1.5 "Fira Sans",system-ui,-apple-system,sans-serif}
-main{max-width:460px;margin:0 auto;padding:28px 20px 40px}.top{text-align:center}.top img{width:64px;height:64px;border-radius:12px}
+main{max-width:460px;margin:0 auto;padding:28px 20px 40px}.top{text-align:center}.top img{display:block;width:280px;max-width:80%;height:auto;margin:6px auto 22px}
 .brand{letter-spacing:6px;font-size:13px;color:var(--g);text-transform:uppercase;margin:12px 0 2px}h1{font-weight:300;font-size:30px;margin:6px 0 4px;line-height:1.2}.ev{color:var(--m);margin:0 0 22px}
 form{display:flex;flex-direction:column;gap:14px}label{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g)}label span{text-transform:none;letter-spacing:0;color:var(--m)}
 input{width:100%;margin-top:6px;padding:14px;background:#1A1712;border:1px solid rgba(178,157,117,.5);border-radius:3px;color:var(--o);font:17px "Fira Sans",sans-serif}input:focus{outline:2px solid var(--g);outline-offset:1px}
@@ -175,7 +175,7 @@ button,.btn{display:block;width:100%;text-align:center;padding:16px;background:v
 .ok{text-align:center}.ok h2{font-weight:300;font-size:26px;margin:10px 0}.ok p{color:var(--m)}.links{display:flex;flex-direction:column;gap:10px;margin-top:22px}
 .small{font-size:12px;color:var(--m);text-align:center;margin-top:26px}.small a{color:var(--m)}
 </style></head><body><main>
-<div class="top"><img src="<?php echo esc_url( $logo ); ?>" alt=""><div class="brand">DJ KOLJA ONE</div>
+<div class="top"><img src="<?php echo esc_url( $logo ); ?>" alt="DJ KOLJA ONE – Jedes Event findet nur einmal statt." width="280" height="51">
 <?php if ( $auf ) : ?>
 <h1>Dein Songwunsch</h1><p class="ev"><?php echo esc_html( $a['name'] ); ?></p></div>
 <form id="f" novalidate>
