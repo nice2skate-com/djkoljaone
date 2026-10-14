@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.53.1
+ * Version:     1.53.2
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.53.1' );
+define( 'KJO_VERSION', '1.53.2' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 require_once __DIR__ . '/kjo-bilder.php';
@@ -1545,13 +1545,15 @@ add_action(
 		$title = wp_get_document_title();
 		$url   = is_front_page() ? home_url( '/' ) : ( is_singular() ? get_permalink() : home_url( '/' ) );
 		$img   = kjo_asset( 'teilen.jpg' );
-		echo '<meta name="description" content="' . esc_attr( $desc ) . '">' . "\n";
-		echo '<meta property="og:type" content="website">' . "\n";
-		echo '<meta property="og:locale" content="de_DE">' . "\n";
-		echo '<meta property="og:site_name" content="DJ KOLJA ONE">' . "\n";
-		echo '<meta property="og:title" content="' . esc_attr( $title ) . '">' . "\n";
-		echo '<meta property="og:description" content="' . esc_attr( $desc ) . '">' . "\n";
-		echo '<meta property="og:url" content="' . esc_url( $url ) . '">' . "\n";
+		if ( ! kjo_seo_seite() ) { // Seiten aus der Vorlage bekommen Beschreibung, Titel und URL weiter unten (sonst doppelt)
+			echo '<meta name="description" content="' . esc_attr( $desc ) . '">' . "\n";
+			echo '<meta property="og:type" content="website">' . "\n";
+			echo '<meta property="og:locale" content="de_DE">' . "\n";
+			echo '<meta property="og:site_name" content="DJ KOLJA ONE">' . "\n";
+			echo '<meta property="og:title" content="' . esc_attr( $title ) . '">' . "\n";
+			echo '<meta property="og:description" content="' . esc_attr( $desc ) . '">' . "\n";
+			echo '<meta property="og:url" content="' . esc_url( $url ) . '">' . "\n";
+		}
 		echo '<meta property="og:image" content="' . esc_url( $img ) . '">' . "\n";
 		echo '<meta property="og:image:width" content="1200">' . "\n";
 		echo '<meta property="og:image:height" content="630">' . "\n";
@@ -2207,7 +2209,7 @@ function kjo_schema_graph( $d, $slug, $home ) {
 		'isPartOf' => array( '@id' => $home . '#website' ),
 		'about'    => array( '@id' => $org ),
 	);
-	$graph[] = array( '@type' => 'WebSite', '@id' => $home . '#website', 'url' => $home, 'name' => $b['name'], 'inLanguage' => 'de-DE', 'publisher' => array( '@id' => $org ) );
+	$graph[] = array( '@type' => 'WebSite', '@id' => $home . '#website', 'url' => $home, 'name' => $b['name'], 'alternateName' => 'DJ Kolja One', 'inLanguage' => 'de-DE', 'publisher' => array( '@id' => $org ) );
 	if ( 'faq' === $p['kind'] ) {
 		$page['@type'] = 'FAQPage';
 	} elseif ( 'about' === $p['kind'] ) {
@@ -2345,7 +2347,6 @@ add_action(
 			array( 'property', 'og:title', $s['titel'] ),
 			array( 'property', 'og:description', $s['desc'] ),
 			array( 'property', 'og:url', $s['url'] ),
-			array( 'name', 'twitter:card', $s['bild'] ? 'summary_large_image' : 'summary' ),
 			array( 'name', 'twitter:title', $s['titel'] ),
 			array( 'name', 'twitter:description', $s['desc'] ),
 		);

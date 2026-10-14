@@ -1,9 +1,9 @@
 {
- "version": "1.53.1",
- "download_url": "dj-kolja-one-plattenkiste-1.53.1.zip",
- "sha256": "1d40c0cb4f024a6752fdaae8b8c018bb5433bc78774437d782edb2d982dbfd43",
+ "version": "1.53.2",
+ "download_url": "dj-kolja-one-plattenkiste-1.53.2.zip",
+ "sha256": "361abe9374c75a13fc139a839786c2c5a3928cf0a29c03e393c88535ce90fce7",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Plattenkiste: höchstens 4 Platten pro Reihe, Trennstriche bleiben in der Kiste; Automix auch für R&B und Progressive House."
+ "changelog": "Plattenkiste: 4 pro Reihe, Automix für alle Genres; Meta-Angaben nicht mehr doppelt; Seitenname für Google."
 }

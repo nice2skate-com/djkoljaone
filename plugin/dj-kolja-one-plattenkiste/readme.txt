@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.53.2: Beschreibung und Vorschau-Angaben stehen nur noch einmal im Seitenkopf (vorher doppelt); Seitenname für Google mit alternativer Schreibweise.
 Seit 1.53.1: Plattenkiste mit höchstens 4 Platten pro Reihe (mehr brechen um, nichts ragt mehr aus der Kiste), fertige Automixe auch für Genres mit nur einem Song (z. B. R&B).
 Seit 1.53.0: Musikwunschlisten – im Menü „Musikwunschlisten“ eine Liste pro Paar anlegen, Link per WhatsApp schicken; das Paar trägt Momente, Lieblingssongs, No-Gos und Musikrichtungen ein, du bekommst beim Abschicken eine E-Mail. Neue Ortsseite DJ Neu-Ulm (wird beim Einspielen angelegt); Ortsbilder ohne Nummer (z. B. event_biberach.jpg) werden jetzt angezeigt.
 Seit 1.52.0: Songwünsche per QR-Code – im Menü „Songwünsche“ einen Abend starten, QR-Code herunterladen, Gäste schicken Wünsche, du siehst sie live (gleiche Wünsche werden gezählt, nach 14 Tagen gelöscht).
