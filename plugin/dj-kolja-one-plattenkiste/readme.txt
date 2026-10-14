@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.54.0: Ladezeit: Browser-Cache und Komprimierung per .htaccess (wird beim nächsten Admin-Aufruf eingetragen), Roboto-Schriften entfernt, Kopf-Logo sofort geladen und mit festen Maßen, Datumsfeld springt nicht mehr, Startseite scrollt auf dem Handy nicht mehr von selbst zum Pult.
 Seit 1.53.5: Songwunsch- und Musikwunschlisten-Seite mit vollem Logo (inkl. „Jedes Event findet nur einmal statt.“).
 Seit 1.53.4: Barrierefreiheit: Logo-Links mit Namen, DJ-Pulte als Gruppe statt Bild, Crossfader mit Startwert, Erklär-Fenster mit Namen, Akkordeon ohne unzulässiges aria-selected.
 Seit 1.53.3: Meine Musik: Doppelklick bzw. Doppeltipp auf den Crossfader (oder seine Schiene) stellt ihn in die Mitte; Taste 0 oder Pos1 ebenso.

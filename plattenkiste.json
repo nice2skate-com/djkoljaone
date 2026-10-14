@@ -1,9 +1,9 @@
 {
- "version": "1.53.5",
- "download_url": "dj-kolja-one-plattenkiste-1.53.5.zip",
- "sha256": "7ff84a649adc71e4a7d600e458e9efeadb666154421cf14a5073214128c3f595",
+ "version": "1.54.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.54.0.zip",
+ "sha256": "5dbc337dd0b66717773c0add1e6752323f33a8bf1a4f1a19f064d02a7067777b",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Songwunsch- und Musikwunschlisten-Seite mit vollem Logo."
+ "changelog": "Ladezeit: Cache und Komprimierung, Roboto entfernt, Logo-Maße, kein Layout-Sprung beim Datumsfeld, kein automatisches Scrollen zum Pult auf dem Handy."
 }
