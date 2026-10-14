@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.52.0: Songwünsche per QR-Code – im Menü „Songwünsche“ einen Abend starten, QR-Code herunterladen, Gäste schicken Wünsche, du siehst sie live (gleiche Wünsche werden gezählt, nach 14 Tagen gelöscht).
 Seit 1.51.1: Kein weißer Rand mehr beim Zoomen auf dem iPhone (Seitenhintergrund dunkel, nichts ragt seitlich heraus); Datums-Check „Ist euer Datum noch frei?“ (1.51.0).
 Seit 1.44.0: Teilen-Knopf an jeder Platte im DJ-Pult (Handy: Teilen-Menü, sonst Link kopieren/WhatsApp/Facebook), Zähler „Geteilt“ in der Mediathek; Sicherheitsheader (HSTS 30 Tage, nosniff, SAMEORIGIN, Referrer-Policy).
 Seit 1.43.1: Paket-Buttons (und Preiszeile) stehen in jeder Spalte ganz unten auf gleicher Höhe.
