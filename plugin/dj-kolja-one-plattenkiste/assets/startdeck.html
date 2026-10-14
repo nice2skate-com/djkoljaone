@@ -48,8 +48,8 @@
 </style>
 <div class="top"><p class="hint" id="kjoHint">▶ drücken für Musik · Platte antippen für Infos</p><button class="snd" id="kjoSnd" aria-pressed="true">Ton an</button></div>
 <div class="stage">
-<svg id="kjoSvg" viewBox="0 0 1200 600" role="img" aria-label="DJ-Controller mit zwei Decks und Mixer"></svg>
-<div class="panel" id="kjoPanel" role="dialog" aria-live="polite"></div>
+<svg id="kjoSvg" viewBox="0 0 1200 600" role="group" aria-label="DJ-Controller mit zwei Decks und Mixer"></svg>
+<div class="panel" id="kjoPanel" role="dialog" aria-label="Erklärung zum Bedienelement" aria-live="polite"></div>
 </div>
 <div class="crate"><div class="sleeves" id="kjoCrate"></div><div class="front">Plattenkiste · Wähle deinen Anlass</div></div>
 <script>
@@ -122,7 +122,7 @@ function knobCtl(x,y,r,p,col,label,get,set){var g=E("g",{"class":"kn",role:"slid
 });
 T(518,522,"A",{"text-anchor":"middle","font-size":10,fill:"#6f685c"},mx);T(682,522,"B",{"text-anchor":"middle","font-size":10,fill:"#6f685c"},mx);
 E("rect",{x:510,y:528,width:180,height:6,rx:3,fill:"#050403"},mx);
-var xfG=E("g",{"class":"xf",role:"slider",tabindex:0,"aria-label":"Crossfader","aria-valuemin":-1,"aria-valuemax":1},mx);
+var xfG=E("g",{"class":"xf",role:"slider",tabindex:0,"aria-label":"Crossfader","aria-valuemin":-1,"aria-valuemax":1,"aria-valuenow":0},mx);
 E("rect",{x:560,y:505,width:80,height:52,fill:"transparent"},xfG);E("rect",{x:585,y:516,width:30,height:30,rx:3,fill:"url(#kcap)",stroke:"#B29D75","stroke-width":1},xfG);
 E("line",{x1:600,y1:519,x2:600,y2:543,stroke:"#F3F1E9","stroke-width":1.5},xfG);
 var xv=0;

@@ -1,9 +1,9 @@
 {
- "version": "1.53.2",
- "download_url": "dj-kolja-one-plattenkiste-1.53.2.zip",
- "sha256": "361abe9374c75a13fc139a839786c2c5a3928cf0a29c03e393c88535ce90fce7",
+ "version": "1.53.4",
+ "download_url": "dj-kolja-one-plattenkiste-1.53.4.zip",
+ "sha256": "79fcdb4cfce224d73037d9a0ee2a7e02dc8b0d1d3675a29eba31ead067882248",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Plattenkiste: 4 pro Reihe, Automix für alle Genres; Meta-Angaben nicht mehr doppelt; Seitenname für Google."
+ "changelog": "Barrierefreiheit (Lighthouse): Logo-Links, DJ-Pulte, Crossfader, Erklär-Fenster, Akkordeon."
 }

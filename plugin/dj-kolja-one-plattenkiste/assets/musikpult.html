@@ -145,7 +145,7 @@ window.KJM_DEMO = [
 #kjm .seek{cursor:pointer;touch-action:none;outline:none}#kjm .seek:focus-visible{stroke:#B29D75;stroke-width:1}#kjm .kn{cursor:ns-resize;touch-action:none;outline:none}#kjm .kn:focus-visible circle:nth-of-type(3){stroke:#E0B36A}#kjm .fxb{cursor:pointer;outline:none}#kjm .fxb:focus-visible rect:nth-of-type(2){stroke:#F3F1E9}#kjm .chf{cursor:ns-resize;touch-action:none;outline:none}#kjm .chf:focus-visible rect:nth-of-type(2){stroke:#F3F1E9}</style>
 <p class="hint" id="kjmHint">Wähle eine Platte aus der Kiste und lade sie auf ein Deck</p>
 <div class="rig">
- <div class="ctrl"><div class="brow"><button type="button" id="kjmBrowse" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v2H3zM3 11h18v2H3zM3 17h12v2H3z"/></svg>BROWSE · Titel laden</button><div class="lat" title="Wellenform-Versatz: verschiebt die rote Linie, wenn sie bei Bluetooth oder Lautsprechern dem Ton hinterherläuft oder vorauseilt"><span>VERSATZ</span><button type="button" id="kjmLatM" aria-label="Anzeige früher">−</button><output id="kjmLatV" aria-live="polite">auto</output><button type="button" id="kjmLatP" aria-label="Anzeige später">+</button><button type="button" id="kjmLatR" class="latr" aria-label="Versatz zurücksetzen (automatisch)" title="Zurücksetzen auf automatisch">↺</button></div></div><canvas id="kjmWv" aria-label="Wellenformen beider Decks – klicken zum Springen" role="img"></canvas><div class="cwrap"><svg id="kjmSvg" viewBox="0 0 1200 600" role="img" aria-label="DJ-Controller mit zwei Decks, Mixer und Crossfader"></svg><div class="toast" id="kjmToast" role="status" aria-live="polite"></div></div></div>
+ <div class="ctrl"><div class="brow"><button type="button" id="kjmBrowse" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v2H3zM3 11h18v2H3zM3 17h12v2H3z"/></svg>BROWSE · Titel laden</button><div class="lat" title="Wellenform-Versatz: verschiebt die rote Linie, wenn sie bei Bluetooth oder Lautsprechern dem Ton hinterherläuft oder vorauseilt"><span>VERSATZ</span><button type="button" id="kjmLatM" aria-label="Anzeige früher">−</button><output id="kjmLatV" aria-live="polite">auto</output><button type="button" id="kjmLatP" aria-label="Anzeige später">+</button><button type="button" id="kjmLatR" class="latr" aria-label="Versatz zurücksetzen (automatisch)" title="Zurücksetzen auf automatisch">↺</button></div></div><canvas id="kjmWv" aria-label="Wellenformen beider Decks – klicken zum Springen" role="img"></canvas><div class="cwrap"><svg id="kjmSvg" viewBox="0 0 1200 600" role="group" aria-label="DJ-Controller mit zwei Decks, Mixer und Crossfader"></svg><div class="toast" id="kjmToast" role="status" aria-live="polite"></div></div></div>
  <div class="lap" aria-label="Laptop mit Video-Anzeige">
   <div class="lid"><div class="cam"></div><div class="scr">
    <div class="cov" id="kjmCov"></div><canvas id="kjmVis" width="640" height="400"></canvas>
@@ -267,8 +267,8 @@ function knobStill_unused(x,y,r,p){var g=E("g",{opacity:.55},p);E("circle",{cx:x
    fg.addEventListener("pointermove",function(e){if(dr)at(e)});function up(){dr=false}fg.addEventListener("pointerup",up);fg.addEventListener("pointercancel",up);
    fg.addEventListener("keydown",function(e){if(e.key==="ArrowUp"){put(MIX[i].vol+.05);e.preventDefault()}else if(e.key==="ArrowDown"){put(MIX[i].vol-.05);e.preventDefault()}});draw()})()}});
 T(518,522,"A",{"text-anchor":"middle","font-size":10,fill:"#6f685c"},mx);T(682,522,"B",{"text-anchor":"middle","font-size":10,fill:"#6f685c"},mx);
-E("rect",{x:510,y:528,width:180,height:6,rx:3,fill:"#050403"},mx);
-var xfG=E("g",{"class":"xf",role:"slider",tabindex:0,"aria-label":"Crossfader","aria-valuemin":-1,"aria-valuemax":1},mx);
+var xfTr=E("rect",{x:510,y:528,width:180,height:6,rx:3,fill:"#050403"},mx);
+var xfG=E("g",{"class":"xf",role:"slider",tabindex:0,"aria-label":"Crossfader (Doppelklick: Mitte)","aria-valuemin":-1,"aria-valuemax":1,"aria-valuenow":0},mx);
 E("rect",{x:560,y:505,width:80,height:52,fill:"transparent"},xfG);var xf=E("rect",{x:585,y:516,width:30,height:30,rx:3,fill:"url(#mcap)",stroke:"#B29D75","stroke-width":1},xfG);
 E("line",{x1:600,y1:519,x2:600,y2:543,stroke:"#F3F1E9","stroke-width":1.5},xfG);
 var xv=0;
@@ -276,9 +276,12 @@ function setXf(v){xv=Math.max(-1,Math.min(1,v));xfG.setAttribute("transform","tr
  mixT.textContent=xv<-.33?"DECK A":xv>.33?"DECK B":"A + B"}
 function applyXf(){if(!ac)return;var p=(xv+1)/2*Math.PI/2;decks[0].gain.gain.setTargetAtTime(Math.cos(p),ac.currentTime,.02);decks[1].gain.gain.setTargetAtTime(Math.sin(p),ac.currentTime,.02)}
 function svgX(e){var pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;return pt.matrixTransform(svg.getScreenCTM().inverse()).x}
-var drag=false;xfG.addEventListener("pointerdown",function(e){amManual();drag=true;xfG.setPointerCapture(e.pointerId);audio()});
+/* Doppelklick bzw. Doppeltipp auf Crossfader oder Schiene = Mitte (eigene Erkennung, weil Touch-Geräte dblclick oft nicht melden) */
+var xfLast=0;function xfTap(){var t=Date.now();if(t-xfLast<350){xfLast=0;amManual();setXf(0);return true}xfLast=t;return false}
+var drag=false;xfG.addEventListener("pointerdown",function(e){amManual();audio();if(xfTap()){drag=false;return}drag=true;xfG.setPointerCapture(e.pointerId)});
+xfTr.style.cursor="pointer";xfTr.addEventListener("pointerdown",function(){xfTap()});
 xfG.addEventListener("pointermove",function(e){if(drag)setXf((svgX(e)-600)/75)});xfG.addEventListener("pointerup",function(){drag=false});
-xfG.addEventListener("keydown",function(e){if(e.key==="ArrowLeft"||e.key==="ArrowRight")amManual();if(e.key==="ArrowLeft")setXf(xv-.1);if(e.key==="ArrowRight")setXf(xv+.1)});
+xfG.addEventListener("keydown",function(e){if(e.key==="ArrowLeft"||e.key==="ArrowRight")amManual();if(e.key==="ArrowLeft")setXf(xv-.1);if(e.key==="ArrowRight")setXf(xv+.1);if(e.key==="Home"||e.key==="0"){amManual();setXf(0)}});
 var decks=[];
 function deck(cx,side){
  var g=E("g",{},svg),o={cx:cx,cy:285,g:g,side:side,angle:0,speed:0,target:0,song:null,aEl:new Audio(),vEl:document.getElementById("kjmV"+side),media:null,synthT:0,next:0,beat:0,demoPos:0,mix:MIX[side]};
