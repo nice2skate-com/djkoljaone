@@ -1,9 +1,9 @@
 {
- "version": "1.53.4",
- "download_url": "dj-kolja-one-plattenkiste-1.53.4.zip",
- "sha256": "79fcdb4cfce224d73037d9a0ee2a7e02dc8b0d1d3675a29eba31ead067882248",
+ "version": "1.53.5",
+ "download_url": "dj-kolja-one-plattenkiste-1.53.5.zip",
+ "sha256": "7ff84a649adc71e4a7d600e458e9efeadb666154421cf14a5073214128c3f595",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Barrierefreiheit (Lighthouse): Logo-Links, DJ-Pulte, Crossfader, Erklär-Fenster, Akkordeon."
+ "changelog": "Songwunsch- und Musikwunschlisten-Seite mit vollem Logo."
 }
