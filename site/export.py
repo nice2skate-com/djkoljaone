@@ -23,7 +23,7 @@ for i,(title,slug,fn) in enumerate(PAGES):
 <wp:post_password>{cdata("")}</wp:post_password><wp:is_sticky>0</wp:is_sticky>{metas}</item>""")
 zf.close()
 # Seiten, die das Plugin per Knopf einspielt (kjo_seiten_sync)
-AUTO=("start","meine-musik","kontakt","faq","impressum","datenschutz","hochzeits-dj","geburtstags-dj","firmenfeier-dj","event-dj","ueber-mich","einsatzgebiete","dj-memmingen","dj-ulm","dj-biberach","dj-ravensburg","dj-kempten","dj-fuessen","dj-kaufbeuren","dj-landsberg","equipment","technik-mieten")
+AUTO=("start","meine-musik","kontakt","faq","impressum","datenschutz","hochzeits-dj","geburtstags-dj","firmenfeier-dj","event-dj","ueber-mich","einsatzgebiete","dj-memmingen","dj-ulm","dj-neu-ulm","dj-biberach","dj-ravensburg","dj-kempten","dj-fuessen","dj-kaufbeuren","dj-landsberg","equipment","technik-mieten")
 sd="./plugin/dj-kolja-one-plattenkiste/seiten"; os.makedirs(sd,exist_ok=True)
 for title,slug,fn in PAGES:
     if slug in AUTO: open(f"{sd}/{slug}.json","w",encoding="utf-8").write(json.dumps(fn(),ensure_ascii=False,separators=(",",":")))
@@ -80,7 +80,7 @@ SEO={
 "meine-musik":(f"Meine Musik – leg selbst auf am DJ-Pult | {B}","Such dir Tracks aus der Plattenkiste, leg sie aufs Deck und hör rein, wie DJ KOLJA ONE klingt – direkt im Browser, mit Mixer und Waveform."),
 "ueber-mich":(f"Über mich – DJ und Moderator aus Fellheim | {B}","Kolja, DJ und Moderator aus Fellheim: seit über 10 Jahren auf Hochzeiten, Geburtstagen und Events unterwegs. Lerne den Menschen hinter DJ KOLJA ONE kennen."),
 "faq":(f"FAQ: Preise, Buchung & Ablauf beim DJ | {B}","Häufige Fragen zu Preisen, Buchung, Musikwünschen, Technik und Ablauf: Antworten von DJ KOLJA ONE für Hochzeiten, Geburtstage und Firmenfeiern."),
-"einsatzgebiete":(f"Einsatzgebiete: Memmingen, Allgäu & Schwaben | {B}","Mobiler DJ aus Fellheim bei Memmingen: Einsatz in Memmingen, Ulm, Biberach, Ravensburg, Kempten, Füssen, Kaufbeuren und Landsberg am Lech."),
+"einsatzgebiete":(f"Einsatzgebiete: Memmingen, Allgäu & Schwaben | {B}","Mobiler DJ aus Fellheim bei Memmingen: Einsatz in Memmingen, Ulm, Neu-Ulm, Biberach, Ravensburg, Kempten, Füssen, Kaufbeuren und Landsberg am Lech."),
 "equipment":(f"Mein Equipment: Bose, Pronomic, Pioneer & Lichtshow | {B}","Bose- und Pronomic-Soundsystem, Pioneer DDJ-FLX10, Moving Heads und Lichttraverse: Mit dieser Technik legt DJ KOLJA ONE bei Hochzeiten, Geburtstagen und Firmenfeiern in Memmingen, Allgäu & Schwaben auf."),
 "technik-mieten":(f"Musikanlage, Licht & Partyequipment mieten Memmingen, Allgäu & Schwaben | {B}","Musikanlage, Licht & Partyequipment mieten: Bose, Pronomic, Pioneer DJ, Moving Heads und Partylicht als Paket S, M oder L oder einzeln. Abholung in Fellheim bei Memmingen, nach Verfügbarkeit und gegen Gebühr mit Lieferung und Aufbau."),
 "kontakt":(f"Wunschtermin prüfen – DJ anfragen | {B}","Unverbindlich anfragen: Wunschtermin prüfen, Angebot erhalten – per Formular, Telefon oder WhatsApp bei DJ KOLJA ONE in Fellheim."),

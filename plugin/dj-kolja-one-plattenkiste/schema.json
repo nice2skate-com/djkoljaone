@@ -17,6 +17,7 @@
   "areas": [
    "Memmingen",
    "Ulm",
+   "Neu-Ulm",
    "Biberach an der Riß",
    "Ravensburg",
    "Kempten",
@@ -319,7 +320,7 @@
     ],
     [
      "Wie groß ist dein Einsatzgebiet?",
-     "Mein Schwerpunkt liegt in Memmingen, im Allgäu und in Schwaben – von Ulm, Biberach und Ravensburg bis Kempten, Füssen und Landsberg. Für besondere Events komme ich auch weiter: Fragt einfach an."
+     "Mein Schwerpunkt liegt in Memmingen, im Allgäu und in Schwaben – von Ulm und Neu-Ulm, Biberach und Ravensburg bis Kempten, Füssen und Landsberg. Für besondere Events komme ich auch weiter: Fragt einfach an."
     ]
    ],
    "kind": "faq",
@@ -351,7 +352,7 @@
     ]
    ],
    "title": "Einsatzgebiete: Memmingen, Allgäu & Schwaben | DJ KOLJA ONE",
-   "desc": "Mobiler DJ aus Fellheim bei Memmingen: Einsatz in Memmingen, Ulm, Biberach, Ravensburg, Kempten, Füssen, Kaufbeuren und Landsberg am Lech."
+   "desc": "Mobiler DJ aus Fellheim bei Memmingen: Einsatz in Memmingen, Ulm, Neu-Ulm, Biberach, Ravensburg, Kempten, Füssen, Kaufbeuren und Landsberg am Lech."
   },
   "dj-memmingen": {
    "name": "DJ Memmingen",
@@ -432,6 +433,46 @@
    ],
    "title": "DJ Ulm für Hochzeit & Event | DJ KOLJA ONE",
    "desc": "Euer DJ für Ulm und Umgebung: Hochzeit, Geburtstag, Firmenfeier oder Event mit Musik und Moderation. Wunschtermin prüfen."
+  },
+  "dj-neu-ulm": {
+   "name": "DJ Neu-Ulm",
+   "faq": [
+    [
+     "Kommst du auch nach Neu-Ulm?",
+     "Ja – Neu-Ulm gehört zu meinem festen Einsatzgebiet. Von Fellheim aus sind es nur rund 50 Kilometer."
+    ],
+    [
+     "Wird die Anfahrt extra berechnet?",
+     "Die Anfahrt ist Teil eures individuellen Angebots – transparent und ohne Überraschungen."
+    ],
+    [
+     "Spielst du in Neu-Ulm auch Firmenfeiern und Events?",
+     "Ja. Neben Hochzeiten und Geburtstagen begleite ich auch Weihnachtsfeiern, Sommerfeste, Vereinsfeiern und Stadtfeste."
+    ],
+    [
+     "Wie früh sollten wir buchen?",
+     "Für Hochzeiten und Samstage in der Hochsaison (Mai bis September) empfehle ich 9–12 Monate Vorlauf, für Weihnachtsfeiern eine Anfrage bis zum Frühsommer. Für Geburtstage und andere Firmenfeiern reichen oft 3–6 Monate. Auch kurzfristig lohnt sich eine Anfrage – prüft einfach euren Wunschtermin."
+    ]
+   ],
+   "kind": "city",
+   "city": "Neu-Ulm",
+   "description": "DJ und Moderation für Hochzeiten, Geburtstage, Firmenfeiern und Events in Neu-Ulm und Umgebung.",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "Einsatzgebiete",
+     "/einsatzgebiete/"
+    ],
+    [
+     "DJ Neu-Ulm",
+     "/dj-neu-ulm/"
+    ]
+   ],
+   "title": "DJ Neu-Ulm für Hochzeit & Event | DJ KOLJA ONE",
+   "desc": "Euer DJ für Neu-Ulm und Umgebung: Hochzeit, Geburtstag, Firmenfeier oder Event mit Musik und Moderation. Wunschtermin prüfen."
   },
   "dj-biberach": {
    "name": "DJ Biberach an der Riß",
