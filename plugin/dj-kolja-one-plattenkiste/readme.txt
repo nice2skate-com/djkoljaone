@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.55.0: Seiten-Cache – Seiten werden für Besucher ohne Anmeldung bis zu 8 Stunden fertig ausgeliefert (Kontakt und Technik mieten ausgenommen, Aufrufe mit Parametern nie); leert sich bei jeder Änderung und beim Einspielen der Vorlagen von selbst.
 Seit 1.54.4: Elementor-CSS bleibt eingebettet (keine Umstellung auf externe Dateien mehr, die bei jedem Admin-Aufruf zurückgesetzt wurde).
 Seit 1.54.3: Galerie-Vorschaubilder auf dem Handy in kleinerer Fassung, Logo ohne doppelte Attribute.
 Seit 1.54.2: Ladezeit Handy: Logos als kleine WebP (600 px), Fotos erst kurz vor dem Sichtbarwerden und auf dem Handy in kleinerer Fassung, Start-Pult animiert erst nach dem Laden und nur wenn sichtbar, Bilder/Schriften 1 Jahr im Browser-Cache, Titel nicht mehr doppelt.
