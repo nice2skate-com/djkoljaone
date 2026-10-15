@@ -1,9 +1,9 @@
 {
- "version": "1.54.0",
- "download_url": "dj-kolja-one-plattenkiste-1.54.0.zip",
- "sha256": "5dbc337dd0b66717773c0add1e6752323f33a8bf1a4f1a19f064d02a7067777b",
+ "version": "1.54.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.54.1.zip",
+ "sha256": "8f76f7e40179149a1bae49d49e8f24ee7c65cf66c3cf01f7fbc413ed9ccdae0b",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Ladezeit: Cache und Komprimierung, Roboto entfernt, Logo-Maße, kein Layout-Sprung beim Datumsfeld, kein automatisches Scrollen zum Pult auf dem Handy."
+ "changelog": "Kopf aufgeräumt (Titel, Schema), Elementor-CSS extern, Block-Styles und Emoji aus, readme/license gesperrt."
 }

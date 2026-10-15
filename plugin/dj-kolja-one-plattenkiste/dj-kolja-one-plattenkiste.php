@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.54.0
+ * Version:     1.54.1
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.54.0' );
+define( 'KJO_VERSION', '1.54.1' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 require_once __DIR__ . '/kjo-bilder.php';
@@ -1560,7 +1560,7 @@ add_action(
 		echo '<meta property="og:image:height" content="630">' . "\n";
 		echo '<meta property="og:image:alt" content="DJ KOLJA ONE – Jedes Event findet nur einmal statt.">' . "\n";
 		echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
-		if ( is_front_page() ) {
+		if ( is_front_page() && ! is_readable( __DIR__ . '/schema.json' ) ) { // sonst steht das Unternehmen im @graph (kein doppelter Block)
 			$ld = array(
 				'@context'    => 'https://schema.org',
 				'@type'       => 'EntertainmentBusiness',
@@ -2201,6 +2201,11 @@ function kjo_schema_graph( $d, $slug, $home ) {
 		'areaServed'   => $area,
 		'sameAs'       => $b['sameAs'],
 	);
+	if ( function_exists( 'kjo_asset' ) ) {
+		$business['image'] = kjo_asset( 'teilen.jpg' );
+		$business['logo']  = kjo_asset( 'icon-512.png' );
+	}
+	$business['slogan'] = 'Jedes Event findet nur einmal statt.';
 	$graph = array( $business );
 	$page  = array(
 		'@type'    => 'WebPage',
