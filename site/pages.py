@@ -58,6 +58,7 @@ def start():
           SPACER(10),BTN("Jetzt Wunschtermin prüfen",KONTAKT)],bg=B1),
       faq(fq("Was kostet ein DJ bei DJ KOLJA ONE?","Wie früh sollten wir buchen?","Was passiert, wenn du krank wirst?","Moderierst du auch?"),bg=B2),
       orte(bg=B1),
+      section(head("In 40 Sekunden","DJ KOLJA ONE auf einen Blick")+[W("html",{"html":open("./site/snippets/motion.html").read(),"_element_width":"inherit","width":px(100,"%")})],bg=B2),
       cta("Euer Datum ist noch frei? Dann sichert es euch.","Beliebte Samstage sind oft ein Jahr im Voraus vergeben. Eine Anfrage dauert zwei Minuten und ist unverbindlich."),
       section(head("Kontakt","Wie möchtet ihr anfragen?")+[con([
           con([ICONBOX(i,t,d,"center",u)],bg=B1,pad=box(36,24,36,24),**col(31,100,100)) for i,t,d,u in [
