@@ -95,7 +95,6 @@ add_filter(
 add_filter(
 	'elementor/widget/render_content',
 	function ( $content, $widget ) {
-		static $erstes = true;
 		if ( 'image' !== $widget->get_name() || false === strpos( $content, 'dj-kolja-one-logo' ) ) {
 			return $content;
 		}
@@ -105,7 +104,7 @@ add_filter(
 		);
 		return preg_replace_callback(
 			'/<img\b[^>]*>/',
-			function ( $m ) use ( $masse, &$erstes ) {
+			function ( $m ) use ( $masse ) {
 				$img = $m[0];
 				foreach ( $masse as $name => $wh ) {
 					if ( false === strpos( $img, $name ) ) {
@@ -117,8 +116,7 @@ add_filter(
 					$img = preg_replace( '/\salt=""/', ' alt="DJ KOLJA ONE – zur Startseite"', $img );
 					$img = preg_replace( '/\s(loading|fetchpriority)="[^"]*"/', '', $img );
 					$img = preg_replace( '/\ssrc="[^"]*"/', ' src="' . esc_url( plugins_url( 'assets/' . $name . '.webp', __FILE__ ) ) . '"', $img ); // 600 px statt 1328 px
-					$img = str_replace( '<img ', $erstes ? '<img fetchpriority="high" ' : '<img loading="lazy" ', $img );
-					$erstes = false;
+					// loading/fetchpriority setzt Elementor bzw. WordPress danach selbst (eigene Angaben führten zu doppelten Attributen)
 				}
 				return $img;
 			},

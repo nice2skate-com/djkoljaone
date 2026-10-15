@@ -31,14 +31,15 @@ var keys=r.dataset.key.split(","),M=window.KJO_MEDIA||{},row=r.querySelector(".v
 if(keys.indexOf("region")>0)r.classList.add("city"); /* Ortsseiten: größer, goldener Rahmen */
 function close(){lb.classList.remove("on");try{lv.pause()}catch(e){}lv.removeAttribute("src");lv.load();li.removeAttribute("src");document.documentElement.style.overflow="";if(last)try{last.focus()}catch(e){}}
 function open(e,b){last=b;lv.hidden=!e.vid;li.hidden=!!e.vid;li.alt=b.dataset.alt||"";lv.setAttribute("aria-label",b.dataset.alt||"");if(e.vid){lv.poster=e.img||"";lv.src=e.vid;lv.muted=false;var p=lv.play();if(p&&p.catch)p.catch(function(){lv.muted=true;lv.play().catch(function(){})})}else li.src=e.img;lb.classList.add("on");document.documentElement.style.overflow="hidden"}
+var SM=window.innerWidth<768; /* Handy: Vorschaubilder in kleinerer Fassung, groß erst in der Großansicht */
 for(var i=1;i<=8;i++)(function(i){var e=null,nm="";for(var k=0;k<keys.length&&!e;k++){nm=(keys[k]==="ueber"||keys[k]==="start"?keys[k]+"_":"event_"+keys[k]+"_")+i;var c=M[nm];if(c&&(c.vid||c.img))e=c}if(!e)return;n++;
 var b=document.createElement("button"),pb=document.createElement("span");b.className="vt";b.type="button";pb.className="pb";var alt=(window.KJO_ALT&&window.KJO_ALT(nm))||"DJ KOLJA ONE";b.dataset.alt=alt;b.setAttribute("aria-label",alt+" – "+(e.vid?"Video":"Bild")+" öffnen");
-if(e.vid){var v=document.createElement("video");v.muted=true;v.playsInline=true;v.setAttribute("playsinline","");v.preload=e.img?"none":"metadata";v.loop=true;if(e.img){v.poster=e.img;var pi=new Image();pi.onload=function(){if(pi.naturalWidth&&!v.videoWidth)b.style.aspectRatio=pi.naturalWidth+"/"+pi.naturalHeight};pi.src=e.img;}v.src=e.vid+"#t=0.3";
+if(e.vid){var v=document.createElement("video");v.muted=true;v.playsInline=true;v.setAttribute("playsinline","");v.preload=e.img?"none":"metadata";v.loop=true;if(e.img){v.poster=SM&&e.sm?e.sm:e.img;var pi=new Image();pi.onload=function(){if(pi.naturalWidth&&!v.videoWidth)b.style.aspectRatio=pi.naturalWidth+"/"+pi.naturalHeight};pi.src=SM&&e.sm?e.sm:e.img;}v.src=e.vid+"#t=0.3";
 v.addEventListener("loadedmetadata",function(){if(v.videoWidth&&v.videoHeight)b.style.aspectRatio=v.videoWidth+"/"+v.videoHeight});
 b.addEventListener("mouseenter",function(){if(matchMedia("(hover:hover)").matches){var p=v.play();if(p&&p.catch)p.catch(function(){})}});
 b.addEventListener("mouseleave",function(){v.pause();try{v.currentTime=.3}catch(x){}});
 b.appendChild(v);b.appendChild(pb);b.addEventListener("click",function(){v.pause();open(e,b)})}
-else{var im=document.createElement("img");im.alt=alt;im.loading="lazy";im.src=e.img;b.className="vt im";b.appendChild(im);im.addEventListener("load",function(){if(im.naturalWidth)b.style.aspectRatio=im.naturalWidth+"/"+im.naturalHeight});b.addEventListener("click",function(){open(e,b)})}
+else{var im=document.createElement("img");im.alt=alt;im.loading="lazy";im.src=SM&&e.sm?e.sm:e.img;b.className="vt im";b.appendChild(im);im.addEventListener("load",function(){if(im.naturalWidth)b.style.aspectRatio=im.naturalWidth+"/"+im.naturalHeight});b.addEventListener("click",function(){open(e,b)})}
 row.appendChild(b)})(i);
 if(!n){var s=r.closest(".e-con:not(.e-child)");(s||r).style.display="none";return}
 r.dataset.n=n;r.hidden=false;

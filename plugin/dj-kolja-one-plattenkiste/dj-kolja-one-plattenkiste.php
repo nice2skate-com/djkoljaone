@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.54.2
+ * Version:     1.54.3
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.54.2' );
+define( 'KJO_VERSION', '1.54.3' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 require_once __DIR__ . '/kjo-bilder.php';
@@ -1820,7 +1820,7 @@ function one(el){
   el.setAttribute("data-kjo","1");
   var e=M[m.toLowerCase()]||{};
   /* Bild erst kurz vor dem Sichtbarwerden laden; auf schmalen Plätzen (Handy) die kleinere Fassung */
-  function bg(){var w=el.getBoundingClientRect().width*(window.devicePixelRatio||1),u=(e.sm&&w>0&&w<=780)?e.sm:e.img;el.style.backgroundImage='url("'+u+'")';el.style.backgroundSize="cover";el.style.backgroundPosition="center";}
+  function bg(){var w=el.getBoundingClientRect().width*(window.devicePixelRatio||1),u=(e.sm&&w>0&&w<=1100)?e.sm:e.img;el.style.backgroundImage='url("'+u+'")';el.style.backgroundSize="cover";el.style.backgroundPosition="center";}
   if(e.img){if(!e.vid&&"IntersectionObserver" in window){var io=new IntersectionObserver(function(x){for(var k=0;k<x.length;k++)if(x[k].isIntersecting){io.disconnect();bg();return}},{rootMargin:"600px 0px"});io.observe(el)}else bg();}
   var al=altFor(m);if(al&&e.img&&!e.vid){el.setAttribute("role","img");el.setAttribute("aria-label",al);}
   var tl=el.classList.contains("kjo-tile");

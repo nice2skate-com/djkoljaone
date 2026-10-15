@@ -1,9 +1,9 @@
 {
- "version": "1.54.2",
- "download_url": "dj-kolja-one-plattenkiste-1.54.2.zip",
- "sha256": "3362e5d9734bafeac2844b41136e70ee082813183bb96153bcbf9aa7ba9bd09a",
+ "version": "1.54.3",
+ "download_url": "dj-kolja-one-plattenkiste-1.54.3.zip",
+ "sha256": "5f6c22263403fdde4a286c0adbb5956a4f18b5a41db27e601d3b84a88f50c8f5",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Ladezeit Handy: kleinere Logos und Fotos, Fotos lazy, Pult-Animation erst wenn sichtbar, längerer Browser-Cache, Titel nur einmal."
+ "changelog": "Galerie-Vorschaubilder auf dem Handy kleiner, Logo-Attribute bereinigt."
 }
