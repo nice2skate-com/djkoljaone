@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.54.1
+ * Version:     1.54.2
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.54.1' );
+define( 'KJO_VERSION', '1.54.2' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 require_once __DIR__ . '/kjo-bilder.php';
@@ -1113,7 +1113,7 @@ add_shortcode( 'kjo_musikpult', 'kjm_deck_html' );
  * zugeordnet. Bild = Hintergrund, Video = Player mit Start/Stop-Knopf.
  * ------------------------------------------------------------------ */
 function kjo_media_map() {
-	$map = get_transient( 'kjo_media_map3' );
+	$map = get_transient( 'kjo_media_map4' );
 	if ( is_array( $map ) ) {
 		return $map;
 	}
@@ -1142,6 +1142,9 @@ function kjo_media_map() {
 		$url  = 'img' === $kind && function_exists( 'kjo_img_web_url' ) ? kjo_img_web_url( $id ) : wp_get_attachment_url( $id ); // Fotos in Web-Größe statt Original
 		if ( $url ) {
 			$map[ $m[1] ][ $kind ] = set_url_scheme( $url );
+			if ( 'img' === $kind && function_exists( 'kjo_img_small_url' ) && ( $sm = kjo_img_small_url( $id ) ) ) { // phpcs:ignore
+				$map[ $m[1] ]['sm'] = set_url_scheme( $sm );
+			}
 			$h = (int) get_post_meta( $id, 'kjo_h', true );
 			if ( $h && ( 'vid' === $kind || empty( $map[ $m[1] ]['h'] ) ) ) {
 				$map[ $m[1] ]['h'] = $h; // Video hat Vorrang, wenn beide eine Höhe haben.
@@ -1154,11 +1157,11 @@ function kjo_media_map() {
 			$map[ $k . '_1' ] = $map[ $k ];
 		}
 	}
-	set_transient( 'kjo_media_map3', $map, DAY_IN_SECONDS );
+	set_transient( 'kjo_media_map4', $map, DAY_IN_SECONDS );
 	return $map;
 }
 function kjo_media_flush() {
-	delete_transient( 'kjo_media_map3' );
+	delete_transient( 'kjo_media_map4' );
 }
 add_action( 'add_attachment', 'kjo_media_flush' );
 add_action( 'edit_attachment', 'kjo_media_flush' );
@@ -1816,12 +1819,14 @@ function one(el){
   var m=(String(el.className).match(/kjo-m-([a-z0-9_]+)/i)||[])[1]; if(!m)return;
   el.setAttribute("data-kjo","1");
   var e=M[m.toLowerCase()]||{};
-  if(e.img){el.style.backgroundImage='url("'+e.img+'")';el.style.backgroundSize="cover";el.style.backgroundPosition="center";}
+  /* Bild erst kurz vor dem Sichtbarwerden laden; auf schmalen Plätzen (Handy) die kleinere Fassung */
+  function bg(){var w=el.getBoundingClientRect().width*(window.devicePixelRatio||1),u=(e.sm&&w>0&&w<=780)?e.sm:e.img;el.style.backgroundImage='url("'+u+'")';el.style.backgroundSize="cover";el.style.backgroundPosition="center";}
+  if(e.img){if(!e.vid&&"IntersectionObserver" in window){var io=new IntersectionObserver(function(x){for(var k=0;k<x.length;k++)if(x[k].isIntersecting){io.disconnect();bg();return}},{rootMargin:"600px 0px"});io.observe(el)}else bg();}
   var al=altFor(m);if(al&&e.img&&!e.vid){el.setAttribute("role","img");el.setAttribute("aria-label",al);}
   var tl=el.classList.contains("kjo-tile");
   if(tl&&!e.img&&!e.vid){el.classList.add("kjo-ph");el.style.backgroundImage="none";el.setAttribute("aria-hidden","true");el.innerHTML='<svg viewBox="0 0 48 48" aria-hidden="true">'+(ICO[m.replace(/^start_/,"")]||ICO.events)+'</svg>';return;}
   function fit(w,h){if(tl||!w||!h)return;var H=(e.h>0?e.h:400),W=Math.round(H*w/h),S=function(k,v){el.style.setProperty(k,v,"important");};S("aspect-ratio",w+" / "+h);S("width","min(100%,"+W+"px)");S("max-width","none");S("height","auto");S("min-height","0");}
-  if(e.img){var pi=new Image();pi.onload=function(){fit(pi.naturalWidth,pi.naturalHeight);};pi.src=e.img;}
+  if(e.img){var pi=new Image();pi.onload=function(){fit(pi.naturalWidth,pi.naturalHeight);};pi.src=e.sm||e.img;}
   if(!e.vid)return;
   el.classList.add("kjo-vid");
   var v=document.createElement("video");
@@ -2380,7 +2385,7 @@ add_action(
 		}
 		echo '<script id="kjo-a11y">(function(){function fix(r){(r||document).querySelectorAll("[role=button][aria-selected]").forEach(function(e){e.removeAttribute("aria-selected")});'
 			. 'document.querySelectorAll("a[href]").forEach(function(a){if(a.textContent.trim()||a.getAttribute("aria-label"))return;var i=a.querySelector("img");if(i&&!i.getAttribute("alt"))i.setAttribute("alt",/^(\\/|https?:\\/\\/[^\\/]+\\/?)$/.test(a.getAttribute("href"))?"DJ KOLJA ONE – zur Startseite":(a.title||"Link"))})}'
-			. 'fix();try{new MutationObserver(function(m){m.forEach(function(x){if(x.attributeName==="aria-selected"&&x.target.getAttribute("role")==="button")x.target.removeAttribute("aria-selected")})}).observe(document.body,{subtree:true,attributes:true,attributeFilter:["aria-selected"]})}catch(e){}})();</script>' . "\n";
+			. 'document.querySelectorAll(".elementor-accordion-title:not([href]),.elementor-toggle-title:not([href])").forEach(function(a){if(!a.getAttribute("role"))a.setAttribute("role","none")});fix();try{new MutationObserver(function(m){m.forEach(function(x){if(x.attributeName==="aria-selected"&&x.target.getAttribute("role")==="button")x.target.removeAttribute("aria-selected")})}).observe(document.body,{subtree:true,attributes:true,attributeFilter:["aria-selected"]})}catch(e){}})();</script>' . "\n";
 	},
 	30
 );
