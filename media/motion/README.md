@@ -9,4 +9,6 @@ Rendern (Einzelbilder mit gesteuerter Zeit, dann ffmpeg):
     ffmpeg -framerate 30 -i /tmp/h/%05d.jpg -vf scale=1280:720 -c:v libx264 -crf 24 -pix_fmt yuv420p -movflags +faststart -an start_motion.mp4
     ffmpeg -framerate 30 -i /tmp/v/%05d.jpg -vf scale=720:1280 -c:v libx264 -crf 24 -pix_fmt yuv420p -movflags +faststart -an start_motion_hoch.mp4
 
-Website: Mediathek-Dateien `start_motion.mp4` + `start_motion.jpg` (Computer) und `start_motion_hoch.mp4` + `start_motion_hoch.jpg` (Handy). Die Startseite zeigt den Abschnitt nur, wenn mindestens eines der Videos in der Mediathek liegt.
+Website: Die Videos liegen im Plugin unter `assets/motion/` und werden automatisch verwendet. Gleichnamige Dateien in der Mediathek (`start_motion.mp4` usw.) haben Vorrang.
+
+Für Instagram/Facebook: `export/reel_dj-kolja-one_1080x1920.mp4` (Reel) und `export/dj-kolja-one_1920x1080.mp4` (16:9).
