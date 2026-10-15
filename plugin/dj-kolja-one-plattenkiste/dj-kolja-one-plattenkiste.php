@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.54.4
+ * Version:     1.55.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.54.4' );
+define( 'KJO_VERSION', '1.55.0' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 require_once __DIR__ . '/kjo-bilder.php';
@@ -24,6 +24,7 @@ require_once __DIR__ . '/kjo-aktion.php';
 require_once __DIR__ . '/kjo-songwunsch.php';
 require_once __DIR__ . '/kjo-musikliste.php';
 require_once __DIR__ . '/kjo-tempo.php';
+require_once __DIR__ . '/kjo-cache.php';
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -41,6 +42,10 @@ function kjm_purge_caches() {
 		$done[] = 'Elementor';
 	}
 	delete_post_meta_by_key( '_elementor_element_cache' ); // Elementor „Element Caching“.
+	if ( function_exists( 'kjo_cache_leeren' ) ) {
+		kjo_cache_leeren();
+		$done[] = 'Seiten-Cache';
+	}
 	if ( function_exists( 'rocket_clean_domain' ) ) {
 		rocket_clean_domain();
 		$done[] = 'WP Rocket';
@@ -145,6 +150,9 @@ function kjo_seiten_sync( $only = null ) {
 		clean_post_cache( $page->ID );
 		$out[ $slug ] = 'eingespielt';
 	}
+	if ( function_exists( 'kjo_cache_leeren' ) ) {
+		kjo_cache_leeren();
+	}
 	return $out;
 }
 /* Datenschutzerklärung einmalig automatisch aktualisieren (neuer Stand mit Google Analytics und Microsoft Clarity), sobald ein Admin das Dashboard öffnet. Der bisherige Inhalt bleibt als Sicherung erhalten. */
@@ -177,6 +185,9 @@ function kjo_seiten_restore() {
 		delete_post_meta( $page->ID, '_elementor_element_cache' );
 		clean_post_cache( $page->ID );
 		$out[ $slug ] = 'wiederhergestellt';
+	}
+	if ( function_exists( 'kjo_cache_leeren' ) ) {
+		kjo_cache_leeren();
 	}
 	return $out;
 }
