@@ -1,9 +1,9 @@
 {
- "version": "1.56.0",
- "download_url": "dj-kolja-one-plattenkiste-1.56.0.zip",
- "sha256": "08e5e1406128610f8252106a583865ae5eb99c7a247bcc36117905791cda4f8c",
+ "version": "1.56.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.56.1.zip",
+ "sha256": "6253a573ba4bd42c8b0793a46b9df15bb485094a2edcab730a2510e348db5344",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Kennenlerngespräch online buchen; Angebote (Miete und DJ) als PDF erstellen und per E-Mail/WhatsApp senden"
+ "changelog": "Datenschutzerklärung ergänzt: Kennenlerngespräch buchen und Angebote"
 }

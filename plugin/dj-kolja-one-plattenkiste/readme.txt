@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.56.1: Datenschutzerklärung ergänzt (Kennenlerngespräch buchen, Angebote).
 Seit 1.56.0: Kennenlerngespräch direkt buchen (Kontaktseite, Zeiten unter DJ-Anfragen → Kennenlernen: Zeiten). Neues Menü „Angebote“: Miet- und DJ-Angebote aus Anfragen erstellen, als PDF speichern und per E-Mail oder WhatsApp senden.
 Seit 1.55.4: Meine Musik auf dem Handy: 2 Platten pro Reihe, Knöpfe (A/B, Automix, Teilen) wieder vollständig bedienbar.
 Seit 1.55.3: Startseiten-Video erscheint sofort (nicht erst nach Ablauf des Medien-Zwischenspeichers).
