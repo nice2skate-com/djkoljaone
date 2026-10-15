@@ -202,7 +202,7 @@ var next=0;
 function load(d,user){for(var i=0;i<2;i++)if(decks[i].data===d){if(user&&decks[i].target>0&&decks[i].au.paused&&play(decks[i]))return;brake(decks[i]);return}
  var o=decks[next];next=1-next;if(o.data)sleeves[o.data.k].classList.remove("on");
  while(o.slot.firstChild)o.slot.removeChild(o.slot.firstChild);vinyl(o,d);sleeves[d.k].classList.add("on");closePanel();if(user)play(o);
- if(window.innerWidth<768){svg.scrollIntoView({behavior:"smooth",block:"center"})}}
+ if(user&&window.innerWidth<768){svg.scrollIntoView({behavior:"smooth",block:"center"})}}
 // panel
 var cur=null;
 function showPanel(d,o){cur=o;panel.innerHTML='<button class="x" aria-label="Schließen"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5"/></svg></button><div class="ey">'+d.s+'</div><h3>'+d.t+'</h3><p>'+d.txt+'</p><ul>'+d.li.map(function(l){return"<li>"+l+"</li>"}).join("")+'</ul><div class="bt"><a class="p" href="/kontakt/">Wunschtermin prüfen</a><a class="s" href="'+d.u+'">Mehr erfahren</a></div><button class="resume"><svg width="9" height="10" viewBox="0 0 9 10" style="margin-right:8px"><path d="M0 0l9 5-9 5z" fill="currentColor"/></svg>Weiterspielen</button>';
