@@ -212,7 +212,7 @@ function kjo_kl_rest_buchen( WP_REST_Request $r ) {
 	if ( $an ) {
 		update_post_meta( $pid, '_kjo_kl_anfrage', $an[0]->ID );
 	}
-	$wie   = 'video' === $art ? 'Video-Call' . ( $o['video'] ? ' – Link: ' . $o['video'] : ' – den Link schicke ich euch vorab per E-Mail.' ) : 'Telefon – ich rufe euch an unter ' . $tel . '.';
+	$wie   = kjo_kl_wie( $art, $tel );
 	$to    = function_exists( 'kjo_vl_mail_to' ) ? kjo_vl_mail_to() : get_option( 'admin_email' );
 	$up    = wp_upload_dir();
 	$tmp   = trailingslashit( $up['basedir'] ) . 'kjo-tmp';
@@ -228,8 +228,43 @@ function kjo_kl_rest_buchen( WP_REST_Request $r ) {
 	wp_mail( $mail, 'Euer Kennenlerngespräch mit DJ KOLJA ONE', $mc, array_merge( $hdr, array( 'Reply-To: DJ KOLJA ONE <' . $to . '>' ) ), array( $ics_k ) );
 	@unlink( $ics_k ); // phpcs:ignore
 	@unlink( $ics_m ); // phpcs:ignore
-	return new WP_REST_Response( array( 'ok' => true, 'wann' => $wann, 'ics' => kjo_kl_ics( $start, (int) $o['dauer'], 'Kennenlerngespräch mit DJ KOLJA ONE', $wie, 'kl-' . $pid ) ), 200 );
+	$tok = wp_generate_password( 20, false );
+	update_post_meta( $pid, '_kjo_kl_token', $tok );
+	return new WP_REST_Response( array( 'ok' => true, 'wann' => $wann, 'ics' => rest_url( 'kjo/v1/kennenlernen/ics/' . $pid . '-' . $tok ) ), 200 );
 }
+function kjo_kl_wie( $art, $tel ) {
+	$o = kjo_kl_opts();
+	return 'video' === $art ? 'Video-Call' . ( $o['video'] ? ' – Link: ' . $o['video'] : ' – den Link schicke ich euch vorab per E-Mail.' ) : 'Telefon – ich rufe euch an unter ' . $tel . '.';
+}
+/* Kalendereintrag als echte Datei (iPhone/Safari öffnet data:-Links nicht): „Zum Kalender hinzufügen“. */
+add_action(
+	'rest_api_init',
+	function () {
+		register_rest_route(
+			'kjo/v1',
+			'/kennenlernen/ics/(?P<id>\d+)-(?P<t>[A-Za-z0-9]{20})',
+			array(
+				'methods'             => 'GET',
+				'permission_callback' => '__return_true',
+				'callback'            => function ( WP_REST_Request $r ) {
+					$id = (int) $r['id'];
+					if ( 'kjo_gespraech' !== get_post_type( $id ) || ! hash_equals( (string) get_post_meta( $id, '_kjo_kl_token', true ), (string) $r['t'] ) ) {
+						return new WP_REST_Response( array( 'message' => 'Nicht gefunden.' ), 404 );
+					}
+					$m = function ( $k ) use ( $id ) {
+						return (string) get_post_meta( $id, '_kjo_kl_' . $k, true );
+					};
+					nocache_headers();
+					header( 'Content-Type: text/calendar; charset=utf-8' );
+					header( 'Content-Disposition: inline; filename="kennenlernen-dj-kolja-one.ics"' );
+					header( 'X-Robots-Tag: noindex, nofollow' );
+					echo kjo_kl_ics( (int) $m( 'start' ), (int) kjo_kl_opts()['dauer'], 'Kennenlerngespräch mit DJ KOLJA ONE', kjo_kl_wie( $m( 'art' ), $m( 'tel' ) ), 'kl-' . $id ); // phpcs:ignore
+					exit;
+				},
+			)
+		);
+	}
+);
 
 /* ---------- Website: Shortcode ---------- */
 add_shortcode(
@@ -284,7 +319,7 @@ F.addEventListener("submit",function(e){e.preventDefault();E.textContent="";var 
  fetch(api,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(d),credentials:"omit"}).then(function(x){return x.json().then(function(j){return{ok:x.ok,j:j}})}).then(function(x){b.disabled=false;b.textContent="Termin verbindlich buchen";
   if(!x.ok){E.textContent=(x.j&&x.j.message)||"Das hat nicht geklappt.";return}
   T.hidden=Z.hidden=F.hidden=true;r.querySelectorAll(".kjo-kl-l").forEach(function(l){l.hidden=true});
-  var u="data:text/calendar;charset=utf-8,"+encodeURIComponent(x.j.ics);OK.innerHTML="<strong>Danke, euer Kennenlerngespräch ist gebucht!</strong><br>"+x.j.wann.replace(/[<>&]/g,"")+"<br>Eine Bestätigung ist per E-Mail unterwegs. <a download=\"kennenlernen-dj-kolja-one.ics\" href=\""+u+"\">In den Kalender eintragen</a>";OK.hidden=false;OK.focus();
+  var u=String(x.j.ics||"").replace(/"/g,"");OK.innerHTML="<strong>Danke! Euer Kennenlerngespräch ist gebucht.</strong><br>"+x.j.wann.replace(/[<>&]/g,"")+"<br>Eine Bestätigung ist per E-Mail unterwegs."+(u?" <a href=\""+u+"\">In den Kalender eintragen</a>":"");OK.hidden=false;OK.focus();
   if(window.kjoTrack)try{kjoTrack("kennenlernen_gebucht",{art:d.art})}catch(z){}})
  .catch(function(){b.disabled=false;b.textContent="Termin verbindlich buchen";E.textContent="Keine Verbindung – bitte noch einmal versuchen."})})})})();</script>
 		<?php
