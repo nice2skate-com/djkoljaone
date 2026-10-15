@@ -303,6 +303,8 @@ function kjo_kf_rest( WP_REST_Request $req ) {
 		update_post_meta( $pid, '_kjo_email', $email );
 		update_post_meta( $pid, '_kjo_anlass', $anlass );
 		update_post_meta( $pid, '_kjo_ort', $s( 'ort' ) );
+		update_post_meta( $pid, '_kjo_tel', $s( 'telefon' ) ); // für Angebot/Kennenlernen (seit 1.56.0)
+		update_post_meta( $pid, '_kjo_gaeste', $s( 'gaeste' ) );
 		if ( $akt ) {
 			update_post_meta( $pid, '_kjo_aktion', $akt );
 		}

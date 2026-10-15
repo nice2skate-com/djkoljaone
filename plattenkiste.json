@@ -1,9 +1,9 @@
 {
- "version": "1.55.4",
- "download_url": "dj-kolja-one-plattenkiste-1.55.4.zip",
- "sha256": "e7aceb7baffbbde4f439466e9e15473f18dca41069a537837ad032519a171657",
+ "version": "1.56.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.56.0.zip",
+ "sha256": "08e5e1406128610f8252106a583865ae5eb99c7a247bcc36117905791cda4f8c",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Meine Musik am Handy: 2 Platten pro Reihe, A/B-Knöpfe wieder bedienbar."
+ "changelog": "Kennenlerngespräch online buchen; Angebote (Miete und DJ) als PDF erstellen und per E-Mail/WhatsApp senden"
 }

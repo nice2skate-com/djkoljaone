@@ -1,0 +1,17 @@
+/* DJ KOLJA ONE – Angebots-Editor (seit 1.56.0) */
+.kjo-ang h3{margin:22px 0 8px;font-size:14px}
+.kjo-ang-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px 14px}
+.kjo-ang-f{display:block}.kjo-ang-f>span{display:block;font-size:12px;color:#50575e;margin-bottom:3px}
+.kjo-ang-f input,.kjo-ang-f select,.kjo-ang-f textarea{width:100%;max-width:none}
+.kjo-ang-w{grid-column:1/-1}
+.kjo-ang-t{margin-top:4px}.kjo-ang-t th{font-size:12px}.kjo-ang-t td{vertical-align:top;padding:6px}
+.kjo-ang-t td:first-child{width:46%}.kjo-ang-t td:first-child input,.kjo-ang-t td:first-child textarea{width:100%;display:block}
+.kjo-ang-t td:first-child textarea{margin-top:4px;font-size:12px;min-height:30px}
+.kjo-ang-n{width:84px;text-align:right}.kjo-ang-e{width:80px}
+.kjo-ang-ges{white-space:nowrap;font-weight:600;padding-top:11px!important}
+.kjo-ang-leer input[data-p=p]{border-color:#d63638;background:#fcf0f1}
+.kjo-ang-btns{white-space:nowrap}.kjo-ang-btns button{font-size:15px;padding:2px 4px;text-decoration:none}.kjo-ang-del{color:#b32d2e}
+.kjo-ang-add select{max-width:320px}
+.kjo-ang-tarif{margin:6px 0 0}
+#kjo-ang-sum{font-size:15px;margin:6px 0 10px}
+@media(max-width:782px){.kjo-ang-t thead{display:none}.kjo-ang-t tr{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid #dcdcde}.kjo-ang-t td:first-child{grid-column:1/-1;width:auto}}
