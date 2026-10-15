@@ -1,9 +1,9 @@
 {
- "version": "1.54.1",
- "download_url": "dj-kolja-one-plattenkiste-1.54.1.zip",
- "sha256": "8f76f7e40179149a1bae49d49e8f24ee7c65cf66c3cf01f7fbc413ed9ccdae0b",
+ "version": "1.54.2",
+ "download_url": "dj-kolja-one-plattenkiste-1.54.2.zip",
+ "sha256": "3362e5d9734bafeac2844b41136e70ee082813183bb96153bcbf9aa7ba9bd09a",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Kopf aufgeräumt (Titel, Schema), Elementor-CSS extern, Block-Styles und Emoji aus, readme/license gesperrt."
+ "changelog": "Ladezeit Handy: kleinere Logos und Fotos, Fotos lazy, Pult-Animation erst wenn sichtbar, längerer Browser-Cache, Titel nur einmal."
 }

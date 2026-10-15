@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-const KJO_TEMPO_HT = 3; // bei Änderungen an den Regeln hochzählen
+const KJO_TEMPO_HT = 4; // bei Änderungen an den Regeln hochzählen
 
 function kjo_tempo_regeln() {
 	return array(
@@ -31,14 +31,14 @@ function kjo_tempo_regeln() {
 		'ExpiresByType font/woff2 "access plus 1 year"',
 		'ExpiresByType font/woff "access plus 1 year"',
 		'ExpiresByType application/font-woff2 "access plus 1 year"',
-		'ExpiresByType image/webp "access plus 3 months"',
-		'ExpiresByType image/avif "access plus 3 months"',
-		'ExpiresByType image/jpeg "access plus 3 months"',
-		'ExpiresByType image/png "access plus 3 months"',
-		'ExpiresByType image/gif "access plus 3 months"',
-		'ExpiresByType image/svg+xml "access plus 3 months"',
-		'ExpiresByType image/x-icon "access plus 3 months"',
-		'ExpiresByType image/vnd.microsoft.icon "access plus 3 months"',
+		'ExpiresByType image/webp "access plus 1 year"',
+		'ExpiresByType image/avif "access plus 1 year"',
+		'ExpiresByType image/jpeg "access plus 1 year"',
+		'ExpiresByType image/png "access plus 1 year"',
+		'ExpiresByType image/gif "access plus 1 year"',
+		'ExpiresByType image/svg+xml "access plus 1 year"',
+		'ExpiresByType image/x-icon "access plus 1 year"',
+		'ExpiresByType image/vnd.microsoft.icon "access plus 1 year"',
 		'ExpiresByType video/mp4 "access plus 3 months"',
 		'ExpiresByType video/webm "access plus 3 months"',
 		'</IfModule>',
@@ -52,7 +52,7 @@ function kjo_tempo_regeln() {
 		'Header set Cache-Control "public, max-age=31536000"',
 		'</FilesMatch>',
 		'<FilesMatch "\.(jpe?g|png|gif|webp|avif|svg|ico|mp4|webm)$">',
-		'Header set Cache-Control "public, max-age=7776000"',
+		'Header set Cache-Control "public, max-age=31536000"',
 		'</FilesMatch>',
 		'</IfModule>',
 	);
@@ -95,6 +95,7 @@ add_filter(
 add_filter(
 	'elementor/widget/render_content',
 	function ( $content, $widget ) {
+		static $erstes = true;
 		if ( 'image' !== $widget->get_name() || false === strpos( $content, 'dj-kolja-one-logo' ) ) {
 			return $content;
 		}
@@ -104,7 +105,7 @@ add_filter(
 		);
 		return preg_replace_callback(
 			'/<img\b[^>]*>/',
-			function ( $m ) use ( $masse ) {
+			function ( $m ) use ( $masse, &$erstes ) {
 				$img = $m[0];
 				foreach ( $masse as $name => $wh ) {
 					if ( false === strpos( $img, $name ) ) {
@@ -114,7 +115,10 @@ add_filter(
 						$img = str_replace( '<img ', '<img width="' . $wh[0] . '" height="' . $wh[1] . '" ', $img );
 					}
 					$img = preg_replace( '/\salt=""/', ' alt="DJ KOLJA ONE – zur Startseite"', $img );
-					$img = preg_replace( '/\s(loading|fetchpriority)="[^"]*"/', '', $img ); // setzt WordPress selbst (sonst doppelt)
+					$img = preg_replace( '/\s(loading|fetchpriority)="[^"]*"/', '', $img );
+					$img = preg_replace( '/\ssrc="[^"]*"/', ' src="' . esc_url( plugins_url( 'assets/' . $name . '.webp', __FILE__ ) ) . '"', $img ); // 600 px statt 1328 px
+					$img = str_replace( '<img ', $erstes ? '<img fetchpriority="high" ' : '<img loading="lazy" ', $img );
+					$erstes = false;
 				}
 				return $img;
 			},
@@ -135,12 +139,24 @@ add_action(
 		if ( is_admin() || ! kjo_tempo_canvas() ) {
 			return;
 		}
-		remove_action( 'wp_head', '_wp_render_title_tag', 1 );
-		remove_action( 'wp_head', '_block_template_viewport_meta_tag', 0 );
 		remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 		remove_action( 'wp_print_styles', 'print_emoji_styles' );
 		remove_action( 'wp_enqueue_scripts', 'wp_enqueue_emoji_styles' );
 	}
+);
+/* Block-Themes hängen Titel und Viewport erst beim Laden der Vorlage an – deshalb direkt vor der Ausgabe entfernen.
+ * Elementor Canvas gibt beide selbst aus. */
+add_action(
+	'wp_head',
+	function () {
+		if ( ! kjo_tempo_canvas() ) {
+			return;
+		}
+		remove_action( 'wp_head', '_wp_render_title_tag', 1 );
+		remove_action( 'wp_head', '_block_template_render_title_tag', 1 );
+		remove_action( 'wp_head', '_block_template_viewport_meta_tag', 0 );
+	},
+	-1000
 );
 add_action(
 	'wp_enqueue_scripts',

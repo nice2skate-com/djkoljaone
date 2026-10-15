@@ -74,6 +74,24 @@ function kjo_img_web_url( $id ) {
 	$u = wp_get_attachment_image_url( $id, kjo_img_web_size( $id ) );
 	return $u ? $u : (string) wp_get_attachment_url( $id );
 }
+/** Kleinere Fassung (600–999 px, bevorzugt WebP) für schmale Plätze, z. B. auf dem Handy (seit 1.54.2). Leer, wenn keine passt. */
+function kjo_img_small_url( $id ) {
+	$meta = wp_get_attachment_metadata( $id );
+	$best = '';
+	$top  = PHP_INT_MAX;
+	foreach ( (array) ( isset( $meta['sizes'] ) ? $meta['sizes'] : array() ) as $n => $s ) {
+		$l = max( (int) $s['width'], (int) $s['height'] );
+		if ( $l < 600 || $l > 999 ) {
+			continue;
+		}
+		$score = $l - ( isset( $s['mime-type'] ) && 'image/webp' === $s['mime-type'] ? 1000 : 0 );
+		if ( $score < $top ) {
+			$top  = $score;
+			$best = $n;
+		}
+	}
+	return '' === $best ? '' : (string) wp_get_attachment_image_url( $id, $best );
+}
 /** Pfad und Größe der ausgelieferten Datei (für die Übersicht). */
 function kjo_img_web_info( $id ) {
 	$size = kjo_img_web_size( $id );
