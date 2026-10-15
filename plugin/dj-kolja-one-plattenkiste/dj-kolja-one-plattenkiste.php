@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.55.1
+ * Version:     1.55.2
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.55.1' );
+define( 'KJO_VERSION', '1.55.2' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 require_once __DIR__ . '/kjo-bilder.php';
@@ -1124,7 +1124,7 @@ add_shortcode( 'kjo_musikpult', 'kjm_deck_html' );
  * zugeordnet. Bild = Hintergrund, Video = Player mit Start/Stop-Knopf.
  * ------------------------------------------------------------------ */
 function kjo_media_map() {
-	$map = get_transient( 'kjo_media_map4' );
+	$map = get_transient( 'kjo_media_map5' );
 	if ( is_array( $map ) ) {
 		return $map;
 	}
@@ -1162,17 +1162,26 @@ function kjo_media_map() {
 			}
 		}
 	}
+	/* Startseiten-Video (seit 1.55.2): liegt im Plugin; eine gleichnamige Datei in der Mediathek hat Vorrang. */
+	foreach ( array( 'start_motion', 'start_motion_hoch' ) as $k ) {
+		if ( empty( $map[ $k ]['vid'] ) && file_exists( __DIR__ . '/assets/motion/' . $k . '.mp4' ) ) {
+			$map[ $k ] = array(
+				'vid' => plugins_url( 'assets/motion/' . $k . '.mp4', __FILE__ ) . '?v=1',
+				'img' => plugins_url( 'assets/motion/' . $k . '.jpg', __FILE__ ) . '?v=1',
+			);
+		}
+	}
 	/* Ortsbild ohne Nummer (z. B. event_biberach.jpg) zählt als Platz 1. */
 	foreach ( array_keys( $map ) as $k ) {
 		if ( preg_match( '/^event_[a-z_]+$/', $k ) && ! preg_match( '/_(text|\d+)$/', $k ) && ! isset( $map[ $k . '_1' ] ) ) {
 			$map[ $k . '_1' ] = $map[ $k ];
 		}
 	}
-	set_transient( 'kjo_media_map4', $map, DAY_IN_SECONDS );
+	set_transient( 'kjo_media_map5', $map, DAY_IN_SECONDS );
 	return $map;
 }
 function kjo_media_flush() {
-	delete_transient( 'kjo_media_map4' );
+	delete_transient( 'kjo_media_map5' );
 }
 add_action( 'add_attachment', 'kjo_media_flush' );
 add_action( 'edit_attachment', 'kjo_media_flush' );

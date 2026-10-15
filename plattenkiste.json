@@ -1,9 +1,9 @@
 {
- "version": "1.55.1",
- "download_url": "dj-kolja-one-plattenkiste-1.55.1.zip",
- "sha256": "496fe600c575b8767e186522893c40fbad96d20d1055922146c2c6d84ea8a309",
+ "version": "1.55.2",
+ "download_url": "dj-kolja-one-plattenkiste-1.55.2.zip",
+ "sha256": "2ccf8632c87ed4cb4fff03ffb86027a86fd11202c695772f2a8083b280acf161",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Startseite: 40-Sekunden-Video „DJ KOLJA ONE auf einen Blick“."
+ "changelog": "Startseiten-Video direkt im Plugin, kein Upload nötig."
 }

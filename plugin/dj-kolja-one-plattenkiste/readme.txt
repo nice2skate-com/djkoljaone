@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.55.2: Das Startseiten-Video liegt im Plugin (assets/motion) und erscheint ohne Upload in die Mediathek.
 Seit 1.55.1: Startseite: Abschnitt „DJ KOLJA ONE auf einen Blick“ mit dem 40-Sekunden-Video (start_motion.mp4, auf dem Handy start_motion_hoch.mp4), stumm in Schleife, lädt erst beim Hinscrollen.
 Seit 1.55.0: Seiten-Cache – Seiten werden für Besucher ohne Anmeldung bis zu 8 Stunden fertig ausgeliefert (Kontakt und Technik mieten ausgenommen, Aufrufe mit Parametern nie); leert sich bei jeder Änderung und beim Einspielen der Vorlagen von selbst.
 Seit 1.54.4: Elementor-CSS bleibt eingebettet (keine Umstellung auf externe Dateien mehr, die bei jedem Admin-Aufruf zurückgesetzt wurde).
