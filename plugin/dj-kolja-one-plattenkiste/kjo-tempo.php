@@ -4,13 +4,18 @@
  *  1) Browser-Cache und Komprimierung für CSS, JS, Bilder und Schriften per .htaccess
  *     (Strato lieferte diese Dateien ohne Cache-Angabe und unkomprimiert aus).
  *  2) Unbenutzte Elementor-Schriften Roboto und Roboto Slab nicht mehr laden (die Seite nutzt nur Fira Sans).
- *  3) Logo: feste Breite/Höhe (kein Layout-Sprung), Kopf-Logo sofort laden statt „lazy“, Alt-Text.
+ *  3) Logo: feste Breite/Höhe (kein Layout-Sprung), Alt-Text.
+ * Seit 1.54.1:
+ *  4) Elementor-Seiten (Vorlage „Canvas“): Titel und Viewport nur noch einmal (Elementor gibt beide selbst aus),
+ *     keine Block-Theme-Styles (Twenty Twenty-Five) und keine Emoji-Skripte.
+ *  5) Elementor-CSS als externe Datei statt 120 KB im HTML (wird zwischengespeichert).
+ *  6) readme.html / license.txt gesperrt (verraten die WordPress-Version).
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-const KJO_TEMPO_HT = 2; // bei Änderungen an den Regeln hochzählen
+const KJO_TEMPO_HT = 3; // bei Änderungen an den Regeln hochzählen
 
 function kjo_tempo_regeln() {
 	return array(
@@ -36,6 +41,11 @@ function kjo_tempo_regeln() {
 		'ExpiresByType image/vnd.microsoft.icon "access plus 3 months"',
 		'ExpiresByType video/mp4 "access plus 3 months"',
 		'ExpiresByType video/webm "access plus 3 months"',
+		'</IfModule>',
+		'<IfModule mod_authz_core.c>',
+		'<FilesMatch "^(readme\.html|license\.txt|liesmich\.html|wp-config-sample\.php)$">',
+		'Require all denied',
+		'</FilesMatch>',
 		'</IfModule>',
 		'<IfModule mod_headers.c>',
 		'<FilesMatch "\.(css|js|woff2?|ttf|otf)$">',
@@ -85,7 +95,6 @@ add_filter(
 add_filter(
 	'elementor/widget/render_content',
 	function ( $content, $widget ) {
-		static $erstes = true;
 		if ( 'image' !== $widget->get_name() || false === strpos( $content, 'dj-kolja-one-logo' ) ) {
 			return $content;
 		}
@@ -95,7 +104,7 @@ add_filter(
 		);
 		return preg_replace_callback(
 			'/<img\b[^>]*>/',
-			function ( $m ) use ( $masse, &$erstes ) {
+			function ( $m ) use ( $masse ) {
 				$img = $m[0];
 				foreach ( $masse as $name => $wh ) {
 					if ( false === strpos( $img, $name ) ) {
@@ -105,10 +114,7 @@ add_filter(
 						$img = str_replace( '<img ', '<img width="' . $wh[0] . '" height="' . $wh[1] . '" ', $img );
 					}
 					$img = preg_replace( '/\salt=""/', ' alt="DJ KOLJA ONE – zur Startseite"', $img );
-					if ( $erstes ) {
-						$img    = preg_replace( '/\sloading="lazy"/', ' fetchpriority="high"', $img );
-						$erstes = false;
-					}
+					$img = preg_replace( '/\s(loading|fetchpriority)="[^"]*"/', '', $img ); // setzt WordPress selbst (sonst doppelt)
 				}
 				return $img;
 			},
@@ -117,4 +123,50 @@ add_filter(
 	},
 	10,
 	2
+);
+
+/** Seite mit Elementor-Vorlage „Canvas“ (alle Seiten aus der Vorlage)? */
+function kjo_tempo_canvas() {
+	return is_singular() && 'elementor_canvas' === get_page_template_slug( get_queried_object_id() );
+}
+add_action(
+	'wp',
+	function () {
+		if ( is_admin() || ! kjo_tempo_canvas() ) {
+			return;
+		}
+		remove_action( 'wp_head', '_wp_render_title_tag', 1 );
+		remove_action( 'wp_head', '_block_template_viewport_meta_tag', 0 );
+		remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+		remove_action( 'wp_print_styles', 'print_emoji_styles' );
+		remove_action( 'wp_enqueue_scripts', 'wp_enqueue_emoji_styles' );
+	}
+);
+add_action(
+	'wp_enqueue_scripts',
+	function () {
+		if ( ! kjo_tempo_canvas() ) {
+			return;
+		}
+		foreach ( array( 'global-styles', 'wp-block-library', 'wp-block-library-theme', 'classic-theme-styles', 'core-block-supports' ) as $h ) {
+			wp_dequeue_style( $h );
+		}
+	},
+	100
+);
+
+/* Elementor-CSS als externe Datei (einmalig umstellen, danach Elementor-Cache leeren). */
+add_action(
+	'admin_init',
+	function () {
+		if ( get_option( 'kjo_tempo_css' ) || ! current_user_can( 'manage_options' ) || ! class_exists( '\Elementor\Plugin' ) ) {
+			return;
+		}
+		update_option( 'elementor_css_print_method', 'external' );
+		try {
+			\Elementor\Plugin::$instance->files_manager->clear_cache();
+		} catch ( \Throwable $e ) { // phpcs:ignore
+		}
+		update_option( 'kjo_tempo_css', 1, false );
+	}
 );
