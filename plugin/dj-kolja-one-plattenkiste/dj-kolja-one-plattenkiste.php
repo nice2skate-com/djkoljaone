@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.55.2
+ * Version:     1.55.3
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.55.2' );
+define( 'KJO_VERSION', '1.55.3' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 require_once __DIR__ . '/kjo-bilder.php';
@@ -1123,6 +1123,18 @@ add_shortcode( 'kjo_musikpult', 'kjm_deck_html' );
  * region_* heissen, werden automatisch dem gleichnamigen Platzhalter
  * zugeordnet. Bild = Hintergrund, Video = Player mit Start/Stop-Knopf.
  * ------------------------------------------------------------------ */
+/** Startseiten-Video aus dem Plugin ergänzen (außerhalb des Zwischenspeichers, damit es nie fehlt). Mediathek hat Vorrang. */
+function kjo_media_motion( $map ) {
+	foreach ( array( 'start_motion', 'start_motion_hoch' ) as $k ) {
+		if ( empty( $map[ $k ]['vid'] ) && file_exists( __DIR__ . '/assets/motion/' . $k . '.mp4' ) ) {
+			$map[ $k ] = array(
+				'vid' => plugins_url( 'assets/motion/' . $k . '.mp4', __FILE__ ) . '?v=1',
+				'img' => plugins_url( 'assets/motion/' . $k . '.jpg', __FILE__ ) . '?v=1',
+			);
+		}
+	}
+	return $map;
+}
 function kjo_media_map() {
 	$map = get_transient( 'kjo_media_map5' );
 	if ( is_array( $map ) ) {
@@ -1160,15 +1172,6 @@ function kjo_media_map() {
 			if ( $h && ( 'vid' === $kind || empty( $map[ $m[1] ]['h'] ) ) ) {
 				$map[ $m[1] ]['h'] = $h; // Video hat Vorrang, wenn beide eine Höhe haben.
 			}
-		}
-	}
-	/* Startseiten-Video (seit 1.55.2): liegt im Plugin; eine gleichnamige Datei in der Mediathek hat Vorrang. */
-	foreach ( array( 'start_motion', 'start_motion_hoch' ) as $k ) {
-		if ( empty( $map[ $k ]['vid'] ) && file_exists( __DIR__ . '/assets/motion/' . $k . '.mp4' ) ) {
-			$map[ $k ] = array(
-				'vid' => plugins_url( 'assets/motion/' . $k . '.mp4', __FILE__ ) . '?v=1',
-				'img' => plugins_url( 'assets/motion/' . $k . '.jpg', __FILE__ ) . '?v=1',
-			);
 		}
 	}
 	/* Ortsbild ohne Nummer (z. B. event_biberach.jpg) zählt als Platz 1. */
@@ -1219,7 +1222,7 @@ add_action(
 			return;
 		}
 		echo '<style id="kjo-media-css">' . KJO_MEDIA_CSS . '</style>';
-		echo '<script id="kjo-media-js">window.KJO_MEDIA=' . wp_json_encode( (object) kjo_media_map() ) . ';' . KJO_MEDIA_JS . '</script>';
+		echo '<script id="kjo-media-js">window.KJO_MEDIA=' . wp_json_encode( (object) kjo_media_motion( kjo_media_map() ) ) . ';' . KJO_MEDIA_JS . '</script>';
 	},
 	50
 );
