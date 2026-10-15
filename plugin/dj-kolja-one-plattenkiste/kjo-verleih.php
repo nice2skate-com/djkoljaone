@@ -2147,6 +2147,7 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 	}
 	$lines = array();
 	$keys  = array();
+	$cart  = array(); // Schlüssel => Menge (für das Angebot)
 	$sp    = 0;
 	$sk    = 0;
 	$pk    = true;
@@ -2187,7 +2188,8 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 		} else {
 			$use[ $p->ID ] = ( isset( $use[ $p->ID ] ) ? $use[ $p->ID ] : 0 ) + $q;
 		}
-		$keys[]  = $k;
+		$keys[]     = $k;
+		$cart[ $k ] = $q;
 		$lines[] = $q . ' × ' . $p->post_title . ( null === $pr ? '' : ' (' . kjo_vl_eur( $pr ) . '/Tag)' );
 	}
 	if ( ! $lines ) {
@@ -2236,6 +2238,14 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 		update_post_meta( $pid, '_kjo_bis', $bis );
 		update_post_meta( $pid, '_kjo_name', $name );
 		update_post_meta( $pid, '_kjo_items', $keys );
+		// Einzelwerte für „Angebot erstellen“ (seit 1.56.0)
+		update_post_meta( $pid, '_kjo_cart', $cart );
+		update_post_meta( $pid, '_kjo_email', $email );
+		update_post_meta( $pid, '_kjo_tel', $s( 'telefon' ) );
+		update_post_meta( $pid, '_kjo_uebergabe', $ueb );
+		update_post_meta( $pid, '_kjo_ort', $s( 'ort' ) );
+		update_post_meta( $pid, '_kjo_anlass', $s( 'anlass' ) );
+		update_post_meta( $pid, '_kjo_gaeste', $s( 'gaeste' ) );
 	}
 	$to   = kjo_vl_mail_to();
 	$hdrs = array( 'Content-Type: text/plain; charset=UTF-8', 'Reply-To: ' . str_replace( array( "\r", "\n", '<', '>' ), '', $name ) . ' <' . $email . '>' );
