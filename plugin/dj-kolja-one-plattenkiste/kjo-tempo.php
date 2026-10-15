@@ -8,7 +8,7 @@
  * Seit 1.54.1:
  *  4) Elementor-Seiten (Vorlage „Canvas“): Titel und Viewport nur noch einmal (Elementor gibt beide selbst aus),
  *     keine Block-Theme-Styles (Twenty Twenty-Five) und keine Emoji-Skripte.
- *  5) Elementor-CSS als externe Datei statt 120 KB im HTML (wird zwischengespeichert).
+ *  5) (Elementor-CSS bleibt bewusst im HTML, siehe kjo_css_inline_ensure() – sonst weiße Seite, wenn CSS-Dateien fehlen.)
  *  6) readme.html / license.txt gesperrt (verraten die WordPress-Version).
  */
 if ( ! defined( 'ABSPATH' ) ) {
@@ -167,20 +167,4 @@ add_action(
 		}
 	},
 	100
-);
-
-/* Elementor-CSS als externe Datei (einmalig umstellen, danach Elementor-Cache leeren). */
-add_action(
-	'admin_init',
-	function () {
-		if ( get_option( 'kjo_tempo_css' ) || ! current_user_can( 'manage_options' ) || ! class_exists( '\Elementor\Plugin' ) ) {
-			return;
-		}
-		update_option( 'elementor_css_print_method', 'external' );
-		try {
-			\Elementor\Plugin::$instance->files_manager->clear_cache();
-		} catch ( \Throwable $e ) { // phpcs:ignore
-		}
-		update_option( 'kjo_tempo_css', 1, false );
-	}
 );
