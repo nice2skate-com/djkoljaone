@@ -93,7 +93,7 @@ function kjo_kal_termine( $von = null, $bis = null ) {
 	}
 	$all = $own;
 	foreach ( (array) get_option( 'kjo_kal_import', array() ) as $e ) {
-		$all[] = array( 'id' => 0, 'von' => $e['von'], 'bis' => $e['bis'], 'art' => 'privat', 'status' => 'fest', 'equip' => 'none', 'geraete' => array(), 'notiz' => $e['titel'], 'quelle' => $e['quelle'] );
+		$all[] = array( 'id' => 0, 'von' => $e['von'], 'bis' => $e['bis'], 'art' => 'privat', 'status' => 'fest', 'equip' => 'none', 'geraete' => array(), 'notiz' => $e['titel'], 'quelle' => $e['quelle'], 'a' => isset( $e['a'] ) ? (int) $e['a'] : 0, 'b' => isset( $e['b'] ) ? (int) $e['b'] : 0 );
 	}
 	if ( null === $von ) {
 		return $all;
@@ -649,7 +649,12 @@ function kjo_kal_parse_ics( $txt, $nur_ganztag = false ) {
 		if ( $bis < $min || $von > $max ) {
 			continue;
 		}
-		$out[] = array( 'von' => $von, 'bis' => $bis, 'titel' => sanitize_text_field( $t ? $t : 'Privat' ) );
+		$neu = array( 'von' => $von, 'bis' => $bis, 'titel' => sanitize_text_field( $t ? $t : 'Privat' ) );
+		if ( ! $s[1] ) { // Termin mit Uhrzeit: Beginn/Ende merken (Kennenlerngespräche sperren nur die Überschneidung)
+			$neu['a'] = $s[2]->getTimestamp();
+			$neu['b'] = $e && ! $e[1] ? max( $neu['a'], $e[2]->getTimestamp() ) : $neu['a'] + HOUR_IN_SECONDS;
+		}
+		$out[] = $neu;
 	}
 	return $out;
 }
