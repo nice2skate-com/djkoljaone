@@ -66,13 +66,18 @@ function kjo_kl_belegt() {
 /** Tage mit eigenem Kalendertermin (DJ-Einsatz/privat): keine Gespräche. */
 function kjo_kl_gesperrt( $von, $bis ) {
 	$tage = array();
+	$zeit = array(); // importierte Termine mit Uhrzeit: nur diese Zeitspanne ist gesperrt
 	if ( ! function_exists( 'kjo_kal_termine' ) ) {
-		return $tage;
+		return array( $tage, $zeit );
 	}
 	foreach ( (array) kjo_kal_termine( $von, $bis ) as $t ) {
 		$t = (array) $t;
 		if ( isset( $t['art'] ) && 'equip' === $t['art'] ) {
 			continue; // reiner Verleih blockiert keine Gespräche
+		}
+		if ( ! empty( $t['a'] ) && ! empty( $t['b'] ) ) {
+			$zeit[] = array( (int) $t['a'], (int) $t['b'] );
+			continue;
 		}
 		$a = isset( $t['von'] ) ? $t['von'] : '';
 		$b = isset( $t['bis'] ) && $t['bis'] ? $t['bis'] : $a;
@@ -80,7 +85,7 @@ function kjo_kl_gesperrt( $von, $bis ) {
 			$tage[ $d ] = true;
 		}
 	}
-	return $tage;
+	return array( $tage, $zeit );
 }
 /** Freie Zeiten: array( 'Y-m-d' => array( 'H:i', … ) ). */
 function kjo_kl_slots() {
@@ -89,7 +94,7 @@ function kjo_kl_slots() {
 	$now  = time() + (int) $o['vorlauf'] * HOUR_IN_SECONDS;
 	$bel  = array_flip( kjo_kl_belegt() );
 	$heute = new DateTimeImmutable( 'today', $tz );
-	$sperr = kjo_kl_gesperrt( $heute->format( 'Y-m-d' ), $heute->modify( '+' . (int) $o['horizont'] . ' days' )->format( 'Y-m-d' ) );
+	list( $sperr, $zeiten ) = kjo_kl_gesperrt( $heute->format( 'Y-m-d' ), $heute->modify( '+' . (int) $o['horizont'] . ' days' )->format( 'Y-m-d' ) );
 	$out  = array();
 	for ( $i = 0; $i <= (int) $o['horizont']; $i++ ) {
 		$tag = $heute->modify( '+' . $i . ' days' );
@@ -104,7 +109,15 @@ function kjo_kl_slots() {
 			continue;
 		}
 		for ( $t = $a; $t->getTimestamp() + (int) $o['dauer'] * 60 <= $e->getTimestamp(); $t = $t->modify( '+' . max( 10, (int) $o['raster'] ) . ' minutes' ) ) {
-			if ( $t->getTimestamp() >= $now && ! isset( $bel[ $t->getTimestamp() ] ) ) {
+			$ts = $t->getTimestamp();
+			$ok = $ts >= $now && ! isset( $bel[ $ts ] );
+			foreach ( $ok ? $zeiten : array() as $z ) {
+				if ( $ts < $z[1] && $ts + (int) $o['dauer'] * 60 > $z[0] ) { // überschneidet sich mit einem Termin
+					$ok = false;
+					break;
+				}
+			}
+			if ( $ok ) {
 				$out[ $tag->format( 'Y-m-d' ) ][] = $t->format( 'H:i' );
 			}
 		}
@@ -352,7 +365,7 @@ function kjo_kl_admin() {
 	}
 	$o  = kjo_kl_opts();
 	$wt = array( 1 => 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag' );
-	echo '<div class="wrap"><h1>Kennenlerngespräche: Zeiten</h1><p>Zu diesen Zeiten können Interessenten auf der Website (Kontaktseite) ein Gespräch buchen. Tage mit DJ-Einsatz oder privatem Termin im Kalender sind automatisch gesperrt. Leer lassen = an diesem Tag keine Termine.</p><form method="post">';
+	echo '<div class="wrap"><h1>Kennenlerngespräche: Zeiten</h1><p>Zu diesen Zeiten können Interessenten auf der Website (Kontaktseite) ein Gespräch buchen. Tage mit DJ-Einsatz oder privatem Termin im Kalender sind automatisch gesperrt; bei importierten Terminen mit Uhrzeit (z. B. aus Google) fallen nur die Zeiten weg, die sich überschneiden. Leer lassen = an diesem Tag keine Termine.</p><form method="post">';
 	wp_nonce_field( 'kjo_kl', 'kjo_kl_nonce' );
 	echo '<table class="form-table">';
 	foreach ( $wt as $w => $l ) {

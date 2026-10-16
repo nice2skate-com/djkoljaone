@@ -1,9 +1,9 @@
 {
- "version": "1.56.2",
- "download_url": "dj-kolja-one-plattenkiste-1.56.2.zip",
- "sha256": "26f430bcd229bd5aa89f825f5a4573e9c91658f5c57911e81509ab2bbd378309",
+ "version": "1.56.3",
+ "download_url": "dj-kolja-one-plattenkiste-1.56.3.zip",
+ "sha256": "9d4c54ed1235497516b24b3c8ce26c9ff455271e0d84c64a872b2c9c16cac7aa",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Kennenlerngespräch: Kalendereintrag auf dem iPhone, Bestätigungstext"
+ "changelog": "Kennenlerngespräch: Google-Termine mit Uhrzeit sperren nur die Überschneidung"
 }
