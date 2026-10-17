@@ -1,9 +1,9 @@
 {
- "version": "1.59.0",
- "download_url": "dj-kolja-one-plattenkiste-1.59.0.zip",
- "sha256": "b01b1cfbab6170584bc9bf4e4832ad2fe3427067b2510f796b7424ee9690c9d6",
+ "version": "1.60.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.60.0.zip",
+ "sha256": "59e2e9a8e8dd120763434cd787efe36b3c9cc8e9ca244a1ec69820eeaaac72f0",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Social: Hochladen direkt auf der Seite"
+ "changelog": "Social: Claude-Motion-HTML rendern"
 }

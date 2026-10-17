@@ -18,7 +18,7 @@ on:
         options: ["instagram,facebook", "instagram", "facebook"]
         default: "instagram,facebook"
       video:
-        description: "Video: Pfad im Repo oder https-Adresse (z. B. aus der Mediathek), MP4 oder MOV"
+        description: "Video: Pfad im Repo oder https-Adresse, MP4, MOV oder HTML-Animation aus Claude Motion"
         default: "media/motion/export/reel_dj-kolja-one_1080x1920_social.mp4"
       musik:
         description: "Optional: eigene Musik (MP3/M4A/WAV) – Pfad im Repo oder https-Adresse"
@@ -31,6 +31,9 @@ on:
         type: choice
         options: [aus, leise]
         default: aus
+      dauer:
+        description: "Nur bei HTML: Länge in Sekunden (auto = alle Szenen)"
+        default: "auto"
       text_datei:
         description: "Begleittext aus Datei im Repo"
         default: "social/texte/reel-start.txt"
@@ -51,6 +54,10 @@ jobs:
         if: ${{ inputs.aktion != 'pruefen' }}
         run: sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends lftp ffmpeg
 
+      - name: Chromium zum Rendern installieren (nur bei HTML)
+        if: ${{ inputs.aktion != 'pruefen' && (endsWith(inputs.video, '.html') || endsWith(inputs.video, '.htm')) }}
+        run: npm install -g playwright@1.56.1 && playwright install --with-deps chromium
+
       - name: Video aufbereiten (und Musik darunterlegen)
         id: mix
         if: ${{ inputs.aktion != 'pruefen' }}
@@ -59,6 +66,7 @@ jobs:
           MUSIK: ${{ inputs.musik }}
           START: ${{ inputs.musik_start }}
           ORIGINALTON: ${{ inputs.originalton }}
+          DAUER: ${{ inputs.dauer }}
           SFTP_HOST: ${{ secrets.SFTP_HOST }}
           SFTP_USER: ${{ secrets.SFTP_USER }}
           SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
@@ -89,6 +97,12 @@ jobs:
           mkdir -p /tmp/reel
           EXT="${VIDEO##*.}"; EXT="${EXT%%\?*}"
           holen "$VIDEO" "/tmp/reel/eingang.$EXT" || { echo "::error::Video nicht gefunden: $VIDEO"; exit 1; }
+          case "$EXT" in html|htm|HTML|HTM)
+            # Claude-Motion-Animation Bild für Bild rendern (hochkant 1080×1920, 30 fps), dann zu MP4 zusammensetzen
+            node social/motion_render.js "/tmp/reel/eingang.$EXT" /tmp/reel/bilder "${DAUER:-auto}" 30
+            ffmpeg -v error -y -framerate 30 -i /tmp/reel/bilder/%05d.jpg -c:v libx264 -crf 18 -pix_fmt yuv420p /tmp/reel/eingang.mp4
+            EXT=mp4;;
+          esac
           ARGS=()
           if [ -n "$MUSIK" ]; then
             MEXT="${MUSIK##*.}"; MEXT="${MEXT%%\?*}"
