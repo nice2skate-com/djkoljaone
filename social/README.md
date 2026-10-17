@@ -46,6 +46,30 @@ ohne Tonspur teils ab): `media/motion/export/reel_dj-kolja-one_1080x1920_social.
 - GitHub: Ablauf mit `aktion = pruefen` starten – zeigt Seite und Instagram-Konto, veröffentlicht nichts.
 - WordPress: „Verbindung prüfen“ zeigt *Verbunden: DJ KOLJA ONE · Instagram @…*.
 
+## Eigene Musik darunterlegen, MOV- und Querformat-Videos
+
+Dein Server kann Videos nicht schneiden. Das übernimmt der GitHub-Ablauf (`social/video_mischen.py`):
+Video auf 1080×1920 bringen (Querformat mit schwarzen Rändern), H.264/AAC, eigene Musik mit Ein- und Ausblenden,
+Originalton aus oder leise dazu. Ergebnis landet in `uploads/kjo-social/` und erscheint in WordPress → Social oben in
+der Video-Liste als „Aufbereitet: …“. Veröffentlicht wird dabei nichts.
+
+**Aus WordPress:** Video und Musik (MP3) in die Mediathek hochladen → Social → Video wählen → Musik wählen,
+„Ab Sekunde im Song“ und Originalton einstellen → **In GitHub aufbereiten** → nach 2–4 Minuten Seite neu laden →
+das aufbereitete Video wählen, über „ansehen“ prüfen → veröffentlichen.
+
+Dafür braucht WordPress einmalig einen **GitHub-Schlüssel**:
+1. GitHub → oben rechts dein Profilbild → *Settings* → ganz unten *Developer settings* →
+   *Personal access tokens* → **Fine-grained tokens** → *Generate new token*.
+2. Name „WordPress Social“, Ablauf z. B. 1 Jahr (danach neu erzeugen).
+3. *Resource owner*: **nice2skate-com**, *Repository access*: **Only select repositories** → `djkoljaone`.
+4. *Permissions* → *Repository permissions* → **Actions: Read and write** (sonst nichts).
+5. *Generate token*, kopieren und in WordPress → Social → „GitHub-Schlüssel“ einfügen → Speichern.
+
+**Direkt in GitHub:** Ablauf „Social: Reel posten“ mit `aktion = vorschau` (oder `posten`), `video` und `musik`
+als Pfad im Repo oder https-Adresse aus der Mediathek.
+
+Nur Musik verwenden, an der du die Rechte hast.
+
 ## Gut zu wissen
 - Video: MP4 (H.264, AAC), hochkant 9:16, 3–90 Sekunden. Meta lädt das Video selbst von dj-kolja-one.de herunter.
 - Musik aus der Instagram-Bibliothek lässt sich über die Schnittstelle nicht hinzufügen.

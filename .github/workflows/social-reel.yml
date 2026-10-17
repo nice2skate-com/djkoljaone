@@ -1,23 +1,36 @@
 name: "Social: Reel posten"
 
-# Manuell starten (GitHub → Actions → „Social: Reel posten“ → Run workflow) oder durch Claude.
-# „pruefen“ testet nur die Verbindung, „posten“ veröffentlicht wirklich.
+# Manuell (GitHub → Actions → „Social: Reel posten“ → Run workflow), durch Claude oder aus WordPress → Social.
+#   pruefen  = nur Verbindung zu Facebook-Seite und Instagram testen
+#   vorschau = Video aufbereiten (1080×1920, optional Musik) und auf dj-kolja-one.de ablegen – nichts veröffentlichen
+#   posten   = aufbereiten, ablegen und auf Instagram/Facebook veröffentlichen
 on:
   workflow_dispatch:
     inputs:
       aktion:
-        description: "pruefen = nur Verbindung testen, posten = veröffentlichen"
+        description: "pruefen, vorschau oder posten"
         type: choice
-        options: [pruefen, posten]
+        options: [pruefen, vorschau, posten]
         default: pruefen
       ziele:
-        description: "Wohin?"
+        description: "Wohin? (nur bei posten)"
         type: choice
         options: ["instagram,facebook", "instagram", "facebook"]
         default: "instagram,facebook"
       video:
-        description: "Video: Pfad im Repo (wird auf dj-kolja-one.de abgelegt) oder öffentliche https-Adresse"
+        description: "Video: Pfad im Repo oder https-Adresse (z. B. aus der Mediathek), MP4 oder MOV"
         default: "media/motion/export/reel_dj-kolja-one_1080x1920_social.mp4"
+      musik:
+        description: "Optional: eigene Musik (MP3/M4A/WAV) – Pfad im Repo oder https-Adresse"
+        default: ""
+      musik_start:
+        description: "Ab Sekunde im Song"
+        default: "0"
+      originalton:
+        description: "Originalton des Videos, wenn Musik darunterliegt"
+        type: choice
+        options: [aus, leise]
+        default: aus
       text_datei:
         description: "Begleittext aus Datei im Repo"
         default: "social/texte/reel-start.txt"
@@ -30,25 +43,46 @@ concurrency: social-reel
 jobs:
   reel:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
 
-      - name: Video auf dj-kolja-one.de ablegen
-        id: video
-        if: ${{ inputs.aktion == 'posten' }}
+      - name: Video aufbereiten (und Musik darunterlegen)
+        id: mix
+        if: ${{ inputs.aktion != 'pruefen' }}
         env:
           VIDEO: ${{ inputs.video }}
+          MUSIK: ${{ inputs.musik }}
+          START: ${{ inputs.musik_start }}
+          ORIGINALTON: ${{ inputs.originalton }}
+        run: |
+          holen() { case "$1" in https://*) curl -fsSL --max-time 300 -o "$2" "$1";; *) [ -f "$1" ] && cp "$1" "$2";; esac; }
+          mkdir -p /tmp/reel
+          EXT="${VIDEO##*.}"; EXT="${EXT%%\?*}"
+          holen "$VIDEO" "/tmp/reel/eingang.$EXT" || { echo "::error::Video nicht gefunden: $VIDEO"; exit 1; }
+          ARGS=()
+          if [ -n "$MUSIK" ]; then
+            MEXT="${MUSIK##*.}"; MEXT="${MEXT%%\?*}"
+            holen "$MUSIK" "/tmp/reel/musik.$MEXT" || { echo "::error::Musik nicht gefunden: $MUSIK"; exit 1; }
+            ARGS+=(--musik "/tmp/reel/musik.$MEXT" --start "${START:-0}" --originalton "$ORIGINALTON")
+          fi
+          NAME="$(basename "${VIDEO%%\?*}")"; NAME="${NAME%.*}"
+          [ -n "$MUSIK" ] && NAME="$NAME-musik"
+          OUT="/tmp/reel/${GITHUB_RUN_ID}-${NAME}.mp4"
+          python3 social/video_mischen.py "/tmp/reel/eingang.$EXT" "$OUT" "${ARGS[@]}"
+          echo "datei=$OUT" >> "$GITHUB_OUTPUT"
+
+      - name: Video auf dj-kolja-one.de ablegen
+        id: video
+        if: ${{ inputs.aktion != 'pruefen' }}
+        env:
+          DATEI: ${{ steps.mix.outputs.datei }}
           SFTP_HOST: ${{ secrets.SFTP_HOST }}
           SFTP_USER: ${{ secrets.SFTP_USER }}
           SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
           SFTP_WP_CONTENT: ${{ secrets.SFTP_WP_CONTENT }}
         run: |
-          case "$VIDEO" in
-            https://*) echo "url=$VIDEO" >> "$GITHUB_OUTPUT"; exit 0;;
-          esac
-          [ -f "$VIDEO" ] || { echo "::error::Video $VIDEO nicht im Repo gefunden."; exit 1; }
-          NAME="${GITHUB_RUN_ID}-$(basename "$VIDEO")"
+          NAME="$(basename "$DATEI")"
           sudo apt-get update -qq && sudo apt-get install -y -qq lftp
           # Ordner wird vom Plugin nach 14 Tagen aufgeräumt (kjo-social.php)
           lftp -u "$SFTP_USER","$SFTP_PASSWORD" "sftp://$SFTP_HOST" <<LFTP
@@ -57,15 +91,17 @@ jobs:
           set net:timeout 20
           set sftp:auto-confirm yes
           mkdir -fp $SFTP_WP_CONTENT/uploads/kjo-social
-          put "$VIDEO" -o $SFTP_WP_CONTENT/uploads/kjo-social/$NAME
+          put "$DATEI" -o $SFTP_WP_CONTENT/uploads/kjo-social/$NAME
           bye
           LFTP
           URL="https://dj-kolja-one.de/wp-content/uploads/kjo-social/$NAME"
           CODE=$(curl -s -o /dev/null -w '%{http_code}' -I "$URL")
           [ "$CODE" = "200" ] || { echo "::error::Video ist unter $URL nicht erreichbar (HTTP $CODE)."; exit 1; }
           echo "url=$URL" >> "$GITHUB_OUTPUT"
+          printf '## Video\n%s\n\nIn WordPress → Social erscheint es als „GitHub: %s“.\n' "$URL" "$NAME" >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Bei Meta veröffentlichen
+      - name: Bei Meta prüfen bzw. veröffentlichen
+        if: ${{ inputs.aktion != 'vorschau' }}
         env:
           META_PAGE_TOKEN: ${{ secrets.META_PAGE_TOKEN }}
           META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
