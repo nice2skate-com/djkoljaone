@@ -1,0 +1,79 @@
+name: "Social: Reel posten"
+
+# Manuell starten (GitHub → Actions → „Social: Reel posten“ → Run workflow) oder durch Claude.
+# „pruefen“ testet nur die Verbindung, „posten“ veröffentlicht wirklich.
+on:
+  workflow_dispatch:
+    inputs:
+      aktion:
+        description: "pruefen = nur Verbindung testen, posten = veröffentlichen"
+        type: choice
+        options: [pruefen, posten]
+        default: pruefen
+      ziele:
+        description: "Wohin?"
+        type: choice
+        options: ["instagram,facebook", "instagram", "facebook"]
+        default: "instagram,facebook"
+      video:
+        description: "Video: Pfad im Repo (wird auf dj-kolja-one.de abgelegt) oder öffentliche https-Adresse"
+        default: "media/motion/export/reel_dj-kolja-one_1080x1920_social.mp4"
+      text_datei:
+        description: "Begleittext aus Datei im Repo"
+        default: "social/texte/reel-start.txt"
+      text:
+        description: "Oder Begleittext direkt (überschreibt die Datei)"
+        default: ""
+
+concurrency: social-reel
+
+jobs:
+  reel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Video auf dj-kolja-one.de ablegen
+        id: video
+        if: ${{ inputs.aktion == 'posten' }}
+        env:
+          VIDEO: ${{ inputs.video }}
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_USER: ${{ secrets.SFTP_USER }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          SFTP_WP_CONTENT: ${{ secrets.SFTP_WP_CONTENT }}
+        run: |
+          case "$VIDEO" in
+            https://*) echo "url=$VIDEO" >> "$GITHUB_OUTPUT"; exit 0;;
+          esac
+          [ -f "$VIDEO" ] || { echo "::error::Video $VIDEO nicht im Repo gefunden."; exit 1; }
+          NAME="${GITHUB_RUN_ID}-$(basename "$VIDEO")"
+          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+          # Ordner wird vom Plugin nach 14 Tagen aufgeräumt (kjo-social.php)
+          lftp -u "$SFTP_USER","$SFTP_PASSWORD" "sftp://$SFTP_HOST" <<LFTP
+          set cmd:fail-exit yes
+          set net:max-retries 2
+          set net:timeout 20
+          set sftp:auto-confirm yes
+          mkdir -fp $SFTP_WP_CONTENT/uploads/kjo-social
+          put "$VIDEO" -o $SFTP_WP_CONTENT/uploads/kjo-social/$NAME
+          bye
+          LFTP
+          URL="https://dj-kolja-one.de/wp-content/uploads/kjo-social/$NAME"
+          CODE=$(curl -s -o /dev/null -w '%{http_code}' -I "$URL")
+          [ "$CODE" = "200" ] || { echo "::error::Video ist unter $URL nicht erreichbar (HTTP $CODE)."; exit 1; }
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+
+      - name: Bei Meta veröffentlichen
+        env:
+          META_PAGE_TOKEN: ${{ secrets.META_PAGE_TOKEN }}
+          META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
+          META_IG_USER_ID: ${{ secrets.META_IG_USER_ID }}
+          AKTION: ${{ inputs.aktion }}
+          ZIELE: ${{ inputs.ziele }}
+          VIDEO_URL: ${{ steps.video.outputs.url }}
+          TEXT_DATEI: ${{ inputs.text_datei }}
+          TEXT: ${{ inputs.text }}
+        run: |
+          python3 social/meta_reel.py "$AKTION" --video-url "$VIDEO_URL" --text-datei "$TEXT_DATEI" --text "$TEXT" --ziele "$ZIELE"

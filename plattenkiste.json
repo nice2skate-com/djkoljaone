@@ -1,9 +1,9 @@
 {
- "version": "1.56.3",
- "download_url": "dj-kolja-one-plattenkiste-1.56.3.zip",
- "sha256": "9d4c54ed1235497516b24b3c8ce26c9ff455271e0d84c64a872b2c9c16cac7aa",
+ "version": "1.57.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.57.0.zip",
+ "sha256": "4dc1a9390b11168790f1e8c2dd068189d5b9994283c2a6f726bf0203bd626723",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Kennenlerngespräch: Google-Termine mit Uhrzeit sperren nur die Überschneidung"
+ "changelog": "Social: Reels auf Instagram und Facebook posten"
 }

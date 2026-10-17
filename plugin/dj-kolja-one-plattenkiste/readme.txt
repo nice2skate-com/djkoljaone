@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.57.0: Neues Menü „Social“: Reels direkt auf Instagram und die Facebook-Seite posten (Graph-API von Meta, ohne Fremddienst). Einrichtung: social/README.md im Repo.
 Seit 1.56.3: Kennenlerngespräch: importierte Termine mit Uhrzeit (z. B. aus Google) sperren nur die überschneidenden Zeiten statt des ganzen Tages.
 Seit 1.56.2: Kennenlerngespräch: „In den Kalender eintragen“ funktioniert auf dem iPhone (echte .ics-Datei statt data-Link); Bestätigung „Danke! Euer …“.
 Seit 1.56.1: Datenschutzerklärung ergänzt (Kennenlerngespräch buchen, Angebote).
