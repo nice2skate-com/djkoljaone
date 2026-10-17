@@ -47,6 +47,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: lftp installieren
+        if: ${{ inputs.aktion != 'pruefen' }}
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
       - name: Video aufbereiten (und Musik darunterlegen)
         id: mix
         if: ${{ inputs.aktion != 'pruefen' }}
@@ -55,8 +59,33 @@ jobs:
           MUSIK: ${{ inputs.musik }}
           START: ${{ inputs.musik_start }}
           ORIGINALTON: ${{ inputs.originalton }}
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_USER: ${{ secrets.SFTP_USER }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          SFTP_WP_CONTENT: ${{ secrets.SFTP_WP_CONTENT }}
         run: |
-          holen() { case "$1" in https://*) curl -fsSL --max-time 300 -o "$2" "$1";; *) [ -f "$1" ] && cp "$1" "$2";; esac; }
+          # Dateien von dj-kolja-one.de per SFTP holen: Songs sind per Download-Schutz (.htaccess) für Aufrufe von außen gesperrt
+          sftp_holen() {
+            local rel
+            rel="$(python3 -c 'import sys,urllib.parse; print(urllib.parse.unquote(urllib.parse.urlsplit(sys.argv[1]).path))' "$1")"
+            rel="${rel#/wp-content/}"
+            case "$rel" in *..*|*'"'*) return 1;; esac
+            lftp -u "$SFTP_USER","$SFTP_PASSWORD" "sftp://$SFTP_HOST" <<LFTP
+          set cmd:fail-exit yes
+          set net:max-retries 2
+          set net:timeout 20
+          set sftp:auto-confirm yes
+          get "$SFTP_WP_CONTENT/$rel" -o "$2"
+          bye
+          LFTP
+          }
+          holen() {
+            case "$1" in
+              https://dj-kolja-one.de/wp-content/*) sftp_holen "$1" "$2";;
+              https://*) curl -fsSL --max-time 300 -o "$2" "$1";;
+              *) [ -f "$1" ] && cp "$1" "$2";;
+            esac
+          }
           mkdir -p /tmp/reel
           EXT="${VIDEO##*.}"; EXT="${EXT%%\?*}"
           holen "$VIDEO" "/tmp/reel/eingang.$EXT" || { echo "::error::Video nicht gefunden: $VIDEO"; exit 1; }
@@ -83,7 +112,6 @@ jobs:
           SFTP_WP_CONTENT: ${{ secrets.SFTP_WP_CONTENT }}
         run: |
           NAME="$(basename "$DATEI")"
-          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
           # Ordner wird vom Plugin nach 14 Tagen aufgeräumt (kjo-social.php)
           lftp -u "$SFTP_USER","$SFTP_PASSWORD" "sftp://$SFTP_HOST" <<LFTP
           set cmd:fail-exit yes
