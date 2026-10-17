@@ -65,6 +65,24 @@ add_action(
 		add_menu_page( 'Social', 'Social', 'manage_options', 'kjo-social', 'kjo_soc_page', 'dashicons-share-alt', 28 );
 	}
 );
+add_action(
+	'admin_enqueue_scripts',
+	function ( $hook ) {
+		if ( 'toplevel_page_kjo-social' === $hook ) {
+			wp_enqueue_media(); // Hochladen bzw. Auswählen direkt auf der Social-Seite
+		}
+	}
+);
+
+/** Ordner für hochgeladene HTML-Animationen (Claude Motion). Von außen gesperrt; GitHub holt sie per SFTP. */
+function kjo_soc_html_dir() {
+	$u = wp_upload_dir();
+	$d = trailingslashit( $u['basedir'] ) . 'kjo-social-html/';
+	if ( wp_mkdir_p( $d ) && ! file_exists( $d . '.htaccess' ) ) {
+		@file_put_contents( $d . '.htaccess', "Require all denied\nDeny from all\n" ); // phpcs:ignore
+	}
+	return array( $d, trailingslashit( $u['baseurl'] ) . 'kjo-social-html/' );
+}
 
 /** Videos für die Auswahl: zuerst aufbereitete aus uploads/kjo-social (neueste oben), dann MP4/MOV aus der Mediathek. */
 function kjo_soc_videos() {
@@ -79,6 +97,17 @@ function kjo_soc_videos() {
 	);
 	foreach ( $fs as $f ) {
 		$out[] = array( 'url' => trailingslashit( $u['baseurl'] ) . 'kjo-social/' . basename( $f ), 'name' => 'Aufbereitet: ' . basename( $f ) . ' (' . wp_date( 'd.m. H:i', filemtime( $f ) ) . ')', 'hoch' => true );
+	}
+	list( $hd, $hu ) = kjo_soc_html_dir();
+	$hs              = array_merge( (array) glob( $hd . '*.html' ), (array) glob( $hd . '*.htm' ) );
+	usort(
+		$hs,
+		function ( $a, $b ) {
+			return filemtime( $b ) - filemtime( $a );
+		}
+	);
+	foreach ( $hs as $f ) {
+		$out[] = array( 'url' => $hu . rawurlencode( basename( $f ) ), 'name' => 'Claude Motion (HTML): ' . preg_replace( '/^\d+-/', '', basename( $f ) ) . ' – erst in GitHub aufbereiten', 'hoch' => true );
 	}
 	foreach ( get_posts( array( 'post_type' => 'attachment', 'post_mime_type' => array( 'video/mp4', 'video/quicktime' ), 'numberposts' => 60, 'post_status' => 'inherit' ) ) as $a ) {
 		$m     = wp_get_attachment_metadata( $a->ID );
@@ -148,14 +177,15 @@ function kjo_soc_page() {
 	foreach ( $videos as $v ) {
 		echo '<option value="' . esc_attr( $v['url'] ) . '">' . esc_html( $v['name'] . ( $v['hoch'] ? '' : ' – nicht hochkant' ) ) . '</option>';
 	}
-	echo '</select> <a href="#" id="kjo-soc-ansehen" target="_blank" rel="noopener">ansehen</a><p class="description">MP4 oder MOV aus der Mediathek. Für Reels: hochkant (9:16), 3–90 Sekunden. Neues Video oder neue Musik: unter Medien hochladen, dann diese Seite neu laden.</p></td></tr>';
+	echo '</select> <a href="#" id="kjo-soc-ansehen" target="_blank" rel="noopener">ansehen</a><p><button type="button" class="button" id="kjo-soc-vhoch">Video hochladen oder aus Mediathek wählen</button> <button type="button" class="button" id="kjo-soc-hhoch">Claude-Motion-HTML hochladen</button><input type="file" id="kjo-soc-hdatei" accept=".html,.htm,text/html" hidden> <span id="kjo-soc-hmsg"></span></p><p class="description">MP4 oder MOV. Für Reels: hochkant (9:16), 3–90 Sekunden. Eine HTML-Animation aus Claude Motion rendert GitHub hochkant als Video (Schritt 3).</p></td></tr>';
 	echo '</table><h2>3. Optional: Musik darunterlegen bzw. aufbereiten</h2><p>Für eigene Musik, MOV-Videos oder Videos im Querformat. GitHub erstellt daraus ein fertiges Reel (1080×1920) – nach 2–4 Minuten diese Seite neu laden, dann steht es oben in der Video-Liste als „Aufbereitet: …“. Nichts wird dabei veröffentlicht.</p><table class="form-table">';
 	echo '<tr><th><label for="kjo-soc-musik">Musik</label></th><td><select id="kjo-soc-musik" style="max-width:100%"><option value="">keine (nur aufbereiten)</option>';
 	foreach ( $musik as $m ) {
 		echo '<option value="' . esc_attr( $m['url'] ) . '">' . esc_html( $m['name'] ) . '</option>';
 	}
-	echo '</select><p class="description">MP3 aus der Mediathek. Nur Musik, an der du die Rechte hast.</p></td></tr>';
+	echo '</select><p><button type="button" class="button" id="kjo-soc-mhoch">Musik hochladen oder aus Mediathek wählen</button></p><p class="description">MP3 (oder M4A/WAV). Nur Musik, an der du die Rechte hast.</p></td></tr>';
 	echo '<tr><th><label for="kjo-soc-start">Ab Sekunde im Song</label></th><td><input id="kjo-soc-start" type="number" min="0" step="1" value="0" style="width:90px"> <label style="margin-left:14px">Originalton <select id="kjo-soc-ot"><option value="aus">aus</option><option value="leise">leise dazu</option></select></label></td></tr>';
+	echo '<tr><th><label for="kjo-soc-dauer">Länge bei HTML</label></th><td><input id="kjo-soc-dauer" type="number" min="3" max="90" step="1" placeholder="auto" style="width:90px"> Sekunden <p class="description">Nur für Claude-Motion-HTML. Leer = Länge aller Szenen.</p></td></tr>';
 	echo '</table><p><button type="button" class="button" id="kjo-soc-mix"' . ( $o['gh_token'] ? '' : ' disabled title="Erst GitHub-Schlüssel speichern"' ) . '>In GitHub aufbereiten</button></p><div id="kjo-soc-mixout" role="status" style="max-width:760px"></div>';
 	echo '<h2>4. Veröffentlichen</h2><table class="form-table">';
 	echo '<tr><th><label for="kjo-soc-post">Text</label></th><td><textarea id="kjo-soc-post" rows="7" class="large-text">' . esc_textarea( $o['text'] ) . '</textarea></td></tr>';
@@ -182,8 +212,25 @@ function post(action,data){var f=new FormData();f.append('action',action);f.appe
 function zeile(t,cls){var p=document.createElement('p');p.textContent=t;if(cls)p.style.color=cls;out.appendChild(p);return p}
 function link(t,u){var p=zeile(t+' ');var a=document.createElement('a');a.href=u;a.target='_blank';a.rel='noopener';a.textContent='ansehen';p.appendChild(a)}
 var sel=document.getElementById('kjo-soc-video'),ans=document.getElementById('kjo-soc-ansehen');function an(){ans.href=sel.value||'#'}if(sel){sel.onchange=an;an()}
+function medien(typ,ziel,titel,ok,fehler){if(!window.wp||!wp.media){alert('Mediathek konnte nicht geladen werden – bitte Seite neu laden.');return}
+ var f=wp.media({title:titel,library:{type:typ},multiple:false,button:{text:'Übernehmen'}});
+ f.on('select',function(){var a=f.state().get('selection').first().toJSON();if(ok&&!ok(a)){alert(fehler);return}
+  var o=Array.prototype.find.call(ziel.options,function(x){return x.value===a.url});
+  if(!o){o=document.createElement('option');o.value=a.url;o.textContent=(a.title||a.filename)+(a.width?' ('+a.width+'×'+a.height+(a.height>a.width?'':' – nicht hochkant')+')':'');ziel.insertBefore(o,ziel.options[typ==='audio'?1:0]||null)}
+  ziel.value=a.url;ziel.dispatchEvent(new Event('change'));if(typ==='video')document.getElementById('kjo-soc-go').disabled=false});
+ f.open()}
+document.getElementById('kjo-soc-vhoch').onclick=function(){medien('video',sel,'Video für das Reel',function(a){return /^video\/(mp4|quicktime)$/.test(a.mime)},'Bitte ein MP4- oder MOV-Video wählen.')};
+function istHtml(){return /\.html?$/i.test(sel.value)}
+var an0=an;an=function(){an0();ans.style.display=istHtml()?'none':''};if(sel){sel.onchange=an;an()}
+var hd=document.getElementById('kjo-soc-hdatei'),hm=document.getElementById('kjo-soc-hmsg');
+document.getElementById('kjo-soc-hhoch').onclick=function(){hd.click()};
+hd.onchange=function(){if(!hd.files.length)return;var f=new FormData();f.append('action','kjo_soc_html');f.append('nonce',N);f.append('datei',hd.files[0]);hm.textContent='lädt hoch …';hm.style.color='';
+ fetch(A,{method:'POST',body:f,credentials:'same-origin'}).then(function(r){return r.json()}).then(function(j){if(!j||!j.success)throw new Error((j&&j.data&&j.data.message)||'Hochladen fehlgeschlagen');
+  var o=document.createElement('option');o.value=j.data.url;o.textContent=j.data.name;sel.insertBefore(o,sel.options[0]||null);sel.value=j.data.url;an();hm.textContent='hochgeladen – jetzt in Schritt 3 „In GitHub aufbereiten“.'})
+ .catch(function(e){hm.textContent=e.message;hm.style.color='#b32d2e'}).then(function(){hd.value=''})};
+document.getElementById('kjo-soc-mhoch').onclick=function(){medien('audio',document.getElementById('kjo-soc-musik'),'Musik für das Reel')};
 document.getElementById('kjo-soc-mix').onclick=function(){var b=this,o=document.getElementById('kjo-soc-mixout');b.disabled=true;o.textContent='Wird an GitHub übergeben …';
- post('kjo_soc_gh',{video_url:sel.value,musik_url:document.getElementById('kjo-soc-musik').value,start:document.getElementById('kjo-soc-start').value,originalton:document.getElementById('kjo-soc-ot').value})
+ post('kjo_soc_gh',{video_url:sel.value,musik_url:document.getElementById('kjo-soc-musik').value,start:document.getElementById('kjo-soc-start').value,originalton:document.getElementById('kjo-soc-ot').value,dauer:document.getElementById('kjo-soc-dauer').value})
  .then(function(d){o.innerHTML='';var p=document.createElement('p');p.textContent='Gestartet. In 2–4 Minuten diese Seite neu laden – das Video steht dann oben in der Liste. ';var a=document.createElement('a');a.href=d.link;a.target='_blank';a.rel='noopener';a.textContent='Fortschritt bei GitHub';p.appendChild(a);o.appendChild(p)})
  .catch(function(e){o.textContent=e.message;o.style.color='#b32d2e'}).then(function(){b.disabled=false})};
 document.getElementById('kjo-soc-check').onclick=function(){var m=document.getElementById('kjo-soc-checkmsg');m.textContent='prüfe …';
@@ -194,6 +241,7 @@ function igPoll(cid,n){return warte(5000).then(function(){return post('kjo_soc_i
 document.getElementById('kjo-soc-go').onclick=function(){
  var b=this,url=document.getElementById('kjo-soc-video').value,txt=document.getElementById('kjo-soc-post').value,ig=document.getElementById('kjo-soc-ig').checked,fb=document.getElementById('kjo-soc-fb').checked;
  if(!ig&&!fb)return;
+ if(istHtml()){alert('Eine HTML-Animation erst in Schritt 3 „In GitHub aufbereiten“ und dann das fertige Video wählen.');return}
  if(!confirm('Jetzt öffentlich auf '+[ig?'Instagram':'',fb?'Facebook':''].filter(Boolean).join(' und ')+' veröffentlichen?'))return;
  b.disabled=true;out.innerHTML='';
  var kette=Promise.resolve();
@@ -343,6 +391,7 @@ add_action(
 							'musik'       => $musik,
 							'musik_start' => (string) max( 0, (int) ( $_POST['start'] ?? 0 ) ), // phpcs:ignore
 							'originalton' => $ot,
+							'dauer'       => (string) ( (int) ( $_POST['dauer'] ?? 0 ) > 0 ? min( 90, max( 3, (int) $_POST['dauer'] ) ) : 'auto' ), // phpcs:ignore
 						),
 					)
 				),
@@ -358,7 +407,32 @@ add_action(
 	}
 );
 
-/* ---------- Aufräumen: Videos aus dem GitHub-Ablauf nach 14 Tagen löschen ---------- */
+add_action(
+	'wp_ajax_kjo_soc_html',
+	function () {
+		kjo_soc_check_ajax();
+		$f = $_FILES['datei'] ?? null; // phpcs:ignore
+		if ( ! $f || ! empty( $f['error'] ) || ! is_uploaded_file( $f['tmp_name'] ) ) {
+			wp_send_json_error( array( 'message' => 'Hochladen fehlgeschlagen' . ( ! empty( $f['error'] ) && in_array( (int) $f['error'], array( 1, 2 ), true ) ? ' – Datei zu groß für den Server.' : '.' ) ), 400 );
+		}
+		$name = sanitize_file_name( wp_unslash( $f['name'] ) );
+		if ( ! preg_match( '/\.html?$/i', $name ) ) {
+			wp_send_json_error( array( 'message' => 'Bitte eine HTML-Datei aus Claude Motion wählen.' ), 400 );
+		}
+		if ( (int) $f['size'] > 40 * MB_IN_BYTES ) {
+			wp_send_json_error( array( 'message' => 'Die HTML-Datei ist größer als 40 MB.' ), 400 );
+		}
+		list( $d, $url ) = kjo_soc_html_dir();
+		$ziel            = time() . '-' . $name;
+		if ( ! @move_uploaded_file( $f['tmp_name'], $d . $ziel ) ) { // phpcs:ignore
+			wp_send_json_error( array( 'message' => 'Datei konnte nicht gespeichert werden.' ), 500 );
+		}
+		kjo_soc_log( 'HTML', true, 'Claude Motion hochgeladen: ' . $name );
+		wp_send_json_success( array( 'url' => $url . rawurlencode( $ziel ), 'name' => 'Claude Motion (HTML): ' . $name . ' – erst in GitHub aufbereiten' ) );
+	}
+);
+
+/* ---------- Aufräumen: Videos aus dem GitHub-Ablauf und HTML-Animationen nach 14 Tagen löschen ---------- */
 add_action(
 	'init',
 	function () {
@@ -371,7 +445,7 @@ add_action(
 	'kjo_soc_cron',
 	function () {
 		$u = wp_upload_dir();
-		foreach ( (array) glob( trailingslashit( $u['basedir'] ) . 'kjo-social/*' ) as $f ) {
+		foreach ( array_merge( (array) glob( trailingslashit( $u['basedir'] ) . 'kjo-social/*' ), (array) glob( trailingslashit( $u['basedir'] ) . 'kjo-social-html/*.htm*' ) ) as $f ) {
 			if ( is_file( $f ) && time() - (int) filemtime( $f ) > 14 * DAY_IN_SECONDS ) {
 				@unlink( $f ); // phpcs:ignore
 			}

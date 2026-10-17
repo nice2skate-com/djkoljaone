@@ -1,9 +1,9 @@
 {
- "version": "1.58.2",
- "download_url": "dj-kolja-one-plattenkiste-1.58.2.zip",
- "sha256": "111c6f413d8c24f7bbc762be920533b04285d62047d1be5859e80b93ec50c3d3",
+ "version": "1.60.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.60.0.zip",
+ "sha256": "59e2e9a8e8dd120763434cd787efe36b3c9cc8e9ca244a1ec69820eeaaac72f0",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Social: ffmpeg im Ablauf installieren"
+ "changelog": "Social: Claude-Motion-HTML rendern"
 }

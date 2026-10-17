@@ -53,7 +53,7 @@ Video auf 1080×1920 bringen (Querformat mit schwarzen Rändern), H.264/AAC, eig
 Originalton aus oder leise dazu. Ergebnis landet in `uploads/kjo-social/` und erscheint in WordPress → Social oben in
 der Video-Liste als „Aufbereitet: …“. Veröffentlicht wird dabei nichts.
 
-**Aus WordPress:** Video und Musik (MP3) in die Mediathek hochladen → Social → Video wählen → Musik wählen,
+**Aus WordPress:** Social → „Video hochladen oder aus Mediathek wählen“ → „Musik hochladen oder aus Mediathek wählen“,
 „Ab Sekunde im Song“ und Originalton einstellen → **In GitHub aufbereiten** → nach 2–4 Minuten Seite neu laden →
 das aufbereitete Video wählen, über „ansehen“ prüfen → veröffentlichen.
 
@@ -69,6 +69,14 @@ Dafür braucht WordPress einmalig einen **GitHub-Schlüssel**:
 als Pfad im Repo oder https-Adresse aus der Mediathek.
 
 Nur Musik verwenden, an der du die Rechte hast.
+
+## Animation aus Claude Motion (HTML)
+
+Social → **Claude-Motion-HTML hochladen** → (optional Musik, „Länge bei HTML“ leer = alle Szenen) → **In GitHub aufbereiten**.
+GitHub öffnet die Animation in Chromium, rendert sie Bild für Bild hochkant (1080×1920, 30 fps, höchstens 90 s,
+`social/motion_render.js`) und setzt Musik darunter. Die HTML-Datei liegt geschützt in `uploads/kjo-social-html/`.
+Fehlende Schriften wie `fonts/fira400.woff2` kommen aus `media/motion/fonts/`; Bilder sollten in der HTML-Datei eingebettet sein.
+Der Ton der Animation selbst wird nicht übernommen.
 
 ## Gut zu wissen
 - Video: MP4 (H.264, AAC), hochkant 9:16, 3–90 Sekunden. Meta lädt das Video selbst von dj-kolja-one.de herunter.
