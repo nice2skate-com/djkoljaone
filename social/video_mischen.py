@@ -4,7 +4,7 @@ optional eigene Musik darunterlegen (mit Ein- und Ausblenden), Originalton aus o
 
     python3 social/video_mischen.py EINGANG.mov AUSGANG.mp4 [--musik song.mp3] [--start 32] [--originalton aus|leise]
 
-Braucht ffmpeg/ffprobe (im GitHub-Runner vorhanden). Länge = Länge des Videos.
+Braucht ffmpeg/ffprobe (installiert der GitHub-Ablauf). Länge = Länge des Videos.
 """
 import argparse
 import json

@@ -1,9 +1,9 @@
 {
- "version": "1.58.1",
- "download_url": "dj-kolja-one-plattenkiste-1.58.1.zip",
- "sha256": "c73e8fa8b6cb40a496ebba681c1a285ba4c5cee1d9b6a63feb9eda80b01bcd23",
+ "version": "1.58.2",
+ "download_url": "dj-kolja-one-plattenkiste-1.58.2.zip",
+ "sha256": "111c6f413d8c24f7bbc762be920533b04285d62047d1be5859e80b93ec50c3d3",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Social: geschützte Songs per SFTP holen"
+ "changelog": "Social: ffmpeg im Ablauf installieren"
 }

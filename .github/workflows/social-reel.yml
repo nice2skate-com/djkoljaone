@@ -47,9 +47,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: lftp installieren
+      - name: lftp und ffmpeg installieren
         if: ${{ inputs.aktion != 'pruefen' }}
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends lftp ffmpeg
 
       - name: Video aufbereiten (und Musik darunterlegen)
         id: mix
