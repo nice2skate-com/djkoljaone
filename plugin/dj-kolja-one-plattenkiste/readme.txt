@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.58.2: Social: Der GitHub-Ablauf installiert ffmpeg zum Aufbereiten der Videos selbst.
 Seit 1.58.1: Social: Eigene Songs aus der Mediathek lassen sich trotz Download-Schutz darunterlegen (GitHub holt sie per SFTP).
 Seit 1.58.0: Social: MOV-Videos, eigene Musik darunterlegen und Querformat aufbereiten (über GitHub), Vorschau-Link.
 Seit 1.57.0: Neues Menü „Social“: Reels direkt auf Instagram und die Facebook-Seite posten (Graph-API von Meta, ohne Fremddienst). Einrichtung: social/README.md im Repo.
