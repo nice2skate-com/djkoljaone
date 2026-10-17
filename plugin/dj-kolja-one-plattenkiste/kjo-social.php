@@ -20,6 +20,8 @@ function kjo_soc_opts() {
 		'ig_id'     => '',
 		'ig_name'   => '',
 		'page_name' => '',
+		'gh_token'  => '',
+		'gh_repo'   => 'nice2skate-com/djkoljaone',
 		'text'      => "Jedes Event findet nur einmal statt.\nIn 40 Sekunden seht ihr, wer ich bin, was ich mitbringe und wie ihr euren Wunschtermin sichert.\nHochzeiten, Geburtstage, Firmenfeiern und Events – in Memmingen, Ulm, im Allgäu und in Oberschwaben.\nKostenloses Kennenlerngespräch direkt online buchen: Link in der Bio.\n\n#djkoljaone #hochzeitsdj #djmemmingen #djulm #allgäu #oberschwaben #eventdj #firmenfeier",
 	);
 	$o = get_option( 'kjo_social', array() );
@@ -64,18 +66,35 @@ add_action(
 	}
 );
 
-/** Videos für die Auswahl: MP4 aus der Mediathek und aus uploads/kjo-social. */
+/** Videos für die Auswahl: zuerst aufbereitete aus uploads/kjo-social (neueste oben), dann MP4/MOV aus der Mediathek. */
 function kjo_soc_videos() {
 	$out = array();
-	foreach ( get_posts( array( 'post_type' => 'attachment', 'post_mime_type' => 'video/mp4', 'numberposts' => 60, 'post_status' => 'inherit' ) ) as $a ) {
+	$u   = wp_upload_dir();
+	$fs  = array_merge( (array) glob( trailingslashit( $u['basedir'] ) . 'kjo-social/*.mp4' ), (array) glob( trailingslashit( $u['basedir'] ) . 'kjo-social/*.mov' ) );
+	usort(
+		$fs,
+		function ( $a, $b ) {
+			return filemtime( $b ) - filemtime( $a );
+		}
+	);
+	foreach ( $fs as $f ) {
+		$out[] = array( 'url' => trailingslashit( $u['baseurl'] ) . 'kjo-social/' . basename( $f ), 'name' => 'Aufbereitet: ' . basename( $f ) . ' (' . wp_date( 'd.m. H:i', filemtime( $f ) ) . ')', 'hoch' => true );
+	}
+	foreach ( get_posts( array( 'post_type' => 'attachment', 'post_mime_type' => array( 'video/mp4', 'video/quicktime' ), 'numberposts' => 60, 'post_status' => 'inherit' ) ) as $a ) {
 		$m     = wp_get_attachment_metadata( $a->ID );
 		$info  = ! empty( $m['width'] ) ? (int) $m['width'] . '×' . (int) $m['height'] : '';
 		$info .= ! empty( $m['length'] ) ? ( $info ? ', ' : '' ) . (int) $m['length'] . ' s' : '';
-		$out[] = array( 'url' => wp_get_attachment_url( $a->ID ), 'name' => $a->post_title . ( $info ? ' (' . $info . ')' : '' ), 'hoch' => ! empty( $m['width'] ) && $m['height'] > $m['width'] );
+		$info .= 'video/quicktime' === $a->post_mime_type ? ( $info ? ', ' : '' ) . 'MOV' : '';
+		$out[] = array( 'url' => wp_get_attachment_url( $a->ID ), 'name' => $a->post_title . ( $info ? ' (' . $info . ')' : '' ), 'hoch' => empty( $m['width'] ) || $m['height'] > $m['width'] );
 	}
-	$u = wp_upload_dir();
-	foreach ( (array) glob( trailingslashit( $u['basedir'] ) . 'kjo-social/*.mp4' ) as $f ) {
-		$out[] = array( 'url' => trailingslashit( $u['baseurl'] ) . 'kjo-social/' . basename( $f ), 'name' => 'GitHub: ' . basename( $f ), 'hoch' => true );
+	return $out;
+}
+/** Eigene Musik aus der Mediathek. */
+function kjo_soc_musik() {
+	$out = array();
+	foreach ( get_posts( array( 'post_type' => 'attachment', 'post_mime_type' => 'audio', 'numberposts' => 60, 'post_status' => 'inherit' ) ) as $a ) {
+		$m     = wp_get_attachment_metadata( $a->ID );
+		$out[] = array( 'url' => wp_get_attachment_url( $a->ID ), 'name' => $a->post_title . ( ! empty( $m['length_formatted'] ) ? ' (' . $m['length_formatted'] . ')' : '' ) );
 	}
 	return $out;
 }
@@ -98,6 +117,15 @@ function kjo_soc_page() {
 		$o['version'] = preg_match( '/^v\d+\.\d$/', $v ) ? $v : 'v23.0';
 		$o['text']    = sanitize_textarea_field( wp_unslash( $_POST['text'] ?? $o['text'] ) ); // phpcs:ignore
 		$o['ig_id']   = '';
+		$g            = trim( sanitize_text_field( wp_unslash( $_POST['gh_token'] ?? '' ) ) ); // phpcs:ignore
+		if ( '' !== $g ) {
+			$o['gh_token'] = $g;
+		}
+		if ( ! empty( $_POST['gh_weg'] ) ) {
+			$o['gh_token'] = '';
+		}
+		$r            = sanitize_text_field( wp_unslash( $_POST['gh_repo'] ?? '' ) ); // phpcs:ignore
+		$o['gh_repo'] = preg_match( '#^[\w.-]+/[\w.-]+$#', $r ) ? $r : 'nice2skate-com/djkoljaone';
 		update_option( 'kjo_social', $o, false );
 		echo '<div class="notice notice-success"><p>Gespeichert. Jetzt „Verbindung prüfen“.</p></div>';
 	}
@@ -109,16 +137,27 @@ function kjo_soc_page() {
 	wp_nonce_field( 'kjo_soc', 'kjo_soc_nonce' );
 	echo '<tr><th><label for="kjo-soc-page">Facebook-Seiten-ID</label></th><td><input id="kjo-soc-page" name="page_id" value="' . esc_attr( $o['page_id'] ) . '" class="regular-text"></td></tr>';
 	echo '<tr><th><label for="kjo-soc-token">Seiten-Zugriffsschlüssel</label></th><td><input id="kjo-soc-token" name="token" type="password" autocomplete="off" class="regular-text" placeholder="' . esc_attr( $o['token'] ? 'gespeichert – leer lassen zum Behalten' : 'dauerhafter Page Access Token' ) . '">' . ( $o['token'] ? ' <label><input type="checkbox" name="token_weg" value="1"> löschen</label>' : '' ) . '<p class="description">Wird nur auf deinem Server gespeichert und nie angezeigt.</p></td></tr>';
+	echo '<tr><th><label for="kjo-soc-gh">GitHub-Schlüssel (für Musik und MOV)</label></th><td><input id="kjo-soc-gh" name="gh_token" type="password" autocomplete="off" class="regular-text" placeholder="' . esc_attr( $o['gh_token'] ? 'gespeichert – leer lassen zum Behalten' : 'Fine-grained Token, nur „Actions: Read and write“' ) . '">' . ( $o['gh_token'] ? ' <label><input type="checkbox" name="gh_weg" value="1"> löschen</label>' : '' ) . ' <input name="gh_repo" value="' . esc_attr( $o['gh_repo'] ) . '" size="28" aria-label="GitHub-Repo"><p class="description">Dein Server kann Videos nicht schneiden. Das Aufbereiten und Musik-Unterlegen übernimmt GitHub; dafür braucht diese Seite einen Schlüssel, der den Ablauf „Social: Reel posten“ starten darf. Anleitung: <code>social/README.md</code>.</p></td></tr>';
 	echo '<tr><th><label for="kjo-soc-ver">API-Version</label></th><td><input id="kjo-soc-ver" name="version" value="' . esc_attr( $o['version'] ) . '" size="8"><p class="description">Nur ändern, wenn Meta eine Version abschaltet.</p></td></tr>';
 	echo '<tr><th><label for="kjo-soc-text">Standardtext</label></th><td><textarea id="kjo-soc-text" name="text" rows="6" class="large-text">' . esc_textarea( $o['text'] ) . '</textarea></td></tr>';
 	echo '</table><p><button class="button button-primary">Speichern</button> <button type="button" class="button" id="kjo-soc-check">Verbindung prüfen</button> <span id="kjo-soc-checkmsg">' . ( $o['ig_id'] ? esc_html( 'Verbunden: ' . $o['page_name'] . ' · Instagram @' . $o['ig_name'] ) : '' ) . '</span></p></form>';
 
-	echo '<h2>2. Reel veröffentlichen</h2><table class="form-table">';
+	$musik = kjo_soc_musik();
+	echo '<h2>2. Video wählen</h2><table class="form-table">';
 	echo '<tr><th><label for="kjo-soc-video">Video</label></th><td><select id="kjo-soc-video" style="max-width:100%">';
 	foreach ( $videos as $v ) {
 		echo '<option value="' . esc_attr( $v['url'] ) . '">' . esc_html( $v['name'] . ( $v['hoch'] ? '' : ' – nicht hochkant' ) ) . '</option>';
 	}
-	echo '</select><p class="description">MP4 aus der Mediathek. Für Reels: hochkant (9:16), 3–90 Sekunden, mit Tonspur (notfalls stumm). Neues Video: unter Medien hochladen, dann hier neu laden.</p></td></tr>';
+	echo '</select> <a href="#" id="kjo-soc-ansehen" target="_blank" rel="noopener">ansehen</a><p class="description">MP4 oder MOV aus der Mediathek. Für Reels: hochkant (9:16), 3–90 Sekunden. Neues Video oder neue Musik: unter Medien hochladen, dann diese Seite neu laden.</p></td></tr>';
+	echo '</table><h2>3. Optional: Musik darunterlegen bzw. aufbereiten</h2><p>Für eigene Musik, MOV-Videos oder Videos im Querformat. GitHub erstellt daraus ein fertiges Reel (1080×1920) – nach 2–4 Minuten diese Seite neu laden, dann steht es oben in der Video-Liste als „Aufbereitet: …“. Nichts wird dabei veröffentlicht.</p><table class="form-table">';
+	echo '<tr><th><label for="kjo-soc-musik">Musik</label></th><td><select id="kjo-soc-musik" style="max-width:100%"><option value="">keine (nur aufbereiten)</option>';
+	foreach ( $musik as $m ) {
+		echo '<option value="' . esc_attr( $m['url'] ) . '">' . esc_html( $m['name'] ) . '</option>';
+	}
+	echo '</select><p class="description">MP3 aus der Mediathek. Nur Musik, an der du die Rechte hast.</p></td></tr>';
+	echo '<tr><th><label for="kjo-soc-start">Ab Sekunde im Song</label></th><td><input id="kjo-soc-start" type="number" min="0" step="1" value="0" style="width:90px"> <label style="margin-left:14px">Originalton <select id="kjo-soc-ot"><option value="aus">aus</option><option value="leise">leise dazu</option></select></label></td></tr>';
+	echo '</table><p><button type="button" class="button" id="kjo-soc-mix"' . ( $o['gh_token'] ? '' : ' disabled title="Erst GitHub-Schlüssel speichern"' ) . '>In GitHub aufbereiten</button></p><div id="kjo-soc-mixout" role="status" style="max-width:760px"></div>';
+	echo '<h2>4. Veröffentlichen</h2><table class="form-table">';
 	echo '<tr><th><label for="kjo-soc-post">Text</label></th><td><textarea id="kjo-soc-post" rows="7" class="large-text">' . esc_textarea( $o['text'] ) . '</textarea></td></tr>';
 	echo '<tr><th>Wohin</th><td><label><input type="checkbox" id="kjo-soc-ig" checked> Instagram (Reel)</label> &nbsp; <label><input type="checkbox" id="kjo-soc-fb" checked> Facebook-Seite (Reel)</label></td></tr>';
 	echo '</table><p><button type="button" class="button button-primary" id="kjo-soc-go"' . ( $videos ? '' : ' disabled' ) . '>Jetzt veröffentlichen</button></p><div id="kjo-soc-out" role="status" style="max-width:760px"></div>';
@@ -142,6 +181,11 @@ function post(action,data){var f=new FormData();f.append('action',action);f.appe
  return fetch(A,{method:'POST',body:f,credentials:'same-origin'}).then(function(r){return r.json()}).then(function(j){if(!j||!j.success)throw new Error((j&&j.data&&j.data.message)||'Unbekannter Fehler');return j.data})}
 function zeile(t,cls){var p=document.createElement('p');p.textContent=t;if(cls)p.style.color=cls;out.appendChild(p);return p}
 function link(t,u){var p=zeile(t+' ');var a=document.createElement('a');a.href=u;a.target='_blank';a.rel='noopener';a.textContent='ansehen';p.appendChild(a)}
+var sel=document.getElementById('kjo-soc-video'),ans=document.getElementById('kjo-soc-ansehen');function an(){ans.href=sel.value||'#'}if(sel){sel.onchange=an;an()}
+document.getElementById('kjo-soc-mix').onclick=function(){var b=this,o=document.getElementById('kjo-soc-mixout');b.disabled=true;o.textContent='Wird an GitHub übergeben …';
+ post('kjo_soc_gh',{video_url:sel.value,musik_url:document.getElementById('kjo-soc-musik').value,start:document.getElementById('kjo-soc-start').value,originalton:document.getElementById('kjo-soc-ot').value})
+ .then(function(d){o.innerHTML='';var p=document.createElement('p');p.textContent='Gestartet. In 2–4 Minuten diese Seite neu laden – das Video steht dann oben in der Liste. ';var a=document.createElement('a');a.href=d.link;a.target='_blank';a.rel='noopener';a.textContent='Fortschritt bei GitHub';p.appendChild(a);o.appendChild(p)})
+ .catch(function(e){o.textContent=e.message;o.style.color='#b32d2e'}).then(function(){b.disabled=false})};
 document.getElementById('kjo-soc-check').onclick=function(){var m=document.getElementById('kjo-soc-checkmsg');m.textContent='prüfe …';
  post('kjo_soc_pruefen').then(function(d){m.textContent='Verbunden: '+d.page+(d.ig?' · Instagram @'+d.ig:' · Instagram nicht verknüpft')}).catch(function(e){m.textContent=e.message})};
 function warte(ms){return new Promise(function(r){setTimeout(r,ms)})}
@@ -263,6 +307,54 @@ add_action(
 		$link = 'https://www.facebook.com/reel/' . rawurlencode( (string) $s['video_id'] );
 		kjo_soc_log( 'Facebook', true, $link );
 		wp_send_json_success( array( 'link' => $link ) );
+	}
+);
+
+add_action(
+	'wp_ajax_kjo_soc_gh',
+	function () {
+		kjo_soc_check_ajax();
+		$o = kjo_soc_opts();
+		if ( ! $o['gh_token'] ) {
+			wp_send_json_error( array( 'message' => 'Bitte zuerst den GitHub-Schlüssel speichern.' ), 400 );
+		}
+		$video = kjo_soc_video_url();
+		$musik = isset( $_POST['musik_url'] ) ? esc_url_raw( wp_unslash( $_POST['musik_url'] ) ) : ''; // phpcs:ignore
+		if ( $musik && 0 !== strpos( $musik, set_url_scheme( home_url( '/' ), 'https' ) ) ) {
+			wp_send_json_error( array( 'message' => 'Die Musik muss aus der Mediathek dieser Website stammen.' ), 400 );
+		}
+		$ot = isset( $_POST['originalton'] ) && 'leise' === $_POST['originalton'] ? 'leise' : 'aus'; // phpcs:ignore
+		$r  = wp_remote_post(
+			'https://api.github.com/repos/' . $o['gh_repo'] . '/actions/workflows/social-reel.yml/dispatches',
+			array(
+				'timeout' => 30,
+				'headers' => array(
+					'Authorization'        => 'Bearer ' . $o['gh_token'],
+					'Accept'               => 'application/vnd.github+json',
+					'X-GitHub-Api-Version' => '2022-11-28',
+					'User-Agent'           => 'dj-kolja-one-social',
+				),
+				'body'    => wp_json_encode(
+					array(
+						'ref'    => 'main',
+						'inputs' => array(
+							'aktion'      => 'vorschau',
+							'video'       => $video,
+							'musik'       => $musik,
+							'musik_start' => (string) max( 0, (int) ( $_POST['start'] ?? 0 ) ), // phpcs:ignore
+							'originalton' => $ot,
+						),
+					)
+				),
+			)
+		);
+		$code = is_wp_error( $r ) ? 0 : (int) wp_remote_retrieve_response_code( $r );
+		if ( 204 !== $code ) {
+			$msg = is_wp_error( $r ) ? $r->get_error_message() : ( json_decode( (string) wp_remote_retrieve_body( $r ), true )['message'] ?? 'HTTP ' . $code );
+			wp_send_json_error( array( 'message' => 'GitHub hat abgelehnt: ' . $msg . ( in_array( $code, array( 401, 403, 404 ), true ) ? ' – Schlüssel und Rechte („Actions: Read and write“) prüfen.' : '' ) ), 400 );
+		}
+		kjo_soc_log( 'GitHub', true, 'Aufbereitung gestartet' . ( $musik ? ' (mit Musik)' : '' ) );
+		wp_send_json_success( array( 'link' => 'https://github.com/' . $o['gh_repo'] . '/actions/workflows/social-reel.yml' ) );
 	}
 );
 

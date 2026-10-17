@@ -1,9 +1,9 @@
 {
- "version": "1.57.0",
- "download_url": "dj-kolja-one-plattenkiste-1.57.0.zip",
- "sha256": "4dc1a9390b11168790f1e8c2dd068189d5b9994283c2a6f726bf0203bd626723",
+ "version": "1.58.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.58.0.zip",
+ "sha256": "26f92e3e8fe3b4398d5a289e0090db0f727857916e2cbfdee9816278a0ca1da3",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Social: Reels auf Instagram und Facebook posten"
+ "changelog": "Social: MOV, eigene Musik, Aufbereitung über GitHub"
 }
