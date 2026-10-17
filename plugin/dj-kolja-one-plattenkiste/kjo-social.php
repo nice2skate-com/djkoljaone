@@ -65,6 +65,14 @@ add_action(
 		add_menu_page( 'Social', 'Social', 'manage_options', 'kjo-social', 'kjo_soc_page', 'dashicons-share-alt', 28 );
 	}
 );
+add_action(
+	'admin_enqueue_scripts',
+	function ( $hook ) {
+		if ( 'toplevel_page_kjo-social' === $hook ) {
+			wp_enqueue_media(); // Hochladen bzw. Auswählen direkt auf der Social-Seite
+		}
+	}
+);
 
 /** Videos für die Auswahl: zuerst aufbereitete aus uploads/kjo-social (neueste oben), dann MP4/MOV aus der Mediathek. */
 function kjo_soc_videos() {
@@ -148,13 +156,13 @@ function kjo_soc_page() {
 	foreach ( $videos as $v ) {
 		echo '<option value="' . esc_attr( $v['url'] ) . '">' . esc_html( $v['name'] . ( $v['hoch'] ? '' : ' – nicht hochkant' ) ) . '</option>';
 	}
-	echo '</select> <a href="#" id="kjo-soc-ansehen" target="_blank" rel="noopener">ansehen</a><p class="description">MP4 oder MOV aus der Mediathek. Für Reels: hochkant (9:16), 3–90 Sekunden. Neues Video oder neue Musik: unter Medien hochladen, dann diese Seite neu laden.</p></td></tr>';
+	echo '</select> <a href="#" id="kjo-soc-ansehen" target="_blank" rel="noopener">ansehen</a><p><button type="button" class="button" id="kjo-soc-vhoch">Video hochladen oder aus Mediathek wählen</button></p><p class="description">MP4 oder MOV. Für Reels: hochkant (9:16), 3–90 Sekunden.</p></td></tr>';
 	echo '</table><h2>3. Optional: Musik darunterlegen bzw. aufbereiten</h2><p>Für eigene Musik, MOV-Videos oder Videos im Querformat. GitHub erstellt daraus ein fertiges Reel (1080×1920) – nach 2–4 Minuten diese Seite neu laden, dann steht es oben in der Video-Liste als „Aufbereitet: …“. Nichts wird dabei veröffentlicht.</p><table class="form-table">';
 	echo '<tr><th><label for="kjo-soc-musik">Musik</label></th><td><select id="kjo-soc-musik" style="max-width:100%"><option value="">keine (nur aufbereiten)</option>';
 	foreach ( $musik as $m ) {
 		echo '<option value="' . esc_attr( $m['url'] ) . '">' . esc_html( $m['name'] ) . '</option>';
 	}
-	echo '</select><p class="description">MP3 aus der Mediathek. Nur Musik, an der du die Rechte hast.</p></td></tr>';
+	echo '</select><p><button type="button" class="button" id="kjo-soc-mhoch">Musik hochladen oder aus Mediathek wählen</button></p><p class="description">MP3 (oder M4A/WAV). Nur Musik, an der du die Rechte hast.</p></td></tr>';
 	echo '<tr><th><label for="kjo-soc-start">Ab Sekunde im Song</label></th><td><input id="kjo-soc-start" type="number" min="0" step="1" value="0" style="width:90px"> <label style="margin-left:14px">Originalton <select id="kjo-soc-ot"><option value="aus">aus</option><option value="leise">leise dazu</option></select></label></td></tr>';
 	echo '</table><p><button type="button" class="button" id="kjo-soc-mix"' . ( $o['gh_token'] ? '' : ' disabled title="Erst GitHub-Schlüssel speichern"' ) . '>In GitHub aufbereiten</button></p><div id="kjo-soc-mixout" role="status" style="max-width:760px"></div>';
 	echo '<h2>4. Veröffentlichen</h2><table class="form-table">';
@@ -182,6 +190,15 @@ function post(action,data){var f=new FormData();f.append('action',action);f.appe
 function zeile(t,cls){var p=document.createElement('p');p.textContent=t;if(cls)p.style.color=cls;out.appendChild(p);return p}
 function link(t,u){var p=zeile(t+' ');var a=document.createElement('a');a.href=u;a.target='_blank';a.rel='noopener';a.textContent='ansehen';p.appendChild(a)}
 var sel=document.getElementById('kjo-soc-video'),ans=document.getElementById('kjo-soc-ansehen');function an(){ans.href=sel.value||'#'}if(sel){sel.onchange=an;an()}
+function medien(typ,ziel,titel,ok,fehler){if(!window.wp||!wp.media){alert('Mediathek konnte nicht geladen werden – bitte Seite neu laden.');return}
+ var f=wp.media({title:titel,library:{type:typ},multiple:false,button:{text:'Übernehmen'}});
+ f.on('select',function(){var a=f.state().get('selection').first().toJSON();if(ok&&!ok(a)){alert(fehler);return}
+  var o=Array.prototype.find.call(ziel.options,function(x){return x.value===a.url});
+  if(!o){o=document.createElement('option');o.value=a.url;o.textContent=(a.title||a.filename)+(a.width?' ('+a.width+'×'+a.height+(a.height>a.width?'':' – nicht hochkant')+')':'');ziel.insertBefore(o,ziel.options[typ==='audio'?1:0]||null)}
+  ziel.value=a.url;ziel.dispatchEvent(new Event('change'));if(typ==='video')document.getElementById('kjo-soc-go').disabled=false});
+ f.open()}
+document.getElementById('kjo-soc-vhoch').onclick=function(){medien('video',sel,'Video für das Reel',function(a){return /^video\/(mp4|quicktime)$/.test(a.mime)},'Bitte ein MP4- oder MOV-Video wählen.')};
+document.getElementById('kjo-soc-mhoch').onclick=function(){medien('audio',document.getElementById('kjo-soc-musik'),'Musik für das Reel')};
 document.getElementById('kjo-soc-mix').onclick=function(){var b=this,o=document.getElementById('kjo-soc-mixout');b.disabled=true;o.textContent='Wird an GitHub übergeben …';
  post('kjo_soc_gh',{video_url:sel.value,musik_url:document.getElementById('kjo-soc-musik').value,start:document.getElementById('kjo-soc-start').value,originalton:document.getElementById('kjo-soc-ot').value})
  .then(function(d){o.innerHTML='';var p=document.createElement('p');p.textContent='Gestartet. In 2–4 Minuten diese Seite neu laden – das Video steht dann oben in der Liste. ';var a=document.createElement('a');a.href=d.link;a.target='_blank';a.rel='noopener';a.textContent='Fortschritt bei GitHub';p.appendChild(a);o.appendChild(p)})

@@ -1,9 +1,9 @@
 {
- "version": "1.58.2",
- "download_url": "dj-kolja-one-plattenkiste-1.58.2.zip",
- "sha256": "111c6f413d8c24f7bbc762be920533b04285d62047d1be5859e80b93ec50c3d3",
+ "version": "1.59.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.59.0.zip",
+ "sha256": "b01b1cfbab6170584bc9bf4e4832ad2fe3427067b2510f796b7424ee9690c9d6",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Social: ffmpeg im Ablauf installieren"
+ "changelog": "Social: Hochladen direkt auf der Seite"
 }

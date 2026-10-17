@@ -53,7 +53,7 @@ Video auf 1080×1920 bringen (Querformat mit schwarzen Rändern), H.264/AAC, eig
 Originalton aus oder leise dazu. Ergebnis landet in `uploads/kjo-social/` und erscheint in WordPress → Social oben in
 der Video-Liste als „Aufbereitet: …“. Veröffentlicht wird dabei nichts.
 
-**Aus WordPress:** Video und Musik (MP3) in die Mediathek hochladen → Social → Video wählen → Musik wählen,
+**Aus WordPress:** Social → „Video hochladen oder aus Mediathek wählen“ → „Musik hochladen oder aus Mediathek wählen“,
 „Ab Sekunde im Song“ und Originalton einstellen → **In GitHub aufbereiten** → nach 2–4 Minuten Seite neu laden →
 das aufbereitete Video wählen, über „ansehen“ prüfen → veröffentlichen.
 
