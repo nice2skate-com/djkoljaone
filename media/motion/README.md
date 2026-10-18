@@ -29,3 +29,10 @@ Rendern (die Seite als 5. Argument):
 Die beiden Formate nacheinander rendern, nicht parallel; parallel bricht ein Lauf gelegentlich ab.
 
 Für Instagram/Facebook: `export/reel_equipment_1080x1920.mp4` (Reel) und `export/equipment_1920x1080.mp4` (16:9). Beide ohne Ton.
+
+# Reel "Noch 3 Tage" (Weihnachtsaktion, 19,5 s)
+
+Quelle: `weihnacht26.html`, nur Hochformat. Texte und Caption: `social/texte/weihnacht26-reel.md`.
+
+    node media/motion/render.js v 19.5 30 /tmp/w weihnacht26.html
+    ffmpeg -framerate 30 -i /tmp/w/%05d.jpg -c:v libx264 -crf 22 -pix_fmt yuv420p -movflags +faststart -an media/motion/export/reel_weihnacht26_1080x1920.mp4
