@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.61.1: Datenschutzerklärung um Abschnitt 14 „Meta-Pixel“ ergänzt (Seiten aus Vorlage einspielen).
 Seit 1.61.0: Meta-Pixel (Social → Meta-Pixel): lädt nur nach Marketing-Zustimmung (Complianz); Ereignisse PageView, ViewContent, SongPlay, SongShare, Contact, Schedule, Lead. Domain-Bestätigung per Meta-Tag. Das Pult meldet „song_play“ einmal pro Song.
 Seit 1.60.0: Social: Animationen aus Claude Motion (HTML) hochladen – GitHub rendert sie hochkant als Reel, optional mit eigener Musik.
 Seit 1.59.0: Social: Video und Musik direkt auf der Social-Seite hochladen oder aus der Mediathek wählen (ohne Umweg über Medien).
