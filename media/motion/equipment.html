@@ -1,0 +1,507 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>
+<title>DJ KOLJA ONE Equipment Motion</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>@font-face{font-family:"Fira Sans";font-weight:400;src:url(fonts/fira400.woff2) format("woff2")}@font-face{font-family:"Fira Sans";font-weight:500 600;src:url(fonts/fira600.woff2) format("woff2")}@font-face{font-family:"Fira Sans";font-weight:700 800;src:url(fonts/fira800.woff2) format("woff2")}</style>
+<style>
+/* Quelle: Gerätefotos aus equipment/ (von dj-kolja-one.de). Rendern: siehe README.md.
+   Layout: "Seite B" zum Start-Motion. Eine 16:9- (oder 9:16-) Bühne, neun Tracks mit den echten Gerätefotos von dj-kolja-one.de. Szenen mit viel Text laufen länger. Alles pulst im 124-BPM-Takt. */
+:root{
+  color-scheme: dark;
+  --ink:#0F0C07;
+  --sleeve:#16130D;
+  --card:#1D1912;
+  --groove:#2A251C;
+  --brass:#B79A6B;
+  --brass-dim:#7C6A4C;
+  --paper:#F2EDE4;
+  --muted:#A9A296;
+  --led:#FF4A2E;
+  --f-display:"Fira Sans","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Fira Sans","Helvetica Neue",Arial,sans-serif;
+  --beat:0;
+}
+html,body{background:var(--ink);color:var(--paper)}
+body{font-family:var(--f-body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 32px}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:14px;align-items:center}
+.head{width:100%;display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.head h1{font-weight:800;font-size:1rem;letter-spacing:.14em;margin:0;text-transform:uppercase}
+.head p{margin:0;color:var(--muted);font-size:.85rem}
+
+/* ---------- Stage ---------- */
+.stage{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;background:var(--sleeve);overflow:hidden;container-type:inline-size;border-radius:6px;box-shadow:0 30px 80px -30px #000}
+.stage.vertical{aspect-ratio:9/16;width:min(100%,calc((100vh - 220px) * 9 / 16),460px)}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.06;background-image:repeating-linear-gradient(0deg,#fff 0 1px,transparent 1px 3px);mix-blend-mode:overlay;z-index:5}
+.vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(0,0,0,.5));z-index:4}
+img{display:block}
+
+.vinyl{position:absolute;width:70cqw;aspect-ratio:1;right:-30cqw;top:50%;translate:0 -50%;border-radius:50%;opacity:0;
+  background:radial-gradient(circle,var(--ink) 0 2.2%,var(--brass) 2.3% 15%,var(--brass-dim) 15.2% 15.8%,transparent 16%),repeating-radial-gradient(circle,#15110a 0 .55%,#211b11 .6% 1.1%),#111;
+  box-shadow:0 0 calc(2cqw + var(--beat)*4cqw) rgba(224,168,74,calc(.08 + var(--beat)*.25));transition:opacity .8s;animation:spin 1.8s linear infinite}
+.vinyl::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 20deg,transparent 0 40deg,rgba(255,255,255,.07) 55deg,transparent 70deg 220deg,rgba(255,255,255,.05) 235deg,transparent 250deg)}
+@keyframes spin{to{rotate:360deg}}
+.stage[data-scene="8"] .vinyl{opacity:.55}
+.stage.vertical .vinyl{width:110cqw;right:-30cqw;top:84%}
+
+.logo{position:absolute;z-index:6;pointer-events:none}
+.logo-corner{right:4cqw;bottom:3.4cqw;height:2.4cqw;width:auto;opacity:.8;transition:opacity .5s}
+.stage[data-scene="0"] .logo-corner,.stage[data-scene="8"] .logo-corner{opacity:0}
+.stage.vertical .logo-corner{height:4.4cqw;bottom:5cqw}
+.logo-claim{position:static;width:40cqw;max-width:100%;height:auto;margin-top:1.2cqw}
+.stage.vertical .logo-claim{width:100%}
+
+.track,.clock{position:absolute;top:3.6cqw;font-size:1.25cqw;z-index:6;font-variant-numeric:tabular-nums;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.track{left:4cqw;letter-spacing:.18em;color:var(--brass);text-transform:uppercase}
+.clock{right:4cqw;color:var(--muted)}
+.stage.vertical .track,.stage.vertical .clock{font-size:2.8cqw;top:5cqw}
+
+.scene{position:absolute;inset:0;padding:9cqw 6cqw 6cqw;display:flex;flex-direction:column;justify-content:center;gap:1.5cqw;z-index:2;visibility:hidden}
+.scene.on{visibility:visible}
+.stage.vertical .scene{padding:15cqw 7cqw 12cqw;gap:3cqw}
+.a{opacity:0;translate:0 2.5cqw}
+.scene.on .a{animation:rise .8s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i,0) * 170ms + 120ms)}
+@keyframes rise{to{opacity:1;translate:0 0}}
+.stage.paused *,.stage.paused *::before,.stage.paused *::after{animation-play-state:paused!important}
+
+.eyebrow{font-size:1.3cqw;letter-spacing:.2em;text-transform:uppercase;color:var(--brass);font-weight:500}
+.big{font-family:var(--f-display);font-weight:800;line-height:.98;letter-spacing:-.01em;margin:0;text-wrap:balance}
+.big em{font-style:normal;color:var(--brass)}
+.lede{font-size:1.75cqw;color:var(--muted);max-width:46cqw;line-height:1.42;margin:0;text-wrap:pretty}
+.stage.vertical .eyebrow{font-size:3cqw}
+.stage.vertical .lede{font-size:4cqw;max-width:none}
+
+/* Fotoflächen */
+.photo{position:absolute;background-size:cover;background-position:center;z-index:-1}
+.scene.on .photo{animation:kb 12s ease-out both}
+@keyframes kb{from{scale:1.1}to{scale:1}}
+.photo.side{top:0;bottom:0;right:0;width:46cqw;-webkit-mask-image:linear-gradient(90deg,transparent,#000 38%);mask-image:linear-gradient(90deg,transparent,#000 38%)}
+.photo.full{inset:0}
+.s1 .photo.side{background-position:42% 30%}
+.shade{position:absolute;inset:0;z-index:-1}
+.stage.vertical .photo.side{left:0;right:0;top:0;bottom:auto;width:auto;height:112cqw;-webkit-mask-image:linear-gradient(180deg,#000 40%,transparent 92%);mask-image:linear-gradient(180deg,#000 40%,transparent 92%)}
+.stage.vertical .s1 .photo.side{top:auto;bottom:0;height:100cqw;background-position:center 12%;-webkit-mask-image:linear-gradient(0deg,#000 55%,transparent);mask-image:linear-gradient(0deg,#000 55%,transparent)}
+.stage.vertical .s1 .lede,.stage.vertical .s1 .big,.stage.vertical .s8 .big,.stage.vertical .s1 .eyebrow,.stage.vertical .s8 .eyebrow{text-shadow:0 .4cqw 2.4cqw rgba(0,0,0,.85)}
+
+/* ---------- S1 Intro ---------- */
+.s1 .big{font-size:5.6cqw;max-width:52cqw}
+.s1 .big span{display:block}
+.s1 .lede{max-width:44cqw}
+.stage.vertical .s1{justify-content:flex-start;padding-top:20cqw}
+.stage.vertical .s1 .big{font-size:11cqw;max-width:none}
+
+/* ---------- S2 Sound ---------- */
+.s2{padding-top:8cqw}
+.s2 .big{font-size:4.2cqw}
+.systems{display:grid;grid-template-columns:1fr 1.25fr;gap:5cqw;max-width:86cqw;align-items:end}
+.sys{display:flex;flex-direction:column;gap:1cqw;min-width:0}
+.gear{display:flex;align-items:flex-end;gap:1.6cqw;height:17cqw;border-bottom:1px solid var(--brass-dim);padding-bottom:.4cqw;margin-bottom:.6cqw}
+.gear img{width:auto;transform-origin:50% 100%;filter:drop-shadow(0 1.2cqw 1.4cqw rgba(0,0,0,.7))}
+.pulse{transform:scale(calc(1 + var(--beat) * .03))}
+.g-s1{height:12cqw}.g-bsub{height:9.4cqw}
+.g-ptop{height:17cqw}.g-psub{height:8.6cqw}
+.sys h3{margin:0;font-size:1.9cqw;line-height:1.1;font-weight:700;text-wrap:balance}
+.sys .tag{font-size:1.25cqw;color:var(--brass);font-weight:500;letter-spacing:.02em}
+.sys p{margin:0;color:var(--muted);font-size:1.35cqw;line-height:1.42;text-wrap:pretty}
+.meter{display:grid;gap:.5cqw;margin-top:.3cqw}
+.meter .tr{height:.5cqw;background:var(--groove);border-radius:1cqw;overflow:hidden}
+.meter .fl{height:100%;width:0;background:linear-gradient(90deg,var(--brass-dim),var(--brass));border-radius:1cqw}
+.scene.on .meter .fl{animation:fill 1.6s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:1.3s}
+@keyframes fill{to{width:var(--w)}}
+.meter span{font-size:1.2cqw;letter-spacing:.04em}
+.stage.vertical .s2 .big{font-size:9cqw}
+.stage.vertical .systems{grid-template-columns:1fr;gap:6cqw;max-width:none}
+.stage.vertical .sys{gap:1.6cqw}
+.stage.vertical .gear{height:30cqw;gap:3cqw;padding-bottom:.8cqw}
+.stage.vertical .g-s1{height:22cqw}.stage.vertical .g-bsub{height:17cqw}
+.stage.vertical .g-ptop{height:30cqw}.stage.vertical .g-psub{height:15cqw}
+.stage.vertical .sys h3{font-size:4.6cqw}
+.stage.vertical .sys .tag{font-size:3cqw}
+.stage.vertical .sys p{font-size:3.3cqw}
+.stage.vertical .meter span{font-size:2.9cqw}
+.stage.vertical .meter .tr{height:1cqw}
+
+/* ---------- S3 DJ-Pult ---------- */
+.s3{flex-direction:row;align-items:center;gap:4cqw}
+.s3 .txt{flex:0 0 33cqw;display:flex;flex-direction:column;gap:1.5cqw}
+.s3 .big{font-size:4.6cqw}
+.s3 .big span{display:block;color:var(--brass);font-size:.64em;margin-top:.7cqw;letter-spacing:.01em}
+.s3 .lede{font-size:1.55cqw}
+.station{flex:1;min-width:0;display:flex;flex-direction:column;gap:2cqw;align-items:stretch}
+.ctrlwrap{position:relative;container-type:inline-size}
+.ctrlwrap img{width:100%;height:auto;filter:drop-shadow(0 2cqw 3cqw rgba(0,0,0,.8))}
+.ctrlwrap::before{content:"";position:absolute;left:8%;right:8%;bottom:-4%;height:30%;border-radius:50%;background:radial-gradient(closest-side,rgba(183,154,107,calc(.15 + var(--beat)*.35)),transparent);filter:blur(2cqi);z-index:-1}
+.jogfx{position:absolute;width:22.5%;aspect-ratio:1;top:45.5%;translate:-50% -50%;border-radius:50%;
+  background:conic-gradient(from 0deg,transparent 0 300deg,rgba(255,230,190,.55) 350deg,transparent 360deg);
+  -webkit-mask:radial-gradient(circle,transparent 58%,#000 60% 70%,transparent 72%);mask:radial-gradient(circle,transparent 58%,#000 60% 70%,transparent 72%);
+  mix-blend-mode:screen;animation:spin 1.8s linear infinite}
+.jogfx.l{left:17.3%}.jogfx.r{left:82.7%;animation-delay:-.9s}
+.desk{display:flex;align-items:center;gap:1.6cqw}
+.desk img{height:10cqw;width:auto;filter:drop-shadow(0 1cqw 1.4cqw rgba(0,0,0,.7))}
+.desk p{margin:0;font-size:1.3cqw;color:var(--muted);line-height:1.4}
+.desk p b{display:block;color:var(--paper);font-weight:600;font-size:1.45cqw}
+.stage.vertical .s3{flex-direction:column;align-items:stretch;gap:6cqw}
+.stage.vertical .s3 .txt{flex:none;gap:2.6cqw}
+.stage.vertical .s3 .big{font-size:10cqw}
+.stage.vertical .s3 .lede{font-size:3.8cqw}
+.stage.vertical .station{flex:none;gap:5cqw}
+.stage.vertical .desk{gap:4cqw}
+.stage.vertical .desk img{height:24cqw}
+.stage.vertical .desk p{font-size:3.2cqw}
+.stage.vertical .desk p b{font-size:3.8cqw}
+
+/* ---------- S4 Licht-Grid ---------- */
+.s4{padding-top:8cqw}
+.s4 .big{font-size:4cqw}
+.lights{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6cqw 2.4cqw;max-width:88cqw}
+.li{display:flex;flex-direction:column;gap:.5cqw;min-width:0}
+.li .pic{height:8.4cqw;display:flex;overflow:hidden;align-items:flex-end;gap:.8cqw;margin-bottom:.4cqw}
+.li .pic img{max-height:100%;max-width:100%;width:auto;min-width:0;flex:0 1 auto;object-fit:contain;filter:drop-shadow(0 .8cqw 1cqw rgba(0,0,0,.7))}
+.li .pic img.glow{mix-blend-mode:screen;filter:none}
+.li h3{margin:0;font-size:1.65cqw;line-height:1.12;font-weight:700}
+.li p{margin:0;color:var(--muted);font-size:1.2cqw;line-height:1.42;text-wrap:pretty}
+.stage.vertical .s4 .big{font-size:8.4cqw}
+.stage.vertical .lights{grid-template-columns:1fr 1fr;gap:4cqw 5cqw;max-width:none}
+.stage.vertical .li{gap:1cqw}
+.stage.vertical .li .pic{height:17cqw;gap:1.6cqw}
+.stage.vertical .li h3{font-size:3.8cqw}
+.stage.vertical .li p{font-size:2.9cqw}
+
+/* Laufschrift mit echtem Lauftext */
+.tick{position:relative;width:100%;container-type:inline-size}
+.tick img{width:100%;height:auto}
+.tick .disp{position:absolute;left:5.5%;right:5.5%;top:25%;bottom:22%;background:#0c0605;overflow:hidden;border-radius:.4cqi}
+.tick .disp::after{content:"";position:absolute;inset:0;background:radial-gradient(circle,transparent 42%,#0c0605 55%) 0 0/1.15cqi 1.15cqi}
+.tick .disp span{position:absolute;top:50%;left:100%;translate:0 -50%;white-space:nowrap;font-weight:800;font-size:6.8cqi;letter-spacing:.14em;color:var(--led);text-shadow:0 0 1.6cqi rgba(255,74,46,.9);animation:scroll 8s linear infinite}
+@keyframes scroll{to{transform:translateX(calc(-100% - 100cqi))}}
+.li .tick{align-self:flex-end}
+
+/* ---------- S5 Lichtshow ---------- */
+.s5{justify-content:flex-end}
+.s5 .photo.full{filter:brightness(calc(.75 + var(--beat) * .45))}
+.s5 .shade{background:linear-gradient(180deg,rgba(15,12,7,.1) 30%,rgba(15,12,7,.92))}
+.s5 .big{font-size:5.4cqw;max-width:60cqw}
+.s5 .row2{display:flex;align-items:flex-end;gap:3cqw;justify-content:space-between}
+.s5 .tick{width:38cqw;flex:none}
+.stage.vertical .s5 .big{font-size:11cqw;max-width:none}
+.stage.vertical .s5 .row2{flex-direction:column;align-items:stretch;gap:4cqw}
+.stage.vertical .s5 .tick{width:100%}
+
+/* ---------- S6 Pakete ---------- */
+.s6{padding-top:8cqw}
+.s6 .big{font-size:3.8cqw}
+.packs{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8cqw;max-width:88cqw}
+.pk{background:var(--card);border:1px solid var(--groove);border-radius:.8cqw;padding:1.4cqw 1.5cqw 1.6cqw;display:flex;flex-direction:column;gap:.6cqw;min-width:0}
+.pk.l{border-color:var(--brass-dim)}
+.pk .pic{height:8cqw;display:flex;align-items:flex-end;gap:.6cqw;margin-bottom:.4cqw}
+.pk .pic img{max-height:100%;width:auto;max-width:100%;filter:drop-shadow(0 .8cqw 1cqw rgba(0,0,0,.7))}
+.pk .k{font-size:1.1cqw;letter-spacing:.2em;text-transform:uppercase;color:var(--brass);font-weight:600}
+.pk h3{margin:0;font-size:2cqw;line-height:1.05;font-weight:800}
+.pk .g{font-size:1.25cqw;color:var(--paper);font-weight:500;font-variant-numeric:tabular-nums}
+.pk ul{list-style:none;margin:.3cqw 0 0;padding:0;display:grid;gap:.45cqw}
+.pk li{font-size:1.15cqw;color:var(--muted);line-height:1.35;padding-left:1.2cqw;position:relative}
+.pk li::before{content:"";position:absolute;left:0;top:.55em;width:.5cqw;height:.5cqw;border-radius:50%;background:var(--brass)}
+.foot{font-size:1.3cqw;color:var(--muted);max-width:88cqw;line-height:1.4;margin:0}
+.foot b{color:var(--paper);font-weight:600}
+.stage.vertical .s6 .big{font-size:7.6cqw}
+.stage.vertical .packs{grid-template-columns:1fr;gap:2.6cqw;max-width:none}
+.stage.vertical .pk{display:grid;grid-template-columns:21cqw 1fr;column-gap:3.4cqw;row-gap:.6cqw;padding:2.8cqw 3cqw;border-radius:2cqw}
+.stage.vertical .pk .pic{grid-row:1 / span 4;height:auto;align-items:center;justify-content:center;margin:0}
+.stage.vertical .pk .pic{gap:1cqw}
+.stage.vertical .pk .pic img{flex:1 1 0;min-width:0;object-fit:contain;height:auto!important;max-height:20cqw}
+.stage.vertical .pk .pic img:nth-child(3){display:none}
+.stage.vertical .pk .k{font-size:2.5cqw}
+.stage.vertical .pk h3{font-size:4.4cqw}
+.stage.vertical .pk .g{font-size:3cqw}
+.stage.vertical .pk ul{display:block}
+.stage.vertical .pk li{display:inline;font-size:2.75cqw;padding:0}
+.stage.vertical .pk li::before{display:none}
+.stage.vertical .pk li+li::before{content:" · ";display:inline;position:static;background:none;color:var(--brass)}
+.stage.vertical .foot{font-size:3cqw;max-width:none}
+
+/* ---------- S7 Vorteile ---------- */
+.s7 .big{font-size:4.2cqw}
+.wins{display:grid;grid-template-columns:repeat(2,1fr);gap:2.2cqw 4cqw;max-width:84cqw}
+.win{display:grid;grid-template-columns:9cqw 1fr;column-gap:1.8cqw;row-gap:.5cqw;align-items:start}
+.win .pic{grid-row:span 2;height:8cqw;display:flex;align-items:center;justify-content:center;background:radial-gradient(closest-side,rgba(183,154,107,.18),transparent)}
+.win .pic img{max-height:100%;max-width:100%;width:auto;filter:drop-shadow(0 .8cqw 1cqw rgba(0,0,0,.7))}
+.win h3{margin:0;font-size:1.9cqw;line-height:1.12;font-weight:700;text-wrap:balance}
+.win p{margin:0;color:var(--muted);font-size:1.35cqw;line-height:1.42;text-wrap:pretty}
+.stage.vertical .s7 .big{font-size:9cqw}
+.stage.vertical .wins{grid-template-columns:1fr;gap:4.4cqw;max-width:none}
+.stage.vertical .win{grid-template-columns:22cqw 1fr;column-gap:4cqw}
+.stage.vertical .win .pic{height:20cqw}
+.stage.vertical .win h3{font-size:4.4cqw}
+.stage.vertical .win p{font-size:3.3cqw}
+
+/* ---------- S8 Erfahrung ---------- */
+.s8 .big{font-size:5cqw;max-width:52cqw}
+.s8 .big b{display:block;font-size:2.2em;color:var(--brass);line-height:.9;letter-spacing:-.02em}
+.ticks{list-style:none;margin:0;padding:0;display:grid;gap:.9cqw;max-width:50cqw}
+.ticks li{display:grid;grid-template-columns:2.6cqw 1fr;align-items:baseline;font-size:1.55cqw;line-height:1.35;border-bottom:1px solid var(--groove);padding-bottom:.8cqw}
+.ticks li::before{content:"✓";color:var(--brass);font-weight:600}
+.stage.vertical .s8{justify-content:flex-end}
+.stage.vertical .s8 .big{font-size:9cqw;max-width:none}
+.stage.vertical .s8 .big b{font-size:1.7em}
+.stage.vertical .ticks{max-width:none;gap:2cqw}
+.stage.vertical .ticks li{font-size:3.5cqw;grid-template-columns:6cqw 1fr;padding-bottom:1.8cqw}
+
+/* ---------- S9 Kontakt ---------- */
+.s9 .big{font-size:5.8cqw;max-width:60cqw}
+.contact{display:flex;flex-direction:column;gap:.8cqw;font-size:1.8cqw}
+.contact .url{font-weight:800;font-size:3.2cqw;color:var(--brass);letter-spacing:.02em}
+.stage.vertical .s9{justify-content:flex-start;padding-top:22cqw}
+.stage.vertical .s9 .big{font-size:11.5cqw;max-width:none}
+.stage.vertical .contact{font-size:3.8cqw;gap:2cqw}
+.stage.vertical .contact .url{font-size:6.4cqw}
+
+.bar{position:absolute;left:0;bottom:0;height:.35cqw;min-height:2px;background:var(--brass);width:0;z-index:6}
+
+/* ---------- Transport ---------- */
+.transport{width:100%;display:flex;flex-direction:column;gap:10px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button{font:500 .85rem var(--f-body);color:var(--paper);background:var(--sleeve);border:1px solid var(--groove);border-radius:999px;padding:.5rem .95rem;cursor:pointer}
+button:hover{border-color:var(--brass-dim)}
+button:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+button[aria-pressed="true"]{background:var(--brass);color:var(--ink);border-color:var(--brass)}
+.primary{background:var(--paper);color:var(--ink);border-color:var(--paper);font-weight:600}
+.spacer{flex:1}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{font-size:.72rem;padding:.35rem .7rem;letter-spacing:.06em}
+.chips button.cur{border-color:var(--brass);color:var(--brass)}
+.note{color:var(--muted);font-size:.8rem;margin:0;max-width:70ch}
+
+@media (prefers-reduced-motion:reduce){
+  .vinyl,.jogfx,.tick .disp span,.scene.on .photo{animation:none}
+  .tick .disp span{left:4%}
+  .scene.on .a{animation:none;opacity:1;translate:0 0}
+  .scene.on .meter .fl{animation:none;width:var(--w)}
+}
+</style>
+
+<div class="wrap">
+  <div class="head">
+    <h1>DJ KOLJA ONE · Equipment</h1>
+    <p>86 Sekunden · Inhalte und Fotos von dj-kolja-one.de</p>
+  </div>
+
+  <div class="stage" id="stage" data-scene="0" aria-label="Animiertes Video: das Equipment von DJ KOLJA ONE">
+    <div class="vinyl" aria-hidden="true"></div>
+    <img class="logo logo-corner" data-img="logo" alt="DJ KOLJA ONE">
+    <div class="track" id="track">Seite B · Track 1</div>
+    <div class="clock" id="clock">0:00 / 1:26</div>
+
+    <!-- 1 Intro -->
+    <section class="scene s1 on" data-dur="7">
+      <div class="photo side" data-bg="portrait" aria-hidden="true"></div>
+      <div class="eyebrow a" style="--i:0">Mein Equipment · Memmingen · Allgäu · Schwaben</div>
+      <h2 class="big a" style="--i:1"><span>Guter Sound fällt nicht immer sofort auf.</span><span><em>Schlechter schon.</em></span></h2>
+      <p class="lede a" style="--i:2">Deshalb bringe ich Technik mit, auf die ich mich verlasse: abgestimmt auf euren Raum, sauber aufgebaut, stark im Klang.</p>
+    </section>
+
+    <!-- 2 Sound -->
+    <section class="scene s2" data-dur="10">
+      <div class="eyebrow a" style="--i:0">Sound</div>
+      <h2 class="big a" style="--i:1">Zwei Systeme für jede Größe.</h2>
+      <div class="systems">
+        <div class="sys a" style="--i:2">
+          <div class="gear"><img class="g-s1 pulse" data-img="bose_s1" alt="Bose S1 Pro"><img class="g-bsub pulse" data-img="bose_sub" alt="Bose Sub1"></div>
+          <h3>Bose S1 Pro mit Bose-Subwoofer</h3>
+          <span class="tag">Sektempfang · Dinner · Feiern</span>
+          <p>Mein kompaktes System für Feiern bis ca. 100 Gäste. Es klingt klar und ist dezent im Raum.</p>
+          <div class="meter"><div class="tr"><div class="fl" style="--w:40%"></div></div><span>bis ca. 100 Gäste</span></div>
+        </div>
+        <div class="sys a" style="--i:3">
+          <div class="gear"><img class="g-ptop pulse" data-img="pro_top" alt="Pronomic C-215 MA"><img class="g-psub pulse" data-img="pro_sub" alt="2× Pronomic C-118SA"></div>
+          <h3>Pronomic PA: 2× C-215 MA (15″) und 2× C-118SA (18″-Sub)</h3>
+          <span class="tag">Große Säle · Sportveranstaltungen · Festzelte</span>
+          <p>Für volle Tanzflächen. Druckvoller Bass, den man spürt.</p>
+          <div class="meter"><div class="tr"><div class="fl" style="--w:100%"></div></div><span>bis ca. 250 Gäste und mehr</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 DJ-Pult -->
+    <section class="scene s3" data-dur="9">
+      <div class="txt">
+        <div class="eyebrow a" style="--i:0">DJ-Technik</div>
+        <h2 class="big a" style="--i:1">Mein Arbeitsplatz<span>Pioneer DDJ-FLX10</span></h2>
+        <p class="lede a" style="--i:2">Vier Kanäle, damit verbinde ich Songs nahtlos und reagiere live auf eure Tanzfläche.</p>
+      </div>
+      <div class="station">
+        <div class="ctrlwrap a" style="--i:2"><img data-img="flx" alt="Pioneer DJ DDJ-FLX10"><i class="jogfx l"></i><i class="jogfx r"></i></div>
+        <div class="desk a" style="--i:4"><img data-img="table" alt="Roadworx DJ Table"><p><b>Schwarzes DJ-Pult mit Stoffverkleidung</b>Es fügt sich optisch in eure Location ein. Die Kabel sind weitgehend verdeckt.</p></div>
+      </div>
+    </section>
+
+    <!-- 4 Licht -->
+    <section class="scene s4" data-dur="12">
+      <div class="eyebrow a" style="--i:0">Licht &amp; Effekte</div>
+      <h2 class="big a" style="--i:1">Eine Lichtshow für eure Tanzfläche.</h2>
+      <div class="lights">
+        <div class="li a" style="--i:2"><div class="pic"><img data-img="truss" alt="Stageworx LB-3 Traversen-Set"><img data-img="par" alt="Stairville Tri Flat PAR" style="height:70%"></div><h3>3-m-Lichttraverse</h3><p>Mit LED-PAR-Scheinwerfern: Farbe und Stimmung passend zur Musik.</p></div>
+        <div class="li a" style="--i:3"><div class="pic"><img data-img="mh" alt="Varytec Hero Spot 60"><img data-img="mh" alt="" style="transform:scaleX(-1)"></div><h3>2 Moving Heads</h3><p>Bewegte Lichtstrahlen für echte Club-Momente.</p></div>
+        <div class="li a" style="--i:4"><div class="pic"><img data-img="kls" alt="Eurolite KLS Laser Bar"></div><h3>KLS-Lightbar</h3><p>Partylicht auf eigenem Stativ für die ganze Tanzfläche.</p></div>
+        <div class="li a" style="--i:5"><div class="pic"><img class="glow" data-img="akku" alt="ALGAM EVENTPAR Akku-Scheinwerfer"><img class="glow" data-img="akku" alt="" style="height:80%"><img class="glow" data-img="akku" alt="" style="height:64%"></div><h3>6 kabellose Akku-Scheinwerfer</h3><p>Wetterfestes Ambientelicht für Wände, Säulen und Garten, ganz ohne Kabelsalat.</p></div>
+        <div class="li a" style="--i:6"><div class="pic"><div class="tick"><img data-img="ticker" alt="Eurolite ESN LED-Laufschrift"><div class="disp"><span>HAPPY BIRTHDAY · ANNA &amp; MAX · #EUERHASHTAG</span></div></div></div><h3>LED-Laufschrift (65 cm)</h3><p>Eure Namen, „Happy Birthday“ oder euer Hashtag, mittig an der Traverse.</p></div>
+        <div class="li a" style="--i:7"><div class="pic"><img data-img="fog" alt="Showlite SN-1200 Nebelmaschine" style="height:80%"><img data-img="uv" alt="Stairville Wild Wash UV" style="height:58%"><img data-img="wash" alt="Cameo Thunder Wash" style="height:50%"></div><h3>Nebel, UV- und Farb-Scheinwerfer</h3><p>Nach Bedarf. Nebel nur nach Absprache mit der Location, wegen der Rauchmelder.</p></div>
+      </div>
+    </section>
+
+    <!-- 5 Lichtshow -->
+    <section class="scene s5" data-dur="7">
+      <div class="photo full" data-bg="mh_live" aria-hidden="true"></div>
+      <div class="shade" aria-hidden="true"></div>
+      <div class="eyebrow a" style="--i:0">Im Einsatz</div>
+      <div class="row2">
+        <h2 class="big a" style="--i:1">Eine Lichtshow statt <em>Deckenlicht.</em></h2>
+        <div class="tick a" style="--i:2"><img data-img="ticker" alt="LED-Laufschrift"><div class="disp"><span>WILLKOMMEN · HAPPY BIRTHDAY · EURE NAMEN</span></div></div>
+      </div>
+    </section>
+
+    <!-- 6 Pakete -->
+    <section class="scene s6" data-dur="13">
+      <div class="eyebrow a" style="--i:0">Technik-Pakete nach Gästezahl</div>
+      <h2 class="big a" style="--i:1">Diese Technik bringe ich zu eurer Feier mit.</h2>
+      <div class="packs">
+        <div class="pk a" style="--i:2"><div class="pic"><img data-img="bose_s1" alt="Bose S1 Pro"><img data-img="bose_s1" alt=""><img data-img="kls" alt="KLS Laser Bar" style="height:46%"></div>
+          <span class="k">Paket S</span><h3>„Sound &amp; Party“</h3><span class="g">bis ca. 50 Gäste</span>
+          <ul><li>2× Bose S1 Pro auf Stativen</li><li>Eurolite KLS Laser Bar mit Lichtstativ</li><li>Shure Beta 58A mit Kabel</li></ul></div>
+        <div class="pk a" style="--i:3"><div class="pic"><img data-img="truss" alt="Lichttraverse"><img data-img="bose_sub" alt="Bose Sub1" style="height:70%"></div>
+          <span class="k">Paket M</span><h3>„Party“</h3><span class="g">bis ca. 100 Gäste</span>
+          <ul><li>Alles aus Paket S, dazu Bose Sub1</li><li>Funkmikrofon-Set mit 4 Handmikros</li><li>3-m-Traverse mit 4 LED-PARs und Thunder Wash</li><li>LED-Laufschrift und Nebelmaschine</li><li>DJ-Pult (Roadworx, schwarz)</li></ul></div>
+        <div class="pk l a" style="--i:4"><div class="pic"><img data-img="pro_top" alt="Pronomic C-215 MA"><img data-img="pro_sub" alt="Pronomic C-118SA" style="height:52%"><img data-img="mh" alt="Moving Head" style="height:62%"></div>
+          <span class="k">Paket L</span><h3>„Komplett-Show“</h3><span class="g">bis ca. 250 Gäste</span>
+          <ul><li>Pronomic PA: 2× 15″ auf 2× 18″-Sub</li><li>Traverse mit 2 Moving Heads, 4 PARs, Thunder Wash, Laufschrift</li><li>6 Akku-Scheinwerfer (IP65), auch für draußen</li><li>KLS Laser Bar, UV, Spiegelkugel, Nebel</li><li>Funkmikrofon-Set und DJ-Pult</li></ul></div>
+      </div>
+      <p class="foot a" style="--i:5"><b>Ich liefere, baue auf und betreue alles während der Feier.</b> Den Preis bekommt ihr mit dem Angebot. Zu Paket L gibt es ein zweites Bose-Set für Sektempfang und Nebenraum.</p>
+    </section>
+
+    <!-- 7 Vorteile -->
+    <section class="scene s7" data-dur="11">
+      <div class="eyebrow a" style="--i:0">Euer Vorteil</div>
+      <h2 class="big a" style="--i:1">Was ihr davon habt.</h2>
+      <div class="wins">
+        <div class="win a" style="--i:2"><div class="pic"><img class="pulse" data-img="pro_top" alt="Pronomic Lautsprecher"></div><h3>Laut genug zum Tanzen, leise genug zum Reden.</h3><p>Das System wächst mit eurer Feier: kompakt für den Sektempfang, mit voller Bass-Power für die Tanzfläche.</p></div>
+        <div class="win a" style="--i:3"><div class="pic"><img data-img="mics" alt="Omnitronic UHF-604 Funkmikrofon-Set"></div><h3>Reden, die jeder versteht.</h3><p>Mein Funkmikrofon-Set ist immer dabei, für Trauzeugen, Chefs und Gratulanten.</p></div>
+        <div class="win a" style="--i:4"><div class="pic"><img data-img="mh" alt="Moving Head"></div><h3>Eine Lichtshow statt Deckenlicht.</h3><p>Traverse, Moving Heads und Ambientelicht machen aus jedem Raum eine Tanzfläche.</p></div>
+        <div class="win a" style="--i:5"><div class="pic"><img data-img="table" alt="Schwarzes DJ-Pult"></div><h3>Ein Aufbau, der ins Bild passt.</h3><p>Schwarzes DJ-Pult mit Stoffverkleidung, weitgehend verdeckte Kabel, alles fertig, bevor eure Gäste kommen.</p></div>
+      </div>
+    </section>
+
+    <!-- 8 Erfahrung -->
+    <section class="scene s8" data-dur="9">
+      <div class="photo side" data-bg="crowd" aria-hidden="true"></div>
+      <div class="eyebrow a" style="--i:0">Erfahrung</div>
+      <h2 class="big a" style="--i:1"><b>Seit 1996</b>hinter dem Mikrofon.</h2>
+      <ul class="ticks">
+        <li class="a" style="--i:2">Angefangen beim Radio, heute auf Hochzeiten, Geburtstagen und Firmenfeiern.</li>
+        <li class="a" style="--i:3">Über 10 Jahre als DJ, von Memmingen über das Allgäu und Schwaben bis nach NRW.</li>
+        <li class="a" style="--i:4">Hochzeiten in Frankfurt, München und Ulm.</li>
+        <li class="a" style="--i:5">Firmenpartys eines großen Tech-Konzerns in Dortmund, Frankfurt und Ulm.</li>
+        <li class="a" style="--i:6">Markentechnik von Bose, Pronomic und Pioneer DJ, geprüft und gepflegt.</li>
+      </ul>
+    </section>
+
+    <!-- 9 Kontakt -->
+    <section class="scene s9" data-dur="8">
+      <div class="eyebrow a" style="--i:0">Ich berate euch zum passenden Setup</div>
+      <h2 class="big a" style="--i:1">Welche Technik passt zu <em>eurer Location?</em></h2>
+      <p class="lede a" style="--i:2">Schreibt mir Raum und Gästezahl, ich sage euch, was ich mitbringe.</p>
+      <div class="contact">
+        <span class="url a" style="--i:3">dj-kolja-one.de</span>
+        <span class="a" style="--i:4">WhatsApp +49 172 7273707</span>
+        <span class="a" style="--i:5">Instagram @djkoljaone</span>
+      </div>
+      <img class="logo logo-claim a" data-img="logo_claim" style="--i:6" alt="DJ KOLJA ONE – Jedes Event findet nur einmal statt.">
+    </section>
+
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="bar" id="bar"></div>
+  </div>
+
+  <div class="transport">
+    <div class="row">
+      <button class="primary" id="play" type="button">Pause</button>
+      <button id="restart" type="button">Von vorn</button>
+      <button id="sound" type="button" aria-pressed="false">Beat an</button>
+      <span class="spacer"></span>
+      <button id="fmt169" type="button" aria-pressed="true">16:9</button>
+      <button id="fmt916" type="button" aria-pressed="false">9:16 Reel</button>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Szene wählen"></div>
+    <p class="note">Läuft in Schleife. Der Beat ist ein synthetischer 124-BPM-Klick zur Taktprobe, keine Musik. Fotos: Gerätebilder und Partyfotos von dj-kolja-one.de. Für Reels das 9:16-Format wählen.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  const IMG={"akku": "equipment/akku.webp","bose_s1": "equipment/bose_s1.webp","bose_sub": "equipment/bose_sub.webp","crowd": "equipment/crowd.webp","flx": "equipment/flx.webp","fog": "equipment/fog.webp","kls": "equipment/kls.webp","logo": "equipment/logo.webp","logo_claim": "equipment/logo_claim.webp","mh": "equipment/mh.webp","mh_live": "equipment/mh_live.webp","mics": "equipment/mics.webp","par": "equipment/par.webp","portrait": "equipment/portrait.webp","pro_sub": "equipment/pro_sub.webp","pro_top": "equipment/pro_top.webp","table": "equipment/table.webp","ticker": "equipment/ticker.webp","truss": "equipment/truss.webp","uv": "equipment/uv.webp","wash": "equipment/wash.webp"};
+  document.querySelectorAll('[data-img]').forEach(el=>{el.src=IMG[el.dataset.img]});
+  document.querySelectorAll('[data-bg]').forEach(el=>{el.style.backgroundImage='url('+IMG[el.dataset.bg]+')'});
+
+  const stage=document.getElementById('stage');
+  const scenes=[...stage.querySelectorAll('.scene')];
+  const names=['Intro','Sound','DJ-Pult','Licht','Lichtshow','Pakete','Vorteile','Erfahrung','Kontakt'];
+  const durs=scenes.map(s=>+s.dataset.dur);
+  const starts=[];let acc=0;durs.forEach(d=>{starts.push(acc);acc+=d});
+  const TOTAL=acc, BPM=124;
+  const bar=document.getElementById('bar'),clock=document.getElementById('clock'),track=document.getElementById('track');
+  const playBtn=document.getElementById('play');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const chips=document.getElementById('chips');
+  names.forEach((n,i)=>{const b=document.createElement('button');b.type='button';b.textContent='B'+(i+1)+' '+n;b.addEventListener('click',()=>{t=starts[i];show(i,true)});chips.appendChild(b)});
+  const chipEls=[...chips.children];
+
+  let t=0,cur=-1,playing=!reduce,last=performance.now();
+  const fmt=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+  function show(i,force){
+    if(i===cur&&!force)return;cur=i;
+    scenes.forEach(s=>s.classList.remove('on'));
+    void stage.offsetWidth;
+    scenes[i].classList.add('on');
+    stage.dataset.scene=i;
+    track.textContent='Seite B · Track '+(i+1)+' · '+names[i];
+    chipEls.forEach((c,k)=>c.classList.toggle('cur',k===i));
+  }
+  function sceneAt(x){for(let i=durs.length-1;i>=0;i--)if(x>=starts[i])return i;return 0}
+  function frame(now){
+    const dt=(now-last)/1000;last=now;
+    if(playing){t+=dt;if(t>=TOTAL)t=0}
+    show(sceneAt(t));
+    bar.style.width=(t/TOTAL*100)+'%';
+    clock.textContent=fmt(t)+' / '+fmt(TOTAL);
+    const ph=(t*BPM/60)%1;
+    stage.style.setProperty('--beat',playing?Math.exp(-ph*6).toFixed(3):0);
+    requestAnimationFrame(frame);
+  }
+  function setPlaying(p){playing=p;stage.classList.toggle('paused',!p);playBtn.textContent=p?'Pause':'Abspielen';if(!p)stopBeat();else if(soundOn)startBeat()}
+  playBtn.addEventListener('click',()=>setPlaying(!playing));
+  document.getElementById('restart').addEventListener('click',()=>{t=0;show(0,true);setPlaying(true)});
+  const f1=document.getElementById('fmt169'),f2=document.getElementById('fmt916');
+  function setFmt(v){stage.classList.toggle('vertical',v);f1.setAttribute('aria-pressed',!v);f2.setAttribute('aria-pressed',v);try{localStorage.setItem('fmt',v?'v':'h')}catch(e){}}
+  f1.addEventListener('click',()=>setFmt(false));f2.addEventListener('click',()=>setFmt(true));
+  try{if(localStorage.getItem('fmt')==='v')setFmt(true)}catch(e){}
+
+  let ctx=null,soundOn=false,timer=null,nextBeat=0,noise=null;
+  const sBtn=document.getElementById('sound');
+  function kick(at){const o=ctx.createOscillator(),g=ctx.createGain();o.frequency.setValueAtTime(140,at);o.frequency.exponentialRampToValueAtTime(42,at+.12);g.gain.setValueAtTime(.7,at);g.gain.exponentialRampToValueAtTime(.001,at+.3);o.connect(g).connect(ctx.destination);o.start(at);o.stop(at+.32)}
+  function hat(at){if(!noise){noise=ctx.createBuffer(1,ctx.sampleRate*.05,ctx.sampleRate);const d=noise.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}
+    const s=ctx.createBufferSource(),f=ctx.createBiquadFilter(),g=ctx.createGain();s.buffer=noise;f.type='highpass';f.frequency.value=7000;g.gain.setValueAtTime(.18,at);g.gain.exponentialRampToValueAtTime(.001,at+.05);s.connect(f).connect(g).connect(ctx.destination);s.start(at)}
+  function startBeat(){if(!ctx)return;stopBeat();const spb=60/BPM;
+    const ph=(t*BPM/60)%1;nextBeat=ctx.currentTime+(1-ph)*spb;
+    timer=setInterval(()=>{while(nextBeat<ctx.currentTime+.12){kick(nextBeat);hat(nextBeat+spb/2);nextBeat+=spb}},25)}
+  function stopBeat(){if(timer){clearInterval(timer);timer=null}}
+  sBtn.addEventListener('click',()=>{
+    soundOn=!soundOn;sBtn.setAttribute('aria-pressed',soundOn);sBtn.textContent=soundOn?'Beat aus':'Beat an';
+    if(soundOn){try{ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();ctx.resume();if(playing)startBeat()}catch(e){soundOn=false;sBtn.textContent='Beat nicht verfügbar'}}
+    else stopBeat();
+  });
+  document.addEventListener('visibilitychange',()=>{last=performance.now()});
+
+  stage.classList.toggle('paused',!playing);playBtn.textContent=playing?'Pause':'Abspielen';
+  show(0,true);requestAnimationFrame(frame);
+})();
+</script>
+
+</body></html>
