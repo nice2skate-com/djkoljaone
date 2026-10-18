@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.60.0
+ * Version:     1.61.1
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.60.0' );
+define( 'KJO_VERSION', '1.61.1' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 require_once __DIR__ . '/kjo-bilder.php';
@@ -28,6 +28,7 @@ require_once __DIR__ . '/kjo-cache.php';
 require_once __DIR__ . '/kjo-kennenlernen.php';
 require_once __DIR__ . '/kjo-angebot.php';
 require_once __DIR__ . '/kjo-social.php';
+require_once __DIR__ . '/kjo-meta-pixel.php';
 
 /* ---------------------------------------------------------------
  * Hilfsfunktionen
@@ -2495,6 +2496,7 @@ function send(name,params){
   params=params||{};params.page_path=location.pathname;
   try{if(typeof window.gtag==="function"){window.gtag("event",name,params);}else{(window.dataLayer=window.dataLayer||[]).push(Object.assign({event:name},params));}}catch(e){}
   try{if(typeof window.clarity==="function"){window.clarity("event",name);}}catch(e){}
+  try{document.dispatchEvent(new CustomEvent("kjo:track",{detail:{name:name,params:params}}));}catch(e){} /* z. B. für den Meta-Pixel (kjo-meta-pixel.php) */
 }
 window.kjoTrack=send;
 function toast(msg){
