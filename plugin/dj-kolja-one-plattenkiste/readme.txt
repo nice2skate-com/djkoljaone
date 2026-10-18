@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.65.1: Intro-Video Hochzeit – kleine Schrift größer, heller und mit Schatten, dunklerer Verlauf hinter dem Text; hochkant kürzere Zeile ohne Umbruch.
 Seit 1.65.0: Intro-Videos im Kopfbereich der Leistungsseiten (zuerst Hochzeits-DJ): stummer 12-Sekunden-Loop, quer und 4:5 fürs Handy. Seiten aus Vorlage einspielen.
 Seit 1.64.0: USt-IdNr. DE331619498 im Impressum (wird beim Einspielen ergänzt), in den Suchmaschinen-Daten (vatID) und in der Fußzeile der Angebots-PDFs.
 Seit 1.63.0: Plattenkiste: Songliste per Klick auf die Spaltenköpfe sortieren (Titel, Genre, BPM, Tonart, Qualität, Video, Bewertung, Im Pult) und nach Titel, Genre und „Im Pult“ filtern.

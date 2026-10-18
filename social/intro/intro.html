@@ -10,19 +10,19 @@
 html,body{margin:0;background:#0F0C07;overflow:hidden}
 #s{position:relative;width:100vw;height:100vh;overflow:hidden;font-family:"Fira Sans",sans-serif;color:#F3F1E9}
 .ph{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;will-change:transform,opacity}
-#shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,12,7,.35) 0%,rgba(15,12,7,.05) 35%,rgba(15,12,7,.55) 70%,rgba(15,12,7,.9) 100%)}
+#shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,12,7,.35) 0%,rgba(15,12,7,.08) 28%,rgba(15,12,7,.6) 52%,rgba(15,12,7,.88) 72%,rgba(15,12,7,.95) 100%)}
 #vig{position:absolute;inset:0;box-shadow:inset 0 0 18vmin rgba(0,0,0,.65)}
-#txt{position:absolute;left:7vw;right:7vw;bottom:9vh}
-#eye{font-size:2.3vmin;letter-spacing:.45em;text-transform:uppercase;color:#B29D75;font-weight:600;margin-bottom:2.2vmin}
+#txt{position:absolute;left:7vw;right:7vw;bottom:9vh;text-shadow:0 .25vmin 1.2vmin rgba(0,0,0,.85),0 0 .4vmin rgba(0,0,0,.6)}
+#eye{font-size:3vmin;letter-spacing:.24em;text-transform:uppercase;color:#E6D3A8;font-weight:600;margin-bottom:2.2vmin}
 #rule{height:2px;background:#B29D75;width:0;margin-bottom:2.6vmin}
 .ln{font-weight:800;font-size:7.2vmin;line-height:1.08;opacity:0;transform:translateY(3vmin)}
 .ln b{color:#D4BF94;font-weight:800}
-#end{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(15,12,7,.78);opacity:0}
+#end{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(15,12,7,.86);opacity:0;text-shadow:0 .25vmin 1.2vmin rgba(0,0,0,.8)}
 #logo{font-size:7vmin;letter-spacing:.32em;font-weight:400;padding-left:.32em}
 #logo span{color:#B29D75}
-#claim{margin-top:2.4vmin;font-size:2.4vmin;letter-spacing:.38em;text-transform:uppercase;color:#B29D75;font-weight:600}
+#claim{margin-top:2.6vmin;font-size:3vmin;letter-spacing:.24em;text-transform:uppercase;color:#E6D3A8;font-weight:600}
 #cta{margin-top:4.5vmin;font-size:2.9vmin;border:2px solid #B29D75;color:#F3F1E9;padding:1.3vmin 3.2vmin;border-radius:999px;letter-spacing:.06em}
-.hoch #txt{left:8vw;right:8vw;bottom:11vh}.hoch .ln{font-size:8.6vmin}.hoch #eye{font-size:2.9vmin}.hoch #logo{font-size:8.4vmin}.hoch #claim{font-size:2.6vmin;letter-spacing:.3em}
+.hoch #txt{left:8vw;right:8vw;bottom:11vh}.hoch .ln{font-size:8.6vmin}.hoch #eye{font-size:3.5vmin;letter-spacing:.16em;line-height:1.35}.hoch #logo{font-size:8.4vmin}.hoch #claim{font-size:3.3vmin;letter-spacing:.16em}
 </style></head><body><div id="s"><div id="photos"></div><div id="shade"></div><div id="vig"></div>
 <div id="txt"><div id="eye"></div><div id="rule"></div><div id="lines"></div></div>
 <div id="end"><div id="logo">DJ KOLJA <span>ONE</span></div><div id="claim">Jedes Event findet nur einmal statt.</div><div id="cta"></div></div></div>
@@ -30,7 +30,7 @@ html,body{margin:0;background:#0F0C07;overflow:hidden}
 var C=window.INTRO||{images:[],eyebrow:"",lines:[],cta:"",dur:12};
 if(C.hoch)document.body.classList.add("hoch");
 var P=document.getElementById("photos"),L=document.getElementById("lines"),ph=[],ln=[];
-document.getElementById("eye").textContent=C.eyebrow;var cta=document.getElementById("cta");if(C.cta)cta.textContent=C.cta;else cta.remove();
+document.getElementById("eye").textContent=(C.hoch&&C.eyebrow_hoch)||C.eyebrow;var cta=document.getElementById("cta");if(C.cta)cta.textContent=C.cta;else cta.remove();
 C.images.forEach(function(u,i){var d=document.createElement("div");d.className="ph";d.style.backgroundImage="url('"+u+"')";d.style.backgroundPosition=(C.pos&&C.pos[i])||"center";P.appendChild(d);ph.push(d)});
 C.lines.forEach(function(t){var d=document.createElement("div");d.className="ln";d.innerHTML=t;L.appendChild(d);ln.push(d)});
 function cl(x){return x<0?0:x>1?1:x}function ease(x){x=cl(x);return x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2}
