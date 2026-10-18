@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.62.1
+ * Version:     1.63.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.62.1' );
+define( 'KJO_VERSION', '1.63.0' );
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 require_once __DIR__ . '/kjo-bilder.php';
@@ -853,7 +853,8 @@ function kjm_admin_page() {
 	}
 	echo '<p>Die Songs laufen im Pult in der Qualität, in der du sie hochlädst. Der direkte Download der Dateien ist gesperrt.</p>';
 	kjm_order_box( $posts );
-	echo '<table class="widefat striped"><thead><tr><th>Titel</th><th>Genre</th><th>BPM</th><th>Tonart</th><th>Qualität</th><th>Video</th><th>Bewertung</th><th>Im Pult</th><th></th></tr></thead><tbody>';
+	echo '<p class="kjm-filter" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:16px 0 8px"><input type="search" id="kjm-f-q" placeholder="Titel suchen …" style="min-width:220px"> <select id="kjm-f-g" aria-label="Genre"><option value="">Alle Genres</option></select> <select id="kjm-f-p" aria-label="Im Pult"><option value="">Im Pult: alle</option><option value="ja">nur im Pult</option><option value="nein">nicht im Pult</option></select> <span id="kjm-f-n" style="color:#646970"></span></p>';
+	echo '<table class="widefat striped" id="kjm-tracks"><thead><tr><th>Titel</th><th>Genre</th><th>BPM</th><th>Tonart</th><th>Qualität</th><th>Video</th><th>Bewertung</th><th>Im Pult</th><th></th></tr></thead><tbody>';
 	if ( ! $posts ) {
 		echo '<tr><td colspan="9">Noch keine MP3s in der Mediathek.</td></tr>';
 	}
@@ -864,6 +865,28 @@ function kjm_admin_page() {
 		echo '<tr><td>' . esc_html( $p->post_title ) . '</td><td>' . esc_html( kjm_genre( $p->ID ) ?: '–' ) . '</td><td><span class="kjm-bpm-val">' . esc_html( $bpm ?: '–' ) . '</span></td><td><span class="kjm-key-val">' . esc_html( $key ?: '–' ) . '</span> <button type="button" class="button button-small kjm-bpm-btn" data-id="' . (int) $p->ID . '" data-has="' . ( $bpm && $key && kjm_wave_get( $p->ID ) ? 1 : 0 ) . '" data-url="' . esc_url( wp_make_link_relative( (string) wp_get_attachment_url( $p->ID ) ) ) . '">erkennen</button></td><td>' . kjm_quality( $p->ID ) . '</td><td>' . ( kjm_video( $p->ID ) ? 'ja' : '–' ) . '</td><td>' . ( $r['count'] ? esc_html( number_format_i18n( $r['avg'], 1 ) . ' (' . $r['count'] . ')' ) : '–' ) . '</td><td>' . ( kjm_visible( $p->ID ) ? 'ja' : 'nein' ) . '</td><td><a href="' . esc_url( get_edit_post_link( $p->ID ) ) . '">Bearbeiten</a></td></tr>';
 	}
 	echo '</tbody></table>';
+	echo <<<'KJMTAB'
+<style>#kjm-tracks th.kjm-s{cursor:pointer;user-select:none;white-space:nowrap}#kjm-tracks th.kjm-s:after{content:" ↕";color:#a7aaad;font-size:11px}#kjm-tracks th.kjm-asc:after{content:" ▲";color:#2271b1}#kjm-tracks th.kjm-desc:after{content:" ▼";color:#2271b1}</style>
+<script>
+/* Track-Liste: Spalten per Klick sortieren, nach Titel, Genre und „Im Pult“ filtern (seit 1.63.0) */
+(function(){var t=document.getElementById("kjm-tracks");if(!t)return;var tb=t.tBodies[0],rows=[].slice.call(tb.rows).filter(function(r){return r.cells.length>1}),
+ q=document.getElementById("kjm-f-q"),g=document.getElementById("kjm-f-g"),pu=document.getElementById("kjm-f-p"),n=document.getElementById("kjm-f-n"),col=-1,dir=1;
+function txt(r,i){return(r.cells[i]?r.cells[i].textContent:"").replace("neu erkennen","").replace("erkennen","").trim()}
+function val(r,i){var s=txt(r,i),m;if(s===""||s==="–")return null;
+ if(i===2||i===4){m=s.match(/[\d.,]+/);return m?parseFloat(m[0].replace(",",".")):null}
+ if(i===3){m=s.match(/^(\d+)([AB])/i);return m?+m[1]*2+(m[2].toUpperCase()==="B"?1:0):null}
+ if(i===6){m=s.match(/([\d,]+)\s*\((\d+)\)/);return m?parseFloat(m[1].replace(",","."))*1000+ +m[2]:null}
+ return s.toLowerCase()}
+[].forEach.call(t.tHead.rows[0].cells,function(th,i){if(i>7)return;th.classList.add("kjm-s");th.title="Sortieren";th.addEventListener("click",function(){dir=col===i?-dir:1;col=i;
+ [].forEach.call(t.tHead.rows[0].cells,function(c){c.classList.remove("kjm-asc","kjm-desc")});th.classList.add(dir>0?"kjm-asc":"kjm-desc");
+ rows.sort(function(a,b){var x=val(a,i),y=val(b,i);if(x===null&&y===null)return 0;if(x===null)return 1;if(y===null)return -1;
+  return(typeof x==="number"?x-y:String(x).localeCompare(String(y),"de"))*dir}).forEach(function(r){tb.appendChild(r)})})});
+var gs={};rows.forEach(function(r){var v=txt(r,1);gs[v]=1});Object.keys(gs).sort(function(a,b){return a.localeCompare(b,"de")}).forEach(function(v){var o=document.createElement("option");o.value=v;o.textContent=v==="–"?"(ohne Genre)":v;g.appendChild(o)});
+function f(){var s=q.value.trim().toLowerCase(),k=0;rows.forEach(function(r){var ok=(!s||txt(r,0).toLowerCase().indexOf(s)>-1)&&(!g.value||txt(r,1)===g.value)&&(!pu.value||txt(r,7).toLowerCase()===pu.value);r.style.display=ok?"":"none";if(ok)k++});
+ n.textContent=k===rows.length?rows.length+" Songs":k+" von "+rows.length+" Songs"}
+q.addEventListener("input",f);g.addEventListener("change",f);pu.addEventListener("change",f);f()})();
+</script>
+KJMTAB;
 	echo '<p><button type="button" class="button button-primary" id="kjm-bpm-all">BPM &amp; Tonart für alle Songs ohne Angabe erkennen</button> <span id="kjm-bpm-msg"></span></p>';
 	echo '<p class="description">Neue MP3s werden beim Hochladen automatisch analysiert (BPM und Tonart im Camelot-Format, z. B. 8A). Die Erkennung läuft in deinem Browser und dauert pro Song ein paar Sekunden. Stimmt ein Wert nicht (z. B. halbes oder doppeltes Tempo, Dur/Moll verwechselt), trag ihn beim Song von Hand ein.</p>';
 	echo '</div>';

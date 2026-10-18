@@ -33,8 +33,8 @@ function kjo_meta_page() {
 	$o = kjo_meta_opts();
 	if ( isset( $_POST['kjo_meta_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['kjo_meta_nonce'] ) ), 'kjo_meta' ) ) {
 		$p           = preg_replace( '/\D/', '', sanitize_text_field( wp_unslash( $_POST['pixel'] ?? '' ) ) ); // phpcs:ignore
-		$d           = sanitize_text_field( wp_unslash( $_POST['domain'] ?? '' ) ); // phpcs:ignore
-		$d           = preg_match( '/content=["\']?([A-Za-z0-9_-]+)/', $d, $m ) ? $m[1] : preg_replace( '/[^A-Za-z0-9_-]/', '', $d ); // ganzer Meta-Tag oder nur der Wert
+		$d           = trim( (string) wp_unslash( $_POST['domain'] ?? '' ) ); // phpcs:ignore -- roh, damit ein eingefügter <meta>-Tag nicht weggefiltert wird; danach nur [A-Za-z0-9_-]
+		$d           = preg_match( '/content\s*=\s*["\']?([A-Za-z0-9_-]+)/i', $d, $m ) ? $m[1] : preg_replace( '/[^A-Za-z0-9_-]/', '', $d ); // ganzer Meta-Tag oder nur der Wert
 		$o['pixel']  = strlen( $p ) >= 10 && strlen( $p ) <= 20 ? $p : '';
 		$o['domain'] = $d;
 		$o['aktiv']  = empty( $_POST['aktiv'] ) ? 0 : 1;
