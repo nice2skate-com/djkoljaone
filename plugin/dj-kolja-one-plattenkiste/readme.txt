@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.63.0: Plattenkiste: Songliste per Klick auf die Spaltenköpfe sortieren (Titel, Genre, BPM, Tonart, Qualität, Video, Bewertung, Im Pult) und nach Titel, Genre und „Im Pult“ filtern.
 Seit 1.62.2: Meta-Pixel: Der ganze Meta-Tag zur Domain-Bestätigung kann eingefügt werden (vorher blieb das Feld leer).
 Seit 1.62.1: Besucher-Statistik: Tagesbeschriftung zweizeilig (Wochentag, darunter Datum) – bricht auf dem Handy nicht mehr um.
 Seit 1.62.0: Besucher-Statistik aus Google Analytics 4 (Dashboard → Besucher-Statistik): Dashboard-Box mit „gerade aktiv“, heute pro Stunde und 14 Tagen; Tagesbericht mit Diagrammen jeden Morgen gegen 7 Uhr per E-Mail. Verbindung über ein Dienstkonto mit Leserechten.

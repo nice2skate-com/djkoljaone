@@ -1,9 +1,9 @@
 {
- "version": "1.62.2",
- "download_url": "dj-kolja-one-plattenkiste-1.62.2.zip",
- "sha256": "dcd439fecab1e6186cefe5a4071eaf6d5120b8fdb2e7973561530038c155cb93",
+ "version": "1.63.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.63.0.zip",
+ "sha256": "32e2be123cd0ed66ad67ad8c19770f594f0292c10a188a94e6d77f622cdbd3d0",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Meta-Tag einfügen"
+ "changelog": "Songliste sortieren und filtern"
 }
