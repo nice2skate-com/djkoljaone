@@ -84,3 +84,8 @@ Der Ton der Animation selbst wird nicht übernommen.
 - Schlüssel ungültig (z. B. Passwort geändert, App gelöscht)? Schritte 3–4 wiederholen.
 - Meta schaltet alte API-Versionen nach etwa zwei Jahren ab. Standard ist `v23.0`; in WordPress unter Social bzw.
   als Umgebungsvariable `META_API_VERSION` änderbar.
+
+## Song-Reels (ein Reel pro eigenem Song)
+
+30-Sekunden-Reels mit dem Song-Ende, Cover, Profilbild und QR-Code zum Song im DJ-Pult: siehe
+`social/song-reels/README.md`. Fertige Begleittexte: `social/texte/song-reels.md`.

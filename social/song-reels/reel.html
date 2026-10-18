@@ -1,0 +1,167 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DJ KOLJA ONE Song-Reel</title>
+<style>@font-face{font-family:"Fira Sans";font-weight:400;src:url(__F400__) format("woff2")}@font-face{font-family:"Fira Sans";font-weight:500 600;src:url(__F600__) format("woff2")}@font-face{font-family:"Fira Sans";font-weight:700 800;src:url(__F800__) format("woff2")}</style>
+<style>
+/* Song-Reel 1080×1920, 30 s (Song-Ende). Farben nur aus dem Brand-Guide. Drei Szenen: Cover & Titel → Plattenteller mit Profil → QR/Link.
+   Sichere Zone: oben 160 px, unten 420 px und rechts 150 px verdeckt Instagram. */
+:root{--ink:#0F0C07;--paper:#F3F1E9;--muted:#A39E93;--brass:#B29D75;--acc:#B29D75;--gold:#E0B36A;--lvl:0;--f:"Fira Sans","Helvetica Neue",Arial,sans-serif;color-scheme:dark}
+html,body{margin:0;background:#000;color:var(--paper);font-family:var(--f)}
+.head,.transport{display:flex;gap:8px;padding:10px;justify-content:center}
+.stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--ink);transform-origin:top left}
+.bg{position:absolute;inset:-120px;background-size:cover;background-position:center;filter:blur(70px) grayscale(1) sepia(.55) brightness(.36) contrast(1.1);transform:scale(calc(1.05 + var(--lvl)*.04))}
+.tint{position:absolute;inset:0;background:radial-gradient(90% 60% at 50% 35%,color-mix(in srgb,var(--gold) 22%,transparent),transparent 70%),linear-gradient(180deg,rgba(15,12,7,.25),rgba(15,12,7,.1) 40%,rgba(15,12,7,.85))}
+canvas#fx{position:absolute;inset:0;width:1080px;height:1920px;mix-blend-mode:screen}
+.grain{position:absolute;inset:0;opacity:.06;background:repeating-linear-gradient(0deg,#fff 0 1px,transparent 1px 3px);mix-blend-mode:overlay;pointer-events:none}
+
+/* Kopfzeile: Profil */
+.who{position:absolute;left:64px;top:172px;display:flex;align-items:center;gap:22px;z-index:5}
+.who img{width:104px;height:104px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 4px var(--acc),0 0 calc(10px + var(--lvl)*30px) color-mix(in srgb,var(--acc) 70%,transparent)}
+.who b{display:block;font-size:40px;font-weight:800;letter-spacing:.06em}
+.who span{font-size:27px;color:var(--muted);letter-spacing:.04em}
+
+.scene{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .5s}
+.scene.on{opacity:1;visibility:visible}
+.a{opacity:0;translate:0 40px}
+.scene.on .a{animation:rise .8s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i,0)*150ms + 100ms)}
+@keyframes rise{to{opacity:1;translate:0 0}}
+
+/* A: Cover + Titel */
+.cover{position:absolute;left:170px;top:340px;width:740px;height:740px;border-radius:28px;overflow:hidden;
+  box-shadow:0 40px 90px -30px #000,0 0 calc(20px + var(--lvl)*90px) color-mix(in srgb,var(--acc) 55%,transparent);transform:scale(calc(1 + var(--lvl)*.025))}
+.cover img{width:100%;height:100%;object-fit:cover;display:block}
+.scene.on .cover img{animation:kb 8s ease-out both}
+@keyframes kb{from{scale:1.12}to{scale:1}}
+.ta{position:absolute;left:64px;right:150px;top:1130px;display:flex;flex-direction:column;gap:18px}
+.eyebrow{font-size:30px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);font-weight:600}
+.title{margin:0;font-size:104px;line-height:.98;font-weight:800;letter-spacing:-.01em;text-wrap:balance}
+.title.long{font-size:84px}
+.tag{margin:0;font-size:44px;line-height:1.25;color:var(--paper);opacity:.92}
+.chips{display:flex;gap:14px;flex-wrap:wrap}
+.chips span{font-size:28px;padding:10px 22px;border:2px solid color-mix(in srgb,var(--acc) 70%,transparent);border-radius:99px;background:rgba(15,12,7,.55);font-variant-numeric:tabular-nums}
+
+/* B: Plattenteller */
+.vinyl{position:absolute;left:150px;top:330px;width:780px;height:780px;border-radius:50%;
+  background:repeating-radial-gradient(circle,#141210 0 2px,#221e18 3px 5px);box-shadow:0 50px 100px -30px #000,inset 0 0 0 10px #0b0a08;
+  animation:spin 1.94s linear infinite}
+.vinyl::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 20deg,transparent 0 40deg,rgba(255,255,255,.09) 55deg,transparent 70deg 220deg,rgba(255,255,255,.06) 235deg,transparent 250deg)}
+.vinyl .label{position:absolute;left:50%;top:50%;width:330px;height:330px;margin:-165px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 8px var(--acc)}
+.vinyl .label img{width:100%;height:100%;object-fit:cover}
+.vinyl .label::after{content:"";position:absolute;left:50%;top:50%;width:26px;height:26px;margin:-13px;border-radius:50%;background:var(--ink)}
+@keyframes spin{to{rotate:360deg}}
+.me{position:absolute;left:64px;top:900px;width:250px;height:250px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 6px var(--acc),0 30px 60px -20px #000}
+.tb{position:absolute;left:64px;right:150px;top:1190px;display:flex;flex-direction:column;gap:20px}
+.tb h2{margin:0;font-size:68px;line-height:1.02;font-weight:800;text-wrap:balance}
+.tb h2 em{font-style:normal;color:var(--gold)}
+.feat{display:flex;gap:14px;flex-wrap:wrap}
+.feat span{font-size:32px;font-weight:600;padding:12px 24px;border-radius:14px;background:rgba(242,237,228,.1);border:1px solid rgba(242,237,228,.18)}
+
+/* C: Aufruf */
+.tc{position:absolute;left:64px;right:150px;top:360px;display:flex;flex-direction:column;gap:18px}
+.tc h2{margin:0;font-size:92px;line-height:.98;font-weight:800;text-wrap:balance}
+.tc h2 em{font-style:normal;color:var(--gold)}
+.tc p{margin:0;font-size:40px;color:var(--muted)}
+.qr{position:absolute;left:290px;top:770px;width:500px;height:500px;border-radius:32px;background:#fff;padding:34px;box-sizing:border-box;box-shadow:0 0 0 6px var(--acc),0 0 calc(20px + var(--lvl)*60px) color-mix(in srgb,var(--acc) 60%,transparent)}
+.qr svg{width:100%;height:100%;display:block}
+.url{position:absolute;left:0;right:0;top:1300px;text-align:center;font-size:50px;font-weight:800;color:var(--gold);letter-spacing:.01em}
+.bio{position:absolute;left:50%;top:1385px;translate:-50% 0;font-size:36px;font-weight:700;padding:16px 36px;border-radius:99px;background:var(--brass);color:var(--ink);white-space:nowrap}
+
+/* Pegel unten (über der Instagram-Zone) */
+.eq{position:absolute;left:64px;right:150px;top:1700px;height:0;display:flex;align-items:flex-end;gap:6px;z-index:4}
+.eq i{flex:1;background:linear-gradient(0deg,color-mix(in srgb,var(--acc) 55%,transparent),var(--acc));border-radius:4px 4px 0 0;height:4px}
+.scene.c-on~.eq{opacity:.0}
+.bar{position:absolute;left:0;bottom:0;height:8px;background:var(--acc);width:0;z-index:6}
+.stage.paused *{animation-play-state:paused!important}
+</style></head><body>
+<div class="head"><span>Song-Reel · Vorschau</span></div>
+<div class="stage" id="stage">
+  <div class="bg" id="bg"></div><div class="tint"></div><canvas id="fx" width="540" height="960"></canvas><div class="grain"></div>
+  <div class="who"><img id="pf1" alt="DJ KOLJA ONE"><div><b>DJ KOLJA ONE</b><span>Eigene Produktion · @djkoljaone</span></div></div>
+
+  <section class="scene" data-dur="10">
+    <div class="cover a" style="--i:0" id="cv1"></div>
+    <div class="ta">
+      <div class="eyebrow a" style="--i:1" id="genre"></div>
+      <h1 class="title a" style="--i:2" id="title"></h1>
+      <p class="tag a" style="--i:3" id="tag"></p>
+      <div class="chips a" style="--i:4" id="chips"></div>
+    </div>
+  </section>
+
+  <section class="scene" data-dur="9">
+    <div class="vinyl a" style="--i:0"><div class="label" id="cv2"></div></div>
+    <img class="me a" style="--i:1" id="pf2" alt="DJ KOLJA ONE">
+    <div class="tb">
+      <h2 class="a" style="--i:2">Ganzer Song im <em>DJ-Pult</em> auf meiner Website.</h2>
+      <div class="feat a" style="--i:3"><span>▶ Anhören</span><span>Mixen</span><span>Bewerten</span></div>
+    </div>
+  </section>
+
+  <section class="scene" data-dur="11">
+    <div class="tc">
+      <div class="eyebrow a" style="--i:0">„<span id="t3"></span>“</div>
+      <h2 class="a" style="--i:1">Jetzt <em>komplett</em> hören.</h2>
+      <p class="a" style="--i:2">QR scannen: Der Song liegt direkt auf Deck A.</p>
+    </div>
+    <div class="qr a" style="--i:3" id="qr"></div>
+    <div class="url a" style="--i:4">dj-kolja-one.de/meine-musik</div>
+    <div class="bio a" style="--i:5">Link in der Bio ↗</div>
+  </section>
+
+  <div class="eq" id="eq"></div>
+  <div class="bar" id="bar"></div>
+</div>
+<div class="transport"><button id="restart" type="button">Von vorn</button></div>
+<script>__QRLIB__</script>
+<script>
+(function(){
+  const D=__DATA__, COVER="__COVER__", PROFIL="__PROFIL__";
+  const st=document.getElementById('stage');
+  st.style.setProperty('--acc',D.accent);
+  const CV=D.cover?COVER:PROFIL;document.getElementById('bg').style.backgroundImage='url('+CV+')';
+  ['pf1','pf2'].forEach(id=>document.getElementById(id).src=PROFIL);
+  ['cv1','cv2'].forEach(id=>{const el=document.getElementById(id);
+    const im=new Image();im.src=CV;im.alt=D.titel;el.appendChild(im)});
+  const T=document.getElementById('title');T.textContent=D.titel;if(D.titel.length>16)T.classList.add('long');
+  document.getElementById('t3').textContent=D.titel;
+  document.getElementById('genre').textContent=D.genre;
+  document.getElementById('tag').textContent=D.tag;
+  document.getElementById('chips').innerHTML='<span>'+D.bpm+' BPM</span><span>Tonart '+D.key+'</span>'+(D.album?'<span>'+D.album+'</span>':'');
+  // QR
+  const q=qrcode(0,'M');q.addData(D.url);q.make();const n=q.getModuleCount();
+  let p='';for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(q.isDark(r,c))p+='M'+c+' '+r+'h1v1h-1z';
+  document.getElementById('qr').innerHTML='<svg viewBox="0 0 '+n+' '+n+'" shape-rendering="crispEdges"><path d="'+p+'" fill="#0F0C07"/></svg>';
+  // Pegel
+  const eq=document.getElementById('eq');const NB=36;for(let i=0;i<NB;i++)eq.appendChild(document.createElement('i'));const bars=[...eq.children];
+  // Szenen
+  const scenes=[...st.querySelectorAll('.scene')],durs=scenes.map(s=>+s.dataset.dur),starts=[];let acc=0;durs.forEach(d=>{starts.push(acc);acc+=d});const TOTAL=acc;
+  // Effekt-Leinwand (deterministisch über t)
+  const cv=document.getElementById('fx'),cx=cv.getContext('2d'),W=540,H=960;
+  let seed=D.id;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+  const P=[...Array(70)].map(()=>({x:rnd(),y:rnd(),r:rnd(),s:rnd(),p:rnd()*6.28}));
+  function hexA(a){const h=(D.glow||D.accent).replace('#','');return 'rgba('+parseInt(h.slice(0,2),16)+','+parseInt(h.slice(2,4),16)+','+parseInt(h.slice(4,6),16)+','+a+')'}
+  function fx(t,l){cx.clearRect(0,0,W,H);
+    if(D.fx==='beams'){for(let k=0;k<3;k++){const a=Math.sin(t*0.9+k*2.1)*0.5;cx.save();cx.translate(W*(0.2+0.3*k),-20);cx.rotate(a);
+        const g=cx.createLinearGradient(0,0,0,H);g.addColorStop(0,hexA(0.30+l*0.35));g.addColorStop(1,hexA(0));cx.fillStyle=g;cx.beginPath();cx.moveTo(-6,0);cx.lineTo(6,0);cx.lineTo(110,H*1.1);cx.lineTo(-110,H*1.1);cx.fill();cx.restore()}}
+    else if(D.fx==='sparkle'){P.forEach(o=>{const tw=Math.max(0,Math.sin(t*3+o.p*3));const r=(1+o.r*3)*(0.5+tw)*(1+l);cx.fillStyle='rgba(243,241,233,'+(0.15+0.75*tw*o.s)+')';
+        cx.beginPath();cx.arc(o.x*W,o.y*H*0.75,r,0,7);cx.fill();if(o.r>0.85&&tw>0.6){cx.fillRect(o.x*W-r*4,o.y*H*0.75-0.5,r*8,1);cx.fillRect(o.x*W-0.5,o.y*H*0.75-r*4,1,r*8)}})}
+    else if(D.fx==='neon'){for(let k=0;k<6;k++){const y=((t*60*(0.5+k*0.15)+k*160)%(H+200))-100;cx.fillStyle=hexA(0.10+l*0.35);cx.fillRect(0,y,W,2+l*6)}
+        cx.strokeStyle=hexA(0.35+l*0.5);cx.lineWidth=3;cx.strokeRect(14,14,W-28,H-28)}
+    else if(D.fx==='bokeh'){P.slice(0,28).forEach(o=>{const y=((o.y-t*0.02*(0.4+o.s))%1+1)%1;const r=12+o.r*44;const g=cx.createRadialGradient(o.x*W,y*H,0,o.x*W,y*H,r);
+        g.addColorStop(0,hexA(0.10+0.18*o.s+l*0.12));g.addColorStop(1,hexA(0));cx.fillStyle=g;cx.beginPath();cx.arc(o.x*W,y*H,r,0,7);cx.fill()})}
+    else if(D.fx==='dust'){P.forEach(o=>{const x=((o.x+Math.sin(t*0.3+o.p)*0.03)%1+1)%1,y=((o.y-t*0.012*(0.3+o.s))%1+1)%1;const a=0.25+0.5*Math.max(0,Math.sin(t*1.3+o.p));
+        cx.fillStyle='rgba(224,179,106,'+a*(0.6+l*0.4)+')';cx.beginPath();cx.arc(x*W,y*H,0.8+o.r*2.2,0,7);cx.fill()})}
+    else if(D.fx==='grain'){for(let k=0;k<4;k++){cx.fillStyle=hexA(0.08+l*0.25);const h=40+k*30;cx.fillRect(0,((t*90+k*260)%(H+h))-h,W,h*0.2)}}
+  }
+  let t=0,cur=-1,last=performance.now();
+  function show(i){if(i===cur)return;cur=i;scenes.forEach(s=>s.classList.remove('on'));void st.offsetWidth;scenes[i].classList.add('on')}
+  function frame(now){const dt=(now-last)/1000;last=now;t+=dt;if(t>=TOTAL)t=TOTAL-0.001;
+    let i=0;for(let k=0;k<starts.length;k++)if(t>=starts[k])i=k;show(i);
+    const fi=Math.min(D.env.length-1,Math.floor(t*30)),l=D.env[fi]||0;st.style.setProperty('--lvl',l.toFixed(3));
+    bars.forEach((b,k)=>{const e=D.env[Math.max(0,fi-k)]||0;const shape=0.55+0.45*Math.sin(k*1.7+fi*0.21);b.style.height=(6+e*shape*110)+'px'});
+    document.getElementById('bar').style.width=(t/TOTAL*100)+'%';fx(t,l);requestAnimationFrame(frame)}
+  document.getElementById('restart').addEventListener('click',()=>{t=0;cur=-1;show(0)});
+  function fit(){if(window.innerWidth<1080){st.style.transform='scale('+(window.innerWidth/1080)+')';st.style.marginBottom=(1920*(window.innerWidth/1080-1))+'px'}}
+  fit();show(0);requestAnimationFrame(frame);
+})();
+</script>
+</body></html>
