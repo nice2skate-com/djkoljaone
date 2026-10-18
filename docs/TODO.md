@@ -15,7 +15,7 @@
 - [x] Google-Ads-Konto anlegen (Expertenmodus, keine Smart-Kampagne; Rechnungsdaten Artificial Sentiments).
 - [x] GA4 ↔ Google Ads verknüpfen (GA4 Admin → Product links → Google Ads links); personalisierte Werbung aus, Auto-Tagging an.
 - [x] Conversions aus GA4 importieren: `generate_lead` Wert 100 €, die anderen 50 €, alle primär, Zählung „Eine“.
-- [ ] **USt-IdNr.** ins Impressum und in die strukturierten Daten, sobald die Nummer vorliegt.
+- [x] **USt-IdNr.** DE331619498 im Impressum, in den strukturierten Daten (vatID) und in der Angebots-PDF (18.10.2026).
 - [x] Cookie-Banner (Complianz), Consent Mode, Clarity blockiert, Datenschutz mit Google Ads.
 - [x] Conversion-Events auf der Seite (live geprüft 09.10.2026).
 

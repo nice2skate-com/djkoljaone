@@ -50,7 +50,7 @@ SERV={"hochzeits-dj":(_pg.HOCHZEIT,"Hochzeits-DJ","DJ und Moderation für Hochze
       "firmenfeier-dj":(_pg.FIRMA,"Firmenfeier-DJ","DJ und Moderation für Firmenfeiern"),
       "event-dj":(_pg.EVENT,"Event-DJ","DJ und Moderation für Stadtfeste, Vereinsfeiern und Open Airs")}
 SEOKIND={"start":"home","ueber-mich":"about","kontakt":"contact","faq":"faq","einsatzgebiete":"regions","meine-musik":"page"}
-sch={"business":{"name":"DJ KOLJA ONE","legalName":"Artificial Sentiments","founder":"Kolja Tönges",
+sch={"business":{"name":"DJ KOLJA ONE","legalName":"Artificial Sentiments","founder":"Kolja Tönges","vatID":"DE331619498",
      "telephone":PHONE,"email":MAIL,"locality":"Fellheim","postalCode":"87748","country":"DE",
      "description":"Mobiler DJ und Moderator aus Fellheim für Hochzeiten, Geburtstage, Firmenfeiern und Events in Memmingen, Ulm, dem Allgäu und Oberschwaben.",
      "sameAs":[INSTA,FACEBOOK,GOOGLE],"areas":[LANG.get(o,o) for o,_ in ORTE],"regions":["Allgäu","Oberschwaben"]},"pages":{}}
