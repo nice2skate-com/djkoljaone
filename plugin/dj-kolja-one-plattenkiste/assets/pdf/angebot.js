@@ -297,7 +297,7 @@
 			d.setFillColor.apply(d, C.gold); d.rect(L, 276, W, 0.4, 'F');
 			var y2 = 280.5;
 			f(1, 7, C.text); d.text(S.marke, L, y2);
-			f(0, 6.8, C.grau); d.text([S.firma, S.strasse + ', ' + S.ort], L, y2 + 3.4, { lineHeightFactor: 1.35 });
+			f(0, 6.8, C.grau); d.text([S.firma, S.strasse + ', ' + S.ort].concat(S.ustid ? [S.ustid] : []), L, y2 + 3.4, { lineHeightFactor: 1.35 });
 			d.text(['Telefon/WhatsApp ' + S.tel, S.mail, S.web], 98, y2, { lineHeightFactor: 1.35 });
 			var bk = Object.keys(K.bank || {}).map(function (k) { return k + ': ' + K.bank[k]; });
 			if (bk.length) d.text(bk, 146, y2, { lineHeightFactor: 1.35 });

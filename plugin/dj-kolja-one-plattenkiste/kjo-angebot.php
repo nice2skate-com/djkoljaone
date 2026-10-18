@@ -749,6 +749,7 @@ add_action(
 					'tel'     => '+49 172 7273707',
 					'mail'    => 'anfrage@dj-kolja-one.de',
 					'web'     => 'dj-kolja-one.de',
+					'ustid'   => defined( 'KJO_USTID' ) ? 'USt-IdNr. ' . KJO_USTID : '',
 				),
 			)
 		);

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.63.0
+ * Version:     1.64.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,8 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.63.0' );
+define( 'KJO_VERSION', '1.64.0' );
+define( 'KJO_USTID', 'DE331619498' ); // Umsatzsteuer-Identifikationsnummer (Bescheid BZSt vom 25.07.2020)
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 require_once __DIR__ . '/kjo-bilder.php';
@@ -135,6 +136,7 @@ function kjo_seiten_sync( $only = null ) {
 			update_post_meta( $page->ID, '_kjo_backup_elementor_data', wp_slash( is_string( $old ) ? $old : wp_json_encode( $old ) ) );
 			wp_save_post_revision( $page->ID );
 			$cur[ $hit ] = $foot;
+			$cur         = kjo_impressum_ustid( $cur );
 			update_post_meta( $page->ID, '_elementor_data', wp_slash( wp_json_encode( $cur ) ) );
 			update_post_meta( $page->ID, '_elementor_edit_mode', 'builder' );
 			delete_post_meta( $page->ID, '_elementor_css' );
@@ -1421,6 +1423,20 @@ add_action(
 	1
 );
 
+/** Impressum: USt-IdNr. vor den Hinweis zur Kleinunternehmerregelung setzen, falls sie dort noch fehlt (seit 1.64.0). */
+function kjo_impressum_ustid( $el ) {
+	if ( is_array( $el ) ) {
+		foreach ( $el as $k => $v ) {
+			$el[ $k ] = kjo_impressum_ustid( $v );
+		}
+		return $el;
+	}
+	if ( is_string( $el ) && false !== strpos( $el, 'Gemäß § 19 UStG' ) && false === strpos( $el, KJO_USTID ) ) {
+		$el = preg_replace( '/(<p>)?(Gemäß § 19 UStG)/u', '$1Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: ' . KJO_USTID . '<br>$2', $el, 1 );
+	}
+	return $el;
+}
+
 /** Sperrliste in wp-content/uploads/.htaccess schreiben. Rückgabe: Anzahl gesperrter Dateien oder false. */
 function kjm_protect_sync( $remove = false ) {
 	$up    = wp_get_upload_dir();
@@ -2257,6 +2273,9 @@ function kjo_schema_graph( $d, $slug, $home ) {
 		'areaServed'   => $area,
 		'sameAs'       => $b['sameAs'],
 	);
+	if ( ! empty( $b['vatID'] ) ) {
+		$business['vatID'] = $b['vatID'];
+	}
 	if ( function_exists( 'kjo_asset' ) ) {
 		$business['image'] = kjo_asset( 'teilen.jpg' );
 		$business['logo']  = kjo_asset( 'icon-512.png' );
