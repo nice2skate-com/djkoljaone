@@ -1,0 +1,10 @@
+{
+  "hochzeit": {
+    "images": ["event_hochzeit_3.webp", "event_hochzeit_2.webp", "event_hochzeit_4.webp", "event_hochzeit_1.webp"],
+    "pos": ["center 40%", "center 35%", "center 40%", "center 40%"],
+    "eyebrow": "Hochzeits-DJ · Memmingen · Allgäu · Schwaben",
+    "lines": ["Euer Tag.", "Eure Musik.", "Eine <b>volle Tanzfläche.</b>"],
+    "cta": "",
+    "dur": 12
+  }
+}

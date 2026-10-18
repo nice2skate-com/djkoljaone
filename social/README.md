@@ -89,3 +89,13 @@ Der Ton der Animation selbst wird nicht übernommen.
 
 30-Sekunden-Reels mit dem Song-Ende, Cover, Profilbild und QR-Code zum Song im DJ-Pult: siehe
 `social/song-reels/README.md`. Fertige Begleittexte: `social/texte/song-reels.md`.
+
+## Intro-Videos der Seiten (seit 1.65.0)
+
+Kurze stumme Loops (12 s) im Kopfbereich der Leistungsseiten: Fotos mit Kamerafahrt, darüber animierter Gold-Titel,
+am Ende Logo und Claim. Pro Seite zwei Fassungen: quer (1280×720) und 4:5 fürs Handy (864×1080).
+
+- Inhalte: `social/intro/intros.json` (Fotos, Zeile oben, Textzeilen, Länge), Vorlage `social/intro/intro.html`
+- Rendern: `node social/intro_render.js hochzeit BILDORDNER plugin/dj-kolja-one-plattenkiste/assets/intro`
+- Website: `intro_<seite>.mp4` / `intro_<seite>_hoch.mp4` aus `assets/intro/` – gleichnamige Dateien in der Mediathek
+  haben Vorrang. Ohne Video bleibt der Kopfbereich wie bisher.

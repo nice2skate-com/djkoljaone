@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.64.0
+ * Version:     1.65.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.64.0' );
+define( 'KJO_VERSION', '1.65.0' );
 define( 'KJO_USTID', 'DE331619498' ); // Umsatzsteuer-Identifikationsnummer (Bescheid BZSt vom 25.07.2020)
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
@@ -1163,6 +1163,17 @@ function kjo_media_motion( $map ) {
 			);
 		}
 	}
+	/* Intro-Videos der Seiten (seit 1.65.0) aus assets/intro/ – gleichnamige Dateien in der Mediathek (intro_hochzeit.mp4 …) haben Vorrang. */
+	foreach ( (array) glob( __DIR__ . '/assets/intro/intro_*.mp4' ) as $f ) {
+		$k = basename( $f, '.mp4' );
+		if ( empty( $map[ $k ]['vid'] ) ) {
+			$v         = (string) filemtime( $f );
+			$map[ $k ] = array( 'vid' => plugins_url( 'assets/intro/' . $k . '.mp4', __FILE__ ) . '?v=' . $v );
+			if ( file_exists( __DIR__ . '/assets/intro/' . $k . '.jpg' ) ) {
+				$map[ $k ]['img'] = plugins_url( 'assets/intro/' . $k . '.jpg', __FILE__ ) . '?v=' . $v;
+			}
+		}
+	}
 	return $map;
 }
 function kjo_media_map() {
@@ -1188,7 +1199,7 @@ function kjo_media_map() {
 			continue;
 		}
 		$base = strtolower( wp_basename( $file ) );
-		if ( ! preg_match( '/^((?:start|event|ueber|kolja|region|equip|paket)_[a-z0-9_]+?)(?:-scaled|-rotated|-frei|-\d+)*(?:\.(?:jpe?g|png|webp|gif|mp4|m4v|webm|mov)_?)*\.(jpe?g|png|webp|gif|mp4|m4v|webm|mov)$/', $base, $m ) ) {
+		if ( ! preg_match( '/^((?:start|event|ueber|kolja|region|equip|paket|intro)_[a-z0-9_]+?)(?:-scaled|-rotated|-frei|-\d+)*(?:\.(?:jpe?g|png|webp|gif|mp4|m4v|webm|mov)_?)*\.(jpe?g|png|webp|gif|mp4|m4v|webm|mov)$/', $base, $m ) ) {
 			continue;
 		}
 		$kind = in_array( $m[2], array( 'mp4', 'm4v', 'webm', 'mov' ), true ) ? 'vid' : 'img';

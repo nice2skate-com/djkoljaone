@@ -161,6 +161,10 @@ def stats_quiet(stats=STATS):
 def QUIET(stats=None):
     return con([stats_quiet(stats or STATS)],"column",bg=B1,pad=box(8,20,56,20),inner=False,flex_align_items="center",padding_mobile=box(0,20,40,20))
 
+def INTRO(key):
+    """Intro-Video im Kopfbereich einer Seite (seit 1.65.0); erscheint nur, wenn intro_<key>.mp4 existiert."""
+    return W("html",{"html":open("./site/snippets/intro.html").read().replace("__KEY__",key),"_element_width":"inherit","width":px(100,"%")})
+
 def VIDEOS(*keys):
     h=open("./site/snippets/videos.html").read().replace("__KEY__",",".join(keys))
     return W("html",{"html":h,"_element_width":"inherit","width":px(100,"%")})

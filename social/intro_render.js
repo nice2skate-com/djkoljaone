@@ -1,0 +1,43 @@
+// Intro-Video einer Seite rendern (seit 1.65.0): social/intro/intro.html Bild für Bild mit window.seek(t), dann ffmpeg.
+//   node social/intro_render.js SEITE BILDORDNER AUSGANGSORDNER
+// Einstellungen: social/intro/intros.json. Erzeugt intro_SEITE.mp4 (quer 1280×720) und intro_SEITE_hoch.mp4 (4:5, 864×1080)
+// plus Standbilder .jpg. Schriften aus media/motion/fonts. Braucht Playwright (Chromium) und ffmpeg.
+const {chromium} = require(require('child_process').execSync('npm root -g').toString().trim() + '/playwright');
+const {execFileSync} = require('child_process');
+const fs = require('fs'), path = require('path');
+const [, , seite, bilder, aus] = process.argv;
+const cfg = JSON.parse(fs.readFileSync(path.join(__dirname, 'intro', 'intros.json'), 'utf8'))[seite];
+if (!cfg) { console.error('Unbekannte Seite: ' + seite); process.exit(2); }
+const ROOT = path.join(__dirname, '..'), FPS = 30;
+const FORMATE = [{suffix: '', w: 1280, h: 720, hoch: false}, {suffix: '_hoch', w: 864, h: 1080, hoch: true}];
+(async () => {
+  const b = await chromium.launch();
+  fs.mkdirSync(aus, {recursive: true});
+  for (const f of FORMATE) {
+    const p = await b.newPage({viewport: {width: f.w, height: f.h}, deviceScaleFactor: 1});
+    await p.route('http://m/**', r => {
+      const rel = decodeURIComponent(new URL(r.request().url()).pathname.slice(1));
+      const cand = rel.startsWith('img/') ? path.join(bilder, rel.slice(4)) : rel.startsWith('fonts/') ? path.join(ROOT, 'media/motion', rel) : path.join(__dirname, 'intro', rel);
+      return fs.existsSync(cand) ? r.fulfill({path: cand}) : r.fulfill({status: 404, body: ''});
+    });
+    const conf = Object.assign({}, cfg, {hoch: f.hoch, images: cfg.images.map(i => 'img/' + i), pos: f.hoch ? (cfg.pos_hoch || cfg.pos) : cfg.pos});
+    await p.addInitScript(c => { window.INTRO = c; }, conf);
+    await p.goto('http://m/intro.html', {waitUntil: 'load'});
+    await p.evaluate(() => document.fonts.ready);
+    await p.waitForTimeout(400);
+    const tmp = path.join(aus, 'frames' + f.suffix); fs.rmSync(tmp, {recursive: true, force: true}); fs.mkdirSync(tmp);
+    const N = Math.round(cfg.dur * FPS);
+    for (let i = 0; i < N; i++) {
+      await p.evaluate(t => window.seek(t), i / FPS);
+      await p.screenshot({path: path.join(tmp, String(i).padStart(5, '0') + '.jpg'), type: 'jpeg', quality: 90});
+    }
+    const name = 'intro_' + seite + f.suffix;
+    execFileSync('ffmpeg', ['-v', 'error', '-y', '-framerate', String(FPS), '-i', path.join(tmp, '%05d.jpg'), '-c:v', 'libx264', '-preset', 'slow', '-crf', '27',
+      '-pix_fmt', 'yuv420p', '-profile:v', 'high', '-movflags', '+faststart', '-an', path.join(aus, name + '.mp4')]);
+    fs.copyFileSync(path.join(tmp, String(Math.round(N * 0.35)).padStart(5, '0') + '.jpg'), path.join(aus, name + '.jpg')); // Standbild (Poster)
+    fs.rmSync(tmp, {recursive: true, force: true});
+    console.log(name + '.mp4', (fs.statSync(path.join(aus, name + '.mp4')).size / 1e6).toFixed(2) + ' MB');
+    await p.close();
+  }
+  await b.close();
+})().catch(e => { console.error(e); process.exit(1); });
