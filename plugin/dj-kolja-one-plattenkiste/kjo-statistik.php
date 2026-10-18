@@ -160,7 +160,7 @@ function kjo_stat_balken( $labels, $werte, $hoehe = 90, $markiere = -1, $verglei
 	$n  = count( $labels );
 	foreach ( $labels as $i => $l ) {
 		$show = $n <= 16 || 0 === $i % 3;
-		$h   .= '<td style="font:10px/14px sans-serif;color:#888;text-align:center;padding-top:3px">' . ( $show ? esc_html( $l ) : '' ) . '</td>';
+		$h   .= '<td style="font:10px/13px sans-serif;color:#888;text-align:center;padding-top:3px;white-space:nowrap">' . ( $show ? nl2br( esc_html( $l ), false ) : '' ) . '</td>';
 	}
 	return $h . '</tr></table>';
 }
@@ -178,7 +178,7 @@ function kjo_stat_tabelle( $zeilen, $kopf ) {
 }
 function kjo_stat_tag_label( $ymd ) {
 	$d = DateTime::createFromFormat( 'Ymd', $ymd, wp_timezone() );
-	return $d ? array( 'So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa' )[ (int) $d->format( 'w' ) ] . ' ' . $d->format( 'j.' ) : $ymd;
+	return $d ? array( 'So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa' )[ (int) $d->format( 'w' ) ] . "\n" . $d->format( 'j.' ) : $ymd; // zweizeilig: Wochentag, darunter Datum
 }
 
 /* ---------- Dashboard-Box ---------- */
