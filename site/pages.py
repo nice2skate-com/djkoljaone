@@ -306,7 +306,7 @@ def ueber():
     galerie=section(head("Einblicke","Hinter dem DJ-Pult")+[VIDEOS("ueber")],bg=B1)
     note=T("Unverbindlich · Antwort innerhalb von 24 Stunden",MUTED,"center",14)
     return [nav(),hero("Über mich","Hallo, ich bin Kolja.","DJ und Moderator aus Fellheim. Seit über 10 Jahren sorge ich dafür, dass eure Feier nicht nur nett wird, sondern unvergesslich.",
-            [BTN(*WISH),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=80,extra=[note]),
+            [BTN(*WISH),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=80,extra=[INTRO("ueber"),note]),
         split("Meine Geschichte","Der Mensch hinter DJ KOLJA ONE",[
             "Meine Leidenschaft für Musik begann 1996 beim Radio. Seitdem faszinieren mich Musikproduktion, Tontechnik – und vor allem die Energie, die Musik auf Menschen überträgt. Als die ersten DJ-Controller auf den Markt kamen, habe ich unzählige Stunden damit verbracht, Musik zu sichten, zu mixen und mit Songs eine Atmosphäre zu schaffen, die eine Geschichte erzählt.",
             "Seit über 10 Jahren stehe ich heute als DJ und Moderator auf Hochzeiten, Geburtstagen, Firmenfeiern und Stadtfesten zwischen Memmingen, Allgäu und Schwaben.",
@@ -358,7 +358,7 @@ def regionen():
              bg=B2,pad=box(34,28,34,28),g=10,border_border="solid",border_width=box(2,0,0,0),border_color=GOLD,**col(31,48,100)) for t,os_,d in GROUPS]
     note=T("Unverbindlich · Antwort innerhalb von 24 Stunden",MUTED,"center",14)
     return [nav(),hero("Einsatzgebiete","Euer DJ in Memmingen, im Allgäu und in Schwaben","Mobiler DJ mit Heimat in Fellheim bei Memmingen – für Hochzeiten, Geburtstage, Firmenfeiern und Events in der ganzen Region. Kurze Wege, pünktlicher Aufbau, ein Ansprechpartner.",
-        [BTN(*WISH),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=80,extra=[note]),
+        [BTN(*WISH),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=80,extra=[INTRO("region"),note]),
         section(head("Regionen","Hier bin ich für euch unterwegs")+[con(grp,"row",g=24,**ROW,flex_justify_content="center")]),
         section(head("Kurz erklärt","Anfahrt? Immer transparent.")+[T("Die Anfahrt ist Teil eures individuellen Angebots – transparent und ohne Überraschungen. Euer Ort ist nicht dabei? Kein Problem: Schickt mir euren Wunschtermin und den Ort, ich sage euch innerhalb von 24 Stunden, ob es klappt.",MUTED,"center",18,_element_width="initial",_element_custom_width=px(760)),
             SPACER(6),BTN(*WISH)],bg=B2),
@@ -393,7 +393,7 @@ def city(name):
     return [nav(),
       hero(f"DJ {name} · Hochzeit · Geburtstag · Firmenfeier · Event",f"Euer DJ für {long} und Umgebung",
            f"Hochzeit, Geburtstag, Firmenfeier oder Stadtfest: Ihr feiert – ich bringe Musik, Moderation und Technik mit und bin von Fellheim aus in rund {km} km bei euch.",
-           [BTN(*WISH),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=85,extra=[note]),
+           [BTN(*WISH),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=85,extra=[INTRO("region"),note]),
       section(head("Eindrücke","So feiert ihr mit mir")+[VIDEOS(dict(ORTE)[name][3:].replace("-","_"),"region")],bg=B2),
       split(f"Feiern in {name}",f"DJ in {long}",[intro,"Ich plane jede Feier persönlich mit euch: mit eurer Musik, eurem Ablauf und einem Gespür dafür, was eure Gäste gerade brauchen."],
             buttons=[BTN(*WISH,True,"left")],img="start_1.jpg",bg=B1),
@@ -484,7 +484,7 @@ def equipment():
     return [nav(),
         hero("Equipment · Memmingen · Allgäu · Schwaben","Mein Equipment für eure Feier",
              "Guter Sound fällt nicht immer sofort auf, schlechter schon. Deshalb bringe ich Technik mit, auf die ich mich verlasse: abgestimmt auf euren Raum, sauber aufgebaut, stark im Klang.",
-             [BTN(*WISH),BTN(*MIETEN,False)],stats=None,minh=60),
+             [BTN(*WISH),BTN(*MIETEN,False)],stats=None,minh=60,extra=[INTRO("equipment")]),
         staerken("Was ihr davon habt",vorteile,eye="Euer Vorteil"),
         section(head("Sound","Zwei Systeme für jede Größe")+[cards([
             ("Bose S1 Pro mit Bose-Subwoofer","Mein kompaktes System für Sektempfang, Dinner und Feiern bis ca. 100 Gäste. Es klingt klar und ist dezent im Raum."),
@@ -523,7 +523,7 @@ def mieten():
     return [nav(),
         hero("Verleih · Memmingen · Allgäu · Schwaben","Musikanlage, Licht &amp; Partyequipment mieten in Memmingen, Allgäu &amp; Schwaben",
              "Ihr feiert selbst und wollt richtigen Sound und/oder Licht statt Bluetooth-Box und Neonlicht der Location? Mietet die Technik, mit der ich selbst auflege: als fertiges Paket oder einzeln zusammengestellt.",
-             [BTN("Pakete ansehen","#pakete"),BTN("Einzelgeräte suchen","#geraete",False)],stats=None,minh=60),
+             [BTN("Pakete ansehen","#pakete"),BTN("Einzelgeräte suchen","#geraete",False)],stats=None,minh=60,extra=[INTRO("verleih")]),
         staerken("Warum bei mir mieten",vorteile,eye="Euer Vorteil"),
         section(head("So funktioniert's","In vier Schritten zu eurer Anlage")+[steps([
             ("Auswählen","Paket oder Geräte in den Mietkorb legen."),

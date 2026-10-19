@@ -3,7 +3,8 @@
 // Einstellungen: social/intro/intros.json. Erzeugt intro_SEITE.mp4 (quer 1280×720) und intro_SEITE_hoch.mp4 (4:5, 864×1080)
 // plus Standbilder .jpg. Schriften aus media/motion/fonts. Braucht Playwright (Chromium) und ffmpeg.
 // Bild-Einträge sind Dateinamen im BILDORDNER oder Clips: {"clip": "event_events_3.mp4", "ab": 2, "unten": 0.14}
-// („unten“ = Anteil, der unten abgeschnitten wird, z. B. der eingebrannte GEMA-Hinweis).
+// („unten“ = Anteil, der unten abgeschnitten wird, z. B. der eingebrannte GEMA-Hinweis)
+// oder freigestellte Produktfotos: {"bild": "bose_s1.webp", "groesse": "auto 62%", "schein": "70% 40%"} (Position über pos).
 const {chromium} = require(require('child_process').execSync('npm root -g').toString().trim() + '/playwright');
 const {execFileSync} = require('child_process');
 const fs = require('fs'), path = require('path');
@@ -19,6 +20,7 @@ const FORMATE = [{suffix: '', w: 1280, h: 720, hoch: false}, {suffix: '_hoch', w
   fs.rmSync(CLIPS, {recursive: true, force: true});
   const bilderListe = cfg.images.map((e, k) => {
     if (typeof e === 'string') return 'img/' + e;
+    if (e.bild) return {src: 'img/' + e.bild, size: e.groesse, size_hoch: e.groesse_hoch, glow: e.schein}; // freigestelltes Foto (transparent)
     const ziel = path.join(CLIPS, String(k)); fs.mkdirSync(ziel, {recursive: true});
     execFileSync('ffmpeg', ['-v', 'error', '-ss', String(e.ab || 0), '-i', path.join(bilder, e.clip), '-t', '6', '-an',
       '-vf', `crop=iw:ih*${1 - (e.unten || 0)}:0:0,fps=${FPS},scale='min(1280,iw)':-2`, '-q:v', '3', '-start_number', '0', path.join(ziel, '%05d.jpg')]);
@@ -31,7 +33,7 @@ const FORMATE = [{suffix: '', w: 1280, h: 720, hoch: false}, {suffix: '_hoch', w
       const cand = rel.startsWith('clip/') ? path.join(CLIPS, rel.slice(5)) : rel.startsWith('img/') ? path.join(bilder, rel.slice(4)) : rel.startsWith('fonts/') ? path.join(ROOT, 'media/motion', rel) : path.join(__dirname, 'intro', rel);
       return fs.existsSync(cand) ? r.fulfill({path: cand}) : r.fulfill({status: 404, body: ''});
     });
-    const conf = Object.assign({}, cfg, {hoch: f.hoch, images: bilderListe, pos: f.hoch ? (cfg.pos_hoch || cfg.pos) : cfg.pos});
+    const conf = Object.assign({}, cfg, {hoch: f.hoch, images: bilderListe.map(e => e && e.src && f.hoch ? Object.assign({}, e, {size: e.size_hoch || e.size, glow: '50% 25%'}) : e), pos: f.hoch ? (cfg.pos_hoch || cfg.pos) : cfg.pos});
     await p.addInitScript(c => { window.INTRO = c; }, conf);
     await p.goto('http://m/intro.html', {waitUntil: 'load'});
     await p.evaluate(() => document.fonts.ready);

@@ -1,9 +1,9 @@
 {
- "version": "1.66.0",
- "download_url": "dj-kolja-one-plattenkiste-1.66.0.zip",
- "sha256": "1fee0b739a90895eb2d5296a30f4634bf7383d06777340a336644ce8078270c8",
+ "version": "1.67.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.67.0.zip",
+ "sha256": "00f5685256a54b80911b4f24633a4ce7783703c2ce2744a7c4daff636db247bc",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Intros Geburtstag, Firmenfeier, Event"
+ "changelog": "Intros Über mich, Verleih, Orte"
 }
