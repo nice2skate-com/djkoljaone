@@ -103,7 +103,6 @@ function run(box){var inp=box.querySelector("input"),out=box.querySelector(".kjo
 document.addEventListener("change",function(e){var b=e.target.closest&&e.target.closest(".kjo-dc");if(b&&e.target.type==="date")run(b);});
 document.addEventListener("click",function(e){var t=e.target;if(!t.closest)return;var b=t.closest(".kjo-dc");if(!b)return;
  if(t.closest(".kjo-dc-btn")){run(b);return;}
- if(t.type==="date"){try{t.showPicker&&t.showPicker();}catch(x){}return;}
  var a=t.closest("a.kjo-dc-go"),f=document.getElementById("kjo-kf-dt");if(a&&f&&a.getAttribute("href")==="#anfrage"){var v=b.querySelector("input").value;if(v&&!f.disabled){f.value=v;f.dispatchEvent(new Event("change",{bubbles:true}));}}});
 })();</script>
 		<?php
@@ -195,7 +194,6 @@ function check(v){var K=window.KJO_KAL;av.innerHTML="";if(!K||!window.fetch||!v)
  else hint("no","✕ <strong>An diesem Tag bin ich leider schon ausgebucht.</strong> Gerne frage ich in meinem DJ-Netzwerk nach einem Kollegen für euch, oder ihr wählt einen anderen Tag.");}).catch(function(){});}
 dt.addEventListener("change",function(){check(dt.value);});
 try{var pd=new URLSearchParams(location.search).get("datum");if(pd&&/^\d{4}-\d{2}-\d{2}$/.test(pd)&&pd>=dt.min){dt.value=pd;check(pd);}}catch(x){}
-dt.addEventListener("click",function(){try{dt.showPicker&&dt.showPicker();}catch(e){}});
 off.addEventListener("click",function(){offen=!offen;dt.disabled=offen;dt.required=!offen;off.setAttribute("aria-pressed",offen?"true":"false");off.textContent=offen?"Doch ein festes Datum wählen":"Noch kein festes Datum?";if(offen){dt.value="";av.innerHTML="";dt.removeAttribute("aria-invalid");var m=f.elements.nachricht;if(!m.value)m.setAttribute("placeholder","Zeitraum oder mögliche Termine, z. B. „Sommer 2027, ein Samstag“");m.focus();}});
 f.addEventListener("input",function(e){if(!box.hidden)msg("");if(e.target.getAttribute("aria-invalid")==="true"&&e.target.checkValidity())e.target.removeAttribute("aria-invalid");});
 f.addEventListener("submit",function(e){e.preventDefault();msg("");var bad=null;

@@ -1,9 +1,9 @@
 {
- "version": "1.67.0",
- "download_url": "dj-kolja-one-plattenkiste-1.67.0.zip",
- "sha256": "00f5685256a54b80911b4f24633a4ce7783703c2ce2744a7c4daff636db247bc",
+ "version": "1.67.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.67.1.zip",
+ "sha256": "037ff975163e3f8db20d60d78de9f148a569b51c74e55f2aec13182bff31c6b8",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Intros Über mich, Verleih, Orte"
+ "changelog": "Kalender per Klick"
 }
