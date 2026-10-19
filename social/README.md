@@ -97,5 +97,6 @@ am Ende Logo und Claim. Pro Seite zwei Fassungen: quer (1280×720) und 4:5 fürs
 
 - Inhalte: `social/intro/intros.json` (Fotos, Zeile oben, Textzeilen, Länge), Vorlage `social/intro/intro.html`
 - Rendern: `node social/intro_render.js hochzeit BILDORDNER plugin/dj-kolja-one-plattenkiste/assets/intro`
+- Clips statt Fotos: `{"clip": "event_events_3.mp4", "ab": 2, "unten": 0.14}` – 6 s ab Sekunde `ab`, unten 14 % abgeschnitten (GEMA-Hinweis). Fertig: hochzeit, geburtstag, firmenfeier, events
 - Website: `intro_<seite>.mp4` / `intro_<seite>_hoch.mp4` aus `assets/intro/` – gleichnamige Dateien in der Mediathek
   haben Vorrang. Ohne Video bleibt der Kopfbereich wie bisher.
