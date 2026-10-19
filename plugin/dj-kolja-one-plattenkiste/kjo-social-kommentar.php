@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function kjo_kom_opts() {
 	$d = array(
 		'aktiv' => 0,
+		'zeit'  => '18:10', // frühestens um diese Uhrzeit am Release-Tag (seit 1.69.1)
 		'text'  => "🎧 „{titel}“ ganz hören, selbst mixen und bewerten – im DJ-Pult auf meiner Website.\n👉 Direkt zum Song: {kurzlink}\n🔗 Oder einfach über den Link in meiner Bio.\n\nJeden Dienstag um 19 Uhr kommt ein neuer Song. Folg mir, damit du keinen verpasst. 🔔",
 	);
 	$o = get_option( 'kjo_social_kommentar', array() );
@@ -69,6 +70,42 @@ function kjo_kom_kandidaten() {
 	return $out;
 }
 
+/* Zeitpunkt, ab dem der Kommentar für einen Song geschrieben werden darf: Release-Datum + Uhrzeit aus den Einstellungen. */
+function kjo_kom_faellig( $id ) {
+	$d = (string) get_post_meta( $id, 'kjm_release', true );
+	try {
+		return ( new DateTimeImmutable( $d . ' ' . kjo_kom_opts()['zeit'], wp_timezone() ) )->getTimestamp();
+	} catch ( Exception $e ) {
+		return PHP_INT_MAX;
+	}
+}
+
+/* Pünktlich statt nur alle 15 Minuten: Ab der Uhrzeit löst jeder Seitenaufruf den Durchlauf aus (höchstens alle 5 Minuten).
+   Am Dienstag ruft zusätzlich ein GitHub-Ablauf die Seite auf (.github/workflows/song-kommentar.yml). */
+add_action(
+	'init',
+	function () {
+		if ( ! kjo_kom_opts()['aktiv'] || wp_doing_ajax() ) {
+			return;
+		}
+		$next = get_transient( 'kjo_kom_next' );
+		if ( false === $next ) {
+			$next = 0;
+			foreach ( kjo_kom_kandidaten() as $id ) {
+				$f    = kjo_kom_faellig( $id );
+				$next = $next ? min( $next, $f ) : $f;
+			}
+			set_transient( 'kjo_kom_next', $next, 30 * MINUTE_IN_SECONDS );
+		}
+		if ( $next && time() >= (int) $next && ! get_transient( 'kjo_kom_sperre' ) ) {
+			set_transient( 'kjo_kom_sperre', 1, 5 * MINUTE_IN_SECONDS );
+			kjo_kom_lauf( false );
+			delete_transient( 'kjo_kom_next' );
+		}
+	},
+	99
+);
+
 function kjo_kom_norm( $s ) {
 	$s = html_entity_decode( (string) $s, ENT_QUOTES, 'UTF-8' );
 	$s = str_replace( array( '’', '‘', '`', '´' ), "'", $s );
@@ -102,6 +139,10 @@ function kjo_kom_lauf( $probe = false ) {
 	}
 	$grenze = time() - 4 * DAY_IN_SECONDS;
 	foreach ( $ids as $id ) {
+		if ( ! $probe && time() < kjo_kom_faellig( $id ) ) {
+			$msg[] = '„' . get_the_title( $id ) . '“: Kommentar erst ab ' . wp_date( 'd.m.Y H:i', kjo_kom_faellig( $id ) ) . ' Uhr.';
+			continue;
+		}
 		$titel = kjo_kom_norm( get_the_title( $id ) );
 		$treff = null;
 		foreach ( (array) ( $media['data'] ?? array() ) as $m ) {
@@ -116,7 +157,7 @@ function kjo_kom_lauf( $probe = false ) {
 			continue;
 		}
 		if ( $probe ) {
-			$msg[] = '„' . $name . '“: Reel gefunden (' . ( $treff['permalink'] ?? $treff['id'] ) . '). Kommentar würde lauten: ' . kjo_kom_text( $id );
+			$msg[] = '„' . $name . '“: Reel gefunden (' . ( $treff['permalink'] ?? $treff['id'] ) . '). Kommentar ab ' . wp_date( 'd.m.Y H:i', kjo_kom_faellig( $id ) ) . ' Uhr: ' . kjo_kom_text( $id );
 			continue;
 		}
 		$r = kjo_soc_api( $treff['id'] . '/comments', array( 'message' => kjo_kom_text( $id ) ) );
@@ -185,6 +226,9 @@ function kjo_kom_page() {
 	$out = array();
 	if ( isset( $_POST['kjo_kom_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['kjo_kom_nonce'] ) ), 'kjo_kom' ) ) {
 		$o['aktiv'] = empty( $_POST['aktiv'] ) ? 0 : 1;
+		$z          = sanitize_text_field( wp_unslash( $_POST['zeit'] ?? '' ) ); // phpcs:ignore
+		$o['zeit']  = preg_match( '/^([01]\d|2[0-3]):[0-5]\d$/', $z ) ? $z : $o['zeit'];
+		delete_transient( 'kjo_kom_next' );
 		$t          = sanitize_textarea_field( wp_unslash( $_POST['text'] ?? '' ) ); // phpcs:ignore
 		$o['text']  = '' !== trim( $t ) ? $t : $o['text'];
 		update_option( 'kjo_social_kommentar', $o, false );
@@ -211,6 +255,7 @@ function kjo_kom_page() {
 	echo '<form method="post"><table class="form-table">';
 	wp_nonce_field( 'kjo_kom', 'kjo_kom_nonce' );
 	echo '<tr><th>Automatik</th><td><label><input type="checkbox" name="aktiv" value="1"' . checked( $o['aktiv'], 1, false ) . '> ersten Kommentar automatisch schreiben</label></td></tr>';
+	echo '<tr><th><label for="kjo-kom-zeit">Uhrzeit</label></th><td><input id="kjo-kom-zeit" type="time" name="zeit" value="' . esc_attr( $o['zeit'] ) . '"> <span class="description">am Release-Tag, frühestens. Das Reel muss dann schon online sein; erscheint es später, kommt der Kommentar kurz danach.</span></td></tr>';
 	echo '<tr><th><label for="kjo-kom-text">Kommentar</label></th><td><textarea id="kjo-kom-text" name="text" rows="7" class="large-text">' . esc_textarea( $o['text'] ) . '</textarea><p class="description">Platzhalter: <code>{titel}</code> Songtitel · <code>{kurzlink}</code> dj-kolja-one.de/song/&lt;ID&gt; (kurz, zum Abtippen) · <code>{link}</code> langer Direktlink. Links sind in Instagram-Kommentaren nicht anklickbar.</p>';
 	if ( $ids ) {
 		echo '<p class="description">Vorschau für „' . esc_html( get_the_title( $ids[0] ) ) . '“:</p><pre style="white-space:pre-wrap;background:#fff;border:1px solid #dcdcde;padding:10px;max-width:640px">' . esc_html( kjo_kom_text( $ids[0] ) ) . '</pre>';

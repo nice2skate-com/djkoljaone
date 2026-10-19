@@ -1,9 +1,9 @@
 {
- "version": "1.69.0",
- "download_url": "dj-kolja-one-plattenkiste-1.69.0.zip",
- "sha256": "f6f82d973909afac5d22f7dd3a6e21100da697e7e7a9ab325c8d2801995ef43b",
+ "version": "1.69.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.69.1.zip",
+ "sha256": "b1851eb4c7f47a2670ca78ddb3f4e77f467191e63be2394155224c2099f2c1de",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Song-Kommentar"
+ "changelog": "Kommentar 18:10"
 }
