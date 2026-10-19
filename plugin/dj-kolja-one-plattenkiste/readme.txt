@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.68.1: Release-Datum und „erl.“ auch direkt beim Song (Mediathek → Song bearbeiten); Got the Summer Feeling auf 18.10.2026 korrigiert, offene Termine neu geplant.
 Seit 1.68.0: Plattenkiste mit Spalte „Release“ – jeden Dienstag 19 Uhr ein Song in der Reihenfolge des Pults, „Termine planen“, Abhaken mit „erl.“, Filter und Anzeige des nächsten Release.
 Seit 1.67.2: Beispiel-Setup auf der Equipment-Seite per Klick vergrößerbar (Originalgröße, zweiter Klick zoomt heran). Seiten aus Vorlage einspielen.
 Seit 1.67.1: Datumsfelder überall (Datum-Check, Anfrage, Verleih, Admin) – ein Klick aufs Kalendersymbol oder ins Feld öffnet den Kalender.
