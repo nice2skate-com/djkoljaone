@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.69.0
+ * Version:     1.69.2
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.69.0' );
+define( 'KJO_VERSION', '1.69.2' );
 define( 'KJO_USTID', 'DE331619498' ); // Umsatzsteuer-Identifikationsnummer (Bescheid BZSt vom 25.07.2020)
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
@@ -501,7 +501,7 @@ add_filter(
 		$fields['kjm_release']  = array(
 			'label' => 'Release (Instagram)',
 			'input' => 'html',
-			'html'  => '<input type="date" name="attachments[' . $id . '][kjm_release]" value="' . esc_attr( $rd ) . '"> <label><input type="checkbox" name="attachments[' . $id . '][kjm_release_erl]" value="1" ' . checked( (bool) get_post_meta( $id, 'kjm_release_erl', true ), true, false ) . '> erl. (veröffentlicht)</label><br><small>Release-Tag ist Dienstag, 19 Uhr. Gleiche Angabe wie in der Spalte „Release“ unter Medien → Plattenkiste; dort verteilt „Termine planen“ alle offenen Songs.</small>',
+			'html'  => '<input type="date" name="attachments[' . $id . '][kjm_release]" value="' . esc_attr( $rd ) . '"> <label><input type="checkbox" name="attachments[' . $id . '][kjm_release_erl]" value="1" ' . checked( (bool) get_post_meta( $id, 'kjm_release_erl', true ), true, false ) . '> erl. (veröffentlicht)</label><br><small>Release-Tag ist Dienstag, 18 Uhr. Gleiche Angabe wie in der Spalte „Release“ unter Medien → Plattenkiste; dort verteilt „Termine planen“ alle offenen Songs.</small>',
 		);
 		$fields['kjm_hide']  = array(
 			'label' => 'Plattenkiste',
@@ -715,12 +715,12 @@ function kjm_rest_songs() {
 }
 
 /*
- * Song-Releases (seit 1.68.0): Jeden Dienstag um 19 Uhr erscheint ein Song als Reel auf Instagram, in der Reihenfolge des Pults
+ * Song-Releases (seit 1.68.0): Jeden Dienstag um 18 Uhr (seit 1.69.2; vorher 19 Uhr) erscheint ein Song als Reel auf Instagram, in der Reihenfolge des Pults
  * (Genres, dann Songs pro Genre). Pro Song: kjm_release (Datum Y-m-d) und kjm_release_erl (1 = veröffentlicht).
  * „Termine planen“ verteilt alle offenen Songs ab dem nächsten freien Dienstag; erledigte bleiben unverändert.
  */
 define( 'KJM_RELEASE_TAG', 2 ); // Dienstag (ISO: 1 = Montag)
-define( 'KJM_RELEASE_ZEIT', '19:00' );
+define( 'KJM_RELEASE_ZEIT', '18:00' );
 
 /* Sichtbare Songs in der Reihenfolge des Pults. */
 function kjm_pult_ids() {
@@ -759,7 +759,7 @@ function kjm_pult_ids() {
 	return wp_list_pluck( $l, 0 );
 }
 
-/* Erster Release-Dienstag, der noch nicht vorbei ist (heute zählt bis 19 Uhr) und nach dem letzten erledigten Release liegt. */
+/* Erster Release-Dienstag, der noch nicht vorbei ist (heute zählt bis 18 Uhr) und nach dem letzten erledigten Release liegt. */
 function kjm_release_start( $nach = '' ) {
 	$tz = wp_timezone();
 	$d  = new DateTimeImmutable( 'now', $tz );
@@ -818,7 +818,7 @@ function kjm_release_box() {
 		}
 	}
 	$wt = array( '', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So' );
-	echo '<div style="margin:8px 0 12px;padding:10px 14px;background:#fff;border-left:4px solid #B29D75"><strong>Release-Plan:</strong> jeden Dienstag um 19 Uhr ein Song als Reel, in der Reihenfolge des Pults. ';
+	echo '<div style="margin:8px 0 12px;padding:10px 14px;background:#fff;border-left:4px solid #B29D75"><strong>Release-Plan:</strong> jeden Dienstag um 18 Uhr ein Song als Reel, in der Reihenfolge des Pults. ';
 	if ( $next ) {
 		$t = new DateTimeImmutable( $next[1], wp_timezone() );
 		echo 'Nächster Release: <strong>' . esc_html( $wt[ (int) $t->format( 'N' ) ] . ', ' . $t->format( 'd.m.Y' ) . ', ' . KJM_RELEASE_ZEIT . ' Uhr – ' . get_the_title( $next[0] ) ) . '</strong>. ';
