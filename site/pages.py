@@ -480,7 +480,7 @@ def equipment():
         "Firmenpartys eines großen Tech-Konzerns in Dortmund, Frankfurt und Ulm.",
         "Geburtstagsfeiern und Sportfeste im Allgäu und bis nach NRW.",
         "Markentechnik von Bose, Pronomic und Pioneer DJ, geprüft und gepflegt."]
-    plan=IMG(400,240,name="equip_lichtplan.jpg",width=px(100,"%"))
+    plan=IMG(400,240,name="equip_lichtplan.jpg",zoom=True,width=px(100,"%"))
     return [nav(),
         hero("Equipment · Memmingen · Allgäu · Schwaben","Mein Equipment für eure Feier",
              "Guter Sound fällt nicht immer sofort auf, schlechter schon. Deshalb bringe ich Technik mit, auf die ich mich verlasse: abgestimmt auf euren Raum, sauber aufgebaut, stark im Klang.",
