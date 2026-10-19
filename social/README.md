@@ -105,7 +105,7 @@ am Ende Logo und Claim. Pro Seite zwei Fassungen: quer (1280×720) und 4:5 fürs
 
 ## Erster Kommentar bei Song-Releases (seit 1.69.0)
 
-WordPress → **Social → Song-Kommentar**. Ab der eingestellten Uhrzeit am Release-Tag (Standard 18:10; dienstags stößt `.github/workflows/song-kommentar.yml` die Seite an) sucht die Website unter den letzten Instagram-Beiträgen
+WordPress → **Social → Song-Kommentar**. Ab der eingestellten Uhrzeit am Release-Tag (Standard 18:10, bis zu 6 Versuche alle 20 Minuten; dienstags stößt `.github/workflows/song-kommentar.yml` die Seite an) sucht die Website unter den letzten Instagram-Beiträgen
 ein Reel, dessen Bildunterschrift den Titel eines geplanten Songs enthält (Spalte „Release“ in der Plattenkiste,
 Termin von vor 3 bis in 6 Tagen, noch nicht „erl.“). Dann schreibt sie den ersten Kommentar aus der Vorlage
 (Platzhalter `{titel}`, `{kurzlink}`, `{link}`) und hakt den Song mit dem echten Datum ab.

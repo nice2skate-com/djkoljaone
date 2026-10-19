@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.69.2: Release-Zeit 18 Uhr; Song-Kommentar ab 18:10 mit bis zu 6 Versuchen alle 20 Minuten, danach Hinweis im Social-Verlauf.
 Seit 1.69.1: Song-Kommentar mit einstellbarer Uhrzeit (Standard 18:10 am Release-Tag), pünktlich ausgelöst durch Seitenaufrufe und einen GitHub-Ablauf dienstags.
 Seit 1.69.0: Social → Song-Kommentar – erster Instagram-Kommentar automatisch unter dem Release-Reel (Kurzlink dj-kolja-one.de/song/<ID>), Song wird danach als erl. abgehakt.
 Seit 1.68.1: Release-Datum und „erl.“ auch direkt beim Song (Mediathek → Song bearbeiten); Got the Summer Feeling auf 18.10.2026 korrigiert, offene Termine neu geplant.
