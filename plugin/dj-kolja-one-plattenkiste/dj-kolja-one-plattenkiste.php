@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.68.0
+ * Version:     1.68.1
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.68.0' );
+define( 'KJO_VERSION', '1.68.1' );
 define( 'KJO_USTID', 'DE331619498' ); // Umsatzsteuer-Identifikationsnummer (Bescheid BZSt vom 25.07.2020)
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
@@ -496,6 +496,12 @@ add_filter(
 			'input' => 'html',
 			'html'  => esc_html( (int) get_post_meta( $id, 'kjm_shares', true ) . '-mal über den Teilen-Knopf im DJ-Pult' ),
 		);
+		$rd                     = (string) get_post_meta( $id, 'kjm_release', true );
+		$fields['kjm_release']  = array(
+			'label' => 'Release (Instagram)',
+			'input' => 'html',
+			'html'  => '<input type="date" name="attachments[' . $id . '][kjm_release]" value="' . esc_attr( $rd ) . '"> <label><input type="checkbox" name="attachments[' . $id . '][kjm_release_erl]" value="1" ' . checked( (bool) get_post_meta( $id, 'kjm_release_erl', true ), true, false ) . '> erl. (veröffentlicht)</label><br><small>Release-Tag ist Dienstag, 19 Uhr. Gleiche Angabe wie in der Spalte „Release“ unter Medien → Plattenkiste; dort verteilt „Termine planen“ alle offenen Songs.</small>',
+		);
 		$fields['kjm_hide']  = array(
 			'label' => 'Plattenkiste',
 			'input' => 'html',
@@ -543,6 +549,12 @@ add_filter(
 		}
 		if ( isset( $att['kjm_genre'] ) ) { // Formular wurde abgeschickt → Checkbox auswerten.
 			update_post_meta( $id, 'kjm_hide', empty( $att['kjm_hide'] ) ? '' : '1' );
+		}
+		if ( isset( $att['kjm_release'] ) ) { // Release-Datum und „erl.“ (seit 1.68.1)
+			$d = preg_match( '/^\d{4}-\d{2}-\d{2}$/', (string) $att['kjm_release'] ) ? $att['kjm_release'] : '';
+			$e = ! empty( $att['kjm_release_erl'] );
+			update_post_meta( $id, 'kjm_release', $e && '' === $d ? wp_date( 'Y-m-d' ) : $d );
+			$e ? update_post_meta( $id, 'kjm_release_erl', 1 ) : delete_post_meta( $id, 'kjm_release_erl' );
 		}
 		if ( ! empty( $att['kjm_reset'] ) ) {
 			delete_post_meta( $id, 'kjm_sum' );
@@ -854,6 +866,23 @@ add_action(
 		}
 		kjm_release_plan(); // Termine für alle weiteren Songs vorbelegen
 	}
+);
+
+/* Einmalig (1.68.1): Got the Summer Feeling (5169) erschien am 18.10.2026; offene Songs rücken einen Dienstag vor. */
+add_action(
+	'admin_init',
+	function () {
+		if ( get_option( 'kjm_release_fix1' ) || ! get_option( 'kjm_release_init' ) ) {
+			return;
+		}
+		update_option( 'kjm_release_fix1', 1, false );
+		if ( kjm_is_audio( get_post( 5169 ) ) ) {
+			update_post_meta( 5169, 'kjm_release', '2026-10-18' );
+			update_post_meta( 5169, 'kjm_release_erl', 1 );
+			kjm_release_plan();
+		}
+	},
+	11
 );
 
 /* Reihenfolge der Genres im Pult (Option kjm_genre_order); unbekannte Genres folgen alphabetisch. */
