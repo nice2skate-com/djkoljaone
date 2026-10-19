@@ -1,10 +1,107 @@
 {
   "hochzeit": {
-    "images": ["event_hochzeit_3.webp", "event_hochzeit_2.webp", "event_hochzeit_4.webp", "event_hochzeit_1.webp"],
-    "pos": ["center 40%", "center 35%", "center 40%", "center 40%"],
+    "images": [
+      "event_hochzeit_3.webp",
+      "event_hochzeit_2.webp",
+      "event_hochzeit_4.webp",
+      "event_hochzeit_1.webp"
+    ],
+    "pos": [
+      "center 40%",
+      "center 35%",
+      "center 40%",
+      "center 40%"
+    ],
     "eyebrow": "Hochzeits-DJ · Memmingen · Allgäu · Schwaben",
     "eyebrow_hoch": "Hochzeits-DJ · Memmingen · Allgäu",
-    "lines": ["Euer Tag.", "Eure Musik.", "Eine <b>volle Tanzfläche.</b>"],
+    "lines": [
+      "Euer Tag.",
+      "Eure Musik.",
+      "Eine <b>volle Tanzfläche.</b>"
+    ],
+    "cta": "",
+    "dur": 12
+  },
+  "geburtstag": {
+    "images": [
+      "event_geburtstag_1.webp",
+      "event_geburtstag_3.webp",
+      "event_geburtstag_5.webp",
+      "event_geburtstag_2.webp"
+    ],
+    "pos": [
+      "center 30%",
+      "center 45%",
+      "center 35%",
+      "center 45%"
+    ],
+    "eyebrow": "Geburtstags-DJ · Memmingen · Allgäu · Schwaben",
+    "eyebrow_hoch": "Geburtstags-DJ · Memmingen · Allgäu",
+    "lines": [
+      "Euer Geburtstag.",
+      "Eure Gäste.",
+      "Ihr feiert – <b>ich mache den Rest.</b>"
+    ],
+    "cta": "",
+    "dur": 12
+  },
+  "firmenfeier": {
+    "images": [
+      "event_firmenfeier_3.webp",
+      "event_firmenfeier_4.webp",
+      "event_firmenfeier_1.webp"
+    ],
+    "pos": [
+      "center 40%",
+      "center 55%",
+      "center 30%"
+    ],
+    "eyebrow": "Firmenfeier-DJ · Memmingen · Allgäu · Schwaben",
+    "eyebrow_hoch": "Firmenfeier-DJ · Memmingen · Allgäu",
+    "lines": [
+      "Weihnachtsfeier.",
+      "Sommerfest. Jubiläum.",
+      "Ein Abend, über den <b>euer Team spricht.</b>"
+    ],
+    "cta": "",
+    "dur": 12
+  },
+  "events": {
+    "images": [
+      {
+        "clip": "event_events_3.mp4",
+        "ab": 1,
+        "unten": 0.14
+      },
+      {
+        "clip": "event_events_2.mp4",
+        "ab": 2,
+        "unten": 0.14
+      },
+      {
+        "clip": "event_events_1.mp4",
+        "ab": 10,
+        "unten": 0.08
+      },
+      {
+        "clip": "event_events_4.mp4",
+        "ab": 2,
+        "unten": 0.14
+      }
+    ],
+    "pos": [
+      "center 45%",
+      "center 50%",
+      "center 65%",
+      "center 45%"
+    ],
+    "eyebrow": "Event-DJ · Memmingen · Allgäu · Schwaben",
+    "eyebrow_hoch": "Event-DJ · Memmingen · Allgäu",
+    "lines": [
+      "Stadtfest. Open Air.",
+      "Vereinsfeier. Silvester.",
+      "Stimmung, die <b>alle mitreißt.</b>"
+    ],
     "cta": "",
     "dur": 12
   }
