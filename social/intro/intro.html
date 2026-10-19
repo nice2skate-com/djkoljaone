@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8">
+<!-- Intro-Video für eine Seite (seit 1.65.0): Fotos mit langsamer Kamerafahrt, darüber animierter Gold-Titel.
+     Gerendert von social/intro_render.js, Einstellungen pro Seite in social/intro/intros.json.
+     Zeitsteuerung: window.seek(t) setzt den Zustand für Sekunde t – dadurch Bild für Bild exakt und ruckelfrei. -->
+<style>
+@font-face{font-family:"Fira Sans";font-weight:400;src:url(fonts/fira400.woff2) format("woff2")}
+@font-face{font-family:"Fira Sans";font-weight:600;src:url(fonts/fira600.woff2) format("woff2")}
+@font-face{font-family:"Fira Sans";font-weight:800;src:url(fonts/fira800.woff2) format("woff2")}
+html,body{margin:0;background:#0F0C07;overflow:hidden}
+#s{position:relative;width:100vw;height:100vh;overflow:hidden;font-family:"Fira Sans",sans-serif;color:#F3F1E9}
+.ph{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;will-change:transform,opacity}
+#shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,12,7,.35) 0%,rgba(15,12,7,.08) 28%,rgba(15,12,7,.6) 52%,rgba(15,12,7,.88) 72%,rgba(15,12,7,.95) 100%)}
+#vig{position:absolute;inset:0;box-shadow:inset 0 0 18vmin rgba(0,0,0,.65)}
+#txt{position:absolute;left:7vw;right:7vw;bottom:9vh;text-shadow:0 .25vmin 1.2vmin rgba(0,0,0,.85),0 0 .4vmin rgba(0,0,0,.6)}
+#eye{font-size:3vmin;letter-spacing:.24em;text-transform:uppercase;color:#E6D3A8;font-weight:600;margin-bottom:2.2vmin}
+#rule{height:2px;background:#B29D75;width:0;margin-bottom:2.6vmin}
+.ln{font-weight:800;font-size:7.2vmin;line-height:1.08;opacity:0;transform:translateY(3vmin)}
+.ln b{color:#D4BF94;font-weight:800}
+#end{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(15,12,7,.86);opacity:0;text-shadow:0 .25vmin 1.2vmin rgba(0,0,0,.8)}
+#logo{font-size:7vmin;letter-spacing:.32em;font-weight:400;padding-left:.32em}
+#logo span{color:#B29D75}
+#claim{margin-top:2.6vmin;font-size:3vmin;letter-spacing:.24em;text-transform:uppercase;color:#E6D3A8;font-weight:600}
+#cta{margin-top:4.5vmin;font-size:2.9vmin;border:2px solid #B29D75;color:#F3F1E9;padding:1.3vmin 3.2vmin;border-radius:999px;letter-spacing:.06em}
+.hoch #txt{left:8vw;right:8vw;bottom:11vh}.hoch .ln{font-size:8.6vmin}.hoch #eye{font-size:3.5vmin;letter-spacing:.16em;line-height:1.35}.hoch #logo{font-size:8.4vmin}.hoch #claim{font-size:3.3vmin;letter-spacing:.16em}
+</style></head><body><div id="s"><div id="photos"></div><div id="shade"></div><div id="vig"></div>
+<div id="txt"><div id="eye"></div><div id="rule"></div><div id="lines"></div></div>
+<div id="end"><div id="logo">DJ KOLJA <span>ONE</span></div><div id="claim">Jedes Event findet nur einmal statt.</div><div id="cta"></div></div></div>
+<script>
+var C=window.INTRO||{images:[],eyebrow:"",lines:[],cta:"",dur:12};
+if(C.hoch)document.body.classList.add("hoch");
+var P=document.getElementById("photos"),L=document.getElementById("lines"),ph=[],ln=[];
+document.getElementById("eye").textContent=(C.hoch&&C.eyebrow_hoch)||C.eyebrow;var cta=document.getElementById("cta");if(C.cta)cta.textContent=C.cta;else cta.remove();
+C.images.forEach(function(u,i){var d=document.createElement("div");d.className="ph";d.style.backgroundImage="url('"+u+"')";d.style.backgroundPosition=(C.pos&&C.pos[i])||"center";P.appendChild(d);ph.push(d)});
+C.lines.forEach(function(t){var d=document.createElement("div");d.className="ln";d.innerHTML=t;L.appendChild(d);ln.push(d)});
+function cl(x){return x<0?0:x>1?1:x}function ease(x){x=cl(x);return x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2}
+/* Zeitplan: Fotos teilen sich die Zeit bis zum Abspann (Überblendung 0,8 s), Textzeilen erscheinen nacheinander,
+   Abspann in den letzten 3 s, am Ende Überblendung zurück zum ersten Foto (nahtlose Schleife). */
+window.seek=function(t){var D=C.dur,endS=D-3.2,n=ph.length,seg=endS/n,X=.8;
+ ph.forEach(function(d,i){var a=i*seg,b=a+seg+X,o=i===0?(t<b-X?1:1-cl((t-(b-X))/X)):cl((t-a)/X)*(t<b-X?1:1-cl((t-(b-X))/X));
+  if(i===0&&t>D-.8)o=cl((t-(D-.8))/.8);if(i===n-1&&t>=endS)o=1-cl((t-(D-.8))/.8);
+  var k=cl((t-a)/(seg+X)),dir=i%2?-1:1;d.style.opacity=o;d.style.transform="scale("+(1.06+.08*k)+") translate("+(dir*1.5*k)+"%,"+(-1*k)+"%)"});
+ var e=ease((t-.3)/.8);document.getElementById("eye").style.opacity=e*(1-ease((t-endS+.2)/.6));
+ document.getElementById("rule").style.width=(ease((t-.5)/1.2)*12)+"vmin";
+ ln.forEach(function(d,i){var s=.9+i*Math.max(.9,(endS-2.5)/Math.max(1,ln.length)),v=ease((t-s)/.7),out=ease((t-endS+.2)/.6);d.style.opacity=v*(1-out);d.style.transform="translateY("+((1-v)*3)+"vmin)"});
+ var en=ease((t-endS)/.7)*(1-ease((t-(D-.7))/.6));document.getElementById("end").style.opacity=en;
+ document.getElementById("end").style.transform="scale("+(1.03-.03*ease((t-endS)/1.2))+")"};
+window.seek(0);
+</script></body></html>

@@ -1,0 +1,17 @@
+<style>
+.kjoin{width:100%;max-width:980px;margin:6px auto 0}
+.kjoin video{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;background:#1A1712;border-radius:4px;outline:1px solid rgba(178,157,117,.35);outline-offset:-1px;box-shadow:0 30px 80px -30px #000}
+.kjoin.hoch video{aspect-ratio:4/5}
+</style>
+<div class="kjoin" data-key="__KEY__" hidden><video muted playsinline loop preload="none" aria-label="Kurzvideo DJ KOLJA ONE"></video></div>
+<script>
+/* Intro-Video im Kopfbereich (seit 1.65.0): intro_<seite>.mp4 quer, intro_<seite>_hoch.mp4 4:5 fürs Handy. Fehlt es, bleibt der Platz leer. */
+(function(){function go(){[].forEach.call(document.querySelectorAll(".kjoin:not([data-on])"),function(r){r.dataset.on=1;
+var M=window.KJO_MEDIA||{},k="intro_"+r.dataset.key,hoch=matchMedia("(max-width:767px)").matches,e=(hoch&&M[k+"_hoch"])||M[k]||M[k+"_hoch"];
+if(!e||!e.vid){r.remove();return}if(e===M[k+"_hoch"])r.classList.add("hoch");
+var v=r.querySelector("video");if(e.img)v.poster=e.img;r.hidden=false;
+if(matchMedia("(prefers-reduced-motion: reduce)").matches){v.controls=true;v.preload="metadata";v.src=e.vid;return}
+function on(){if(!v.src)v.src=e.vid;var p=v.play();if(p&&p.catch)p.catch(function(){v.controls=true})}
+if("IntersectionObserver" in window)new IntersectionObserver(function(x){x.forEach(function(y){if(y.isIntersecting)on();else v.pause()})},{threshold:.2}).observe(v);else on()})}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",go);else go()})();
+</script>

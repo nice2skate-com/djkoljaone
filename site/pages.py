@@ -81,7 +81,7 @@ def anfrage(anlass,title="Wunschtermin prüfen",text="Datum, Ort und Gästezahl 
 
 def service_v2(c):
     note=T("Unverbindlich · Antwort innerhalb von 24 Stunden",MUTED,"center",14)
-    out=[nav(),hero(c["eye"],c["h1"],c["sub"],[BTN(WISH[0],"#anfrage"),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=90,extra=[DATUM(),note]),
+    out=[nav(),hero(c["eye"],c["h1"],c["sub"],[BTN(WISH[0],"#anfrage"),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=90,extra=[INTRO(c["key"]),DATUM(),note]),
          section(head("Eindrücke",c.get("gal_title","So feiert ihr mit mir"))+[VIDEOS(c["key"])],bg=B2)]
     alt=[B1]
     def bg():
@@ -106,7 +106,7 @@ def service_v2(c):
 
 def service(c):
     if c.get("v2"): return service_v2(c)
-    out=[nav(),hero(c["eye"],c["h1"],c["sub"],[BTN(WISH[0],"#anfrage"),BTN("So läuft's ab","#ablauf",False)],stats=None,minh=90,extra=[DATUM()]),
+    out=[nav(),hero(c["eye"],c["h1"],c["sub"],[BTN(WISH[0],"#anfrage"),BTN("So läuft's ab","#ablauf",False)],stats=None,minh=90,extra=[INTRO(c["key"]),DATUM()]),
          section(head("Eindrücke","So sieht ein Abend mit mir aus")+[VIDEOS(c["key"])],bg=B2)]
     if c.get("anlaesse"): out.append(section(head("Anlässe",c["anl_title"])+[cards(c["anlaesse"])]))
     out.append(split(*c["split1"],img=f"event_{c['key']}_text.jpg"))

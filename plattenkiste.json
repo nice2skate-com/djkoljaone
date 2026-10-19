@@ -1,9 +1,9 @@
 {
- "version": "1.64.0",
- "download_url": "dj-kolja-one-plattenkiste-1.64.0.zip",
- "sha256": "7aa5d1939ff0477b87ff0b60772fdf63797e521976c9a59db6027342eed3c132",
+ "version": "1.65.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.65.1.zip",
+ "sha256": "c2302c7eadfc7886e45e91d1eac1a46cbb653f4cf0037f3269a81fb8aec34d26",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "USt-IdNr."
+ "changelog": "Intro-Video: bessere Lesbarkeit"
 }
