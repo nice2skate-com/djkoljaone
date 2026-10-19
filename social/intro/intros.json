@@ -104,5 +104,157 @@
     ],
     "cta": "",
     "dur": 12
+  },
+  "ueber": {
+    "images": [
+      "kolja_portrait.webp",
+      "ueber_1.webp",
+      "ueber_4.webp",
+      "ueber_2.webp"
+    ],
+    "pos": [
+      "center 25%",
+      "center 35%",
+      "center 40%",
+      "center 50%"
+    ],
+    "pos_hoch": [
+      "center 20%",
+      "center 30%",
+      "40% 40%",
+      "center 50%"
+    ],
+    "eyebrow": "Über mich · DJ & Moderator aus Fellheim",
+    "eyebrow_hoch": "Über mich · DJ aus Fellheim",
+    "lines": [
+      "Hallo, ich bin Kolja.",
+      "DJ und Moderator.",
+      "Seit über 10 Jahren <b>für eure Feier.</b>"
+    ],
+    "cta": "",
+    "dur": 12,
+    "schrift_hoch": 8.2
+  },
+  "verleih": {
+    "images": [
+      "varytech_einsatz.webp",
+      {
+        "bild": "bose_s1.webp",
+        "groesse": "auto 62%",
+        "groesse_hoch": "auto 40%",
+        "schein": "74% 40%"
+      },
+      {
+        "bild": "pioneer.webp",
+        "groesse": "42% auto",
+        "groesse_hoch": "84% auto",
+        "schein": "74% 40%"
+      },
+      {
+        "bild": "movinghead.webp",
+        "groesse": "auto 60%",
+        "groesse_hoch": "auto 40%",
+        "schein": "74% 40%"
+      },
+      "kls_einsatz.webp"
+    ],
+    "pos": [
+      "center",
+      "84% 22%",
+      "94% 20%",
+      "86% 18%",
+      "center"
+    ],
+    "pos_hoch": [
+      "center",
+      "center 8%",
+      "center 12%",
+      "center 8%",
+      "center"
+    ],
+    "eyebrow": "Verleih · Memmingen · Allgäu · Schwaben",
+    "eyebrow_hoch": "Verleih · Memmingen · Allgäu",
+    "lines": [
+      "Sound. Licht. Party.",
+      "Die Technik, mit der ich selbst auflege.",
+      "Zum Mieten – <b>mit Einweisung vom DJ.</b>"
+    ],
+    "cta": "",
+    "dur": 13,
+    "schrift_hoch": 7.6
+  },
+  "equipment": {
+    "images": [
+      "varytech_einsatz.webp",
+      {
+        "bild": "bose_s1.webp",
+        "groesse": "auto 62%",
+        "groesse_hoch": "auto 40%",
+        "schein": "74% 40%"
+      },
+      {
+        "bild": "pioneer.webp",
+        "groesse": "42% auto",
+        "groesse_hoch": "84% auto",
+        "schein": "74% 40%"
+      },
+      {
+        "bild": "movinghead.webp",
+        "groesse": "auto 60%",
+        "groesse_hoch": "auto 40%",
+        "schein": "74% 40%"
+      },
+      "kls_einsatz.webp"
+    ],
+    "pos": [
+      "center",
+      "84% 22%",
+      "94% 20%",
+      "86% 18%",
+      "center"
+    ],
+    "pos_hoch": [
+      "center",
+      "center 8%",
+      "center 12%",
+      "center 8%",
+      "center"
+    ],
+    "eyebrow": "Equipment · Memmingen · Allgäu · Schwaben",
+    "eyebrow_hoch": "Equipment · Memmingen · Allgäu",
+    "lines": [
+      "Sound, der passt.",
+      "Licht statt Deckenlicht.",
+      "Technik, auf die <b>ich mich verlasse.</b>"
+    ],
+    "cta": "",
+    "dur": 13,
+    "schrift_hoch": 7.6
+  },
+  "region": {
+    "images": [
+      "event_memmingen_1.webp",
+      "event_ulm_1.webp",
+      "event_kempten_1.webp",
+      "event_fuessen_1.webp",
+      "event_ravensburg_1.webp"
+    ],
+    "pos": [
+      "center 45%",
+      "center 40%",
+      "center 45%",
+      "center 45%",
+      "center 50%"
+    ],
+    "eyebrow": "DJ aus Fellheim · Memmingen · Allgäu · Schwaben",
+    "eyebrow_hoch": "DJ aus Fellheim · Allgäu · Schwaben",
+    "lines": [
+      "Memmingen. Ulm. Kempten.",
+      "Allgäu und Oberschwaben.",
+      "Kurze Wege, <b>ein Ansprechpartner.</b>"
+    ],
+    "cta": "",
+    "dur": 13,
+    "schrift_hoch": 7.6
   }
 }

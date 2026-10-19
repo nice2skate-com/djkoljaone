@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.66.0
+ * Version:     1.67.1
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.66.0' );
+define( 'KJO_VERSION', '1.67.1' );
 define( 'KJO_USTID', 'DE331619498' ); // Umsatzsteuer-Identifikationsnummer (Bescheid BZSt vom 25.07.2020)
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
@@ -2491,6 +2491,16 @@ add_action(
 	},
 	30
 );
+/**
+ * Datumsfelder überall (seit 1.67.1): Ein Klick irgendwo ins Feld – auch aufs Kalendersymbol – öffnet den Kalender.
+ * Der eigene Aufruf ersetzt das Standardverhalten, damit der Kalender nicht gleichzeitig auf- und wieder zugeht.
+ * Tastatur-Eingabe (TT.MM.JJJJ) bleibt unverändert. Auf Website und im Admin-Bereich.
+ */
+function kjo_datum_klick_js() {
+	echo '<script id="kjo-datum-klick">document.addEventListener("click",function(e){var t=e.target;if(!t||t.tagName!=="INPUT"||t.type!=="date"||t.disabled||t.readOnly||typeof t.showPicker!=="function")return;try{t.showPicker();e.preventDefault();}catch(x){}},true);</script>' . "\n";
+}
+add_action( 'wp_footer', 'kjo_datum_klick_js', 5 );
+add_action( 'admin_footer', 'kjo_datum_klick_js', 5 );
 /**
  * Kalender für das Feld „Wunschdatum“ im WPForms-Anfrageformular (seit 1.23.0).
  * WPForms Lite hat kein Datumsfeld: Über das vorhandene Textfeld wird ein unsichtbares Datumsfeld gelegt.

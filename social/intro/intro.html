@@ -23,6 +23,7 @@ img.ph{width:100%;height:100%;object-fit:cover}
 #logo span{color:#B29D75}
 #claim{margin-top:2.6vmin;font-size:3vmin;letter-spacing:.24em;text-transform:uppercase;color:#E6D3A8;font-weight:600}
 #cta{margin-top:4.5vmin;font-size:2.9vmin;border:2px solid #B29D75;color:#F3F1E9;padding:1.3vmin 3.2vmin;border-radius:999px;letter-spacing:.06em}
+.hoch #shade{background:linear-gradient(180deg,rgba(15,12,7,.35) 0%,rgba(15,12,7,.08) 20%,rgba(15,12,7,.62) 40%,rgba(15,12,7,.9) 60%,rgba(15,12,7,.95) 100%)}
 .hoch #txt{left:8vw;right:8vw;bottom:11vh}.hoch .ln{font-size:8.6vmin}.hoch #eye{font-size:3.5vmin;letter-spacing:.16em;line-height:1.35}.hoch #logo{font-size:8.4vmin}.hoch #claim{font-size:3.3vmin;letter-spacing:.16em}
 </style></head><body><div id="s"><div id="photos"></div><div id="shade"></div><div id="vig"></div>
 <div id="txt"><div id="eye"></div><div id="rule"></div><div id="lines"></div></div>
@@ -30,10 +31,12 @@ img.ph{width:100%;height:100%;object-fit:cover}
 <script>
 var C=window.INTRO||{images:[],eyebrow:"",lines:[],cta:"",dur:12};
 if(C.hoch)document.body.classList.add("hoch");
+if(C.hoch&&C.schrift_hoch)document.head.insertAdjacentHTML("beforeend","<style>.hoch .ln{font-size:"+C.schrift_hoch+"vmin}</style>");
 var P=document.getElementById("photos"),L=document.getElementById("lines"),ph=[],ln=[];
 document.getElementById("eye").textContent=(C.hoch&&C.eyebrow_hoch)||C.eyebrow;var cta=document.getElementById("cta");if(C.cta)cta.textContent=C.cta;else cta.remove();
 /* Einträge sind Fotos (URL) oder Clips {clip:"clip/0/",n:Bilder} – Clips als Einzelbildfolge, weil Chromium hier kein H.264 abspielt */
-C.images.forEach(function(u,i){var d,po=(C.pos&&C.pos[i])||"center";if(u&&u.clip){d=document.createElement("img");d.style.objectPosition=po;d.clip=u}else{d=document.createElement("div");d.style.backgroundImage="url('"+u+"')";d.style.backgroundPosition=po}d.className="ph";P.appendChild(d);ph.push(d)});
+C.images.forEach(function(u,i){var d,po=(C.pos&&C.pos[i])||"center";if(u&&u.clip){d=document.createElement("img");d.style.objectPosition=po;d.clip=u}else if(u&&u.src){d=document.createElement("div");/* freigestelltes Produktfoto: ganz sichtbar, mit Goldschein dahinter */
+ d.style.background="url('"+u.src+"') "+po+"/"+(u.size||"auto 62%")+" no-repeat,radial-gradient(ellipse 45% 55% at "+(u.glow||"50% 42%")+",rgba(178,157,117,.30),rgba(15,12,7,0) 70%),#14100A"}else{d=document.createElement("div");d.style.backgroundImage="url('"+u+"')";d.style.backgroundPosition=po}d.className="ph";P.appendChild(d);ph.push(d)});
 C.lines.forEach(function(t){var d=document.createElement("div");d.className="ln";d.innerHTML=t;L.appendChild(d);ln.push(d)});
 function cl(x){return x<0?0:x>1?1:x}function ease(x){x=cl(x);return x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2}
 /* Zeitplan: Fotos teilen sich die Zeit bis zum Abspann (Überblendung 0,8 s), Textzeilen erscheinen nacheinander,
