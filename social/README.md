@@ -27,7 +27,8 @@ ohne Tonspur teils ab): `media/motion/export/reel_dj-kolja-one_1080x1920_social.
 1. <https://developers.facebook.com/tools/explorer> öffnen, oben rechts deine App wählen.
 2. *User or Page* → **User Token**, unter *Permissions* hinzufügen:
    `pages_show_list`, `pages_read_engagement`, `pages_manage_posts`, `instagram_basic`,
-   `instagram_content_publish`, `business_management`.
+   `instagram_content_publish`, `instagram_manage_comments`, `business_management`.
+   (`instagram_manage_comments` seit 1.69.0 für den automatischen ersten Kommentar bei Song-Releases.)
 3. **Generate Access Token** → im Fenster die Seite DJ KOLJA ONE und das Instagram-Konto auswählen und erlauben.
 4. Den Schlüssel verlängern: unten auf das blaue **i** → *Open in Access Token Tool* → **Extend Access Token**
    → den neuen (60 Tage gültigen) Schlüssel kopieren.
@@ -101,3 +102,15 @@ am Ende Logo und Claim. Pro Seite zwei Fassungen: quer (1280×720) und 4:5 fürs
 - Freigestellte Produktfotos: `{"bild": "bose_s1.webp", "groesse": "auto 62%", "groesse_hoch": "auto 40%", "schein": "74% 40%"}`; `schrift_hoch` verkleinert lange Texte im Hochformat
 - Website: `intro_<seite>.mp4` / `intro_<seite>_hoch.mp4` aus `assets/intro/` – gleichnamige Dateien in der Mediathek
   haben Vorrang. Ohne Video bleibt der Kopfbereich wie bisher.
+
+## Erster Kommentar bei Song-Releases (seit 1.69.0)
+
+WordPress → **Social → Song-Kommentar**. Alle 15 Minuten sucht die Website unter den letzten Instagram-Beiträgen
+ein Reel, dessen Bildunterschrift den Titel eines geplanten Songs enthält (Spalte „Release“ in der Plattenkiste,
+Termin von vor 3 bis in 6 Tagen, noch nicht „erl.“). Dann schreibt sie den ersten Kommentar aus der Vorlage
+(Platzhalter `{titel}`, `{kurzlink}`, `{link}`) und hakt den Song mit dem echten Datum ab.
+
+- Kurzlink im Kommentar: `dj-kolja-one.de/song/<ID>` → Meine Musik mit dem Song auf Deck A,
+  in Google Analytics als Quelle „instagram“ / Medium „kommentar“.
+- Voraussetzung: Seitenschlüssel mit `instagram_manage_comments` (Schritt 3 oben, neu erzeugen und unter Social speichern).
+- „Probelauf“ zeigt, ob das Reel gefunden wird, ohne etwas zu schreiben.

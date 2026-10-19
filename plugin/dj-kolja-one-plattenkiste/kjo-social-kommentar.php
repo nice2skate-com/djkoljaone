@@ -1,0 +1,220 @@
+<?php
+/**
+ * Erster Kommentar bei Song-Releases (seit 1.69.0)
+ *
+ * Alle 15 Minuten (WP-Cron) prüft die Website, ob ein geplanter Song (Spalte „Release“ in der Plattenkiste) inzwischen
+ * als Reel auf Instagram erschienen ist: Bildunterschrift enthält den Songtitel. Dann schreibt sie den ersten Kommentar
+ * aus der Vorlage, merkt sich die Kommentar-ID am Song (kjm_ig_kommentar) und hakt den Song mit dem echten
+ * Veröffentlichungsdatum als „erl.“ ab. Jeder Song bekommt höchstens einen Kommentar.
+ *
+ * Braucht im Seiten-Zugriffsschlüssel (Social → Verbindung) zusätzlich das Recht „instagram_manage_comments“.
+ * Kurzlink für Kommentare: https://dj-kolja-one.de/song/<ID> → Meine Musik mit dem Song auf Deck A (utm_medium=kommentar).
+ * Einstellungen: Social → Song-Kommentar.
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+function kjo_kom_opts() {
+	$d = array(
+		'aktiv' => 0,
+		'text'  => "🎧 „{titel}“ ganz hören, selbst mixen und bewerten – im DJ-Pult auf meiner Website.\n👉 Direkt zum Song: {kurzlink}\n🔗 Oder einfach über den Link in meiner Bio.\n\nJeden Dienstag um 19 Uhr kommt ein neuer Song. Folg mir, damit du keinen verpasst. 🔔",
+	);
+	$o = get_option( 'kjo_social_kommentar', array() );
+	return is_array( $o ) ? array_merge( $d, array_intersect_key( $o, $d ) ) : $d;
+}
+
+/* Kurzlink /song/<ID> – lässt sich aus einem Kommentar leicht abtippen. */
+add_action(
+	'init',
+	function () {
+		$p = (string) wp_parse_url( (string) ( $_SERVER['REQUEST_URI'] ?? '' ), PHP_URL_PATH ); // phpcs:ignore
+		if ( ! preg_match( '#^/song/(\d+)/?$#', $p, $m ) ) {
+			return;
+		}
+		$id = (int) $m[1];
+		if ( ! function_exists( 'kjm_is_audio' ) || ! kjm_is_audio( get_post( $id ) ) || ! kjm_visible( $id ) ) {
+			wp_safe_redirect( home_url( '/meine-musik/' ), 302 );
+			exit;
+		}
+		wp_safe_redirect( home_url( '/meine-musik/?song=' . $id . '&utm_source=instagram&utm_medium=kommentar&utm_campaign=song-' . $id ), 302 );
+		exit;
+	},
+	0
+);
+
+function kjo_kom_text( $id ) {
+	$t = html_entity_decode( get_the_title( $id ), ENT_QUOTES, 'UTF-8' );
+	return strtr(
+		kjo_kom_opts()['text'],
+		array(
+			'{titel}'    => $t,
+			'{kurzlink}' => preg_replace( '#^https?://#', '', home_url( '/song/' . $id ) ),
+			'{link}'     => home_url( '/meine-musik/?song=' . $id . '&utm_source=instagram&utm_medium=kommentar&utm_campaign=song-' . $id ),
+		)
+	);
+}
+
+/* Songs, die jetzt einen Kommentar brauchen: noch nicht erledigt, noch kein Kommentar, Release-Datum von vor 3 bis in 6 Tagen. */
+function kjo_kom_kandidaten() {
+	$von   = wp_date( 'Y-m-d', time() - 3 * DAY_IN_SECONDS );
+	$bis   = wp_date( 'Y-m-d', time() + 6 * DAY_IN_SECONDS );
+	$out   = array();
+	foreach ( function_exists( 'kjm_pult_ids' ) ? kjm_pult_ids() : array() as $id ) {
+		$d = (string) get_post_meta( $id, 'kjm_release', true );
+		if ( $d && $d >= $von && $d <= $bis && ! get_post_meta( $id, 'kjm_release_erl', true ) && ! get_post_meta( $id, 'kjm_ig_kommentar', true ) ) {
+			$out[] = $id;
+		}
+	}
+	return $out;
+}
+
+function kjo_kom_norm( $s ) {
+	$s = html_entity_decode( (string) $s, ENT_QUOTES, 'UTF-8' );
+	$s = str_replace( array( '’', '‘', '`', '´' ), "'", $s );
+	return function_exists( 'mb_strtolower' ) ? mb_strtolower( $s ) : strtolower( $s );
+}
+
+/**
+ * Ein Durchlauf. $probe = true: nichts schreiben, nur berichten.
+ * Rückgabe: Liste von Meldungen (für die Einstellungsseite) – geloggt wird im Social-Verlauf.
+ */
+function kjo_kom_lauf( $probe = false ) {
+	$o   = kjo_kom_opts();
+	$soc = function_exists( 'kjo_soc_opts' ) ? kjo_soc_opts() : array();
+	$msg = array();
+	if ( ! $probe && ! $o['aktiv'] ) {
+		return array( 'Automatik ist aus.' );
+	}
+	if ( empty( $soc['ig_id'] ) ) {
+		return array( 'Instagram ist nicht verbunden (Social → „Verbindung prüfen“).' );
+	}
+	$ids = kjo_kom_kandidaten();
+	if ( ! $ids ) {
+		return array( 'Kein offener Song mit Release-Termin zwischen vor 3 und in 6 Tagen.' );
+	}
+	$media = kjo_soc_api( $soc['ig_id'] . '/media', null, array( 'fields' => 'id,caption,timestamp,permalink', 'limit' => 12 ) );
+	if ( is_wp_error( $media ) ) {
+		if ( ! $probe ) {
+			kjo_soc_log( 'Kommentar', false, $media->get_error_message() );
+		}
+		return array( $media->get_error_message() );
+	}
+	$grenze = time() - 4 * DAY_IN_SECONDS;
+	foreach ( $ids as $id ) {
+		$titel = kjo_kom_norm( get_the_title( $id ) );
+		$treff = null;
+		foreach ( (array) ( $media['data'] ?? array() ) as $m ) {
+			if ( strtotime( (string) ( $m['timestamp'] ?? '' ) ) >= $grenze && false !== strpos( kjo_kom_norm( $m['caption'] ?? '' ), $titel ) ) {
+				$treff = $m;
+				break;
+			}
+		}
+		$name = get_the_title( $id );
+		if ( ! $treff ) {
+			$msg[] = '„' . $name . '“ (geplant ' . get_post_meta( $id, 'kjm_release', true ) . '): noch kein Reel mit diesem Titel in der Bildunterschrift gefunden.';
+			continue;
+		}
+		if ( $probe ) {
+			$msg[] = '„' . $name . '“: Reel gefunden (' . ( $treff['permalink'] ?? $treff['id'] ) . '). Kommentar würde lauten: ' . kjo_kom_text( $id );
+			continue;
+		}
+		$r = kjo_soc_api( $treff['id'] . '/comments', array( 'message' => kjo_kom_text( $id ) ) );
+		if ( is_wp_error( $r ) ) {
+			$e = $r->get_error_message();
+			if ( preg_match( '/Code (10|200|3)\)/', $e ) ) {
+				$e .= ' – vermutlich fehlt dem Zugriffsschlüssel das Recht „instagram_manage_comments“.';
+			}
+			kjo_soc_log( 'Kommentar', false, $name . ': ' . $e );
+			$msg[] = '„' . $name . '“: ' . $e;
+			continue;
+		}
+		update_post_meta( $id, 'kjm_ig_kommentar', (string) ( $r['id'] ?? '1' ) );
+		update_post_meta( $id, 'kjm_release', wp_date( 'Y-m-d', strtotime( (string) $treff['timestamp'] ) ) );
+		update_post_meta( $id, 'kjm_release_erl', 1 );
+		kjo_soc_log( 'Kommentar', true, ! empty( $treff['permalink'] ) ? (string) $treff['permalink'] : $name . ': Kommentar geschrieben' );
+		$msg[] = '„' . $name . '“: erster Kommentar geschrieben, Song als erledigt abgehakt.';
+	}
+	return $msg;
+}
+
+/* ---------- Zeitplan: alle 15 Minuten ---------- */
+add_filter(
+	'cron_schedules',
+	function ( $s ) {
+		$s['kjo_15min'] = array(
+			'interval' => 15 * MINUTE_IN_SECONDS,
+			'display'  => 'Alle 15 Minuten',
+		);
+		return $s;
+	}
+);
+add_action(
+	'init',
+	function () {
+		$an = (bool) kjo_kom_opts()['aktiv'];
+		$n  = wp_next_scheduled( 'kjo_kom_cron' );
+		if ( $an && ! $n ) {
+			wp_schedule_event( time() + 60, 'kjo_15min', 'kjo_kom_cron' );
+		} elseif ( ! $an && $n ) {
+			wp_clear_scheduled_hook( 'kjo_kom_cron' );
+		}
+	}
+);
+add_action(
+	'kjo_kom_cron',
+	function () {
+		kjo_kom_lauf( false );
+	}
+);
+
+/* ---------- Einstellungen: Social → Song-Kommentar ---------- */
+add_action(
+	'admin_menu',
+	function () {
+		add_submenu_page( 'kjo-social', 'Song-Kommentar', 'Song-Kommentar', 'manage_options', 'kjo-song-kommentar', 'kjo_kom_page' );
+	},
+	21
+);
+
+function kjo_kom_page() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+	$o   = kjo_kom_opts();
+	$out = array();
+	if ( isset( $_POST['kjo_kom_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['kjo_kom_nonce'] ) ), 'kjo_kom' ) ) {
+		$o['aktiv'] = empty( $_POST['aktiv'] ) ? 0 : 1;
+		$t          = sanitize_textarea_field( wp_unslash( $_POST['text'] ?? '' ) ); // phpcs:ignore
+		$o['text']  = '' !== trim( $t ) ? $t : $o['text'];
+		update_option( 'kjo_social_kommentar', $o, false );
+		if ( ! empty( $_POST['probe'] ) ) {
+			$out = kjo_kom_lauf( true );
+		} elseif ( ! empty( $_POST['jetzt'] ) ) {
+			$out = kjo_kom_lauf( false );
+		} else {
+			echo '<div class="notice notice-success"><p>Gespeichert.</p></div>';
+		}
+	}
+	$soc = function_exists( 'kjo_soc_opts' ) ? kjo_soc_opts() : array();
+	$ids = kjo_kom_kandidaten();
+	echo '<div class="wrap"><h1>Erster Kommentar bei Song-Releases</h1>';
+	echo '<p>Sobald ein geplanter Song (Spalte „Release“ unter Medien → Plattenkiste) als Reel auf Instagram erscheint, schreibt die Website automatisch den ersten Kommentar darunter und hakt den Song als „erl.“ ab. Erkannt wird das Reel am <strong>Songtitel in der Bildunterschrift</strong>. Geprüft wird alle 15 Minuten, sobald jemand die Website aufruft.</p>';
+	echo '<ul style="line-height:1.9">';
+	echo '<li>' . ( ! empty( $soc['ig_id'] ) ? '✔ Instagram verbunden: @' . esc_html( $soc['ig_name'] ) : '✘ Instagram nicht verbunden – unter Social „Verbindung prüfen“' ) . '</li>';
+	echo '<li>' . ( $o['aktiv'] ? '✔ Automatik an' : '✘ Automatik aus' ) . '</li>';
+	echo '<li>Wartet auf ein Reel: ' . ( $ids ? esc_html( implode( ', ', array_map( 'get_the_title', $ids ) ) ) : 'keiner' ) . '</li>';
+	echo '</ul>';
+	if ( $out ) {
+		echo '<div class="notice notice-info"><p>' . implode( '<br>', array_map( 'esc_html', $out ) ) . '</p></div>';
+	}
+	echo '<form method="post"><table class="form-table">';
+	wp_nonce_field( 'kjo_kom', 'kjo_kom_nonce' );
+	echo '<tr><th>Automatik</th><td><label><input type="checkbox" name="aktiv" value="1"' . checked( $o['aktiv'], 1, false ) . '> ersten Kommentar automatisch schreiben</label></td></tr>';
+	echo '<tr><th><label for="kjo-kom-text">Kommentar</label></th><td><textarea id="kjo-kom-text" name="text" rows="7" class="large-text">' . esc_textarea( $o['text'] ) . '</textarea><p class="description">Platzhalter: <code>{titel}</code> Songtitel · <code>{kurzlink}</code> dj-kolja-one.de/song/&lt;ID&gt; (kurz, zum Abtippen) · <code>{link}</code> langer Direktlink. Links sind in Instagram-Kommentaren nicht anklickbar.</p>';
+	if ( $ids ) {
+		echo '<p class="description">Vorschau für „' . esc_html( get_the_title( $ids[0] ) ) . '“:</p><pre style="white-space:pre-wrap;background:#fff;border:1px solid #dcdcde;padding:10px;max-width:640px">' . esc_html( kjo_kom_text( $ids[0] ) ) . '</pre>';
+	}
+	echo '</td></tr></table><p><button class="button button-primary">Speichern</button> <button class="button" name="probe" value="1">Probelauf (schreibt nichts)</button> <button class="button" name="jetzt" value="1" onclick="return confirm(\'Jetzt nach dem Reel suchen und – falls gefunden – den Kommentar schreiben?\')">Jetzt prüfen und kommentieren</button></p></form>';
+	echo '<h2>Einrichtung (einmalig)</h2><ol><li>Der Seiten-Zugriffsschlüssel unter <strong>Social → Verbindung</strong> braucht zusätzlich das Recht <code>instagram_manage_comments</code>. Neuen Schlüssel mit diesem Recht erzeugen und dort speichern (Anleitung: <code>social/README.md</code>).</li><li><strong>Probelauf</strong> klicken: zeigt, ob das Reel gefunden wird und wie der Kommentar lautet.</li><li>Automatik anhaken und speichern.</li></ol></div>';
+}
