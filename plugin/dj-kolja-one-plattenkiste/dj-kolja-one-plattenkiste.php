@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.67.2
+ * Version:     1.68.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.67.2' );
+define( 'KJO_VERSION', '1.68.0' );
 define( 'KJO_USTID', 'DE331619498' ); // Umsatzsteuer-Identifikationsnummer (Bescheid BZSt vom 25.07.2020)
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
@@ -701,6 +701,161 @@ function kjm_rest_songs() {
 	return $res;
 }
 
+/*
+ * Song-Releases (seit 1.68.0): Jeden Dienstag um 19 Uhr erscheint ein Song als Reel auf Instagram, in der Reihenfolge des Pults
+ * (Genres, dann Songs pro Genre). Pro Song: kjm_release (Datum Y-m-d) und kjm_release_erl (1 = veröffentlicht).
+ * „Termine planen“ verteilt alle offenen Songs ab dem nächsten freien Dienstag; erledigte bleiben unverändert.
+ */
+define( 'KJM_RELEASE_TAG', 2 ); // Dienstag (ISO: 1 = Montag)
+define( 'KJM_RELEASE_ZEIT', '19:00' );
+
+/* Sichtbare Songs in der Reihenfolge des Pults. */
+function kjm_pult_ids() {
+	$posts = get_posts(
+		array(
+			'post_type'      => 'attachment',
+			'post_mime_type' => 'audio',
+			'post_status'    => 'inherit',
+			'posts_per_page' => 300,
+			'orderby'        => 'date',
+			'order'          => 'ASC',
+			'no_found_rows'  => true,
+		)
+	);
+	$l = array();
+	foreach ( $posts as $p ) {
+		if ( kjm_visible( $p->ID ) ) {
+			$o   = get_post_meta( $p->ID, 'kjm_order', true );
+			$l[] = array( $p->ID, kjm_genre( $p->ID ), '' === $o ? PHP_INT_MAX : (int) $o );
+		}
+	}
+	usort(
+		$l,
+		function ( $a, $b ) {
+			$ra = kjm_genre_rank( $a[1] );
+			$rb = kjm_genre_rank( $b[1] );
+			if ( $ra !== $rb ) {
+				return $ra < $rb ? -1 : 1;
+			}
+			if ( $ra >= 1000 && strcasecmp( $a[1], $b[1] ) ) {
+				return strcasecmp( $a[1], $b[1] );
+			}
+			return $a[2] === $b[2] ? 0 : ( $a[2] < $b[2] ? -1 : 1 );
+		}
+	);
+	return wp_list_pluck( $l, 0 );
+}
+
+/* Erster Release-Dienstag, der noch nicht vorbei ist (heute zählt bis 19 Uhr) und nach dem letzten erledigten Release liegt. */
+function kjm_release_start( $nach = '' ) {
+	$tz = wp_timezone();
+	$d  = new DateTimeImmutable( 'now', $tz );
+	if ( (int) $d->format( 'N' ) === KJM_RELEASE_TAG && $d->format( 'H:i' ) >= KJM_RELEASE_ZEIT ) {
+		$d = $d->modify( '+1 day' );
+	}
+	while ( (int) $d->format( 'N' ) !== KJM_RELEASE_TAG ) {
+		$d = $d->modify( '+1 day' );
+	}
+	if ( $nach && $d->format( 'Y-m-d' ) <= $nach ) {
+		$d = new DateTimeImmutable( $nach, $tz );
+		do {
+			$d = $d->modify( '+1 day' );
+		} while ( (int) $d->format( 'N' ) !== KJM_RELEASE_TAG );
+	}
+	return $d;
+}
+
+/* Plant alle offenen Songs neu: ein Song pro Dienstag. Gibt id => Datum zurück. */
+function kjm_release_plan() {
+	$ids     = kjm_pult_ids();
+	$letzter = '';
+	foreach ( $ids as $id ) {
+		$d = (string) get_post_meta( $id, 'kjm_release', true );
+		if ( get_post_meta( $id, 'kjm_release_erl', true ) && $d > $letzter ) {
+			$letzter = $d;
+		}
+	}
+	$tag = kjm_release_start( $letzter );
+	$out = array();
+	foreach ( $ids as $id ) {
+		if ( get_post_meta( $id, 'kjm_release_erl', true ) ) {
+			continue;
+		}
+		$out[ $id ] = $tag->format( 'Y-m-d' );
+		update_post_meta( $id, 'kjm_release', $out[ $id ] );
+		$tag = $tag->modify( '+7 days' );
+	}
+	return $out;
+}
+
+function kjm_release_cell( $id ) {
+	$d = (string) get_post_meta( $id, 'kjm_release', true );
+	$e = (bool) get_post_meta( $id, 'kjm_release_erl', true );
+	return '<span style="white-space:nowrap"><input type="date" class="kjm-rel-d" data-id="' . (int) $id . '" value="' . esc_attr( $d ) . '" style="width:140px"> <label title="veröffentlicht"><input type="checkbox" class="kjm-rel-e" data-id="' . (int) $id . '"' . checked( $e, true, false ) . '> erl.</label></span>';
+}
+
+/* Kasten über der Track-Liste: nächster Release und „Termine planen“. */
+function kjm_release_box() {
+	$heute = wp_date( 'Y-m-d' );
+	$next  = null;
+	foreach ( kjm_pult_ids() as $id ) {
+		$d = (string) get_post_meta( $id, 'kjm_release', true );
+		if ( $d && $d >= $heute && ! get_post_meta( $id, 'kjm_release_erl', true ) && ( ! $next || $d < $next[1] ) ) {
+			$next = array( $id, $d );
+		}
+	}
+	$wt = array( '', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So' );
+	echo '<div style="margin:8px 0 12px;padding:10px 14px;background:#fff;border-left:4px solid #B29D75"><strong>Release-Plan:</strong> jeden Dienstag um 19 Uhr ein Song als Reel, in der Reihenfolge des Pults. ';
+	if ( $next ) {
+		$t = new DateTimeImmutable( $next[1], wp_timezone() );
+		echo 'Nächster Release: <strong>' . esc_html( $wt[ (int) $t->format( 'N' ) ] . ', ' . $t->format( 'd.m.Y' ) . ', ' . KJM_RELEASE_ZEIT . ' Uhr – ' . get_the_title( $next[0] ) ) . '</strong>. ';
+	} else {
+		echo 'Noch kein offener Termin geplant. ';
+	}
+	echo '<button type="button" class="button" id="kjm-rel-plan">Termine planen</button> <span id="kjm-rel-msg" class="description">Nach dem Posten bei „erl.“ abhaken. Erledigte Songs behalten ihr Datum.</span></div>';
+}
+
+add_action(
+	'wp_ajax_kjm_release',
+	function () {
+		check_ajax_referer( 'kjm_bpm' );
+		if ( ! current_user_can( 'upload_files' ) ) {
+			wp_send_json_error( null, 403 );
+		}
+		if ( ! empty( $_POST['plan'] ) ) {
+			wp_send_json_success( kjm_release_plan() );
+		}
+		$id = (int) ( $_POST['id'] ?? 0 );
+		if ( ! $id || ! current_user_can( 'edit_post', $id ) || ! kjm_is_audio( get_post( $id ) ) ) {
+			wp_send_json_error( null, 400 );
+		}
+		$d = sanitize_text_field( wp_unslash( $_POST['datum'] ?? '' ) );
+		$d = preg_match( '/^\d{4}-\d{2}-\d{2}$/', $d ) ? $d : '';
+		$e = ! empty( $_POST['erl'] );
+		if ( $e && '' === $d ) {
+			$d = wp_date( 'Y-m-d' ); // abgehakt ohne Datum: heute
+		}
+		update_post_meta( $id, 'kjm_release', $d );
+		$e ? update_post_meta( $id, 'kjm_release_erl', 1 ) : delete_post_meta( $id, 'kjm_release_erl' );
+		wp_send_json_success( array( 'datum' => $d ) );
+	}
+);
+
+/* Einmalig (1.68.0): Electric Blue (5111) ist bereits erschienen, die übrigen Songs bekommen ihre Dienstage. */
+add_action(
+	'admin_init',
+	function () {
+		if ( get_option( 'kjm_release_init' ) ) {
+			return;
+		}
+		update_option( 'kjm_release_init', 1, false );
+		if ( kjm_is_audio( get_post( 5111 ) ) && ! get_post_meta( 5111, 'kjm_release_erl', true ) ) {
+			update_post_meta( 5111, 'kjm_release_erl', 1 );
+		}
+		kjm_release_plan(); // Termine für alle weiteren Songs vorbelegen
+	}
+);
+
 /* Reihenfolge der Genres im Pult (Option kjm_genre_order); unbekannte Genres folgen alphabetisch. */
 function kjm_genre_rank( $genre ) {
 	static $go = null;
@@ -855,16 +1010,17 @@ function kjm_admin_page() {
 	}
 	echo '<p>Die Songs laufen im Pult in der Qualität, in der du sie hochlädst. Der direkte Download der Dateien ist gesperrt.</p>';
 	kjm_order_box( $posts );
-	echo '<p class="kjm-filter" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:16px 0 8px"><input type="search" id="kjm-f-q" placeholder="Titel suchen …" style="min-width:220px"> <select id="kjm-f-g" aria-label="Genre"><option value="">Alle Genres</option></select> <select id="kjm-f-p" aria-label="Im Pult"><option value="">Im Pult: alle</option><option value="ja">nur im Pult</option><option value="nein">nicht im Pult</option></select> <span id="kjm-f-n" style="color:#646970"></span></p>';
-	echo '<table class="widefat striped" id="kjm-tracks"><thead><tr><th>Titel</th><th>Genre</th><th>BPM</th><th>Tonart</th><th>Qualität</th><th>Video</th><th>Bewertung</th><th>Im Pult</th><th></th></tr></thead><tbody>';
+	echo '<p class="kjm-filter" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:16px 0 8px"><input type="search" id="kjm-f-q" placeholder="Titel suchen …" style="min-width:220px"> <select id="kjm-f-g" aria-label="Genre"><option value="">Alle Genres</option></select> <select id="kjm-f-p" aria-label="Im Pult"><option value="">Im Pult: alle</option><option value="ja">nur im Pult</option><option value="nein">nicht im Pult</option></select> <select id="kjm-f-r" aria-label="Release"><option value="">Release: alle</option><option value="offen">nur offen</option><option value="erl">nur erledigt</option></select> <span id="kjm-f-n" style="color:#646970"></span></p>';
+	kjm_release_box();
+	echo '<table class="widefat striped" id="kjm-tracks"><thead><tr><th>Titel</th><th>Genre</th><th>BPM</th><th>Tonart</th><th>Qualität</th><th>Video</th><th>Bewertung</th><th>Im Pult</th><th>Release</th><th></th></tr></thead><tbody>';
 	if ( ! $posts ) {
-		echo '<tr><td colspan="9">Noch keine MP3s in der Mediathek.</td></tr>';
+		echo '<tr><td colspan="10">Noch keine MP3s in der Mediathek.</td></tr>';
 	}
 	foreach ( $posts as $p ) {
 		$r   = kjm_rating( $p->ID );
 		$bpm = get_post_meta( $p->ID, 'kjm_bpm', true );
 		$key = kjm_key( $p->ID );
-		echo '<tr><td>' . esc_html( $p->post_title ) . '</td><td>' . esc_html( kjm_genre( $p->ID ) ?: '–' ) . '</td><td><span class="kjm-bpm-val">' . esc_html( $bpm ?: '–' ) . '</span></td><td><span class="kjm-key-val">' . esc_html( $key ?: '–' ) . '</span> <button type="button" class="button button-small kjm-bpm-btn" data-id="' . (int) $p->ID . '" data-has="' . ( $bpm && $key && kjm_wave_get( $p->ID ) ? 1 : 0 ) . '" data-url="' . esc_url( wp_make_link_relative( (string) wp_get_attachment_url( $p->ID ) ) ) . '">erkennen</button></td><td>' . kjm_quality( $p->ID ) . '</td><td>' . ( kjm_video( $p->ID ) ? 'ja' : '–' ) . '</td><td>' . ( $r['count'] ? esc_html( number_format_i18n( $r['avg'], 1 ) . ' (' . $r['count'] . ')' ) : '–' ) . '</td><td>' . ( kjm_visible( $p->ID ) ? 'ja' : 'nein' ) . '</td><td><a href="' . esc_url( get_edit_post_link( $p->ID ) ) . '">Bearbeiten</a></td></tr>';
+		echo '<tr><td>' . esc_html( $p->post_title ) . '</td><td>' . esc_html( kjm_genre( $p->ID ) ?: '–' ) . '</td><td><span class="kjm-bpm-val">' . esc_html( $bpm ?: '–' ) . '</span></td><td><span class="kjm-key-val">' . esc_html( $key ?: '–' ) . '</span> <button type="button" class="button button-small kjm-bpm-btn" data-id="' . (int) $p->ID . '" data-has="' . ( $bpm && $key && kjm_wave_get( $p->ID ) ? 1 : 0 ) . '" data-url="' . esc_url( wp_make_link_relative( (string) wp_get_attachment_url( $p->ID ) ) ) . '">erkennen</button></td><td>' . kjm_quality( $p->ID ) . '</td><td>' . ( kjm_video( $p->ID ) ? 'ja' : '–' ) . '</td><td>' . ( $r['count'] ? esc_html( number_format_i18n( $r['avg'], 1 ) . ' (' . $r['count'] . ')' ) : '–' ) . '</td><td>' . ( kjm_visible( $p->ID ) ? 'ja' : 'nein' ) . '</td><td>' . kjm_release_cell( $p->ID ) . '</td><td><a href="' . esc_url( get_edit_post_link( $p->ID ) ) . '">Bearbeiten</a></td></tr>';
 	}
 	echo '</tbody></table>';
 	echo <<<'KJMTAB'
@@ -872,21 +1028,22 @@ function kjm_admin_page() {
 <script>
 /* Track-Liste: Spalten per Klick sortieren, nach Titel, Genre und „Im Pult“ filtern (seit 1.63.0) */
 (function(){var t=document.getElementById("kjm-tracks");if(!t)return;var tb=t.tBodies[0],rows=[].slice.call(tb.rows).filter(function(r){return r.cells.length>1}),
- q=document.getElementById("kjm-f-q"),g=document.getElementById("kjm-f-g"),pu=document.getElementById("kjm-f-p"),n=document.getElementById("kjm-f-n"),col=-1,dir=1;
+ q=document.getElementById("kjm-f-q"),g=document.getElementById("kjm-f-g"),pu=document.getElementById("kjm-f-p"),fr=document.getElementById("kjm-f-r"),n=document.getElementById("kjm-f-n"),col=-1,dir=1;
 function txt(r,i){return(r.cells[i]?r.cells[i].textContent:"").replace("neu erkennen","").replace("erkennen","").trim()}
-function val(r,i){var s=txt(r,i),m;if(s===""||s==="–")return null;
+function rel(r){var d=r.querySelector(".kjm-rel-d"),e=r.querySelector(".kjm-rel-e");return{d:d?d.value:"",e:!!(e&&e.checked)}}
+function val(r,i){if(i===8){var x=rel(r);return x.d?(x.e?"0":"1")+x.d:(x.e?"0":null)}var s=txt(r,i),m;if(s===""||s==="–")return null;
  if(i===2||i===4){m=s.match(/[\d.,]+/);return m?parseFloat(m[0].replace(",",".")):null}
  if(i===3){m=s.match(/^(\d+)([AB])/i);return m?+m[1]*2+(m[2].toUpperCase()==="B"?1:0):null}
  if(i===6){m=s.match(/([\d,]+)\s*\((\d+)\)/);return m?parseFloat(m[1].replace(",","."))*1000+ +m[2]:null}
  return s.toLowerCase()}
-[].forEach.call(t.tHead.rows[0].cells,function(th,i){if(i>7)return;th.classList.add("kjm-s");th.title="Sortieren";th.addEventListener("click",function(){dir=col===i?-dir:1;col=i;
+[].forEach.call(t.tHead.rows[0].cells,function(th,i){if(i>8)return;th.classList.add("kjm-s");th.title="Sortieren";th.addEventListener("click",function(){dir=col===i?-dir:1;col=i;
  [].forEach.call(t.tHead.rows[0].cells,function(c){c.classList.remove("kjm-asc","kjm-desc")});th.classList.add(dir>0?"kjm-asc":"kjm-desc");
  rows.sort(function(a,b){var x=val(a,i),y=val(b,i);if(x===null&&y===null)return 0;if(x===null)return 1;if(y===null)return -1;
   return(typeof x==="number"?x-y:String(x).localeCompare(String(y),"de"))*dir}).forEach(function(r){tb.appendChild(r)})})});
 var gs={};rows.forEach(function(r){var v=txt(r,1);gs[v]=1});Object.keys(gs).sort(function(a,b){return a.localeCompare(b,"de")}).forEach(function(v){var o=document.createElement("option");o.value=v;o.textContent=v==="–"?"(ohne Genre)":v;g.appendChild(o)});
-function f(){var s=q.value.trim().toLowerCase(),k=0;rows.forEach(function(r){var ok=(!s||txt(r,0).toLowerCase().indexOf(s)>-1)&&(!g.value||txt(r,1)===g.value)&&(!pu.value||txt(r,7).toLowerCase()===pu.value);r.style.display=ok?"":"none";if(ok)k++});
+function f(){var s=q.value.trim().toLowerCase(),k=0;rows.forEach(function(r){var ok=(!s||txt(r,0).toLowerCase().indexOf(s)>-1)&&(!g.value||txt(r,1)===g.value)&&(!pu.value||txt(r,7).toLowerCase()===pu.value)&&(!fr.value||(fr.value==="erl")===rel(r).e);r.style.display=ok?"":"none";if(ok)k++});
  n.textContent=k===rows.length?rows.length+" Songs":k+" von "+rows.length+" Songs"}
-q.addEventListener("input",f);g.addEventListener("change",f);pu.addEventListener("change",f);f()})();
+q.addEventListener("input",f);g.addEventListener("change",f);pu.addEventListener("change",f);fr.addEventListener("change",f);document.addEventListener("kjm:rel",f);f()})();
 </script>
 KJMTAB;
 	echo '<p><button type="button" class="button button-primary" id="kjm-bpm-all">BPM &amp; Tonart für alle Songs ohne Angabe erkennen</button> <span id="kjm-bpm-msg"></span></p>';
@@ -903,6 +1060,15 @@ function run(btn){var row=btn.parentNode.parentNode,bc=row.querySelector(".kjm-b
 document.getElementById("kjm-bpm-all").addEventListener("click",function(){var l=[].filter.call(document.querySelectorAll(".kjm-bpm-btn"),function(b){return b.getAttribute("data-has")!=="1"}),i=0,all=this,bad=0;
  if(!l.length){msg.textContent="Alle Songs haben schon BPM, Tonart und Wellenform.";return}all.disabled=true;
  (function next(){if(i>=l.length){all.disabled=false;msg.textContent="Fertig: "+(l.length-bad)+" erkannt"+(bad?", "+bad+" ohne klares Ergebnis (bitte von Hand eintragen).":".");return}msg.textContent="Song "+(i+1)+" von "+l.length+" …";run(l[i++]).then(function(ok){if(!ok)bad++;next()})})()});
+/* Release-Spalte: Datum/erl. sofort speichern, „Termine planen“ füllt alle offenen Songs */
+var rm=document.getElementById("kjm-rel-msg");function post(o){var f=new FormData();f.append("action","kjm_release");f.append("_ajax_nonce",N);for(var k in o)f.append(k,o[k]);return fetch(AJ,{method:"POST",body:f,credentials:"same-origin"}).then(function(r){return r.json()})}
+function wd(inp){var v=inp.value,s=inp.parentNode.querySelector(".kjm-rel-w");if(!s){s=document.createElement("small");s.className="kjm-rel-w";inp.parentNode.appendChild(s)}var d=v?new Date(v+"T12:00:00"):null;s.textContent=d?" "+["So","Mo","Di","Mi","Do","Fr","Sa"][d.getDay()]:"";s.style.color=d&&d.getDay()!==2?"#b32d2e":"#646970"}
+function rs(id){var d=document.querySelector(".kjm-rel-d[data-id=\""+id+"\"]"),e=document.querySelector(".kjm-rel-e[data-id=\""+id+"\"]");rm.textContent="speichere …";
+ post({id:id,datum:d.value,erl:e.checked?1:""}).then(function(j){if(!j.success)throw 0;d.value=j.data.datum;wd(d);rm.textContent="gespeichert.";document.dispatchEvent(new Event("kjm:rel"))}).catch(function(){rm.textContent="Speichern fehlgeschlagen."})}
+[].forEach.call(document.querySelectorAll(".kjm-rel-d"),function(d){wd(d);d.addEventListener("change",function(){rs(d.getAttribute("data-id"))})});
+[].forEach.call(document.querySelectorAll(".kjm-rel-e"),function(e){e.addEventListener("change",function(){rs(e.getAttribute("data-id"))})});
+var pb=document.getElementById("kjm-rel-plan");if(pb)pb.addEventListener("click",function(){if(!confirm("Alle offenen Songs (ohne „erl.“) bekommen neue Termine: ab dem nächsten freien Dienstag, ein Song pro Woche, in der Reihenfolge des Pults. Von Hand eingetragene Termine offener Songs werden dabei überschrieben. Fortfahren?"))return;pb.disabled=true;rm.textContent="plane …";
+ post({plan:1}).then(function(j){pb.disabled=false;if(!j.success)throw 0;var k=0;for(var id in j.data){var d=document.querySelector(".kjm-rel-d[data-id=\""+id+"\"]");if(d){d.value=j.data[id];wd(d);k++}}rm.textContent=k+" Termine geplant. Die Anzeige „Nächster Release“ aktualisiert sich beim Neuladen.";document.dispatchEvent(new Event("kjm:rel"))}).catch(function(){pb.disabled=false;rm.textContent="Planen fehlgeschlagen."})});
 })();</script>';
 }
 
