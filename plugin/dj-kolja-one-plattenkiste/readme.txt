@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.67.2: Beispiel-Setup auf der Equipment-Seite per Klick vergrößerbar (Originalgröße, zweiter Klick zoomt heran). Seiten aus Vorlage einspielen.
 Seit 1.67.1: Datumsfelder überall (Datum-Check, Anfrage, Verleih, Admin) – ein Klick aufs Kalendersymbol oder ins Feld öffnet den Kalender.
 Seit 1.67.0: Intro-Videos auch für Über mich, Technik mieten, Equipment, Einsatzgebiete und alle Ortsseiten; Hochformat mit kräftigerem Verlauf. Seiten aus Vorlage einspielen.
 Seit 1.66.0: Intro-Videos auch für Geburtstags-DJ, Firmenfeier-DJ und Event-DJ (Event mit echten Clips, GEMA-Hinweis abgeschnitten). Kein erneutes Einspielen nötig.

@@ -1,9 +1,9 @@
 {
- "version": "1.67.1",
- "download_url": "dj-kolja-one-plattenkiste-1.67.1.zip",
- "sha256": "037ff975163e3f8db20d60d78de9f148a569b51c74e55f2aec13182bff31c6b8",
+ "version": "1.67.2",
+ "download_url": "dj-kolja-one-plattenkiste-1.67.2.zip",
+ "sha256": "5941a8fbf4d443ce9c70ab79541b27690f69b773e576da6d3865b954dfae444d",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Kalender per Klick"
+ "changelog": "Bild vergrößern"
 }

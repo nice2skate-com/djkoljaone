@@ -78,10 +78,10 @@ def SPACER(h): return W("spacer",{"space":px(h)})
 def DIV(): return W("divider",{"color":GOLD,"width":px(60),"align":"center","weight":px(1)})
 def EYE(t,align="center"): return H(t,"p",13,GOLD,align,"500",ls=3,tr="uppercase")
 UP="/wp-content/uploads/"
-def IMG(h=320,hm=240,name=None,**kw):
+def IMG(h=320,hm=240,name=None,zoom=False,**kw):
     if name:
         kw.update(background_image={"url":UP+name,"id":""},background_position="center center",background_size="cover",background_repeat="no-repeat")
-        kw.update(css_classes="kjo-m-"+name.rsplit(".",1)[0])
+        kw.update(css_classes="kjo-m-"+name.rsplit(".",1)[0]+(" kjo-zoom" if zoom else ""))  # kjo-zoom: per Klick vergrößern
     kw.setdefault("min_height_mobile",px(hm)); return con([],bg=B2,min_height=px(h),**kw)
 
 def LOGO(url,w,wm,align="left"):

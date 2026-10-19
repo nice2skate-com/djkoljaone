@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.67.1
+ * Version:     1.67.2
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.67.1' );
+define( 'KJO_VERSION', '1.67.2' );
 define( 'KJO_USTID', 'DE331619498' ); // Umsatzsteuer-Identifikationsnummer (Bescheid BZSt vom 25.07.2020)
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
@@ -1177,7 +1177,7 @@ function kjo_media_motion( $map ) {
 	return $map;
 }
 function kjo_media_map() {
-	$map = get_transient( 'kjo_media_map5' );
+	$map = get_transient( 'kjo_media_map6' );
 	if ( is_array( $map ) ) {
 		return $map;
 	}
@@ -1209,6 +1209,9 @@ function kjo_media_map() {
 			if ( 'img' === $kind && function_exists( 'kjo_img_small_url' ) && ( $sm = kjo_img_small_url( $id ) ) ) { // phpcs:ignore
 				$map[ $m[1] ]['sm'] = set_url_scheme( $sm );
 			}
+			if ( 'img' === $kind && 0 === strpos( $m[1], 'equip_' ) ) {
+				$map[ $m[1] ]['full'] = set_url_scheme( wp_get_attachment_url( $id ) ); // Originalgröße für die Vergrößerung (Pläne mit kleiner Schrift)
+			}
 			$h = (int) get_post_meta( $id, 'kjo_h', true );
 			if ( $h && ( 'vid' === $kind || empty( $map[ $m[1] ]['h'] ) ) ) {
 				$map[ $m[1] ]['h'] = $h; // Video hat Vorrang, wenn beide eine Höhe haben.
@@ -1221,7 +1224,7 @@ function kjo_media_map() {
 			$map[ $k . '_1' ] = $map[ $k ];
 		}
 	}
-	set_transient( 'kjo_media_map5', $map, DAY_IN_SECONDS );
+	set_transient( 'kjo_media_map6', $map, DAY_IN_SECONDS );
 	return $map;
 }
 function kjo_media_flush() {
@@ -2490,6 +2493,32 @@ add_action(
 		echo '<script id="kjo-conversions">' . KJO_CONV_JS . '</script>' . "\n";
 	},
 	30
+);
+/**
+ * Bilder vergrößern (seit 1.67.2): Container mit der Klasse „kjo-zoom“ (z. B. der Beispiel-Setup-Plan) öffnen per Klick
+ * bildschirmfüllend in Originalgröße. Ein weiterer Klick aufs Bild zoomt auf volle Auflösung (verschiebbar), Esc/✕ schließt.
+ */
+add_action(
+	'wp_footer',
+	function () {
+		if ( is_admin() ) {
+			return;
+		}
+		?>
+<script id="kjo-zoom">(function(){var Z=document.querySelectorAll(".kjo-zoom");if(!Z.length)return;
+var st=document.createElement("style");st.textContent='.kjo-zoom{cursor:zoom-in}.kjo-zoom:focus-visible{outline:2px solid #B29D75;outline-offset:4px}.kjo-zm{position:fixed;inset:0;z-index:99995;background:rgba(8,6,4,.95);overflow:auto;display:flex;-webkit-overflow-scrolling:touch}.kjo-zm img{margin:auto;max-width:calc(100vw - 24px);max-height:calc(100vh - 24px);width:auto;height:auto;cursor:zoom-in;box-shadow:0 20px 50px rgba(0,0,0,.6)}.kjo-zm.gross img{max-width:none;max-height:none;width:auto;min-width:min(1600px,200vw);cursor:zoom-out}.kjo-zm button{all:unset;box-sizing:border-box;position:fixed;top:12px;right:12px;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(178,157,117,.7);color:#F3F1E9;background:rgba(22,19,16,.85);font:300 30px/1 "Fira Sans",sans-serif;z-index:1}.kjo-zm button:hover,.kjo-zm button:focus-visible{background:#B29D75;color:#0F0C07}.kjo-zm p{position:fixed;left:0;right:0;bottom:10px;margin:0;text-align:center;font:400 13px "Fira Sans",sans-serif;color:#A39E93;pointer-events:none}';document.head.appendChild(st);
+function src(z){var M=window.KJO_MEDIA||{},c=(z.className.match(/kjo-m-([a-z0-9_]+)/)||[])[1],e=c&&M[c];if(e&&(e.full||e.img))return e.full||e.img;var b=getComputedStyle(z).backgroundImage.match(/url\(["']?(.*?)["']?\)/);return b&&b[1];}
+var last;function zu(o){o.remove();document.documentElement.style.overflow="";document.removeEventListener("keydown",esc);if(last)last.focus();}
+function esc(e){if(e.key==="Escape"){var o=document.querySelector(".kjo-zm");if(o)zu(o);}}
+function auf(z){var u=src(z);if(!u)return;last=z;var o=document.createElement("div");o.className="kjo-zm";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.setAttribute("aria-label","Bild vergrößert");
+ o.innerHTML='<button type="button" aria-label="Schließen">×</button><img alt=""><p>Tippen zum Heranzoomen · Esc oder × zum Schließen</p>';var i=o.querySelector("img");i.src=u;i.alt=z.getAttribute("aria-label")||"";
+ o.addEventListener("click",function(e){if(e.target===i){o.classList.toggle("gross");return;}zu(o);});
+ document.body.appendChild(o);document.documentElement.style.overflow="hidden";document.addEventListener("keydown",esc);o.querySelector("button").focus();try{if(window.kjoTrack)window.kjoTrack("bild_zoom",{item_name:u.split("/").pop()});}catch(x){}}
+[].forEach.call(Z,function(z){z.setAttribute("role","button");z.tabIndex=0;if(!z.getAttribute("aria-label"))z.setAttribute("aria-label","Bild vergrößern");
+ z.addEventListener("click",function(){auf(z);});z.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();auf(z);}});});})();</script>
+		<?php
+	},
+	40
 );
 /**
  * Datumsfelder überall (seit 1.67.1): Ein Klick irgendwo ins Feld – auch aufs Kalendersymbol – öffnet den Kalender.
