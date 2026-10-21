@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.70.0
+ * Version:     1.70.1
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.70.0' );
+define( 'KJO_VERSION', '1.70.1' );
 define( 'KJO_USTID', 'DE331619498' ); // Umsatzsteuer-Identifikationsnummer (Bescheid BZSt vom 25.07.2020)
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
@@ -2293,11 +2293,32 @@ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",
 KJOJS
 );
 
+/* WhatsApp-Logo (Simple Icons, CC0) – für die Navigation und als Symbol vor jedem WhatsApp-Link (seit 1.70.1). */
+define( 'KJO_WA_PFAD', 'M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z' );
+
+/* Jeder Link zu WhatsApp (wa.me) bekommt das WhatsApp-Symbol – in Buttons, im Text und in der Fußzeile.
+   Ausgenommen: Links, die schon ein Symbol enthalten (z. B. das Icon in der Navigation). */
+add_action(
+	'wp_head',
+	function () {
+		if ( is_admin() ) {
+			return;
+		}
+		$m = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='" . KJO_WA_PFAD . "'/%3E%3C/svg%3E\")";
+		echo '<style id="kjo-wa-ico">:root{--kjo-wa:' . $m . '}'
+			. 'a[href*="wa.me/"]:not(.kjo-wa):not(.elementor-button):not(:has(svg,i,img))::before,'
+			. 'a.elementor-button[href*="wa.me/"]:not(:has(svg,i,img)) .elementor-button-text::before'
+			. '{content:"";display:inline-block;width:1.15em;height:1.15em;margin-right:.45em;vertical-align:-.2em;background-color:currentColor;'
+			. '-webkit-mask:var(--kjo-wa) center/contain no-repeat;mask:var(--kjo-wa) center/contain no-repeat;flex:none}</style>' . "\n"; // phpcs:ignore
+	},
+	6
+);
+
 function kjo_icons() {
 	$tel = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg>';
 	$wa  = kjo_fa_dir()
 		? '<i class="fab fa-whatsapp" aria-hidden="true"></i>'
-		: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3C6.9 3 3 6.7 3 11.2c0 2 .8 3.8 2.1 5.2L4 21l4.8-1.5c1 .3 2.1.5 3.2.5 5.1 0 9-3.7 9-8.2S17.1 3 12 3z"/></svg>';
+		: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' . KJO_WA_PFAD . '"/></svg>';
 	return array( $tel, $wa );
 }
 
