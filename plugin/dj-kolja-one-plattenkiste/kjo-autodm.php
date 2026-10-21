@@ -30,9 +30,9 @@ function kjo_adm_opts() {
 				'worte'   => 'DJ',
 				'antwort' => 'Check deine DMs 📩',
 				'dm'      => "Hey @{name}! 🎧 Tipp auf den Link und schick die Nachricht ab – dann bekommst du sofort deinen Link auf WhatsApp:\n{whatsapp}",
-				'wa'      => "Hey {name}! 🎶 Hier ist dein Download: {datei}\n\nViel Spaß beim Reinhören – Kolja",
-				'datei'   => '',
-				'name'    => '',
+				'wa'      => "Hey {name}! 🎶 Hier ist „Got the Summer Feeling“ für dich: {datei}\n\nViel Spaß beim Reinhören – Kolja",
+				'datei'   => 'https://drive.google.com/file/d/15oc1pYtb2-1dsTrOGdCoM6HaPGkB1ffN/view?usp=drivesdk',
+				'name'    => 'Got the Summer Feeling.mp3',
 			),
 		),
 	);
