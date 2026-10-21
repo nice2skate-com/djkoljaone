@@ -1,9 +1,9 @@
 {
- "version": "1.71.0",
- "download_url": "dj-kolja-one-plattenkiste-1.71.0.zip",
- "sha256": "bc16d15febac15fcc4cbe4873fdbc82eff720043d33718f9ab1f316ff26963d7",
+ "version": "1.71.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.71.1.zip",
+ "sha256": "e763b397e41d5e0a534c23e0835fef555f82f89902faf12aa975df7aea6728e8",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Social → Kommentar → WhatsApp: Stichwort unter einem Reel kommentieren → Antwort, Instagram-DM mit WhatsApp-Link und automatische WhatsApp-Antwort, auf Wunsch mit MP3/PDF aus Google Drive direkt im Chat (wie ManyChat). Datenschutzerklärung ergänzt."
+ "changelog": "WhatsApp grün"
 }
