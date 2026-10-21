@@ -1,9 +1,9 @@
 {
- "version": "1.70.0",
- "download_url": "dj-kolja-one-plattenkiste-1.70.0.zip",
- "sha256": "083be178d6c5ef140ff8925b7319ae1a0c4e8c3b00d7db1ee34e1904458b66f8",
+ "version": "1.70.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.70.1.zip",
+ "sha256": "09a963aa4699a1708589e2618b367448100689a553a0b27ac78bc5804e82245d",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Bewertungsfotos"
+ "changelog": "WhatsApp-Symbol"
 }
