@@ -114,3 +114,8 @@ Termin von vor 3 bis in 6 Tagen, noch nicht „erl.“). Dann schreibt sie den e
   in Google Analytics als Quelle „instagram“ / Medium „kommentar“.
 - Voraussetzung: Seitenschlüssel mit `instagram_manage_comments` (Schritt 3 oben, neu erzeugen und unter Social speichern).
 - „Probelauf“ zeigt, ob das Reel gefunden wird, ohne etwas zu schreiben.
+
+## Kommentar → WhatsApp (seit 1.71.0)
+
+Wie ManyChat: Stichwort unter einem Reel kommentieren → Antwort + Instagram-DM mit WhatsApp-Link → auf WhatsApp
+automatisch dein Link. WordPress → **Social → Kommentar → WhatsApp**. Einrichtung Schritt für Schritt: `social/AUTO-DM.md`.
