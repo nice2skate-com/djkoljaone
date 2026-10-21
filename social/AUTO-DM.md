@@ -4,7 +4,8 @@ Wer unter einem Reel ein Stichwort kommentiert (z. B. **DJ**), bekommt automatis
 
 1. eine öffentliche Antwort unter dem Kommentar („Check deine DMs 📩“),
 2. eine **Instagram-DM** mit einem WhatsApp-Link, in dem „DJ“ schon eingetippt ist,
-3. nach dem Absenden auf WhatsApp sofort eine **WhatsApp-Antwort** mit deinem Link.
+3. nach dem Absenden auf WhatsApp sofort eine **WhatsApp-Antwort** mit deinem Link und, wenn hinterlegt, die
+   **MP3 oder PDF direkt als Datei im Chat** (z. B. aus Google Drive).
 
 Alles läuft über die Website (Plugin-Datei `kjo-autodm.php`), ohne ManyChat oder einen anderen Fremddienst.
 Einstellungen: WordPress → **Social → Kommentar → WhatsApp**.
@@ -72,9 +73,14 @@ wird, hängt vom Konto ab.
 7. WordPress → **Verbindung prüfen & Seite anmelden** → jetzt auch ✔ WhatsApp verbunden.
 
 ## 6. Texte einstellen, testen, einschalten (10 Min.)
-1. Unter **Stichwörter** die Texte anpassen. Vor allem in *WhatsApp-Antwort* steht **der Link, den die Leute bekommen**.
-   Standard: Meine Musik (mit UTM, in Google Analytics als Quelle „instagram“ / Medium „whatsapp“).
-   - Platzhalter: `{name}`, `{whatsapp}` (Link mit eingetipptem Stichwort), `{website}` (https://dj-kolja-one.de/)
+1. Unter **Stichwörter** die Texte anpassen.
+   - **Datei (MP3/PDF) aus Google Drive:** In Google Drive die Datei → *Teilen* → *Allgemeiner Zugriff*:
+     **„Jeder, der über den Link verfügt“** (Betrachter) → *Link kopieren* → in WordPress ins Feld *Datei* einfügen,
+     daneben einen Dateinamen wie `Sommer-Mix-2026.mp3` eintragen. Der Link steht dann an der Stelle `{datei}` in der
+     WhatsApp-Antwort, und die Datei kommt zusätzlich direkt in den Chat.
+     Bis 100 MB klappt das Anhängen. Größere Dateien (bei Google ab etwa 100 MB wegen des Virenscan-Hinweises) kommen nur als Link.
+   - Ohne Datei führt `{datei}` zu Meine Musik (mit UTM, in Google Analytics als Quelle „instagram“ / Medium „whatsapp“).
+   - Platzhalter: `{name}`, `{datei}`, `{whatsapp}` (Link mit eingetipptem Stichwort), `{website}` (https://dj-kolja-one.de/)
    - Weiteres Stichwort, z. B. `MIX` oder `HOCHZEIT`: einfach im leeren Feld „Neues Stichwort“ anlegen → Speichern.
 2. **Ausprobieren:** einen Beispiel-Kommentar eingeben → *Testen*. Zeigt die DM und die WhatsApp-Antwort, sendet nichts.
 3. **Automatische Antworten einschalten** anhaken → Speichern.
@@ -114,6 +120,7 @@ Lehnt Meta ab, steht in der Begründung, was fehlt. Nachbessern und neu einreich
 | Verlauf: Instagram-DM ✘ „…permission…“ | Seitenschlüssel ohne `instagram_manage_messages`: Schritt 2 wiederholen. |
 | Verlauf: Instagram-DM ✘ sonst | Schalter aus Schritt 1 an? Private Antworten gehen nur einmal pro Kommentar und nur 7 Tage lang. |
 | WhatsApp: keine Antwort | *messages* abonniert? Steht im Verlauf ✘, steht dort der Grund. Die Nachricht muss das Stichwort enthalten. |
+| Verlauf: WhatsApp-Datei ✘ / Datei kommt nicht an | Drive-Freigabe auf „Jeder, der über den Link verfügt“? Datei über 100 MB? Der Link in der Nachricht davor funktioniert trotzdem. |
 | DM-Link öffnet deine normale Nummer | *WhatsApp-Nummer des Bots* ist leer. Dann gibt es auch keine automatische WhatsApp-Antwort. |
 
 **Gut zu wissen**

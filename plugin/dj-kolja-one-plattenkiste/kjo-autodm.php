@@ -5,7 +5,8 @@
  * 1. Jemand kommentiert ein Stichwort (z. B. „DJ“) unter einem Reel.
  * 2. Die Website antwortet öffentlich unter dem Kommentar und schickt eine Instagram-DM (Private Reply) mit einem
  *    wa.me-Link, in dem das Stichwort schon eingetippt ist.
- * 3. Die Person sendet das Stichwort auf WhatsApp → die Website antwortet automatisch mit dem Link.
+ * 3. Die Person sendet das Stichwort auf WhatsApp → die Website antwortet automatisch mit dem Link und schickt,
+ *    wenn hinterlegt, die Datei (MP3/PDF, z. B. aus Google Drive) direkt in den Chat.
  *
  * Instagram läuft über die Verbindung aus Social → Verbindung (Seiten-Zugriffsschlüssel, zusätzlich mit
  * instagram_manage_messages und pages_manage_metadata). WhatsApp über die WhatsApp Cloud API derselben Meta-App.
@@ -29,7 +30,9 @@ function kjo_adm_opts() {
 				'worte'   => 'DJ',
 				'antwort' => 'Check deine DMs 📩',
 				'dm'      => "Hey @{name}! 🎧 Tipp auf den Link und schick die Nachricht ab – dann bekommst du sofort deinen Link auf WhatsApp:\n{whatsapp}",
-				'wa'      => "Hey {name}! 🎶 Hier ist dein Link: {website}meine-musik/?utm_source=instagram&utm_medium=whatsapp&utm_campaign=kommentar-dj\n\nViel Spaß beim Reinhören – Kolja",
+				'wa'      => "Hey {name}! 🎶 Hier ist dein Download: {datei}\n\nViel Spaß beim Reinhören – Kolja",
+				'datei'   => '',
+				'name'    => '',
 			),
 		),
 	);
@@ -93,7 +96,16 @@ function kjo_adm_wa_link( $r ) {
 }
 
 function kjo_adm_text( $t, $name, $r ) {
-	return trim( strtr( $t, array( '{name}' => $name, '{whatsapp}' => kjo_adm_wa_link( $r ), '{website}' => home_url( '/' ) ) ) );
+	$datei = ! empty( $r['datei'] ) ? $r['datei'] : home_url( '/meine-musik/?utm_source=instagram&utm_medium=whatsapp&utm_campaign=kommentar-' . rawurlencode( strtolower( kjo_adm_wort( $r ) ) ) );
+	return trim( strtr( $t, array( '{name}' => $name, '{whatsapp}' => kjo_adm_wa_link( $r ), '{website}' => home_url( '/' ), '{datei}' => $datei ) ) );
+}
+
+/** Google-Drive-Freigabelink → direkter Download, damit WhatsApp die Datei selbst holen kann. Andere https-Links bleiben. */
+function kjo_adm_download( $url ) {
+	if ( preg_match( '#drive\.google\.com/(?:file/d/|open\?id=|uc\?(?:.*&)?id=)([\w-]{10,})#', (string) $url, $m ) ) {
+		return 'https://drive.google.com/uc?export=download&id=' . $m[1];
+	}
+	return 0 === strpos( (string) $url, 'https://' ) ? $url : '';
 }
 
 /* ---------- Webhook ---------- */
@@ -211,14 +223,31 @@ function kjo_adm_whatsapp( $m, $contacts ) {
 			$name = sanitize_text_field( (string) ( $k['profile']['name'] ?? '' ) );
 		}
 	}
-	$res = kjo_adm_wa_senden( $von, preg_replace( '/ +([!,.])/u', '$1', kjo_adm_text( $r['wa'], $name, $r ) ) );
+	$res  = kjo_adm_wa_senden( $von, preg_replace( '/ +([!,.])/u', '$1', kjo_adm_text( $r['wa'], $name, $r ) ) );
 	$wort = kjo_adm_wort( $r );
 	$kurz = substr( $von, 0, 5 ) . '…' . substr( $von, -2 ); // Nummer im Verlauf nur gekürzt
 	if ( is_wp_error( $res ) ) {
 		kjo_adm_log( 'WhatsApp', false, $kurz . ': ' . $res->get_error_message() );
-	} else {
-		kjo_adm_zaehlen( $wort, 'wa' );
-		kjo_adm_log( 'WhatsApp', true, $kurz . ' hat „' . $wort . '“ geschrieben' );
+		return;
+	}
+	kjo_adm_zaehlen( $wort, 'wa' );
+	kjo_adm_log( 'WhatsApp', true, $kurz . ' hat „' . $wort . '“ geschrieben' );
+	// Zusätzlich die Datei selbst in den Chat – der Link steht schon in der Nachricht davor, falls WhatsApp sie nicht laden kann.
+	$dl = kjo_adm_download( $r['datei'] ?? '' );
+	if ( $dl ) {
+		$f   = trim( (string) ( $r['name'] ?? '' ) );
+		$doc = kjo_adm_wa_api(
+			rawurlencode( kjo_adm_opts()['wa_phone'] ) . '/messages',
+			array(
+				'messaging_product' => 'whatsapp',
+				'to'                => $von,
+				'type'              => 'document',
+				'document'          => array( 'link' => $dl, 'filename' => '' !== $f ? $f : 'DJ KOLJA ONE – ' . $wort ),
+			)
+		);
+		if ( is_wp_error( $doc ) ) {
+			kjo_adm_log( 'WhatsApp-Datei', false, $kurz . ': ' . $doc->get_error_message() );
+		}
 	}
 }
 
@@ -279,6 +308,8 @@ function kjo_adm_page() {
 					'antwort' => sanitize_text_field( wp_unslash( $r['antwort'] ?? '' ) ),
 					'dm'      => sanitize_textarea_field( wp_unslash( $r['dm'] ?? '' ) ),
 					'wa'      => sanitize_textarea_field( wp_unslash( $r['wa'] ?? '' ) ),
+					'datei'   => esc_url_raw( trim( wp_unslash( $r['datei'] ?? '' ) ), array( 'https' ) ),
+					'name'    => sanitize_file_name( wp_unslash( $r['name'] ?? '' ) ),
 				);
 				if ( '' !== trim( $r['worte'] ) && empty( $_POST['weg'][ $i ] ) ) { // phpcs:ignore
 					$o['regeln'][] = $r;
@@ -335,9 +366,9 @@ function kjo_adm_page() {
 	echo '<tr><th><label for="kjo-adm-wanr">WhatsApp-Nummer des Bots</label></th><td><input id="kjo-adm-wanr" name="wa_nummer" value="' . esc_attr( $o['wa_nummer'] ) . '" class="regular-text" inputmode="tel" placeholder="z. B. 491701234567"><p class="description">Die Nummer, die bei der Cloud API hinterlegt ist. Daraus entsteht der Link in der DM.</p></td></tr>';
 	echo '</table>';
 
-	echo '<h2>Stichwörter</h2><p>Platzhalter: <code>{name}</code> (Instagram-Name bzw. WhatsApp-Name), <code>{whatsapp}</code> (Link zu WhatsApp mit eingetipptem Stichwort), <code>{website}</code> (' . esc_html( home_url( '/' ) ) . '). Mehrere Stichwörter pro Regel mit Komma trennen; das erste wird in WhatsApp vorausgefüllt. Groß-/Kleinschreibung ist egal.</p>';
+	echo '<h2>Stichwörter</h2><p>Platzhalter: <code>{name}</code> (Instagram-Name bzw. WhatsApp-Name), <code>{whatsapp}</code> (Link zu WhatsApp mit eingetipptem Stichwort), <code>{website}</code> (' . esc_html( home_url( '/' ) ) . '), <code>{datei}</code> (dein Datei-Link; leer = Meine Musik). Mehrere Stichwörter pro Regel mit Komma trennen; das erste wird in WhatsApp vorausgefüllt. Groß-/Kleinschreibung ist egal.</p>';
 	$regeln   = $o['regeln'];
-	$regeln[] = array( 'worte' => '', 'antwort' => '', 'dm' => '', 'wa' => '' ); // leere Zeile für eine neue Regel
+	$regeln[] = array( 'worte' => '', 'antwort' => '', 'dm' => '', 'wa' => '', 'datei' => '', 'name' => '' ); // leere Zeile für eine neue Regel
 	foreach ( $regeln as $i => $r ) {
 		$n = 'regeln[' . $i . ']';
 		echo '<fieldset style="background:#fff;border:1px solid #c3c4c7;padding:4px 16px;margin:0 0 16px;max-width:900px"><table class="form-table" style="margin:0">';
@@ -345,6 +376,7 @@ function kjo_adm_page() {
 		echo '<tr><th>Öffentliche Antwort</th><td><input name="' . esc_attr( $n ) . '[antwort]" value="' . esc_attr( $r['antwort'] ) . '" class="large-text" placeholder="leer = keine"><p class="description">Erscheint unter dem Kommentar. Das Stichwort selbst hier nicht verwenden.</p></td></tr>';
 		echo '<tr><th>Instagram-DM</th><td><textarea name="' . esc_attr( $n ) . '[dm]" rows="3" class="large-text">' . esc_textarea( $r['dm'] ) . '</textarea></td></tr>';
 		echo '<tr><th>WhatsApp-Antwort</th><td><textarea name="' . esc_attr( $n ) . '[wa]" rows="3" class="large-text">' . esc_textarea( $r['wa'] ) . '</textarea></td></tr>';
+		echo '<tr><th>Datei (MP3/PDF)</th><td><input name="' . esc_attr( $n ) . '[datei]" value="' . esc_attr( $r['datei'] ?? '' ) . '" class="large-text" placeholder="https://drive.google.com/file/d/…/view?usp=sharing"> <input name="' . esc_attr( $n ) . '[name]" value="' . esc_attr( $r['name'] ?? '' ) . '" class="regular-text" placeholder="Dateiname, z. B. Sommer-Mix-2026.mp3"><p class="description">Google Drive: Datei → Teilen → „Jeder mit dem Link“ → Link kopieren. Steht als <code>{datei}</code> in der Antwort und kommt zusätzlich als Datei in den Chat (bis 100 MB; größere Dateien nur als Link).</p></td></tr>';
 		echo '</table></fieldset>';
 	}
 	echo '<p><button class="button button-primary" name="tun" value="speichern">Speichern</button> <button class="button" name="tun" value="pruefen">Verbindung prüfen &amp; Seite anmelden</button></p>';

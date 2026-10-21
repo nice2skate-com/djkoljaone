@@ -13,7 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
-Seit 1.71.0: Social → Kommentar → WhatsApp – wie ManyChat: Wer ein Stichwort (z. B. „DJ“) unter einem Reel kommentiert, bekommt eine Antwort, eine Instagram-DM mit WhatsApp-Link und auf WhatsApp automatisch deinen Link. Datenschutzerklärung um automatische Antworten ergänzt (wird automatisch eingespielt).
+Seit 1.71.0: Social → Kommentar → WhatsApp – wie ManyChat: Wer ein Stichwort (z. B. „DJ“) unter einem Reel kommentiert, bekommt eine Antwort, eine Instagram-DM mit WhatsApp-Link und auf WhatsApp automatisch deinen Link, auf Wunsch mit MP3/PDF aus Google Drive direkt im Chat. Datenschutzerklärung um automatische Antworten ergänzt (wird automatisch eingespielt).
 Seit 1.70.1: Jeder WhatsApp-Link (Buttons, Text, Fußzeile) zeigt automatisch das WhatsApp-Symbol; das Navigations-Icon nutzt dasselbe Logo.
 Seit 1.70.0: Fotos zu Bewertungen – bewertung_h1 … bewertung_f2 in die Mediathek laden, dann erscheint das Bild oben in der jeweiligen Bewertungskarte. Seiten aus Vorlage einspielen.
 Seit 1.69.2: Release-Zeit 18 Uhr; Song-Kommentar ab 18:10 mit bis zu 6 Versuchen alle 20 Minuten, danach Hinweis im Social-Verlauf.
