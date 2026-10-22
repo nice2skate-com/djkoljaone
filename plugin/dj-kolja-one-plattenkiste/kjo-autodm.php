@@ -150,6 +150,15 @@ function kjo_adm_webhook( WP_REST_Request $req ) {
 		return new WP_REST_Response( array( 'ok' => false ), 401 );
 	}
 	$p = json_decode( $raw, true );
+	if ( is_array( $p ) ) { // Letzte echte Meldung merken – auch ausgeschaltet, zum Prüfen der Einrichtung
+		$f = array();
+		foreach ( (array) ( $p['entry'] ?? array() ) as $e ) {
+			foreach ( (array) ( $e['changes'] ?? array() ) as $c ) {
+				$f[] = sanitize_key( $c['field'] ?? '' );
+			}
+		}
+		update_option( 'kjo_autodm_letzte', array( time(), sanitize_key( $p['object'] ?? '' ), implode( ', ', array_unique( $f ) ) ), false );
+	}
 	if ( ! $o['aktiv'] || ! is_array( $p ) ) {
 		return new WP_REST_Response( array( 'ok' => true ), 200 );
 	}
@@ -317,7 +326,9 @@ function kjo_adm_app_abo() {
 		foreach ( (array) ( $ist['data'] ?? array() ) as $a ) {
 			$z[] = ( $a['object'] ?? '?' ) . ': ' . implode( ', ', wp_list_pluck( (array) ( $a['fields'] ?? array() ), 'name' ) ) . ( empty( $a['active'] ) ? ' (inaktiv)' : '' );
 		}
-		$out[] = array( (bool) $z, 'Bei Meta abonniert: ' . ( $z ? esc_html( implode( ' · ', $z ) ) : 'nichts' ) );
+		$out[] = array( (bool) $z, 'Bei Meta abonniert: ' . ( $z ? esc_html( implode( ' · ', $z ) ) : 'nichts (Antwort von Meta: <code>' . esc_html( substr( wp_json_encode( $ist ), 0, 300 ) ) . '</code>)' ) );
+	} else {
+		$out[] = array( false, 'Abo-Abfrage: ' . esc_html( $ist->get_error_message() ) );
 	}
 	return $out;
 }
@@ -400,6 +411,8 @@ function kjo_adm_page() {
 	echo '<li>' . ( $o['aktiv'] ? $ok . 'eingeschaltet' : $no . 'ausgeschaltet' ) . '</li>';
 	echo '<li>' . ( $soc['token'] && $soc['page_id'] ? $ok . 'Instagram-Verbindung aus Social' . ( $soc['ig_name'] ? ' (@' . esc_html( $soc['ig_name'] ) . ')' : '' ) : $no . 'Instagram: erst unter Social → Verbindung einrichten' ) . '</li>';
 	echo '<li>' . ( $o['app_secret'] ? $ok . 'App-Geheimcode gespeichert' : $no . 'App-Geheimcode fehlt – ohne ihn nimmt die Website keine Meldungen von Meta an' ) . '</li>';
+	$l = get_option( 'kjo_autodm_letzte' );
+	echo '<li>' . ( is_array( $l ) ? $ok . 'Letzte Meldung von Meta: ' . esc_html( wp_date( 'd.m.Y H:i', (int) $l[0] ) . ' – ' . $l[1] . ' / ' . $l[2] ) : $no . 'Noch keine Meldung von Meta empfangen – zum Testen ein Reel kommentieren, dann Seite neu laden' ) . '</li>';
 	echo '<li>' . ( $o['wa_token'] && $o['wa_phone'] ? $ok . 'WhatsApp Cloud API eingerichtet' : $no . 'WhatsApp Cloud API fehlt – der DM-Link führt dann zu deiner normalen Nummer ' . esc_html( defined( 'KJO_WA' ) ? KJO_WA : '' ) . ' (ohne automatische Antwort)' ) . '</li>';
 	echo '</ul>';
 	echo '<h2>Für die Meta-App (Webhooks)</h2><table class="form-table">';
