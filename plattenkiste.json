@@ -1,9 +1,9 @@
 {
- "version": "1.71.2",
- "download_url": "dj-kolja-one-plattenkiste-1.71.2.zip",
- "sha256": "52761dd099262e790ca15f12eb9faf08058a9ecb9db4cdea23ed98273c1f5295",
+ "version": "1.71.3",
+ "download_url": "dj-kolja-one-plattenkiste-1.71.3.zip",
+ "sha256": "f46b7cf0255654c101136d97704f946de2f2050048c82829bd9e276039d86641",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Kommentar → WhatsApp: „Verbindung prüfen & bei Meta anmelden“ trägt das Webhook-Abo (Instagram: comments, WhatsApp: messages) direkt bei Meta ein."
+ "changelog": "Kommentar → WhatsApp: Anzeige „Letzte Meldung von Meta“ (auch ausgeschaltet) und genaue Meta-Antwort bei leerer Abo-Liste."
 }
