@@ -40,13 +40,14 @@ Wie in `social/README.md`, Schritt 3, nur mit zwei zusätzlichen Rechten:
 
 Oben auf dieser Seite stehen jetzt **Callback-URL** und **Verifizierungstoken**. Beides brauchst du in Schritt 4 und 5.
 
-## 4. Instagram-Kommentare an die Website melden lassen (10 Min.)
-1. In deiner App links: **Produkt hinzufügen → Webhooks** → *Einrichten* (falls noch nicht vorhanden).
-2. Oben im Auswahlfeld **Instagram** wählen → **Dieses Objekt abonnieren**:
-   - *Callback-URL* und *Verifizierungstoken* aus WordPress kopieren → **Bestätigen und speichern**
-3. In der Feldliste bei **comments** auf **Abonnieren** klicken.
-4. Zurück in WordPress → **Verbindung prüfen & Seite anmelden**. Erwartet:
-   ✔ Instagram verbunden mit @… · ✔ Seiten-Abo · (WhatsApp folgt in Schritt 5)
+## 4. Instagram-Kommentare an die Website melden lassen (1 Min.)
+WordPress → **Social → Kommentar → WhatsApp** → **„Verbindung prüfen & bei Meta anmelden“**. Der Knopf
+- meldet die Website bei deiner Facebook-Seite an (Seiten-Abo, braucht `pages_manage_metadata`),
+- trägt bei Meta die Callback-URL mit dem Verifizierungstoken ein und abonniert **comments** (braucht den App-Geheimcode aus Schritt 3),
+- zeigt zum Schluss „Bei Meta abonniert: instagram: comments“.
+
+Die Menüs der Meta-App brauchst du dafür nicht: Beim Facebook-Login zeigt das neue Dashboard das Feld *comments*
+gar nicht an, und die alte Webhooks-Seite leitet Meta inzwischen um.
 
 ## 5. WhatsApp einrichten (30 Min.)
 
@@ -70,7 +71,8 @@ wird, hängt vom Konto ab.
    *WhatsApp-Nummer des Bots* (z. B. `0170 1234567`, wird automatisch zu `49170…`) → **Speichern**.
 6. App → **WhatsApp → Konfiguration → Webhook → Bearbeiten**: dieselbe *Callback-URL* und denselben
    *Verifizierungstoken* → *Bestätigen und speichern* → *Webhook-Felder verwalten* → **messages** abonnieren.
-7. WordPress → **Verbindung prüfen & Seite anmelden** → jetzt auch ✔ WhatsApp verbunden.
+   Findest du das nicht: überspringen, der Knopf in Punkt 7 trägt das Abo ebenfalls ein.
+7. WordPress → **Verbindung prüfen & bei Meta anmelden** → jetzt auch ✔ WhatsApp verbunden und „whatsapp_business_account: messages“ abonniert.
 
 ## 6. Texte einstellen, testen, einschalten (10 Min.)
 1. Unter **Stichwörter** die Texte anpassen.
