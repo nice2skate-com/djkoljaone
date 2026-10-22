@@ -272,6 +272,56 @@ function kjo_adm_wa_senden( $an, $text ) {
 	);
 }
 
+/**
+ * Webhook-Abo der App bei Meta eintragen (statt über die Menüs der Meta-App, die das Feld „comments“ beim
+ * Facebook-Login nicht anzeigen). App-ID kommt aus dem Seitenschlüssel, Anmeldung mit App-ID|App-Geheimcode.
+ * Meta ruft dabei sofort die Callback-URL zur Bestätigung auf. Rückgabe: Liste von Meldungen [ok, text].
+ */
+function kjo_adm_app_abo() {
+	$o   = kjo_adm_opts();
+	$out = array();
+	if ( ! $o['app_secret'] ) {
+		return array( array( false, 'Webhook-Abo: Erst den App-Geheimcode speichern.' ) );
+	}
+	$app = kjo_soc_api( 'app', null, array( 'fields' => 'id' ) );
+	if ( is_wp_error( $app ) || empty( $app['id'] ) ) {
+		return array( array( false, 'Webhook-Abo: App-ID nicht gefunden – ' . ( is_wp_error( $app ) ? $app->get_error_message() : 'leere Antwort' ) ) );
+	}
+	$base   = 'https://graph.facebook.com/' . rawurlencode( kjo_soc_opts()['version'] ) . '/' . rawurlencode( $app['id'] ) . '/subscriptions';
+	$tok    = $app['id'] . '|' . $o['app_secret'];
+	$objekte = array( 'instagram' => 'comments' );
+	if ( $o['wa_token'] && $o['wa_phone'] ) {
+		$objekte['whatsapp_business_account'] = 'messages';
+	}
+	foreach ( $objekte as $obj => $feld ) {
+		$r     = kjo_soc_antwort(
+			wp_remote_post(
+				$base,
+				array(
+					'timeout' => 45,
+					'body'    => array(
+						'object'       => $obj,
+						'callback_url' => rest_url( 'kjo/v1/meta-webhook' ),
+						'verify_token' => $o['verify'],
+						'fields'       => $feld,
+						'access_token' => $tok,
+					),
+				)
+			)
+		);
+		$out[] = is_wp_error( $r ) ? array( false, 'Webhook-Abo ' . $obj . ': ' . $r->get_error_message() ) : array( true, 'Webhook-Abo: ' . $obj . ' → ' . $feld . ' eingetragen.' );
+	}
+	$ist = kjo_soc_antwort( wp_remote_get( add_query_arg( array( 'access_token' => rawurlencode( $tok ) ), $base ), array( 'timeout' => 30 ) ) );
+	if ( ! is_wp_error( $ist ) ) {
+		$z = array();
+		foreach ( (array) ( $ist['data'] ?? array() ) as $a ) {
+			$z[] = ( $a['object'] ?? '?' ) . ': ' . implode( ', ', wp_list_pluck( (array) ( $a['fields'] ?? array() ), 'name' ) ) . ( empty( $a['active'] ) ? ' (inaktiv)' : '' );
+		}
+		$out[] = array( (bool) $z, 'Bei Meta abonniert: ' . ( $z ? esc_html( implode( ' · ', $z ) ) : 'nichts' ) );
+	}
+	return $out;
+}
+
 /* ---------- Admin: Social → Kommentar → WhatsApp ---------- */
 add_action(
 	'admin_menu',
@@ -327,6 +377,7 @@ function kjo_adm_page() {
 			}
 			$sub   = kjo_soc_api( rawurlencode( $soc['page_id'] ) . '/subscribed_apps', array( 'subscribed_fields' => 'feed' ) );
 			$msg[] = is_wp_error( $sub ) ? array( false, 'Seiten-Abo: ' . $sub->get_error_message() . ' – braucht pages_manage_metadata im Seitenschlüssel.' ) : array( true, 'Seiten-Abo: App ist für die Seite angemeldet.' );
+			$msg   = array_merge( $msg, kjo_adm_app_abo() );
 			$wa    = kjo_adm_wa_api( rawurlencode( $o['wa_phone'] ) . '?fields=display_phone_number,verified_name' );
 			$msg[] = is_wp_error( $wa ) ? array( false, 'WhatsApp: ' . $wa->get_error_message() ) : array( true, 'WhatsApp: verbunden als ' . ( $wa['verified_name'] ?? '' ) . ' (' . ( $wa['display_phone_number'] ?? '' ) . ')' );
 		} elseif ( 'test' === $tun ) {
@@ -379,7 +430,7 @@ function kjo_adm_page() {
 		echo '<tr><th>Datei (MP3/PDF)</th><td><input name="' . esc_attr( $n ) . '[datei]" value="' . esc_attr( $r['datei'] ?? '' ) . '" class="large-text" placeholder="https://drive.google.com/file/d/…/view?usp=sharing"> <input name="' . esc_attr( $n ) . '[name]" value="' . esc_attr( $r['name'] ?? '' ) . '" class="regular-text" placeholder="Dateiname, z. B. Sommer-Mix-2026.mp3"><p class="description">Google Drive: Datei → Teilen → „Jeder mit dem Link“ → Link kopieren. Steht als <code>{datei}</code> in der Antwort und kommt zusätzlich als Datei in den Chat (bis 100 MB; größere Dateien nur als Link).</p></td></tr>';
 		echo '</table></fieldset>';
 	}
-	echo '<p><button class="button button-primary" name="tun" value="speichern">Speichern</button> <button class="button" name="tun" value="pruefen">Verbindung prüfen &amp; Seite anmelden</button></p>';
+	echo '<p><button class="button button-primary" name="tun" value="speichern">Speichern</button> <button class="button" name="tun" value="pruefen">Verbindung prüfen &amp; bei Meta anmelden</button></p>';
 	echo '<h2>Ausprobieren</h2><p><input name="testtext" class="regular-text" placeholder="Kommentar, z. B. „Ich will DJ 🔥“"> <button class="button" name="tun" value="test">Testen (sendet nichts)</button></p>';
 	echo '</form>';
 
