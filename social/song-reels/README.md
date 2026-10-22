@@ -45,3 +45,13 @@ Instagram-Texte zu jedem Reel: `social/texte/song-reels.md`.
   Das geht nur in der App am Handy, nicht im Browser.
 - Der QR-Code hilft, wenn das Reel auf einem zweiten Gerät läuft (Laptop, Bildschirm, bei Auftritten).
 - Nur Musik verwenden, an der du die Rechte hast (hier: eigene Produktionen).
+
+## Kommentar-Reel (lang, mit „Kommentiere <WORT>“)
+
+Für Downloads per ManyChat: ein Song läuft lange (Standard 90 s ab Anfang), oben rechts steht dauerhaft
+„Kommentiere SUMMER“, am Ende Kommentarfeld und DM-Vorschau. Vorlage `kommentar.html`, Skript `kommentar.py`:
+
+    python3 social/song-reels/kommentar.py 5169 --wort SUMMER                 # 0:00–1:30
+    python3 social/song-reels/kommentar.py 5169 --wort SUMMER --start 30 --laenge 60
+
+Wechselnde Sätze pro Song: `SAETZE` in `kommentar.py`. Einrichtung von Google Drive und ManyChat: `MANYCHAT.md`.
