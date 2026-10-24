@@ -10,6 +10,7 @@ Quellcode, Plugin und Medien der Website.
 | `release/make_release.sh` | baut ZIP + `plattenkiste.json` |
 | `wp-content/` | (optional) Mediathek/Theme/weitere Plugins, siehe `docs/WORDPRESS-SYNC.md` |
 | `docs/` | Anleitungen, `MEDIEN.md` (Medienliste) |
+| `archiv/artificial-sentiments/` | Alte Website der zweiten Marke ARTiFicial Sentiments (archiviert, früher eigenes Repo) |
 | `tools/` | Hilfsskripte (Medienliste) |
 
 Plugin-Updates: `plattenkiste.json` + ZIP im Root von `main` → WordPress aktualisiert automatisch.
