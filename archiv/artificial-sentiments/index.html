@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Artificial Sentiments — Premium DJ & Eventtechnik für Hochzeiten, Corporate Events, Geburtstage und Equipment-Verleih.">
+  <title>Artificial Sentiments — DJ & Eventtechnik</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="container nav-inner">
+    <a class="nav-logo" onclick="showPage('home')">
+      <img src="logo.png" alt="ARTificial Sentiments" class="nav-logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+      <span class="nav-logo-text" style="display:none;">ART<span>ificial</span> Sentiments</span>
+    </a>
+    <ul class="nav-links">
+      <li><a onclick="showPage('home')" data-page="home">Start</a></li>
+      <li><a onclick="showPage('about')" data-page="about">Über uns</a></li>
+      <li><a onclick="showPage('weddings')" data-page="weddings">Hochzeiten</a></li>
+      <li><a onclick="showPage('corporate')" data-page="corporate">Corporate</a></li>
+      <li><a onclick="showPage('equipment')" data-page="equipment">Verleih</a></li>
+      <li><a onclick="showPage('gallery')" data-page="gallery">Galerie</a></li>
+      <li><a onclick="showPage('faq')" data-page="faq">FAQ</a></li>
+    </ul>
+    <a class="btn btn-primary nav-cta" onclick="showPage('contact')">Anfrage stellen</a>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a onclick="showPage('home');toggleMenu()">Start</a>
+  <a onclick="showPage('about');toggleMenu()">Über uns</a>
+  <a onclick="showPage('weddings');toggleMenu()">Hochzeiten</a>
+  <a onclick="showPage('corporate');toggleMenu()">Corporate Events</a>
+  <a onclick="showPage('equipment');toggleMenu()">Equipment-Verleih</a>
+  <a onclick="showPage('gallery');toggleMenu()">Galerie</a>
+  <a onclick="showPage('faq');toggleMenu()">FAQ</a>
+  <a onclick="showPage('contact');toggleMenu()">Kontakt</a>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     HOME
+═══════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="container hero-content">
+      <div class="hero-eyebrow">
+        <div class="eyebrow-line"></div>
+        <span class="overline">DJ &amp; Eventtechnik</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="ht-1">Musik.</span>
+        <span class="ht-2">Atmosphäre.</span>
+        <span class="ht-3">Emotion.</span>
+      </h1>
+      <p class="hero-sub">Stilvolle Events brauchen den richtigen Sound. Wir schaffen Momente, die noch lange nach der letzten Note bleiben.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" onclick="showPage('contact')">Jetzt anfragen</a>
+        <a class="btn btn-outline" onclick="showPage('about')">Mehr erfahren</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <section class="services-strip">
+    <div class="container">
+      <div class="services-grid">
+        <div class="service-card" onclick="showPage('weddings')">
+          <span class="sc-icon">♡</span>
+          <h3>Hochzeiten</h3>
+          <p>Der perfekte Soundtrack für euren besonderen Tag — von der Zeremonie bis zur letzten Tanznacht.</p>
+        </div>
+        <div class="service-card" onclick="showPage('corporate')">
+          <span class="sc-icon">◈</span>
+          <h3>Corporate Events</h3>
+          <p>Professionelle Beschallung und Eventtechnik für Firmenfeiern, Produktlaunches und Galas.</p>
+        </div>
+        <div class="service-card" onclick="showPage('weddings')">
+          <span class="sc-icon">◎</span>
+          <h3>Geburtstage</h3>
+          <p>Unvergessliche Abende mit dem richtigen Beat — für jeden Anlass und jeden Geschmack.</p>
+        </div>
+        <div class="service-card" onclick="showPage('equipment')">
+          <span class="sc-icon">⊞</span>
+          <h3>Equipment-Verleih</h3>
+          <p>Hochwertiges Sound- und Lichtequipment zur Miete — flexibel, zuverlässig, erstklassig.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container why-layout">
+      <div class="why-left reveal">
+        <span class="overline">Warum wir</span>
+        <div class="gold-line"></div>
+        <h2>Wir spielen nicht<br>einfach Musik.<br><em>Wir erschaffen</em><br>Atmosphäre.</h2>
+        <p>Artificial Sentiments steht für ganzheitliche Klangerlebnisse. Jedes Event ist einzigartig — und verdient einen Sound, der das widerspiegelt.</p>
+        <a class="btn btn-primary" onclick="showPage('contact')">Anfrage starten</a>
+      </div>
+      <div class="usp-list">
+        <div class="usp-item reveal reveal-delay-1">
+          <div class="usp-num">01</div>
+          <div class="usp-body">
+            <h4>Maßgeschneidert für euch</h4>
+            <p>Kein Event wie das andere. Wir planen jeden Auftritt individuell — von der Musikauswahl bis zur Technik.</p>
+          </div>
+        </div>
+        <div class="usp-item reveal reveal-delay-2">
+          <div class="usp-num">02</div>
+          <div class="usp-body">
+            <h4>Premium-Equipment</h4>
+            <p>Profi-Sound- und Lichttechnik der neuesten Generation für ein fehlerfreies Klangerlebnis.</p>
+          </div>
+        </div>
+        <div class="usp-item reveal reveal-delay-3">
+          <div class="usp-num">03</div>
+          <div class="usp-body">
+            <h4>Zuverlässig &amp; professionell</h4>
+            <p>Pünktlich, vorbereitet, leidenschaftlich. Von der Planung bis zum letzten Song.</p>
+          </div>
+        </div>
+        <div class="usp-item reveal reveal-delay-4">
+          <div class="usp-num">04</div>
+          <div class="usp-body">
+            <h4>Emotionale Verbindung</h4>
+            <p>Musik bewegt Menschen. Wir sorgen dafür, dass euer Event im Herzen bleibt.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="stats-row reveal">
+        <div class="stat-item">
+          <span class="stat-num">200+</span>
+          <div class="stat-label">Events gespielt</div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">8+</span>
+          <div class="stat-label">Jahre Erfahrung</div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">98%</span>
+          <div class="stat-label">Weiterempfehlungsrate</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials-section">
+    <div class="container">
+      <span class="overline reveal">Stimmen unserer Kunden</span>
+      <h2 class="section-title reveal" style="margin-top:14px;">Was unsere Gäste <em>sagen</em></h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal reveal-delay-1">
+          <p class="t-text">Die Musik war perfekt abgestimmt — von romantisch zur Zeremonie bis zur puren Party am Abend. Alle Gäste haben uns noch Wochen später darauf angesprochen.</p>
+          <div class="t-author">Sarah &amp; Markus K.</div>
+          <div class="t-event">Hochzeit · Hamburg 2024</div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-2">
+          <p class="t-text">Professionell, flexibel und mit echtem Gespür für die Stimmung im Raum. Unser Firmenevent war ein voller Erfolg — auch dank Artificial Sentiments.</p>
+          <div class="t-author">Thomas M.</div>
+          <div class="t-event">Corporate Gala · München 2023</div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-3">
+          <p class="t-text">Von der ersten Anfrage bis zum letzten Song eine absolute Traumkombination. Das Equipment war top, die Kommunikation super. Klare Empfehlung!</p>
+          <div class="t-author">Familie Brandt</div>
+          <div class="t-event">Geburtstag · Berlin 2024</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="container">
+      <h2 class="reveal">Bereit für etwas<br><em>Unvergessliches?</em></h2>
+      <p class="reveal">Erzählt uns von eurem Event — wir melden uns schnell und unverbindlich zurück.</p>
+      <a class="btn btn-primary reveal" onclick="showPage('contact')">Jetzt unverbindlich anfragen</a>
+    </div>
+  </section>
+
+</div><!-- /page-home -->
+
+
+<!-- ═══════════════════════════════════════════
+     ABOUT
+═══════════════════════════════════════════ -->
+<div id="page-about" class="page">
+
+  <div class="page-hero">
+    <div class="container">
+      <div class="ph-inner">
+        <span class="overline">Wer wir sind</span>
+        <div class="gold-line"></div>
+        <h1 class="display-lg">Artificial Sentiments —<br><em>für unvergessliche<br>Nächte gemacht.</em></h1>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container about-grid">
+      <div class="about-visual reveal">
+        <div class="about-img-box">
+          <div class="about-img-inner">
+            <span class="about-img-label">Portrait</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-text reveal reveal-delay-1">
+        <span class="overline">Unsere Geschichte</span>
+        <div class="gold-line"></div>
+        <h2>Leidenschaft für<br>Klang und <em>Atmosphäre</em></h2>
+        <p>Artificial Sentiments entstand aus einer tiefen Leidenschaft für Musik und der Überzeugung, dass guter Sound mehr ist als Beschallung. Er ist Emotion, Atmosphäre, Erinnerung.</p>
+        <p>Seit über 8 Jahren begleiten wir Menschen an ihren besonderen Momenten — Hochzeiten, Firmenfeiern, Geburtstage, Galas. Dabei bringen wir nicht nur Technik mit, sondern echtes Gespür für das, was einen Raum zum Leben erweckt.</p>
+        <p>Mit Premium-Equipment, sorgfältiger Planung und einem Ohr für die Stimmung sorgen wir dafür, dass jedes Event seinen eigenen, unverwechselbaren Charakter bekommt.</p>
+        <a class="btn btn-primary" onclick="showPage('contact')">Jetzt kennenlernen</a>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="values-grid" style="margin-top:96px;">
+        <div class="value-item reveal">
+          <div class="value-icon">◈</div>
+          <h4>Klang</h4>
+          <p>Wir verwenden ausschließlich professionelles Equipment und stimmen jeden Set auf das Venue und den Anlass ab.</p>
+        </div>
+        <div class="value-item reveal reveal-delay-1">
+          <div class="value-icon">✦</div>
+          <h4>Atmosphäre</h4>
+          <p>Musik und Licht müssen zusammenspielen. Wir denken beides als Einheit und gestalten Atmosphäre, die bleibt.</p>
+        </div>
+        <div class="value-item reveal reveal-delay-2">
+          <div class="value-icon">♡</div>
+          <h4>Emotion</h4>
+          <p>Der stärkste Beweis für einen gelungenen Abend: wenn Gäste lange danach noch von der Musik sprechen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="container">
+      <h2>Klingt nach dem <em>richtigen Partner?</em></h2>
+      <p>Wir freuen uns darauf, euer Event kennenzulernen.</p>
+      <a class="btn btn-primary" onclick="showPage('contact')">Gespräch vereinbaren</a>
+    </div>
+  </section>
+
+</div><!-- /page-about -->
+
+
+<!-- ═══════════════════════════════════════════
+     WEDDINGS
+═══════════════════════════════════════════ -->
+<div id="page-weddings" class="page">
+
+  <div class="page-hero">
+    <div class="container">
+      <div class="ph-inner">
+        <span class="overline">Hochzeiten</span>
+        <div class="gold-line"></div>
+        <h1 class="display-lg">Der Sound für<br><em>euren besonderen Tag.</em></h1>
+        <p class="ph-sub">Von der Zeremonie bis zur letzten Tanznacht — wir begleiten euch mit Musik, die euren Tag unvergesslich macht.</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <span class="overline reveal">Unsere Pakete</span>
+      <h2 class="section-title reveal" style="margin-top:14px;">Für jeden Moment das <em>richtige Paket</em></h2>
+      <div class="packages-grid">
+        <div class="pkg-card reveal">
+          <div class="pkg-name">Essentials</div>
+          <div class="pkg-tag">Für intimere Feiern bis 80 Gäste</div>
+          <ul class="pkg-features">
+            <li>DJ-Set bis 6 Stunden</li>
+            <li>Stereo-Soundsystem</li>
+            <li>Persönliches Beratungsgespräch</li>
+            <li>Musikwunschliste</li>
+            <li>Auf- und Abbau inklusive</li>
+          </ul>
+          <a class="btn btn-outline" onclick="showPage('contact')">Anfragen</a>
+        </div>
+        <div class="pkg-card featured reveal reveal-delay-1">
+          <div class="pkg-badge">Beliebteste Wahl</div>
+          <div class="pkg-name">Premium</div>
+          <div class="pkg-tag">Für Hochzeiten bis 150 Gäste</div>
+          <ul class="pkg-features">
+            <li>DJ-Set bis 8 Stunden</li>
+            <li>Premium-Soundsystem (Line Array)</li>
+            <li>Ambient-Lichtkonzept</li>
+            <li>Moderation &amp; Ansagen</li>
+            <li>Musikwunschliste &amp; Abstimmungsgespräch</li>
+            <li>Koordination mit Venue &amp; Trauteam</li>
+          </ul>
+          <a class="btn btn-primary" onclick="showPage('contact')">Anfragen</a>
+        </div>
+        <div class="pkg-card reveal reveal-delay-2">
+          <div class="pkg-name">Exclusive</div>
+          <div class="pkg-tag">Für große Hochzeiten ab 150 Gäste</div>
+          <ul class="pkg-features">
+            <li>DJ-Set bis 10 Stunden</li>
+            <li>Club-Soundsystem</li>
+            <li>LED &amp; Moving Heads</li>
+            <li>Vollständige Moderation</li>
+            <li>Zeremoniebeschallung</li>
+            <li>Technik-Backup &amp; zweiter Kanal</li>
+            <li>Persönliches Kennenlerntreffen</li>
+          </ul>
+          <a class="btn btn-outline" onclick="showPage('contact')">Anfragen</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials-section">
+    <div class="container">
+      <span class="overline reveal">Hochzeitspaare</span>
+      <h2 class="section-title reveal" style="margin-top:14px;">Stimmen, die uns <em>bewegen</em></h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal reveal-delay-1">
+          <p class="t-text">Der erste Tanz war magisch. Die Musik hat genau das gespiegelt, was wir für diesen Moment wollten — ohne dass wir viel erklären mussten.</p>
+          <div class="t-author">Julia &amp; Florian</div>
+          <div class="t-event">Hochzeit · Düsseldorf 2024</div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-2">
+          <p class="t-text">Schon beim ersten Gespräch haben wir gemerkt, dass hier jemand wirklich versteht, was Musik bedeutet. Das Ergebnis: eine Nacht, die wir nie vergessen werden.</p>
+          <div class="t-author">Lisa &amp; Jonas K.</div>
+          <div class="t-event">Hochzeit · Köln 2023</div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-3">
+          <p class="t-text">Alle Gäste haben gefragt, wer aufgelegt hat. Die Energie auf der Tanzfläche war unglaublich — er hat immer die Stimmung perfekt gelesen.</p>
+          <div class="t-author">Marie &amp; Stefan</div>
+          <div class="t-event">Hochzeit · Hamburg 2024</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="container">
+      <h2>Euer Tag verdient <em>den besten Sound.</em></h2>
+      <p>Erzählt uns von eurer Hochzeit — wir melden uns innerhalb von 24 Stunden.</p>
+      <a class="btn btn-primary" onclick="showPage('contact')">Hochzeitsanfrage stellen</a>
+    </div>
+  </section>
+
+</div><!-- /page-weddings -->
+
+
+<!-- ═══════════════════════════════════════════
+     CORPORATE
+═══════════════════════════════════════════ -->
+<div id="page-corporate" class="page">
+
+  <div class="page-hero">
+    <div class="container">
+      <div class="ph-inner">
+        <span class="overline">Corporate Events</span>
+        <div class="gold-line"></div>
+        <h1 class="display-lg">Eventtechnik<br>mit <em>Charakter.</em></h1>
+        <p class="ph-sub">Professionelle Beschallung und Atmosphäre für Firmenfeiern, Produktlaunches, Awards-Abende und Galas.</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <span class="overline reveal">Leistungen</span>
+      <h2 class="section-title reveal" style="margin-top:14px;">Was wir für euer<br>Unternehmen <em>tun</em></h2>
+      <div class="corp-grid">
+        <div class="corp-item reveal">
+          <div class="corp-icon">♫</div>
+          <h3>DJ &amp; Live-Musik</h3>
+          <p>Von Hintergrundmusik bis zur Tanzfläche — wir lesen die Stimmung und spielen den richtigen Sound für jede Phase eures Events.</p>
+        </div>
+        <div class="corp-item reveal reveal-delay-1">
+          <div class="corp-icon">◉</div>
+          <h3>Bühnentechnik &amp; PA</h3>
+          <p>Professionelle Bühnenanlage, Monitoring und Sprachdurchsage für Präsentationen, Reden und Galaabende.</p>
+        </div>
+        <div class="corp-item reveal reveal-delay-2">
+          <div class="corp-icon">✦</div>
+          <h3>Lichtdesign</h3>
+          <p>Atmosphärische Beleuchtung, Moving Heads, Gobo-Projektionen und LED-Technik für eine unvergessliche Optik.</p>
+        </div>
+        <div class="corp-item reveal reveal-delay-3">
+          <div class="corp-icon">⊕</div>
+          <h3>Moderation &amp; Technik</h3>
+          <p>Professionelle Mikrofontechnik, Moderation und Live-Koordination — damit euer Event technisch reibungslos läuft.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="corp-stats-bar reveal">
+      <div class="container">
+        <div class="corp-stats-inner">
+          <div class="corp-stat">
+            <span class="corp-stat-num">50+</span>
+            <div class="corp-stat-label">Corporate Events</div>
+          </div>
+          <div class="corp-stat">
+            <span class="corp-stat-num">500</span>
+            <div class="corp-stat-label">Max. Gästezahl</div>
+          </div>
+          <div class="corp-stat">
+            <span class="corp-stat-num">Top</span>
+            <div class="corp-stat-label">Unternehmensreferenzen</div>
+          </div>
+          <div class="corp-stat">
+            <span class="corp-stat-num">24h</span>
+            <div class="corp-stat-label">Antwortzeit</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="container">
+      <h2>Euer nächstes Event<br>verdient <em>Premium-Sound.</em></h2>
+      <p>Wir erstellen euch ein maßgeschneidertes Angebot für euer Corporate Event.</p>
+      <a class="btn btn-primary" onclick="showPage('contact')">Angebot anfordern</a>
+    </div>
+  </section>
+
+</div><!-- /page-corporate -->
+
+
+<!-- ═══════════════════════════════════════════
+     EQUIPMENT
+═══════════════════════════════════════════ -->
+<div id="page-equipment" class="page">
+
+  <div class="page-hero">
+    <div class="container">
+      <div class="ph-inner">
+        <span class="overline">Equipment-Verleih</span>
+        <div class="gold-line"></div>
+        <h1 class="display-lg">Erstklassiges<br>Equipment.<br><em>Flexibel mieten.</em></h1>
+        <p class="ph-sub">Hochwertiges Sound-, Licht- und Bühnenequipment zur Miete — für jeden Anlass und jede Größe.</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <span class="overline reveal">Sortiment</span>
+      <h2 class="section-title reveal" style="margin-top:14px;">Was wir <em>vermieten</em></h2>
+
+      <div class="eq-cats reveal" style="margin-top:40px;">
+        <button class="eq-btn active" onclick="filterEq(this,'all')">Alle</button>
+        <button class="eq-btn" onclick="filterEq(this,'ton')">Ton</button>
+        <button class="eq-btn" onclick="filterEq(this,'licht')">Licht</button>
+        <button class="eq-btn" onclick="filterEq(this,'mix')">Mischung</button>
+      </div>
+
+      <div class="equipment-grid">
+        <div class="eq-item reveal" data-cat="ton">
+          <div class="eq-visual">◈</div>
+          <h3>Line-Array-System</h3>
+          <p>Professionelles Line-Array für bis zu 500 Personen — kristallklarer Sound auf jeder Frequenz.</p>
+        </div>
+        <div class="eq-item reveal reveal-delay-1" data-cat="mix">
+          <div class="eq-visual">⊞</div>
+          <h3>DJ-Setup</h3>
+          <p>Pioneer CDJ-3000, DJM-900NXS2 und Zubehör — professionelles Setup für jeden DJ.</p>
+        </div>
+        <div class="eq-item reveal reveal-delay-2" data-cat="ton">
+          <div class="eq-visual">◎</div>
+          <h3>PA-Kompaktsystem</h3>
+          <p>Flexibles Lautsprechersystem für kleinere Events bis 200 Personen. Ideal für Feiern und Präsentationen.</p>
+        </div>
+        <div class="eq-item reveal reveal-delay-3" data-cat="licht">
+          <div class="eq-visual">✦</div>
+          <h3>Moving Heads</h3>
+          <p>Professionelle Moving-Head-Scheinwerfer für dramatische Lichtshows und atmosphärische Effekte.</p>
+        </div>
+        <div class="eq-item reveal" data-cat="licht">
+          <div class="eq-visual">◉</div>
+          <h3>LED-Paneele</h3>
+          <p>Modulare LED-Wände und Lichtpaneele für Hintergründe, Bühnen und Raumatmosphäre.</p>
+        </div>
+        <div class="eq-item reveal reveal-delay-1" data-cat="ton">
+          <div class="eq-visual">⊕</div>
+          <h3>Mikrofontechnik</h3>
+          <p>Drahtlose Mikrofone, Handmikros, Lavaliermikros und Stativmikrofone für jede Anwendung.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="process-section">
+    <div class="container">
+      <span class="overline reveal">So einfach geht's</span>
+      <h2 class="section-title reveal" style="margin-top:14px;">In 4 Schritten zum <em>perfekten Setup</em></h2>
+      <div class="process-steps">
+        <div class="process-step reveal">
+          <div class="ps-num">1</div>
+          <h4>Anfrage stellen</h4>
+          <p>Schreib uns mit Datum, Ort und gewünschtem Equipment.</p>
+        </div>
+        <div class="process-step reveal reveal-delay-1">
+          <div class="ps-num">2</div>
+          <h4>Beratung</h4>
+          <p>Wir beraten euch kostenlos zum passenden Equipment-Setup.</p>
+        </div>
+        <div class="process-step reveal reveal-delay-2">
+          <div class="ps-num">3</div>
+          <h4>Buchung</h4>
+          <p>Angebot annehmen, Anzahlung leisten — alles ist reserviert.</p>
+        </div>
+        <div class="process-step reveal reveal-delay-3">
+          <div class="ps-num">4</div>
+          <h4>Aufbau &amp; Event</h4>
+          <p>Wir liefern, bauen auf und sind bei Bedarf technisch dabei.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="container">
+      <h2>Equipment für euer<br><em>nächstes Event</em> buchen?</h2>
+      <p>Einfach anfragen — wir erstellen euch ein Angebot innerhalb von 24 Stunden.</p>
+      <a class="btn btn-primary" onclick="showPage('contact')">Equipment anfragen</a>
+    </div>
+  </section>
+
+</div><!-- /page-equipment -->
+
+
+<!-- ═══════════════════════════════════════════
+     GALLERY
+═══════════════════════════════════════════ -->
+<div id="page-gallery" class="page">
+
+  <div class="page-hero">
+    <div class="container">
+      <div class="ph-inner">
+        <span class="overline">Galerie</span>
+        <div class="gold-line"></div>
+        <h1 class="display-lg">Momente, die <em>bleiben.</em></h1>
+        <p class="ph-sub">Eindrücke von Events, die wir begleiten durften — Hochzeiten, Corporate Galas, Geburtstage und mehr.</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="gallery-grid">
+        <div class="gallery-item reveal"><div class="gi-inner g1"></div><div class="gi-overlay"><span>Hochzeit</span></div></div>
+        <div class="gallery-item reveal reveal-delay-1"><div class="gi-inner g2"></div><div class="gi-overlay"><span>Corporate Event</span></div></div>
+        <div class="gallery-item reveal reveal-delay-2"><div class="gi-inner g3"></div><div class="gi-overlay"><span>Geburtstag</span></div></div>
+        <div class="gallery-item reveal reveal-delay-3"><div class="gi-inner g4"></div><div class="gi-overlay"><span>Lichtshow</span></div></div>
+        <div class="gallery-item reveal"><div class="gi-inner g5"></div><div class="gi-overlay"><span>Equipment</span></div></div>
+        <div class="gallery-item reveal reveal-delay-1"><div class="gi-inner g6"></div><div class="gi-overlay"><span>Gala</span></div></div>
+        <div class="gallery-item reveal reveal-delay-2"><div class="gi-inner g7"></div><div class="gi-overlay"><span>Hochzeit</span></div></div>
+        <div class="gallery-item reveal reveal-delay-3"><div class="gi-inner g8"></div><div class="gi-overlay"><span>Festival</span></div></div>
+        <div class="gallery-item reveal"><div class="gi-inner g9"></div><div class="gi-overlay"><span>Corporate</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="container">
+      <h2>Auch euer Event soll <em>unvergesslich</em> werden?</h2>
+      <p>Schreibt uns — wir freuen uns auf eure Anfrage.</p>
+      <a class="btn btn-primary" onclick="showPage('contact')">Jetzt anfragen</a>
+    </div>
+  </section>
+
+</div><!-- /page-gallery -->
+
+
+<!-- ═══════════════════════════════════════════
+     FAQ
+═══════════════════════════════════════════ -->
+<div id="page-faq" class="page">
+
+  <div class="page-hero">
+    <div class="container">
+      <div class="ph-inner">
+        <span class="overline">FAQ</span>
+        <div class="gold-line"></div>
+        <h1 class="display-lg">Häufige <em>Fragen</em></h1>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="faq-list" id="faqList">
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <h3>Wie früh sollte ich buchen?</h3>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">Für Hochzeiten empfehlen wir eine Buchung 6–12 Monate im Voraus, da beliebte Termine schnell vergeben sind. Für Corporate Events und Geburtstage reichen oft 4–8 Wochen Vorlaufzeit.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <h3>Wie läuft die Planung ab?</h3>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">Nach eurer Anfrage vereinbaren wir ein erstes Gespräch — persönlich oder per Video. Dabei klären wir euren Musikstil, den Ablauf und technische Details. Wir koordinieren uns auch gerne direkt mit eurer Location und eurem Eventteam.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <h3>Welche Musikrichtungen spielt ihr?</h3>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">Wir spielen alle gängigen Genres — von Lounge &amp; Chillout über Pop, R&amp;B und Soul bis hin zu Dance, House und Partyklassikern. Wir stimmen die Musikauswahl immer individuell auf euren Geschmack und eure Gäste ab.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <h3>Stellt ihr das gesamte Equipment?</h3>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">Ja — wir liefern, transportieren, bauen auf und bauen nach dem Event wieder ab. Unser Equipment umfasst professionelle Soundsysteme, Licht- und Effekttechnik sowie alles, was für einen reibungslosen Abend benötigt wird.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <h3>Kann ich Musikwünsche einreichen?</h3>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">Absolut. Wir arbeiten mit einer individuellen Wunschliste und besprechen gemeinsam Lieblingssongs, Must-Plays und Songs, die ihr lieber nicht hören möchtet. So entsteht ein Set, das wirklich zu euch passt.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <h3>Wie weit reist ihr an?</h3>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">Wir sind deutschlandweit tätig und reisen für besondere Events auch ins benachbarte Ausland. Anfahrtskosten werden transparent im Angebot ausgewiesen.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <h3>Was kostet ein DJ-Abend?</h3>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">Die Preise variieren je nach Eventlänge, Technikumfang und Anreise. Wir erstellen euch gerne ein individuelles, transparentes Angebot — einfach über das Kontaktformular anfragen.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <h3>Gibt es eine Mindeststundenzahl?</h3>
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-a"><div class="faq-a-inner">In der Regel starten unsere Pakete ab 4 Stunden DJ-Zeit. Für größere Events und Hochzeiten empfehlen wir mindestens 6–8 Stunden, damit der Abend seinen vollen Rhythmus entfalten kann.</div></div>
+        </div>
+
+      </div>
+
+      <div style="margin-top:80px; text-align:center;">
+        <p style="color:var(--text-2); margin-bottom:32px;">Noch Fragen offen?</p>
+        <a class="btn btn-primary" onclick="showPage('contact')">Direkt Kontakt aufnehmen</a>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-faq -->
+
+
+<!-- ═══════════════════════════════════════════
+     CONTACT
+═══════════════════════════════════════════ -->
+<div id="page-contact" class="page">
+
+  <div class="page-hero">
+    <div class="container">
+      <div class="ph-inner">
+        <span class="overline">Kontakt</span>
+        <div class="gold-line"></div>
+        <h1 class="display-lg">Lasst uns<br>über euer<br><em>Event sprechen.</em></h1>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" style="padding-top:0;">
+    <div class="container contact-layout">
+
+      <div class="contact-info reveal">
+        <h3>Kolja Tönges</h3>
+        <p>Füllt das Formular aus oder schreibt direkt. Ich melde mich in der Regel innerhalb von 24 Stunden.</p>
+        <ul class="contact-details">
+          <li>
+            <div class="cd-icon">✉</div>
+            <div>
+              <div class="cd-label">E-Mail</div>
+              <span>info@artificial-sentiments.de</span>
+            </div>
+          </li>
+          <li>
+            <div class="cd-icon">☎</div>
+            <div>
+              <div class="cd-label">Telefon</div>
+              <span>+49 172 7273 707</span>
+            </div>
+          </li>
+          <li>
+            <div class="cd-icon">◎</div>
+            <div>
+              <div class="cd-label">Adresse</div>
+              <span>Pfarrer-Ritter-Weg 9<br>87748 Fellheim</span>
+            </div>
+          </li>
+          <li>
+            <div class="cd-icon">◈</div>
+            <div>
+              <div class="cd-label">Instagram</div>
+              <span>@artificial.sentiments</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <form class="contact-form reveal reveal-delay-1"
+            action="https://formspree.io/f/xaqlzkee"
+            method="POST"
+            onsubmit="handleSubmit(event)">
+
+        <!-- Formspree hidden fields -->
+        <input type="hidden" name="_subject" value="ANFRAGE AN ARTIFICIAL SENTIMENTS">
+        <input type="hidden" name="_language" value="de">
+
+        <div class="form-group">
+          <label class="form-label">Vorname *</label>
+          <input type="text" name="vorname" class="form-input" placeholder="Max" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nachname *</label>
+          <input type="text" name="nachname" class="form-input" placeholder="Mustermann" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">E-Mail-Adresse *</label>
+          <input type="email" name="_replyto" class="form-input" placeholder="mail@beispiel.de" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Telefon</label>
+          <input type="tel" name="telefon" class="form-input" placeholder="+49 ...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Art des Events *</label>
+          <select name="art_des_events" class="form-select" required>
+            <option value="" disabled selected>Bitte wählen</option>
+            <option>Hochzeit</option>
+            <option>Corporate Event / Firmenfeier</option>
+            <option>Geburtstag</option>
+            <option>Equipment-Verleih</option>
+            <option>Sonstiges</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Gewünschte Leistung</label>
+          <select name="leistung" class="form-select">
+            <option value="" disabled selected>Bitte wählen</option>
+            <option>DJ-Set</option>
+            <option>DJ + Licht</option>
+            <option>Equipment-Verleih</option>
+            <option>Vollpaket (DJ, Licht, Ton)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Eventdatum *</label>
+          <input type="date" name="eventdatum" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ungefähre Gästezahl</label>
+          <select name="gaestezahl" class="form-select">
+            <option value="" disabled selected>Bitte wählen</option>
+            <option>Bis 50 Gäste</option>
+            <option>50–100 Gäste</option>
+            <option>100–200 Gäste</option>
+            <option>200–500 Gäste</option>
+            <option>Über 500 Gäste</option>
+          </select>
+        </div>
+        <div class="form-group form-full">
+          <label class="form-label">Veranstaltungsort / Stadt</label>
+          <input type="text" name="veranstaltungsort" class="form-input" placeholder="z.B. Hamburg, Schloss Benrath ...">
+        </div>
+        <div class="form-group form-full">
+          <label class="form-label">Eure Nachricht *</label>
+          <textarea name="nachricht" class="form-textarea" placeholder="Erzählt uns ein bisschen von eurem Event — Wünsche, Ideen, Fragen ..." required></textarea>
+        </div>
+        <div class="form-full">
+          <button type="submit" class="btn btn-primary form-submit-btn">Anfrage absenden</button>
+        </div>
+        <div id="form-success" class="form-success" style="display:none;">
+          Vielen Dank! Wir melden uns innerhalb von 24 Stunden bei euch.
+        </div>
+      </form>
+
+    </div>
+  </section>
+
+</div><!-- /page-contact -->
+
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="logo.png" alt="ARTificial Sentiments" class="footer-logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <span class="footer-logo-text" style="display:none;">ART<span>ificial</span> Sentiments</span>
+        <p>Musik. Atmosphäre. Emotion.<br>Premium DJ &amp; Eventtechnik für unvergessliche Momente.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Navigation</h5>
+        <ul class="footer-links">
+          <li><a onclick="showPage('home')">Start</a></li>
+          <li><a onclick="showPage('about')">Über uns</a></li>
+          <li><a onclick="showPage('weddings')">Hochzeiten</a></li>
+          <li><a onclick="showPage('corporate')">Corporate Events</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Leistungen</h5>
+        <ul class="footer-links">
+          <li><a onclick="showPage('equipment')">Equipment-Verleih</a></li>
+          <li><a onclick="showPage('gallery')">Galerie</a></li>
+          <li><a onclick="showPage('faq')">FAQ</a></li>
+          <li><a onclick="showPage('contact')">Kontakt</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Kontakt</h5>
+        <ul class="footer-links" style="gap:8px;">
+          <li><a>hallo@artificial-sentiments.de</a></li>
+          <li><a>+49 (0) 123 456 789</a></li>
+          <li><a>@artificial.sentiments</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Artificial Sentiments. Alle Rechte vorbehalten.</p>
+      <p><a onclick="showPage('impressum')" style="color:var(--text-3);text-decoration:none;cursor:pointer;transition:color 0.22s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-3)'">Impressum</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     IMPRESSUM
+═══════════════════════════════════════════ -->
+<div id="page-impressum" class="page">
+
+  <div class="page-hero">
+    <div class="container">
+      <div class="ph-inner">
+        <span class="overline">Rechtliches</span>
+        <div class="gold-line"></div>
+        <h1 class="display-lg">Impressum</h1>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="impressum-layout">
+
+        <div class="impressum-block">
+          <h2>Angaben gemäß § 5 TMG</h2>
+          <p>
+            Kolja Tönges<br>
+            Pfarrer-Ritter-Weg 9<br>
+            87748 Fellheim
+          </p>
+        </div>
+
+        <div class="impressum-block">
+          <h2>Kontakt</h2>
+          <p>
+            Telefon: +49 172 7273707<br>
+            E-Mail: <a href="mailto:nice2skate@yahoo.com">nice2skate@yahoo.com</a>
+          </p>
+        </div>
+
+        <div class="impressum-block">
+          <h2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
+          <p>
+            Kolja Tönges<br>
+            Pfarrer-Ritter-Weg 9<br>
+            87748 Fellheim
+          </p>
+        </div>
+
+        <div class="impressum-block">
+          <h2>Haftungsausschluss</h2>
+
+          <h3>Haftung für Inhalte</h3>
+          <p>Als Diensteanbieter bin ich gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG bin ich als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.</p>
+          <p>Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werde ich diese Inhalte umgehend entfernen.</p>
+
+          <h3>Haftung für Links</h3>
+          <p>Mein Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte ich keinen Einfluss habe. Deshalb kann ich für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar.</p>
+          <p>Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werde ich derartige Links umgehend entfernen.</p>
+        </div>
+
+        <div class="impressum-block">
+          <h2>Urheberrecht</h2>
+          <p>Die durch den Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.</p>
+          <p>Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitte ich um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werde ich derartige Inhalte umgehend entfernen.</p>
+        </div>
+
+        <div class="impressum-block">
+          <h2>Gerichtsstand</h2>
+          <p>Gerichtsstand ist Memmingen.</p>
+        </div>
+
+        <div class="impressum-block">
+          <h2>Streitschlichtung</h2>
+          <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener">https://ec.europa.eu/consumers/odr/</a></p>
+          <p>Meine E-Mail-Adresse finden Sie oben im Impressum. Ich bin nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+        </div>
+
+        <div style="margin-top:48px;">
+          <a class="btn btn-outline" onclick="history.back()">← Zurück</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-impressum -->
+
+<script src="app.js"></script>
+</body>
+</html>
