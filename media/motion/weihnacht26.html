@@ -1,0 +1,97 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Weihnachtsaktion Reel</title>
+<style>@font-face{font-family:"Fira Sans";font-weight:400;src:url(fonts/fira400.woff2) format("woff2")}@font-face{font-family:"Fira Sans";font-weight:500 600;src:url(fonts/fira600.woff2) format("woff2")}@font-face{font-family:"Fira Sans";font-weight:700 800;src:url(fonts/fira800.woff2) format("woff2")}</style>
+<style>
+/* Reel "Noch 3 Tage" zur Weihnachtsaktion WEIHNACHT26 (Posting 28.10.2026), 9:16, 19,5 s.
+   Takt: "Electric Blue" (Disco, 118 BPM). Ton beim Schnitt anlegen. Rendern: siehe README.md. */
+:root{color-scheme:dark;--ink:#0F0C07;--sleeve:#16130D;--brass:#B29D75;--gold:#E0B36A;--paper:#F3F1E9;--muted:#A9A296;--led:#FF4A2E;--beat:0;--lit:1}
+html,body{background:var(--ink);color:var(--paper);margin:0}
+body{font-family:"Fira Sans","Helvetica Neue",Arial,sans-serif;padding:16px}
+.wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
+.head{text-align:center}.head h1{font-size:1rem;letter-spacing:.14em;text-transform:uppercase;margin:0}.head p{margin:.3rem 0 0;color:var(--muted);font-size:.85rem}
+.transport{display:flex;gap:8px}
+.transport button{font:inherit;background:var(--sleeve);color:var(--paper);border:1px solid var(--brass);border-radius:6px;padding:.45rem .9rem;cursor:pointer}
+.stage{position:relative;aspect-ratio:9/16;width:min(100%,calc((100vh - 140px)*9/16),460px);background:var(--sleeve);overflow:hidden;container-type:inline-size;border-radius:8px}
+img{display:block}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.06;background-image:repeating-linear-gradient(0deg,#fff 0 1px,transparent 1px 3px);mix-blend-mode:overlay;z-index:8}
+.vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 40%,transparent 50%,rgba(0,0,0,.6));z-index:7}
+.dim{position:absolute;inset:0;background:#000;opacity:calc(1 - var(--lit));pointer-events:none;z-index:6}
+.top{position:absolute;top:6cqw;left:7cqw;right:7cqw;display:flex;justify-content:space-between;font-size:3cqw;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);z-index:9}
+.top b{color:var(--gold);font-weight:600}
+.logo{position:absolute;right:7cqw;bottom:6cqw;width:22cqw;opacity:.85;z-index:9}
+.sub{position:absolute;left:7cqw;right:7cqw;bottom:17cqw;font-size:4.6cqw;line-height:1.3;font-weight:500;text-align:center;z-index:9;text-shadow:0 2px 10px rgba(0,0,0,.9)}
+.sub span{background:rgba(15,12,7,.72);padding:.2em .45em;border-radius:.3em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+
+.scene{position:absolute;inset:0;padding:22cqw 7cqw 34cqw;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5cqw;text-align:center;visibility:hidden;z-index:2}
+.scene.on{visibility:visible}
+.a{opacity:0;translate:0 4cqw}
+.scene.on .a{animation:in .55s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(var(--i,0)*.12s)}
+@keyframes in{to{opacity:1;translate:0 0}}
+.big{font-size:15cqw;font-weight:800;line-height:.95;letter-spacing:-.01em;margin:0}
+.big em{font-style:normal;color:var(--gold)}
+.kick{font-size:4cqw;letter-spacing:.22em;text-transform:uppercase;color:var(--brass);font-weight:600}
+.glow{filter:drop-shadow(0 0 calc(3cqw + var(--beat)*6cqw) rgba(224,140,60,calc(.35 + var(--beat)*.5)))}
+.bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:-1;filter:brightness(calc(.55 + var(--beat)*.3))}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,12,7,.35),rgba(15,12,7,.85))}
+
+.s1 .akku{height:62cqw}
+.akku,.six img{mix-blend-mode:screen;-webkit-mask-image:radial-gradient(closest-side,#000 70%,transparent);mask-image:radial-gradient(closest-side,#000 70%,transparent)}
+.s1 .big{font-size:22cqw}
+.tick{position:relative;width:100%;container-type:inline-size}
+.tick img{width:100%;height:auto}
+.tick .disp{position:absolute;left:5.5%;right:5.5%;top:25%;bottom:22%;background:#0c0605;overflow:hidden;border-radius:.4cqi}
+.tick .disp::after{content:"";position:absolute;inset:0;background:radial-gradient(circle,transparent 42%,#0c0605 55%) 0 0/1.15cqi 1.15cqi}
+.tick .disp span{position:absolute;top:50%;left:100%;translate:0 -50%;white-space:nowrap;font-weight:800;font-size:6.8cqi;letter-spacing:.14em;color:var(--led);text-shadow:0 0 1.6cqi rgba(255,74,46,.9);animation:scroll 4.2s linear infinite}
+@keyframes scroll{to{transform:translateX(calc(-100% - 100cqi))}}
+.six{display:grid;grid-template-columns:repeat(3,1fr);gap:3cqw 5cqw}
+.six img{height:24cqw;margin:auto}
+.six img:nth-child(even){filter:drop-shadow(0 0 calc(3cqw + var(--beat)*6cqw) rgba(80,140,255,calc(.35 + var(--beat)*.5))) hue-rotate(190deg)}
+.duo{display:flex;flex-direction:column;gap:4cqw;width:100%}
+.duo img{width:100%}
+.price{font-size:5.4cqw;color:var(--muted)}.price s{color:var(--paper)}
+.portrait{width:52cqw;aspect-ratio:1;border-radius:50%;object-fit:cover;border:.8cqw solid var(--brass);box-shadow:0 0 calc(4cqw + var(--beat)*5cqw) rgba(224,179,106,.35)}
+.code{font-size:10.5cqw;font-weight:800;letter-spacing:.06em;color:var(--ink);background:var(--gold);padding:.15em .4em;border-radius:.12em;box-shadow:0 0 calc(4cqw + var(--beat)*8cqw) rgba(224,179,106,.6)}
+.bio{font-size:6cqw;font-weight:600}
+.bar{position:absolute;left:0;bottom:0;height:.8cqw;background:var(--gold);z-index:9}
+</style></head><body>
+<div class="wrap">
+  <div class="head"><h1>Reel · Noch 3 Tage</h1><p>Weihnachtsaktion WEIHNACHT26 · Posting Mi 28.10. · 19,5 s · Ton: „Electric Blue“</p></div>
+  <div class="stage vertical" id="stage">
+    <div class="top"><span>Licht-Upgrade</span><b id="clock">0:00</b></div>
+
+    <section class="scene s1" data-dur="2.9"><img class="akku glow a" data-img="akku" alt="Akku-Scheinwerfer"><p class="big a" style="--i:1"><em>Noch</em><br>3 Tage</p></section>
+    <section class="scene" data-dur="2.1"><p class="kick a">Eure Firma</p><div class="tick a" style="--i:1"><img data-img="ticker" alt="LED-Laufschrift"><div class="disp"><span>EURE FIRMA · FROHE WEIHNACHTEN</span></div></div><p class="big a" style="--i:2;font-size:12cqw">„Eure Firma“</p></section>
+    <section class="scene" data-dur="2.6"><div class="six a"><img data-img="akku" alt=""><img data-img="akku" alt=""><img data-img="akku" alt=""><img data-img="akku" alt=""><img data-img="akku" alt=""><img data-img="akku" alt=""></div><p class="big a" style="--i:2">6 Akku-<br><em>Spots</em></p><p class="kick a" style="--i:3">auch für draußen</p></section>
+    <section class="scene" data-dur="3.3"><div class="bg" data-bg="crowd"></div><p class="kick a">Weihnachtsfeier im Dezember</p><p class="big a" style="--i:1">bis Sa<br><em>31.10.</em></p></section>
+    <section class="scene" data-dur="2.1"><div class="duo a"><img class="glow" data-img="uv" alt="UV-Schwarzlicht"><img class="glow" data-img="wash" alt="Wash"></div><p class="big a" style="--i:1"><em>gratis</em> dazu</p><p class="price a" style="--i:2">Wert <s>150 €</s></p></section>
+    <section class="scene" data-dur="2.2"><img class="portrait a" data-img="portrait" alt="Kolja"><p class="big a" style="--i:1;font-size:12cqw">Antwort<br>in <em>24 h</em></p></section>
+    <section class="scene" data-dur="2.2"><p class="kick a">Code</p><p class="code a" style="--i:1">WEIHNACHT26</p><p class="bio a" style="--i:2">Link in der Bio</p></section>
+    <section class="scene" data-dur="2.1"><img class="akku glow a" data-img="akku" alt="" style="height:44cqw"><p class="big a" style="--i:1;font-size:13cqw">ab So:<br><em>150 €</em></p></section>
+
+    <p class="sub" id="sub"><span></span></p>
+    <img class="logo" data-img="logo" alt="DJ KOLJA ONE">
+    <div class="dim"></div><div class="vignette"></div><div class="grain"></div><div class="bar" id="bar"></div>
+  </div>
+  <div class="transport"><button id="restart" type="button">Von vorn</button><button id="play" type="button">Pause</button></div>
+</div>
+<script>
+const IMG={akku:"equipment/akku.webp",ticker:"equipment/ticker.webp",uv:"equipment/uv.webp",wash:"equipment/wash.webp",crowd:"equipment/crowd.webp",portrait:"equipment/portrait.webp",logo:"equipment/logo.webp"};
+document.querySelectorAll('[data-img]').forEach(el=>el.src=IMG[el.dataset.img]);
+document.querySelectorAll('[data-bg]').forEach(el=>el.style.backgroundImage='url('+IMG[el.dataset.bg]+')');
+const SUBS=["3 Tage, dann kostet dieses Licht 150 Euro.","Euer Firmenname läuft als LED-Laufschrift.","Dazu 6 Akku-Scheinwerfer, auch für draußen.","Bucht mich bis Samstag für eure Weihnachtsfeier im Dezember.","Dann bringe ich alles gratis mit.","Datum schicken, Antwort in 24 Stunden.","Code WEIHNACHT26, Link in der Bio.","Ab Sonntag kostet das Licht."];
+const stage=document.getElementById('stage'),scenes=[...stage.querySelectorAll('.scene')],sub=document.querySelector('#sub span');
+const durs=scenes.map(s=>+s.dataset.dur),starts=[];let acc=0;durs.forEach(d=>{starts.push(acc);acc+=d});
+const TOTAL=acc,BPM=118,bar=document.getElementById('bar'),clock=document.getElementById('clock'),playBtn=document.getElementById('play');
+let t=0,cur=-1,playing=true,last=performance.now();
+function show(i,force){if(i===cur&&!force)return;cur=i;scenes.forEach(s=>s.classList.remove('on'));void stage.offsetWidth;scenes[i].classList.add('on');sub.textContent=SUBS[i]}
+function sceneAt(x){for(let i=durs.length-1;i>=0;i--)if(x>=starts[i])return i;return 0}
+function frame(now){const dt=(now-last)/1000;last=now;if(playing){t+=dt;if(t>=TOTAL)t=0}
+  show(sceneAt(t));bar.style.width=(t/TOTAL*100)+'%';clock.textContent='0:'+String(Math.floor(t)).padStart(2,'0');
+  const ph=(t*BPM/60)%1;stage.style.setProperty('--beat',Math.exp(-ph*6).toFixed(3));
+  /* Licht geht am Anfang an und am Ende aus */
+  const lit=Math.min(1,t/0.6)*Math.min(1,Math.max(0,(TOTAL-t)/1.2)+.15);stage.style.setProperty('--lit',Math.min(1,lit).toFixed(3));
+  requestAnimationFrame(frame)}
+playBtn.addEventListener('click',()=>{playing=!playing;playBtn.textContent=playing?'Pause':'Abspielen'});
+document.getElementById('restart').addEventListener('click',()=>{t=0;last=performance.now();show(0,true);playing=true;playBtn.textContent='Pause'});
+show(0,true);requestAnimationFrame(frame);
+</script></body></html>
