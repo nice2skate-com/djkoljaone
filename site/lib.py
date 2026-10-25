@@ -15,7 +15,7 @@ def px(v,u="px"): return {"unit":u,"size":v,"sizes":[]}
 def box(t,r,b,l,u="px"): return {"unit":u,"top":str(t),"right":str(r),"bottom":str(b),"left":str(l),"isLinked":False}
 def gap(v): return {"unit":"px","size":v,"column":str(v),"row":str(v),"isLinked":True}
 def lnk(u):
-    ext="on" if any(d in u for d in ("instagram.com","facebook.com","wa.me")) else ""
+    ext="on" if any(d in u for d in ("instagram.com","facebook.com","wa.me","open.spotify.com")) else ""
     return {"url":u,"is_external":ext,"nofollow":""}
 
 def typo(p,size,weight="400",m=None,lh=None,ls=None,tr=None):
@@ -209,6 +209,27 @@ def card(title,text,w=31,bg=B2,top=True,geraet=None):
     return con(bild+[H(title,"h3",23,OFF,"left","400"),T(text,MUTED,"left",16)],bg=bg,pad=box(34,28,34,28),g=12,**col(w,48,100),**kw)
 def cards(items,w=31,bg=B2):
     return con([card(it[0],it[1],w,bg,geraet=it[2] if len(it)>2 else None) for it in items],"row",g=24,**ROW,flex_justify_content="center")
+
+# Spotify-Playlisten je Genre (Konto DJ KOLJA ONE, seit 1.72.0) – Reihenfolge wie das Repertoire
+SPOTIFY="https://open.spotify.com/playlist/"
+PLAYLISTS=[("Pop &amp; Charts","Aktuelle Hits und die großen Songs der letzten Jahrzehnte.","7d4o4r1akUFfV9SkXQGQbi"),
+           ("80er, 90er &amp; 2000er","Die Klassiker, bei denen jede Generation mitsingt.","2PE3d6fdMnOqXkvaijTmyC"),
+           ("Schlager &amp; Party","Wenn es zur richtigen Zeit passt – mit Augenmaß.","46SzCrplPjVNrGaO46G1q7"),
+           ("Rock &amp; Indie","Gitarren für die, die es etwas rauer mögen.","0GlIgez6h7n00HNRdjjR90"),
+           ("House &amp; Dance","Für späte Stunden und volle Tanzflächen.","3sir4JiXufFXmOAM5QfUqP"),
+           ("Latin, Soul &amp; Lounge","Für Empfang, Dinner und besondere Momente.","0OPdAoZR5z6IWJdusrPkXl")]
+def playlist_cards(bg=B1):
+    # Karte mit Link-Button; .kjo-pl liefert den Genre-Namen fürs Klick-Tracking (playlist_klick)
+    return con([con([con([H(t,"h3",23,OFF,"left","400"),T(d,MUTED,"left",16)],g=12),
+                     BTN("Auf Spotify anhören",SPOTIFY+pid,False,"left",text_padding=box(12,22,12,22))],
+                    bg=bg,pad=box(34,28,34,28),g=20,flex_justify_content="space-between",css_classes="kjo-pl",
+                    border_border="solid",border_width=box(2,0,0,0),border_color=GOLD,**col(31,48,100)) for t,d,pid in PLAYLISTS],
+               "row",g=24,**ROW,flex_justify_content="center")
+def playlist_chips():
+    return con([con([H(t,"p",19,OFF,"center","300",link=SPOTIFY+pid),H("Spotify ↗","p",12,GOLD,"center","500",link=SPOTIFY+pid,ls=1.5,tr="uppercase")],
+                    g=6,pad=box(18,10,18,10),css_classes="kjo-pl",border_border="solid",border_width=box(1,1,1,1),
+                    border_color="rgba(178,157,117,0.35)",**col(31,31,48)) for t,d,pid in PLAYLISTS],
+               "row",g=16,flex_wrap="wrap",flex_direction_mobile="row",flex_justify_content="center")
 
 def list_card(title,items,w=31,bg=B1):
     return con([H(title,"h3",23,OFF,"left","400"),ILIST(items,size=16)],bg=bg,pad=box(34,28,34,28),g=16,

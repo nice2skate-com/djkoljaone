@@ -1,9 +1,9 @@
 {
- "version": "1.71.3",
- "download_url": "dj-kolja-one-plattenkiste-1.71.3.zip",
- "sha256": "f46b7cf0255654c101136d97704f946de2f2050048c82829bd9e276039d86641",
+ "version": "1.72.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.72.0.zip",
+ "sha256": "67dc5e2ffca776b26b481ecaf27cc3995e4385fd5622b165db0bccf151268b65",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Kommentar → WhatsApp: Anzeige „Letzte Meldung von Meta“ (auch ausgeschaltet) und genaue Meta-Antwort bei leerer Abo-Liste."
+ "changelog": "Spotify-Playlisten je Genre"
 }
