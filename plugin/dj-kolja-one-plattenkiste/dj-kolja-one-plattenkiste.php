@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.71.3
+ * Version:     1.72.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.71.3' );
+define( 'KJO_VERSION', '1.72.0' );
 define( 'KJO_USTID', 'DE331619498' ); // Umsatzsteuer-Identifikationsnummer (Bescheid BZSt vom 25.07.2020)
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
@@ -2700,7 +2700,8 @@ add_action(
  *  - click_whatsapp  Klick auf einen WhatsApp-Link
  *  - click_phone     Klick auf eine Telefonnummer
  *  - click_email     Klick auf die E-Mail-Adresse (die Adresse wird zusätzlich in die Zwischenablage kopiert)
- * Außerdem öffnen Instagram- und Facebook-Links immer in einem neuen Tab.
+ *  - playlist_klick  Klick auf eine Spotify-Playlist (item_name = Genre, item_id = Playlist-ID)
+ * Außerdem öffnen Instagram-, Facebook- und Spotify-Links immer in einem neuen Tab.
  * Gesendet wird über das vorhandene gtag (Site Kit) bzw. die dataLayer; ob Google dabei Cookies setzt,
  * entscheidet der Einwilligungsmodus (Complianz). Abschalten: add_filter( 'kjo_conversions', '__return_false' );
  */
@@ -2822,7 +2823,7 @@ function copyMail(addr){
   try{if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(addr).then(ok,function(){});return;}}catch(e){}
   try{var ta=document.createElement("textarea");ta.value=addr;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();if(document.execCommand("copy"))ok();ta.remove();}catch(e){}
 }
-function ext(){var l=document.querySelectorAll('a[href*="instagram.com"],a[href*="facebook.com"]');for(var i=0;i<l.length;i++){l[i].setAttribute("target","_blank");var r=(l[i].getAttribute("rel")||"");if(r.indexOf("noopener")<0)l[i].setAttribute("rel",(r+" noopener").trim());}}
+function ext(){var l=document.querySelectorAll('a[href*="instagram.com"],a[href*="facebook.com"],a[href*="open.spotify.com"]');for(var i=0;i<l.length;i++){l[i].setAttribute("target","_blank");var r=(l[i].getAttribute("rel")||"");if(r.indexOf("noopener")<0)l[i].setAttribute("rel",(r+" noopener").trim());}}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",ext);else ext();
 document.addEventListener("click",function(ev){
   var a=ev.target&&ev.target.closest?ev.target.closest("a[href]"):null;if(!a)return;
@@ -2830,6 +2831,7 @@ document.addEventListener("click",function(ev){
   if(h.indexOf("mailto:")===0){send("click_email",{method:"email"});copyMail(decodeURIComponent(a.getAttribute("href").slice(7).split("?")[0]));}
   else if(h.indexOf("tel:")===0){send("click_phone",{method:"telefon"});}
   else if(h.indexOf("wa.me/")>-1||h.indexOf("whatsapp.com")>-1||h.indexOf("whatsapp:")===0){send("click_whatsapp",{method:"whatsapp"});}
+  else if(h.indexOf("open.spotify.com/playlist/")>-1){var k=a.closest(".kjo-pl"),g=k&&k.querySelector("h3,p");send("playlist_klick",{item_name:((g||a).textContent||"").trim().slice(0,60),item_id:h.split("/playlist/")[1].split("?")[0]});}
 },true);
 var seen=false;
 function lead(){if(seen)return;seen=true;send("generate_lead",{method:"formular"});}

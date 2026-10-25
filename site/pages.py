@@ -51,6 +51,8 @@ def start():
       section(head("Meine Leistungen","Wofür bucht ihr mich?")+[tiles()],anchor="leistungen"),
       staerken("Ihr feiert. Ich kümmere mich um den Rest.",START_STAERKEN,eye="Was ihr davon habt"),
       reviews(["h1","f1","g1","h2","f2","g2","h3"]),
+      section(head("Meine Musik","Reinhören nach Genre","Sechs Playlisten auf Spotify – so klingt mein Repertoire. Eure Wünsche kommen bei der Planung dazu.")+[playlist_chips(),SPACER(6),
+          H("Alle Playlisten &amp; das DJ-Pult →","p",13,GOLD,"center","500",link="/meine-musik/#playlisten",ls=1.5,tr="uppercase")],bg=B2),
       section(head("So einfach geht's","In drei Schritten zu eurem DJ")+[steps([
           ("Wunschtermin prüfen","Datum, Ort und Anlass – per Formular oder WhatsApp in 2 Minuten. Ich melde mich innerhalb von 24 Stunden."),
           ("Kennenlernen","Telefonisch oder per Video besprechen wir Musik, Ablauf und Wünsche – kostenlos und unverbindlich."),
@@ -332,10 +334,7 @@ def musik():
           ("Selbst mixen","In den Wellenformen oben im Mixer seht ihr beide Songs samt Beatgrid und springt per Klick an jede Stelle. Blendet mit dem Crossfader über, gleicht das Tempo mit dem Regler und SYNC an und haltet mit KEY die Tonart. Grün markierte Platten passen harmonisch zum laufenden Song."),
           ("Automix","Lieber zurücklehnen? Mit ☰+ legt ihr Songs in die Playlist, „Automix starten“ mixt sie nacheinander. Sobald ihr eingreift, übernehmt ihr wieder selbst."),
           ("Ansehen &amp; bewerten","Songs mit dem Label VIDEO zeigen ihr Bild im Laptop. Gebt jedem Song 1 bis 5 Sterne – der Durchschnitt aller Besucher steht direkt am Song.")])],bg=B1),
-      section(head("Musik","Mein Repertoire – und eure Wünsche","Entscheidend ist euer Publikum. Diese Richtungen habe ich im Gepäck – eure Wunschliste kommt dazu.")+[cards([
-        ("Pop &amp; Charts","Aktuelle Hits und die großen Songs der letzten Jahrzehnte."),("80er, 90er &amp; 2000er","Die Klassiker, bei denen jede Generation mitsingt."),
-        ("Schlager &amp; Party","Wenn es zur richtigen Zeit passt – mit Augenmaß."),("Rock &amp; Indie","Gitarren für die, die es etwas rauer mögen."),
-        ("House &amp; Dance","Für späte Stunden und volle Tanzflächen."),("Latin, Soul &amp; Lounge","Für Empfang, Dinner und besondere Momente.")],bg=B1)],bg=B2),
+      section(head("Playlisten","Mein Repertoire zum Reinhören","Entscheidend ist euer Publikum. Diese Richtungen habe ich im Gepäck – zu jeder gibt es eine Playlist auf Spotify. Eure Wunschliste kommt bei der Planung dazu.")+[playlist_cards(B1)],bg=B2,anchor="playlisten"),
       cta("Spielst du auch unsere Lieblingssongs?","Ja – im kostenlosen Vorgespräch planen wir eure Musik mit Wunsch- und No-Go-Liste. Eine Anfrage dauert zwei Minuten und ist unverbindlich."),
       footer()]
 

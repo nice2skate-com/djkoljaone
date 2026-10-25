@@ -82,7 +82,7 @@
 
 ## C. Sicherheits-Fixes Plattenkiste (geplant: Dienstag 27.10.2026)
 
-Ergebnis der Sicherheitsprüfung vom 25.10.2026: keine kritische Lücke, aber diese Punkte als Update 1.71.2.
+Ergebnis der Sicherheitsprüfung vom 25.10.2026: keine kritische Lücke, aber diese Punkte als nächstes Plugin-Update.
 
 **Mittel**
 - [ ] Formulare als Spam-Schleuder (`kjo-kontakt.php` ~Z. 319, `kjo-verleih.php` ~Z. 2253, `kjo-kennenlernen.php` ~Z. 240): Bestätigungsmail an die eingegebene Adresse enthält Freitext (Name, Ort, Gäste, Telefon). Fix: Anfragen mit Links/Webadressen in Name/Ort/Gäste/Telefon ablehnen; max. 1 Bestätigung pro E-Mail-Adresse und Tag; globale Obergrenze pro Stunde; Sperre pro IPv6-/64-Netz statt Einzeladresse; `ts`-Prüfung nicht mehr überspringen, wenn das Feld fehlt.

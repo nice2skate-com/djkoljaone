@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.72.0: Spotify-Playlisten je Genre – „Meine Musik“ zeigt das Repertoire als Karten mit Button „Auf Spotify anhören“ (Anker #playlisten), die Startseite eine Genre-Zeile unter den Bewertungen. Spotify-Links öffnen in neuem Tab, Klicks zählen als Ereignis playlist_klick.
 Seit 1.71.3: Kommentar → WhatsApp zeigt „Letzte Meldung von Meta“ (auch ausgeschaltet) und bei leerer Abo-Liste die genaue Antwort von Meta.
 Seit 1.71.2: Kommentar → WhatsApp – „Verbindung prüfen & bei Meta anmelden“ trägt das Webhook-Abo (Instagram: comments, WhatsApp: messages) direkt bei Meta ein und zeigt, was abonniert ist. Kein Umweg über die Menüs der Meta-App mehr.
 Seit 1.71.1: WhatsApp-Symbol überall in WhatsApp-Grün (#25D366), auch in der Navigation.
