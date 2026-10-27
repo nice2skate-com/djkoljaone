@@ -241,11 +241,10 @@ function kjo_kf_rest( WP_REST_Request $req ) {
 		return new WP_REST_Response( array( 'ok' => true ), 200 ); // Spam-Falle: still verwerfen.
 	}
 	$ts = isset( $d['ts'] ) ? (int) $d['ts'] : 0;
-	if ( $ts && time() - $ts < 3 ) {
+	if ( ! $ts || time() - $ts < 3 ) {
 		return kjo_kf_err( 'Bitte noch einmal absenden.' );
 	}
-	$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
-	$rk = 'kjo_kf_rl_' . substr( hash_hmac( 'sha256', $ip, wp_salt( 'nonce' ) ), 0, 20 );
+	$rk = 'kjo_kf_rl_' . kjo_netz_hash();
 	$rl = (int) get_transient( $rk );
 	if ( $rl >= 5 ) {
 		return kjo_kf_err( 'Es wurden gerade sehr viele Anfragen gesendet. Bitte versucht es später noch einmal oder schreibt mir per WhatsApp.', 429 );
@@ -260,6 +259,9 @@ function kjo_kf_rest( WP_REST_Request $req ) {
 	}
 	if ( '1' !== $s( 'datenschutz' ) ) {
 		return kjo_kf_err( 'Bitte bestätigt die Datenschutzerklärung.' );
+	}
+	if ( kjo_hat_link( $s( 'vorname' ), $s( 'nachname' ), $s( 'ort' ), $s( 'gaeste' ), $s( 'telefon' ) ) ) {
+		return kjo_kf_err( 'Bitte keine Links in Name, Ort, Gästezahl oder Telefon. Schreibt sie gern in die Nachricht.' );
 	}
 	if ( $datum && $datum < wp_date( 'Y-m-d' ) ) {
 		return kjo_kf_err( 'Das Wunschdatum liegt in der Vergangenheit.' );
@@ -319,7 +321,7 @@ function kjo_kf_rest( WP_REST_Request $req ) {
 	$conf = 'Hallo ' . $s( 'vorname' ) . ",\n\ndanke für eure Anfrage! Ich prüfe euren Termin und melde mich innerhalb von 24 Stunden persönlich bei euch.\n\n"
 		. "Eure Angaben:\nAnlass: " . $anlass . "\nWunschdatum: " . ( $datum ? $de : 'noch offen' ) . "\nOrt / Location: " . $s( 'ort' ) . "\nGästezahl: " . $s( 'gaeste' ) . "\n\n"
 		. "Ihr wollt etwas ergänzen? Antwortet einfach auf diese E-Mail oder schreibt mir per WhatsApp: https://wa.me/491727273707\n\nViele Grüße\nKolja – DJ KOLJA ONE\n" . $to . "\nhttps://dj-kolja-one.de\n";
-	wp_mail( $email, 'Eure Anfrage bei DJ KOLJA ONE', $conf, array( 'Content-Type: text/plain; charset=UTF-8', 'Reply-To: DJ KOLJA ONE <' . $to . '>' ) );
+	kjo_bestaetigung_ok( $email, 'kontakt' ) && wp_mail( $email, 'Eure Anfrage bei DJ KOLJA ONE', $conf, array( 'Content-Type: text/plain; charset=UTF-8', 'Reply-To: DJ KOLJA ONE <' . $to . '>' ) );
 	if ( ! $ok && ! $pid ) {
 		return kjo_kf_err( 'Die Anfrage konnte nicht gesendet werden. Bitte schreibt mir per WhatsApp oder ruft an.', 500 );
 	}

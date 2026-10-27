@@ -121,7 +121,8 @@ function kjo_ml_rest( WP_REST_Request $r ) {
 	if ( $fertig ) {
 		update_post_meta( $p->ID, '_kjo_ml_s', 'fertig' );
 		$link = admin_url( 'admin.php?page=kjo-musikliste&id=' . $p->ID );
-		wp_mail( KJO_ML_MAIL, 'Musikwunschliste fertig: ' . $p->post_title, "Die Musikwunschliste „" . $p->post_title . "“ wurde abgeschickt.\n\nAnsehen: " . $link . "\n", array( 'Content-Type: text/plain; charset=UTF-8' ) );
+		$mk   = 'kjo_ml_mail_' . $p->ID;
+		get_transient( $mk ) || ( set_transient( $mk, 1, 10 * MINUTE_IN_SECONDS ) && wp_mail( KJO_ML_MAIL, 'Musikwunschliste fertig: ' . $p->post_title, "Die Musikwunschliste „" . $p->post_title . "“ wurde abgeschickt.\n\nAnsehen: " . $link . "\n", array( 'Content-Type: text/plain; charset=UTF-8' ) ) ); // höchstens eine Mail pro Liste und 10 Minuten
 	} elseif ( 'fertig' !== get_post_meta( $p->ID, '_kjo_ml_s', true ) ) {
 		update_post_meta( $p->ID, '_kjo_ml_s', 'bearbeitet' );
 	}

@@ -1,0 +1,10 @@
+# Einmal-Token für das Leeren des Caches nach einem Deploy nie per HTTP ausliefern (seit 1.72.1).
+<Files ".purge-token">
+	<IfModule mod_authz_core.c>
+		Require all denied
+	</IfModule>
+	<IfModule !mod_authz_core.c>
+		Order allow,deny
+		Deny from all
+	</IfModule>
+</Files>

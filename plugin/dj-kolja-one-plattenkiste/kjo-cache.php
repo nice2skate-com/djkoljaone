@@ -22,7 +22,7 @@ function kjo_cache_dir() {
 	return WP_CONTENT_DIR . '/cache/kjo-seiten/';
 }
 function kjo_cache_datei() {
-	$host = isset( $_SERVER['HTTP_HOST'] ) ? strtolower( sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) ) : '';
+	$host = strtolower( (string) wp_parse_url( home_url(), PHP_URL_HOST ) ); // nicht der Host-Kopf der Anfrage: der ist frei wählbar (seit 1.72.1)
 	$pfad = isset( $_SERVER['REQUEST_URI'] ) ? (string) wp_parse_url( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ), PHP_URL_PATH ) : '/';
 	$http = is_ssl() ? 'https' : 'http';
 	return kjo_cache_dir() . md5( KJO_VERSION . '|' . $http . '://' . $host . $pfad ) . '.html';

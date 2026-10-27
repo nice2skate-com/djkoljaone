@@ -82,21 +82,21 @@
 
 ## C. Sicherheits-Fixes Plattenkiste (geplant: Dienstag 27.10.2026)
 
-Ergebnis der Sicherheitsprüfung vom 25.10.2026: keine kritische Lücke, aber diese Punkte als nächstes Plugin-Update.
+Ergebnis der Sicherheitsprüfung vom 25.10.2026: keine kritische Lücke, umgesetzt in 1.72.1 (27.10.2026). Offen bleibt nur der MP3-Schutz-Hinweis (bewusst so gelassen).
 
 **Mittel**
-- [ ] Formulare als Spam-Schleuder (`kjo-kontakt.php` ~Z. 319, `kjo-verleih.php` ~Z. 2253, `kjo-kennenlernen.php` ~Z. 240): Bestätigungsmail an die eingegebene Adresse enthält Freitext (Name, Ort, Gäste, Telefon). Fix: Anfragen mit Links/Webadressen in Name/Ort/Gäste/Telefon ablehnen; max. 1 Bestätigung pro E-Mail-Adresse und Tag; globale Obergrenze pro Stunde; Sperre pro IPv6-/64-Netz statt Einzeladresse; `ts`-Prüfung nicht mehr überspringen, wenn das Feld fehlt.
-- [ ] Kennenlernen-Termine lassen sich ausbuchen (`kjo-kennenlernen.php` ~Z. 172–247): max. 1 offener Termin pro E-Mail und pro Netz; Sperre gegen Doppelbuchung desselben Slots (`add_option`-Lock).
+- [x] Formulare als Spam-Schleuder (`kjo-kontakt.php` ~Z. 319, `kjo-verleih.php` ~Z. 2253, `kjo-kennenlernen.php` ~Z. 240): Bestätigungsmail an die eingegebene Adresse enthält Freitext (Name, Ort, Gäste, Telefon). Fix: Anfragen mit Links/Webadressen in Name/Ort/Gäste/Telefon ablehnen; max. 1 Bestätigung pro E-Mail-Adresse und Tag; globale Obergrenze pro Stunde; Sperre pro IPv6-/64-Netz statt Einzeladresse; `ts`-Prüfung nicht mehr überspringen, wenn das Feld fehlt.
+- [x] Kennenlernen-Termine lassen sich ausbuchen (`kjo-kennenlernen.php` ~Z. 172–247): max. 1 offener Termin pro E-Mail, max. 2 Buchungen pro Netz und Stunde; Sperre gegen Doppelbuchung desselben Slots (`add_option`-Lock).
 
 **Niedrig**
-- [ ] ICS mit Kundendaten kurz im öffentlichen Ordner `uploads/kjo-tmp` → in `get_temp_dir()` mit Zufallsnamen schreiben.
-- [ ] `/purge`: Token erst nach erfolgreichem `hash_equals` löschen; `.purge-token` nicht im öffentlichen Plugin-Ordner.
-- [ ] `/rate` und `/share`: Sperre pro IPv6-/64 und Obergrenze pro Song und Stunde.
-- [ ] Video-URL (`kjm_video`) nur streamen, wenn sie zu einem Video-Anhang gehört (sonst könnte ein Autor geschützte Upload-Dateien lesen).
-- [ ] `kjm_release` (plan) und `kjm_save_order`: zusätzlich `edit_others_posts`.
-- [ ] Musikliste: Mail „fertig“ nur bei Statuswechsel bzw. max. alle 10 Min.
-- [ ] Seiten-Cache: Schlüssel aus `home_url()` statt `HTTP_HOST`.
+- [x] ICS mit Kundendaten kurz im öffentlichen Ordner `uploads/kjo-tmp` → in `get_temp_dir()` mit Zufallsnamen schreiben.
+- [x] `/purge`: Token erst nach erfolgreichem `hash_equals` löschen; `.purge-token` per `.htaccess` im Plugin-Ordner gesperrt.
+- [x] `/rate` und `/share`: Sperre pro IPv6-/64 und Obergrenze pro Song und Stunde.
+- [x] Video-URL (`kjm_video`) nur streamen, wenn sie zu einem Video-Anhang gehört (sonst könnte ein Autor geschützte Upload-Dateien lesen).
+- [x] `kjm_release` (plan) und `kjm_save_order`: zusätzlich `edit_others_posts`.
+- [x] Musikliste: Mail „fertig“ nur bei Statuswechsel bzw. max. alle 10 Min.
+- [x] Seiten-Cache: Schlüssel aus `home_url()` statt `HTTP_HOST`.
 - [ ] Info: MP3-Schutz per `.htaccess` lässt sich mit gefälschtem Cookie umgehen – nur Verstecken, kein echter Schutz (bewusst so lassen oder alles über `kjm_stream` leiten).
 
 **Fehler (kein Sicherheitsproblem)**
-- [ ] `kjo_media_flush()` löscht `kjo_media_map5`, der Speicher heißt aber `kjo_media_map6` → neue Bilder erscheinen erst nach bis zu 24 Std.
+- [x] `kjo_media_flush()` löscht `kjo_media_map5`, der Speicher heißt aber `kjo_media_map6` → neue Bilder erscheinen erst nach bis zu 24 Std.

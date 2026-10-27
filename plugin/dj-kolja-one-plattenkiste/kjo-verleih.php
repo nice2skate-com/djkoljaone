@@ -2086,8 +2086,7 @@ KJOJS
  * REST: Mietanfrage und Link-Meldung
  * ------------------------------------------------------------- */
 function kjo_vl_ip_hash() {
-	$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
-	return substr( hash_hmac( 'sha256', $ip, wp_salt( 'nonce' ) ), 0, 20 );
+	return kjo_netz_hash(); // IPv6 zählt pro /64-Netz (seit 1.72.1)
 }
 add_action(
 	'rest_api_init',
@@ -2126,7 +2125,7 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 		return new WP_REST_Response( array( 'ok' => true ), 200 ); // Spam-Falle: still verwerfen.
 	}
 	$ts = isset( $d['ts'] ) ? (int) $d['ts'] : 0;
-	if ( $ts && time() - $ts < 3 ) {
+	if ( ! $ts || time() - $ts < 3 ) {
 		return kjo_vl_err( 'Bitte noch einmal absenden.' );
 	}
 	$rk = 'kjo_vl_rl_' . kjo_vl_ip_hash();
@@ -2144,6 +2143,9 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 	}
 	if ( $von < wp_date( 'Y-m-d' ) || $bis < $von ) {
 		return kjo_vl_err( 'Bitte prüft den Mietzeitraum: Beginn ab heute, Rückgabe nicht vor dem Beginn.' );
+	}
+	if ( kjo_hat_link( $name, $s( 'telefon' ), $s( 'ort' ), $s( 'anlass' ), $s( 'gaeste' ) ) ) {
+		return kjo_vl_err( 'Bitte keine Links in Name, Telefon, Ort, Anlass oder Gästezahl.' );
 	}
 	$lines = array();
 	$keys  = array();
@@ -2251,7 +2253,7 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 	$hdrs = array( 'Content-Type: text/plain; charset=UTF-8', 'Reply-To: ' . str_replace( array( "\r", "\n", '<', '>' ), '', $name ) . ' <' . $email . '>' );
 	$ok   = wp_mail( $to, 'Mietanfrage: ' . $fmt( $von ) . ' – ' . $name, $text . ( $pid ? "\nIm Admin: " . admin_url( 'post.php?post=' . (int) $pid . '&action=edit' ) . "\n" : '' ), $hdrs );
 	$conf = 'Hallo ' . $name . ",\n\ndanke für eure Mietanfrage! Ich prüfe die Verfügbarkeit und melde mich innerhalb von 24 Stunden mit Angebot und Mietbedingungen.\n\nEure Anfrage:\n- " . implode( "\n- ", $lines ) . "\nZeitraum: " . $fmt( $von ) . ' bis ' . $fmt( $bis ) . "\nÜbergabe: " . $ueb . "\n\nViele Grüße\nKolja – DJ KOLJA ONE\n" . $to . "\nhttps://dj-kolja-one.de\n";
-	wp_mail( $email, 'Eure Mietanfrage bei DJ KOLJA ONE', $conf, array( 'Content-Type: text/plain; charset=UTF-8', 'Reply-To: DJ KOLJA ONE <' . $to . '>' ) );
+	kjo_bestaetigung_ok( $email, 'miete' ) && wp_mail( $email, 'Eure Mietanfrage bei DJ KOLJA ONE', $conf, array( 'Content-Type: text/plain; charset=UTF-8', 'Reply-To: DJ KOLJA ONE <' . $to . '>' ) );
 	if ( ! $ok && ! $pid ) {
 		return kjo_vl_err( 'Die Anfrage konnte nicht gesendet werden. Bitte schreibt mir per WhatsApp oder ruft an.', 500 );
 	}
@@ -2264,10 +2266,13 @@ function kjo_vl_rest_melden( WP_REST_Request $req ) {
 		return kjo_vl_err( 'Unbekanntes Gerät.', 404 );
 	}
 	$tk = 'kjo_vl_anl_' . $id;
-	if ( get_transient( $tk ) ) {
-		return new WP_REST_Response( array( 'ok' => true ), 200 ); // Höchstens eine E-Mail pro Gerät und Stunde.
+	$rk = 'kjo_vl_anl_rl_' . kjo_netz_hash();
+	$rl = (int) get_transient( $rk );
+	if ( get_transient( $tk ) || $rl >= 3 ) {
+		return new WP_REST_Response( array( 'ok' => true ), 200 ); // Höchstens eine E-Mail pro Gerät und Stunde, drei Meldungen pro Besucher-Netz und Stunde.
 	}
 	set_transient( $tk, 1, HOUR_IN_SECONDS );
+	set_transient( $rk, $rl + 1, HOUR_IN_SECONDS );
 	update_post_meta( $id, '_kjo_anl_gemeldet', time() );
 	$seite = esc_url_raw( (string) $req->get_param( 'seite' ) );
 	$home  = home_url( '/' );
