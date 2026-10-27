@@ -181,9 +181,9 @@ function kjo_kl_rest_buchen( WP_REST_Request $r ) {
 	if ( '' !== $s( 'website' ) ) {
 		return new WP_REST_Response( array( 'ok' => true ), 200 );
 	}
-	$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
-	$rk = 'kjo_kl_rl_' . substr( hash_hmac( 'sha256', $ip, wp_salt( 'nonce' ) ), 0, 20 );
-	if ( (int) get_transient( $rk ) >= 4 ) {
+	$netz = kjo_netz_hash( 'kl' );
+	$rk   = 'kjo_kl_rl_' . $netz;
+	if ( (int) get_transient( $rk ) >= 2 ) { // höchstens zwei Buchungen pro Besucher-Netz und Stunde (seit 1.72.1, vorher vier)
 		return $err( 'Es wurden gerade mehrere Termine gebucht. Bitte meldet euch kurz per WhatsApp oder Telefon.', 429 );
 	}
 	$tag  = $s( 'd', 10 );
@@ -199,8 +199,25 @@ function kjo_kl_rest_buchen( WP_REST_Request $r ) {
 	if ( 'telefon' === $art && strlen( preg_replace( '/\D/', '', $tel ) ) < 6 ) {
 		return $err( 'Für ein Telefongespräch brauche ich eure Telefonnummer.' );
 	}
+	if ( kjo_hat_link( $name, $tel ) ) {
+		return $err( 'Bitte keine Links in Name oder Telefon.' );
+	}
+	// Ein offener Termin pro E-Mail-Adresse (seit 1.72.1): sonst ließen sich alle Zeiten ausbuchen.
+	$schon = get_posts( array( 'post_type' => 'kjo_gespraech', 'post_status' => 'private', 'numberposts' => 1, 'fields' => 'ids', 'meta_query' => array( array( 'key' => '_kjo_kl_email', 'value' => $mail ), array( 'key' => '_kjo_kl_status', 'value' => 'gebucht' ), array( 'key' => '_kjo_kl_start', 'value' => time(), 'compare' => '>', 'type' => 'NUMERIC' ) ) ) ); // phpcs:ignore
+	if ( $schon ) {
+		return $err( 'Für diese E-Mail-Adresse ist schon ein Gespräch eingetragen (' . wp_date( 'd.m. \u\m H:i \U\h\r', (int) get_post_meta( $schon[0], '_kjo_kl_start', true ) ) . '). Zum Verschieben antwortet einfach auf die Bestätigungsmail oder schreibt mir per WhatsApp.', 409 );
+	}
+	// Sperre gegen zwei gleichzeitige Buchungen derselben Zeit; eine hängengebliebene Sperre gilt nach einer Minute als frei.
+	$lock = 'kjo_kl_lock_' . preg_replace( '/\D/', '', $tag . $zeit );
+	if ( ! add_option( $lock, time(), '', 'no' ) ) {
+		if ( time() - (int) get_option( $lock ) < 60 ) {
+			return $err( 'Dieser Zeitpunkt wird gerade gebucht. Bitte wählt einen anderen.', 409 );
+		}
+		update_option( $lock, time(), false );
+	}
 	$frei = kjo_kl_slots();
 	if ( empty( $frei[ $tag ] ) || ! in_array( $zeit, $frei[ $tag ], true ) ) {
+		delete_option( $lock );
 		return $err( 'Dieser Zeitpunkt ist leider nicht mehr frei. Bitte wählt einen anderen.', 409 );
 	}
 	$o     = kjo_kl_opts();
@@ -214,12 +231,14 @@ function kjo_kl_rest_buchen( WP_REST_Request $r ) {
 		)
 	);
 	if ( ! $pid || is_wp_error( $pid ) ) {
+		delete_option( $lock );
 		return $err( 'Das hat nicht geklappt. Bitte meldet euch per WhatsApp oder Telefon.', 500 );
 	}
 	set_transient( $rk, (int) get_transient( $rk ) + 1, HOUR_IN_SECONDS );
 	foreach ( array( 'start' => $start, 'art' => $art, 'name' => $name, 'tel' => $tel, 'email' => $mail, 'notiz' => $noti, 'status' => 'gebucht' ) as $k => $v ) {
 		update_post_meta( $pid, '_kjo_kl_' . $k, $v );
 	}
+	delete_option( $lock );
 	// Passende DJ-Anfrage (gleiche E-Mail, letzte 90 Tage) verknüpfen
 	$an = get_posts( array( 'post_type' => 'kjo_anfrage', 'post_status' => 'any', 'numberposts' => 1, 'meta_key' => '_kjo_email', 'meta_value' => $mail, 'date_query' => array( array( 'after' => '90 days ago' ) ) ) ); // phpcs:ignore
 	if ( $an ) {
@@ -227,20 +246,21 @@ function kjo_kl_rest_buchen( WP_REST_Request $r ) {
 	}
 	$wie   = kjo_kl_wie( $art, $tel );
 	$to    = function_exists( 'kjo_vl_mail_to' ) ? kjo_vl_mail_to() : get_option( 'admin_email' );
-	$up    = wp_upload_dir();
-	$tmp   = trailingslashit( $up['basedir'] ) . 'kjo-tmp';
+	// Kalenderdateien nur kurz im temporären Ordner des Servers (nicht öffentlich), in einem Unterordner mit Zufallsnamen.
+	$tmp   = trailingslashit( get_temp_dir() ) . 'kjo-kl-' . wp_generate_password( 16, false );
 	wp_mkdir_p( $tmp );
-	$ics_k = $tmp . '/kennenlernen-' . $pid . '.ics';
+	$ics_k = $tmp . '/kennenlernen.ics';
 	file_put_contents( $ics_k, kjo_kl_ics( $start, (int) $o['dauer'], 'Kennenlerngespräch mit DJ KOLJA ONE', $wie, 'kl-' . $pid ) ); // phpcs:ignore
 	$hdr   = array( 'Content-Type: text/plain; charset=UTF-8' );
 	$mk    = "Neues Kennenlerngespräch\n\nWann: " . $wann . "\nWie: " . KJO_KL_ARTEN[ $art ] . "\nName: " . $name . "\nE-Mail: " . $mail . "\nTelefon: " . ( $tel ? $tel : '–' ) . ( $noti ? "\n\nNotiz:\n" . $noti : '' ) . ( $an ? "\n\nZur Anfrage: " . admin_url( 'post.php?post=' . $an[0]->ID . '&action=edit' ) : '' ) . "\n\nIm Admin: " . admin_url( 'post.php?post=' . $pid . '&action=edit' ) . "\n";
-	$ics_m = $tmp . '/kolja-' . $pid . '.ics';
+	$ics_m = $tmp . '/kennenlernen-' . $pid . '.ics';
 	file_put_contents( $ics_m, kjo_kl_ics( $start, (int) $o['dauer'], 'Kennenlernen: ' . $name . ' (' . KJO_KL_ARTEN[ $art ] . ')', 'Telefon: ' . $tel . ' · E-Mail: ' . $mail . ( $noti ? ' · ' . $noti : '' ), 'kl-k-' . $pid ) ); // phpcs:ignore
 	wp_mail( $to, 'Kennenlerngespräch: ' . wp_date( 'd.m. H:i', $start ) . ' – ' . $name, $mk, array_merge( $hdr, array( 'Reply-To: ' . str_replace( array( "\r", "\n", '<', '>' ), '', $name ) . ' <' . $mail . '>' ) ), array( $ics_m ) );
 	$mc = 'Hallo ' . $name . ",\n\ndanke! Unser Kennenlerngespräch ist eingetragen:\n\n" . $wann . "\n" . $wie . "\nDauer: ca. " . (int) $o['dauer'] . " Minuten, kostenlos und unverbindlich.\n\nWir sprechen über euren Anlass, eure Musik und den Ablauf. Den Termin findet ihr auch im Anhang für euren Kalender.\n\nPasst der Zeitpunkt doch nicht? Antwortet einfach auf diese E-Mail oder schreibt mir per WhatsApp.\n\nBis bald\nKolja – DJ KOLJA ONE\ndj-kolja-one.de\n";
-	wp_mail( $mail, 'Euer Kennenlerngespräch mit DJ KOLJA ONE', $mc, array_merge( $hdr, array( 'Reply-To: DJ KOLJA ONE <' . $to . '>' ) ), array( $ics_k ) );
+	kjo_bestaetigung_ok( $mail, 'kennenlernen-' . $pid ) && wp_mail( $mail, 'Euer Kennenlerngespräch mit DJ KOLJA ONE', $mc, array_merge( $hdr, array( 'Reply-To: DJ KOLJA ONE <' . $to . '>' ) ), array( $ics_k ) );
 	@unlink( $ics_k ); // phpcs:ignore
 	@unlink( $ics_m ); // phpcs:ignore
+	@rmdir( $tmp ); // phpcs:ignore
 	$tok = wp_generate_password( 20, false );
 	update_post_meta( $pid, '_kjo_kl_token', $tok );
 	return new WP_REST_Response( array( 'ok' => true, 'wann' => $wann, 'ics' => rest_url( 'kjo/v1/kennenlernen/ics/' . $pid . '-' . $tok ) ), 200 );

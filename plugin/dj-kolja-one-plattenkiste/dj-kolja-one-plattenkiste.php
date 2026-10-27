@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.72.0
+ * Version:     1.72.1
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,8 +12,9 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.72.0' );
+define( 'KJO_VERSION', '1.72.1' );
 define( 'KJO_USTID', 'DE331619498' ); // Umsatzsteuer-Identifikationsnummer (Bescheid BZSt vom 25.07.2020)
+require_once __DIR__ . '/kjo-schutz.php';
 require_once __DIR__ . '/kjo-verleih.php';
 require_once __DIR__ . '/kjo-kalender.php';
 require_once __DIR__ . '/kjo-bilder.php';
@@ -168,8 +169,8 @@ function kjo_seiten_sync( $only = null ) {
 add_action(
 	'admin_init',
 	function () {
-		if ( current_user_can( 'manage_options' ) && '2026-10-autodm' !== get_option( 'kjo_ds_stand' ) ) {
-			update_option( 'kjo_ds_stand', '2026-10-autodm', false );
+		if ( current_user_can( 'manage_options' ) && '2026-10-bestaetigung' !== get_option( 'kjo_ds_stand' ) ) {
+			update_option( 'kjo_ds_stand', '2026-10-bestaetigung', false );
 			kjo_seiten_sync( 'datenschutz' );
 			if ( function_exists( 'kjm_purge_caches' ) ) {
 				kjm_purge_caches();
@@ -217,10 +218,10 @@ add_action(
 						return new WP_Error( 'kjm_purge', 'Nicht erlaubt.', array( 'status' => 403 ) );
 					}
 					$want = trim( (string) file_get_contents( $file ) ); // phpcs:ignore
-					@unlink( $file ); // phpcs:ignore -- Token gilt nur einmal.
 					if ( '' === $want || ! hash_equals( $want, $sent ) ) {
 						return new WP_Error( 'kjm_purge', 'Nicht erlaubt.', array( 'status' => 403 ) );
 					}
+					@unlink( $file ); // phpcs:ignore -- Token gilt nur einmal (erst nach erfolgreicher Prüfung löschen, seit 1.72.1).
 					update_option( 'kjm_cache_ver', KJO_VERSION, false );
 					return rest_ensure_response( array( 'ok' => true, 'geleert' => kjm_purge_caches(), 'version' => KJO_VERSION ) );
 				},
@@ -618,11 +619,14 @@ add_action(
 					if ( ! kjm_is_audio( get_post( $id ) ) || ! kjm_visible( $id ) ) {
 						return new WP_Error( 'kjm_share', 'Unbekannter Song.', array( 'status' => 404 ) );
 					}
-					$ip = md5( 'kjm_sh' . $id . ( isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '' ) );
-					if ( get_transient( 'kjm_sh_' . $ip ) ) {
-						return array( 'ok' => true ); // pro Besucher und Song höchstens einmal pro Stunde zählen
+					$ip = md5( 'kjm_sh' . $id . kjo_netz() );
+					$hk = 'kjm_shh_' . $id;
+					$hn = (int) get_transient( $hk );
+					if ( get_transient( 'kjm_sh_' . $ip ) || $hn >= 60 ) {
+						return array( 'ok' => true ); // pro Besucher-Netz und Song höchstens einmal pro Stunde zählen, pro Song höchstens 60 pro Stunde
 					}
 					set_transient( 'kjm_sh_' . $ip, 1, HOUR_IN_SECONDS );
+					set_transient( $hk, $hn + 1, HOUR_IN_SECONDS );
 					$n = (int) get_post_meta( $id, 'kjm_shares', true ) + 1;
 					update_post_meta( $id, 'kjm_shares', $n );
 					return array( 'ok' => true );
@@ -837,6 +841,9 @@ add_action(
 			wp_send_json_error( null, 403 );
 		}
 		if ( ! empty( $_POST['plan'] ) ) {
+			if ( ! current_user_can( 'edit_others_posts' ) ) {
+				wp_send_json_error( null, 403 ); // plant alle Songs neu, auch fremde
+			}
 			wp_send_json_success( kjm_release_plan() );
 		}
 		$id = (int) ( $_POST['id'] ?? 0 );
@@ -962,12 +969,18 @@ function kjm_rest_rate( WP_REST_Request $req ) {
 		return new WP_Error( 'kjm_stars', 'Bitte 1 bis 5 Sterne.', array( 'status' => 400 ) );
 	}
 	// Mehrfach-Bewertungen verhindern: nur ein gekürzter, gesalzener Hash (keine IP im Klartext), 30 Tage.
-	$ip  = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
-	$key = 'kjm_v_' . substr( hash_hmac( 'sha256', $ip . '|' . $id, wp_salt( 'nonce' ) ), 0, 32 );
+	// IPv6 zählt pro /64-Netz; pro Song höchstens 30 Bewertungen pro Stunde (seit 1.72.1).
+	$key = 'kjm_v_' . substr( hash_hmac( 'sha256', kjo_netz() . '|' . $id, wp_salt( 'nonce' ) ), 0, 32 );
+	$hk  = 'kjm_vh_' . $id;
+	$hn  = (int) get_transient( $hk );
 	if ( get_transient( $key ) ) {
 		return new WP_Error( 'kjm_voted', 'Du hast diesen Song bereits bewertet.', array_merge( array( 'status' => 429 ), kjm_rating( $id ) ) );
 	}
+	if ( $hn >= 30 ) {
+		return new WP_Error( 'kjm_voted', 'Gerade kommen sehr viele Bewertungen an. Bitte versuch es später noch einmal.', array_merge( array( 'status' => 429 ), kjm_rating( $id ) ) );
+	}
 	set_transient( $key, 1, 30 * DAY_IN_SECONDS );
+	set_transient( $hk, $hn + 1, HOUR_IN_SECONDS );
 	$sum = (int) get_post_meta( $id, 'kjm_sum', true ) + $stars;
 	$cnt = (int) get_post_meta( $id, 'kjm_count', true ) + 1;
 	update_post_meta( $id, 'kjm_sum', $sum );
@@ -1108,7 +1121,7 @@ add_action(
 	'wp_ajax_kjm_save_order',
 	function () {
 		check_ajax_referer( 'kjm_bpm' );
-		if ( ! current_user_can( 'upload_files' ) ) {
+		if ( ! current_user_can( 'upload_files' ) || ! current_user_can( 'edit_others_posts' ) ) {
 			wp_send_json_error( null, 403 );
 		}
 		$g = json_decode( (string) wp_unslash( $_POST['genres'] ?? '' ), true ); // phpcs:ignore
@@ -1425,7 +1438,7 @@ function kjo_media_map() {
 	return $map;
 }
 function kjo_media_flush() {
-	delete_transient( 'kjo_media_map5' );
+	delete_transient( 'kjo_media_map6' ); // gleicher Name wie in kjo_media_map(), sonst erscheinen neue Bilder erst nach 24 Std.
 }
 add_action( 'add_attachment', 'kjo_media_flush' );
 add_action( 'edit_attachment', 'kjo_media_flush' );
@@ -1498,9 +1511,15 @@ function kjm_url_to_path( $url ) {
 	return trailingslashit( $up['basedir'] ) . $rel;
 }
 
+/* Lokaler Pfad des Song-Videos – nur echte Videodateien, damit über die Video-URL keine geschützten Uploads (Angebote, Kalenderdateien) gestreamt werden (seit 1.72.1). */
+function kjm_video_path( $id ) {
+	$f = kjm_url_to_path( kjm_video( $id ) );
+	return $f && in_array( strtolower( pathinfo( $f, PATHINFO_EXTENSION ) ), array( 'mp4', 'm4v', 'webm', 'mov' ), true ) ? $f : '';
+}
+
 function kjm_stream_path( $id, $kind ) {
 	if ( 'v' === $kind ) {
-		return kjm_url_to_path( kjm_video( $id ) );
+		return kjm_video_path( $id );
 	}
 	return (string) get_attached_file( $id );
 }
@@ -1515,8 +1534,8 @@ function kjm_stream_url( $id, $kind ) {
 		if ( '' === $v ) {
 			return '';
 		}
-		if ( '' === kjm_url_to_path( $v ) ) {
-			return $v; // externes Video: unverändert.
+		if ( '' === kjm_video_path( $id ) ) {
+			return $v; // externes Video (oder keine Videodatei): unverändert.
 		}
 	}
 	$exp = (int) ( ceil( ( time() + 3 * HOUR_IN_SECONDS ) / HOUR_IN_SECONDS ) * HOUR_IN_SECONDS );
