@@ -1,9 +1,9 @@
 {
  "version": "1.72.1",
  "download_url": "dj-kolja-one-plattenkiste-1.72.1.zip",
- "sha256": "2bc9f57bdfa22252dc310205ccf9d0f4317ba90776b62c023b971398e8dc0b7c",
+ "sha256": "f2f1d356b48c88f668c7facecc5aed303f9035076de69f38dac75b1e34054d63",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Sicherheits-Update: Formulare gegen Spam-Missbrauch gehärtet, Kennenlernen gegen Ausbuchen, kleinere Härtungen; neue Bilder erscheinen sofort"
+ "changelog": "Sicherheits-Update: Formulare gegen Spam-Missbrauch gehärtet, Kennenlernen gegen Ausbuchen, kleinere Härtungen; neue Bilder erscheinen sofort; Datenschutz ergänzt"
 }

@@ -169,8 +169,8 @@ function kjo_seiten_sync( $only = null ) {
 add_action(
 	'admin_init',
 	function () {
-		if ( current_user_can( 'manage_options' ) && '2026-10-autodm' !== get_option( 'kjo_ds_stand' ) ) {
-			update_option( 'kjo_ds_stand', '2026-10-autodm', false );
+		if ( current_user_can( 'manage_options' ) && '2026-10-bestaetigung' !== get_option( 'kjo_ds_stand' ) ) {
+			update_option( 'kjo_ds_stand', '2026-10-bestaetigung', false );
 			kjo_seiten_sync( 'datenschutz' );
 			if ( function_exists( 'kjm_purge_caches' ) ) {
 				kjm_purge_caches();
