@@ -1,12 +1,13 @@
 name: Song-Kommentar anstoßen
 
-# Dienstags 18:10–19:50 Uhr alle 20 Minuten (deutsche Zeit) die Website aufrufen, damit WordPress den ersten Instagram-Kommentar
-# pünktlich schreibt (Social → Song-Kommentar; bis zu 6 Versuche im Abstand von 20 Minuten).
-# GitHub rechnet in UTC: 16:10–17:50 = Sommerzeit, 17:10–18:50 = Winterzeit.
-# Zu früh ist harmlos: Die Website prüft die eingestellte Uhrzeit selbst.
+# Dienstags 16:03–19:58 UTC (Winterzeit 17:03–20:58, Sommerzeit 18:03–21:58 Uhr) alle 5 Minuten die Website aufrufen, damit WordPress den ersten
+# Instagram-Kommentar pünktlich schreibt (Social → Song-Kommentar; bis zu 6 Versuche im Abstand von 20 Minuten).
+# Alle 5 statt alle 20 Minuten, weil GitHub geplante Läufe oft verspätet oder gar nicht startet (27.10.: 1 von 9).
+# GitHub rechnet in UTC: 16–19 Uhr UTC deckt Sommer- und Winterzeit ab; ungerade Minuten, weil volle Minuten überlastet sind.
+# Zu früh oder zu oft ist harmlos: Die Website prüft Uhrzeit und Abstand selbst.
 on:
   schedule:
-    - cron: "10,30,50 16,17,18 * * 2"
+    - cron: "3-58/5 16-19 * * 2"
   workflow_dispatch:
 
 jobs:
