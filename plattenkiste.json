@@ -1,9 +1,9 @@
 {
- "version": "1.72.1",
- "download_url": "dj-kolja-one-plattenkiste-1.72.1.zip",
- "sha256": "f2f1d356b48c88f668c7facecc5aed303f9035076de69f38dac75b1e34054d63",
+ "version": "1.72.2",
+ "download_url": "dj-kolja-one-plattenkiste-1.72.2.zip",
+ "sha256": "16363b77fe7e92314013847db564ef2977aab69e0126a23ef8d9a073d19baabe",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Sicherheits-Update: Formulare gegen Spam-Missbrauch gehärtet, Kennenlernen gegen Ausbuchen, kleinere Härtungen; neue Bilder erscheinen sofort; Datenschutz ergänzt"
+ "changelog": "Song-Kommentar zuverlässiger: tägliche Schlüssel-Prüfung, E-Mail und Admin-Hinweis bei Problemen, GitHub-Anstoß alle 5 Minuten"
 }

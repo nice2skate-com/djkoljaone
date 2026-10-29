@@ -104,6 +104,55 @@ function kjo_kom_faellig( $id ) {
 	return $l ? max( $t, $l + KJO_KOM_ABSTAND - 60 ) : $t;
 }
 
+/**
+ * Problem melden (seit 1.72.2): Hinweis oben im Admin und eine E-Mail an die Anfrage-Adresse, höchstens alle 6 Stunden.
+ * So fällt ein abgelaufener Schlüssel oder ein nicht gefundenes Reel am selben Abend auf, nicht erst Tage später.
+ */
+function kjo_kom_melden( $text, $art = 'fehler' ) {
+	update_option( 'kjo_kom_problem', array( time(), (string) $text, $art ), false );
+	if ( get_transient( 'kjo_kom_mail' ) ) {
+		return;
+	}
+	set_transient( 'kjo_kom_mail', 1, 6 * HOUR_IN_SECONDS );
+	$to = function_exists( 'kjo_vl_mail_to' ) ? kjo_vl_mail_to() : get_option( 'admin_email' );
+	wp_mail( $to, 'Song-Kommentar: bitte prüfen', $text . "\n\nEinstellungen und Verlauf: " . admin_url( 'admin.php?page=kjo-song-kommentar' ) . "\n", array( 'Content-Type: text/plain; charset=UTF-8' ) );
+}
+function kjo_kom_ok() {
+	delete_option( 'kjo_kom_problem' );
+	delete_transient( 'kjo_kom_mail' );
+}
+
+/* Einmal am Tag prüfen, ob der Zugriffsschlüssel noch gilt – nicht erst am Release-Abend. */
+function kjo_kom_schluessel_pruefen() {
+	$soc = function_exists( 'kjo_soc_opts' ) ? kjo_soc_opts() : array();
+	if ( ! kjo_kom_opts()['aktiv'] || empty( $soc['ig_id'] ) || get_transient( 'kjo_kom_check' ) ) {
+		return;
+	}
+	set_transient( 'kjo_kom_check', 1, DAY_IN_SECONDS );
+	$r = kjo_soc_api( $soc['ig_id'], null, array( 'fields' => 'username' ) );
+	if ( is_wp_error( $r ) ) {
+		kjo_soc_log( 'Kommentar', false, 'Schlüssel-Prüfung: ' . $r->get_error_message() );
+		kjo_kom_melden( 'Der Instagram-Zugriffsschlüssel funktioniert nicht mehr – der nächste Song-Kommentar würde scheitern.' . "\n\nMeta meldet: " . $r->get_error_message() . "\n\nNeuen Seiten-Schlüssel erzeugen (Anleitung social/README.md, Schritt 3) und unter Social → Verbindung speichern." );
+	} else {
+		$p = get_option( 'kjo_kom_problem' );
+		if ( is_array( $p ) && 'aufgegeben' !== ( $p[2] ?? '' ) ) {
+			kjo_kom_ok(); // Schlüssel geht wieder – „aufgegeben“ bleibt stehen, bis du es auf der Einstellungsseite gelesen und gespeichert hast
+		}
+	}
+}
+
+/* Hinweis oben im Admin, solange ein Problem offen ist. */
+add_action(
+	'admin_notices',
+	function () {
+		$p = get_option( 'kjo_kom_problem' );
+		if ( ! is_array( $p ) || ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		echo '<div class="notice notice-error"><p><strong>Song-Kommentar:</strong> ' . esc_html( $p[1] ) . ' (' . esc_html( wp_date( 'd.m. H:i', (int) $p[0] ) ) . ' Uhr) – <a href="' . esc_url( admin_url( 'admin.php?page=kjo-song-kommentar' ) ) . '">ansehen</a></p></div>';
+	}
+);
+
 /* Fehlversuch zählen; nach dem letzten einmal im Verlauf melden. */
 function kjo_kom_fehlversuch( $id, $grund ) {
 	$n = (int) get_post_meta( $id, 'kjm_ig_versuche', true ) + 1;
@@ -111,6 +160,9 @@ function kjo_kom_fehlversuch( $id, $grund ) {
 	update_post_meta( $id, 'kjm_ig_versuch_ts', time() );
 	if ( $n >= KJO_KOM_VERSUCHE ) {
 		kjo_soc_log( 'Kommentar', false, get_the_title( $id ) . ': nach ' . $n . ' Versuchen aufgegeben (' . $grund . ') – bitte von Hand kommentieren und „erl.“ abhaken.' );
+		kjo_kom_melden( '„' . get_the_title( $id ) . '“: nach ' . $n . ' Versuchen aufgegeben (' . $grund . '). Bitte den ersten Kommentar von Hand posten und in der Plattenkiste „erl.“ abhaken.', 'aufgegeben' );
+	} elseif ( 1 === $n && false === strpos( $grund, 'kein Reel' ) ) {
+		kjo_kom_melden( '„' . get_the_title( $id ) . '“: ' . $grund ); // Fehler von Meta (z. B. Schlüssel) sofort melden, nicht erst nach 6 Versuchen
 	}
 	return $n;
 }
@@ -227,6 +279,7 @@ function kjo_kom_lauf( $probe = false ) {
 		update_post_meta( $id, 'kjm_release', wp_date( 'Y-m-d', strtotime( (string) $treff['timestamp'] ) ) );
 		update_post_meta( $id, 'kjm_release_erl', 1 );
 		kjo_soc_log( 'Kommentar', true, ! empty( $treff['permalink'] ) ? (string) $treff['permalink'] : $name . ': Kommentar geschrieben' );
+		kjo_kom_ok();
 		$msg[] = '„' . $name . '“: erster Kommentar geschrieben, Song als erledigt abgehakt.';
 	}
 	return $msg;
@@ -258,6 +311,7 @@ add_action(
 add_action(
 	'kjo_kom_cron',
 	function () {
+		kjo_kom_schluessel_pruefen();
 		kjo_kom_lauf( false );
 	}
 );
@@ -282,6 +336,8 @@ function kjo_kom_page() {
 		$z          = sanitize_text_field( wp_unslash( $_POST['zeit'] ?? '' ) ); // phpcs:ignore
 		$o['zeit']  = preg_match( '/^([01]\d|2[0-3]):[0-5]\d$/', $z ) ? $z : $o['zeit'];
 		delete_transient( 'kjo_kom_next' );
+		delete_transient( 'kjo_kom_check' ); // Schlüssel beim nächsten Durchlauf gleich neu prüfen
+		kjo_kom_ok(); // Hinweis gelesen
 		$t          = sanitize_textarea_field( wp_unslash( $_POST['text'] ?? '' ) ); // phpcs:ignore
 		$o['text']  = '' !== trim( $t ) ? $t : $o['text'];
 		update_option( 'kjo_social_kommentar', $o, false );
@@ -296,7 +352,7 @@ function kjo_kom_page() {
 	$soc = function_exists( 'kjo_soc_opts' ) ? kjo_soc_opts() : array();
 	$ids = kjo_kom_kandidaten();
 	echo '<div class="wrap"><h1>Erster Kommentar bei Song-Releases</h1>';
-	echo '<p>Sobald ein geplanter Song (Spalte „Release“ unter Medien → Plattenkiste) als Reel auf Instagram erscheint, schreibt die Website automatisch den ersten Kommentar darunter und hakt den Song als „erl.“ ab. Erkannt wird das Reel am <strong>Songtitel in der Bildunterschrift</strong>. Geprüft wird alle 15 Minuten, sobald jemand die Website aufruft.</p>';
+	echo '<p>Sobald ein geplanter Song (Spalte „Release“ unter Medien → Plattenkiste) als Reel auf Instagram erscheint, schreibt die Website automatisch den ersten Kommentar darunter und hakt den Song als „erl.“ ab. Erkannt wird das Reel am <strong>Songtitel in der Bildunterschrift</strong>. Geprüft wird alle 15 Minuten, sobald jemand die Website aufruft; dienstags ruft zusätzlich ein GitHub-Ablauf die Website alle 5 Minuten auf. Den Zugriffsschlüssel prüft die Website einmal am Tag. Klappt etwas nicht, kommt eine E-Mail an die Anfrage-Adresse und oben im Admin steht ein Hinweis.</p>';
 	echo '<ul style="line-height:1.9">';
 	echo '<li>' . ( ! empty( $soc['ig_id'] ) ? '✔ Instagram verbunden: @' . esc_html( $soc['ig_name'] ) : '✘ Instagram nicht verbunden – unter Social „Verbindung prüfen“' ) . '</li>';
 	echo '<li>' . ( $o['aktiv'] ? '✔ Automatik an' : '✘ Automatik aus' ) . '</li>';
