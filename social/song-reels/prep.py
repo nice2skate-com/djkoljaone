@@ -21,12 +21,12 @@ TAG = {
     5109: 'Für diesen Song nimmst du sie dir.', 5171: 'Einladung aufs Dach. Kommst du?', 5173: 'Die Welt dreht sich. Du tanzt mit.',
     5179: 'Weitergehen, Schritt für Schritt.', 5177: 'Kleine Beweise, dass es mich gibt.', 5175: 'Der Weg nach Hause.',
     5167: 'Zehn Tage Wald. Ein Atemzug.', 5165: 'Flöte, Fluss und Trommeln.', 5355: 'Weiter, als das Blau reicht.',
-    5351: 'Erinnerst du dich an den Weg?', 5343: 'Stille, die man hören kann.',
+    5351: 'Erinnerst du dich an den Weg?', 5343: 'Stille, die man hören kann.', 5366: 'Verschlafen? Dann eben laut.',
 }
 # Genre → Effekt im Hintergrund
 FX = {'Disco-Hits': 'sparkle', 'R&B, Crunk und Hip-Hop': 'neon', 'Euro-Dance': 'neon', 'Progressive House': 'beams',
       'Melodic House': 'beams', 'Lounge': 'bokeh', 'Chill': 'bokeh', 'Melodischer Pop-Rap': 'grain',
-      'Folk-Songs': 'dust', 'Celtic & Tribal': 'dust'}
+      'Folk-Songs': 'dust', 'Celtic & Tribal': 'dust', 'Rock & Metal': 'beams'}
 
 
 def pcm(path):

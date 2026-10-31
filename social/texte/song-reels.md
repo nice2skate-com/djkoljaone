@@ -436,3 +436,35 @@ Welcher Moment passt für dich zu diesem Song? Schreib’s in die Kommentare.
 ```
 
 Direktlink zum Song: https://dj-kolja-one.de/meine-musik/?song=5242&utm_source=instagram&utm_medium=reel&utm_campaign=song-5242
+
+## Waking up to late  (Datei: reel_waking-up-to-late_5366.mp4)
+
+```
+Verschlafen? Dann eben laut. 🎧
+„Waking up to late“ – Rock & Metal, 126 BPM. Eigene Produktion.
+
+Den ganzen Song hörst du in meinem DJ-Pult auf dj-kolja-one.de: anhören, selbst mixen, bewerten. Link in der Bio.
+
+Welcher Moment passt für dich zu diesem Song? Schreib’s in die Kommentare.
+
+#djkoljaone #eigeneproduktion #neuemusik #rock #metal #rockmusic #djmemmingen #allgäu
+```
+
+Direktlink zum Song: https://dj-kolja-one.de/meine-musik/?song=5366&utm_source=instagram&utm_medium=reel&utm_campaign=song-5366
+
+Facebook (gleicher Text, Link anklickbar):
+
+```
+Verschlafen? Dann eben laut. 🎧
+„Waking up to late“ – Rock & Metal, 126 BPM. Eigene Produktion.
+
+Den ganzen Song hörst du in meinem DJ-Pult: anhören, selbst mixen, bewerten.
+👉 https://dj-kolja-one.de/meine-musik/?song=5366&utm_source=facebook&utm_medium=reel&utm_campaign=song-5366
+```
+
+WhatsApp-Status (Text zum Video, Link anklickbar):
+
+```
+Neuer Song: „Waking up to late“ 🎧 Rock & Metal, eigene Produktion.
+Ganz hören und selbst mixen: https://dj-kolja-one.de/meine-musik/?song=5366&utm_source=whatsapp&utm_medium=status&utm_campaign=song-5366
+```
