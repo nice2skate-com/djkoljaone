@@ -723,7 +723,7 @@ add_action(
 				'id'       => $id,
 				'ajax'     => admin_url( 'admin-ajax.php' ),
 				'nonce'    => wp_create_nonce( 'kjo_ang_ajax' ),
-				'logo'     => plugins_url( 'assets/pdf/logo-dunkel.jpg', __FILE__ ),
+				'logo'     => plugins_url( 'assets/pdf/logo-hell.png', __FILE__ ), // 1328 px, transparent: scharf auf dem dunklen Kopf (seit 1.72.3)
 				'katalog'  => kjo_ang_katalog(),
 				'typen'    => KJO_ANG_TYPEN,
 				'vorlage'  => kjo_ang_vorlage( $o['vorlage_dj'] ),

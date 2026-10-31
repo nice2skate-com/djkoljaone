@@ -80,6 +80,11 @@
 - [ ] Schema: `Product`/`Offer` bzw. `Service` für Verleih; SEO-Titel „Musikanlage mieten Memmingen, Allgäu & Schwaben“.
 - [ ] Datenschutz ergänzen, falls neue Dienste (Zahlungsanbieter, Mietsoftware) dazukommen.
 
+## D. Instagram-Schlüssel erneuern (vor Dienstag 03.11.2026, 18:10 Uhr)
+- [ ] Neuen Seiten-Schlüssel erzeugen: Graph-API-Explorer, User Token mit `pages_show_list`, `pages_read_engagement`, `pages_manage_metadata`, `pages_manage_posts`, `instagram_basic`, `instagram_content_publish`, `instagram_manage_comments`, `instagram_manage_messages`, `business_management` → verlängern → `me/accounts?fields=id,name,access_token` → access_token von DJ KOLJA ONE unter Social → Verbindung speichern (nicht in den Chat).
+- [ ] Social → Song-Kommentar: Speichern, Probelauf – rote Meta-Meldung (Code 190) muss weg sein, nächster Song „Sailing Above“.
+- Hintergrund: Am 27.10. scheiterte der Kommentar zu „Move It All Night“ am fehlenden Seiten-Recht des Schlüssels.
+
 ## C. Sicherheits-Fixes Plattenkiste (geplant: Dienstag 27.10.2026)
 
 Ergebnis der Sicherheitsprüfung vom 25.10.2026: keine kritische Lücke, umgesetzt in 1.72.1 (27.10.2026). Offen bleibt nur der MP3-Schutz-Hinweis (bewusst so gelassen).

@@ -207,7 +207,13 @@
 		// Kopf
 		d.setFillColor.apply(d, C.dunkel); d.rect(0, 0, 210, 32, 'F');
 		d.setFillColor.apply(d, C.gold); d.rect(0, 32, 210, 0.8, 'F');
-		if (logo) d.addImage(logo, 'JPEG', L, 10.5, 66.4, 12);
+		if (logo) { // Schriftzug als PNG in doppelter Auflösung, Claim als Vektorschrift: bleibt bei jeder Vergrößerung scharf (seit 1.72.3)
+			d.addImage(logo, 'PNG', L, 10.5, 66.4, 8.5, 'logo', 'FAST');
+			var cl = 'JEDES EVENT FINDET NUR EINMAL STATT.';
+			f(0, 5.14, C.gold); d.text(cl, L + 10.75, 21.9, { charSpace: (44.85 - d.getTextWidth(cl)) / (cl.length - 1) });
+			d.setDrawColor.apply(d, C.gold); d.setLineWidth(0.15);
+			d.line(L + 0.55, 21.2, L + 9.2, 21.2); d.line(L + 57.15, 21.2, L + 65.8, 21.2);
+		}
 		else { f(1, 18, C.weiss); d.text('DJ KOLJA ONE', L, 19); }
 		f(1, 8.5, C.gold);
 		var an = 'ANGEBOT', cs = 1.4; d.text(an, R - d.getTextWidth(an) - cs * (an.length - 1), 13.5, { charSpace: cs });
