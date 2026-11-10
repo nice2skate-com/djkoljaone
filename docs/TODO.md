@@ -80,6 +80,9 @@
 - [ ] Schema: `Product`/`Offer` bzw. `Service` für Verleih; SEO-Titel „Musikanlage mieten Memmingen, Allgäu & Schwaben“.
 - [ ] Datenschutz ergänzen, falls neue Dienste (Zahlungsanbieter, Mietsoftware) dazukommen.
 
+## E. Saison
+- [ ] Ab 07.01.2027: Abschnitt „Weihnachten & Silvester“ (`saison` in `mieten()`, site/pages.py) wieder herausnehmen und Seite neu einspielen.
+
 ## D. Instagram-Schlüssel erneuern (vor Dienstag 03.11.2026, 18:10 Uhr)
 - [ ] Neuen Seiten-Schlüssel erzeugen: Graph-API-Explorer, User Token mit `pages_show_list`, `pages_read_engagement`, `pages_manage_metadata`, `pages_manage_posts`, `instagram_basic`, `instagram_content_publish`, `instagram_manage_comments`, `instagram_manage_messages`, `business_management` → verlängern → `me/accounts?fields=id,name,access_token` → access_token von DJ KOLJA ONE unter Social → Verbindung speichern (nicht in den Chat).
 - [ ] Social → Song-Kommentar: Speichern, Probelauf – rote Meta-Meldung (Code 190) muss weg sein, nächster Song „Sailing Above“.

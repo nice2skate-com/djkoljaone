@@ -489,7 +489,8 @@ def equipment():
             ("Bose S1 Pro mit Bose-Subwoofer","Mein kompaktes System für Sektempfang, Dinner und Feiern bis ca. 100 Gäste. Es klingt klar und ist dezent im Raum."),
             ("Pronomic PA mit 2× C-215 MA (15\") und 2× C-118SA (18\"-Subwoofer)","Für große Säle, Sportveranstaltungen, Festzelte und volle Tanzflächen. Druckvoller Bass, den man spürt.")],w=48)],bg=B1),
         section(head("DJ-Technik","Mein Arbeitsplatz: Pioneer DDJ-FLX10",
-            "Vier Kanäle, damit verbinde ich Songs nahtlos und reagiere live auf eure Tanzfläche. Er steht in einem schlichten schwarzen DJ-Pult, das sich optisch in eure Location einfügt."),bg=B2),
+            "Vier Kanäle, damit verbinde ich Songs nahtlos und reagiere live auf eure Tanzfläche. Er steht in einem schlichten schwarzen DJ-Pult, das sich optisch in eure Location einfügt.")+[
+            con([SC('[kjo_geraet_bild slug="pioneer-ddj-flx10" hoehe="300"]')],max_width=px(720),width=px(100,"%"))],bg=B2),  # Bild aus der Geräte-Datenbank, Klick zeigt die Gerätekarte
         section(head("Licht &amp; Effekte","Eine Lichtshow für eure Tanzfläche")+[cards(licht,bg=B2)],bg=B1),
         section(head("Beispiel-Setup","So sieht ein Beispiel-Setup aus")+[plan,
             T("<em>Beispiel-Setup für eine Geburtstagsfeier mit 3-m-Traverse, Moving Heads und Ambientelicht. Je nach Raum stelle ich das Setup individuell zusammen.</em>",MUTED,"center",15)],bg=B2),
@@ -519,10 +520,18 @@ def mieten():
     erfahrung=["Technik aus dem echten Einsatz: Ihr mietet die Anlage, mit der ich seit über 10 Jahren Hochzeiten in Frankfurt, München und Ulm, Firmenpartys und Sportfeste beschalle, vom Allgäu bis nach NRW.",
         "Profi-Marken: Bose, Pronomic, Pioneer DJ und Stairville. Gepflegt, getestet und mit deutscher Anleitung.",
         "Persönliche Übergabe: Ihr bekommt keine Kiste vom Lager, sondern eine Einweisung vom DJ selbst."]
+    # Saison-Thema Weihnachten & Silvester (seit 1.72.4) – im Januar wieder herausnehmen (docs/TODO.md)
+    saison=section(head("Weihnachten &amp; Silvester","Technik für eure Feiertage",
+        "Weihnachtsfeier im Verein, Familienfest an den Feiertagen oder Silvesterparty mit Countdown: Mietet die Anlage für euren Abend und feiert selbst.")+[
+        cards([("Weihnachtsfeier","Für Verein, Team oder Familie: Musik in guter Qualität statt Bluetooth-Box und dazu Licht, das aus jedem Raum einen Festsaal macht."),
+               ("Silvesterparty","Sound, der bis nach Mitternacht trägt, und Licht für die Tanzfläche. Für den Countdown und eure Ansagen sagt mir einfach, dass ihr ein Mikrofon braucht."),
+               ("Früh anfragen","Rund um Weihnachten und Silvester sind die Tage knapp. Fragt euren Termin früh an. Abholung und Rückgabe an den Feiertagen sprechen wir persönlich ab.")],bg=B2),
+        SPACER(6),BTNS(BTN("Pakete ansehen","#pakete"),BTN("Einzelgeräte suchen","#geraete",False))],bg=B1,anchor="feiertage")
     return [nav(),
         hero("Verleih · Memmingen · Allgäu · Schwaben","Musikanlage, Licht &amp; Partyequipment mieten in Memmingen, Allgäu &amp; Schwaben",
              "Ihr feiert selbst und wollt richtigen Sound und/oder Licht statt Bluetooth-Box und Neonlicht der Location? Mietet die Technik, mit der ich selbst auflege: als fertiges Paket oder einzeln zusammengestellt.",
              [BTN("Pakete ansehen","#pakete"),BTN("Einzelgeräte suchen","#geraete",False)],stats=None,minh=60,extra=[INTRO("verleih")]),
+        saison,
         staerken("Warum bei mir mieten",vorteile,eye="Euer Vorteil"),
         section(head("So funktioniert's","In vier Schritten zu eurer Anlage")+[steps([
             ("Auswählen","Paket oder Geräte in den Mietkorb legen."),

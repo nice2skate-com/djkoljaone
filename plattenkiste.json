@@ -1,9 +1,9 @@
 {
- "version": "1.72.3",
- "download_url": "dj-kolja-one-plattenkiste-1.72.3.zip",
- "sha256": "2846f7f3d21d584afeb2794089ccd86e913698dde2dce723168f24781dc68126",
+ "version": "1.72.4",
+ "download_url": "dj-kolja-one-plattenkiste-1.72.4.zip",
+ "sha256": "3d21055adbd5065747d1fd04e861e3f045af358e3af16358d7ad30d79293ddc8",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Angebots-PDF gestochen scharf: Logo in doppelter Auflösung, Claim als Vektorschrift"
+ "changelog": "Technik mieten: Weihnachten & Silvester; Equipment: Bild Pioneer DDJ-FLX10"
 }
