@@ -489,7 +489,8 @@ def equipment():
             ("Bose S1 Pro mit Bose-Subwoofer","Mein kompaktes System für Sektempfang, Dinner und Feiern bis ca. 100 Gäste. Es klingt klar und ist dezent im Raum."),
             ("Pronomic PA mit 2× C-215 MA (15\") und 2× C-118SA (18\"-Subwoofer)","Für große Säle, Sportveranstaltungen, Festzelte und volle Tanzflächen. Druckvoller Bass, den man spürt.")],w=48)],bg=B1),
         section(head("DJ-Technik","Mein Arbeitsplatz: Pioneer DDJ-FLX10",
-            "Vier Kanäle, damit verbinde ich Songs nahtlos und reagiere live auf eure Tanzfläche. Er steht in einem schlichten schwarzen DJ-Pult, das sich optisch in eure Location einfügt."),bg=B2),
+            "Vier Kanäle, damit verbinde ich Songs nahtlos und reagiere live auf eure Tanzfläche. Er steht in einem schlichten schwarzen DJ-Pult, das sich optisch in eure Location einfügt.")+[
+            con([SC('[kjo_geraet_bild slug="pioneer-ddj-flx10" hoehe="300"]')],max_width=px(720),width=px(100,"%"))],bg=B2),  # Bild aus der Geräte-Datenbank, Klick zeigt die Gerätekarte
         section(head("Licht &amp; Effekte","Eine Lichtshow für eure Tanzfläche")+[cards(licht,bg=B2)],bg=B1),
         section(head("Beispiel-Setup","So sieht ein Beispiel-Setup aus")+[plan,
             T("<em>Beispiel-Setup für eine Geburtstagsfeier mit 3-m-Traverse, Moving Heads und Ambientelicht. Je nach Raum stelle ich das Setup individuell zusammen.</em>",MUTED,"center",15)],bg=B2),

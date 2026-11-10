@@ -1597,7 +1597,8 @@ add_shortcode(
 			$GLOBALS['kjo_vl_gi'][ $g->ID ] = 1;
 			$h .= '<button type="button" class="kjo-vl-gl kjo-vl-gb" data-g="' . (int) $g->ID . '" aria-label="' . esc_attr( $g->post_title ) . ': Gerät ansehen"><img src="' . esc_url( $img ) . '" alt="' . esc_attr( $g->post_title ) . '" loading="lazy" decoding="async"></button>';
 		}
-		return $h ? '<div class="kjo-vl-gbs">' . $h . '</div>' . kjo_vl_assets() : '';
+		$hoehe = is_array( $atts ) && isset( $atts['hoehe'] ) ? min( 600, absint( $atts['hoehe'] ) ) : 0; // optionale Bildhöhe in px (seit 1.72.4), Standard 160
+		return $h ? '<div class="kjo-vl-gbs"' . ( $hoehe ? ' style="height:' . $hoehe . 'px"' : '' ) . '>' . $h . '</div>' . kjo_vl_assets() : '';
 	}
 );
 add_shortcode(
