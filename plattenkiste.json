@@ -1,9 +1,9 @@
 {
- "version": "1.72.3",
- "download_url": "dj-kolja-one-plattenkiste-1.72.3.zip",
- "sha256": "2846f7f3d21d584afeb2794089ccd86e913698dde2dce723168f24781dc68126",
+ "version": "1.72.4",
+ "download_url": "dj-kolja-one-plattenkiste-1.72.4.zip",
+ "sha256": "e4a3c29f8368e34bc5a887f0b0749a26216ce390708619fa9c2a8b5af95bc29b",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Angebots-PDF gestochen scharf: Logo in doppelter Auflösung, Claim als Vektorschrift"
+ "changelog": "Technik mieten: Abschnitt Weihnachten & Silvester"
 }

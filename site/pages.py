@@ -519,10 +519,18 @@ def mieten():
     erfahrung=["Technik aus dem echten Einsatz: Ihr mietet die Anlage, mit der ich seit über 10 Jahren Hochzeiten in Frankfurt, München und Ulm, Firmenpartys und Sportfeste beschalle, vom Allgäu bis nach NRW.",
         "Profi-Marken: Bose, Pronomic, Pioneer DJ und Stairville. Gepflegt, getestet und mit deutscher Anleitung.",
         "Persönliche Übergabe: Ihr bekommt keine Kiste vom Lager, sondern eine Einweisung vom DJ selbst."]
+    # Saison-Thema Weihnachten & Silvester (seit 1.72.4) – im Januar wieder herausnehmen (docs/TODO.md)
+    saison=section(head("Weihnachten &amp; Silvester","Technik für eure Feiertage",
+        "Weihnachtsfeier im Verein, Familienfest an den Feiertagen oder Silvesterparty mit Countdown: Mietet die Anlage für euren Abend und feiert selbst.")+[
+        cards([("Weihnachtsfeier","Für Verein, Team oder Familie: Musik in guter Qualität statt Bluetooth-Box und dazu Licht, das aus jedem Raum einen Festsaal macht."),
+               ("Silvesterparty","Sound, der bis nach Mitternacht trägt, und Licht für die Tanzfläche. Für den Countdown und eure Ansagen sagt mir einfach, dass ihr ein Mikrofon braucht."),
+               ("Früh anfragen","Rund um Weihnachten und Silvester sind die Tage knapp. Fragt euren Termin früh an. Abholung und Rückgabe an den Feiertagen sprechen wir persönlich ab.")],bg=B2),
+        SPACER(6),BTNS(BTN("Pakete ansehen","#pakete"),BTN("Einzelgeräte suchen","#geraete",False))],bg=B1,anchor="feiertage")
     return [nav(),
         hero("Verleih · Memmingen · Allgäu · Schwaben","Musikanlage, Licht &amp; Partyequipment mieten in Memmingen, Allgäu &amp; Schwaben",
              "Ihr feiert selbst und wollt richtigen Sound und/oder Licht statt Bluetooth-Box und Neonlicht der Location? Mietet die Technik, mit der ich selbst auflege: als fertiges Paket oder einzeln zusammengestellt.",
              [BTN("Pakete ansehen","#pakete"),BTN("Einzelgeräte suchen","#geraete",False)],stats=None,minh=60,extra=[INTRO("verleih")]),
+        saison,
         staerken("Warum bei mir mieten",vorteile,eye="Euer Vorteil"),
         section(head("So funktioniert's","In vier Schritten zu eurer Anlage")+[steps([
             ("Auswählen","Paket oder Geräte in den Mietkorb legen."),
