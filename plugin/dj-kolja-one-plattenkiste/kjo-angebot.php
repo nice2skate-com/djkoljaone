@@ -36,6 +36,9 @@ function kjo_ang_opts() {
 		'intro_miete'  => "vielen Dank für eure Mietanfrage. Hier ist mein Angebot für euren Zeitraum.",
 		'bed_dj'       => '',
 		'bed_miete'    => '',
+		// Mietvertrag im Miet-Angebot (seit 1.73.0): § 1–3 füllt das PDF aus dem Angebot, ab § 4 dieser Text. ENTWURF – vor dem Einsatz anwaltlich prüfen lassen.
+		'vertrag_miete' => "§ 4 Pflichten des Mieters\nDer Mieter behandelt die Mietsache sorgfältig und betreibt sie nur entsprechend der Einweisung und der Bedienungsanleitungen. Er gibt sie nicht an Dritte weiter und nimmt keine Veränderungen oder Reparaturen vor. Die Geräte dürfen nur entsprechend ihrer angegebenen Wetterfestigkeit eingesetzt werden; sie sind vor Nässe, Hitze, Getränken und Diebstahl zu schützen. Für die Einhaltung von Lautstärkegrenzen, Ruhezeiten und Vorgaben der Location ist der Mieter verantwortlich.\n\n§ 5 Schäden und Verlust\nDer Mieter haftet für Beschädigung, Verlust und Diebstahl der Mietsache in der Zeit von der Übergabe bis zur Rückgabe, soweit er, seine Gäste oder Personen, denen er die Mietsache überlässt, dies zu vertreten haben; höchstens bis zum Wiederbeschaffungswert. Gewöhnliche Abnutzung ist ausgenommen. Schäden und Störungen meldet der Mieter unverzüglich, einen Diebstahl zusätzlich der Polizei.\n\n§ 6 Rückgabe und Kaution\nDie Mietsache ist zum vereinbarten Zeitpunkt vollständig, sauber und in ordnungsgemäßem Zustand zurückzugeben. Nach Prüfung erhält der Mieter die Kaution zurück. Kosten für Schäden oder fehlende Teile, die der Mieter zu vertreten hat, können mit der Kaution verrechnet werden.\n\n§ 7 Schlussbestimmungen\nÄnderungen und Ergänzungen dieses Vertrags bedürfen der Textform. Sollte eine Bestimmung unwirksam sein, bleibt der Vertrag im Übrigen wirksam.",
+		'storno_miete' => '', // leer = kein Stornierungs-Paragraf
 		'schluss'      => "Ich freue mich auf eure Rückmeldung. Bei Fragen ruft mich gern an oder schreibt mir per WhatsApp.",
 		'vorlage_dj'   => "DJ-Gage | pauschal | | \nAnfahrt | pauschal | | \nEquipment-Paket | pauschal | | \nVerlängerungsstunde | Std. | | optional",
 		'mail_betreff' => 'Euer Angebot {nr} von DJ KOLJA ONE',
@@ -143,6 +146,8 @@ function kjo_ang_clean( $d ) {
 		'rabatt' => isset( $d['rabatt'] ) ? $num( $d['rabatt'] ) : '',
 		'rabatt_txt' => $t( 'rabatt_txt' ),
 		'kaution' => isset( $d['kaution'] ) ? $num( $d['kaution'] ) : '',
+		'q'      => array(),
+		'vertrag' => ! isset( $d['vertrag'] ) || ( ! empty( $d['vertrag'] ) && 'false' !== $d['vertrag'] ), // Mietvertrag anhängen (nur Miete)
 		'pos'    => array(),
 	);
 	foreach ( isset( $d['pos'] ) && is_array( $d['pos'] ) ? array_slice( $d['pos'], 0, 60 ) : array() as $p ) {
@@ -158,6 +163,16 @@ function kjo_ang_clean( $d ) {
 			'p' => $num( $p['p'] ),
 			'o' => ! empty( $p['o'] ) && 'false' !== $p['o'],
 			'k' => preg_match( '/^[gp]\d+$/', (string) $p['k'] ) ? (string) $p['k'] : '',
+		);
+	}
+	// Quittung (seit 1.73.0): Miete erhalten, Kaution erhalten, Kaution zurück – Betrag, Datum, Art (bar/Überweisung)
+	$q = isset( $d['q'] ) && is_array( $d['q'] ) ? $d['q'] : array();
+	foreach ( array( 'miete', 'kaution', 'zurueck' ) as $z ) {
+		$r            = isset( $q[ $z ] ) && is_array( $q[ $z ] ) ? $q[ $z ] : array();
+		$o['q'][ $z ] = array(
+			'b' => isset( $r['b'] ) ? $num( $r['b'] ) : '',
+			'd' => isset( $r['d'] ) && preg_match( '/^\d{4}-\d{2}-\d{2}$/', (string) $r['d'] ) ? (string) $r['d'] : '',
+			'a' => isset( $r['a'] ) && in_array( $r['a'], array( 'bar', 'Überweisung' ), true ) ? $r['a'] : '',
 		);
 	}
 	return $o;
@@ -355,7 +370,7 @@ function kjo_ang_options_page() {
 			if ( ! isset( $v[ $k ] ) ) {
 				continue;
 			}
-			$o[ $k ] = 'gueltig' === $k ? max( 1, min( 365, (int) $v[ $k ] ) ) : ( in_array( $k, array( 'intro_dj', 'intro_miete', 'bed_dj', 'bed_miete', 'schluss', 'vorlage_dj', 'mail_text', 'wa_text' ), true ) ? sanitize_textarea_field( $v[ $k ] ) : sanitize_text_field( $v[ $k ] ) );
+			$o[ $k ] = 'gueltig' === $k ? max( 1, min( 365, (int) $v[ $k ] ) ) : ( in_array( $k, array( 'intro_dj', 'intro_miete', 'bed_dj', 'bed_miete', 'vertrag_miete', 'storno_miete', 'schluss', 'vorlage_dj', 'mail_text', 'wa_text' ), true ) ? sanitize_textarea_field( $v[ $k ] ) : sanitize_text_field( $v[ $k ] ) );
 		}
 		update_option( 'kjo_angebot', $o, false );
 		if ( isset( $_POST['naechste'] ) && preg_match( '/^\d{1,5}$/', sanitize_text_field( wp_unslash( $_POST['naechste'] ) ) ) ) {
@@ -389,6 +404,8 @@ function kjo_ang_options_page() {
 	$f( 'bed_dj', 'Bedingungen DJ (Zahlung, Reservierung …)', 'Deine Zahlungsbedingungen und Reservierungsdauer – stehen nur im Angebot, nicht auf der Website.', 4 );
 	$f( 'bed_miete', 'Bedingungen Miete (Zahlung, Kaution, Rückgabe …)', '', 4 );
 	$f( 'schluss', 'Schlusstext', '', 2 );
+	$f( 'vertrag_miete', 'Mietvertrag ab § 4', 'Hängt an Miet-Angeboten mit Haken „Mietvertrag anhängen“. § 1–3 (Mietgegenstand, Mietzeit, Miete und Kaution) füllt das PDF aus dem Angebot. Neuer Paragraf: Zeile „§ … Überschrift“, darunter der Text, dazwischen eine Leerzeile. ENTWURF – vor dem ersten Einsatz anwaltlich prüfen lassen.', 14 );
+	$f( 'storno_miete', 'Stornierung (Mietvertrag)', 'Leer = kein Stornierungs-Paragraf. Sonst z. B. deine Fristen und Kosten; steht als eigener Paragraf nach § 3.', 3 );
 	$f( 'vorlage_dj', 'Positionen DJ-Angebot', 'Eine Zeile je Position: Titel | Einheit | Preis | optional. Preis leer = trägst du im Angebot ein. „optional“ in der 4. Spalte = zubuchbar, zählt nicht zur Summe.', 5 );
 	echo '</table><h2>Versand</h2><table class="form-table">';
 	$f( 'mail_betreff', 'E-Mail-Betreff', 'Platzhalter: {name}, {nr}' );
@@ -733,6 +750,7 @@ add_action(
 					'bed_dj'      => $o['bed_dj'],
 					'bed_miete'   => $o['bed_miete'],
 				),
+				'vertrag'  => array( 'text' => $o['vertrag_miete'], 'storno' => $o['storno_miete'] ),
 				'mail'     => array( 'sub' => $o['mail_betreff'], 'txt' => $o['mail_text'], 'wa' => $o['wa_text'] ),
 				'bank'     => array_filter( array( 'Kontoinhaber' => $o['inhaber'], 'Bank' => $o['bank'], 'IBAN' => $o['iban'], 'BIC' => $o['bic'] ) ),
 				'link'     => $id ? kjo_ang_link( $id ) : '',

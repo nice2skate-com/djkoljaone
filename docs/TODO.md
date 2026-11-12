@@ -52,7 +52,7 @@
 - [ ] Betriebshaftpflicht: Vermietung von Veranstaltungstechnik mitversichert (Personen-/Sachschäden durch die Technik)?
 - [ ] Gewerbeanmeldung um „Vermietung von Veranstaltungstechnik“ ergänzen (falls nicht abgedeckt); Kleinunternehmergrenze im Blick behalten.
 - [ ] Elektrische Prüfung (DGUV V3) der Mietgeräte durchführen lassen und dokumentieren.
-- [ ] Mietvertrag, Mietbedingungen und Übergabeprotokoll (Entwurf Claude) anwaltlich prüfen lassen.
+- [ ] Mietvertrag, Mietbedingungen und Übergabeprotokoll (Entwurf Claude, seit 1.73.0 im Angebots-PDF; Text unter Angebote → Einstellungen) anwaltlich prüfen lassen.
 - [ ] Klären, ob bei Online-Vertragsschluss ein Widerrufsrecht für Verbraucher besteht; Empfehlung bis dahin: Vertrag bei Abholung vor Ort unterschreiben.
 
 **Inhalte (Claude)**

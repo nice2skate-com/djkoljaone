@@ -121,13 +121,27 @@
 			(m ? '<button type="button" class="button" data-a="preise" title="Katalogpreise für den Mietzeitraum neu berechnen">Mietpreise neu berechnen</button>' : '<button type="button" class="button" data-a="vorlage">+ DJ-Positionen aus Vorlage</button>') + '</p>' +
 			(m && (K.lieferung || K.aufbau) ? '<p class="description">Deine Preisliste: ' + esc([K.lieferung, K.aufbau].filter(Boolean).join(' · ')) + '</p>' : '') +
 			'<div class="kjo-ang-g">' + feld('rabatt', 'Rabatt in €') + feld('rabatt_txt', 'Rabatt-Text (z. B. Stammkunde)') + feld('kaution', 'Kaution in € (nicht in der Summe)') + '</div>' +
-			'<h3>Bedingungen und Schluss</h3>' + area('bed', 'Bedingungen (Zahlung, Reservierung, Kaution …)', 4) + area('schluss', 'Schlusstext', 2);
+			'<h3>Bedingungen und Schluss</h3>' + area('bed', 'Bedingungen (Zahlung, Reservierung, Kaution …)', 4) + area('schluss', 'Schlusstext', 2) +
+			(m ? '<h3>Mietvertrag und Quittung</h3><p><label><input type="checkbox" data-k="vertrag"' + (A.vertrag !== false ? ' checked' : '') + '> Mietvertrag mit Übergabeprotokoll und Quittung an das PDF anhängen</label></p>' +
+				'<p class="description">Was du hier einträgst, steht gedruckt in der Quittung. Leer gelassene Felder bleiben im PDF zum Ausfüllen von Hand.</p>' +
+				'<table class="widefat kjo-ang-t"><thead><tr><th></th><th>Betrag €</th><th>Datum</th><th>Art</th></tr></thead><tbody>' +
+				QZ.map(function (z) {
+					var r = (A.q || {})[z[0]] || {};
+					return '<tr><td>' + z[1] + '</td><td><input data-q="' + z[0] + '" data-f="b" value="' + (r.b === '' || r.b == null ? '' : esc(String(r.b).replace('.', ','))) + '" inputmode="decimal" class="kjo-ang-n"></td>' +
+						'<td><input data-q="' + z[0] + '" data-f="d" type="date" value="' + esc(r.d || '') + '"></td>' +
+						'<td><select data-q="' + z[0] + '" data-f="a"><option value="">–</option>' + ['bar', 'Überweisung'].map(function (a) { return '<option' + (r.a === a ? ' selected' : '') + '>' + a + '</option>'; }).join('') + '</select></td></tr>';
+				}).join('') + '</tbody></table>' : '');
 		sync();
 	}
 
 	root.addEventListener('input', function (e) {
 		var t = e.target, tr = t.closest('tr[data-i]');
-		if (t.dataset.k) {
+		if (t.dataset.q) { // Quittung
+			A.q = A.q || {}; A.q[t.dataset.q] = A.q[t.dataset.q] || {};
+			A.q[t.dataset.q][t.dataset.f] = t.dataset.f === 'b' ? num(t.value) : t.value;
+		} else if (t.dataset.k === 'vertrag') {
+			A.vertrag = t.checked;
+		} else if (t.dataset.k) {
 			A[t.dataset.k] = (t.dataset.k === 'rabatt' || t.dataset.k === 'kaution') ? num(t.value) : t.value;
 		} else if (tr && t.dataset.p) {
 			var p = A.pos[+tr.dataset.i], k = t.dataset.p;
@@ -176,6 +190,7 @@
 	});
 
 	/* ---------- PDF ---------- */
+	var QZ = [['miete', 'Miete erhalten'], ['kaution', 'Kaution erhalten'], ['zurueck', 'Kaution zurückgezahlt']];
 	var C = { dunkel: [15, 12, 7], gold: [178, 157, 117], text: [30, 27, 22], grau: [111, 103, 90], linie: [226, 218, 203], hell: [244, 239, 230], weiss: [243, 241, 233] };
 	var logoData = null;
 	function ladeLogo() {
@@ -189,17 +204,83 @@
 		d.addFileToVFS('Fira-400.ttf', window.KJO_FIRA['400']); d.addFont('Fira-400.ttf', 'Fira', 'normal');
 		d.addFileToVFS('Fira-600.ttf', window.KJO_FIRA['600']); d.addFont('Fira-600.ttf', 'Fira', 'bold');
 		d.setProperties({ title: 'Angebot ' + A.nr + ' – DJ KOLJA ONE', author: 'DJ KOLJA ONE', creator: 'DJ KOLJA ONE' });
-		var L = 18, R = 192, W = R - L, y = 0, m = A.typ === 'miete';
+		var L = 18, R = 192, W = R - L, y = 0, m = A.typ === 'miete', kopf = 'Angebot ' + A.nr;
 		function f(w, size, col) { d.setFont('Fira', w ? 'bold' : 'normal'); d.setFontSize(size); d.setTextColor.apply(d, col || C.text); }
 		function lh(size) { return size * 0.3528 * 1.38; }
 		function seite() { // Folgeseite
 			d.addPage();
 			d.setFillColor.apply(d, C.dunkel); d.rect(0, 0, 210, 12, 'F');
 			d.setFillColor.apply(d, C.gold); d.rect(0, 12, 210, 0.6, 'F');
-			f(0, 8, C.weiss); d.text('DJ KOLJA ONE · Angebot ' + A.nr, L, 7.6);
+			f(0, 8, C.weiss); d.text('DJ KOLJA ONE · ' + kopf, L, 7.6);
 			y = 22;
 		}
 		function platz(h) { if (y + h > 271) seite(); }
+		/* Mietvertrag mit Quittung und Übergabeprotokoll (seit 1.73.0). § 1–3 aus dem Angebot, ab § 4 Text aus den Einstellungen. */
+		function vertrag(s, fest) {
+			var V = K.vertrag || {}, q = A.q || {};
+			kopf = 'Mietvertrag zum Angebot ' + A.nr;
+			d.addPage();
+			d.setFillColor.apply(d, C.dunkel); d.rect(0, 0, 210, 26, 'F');
+			d.setFillColor.apply(d, C.gold); d.rect(0, 26, 210, 0.7, 'F');
+			f(1, 8.5, C.gold); d.text('MIETVERTRAG', L, 12, { charSpace: 1.4 });
+			f(0, 10.5, C.weiss); d.text('zum Angebot Nr. ' + A.nr + ' vom ' + datum(A.datum), L, 19.5);
+			y = 37;
+			function block(x, titel, zeilen) {
+				f(1, 7.5, C.grau); d.text(titel, x, y, { charSpace: 0.8 });
+				var yy = y + 5.5;
+				zeilen.filter(Boolean).forEach(function (z, i) { f(i ? 0 : 1, i ? 9 : 10); d.splitTextToSize(String(z), 80).forEach(function (t) { d.text(t, x, yy); yy += 4.5; }); });
+				return yy;
+			}
+			var y1 = block(L, 'VERMIETER', [S.marke, S.firma, S.strasse + ', ' + S.ort, 'Telefon ' + S.tel]);
+			var y2 = block(110, 'MIETER', [A.name, A.firma, A.strasse, A.plzort, A.tel ? 'Telefon ' + A.tel : '', A.email]);
+			y = Math.max(y1, y2) + 4;
+			absatz('Grundlage ist das Angebot Nr. ' + A.nr + ' vom ' + datum(A.datum) + '. Mit der Unterschrift beider Seiten kommt der Mietvertrag zu den folgenden Bedingungen zustande.', 9.2);
+			y += 3;
+			var nr = 0;
+			function par(titel, txt) { nr++; platz(16); f(1, 10, C.dunkel); d.text('§ ' + nr + ' ' + titel, L, y); y += 5; absatz(txt, 9.2); y += 3; }
+			par('Mietgegenstand', fest.map(function (p) { return (p.e === 'pauschal' ? '' : qty(p.q) + (p.e ? ' ' + p.e : '') + '  ') + (p.t || ''); }).join('\n') + '\neinschließlich des im Angebot genannten Zubehörs.');
+			par('Mietzeit und Übergabe', 'Mietbeginn: ' + (A.von ? datum(A.von, 1) : '__________') + '    Rückgabe: ' + (A.bis || A.von ? datum(A.bis || A.von, 1) : '__________') + '\nÜbergabe: ' + (A.uebergabe || '__________') + (A.ort ? '    Einsatzort: ' + A.ort : '') + '\nUhrzeiten für Übergabe und Rückgabe: ______________________');
+			par('Miete und Kaution', 'Die Miete beträgt ' + eur(s.ges) + ' laut Angebot. Gemäß § 19 UStG wird keine Umsatzsteuer berechnet. Die Kaution beträgt ' + (num(A.kaution) ? eur(num(A.kaution)) : '__________ €') + '. Zahlungsweise und Fälligkeit richten sich nach den Bedingungen im Angebot.');
+			if (V.storno) par('Stornierung', V.storno);
+			String(V.text || '').split(/\n\s*\n/).forEach(function (b) {
+				var z = b.replace(/^\s+|\s+$/g, '').split('\n');
+				if (!z[0]) return;
+				var t = z[0].match(/^§\s*\d+\s*(.*)$/);
+				if (t) par(t[1], z.slice(1).join('\n')); else { absatz(z.join('\n'), 9.2); y += 3; }
+			});
+			// Quittung
+			function linie(x1, x2, yy) { d.setDrawColor.apply(d, C.grau); d.setLineWidth(0.2); d.line(x1, yy, x2, yy); }
+			y += 2; platz(40);
+			f(1, 11, C.dunkel); d.text('Quittung', L, y); y += 6;
+			var sp = [L, L + 50, L + 82, L + 108, L + 136];
+			f(1, 7.5, C.grau); ['', 'Betrag', 'Datum', 'Art', 'Unterschrift Vermieter'].forEach(function (h, i) { d.text(h, sp[i], y); }); y += 6.5;
+			QZ.forEach(function (z) {
+				var r = q[z[0]] || {};
+				f(1, 9.2); d.text(z[1], L, y);
+				f(0, 9.2);
+				if (r.b !== '' && r.b != null) d.text(eur(r.b), sp[1], y); else linie(sp[1], sp[2] - 4, y + 0.8);
+				if (r.d) d.text(datum(r.d), sp[2], y); else linie(sp[2], sp[3] - 4, y + 0.8);
+				if (r.a) d.text(r.a, sp[3], y); else linie(sp[3], sp[4] - 4, y + 0.8);
+				linie(sp[4], R, y + 0.8);
+				y += 8;
+			});
+			// Übergabeprotokoll
+			y += 2; platz(52);
+			f(1, 11, C.dunkel); d.text('Übergabeprotokoll', L, y); y += 6;
+			function kaestchen(x, yy, t) { d.setDrawColor.apply(d, C.text); d.setLineWidth(0.25); d.rect(x, yy - 3, 3.2, 3.2); f(0, 9); d.text(t, x + 5, yy); }
+			var y0 = y;
+			[['Übergabe', ['vollständig und funktionsfähig übergeben', 'Einweisung erfolgt', 'Bedienungsanleitungen erhalten']], ['Rückgabe', ['vollständig zurückgegeben', 'ohne erkennbare Schäden', 'Kaution geprüft']]].forEach(function (sp2, i) {
+				var x = i ? 110 : L, yy = y0;
+				f(1, 9.2); d.text(sp2[0] + ' am ____________', x, yy); yy += 6;
+				sp2[1].forEach(function (t) { kaestchen(x, yy, t); yy += 5.6; });
+				f(0, 8.3, C.grau); d.text('Bemerkungen:', x, yy + 1); linie(x + 20, x + (i ? R - 110 : 86), yy + 1.6); linie(x, x + (i ? R - 110 : 86), yy + 8);
+				y = Math.max(y, yy + 12);
+			});
+			// Unterschriften
+			y += 6; platz(24);
+			[['Ort, Datum', L, L + 50], ['Mieter', L + 58, L + 112], ['Vermieter (Kolja Tönges)', L + 120, R]].forEach(function (u) { linie(u[1], u[2], y + 10); f(0, 7.8, C.grau); d.text(u[0], u[1], y + 14); });
+			y += 18;
+		}
 		function absatz(txt, size, col, w) {
 			f(w, size, col);
 			d.splitTextToSize(String(txt || ''), W).forEach(function (z) { platz(lh(size)); d.text(z, L, y); y += lh(size); });
@@ -296,6 +377,7 @@
 		y += 5; platz(11);
 		f(0, 10); d.text('Viele Grüße', L, y); y += 5.5;
 		f(1, 10); d.text('Kolja · DJ KOLJA ONE', L, y);
+		if (m && A.vertrag !== false) vertrag(s, fest);
 		// Fußzeile auf jeder Seite
 		var n = d.getNumberOfPages();
 		for (var i = 1; i <= n; i++) {
