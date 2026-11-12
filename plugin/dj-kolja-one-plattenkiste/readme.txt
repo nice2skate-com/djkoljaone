@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.73.0: Miet-Angebote mit Mietvertrag – Haken „Mietvertrag anhängen“ hängt Mietvertrag (§ 1–3 aus dem Angebot, ab § 4 Text aus Angebote → Einstellungen, optional Stornierung), Quittung (Miete, Kaution erhalten, Kaution zurück) und Übergabeprotokoll mit Unterschriften an das PDF. ENTWURF – Vertragstext vor dem Einsatz anwaltlich prüfen lassen.
 Seit 1.72.4: Technik mieten – Saison-Abschnitt „Weihnachten & Silvester“ unter dem Seitenkopf (Anker #feiertage). Mein Equipment: Bild des Pioneer DDJ-FLX10 aus der Geräte-Datenbank im Abschnitt „Mein Arbeitsplatz“; [kjo_geraet_bild] kennt jetzt hoehe="…".
 Seit 1.72.3: Angebots-PDF gestochen scharf – Logo als transparentes PNG in doppelter Auflösung (statt JPG), der Claim „Jedes Event findet nur einmal statt.“ samt Linien als Vektorschrift.
 Seit 1.72.2: Song-Kommentar zuverlässiger – der Instagram-Zugriffsschlüssel wird täglich geprüft; scheitert der Schlüssel oder der Kommentar, kommt eine E-Mail an die Anfrage-Adresse und oben im Admin steht ein Hinweis. Der GitHub-Anstoß ruft die Website dienstags alle 5 statt alle 20 Minuten auf.
