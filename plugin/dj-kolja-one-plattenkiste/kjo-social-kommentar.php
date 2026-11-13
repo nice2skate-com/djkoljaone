@@ -31,11 +31,28 @@ add_action(
 	}
 );
 
+/* Einmalig (13.11.2026): Sie-Form – gespeicherte Kommentarvorlage nur ersetzen, wenn sie exakt dem alten Standard entspricht. */
+add_action(
+	'init',
+	function () {
+		if ( '1' === get_option( 'kjo_sie_form_kommentar' ) ) {
+			return;
+		}
+		$alt = "🎧 „{titel}“ ganz hören, selbst mixen und bewerten – im DJ-Pult auf meiner Website.\n👉 Direkt zum Song: {kurzlink}\n🔗 Oder einfach über den Link in meiner Bio.\n\nJeden Dienstag um 18 Uhr kommt ein neuer Song. Folg mir, damit du keinen verpasst. 🔔";
+		$o   = get_option( 'kjo_social_kommentar', array() );
+		if ( is_array( $o ) && isset( $o['text'] ) && is_string( $o['text'] ) && trim( str_replace( array( "\r\n", 'um 19 Uhr' ), array( "\n", 'um 18 Uhr' ), $o['text'] ) ) === $alt ) {
+			unset( $o['text'] ); // fehlender Schlüssel = neuer Standard aus kjo_kom_opts()
+			update_option( 'kjo_social_kommentar', $o, false );
+		}
+		update_option( 'kjo_sie_form_kommentar', '1', true );
+	}
+);
+
 function kjo_kom_opts() {
 	$d = array(
 		'aktiv' => 0,
 		'zeit'  => '18:10', // frühestens um diese Uhrzeit am Release-Tag (seit 1.69.1)
-		'text'  => "🎧 „{titel}“ ganz hören, selbst mixen und bewerten – im DJ-Pult auf meiner Website.\n👉 Direkt zum Song: {kurzlink}\n🔗 Oder einfach über den Link in meiner Bio.\n\nJeden Dienstag um 18 Uhr kommt ein neuer Song. Folg mir, damit du keinen verpasst. 🔔",
+		'text'  => "🎧 „{titel}“ ganz hören, selbst mixen und bewerten – im DJ-Pult auf meiner Website.\n👉 Direkt zum Song: {kurzlink}\n🔗 Oder einfach über den Link in meiner Bio.\n\nJeden Dienstag um 18 Uhr kommt ein neuer Song. Folgen Sie mir, damit Sie keinen verpassen. 🔔",
 	);
 	$o = get_option( 'kjo_social_kommentar', array() );
 	return is_array( $o ) ? array_merge( $d, array_intersect_key( $o, $d ) ) : $d;

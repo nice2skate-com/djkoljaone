@@ -55,7 +55,7 @@ add_action(
 );
 add_shortcode( 'kjo_kontakt', 'kjo_kf_form' );
 
-/* [kjo_datum_check] (seit 1.51.0): „Ist euer Datum noch frei?“ – Datum wählen, Ergebnis aus dem Kalender sofort sehen,
+/* [kjo_datum_check] (seit 1.51.0): „Ist Ihr Datum noch frei?“ – Datum wählen, Ergebnis aus dem Kalender sofort sehen,
  * dann ins Formular (gleiche Seite: Datum wird übernommen) oder zur Kontaktseite mit ?datum=. Zeigt nur frei/vorgemerkt/vergeben. */
 add_shortcode(
 	'kjo_datum_check',
@@ -64,7 +64,7 @@ add_shortcode(
 		$n++;
 		$GLOBALS['kjo_dc'] = true;
 		$id = 'kjo-dc-' . $n;
-		return '<div class="kjo-dc" data-kontakt="' . esc_url( home_url( '/kontakt/' ) ) . '"><label class="kjo-dc-l" for="' . $id . '">Ist euer Datum noch frei?</label><div class="kjo-dc-row"><input id="' . $id . '" type="date" min="' . esc_attr( wp_date( 'Y-m-d' ) ) . '" aria-describedby="' . $id . '-o"><button type="button" class="kjo-dc-btn">Prüfen</button></div><div class="kjo-dc-out" id="' . $id . '-o" aria-live="polite"></div></div>';
+		return '<div class="kjo-dc" data-kontakt="' . esc_url( home_url( '/kontakt/' ) ) . '"><label class="kjo-dc-l" for="' . $id . '">Ist Ihr Datum noch frei?</label><div class="kjo-dc-row"><input id="' . $id . '" type="date" min="' . esc_attr( wp_date( 'Y-m-d' ) ) . '" aria-describedby="' . $id . '-o"><button type="button" class="kjo-dc-btn">Prüfen</button></div><div class="kjo-dc-out" id="' . $id . '-o" aria-live="polite"></div></div>';
 	}
 );
 /* CSS im Kopf statt im Fuß: sonst springt das Datumsfeld beim Laden (Layout-Shift). Klein genug für alle Seiten. */
@@ -88,18 +88,18 @@ add_action(
 <script id="kjo-dc-js">(function(){var WT=["So","Mo","Di","Mi","Do","Fr","Sa"];
 function de(v){var d=new Date(v+"T12:00:00");return WT[d.getDay()]+", "+("0"+d.getDate()).slice(-2)+"."+("0"+(d.getMonth()+1)).slice(-2)+"."+d.getFullYear();}
 function run(box){var inp=box.querySelector("input"),out=box.querySelector(".kjo-dc-out"),v=inp.value,K=window.KJO_KAL;
- if(!v){out.className="kjo-dc-out";out.innerHTML="Bitte wählt zuerst euer Datum.";try{inp.showPicker&&inp.showPicker();}catch(e){}return;}
+ if(!v){out.className="kjo-dc-out";out.innerHTML="Bitte wählen Sie zuerst Ihr Datum.";try{inp.showPicker&&inp.showPicker();}catch(e){}return;}
  if(v<inp.min){out.className="kjo-dc-out no";out.innerHTML="Dieses Datum liegt in der Vergangenheit.";return;}
  var form=document.getElementById("kjo-kf-dt"),href=form?"#anfrage":box.getAttribute("data-kontakt")+"?datum="+v+"#formular";
  var go='<br><a class="kjo-dc-go" href="'+href+'">Jetzt unverbindlich anfragen →</a>';
  out.className="kjo-dc-out";out.textContent="Ich schaue in meinen Kalender …";
- if(!K||!window.fetch){out.innerHTML="Fragt einfach an, ich prüfe den "+de(v)+" sofort."+go;return;}
+ if(!K||!window.fetch){out.innerHTML="Fragen Sie einfach an, ich prüfe den "+de(v)+" sofort."+go;return;}
  fetch(K.api+(K.api.indexOf("?")>-1?"&":"?")+"von="+v,{credentials:"omit"}).then(function(r){return r.json();}).then(function(j){if(inp.value!==v)return;var s=j&&j.dj;
-  if(s==="frei"){out.className="kjo-dc-out ok";out.innerHTML="✓ <strong>"+de(v)+": Ich bin noch frei!</strong> Schickt mir eure Anfrage, ich melde mich innerhalb von 24 Stunden."+go;}
-  else if(s==="vor"){out.className="kjo-dc-out vor";out.innerHTML="◐ <strong>"+de(v)+" ist vorgemerkt.</strong> Fragt gern trotzdem an: Wird die Vormerkung nicht bestätigt, seid ihr als Nächste dran."+go;}
-  else{out.className="kjo-dc-out no";out.innerHTML="✕ <strong>"+de(v)+": Da bin ich leider schon ausgebucht.</strong> Probiert gern einen anderen Tag"+(j&&j.equip&&j.equip!=="belegt"?" oder <a href=\""+K.mieten+"?von="+v+"#pakete\">mietet Musikanlage und Licht</a> für eure Feier":"")+".";}
+  if(s==="frei"){out.className="kjo-dc-out ok";out.innerHTML="✓ <strong>"+de(v)+": Ich bin noch frei!</strong> Schicken Sie mir Ihre Anfrage, ich melde mich innerhalb von 24 Stunden."+go;}
+  else if(s==="vor"){out.className="kjo-dc-out vor";out.innerHTML="◐ <strong>"+de(v)+" ist vorgemerkt.</strong> Fragen Sie gern trotzdem an: Wird die Vormerkung nicht bestätigt, sind Sie als Nächste dran."+go;}
+  else{out.className="kjo-dc-out no";out.innerHTML="✕ <strong>"+de(v)+": Da bin ich leider schon ausgebucht.</strong> Probieren Sie gern einen anderen Tag"+(j&&j.equip&&j.equip!=="belegt"?" oder <a href=\""+K.mieten+"?von="+v+"#pakete\">mieten Sie Musikanlage und Licht</a> für Ihre Feier":"")+".";}
   try{if(window.kjoTrack)window.kjoTrack("datum_check",{status:s||"?"});}catch(e){}
- }).catch(function(){out.innerHTML="Fragt einfach an, ich prüfe den "+de(v)+" sofort."+go;});}
+ }).catch(function(){out.innerHTML="Fragen Sie einfach an, ich prüfe den "+de(v)+" sofort."+go;});}
 document.addEventListener("change",function(e){var b=e.target.closest&&e.target.closest(".kjo-dc");if(b&&e.target.type==="date")run(b);});
 document.addEventListener("click",function(e){var t=e.target;if(!t.closest)return;var b=t.closest(".kjo-dc");if(!b)return;
  if(t.closest(".kjo-dc-btn")){run(b);return;}
@@ -149,15 +149,15 @@ function kjo_kf_form( $atts = array() ) {
 	$h  .= $f( 'ort', 'Ort / Location <span class="kjo-kf-o">(voraussichtlich)</span>' . $req, '<input id="kjo-kf-ort" name="ort" type="text" required maxlength="150">' );
 	$h  .= $f( 'gs', 'Gästezahl <span class="kjo-kf-o">(voraussichtlich)</span>' . $req, '<input id="kjo-kf-gs" name="gaeste" type="text" inputmode="numeric" required maxlength="40" placeholder="z. B. 80">' );
 	$h  .= $f( 'an', 'Anlass' . $req, '<select id="kjo-kf-an" name="anlass" required><option value="">– Auswahl treffen –</option>' . $opt . '</select>', 'kjo-kf-w' );
-	$h  .= $f( 'msg', 'Kommentar oder Nachricht', '<textarea id="kjo-kf-msg" name="nachricht" rows="5" maxlength="3000" placeholder="Was ist euch wichtig? Musikrichtung, Ablauf, Fragen …"></textarea>', 'kjo-kf-w' );
+	$h  .= $f( 'msg', 'Kommentar oder Nachricht', '<textarea id="kjo-kf-msg" name="nachricht" rows="5" maxlength="3000" placeholder="Was ist Ihnen wichtig? Musikrichtung, Ablauf, Fragen …"></textarea>', 'kjo-kf-w' );
 	$h  .= '</div>';
 	$h  .= '<div class="kjo-kf-hp" aria-hidden="true"><label>Website <input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>';
 	$h  .= '<label class="kjo-kf-ds"><input type="checkbox" name="datenschutz" value="1" required> <span>Ich habe die <a href="' . esc_url( home_url( '/datenschutz/' ) ) . '" target="_blank" rel="noopener">Datenschutzerklärung</a> gelesen und bin einverstanden.' . $req . '</span></label>';
 	$h  .= '<div class="kjo-kf-msgbox" role="alert" hidden></div>';
 	$h  .= '<button type="submit" class="kjo-kf-send">Anfrage senden</button>';
-	$h  .= '<noscript><p class="kjo-kf-o">Bitte JavaScript aktivieren – oder schreibt mir direkt per WhatsApp oder E-Mail.</p></noscript>';
+	$h  .= '<noscript><p class="kjo-kf-o">Bitte JavaScript aktivieren – oder schreiben Sie mir direkt per WhatsApp oder E-Mail.</p></noscript>';
 	$h  .= '</form>';
-	$h  .= '<div class="kjo-kf-ok" id="kjo-kf-ok" hidden tabindex="-1"><p class="kjo-kf-okt">Danke, eure Anfrage ist angekommen!</p><p>Ich prüfe euren Termin und melde mich innerhalb von 24 Stunden persönlich bei euch. Eine Bestätigung ist per E-Mail unterwegs – schaut sicherheitshalber auch im Spam-Ordner nach.</p></div>';
+	$h  .= '<div class="kjo-kf-ok" id="kjo-kf-ok" hidden tabindex="-1"><p class="kjo-kf-okt">Danke, Ihre Anfrage ist angekommen!</p><p>Ich prüfe Ihren Termin und melde mich innerhalb von 24 Stunden persönlich bei Ihnen. Eine Bestätigung ist per E-Mail unterwegs – schauen Sie sicherheitshalber auch im Spam-Ordner nach.</p></div>';
 	return '<style id="kjo-kf-css">' . KJO_KF_CSS . '</style>' . $h . '<script id="kjo-kf-js">' . KJO_KF_JS . '</script>';
 }
 
@@ -188,24 +188,24 @@ var akt="";try{var A=JSON.parse(f.getAttribute("data-akt")||"{}"),q=(new URLSear
 try{var pk=new URLSearchParams(location.search).get("paket"),tm=f.elements.nachricht;if(pk&&tm&&!tm.value)tm.value="Technik-Paket: "+pk.slice(0,120)+"\n";}catch(x){}
 function hint(c,h){av.className="kjo-kf-av "+c;av.innerHTML=h;}
 function check(v){var K=window.KJO_KAL;av.innerHTML="";if(!K||!window.fetch||!v)return;fetch(K.api+(K.api.indexOf("?")>-1?"&":"?")+"von="+v,{credentials:"omit"}).then(function(r){return r.json()}).then(function(j){if(dt.value!==v||!j||!j.dj)return;
- if(j.dj==="frei")hint("ok","✓ <strong>Termin noch verfügbar!</strong> Schickt mir eure Anfrage, ich melde mich innerhalb von 24 Stunden bei euch.");
- else if(j.dj==="vor")hint("vor","◐ <strong>Termin vorreserviert, fragt gerne trotzdem an.</strong> Wird die Reservierung nicht bestätigt, seid ihr als Nächste dran.");
+ if(j.dj==="frei")hint("ok","✓ <strong>Termin noch verfügbar!</strong> Schicken Sie mir Ihre Anfrage, ich melde mich innerhalb von 24 Stunden bei Ihnen.");
+ else if(j.dj==="vor")hint("vor","◐ <strong>Termin vorreserviert, fragen Sie gerne trotzdem an.</strong> Wird die Reservierung nicht bestätigt, sind Sie als Nächste dran.");
  else if(j.equip!=="belegt")hint("no","✕ <strong>An diesem Tag bin ich leider schon ausgebucht.</strong> Musikanlage und Licht sind aber "+(j.equip==="teil"?"teilweise ":"")+"noch frei: <a href=\""+K.mieten+"?von="+v+"#pakete\">Nur Equipment mieten? →</a>");
- else hint("no","✕ <strong>An diesem Tag bin ich leider schon ausgebucht.</strong> Gerne frage ich in meinem DJ-Netzwerk nach einem Kollegen für euch, oder ihr wählt einen anderen Tag.");}).catch(function(){});}
+ else hint("no","✕ <strong>An diesem Tag bin ich leider schon ausgebucht.</strong> Gerne frage ich in meinem DJ-Netzwerk nach einem Kollegen für Sie, oder Sie wählen einen anderen Tag.");}).catch(function(){});}
 dt.addEventListener("change",function(){check(dt.value);});
 try{var pd=new URLSearchParams(location.search).get("datum");if(pd&&/^\d{4}-\d{2}-\d{2}$/.test(pd)&&pd>=dt.min){dt.value=pd;check(pd);}}catch(x){}
 off.addEventListener("click",function(){offen=!offen;dt.disabled=offen;dt.required=!offen;off.setAttribute("aria-pressed",offen?"true":"false");off.textContent=offen?"Doch ein festes Datum wählen":"Noch kein festes Datum?";if(offen){dt.value="";av.innerHTML="";dt.removeAttribute("aria-invalid");var m=f.elements.nachricht;if(!m.value)m.setAttribute("placeholder","Zeitraum oder mögliche Termine, z. B. „Sommer 2027, ein Samstag“");m.focus();}});
 f.addEventListener("input",function(e){if(!box.hidden)msg("");if(e.target.getAttribute("aria-invalid")==="true"&&e.target.checkValidity())e.target.removeAttribute("aria-invalid");});
 f.addEventListener("submit",function(e){e.preventDefault();msg("");var bad=null;
  [].forEach.call(f.querySelectorAll("[required]"),function(el){var good=el.checkValidity();el.setAttribute("aria-invalid",good?"false":"true");if(!good&&!bad)bad=el;});
- if(bad){msg(bad.type==="checkbox"?"Bitte bestätigt die Datenschutzerklärung.":bad.type==="email"?"Bitte prüft eure E-Mail-Adresse.":"Bitte füllt alle Pflichtfelder (*) aus.");try{bad.focus();}catch(x){}return;}
+ if(bad){msg(bad.type==="checkbox"?"Bitte bestätigen Sie die Datenschutzerklärung.":bad.type==="email"?"Bitte prüfen Sie Ihre E-Mail-Adresse.":"Bitte füllen Sie alle Pflichtfelder (*) aus.");try{bad.focus();}catch(x){}return;}
  btn.disabled=true;btn.textContent="Wird gesendet …";
  var d={vorname:val("vorname"),nachname:val("nachname"),email:val("email"),telefon:val("telefon"),datum:offen?"":val("datum"),offen:offen?1:0,ort:val("ort"),gaeste:val("gaeste"),anlass:val("anlass"),nachricht:val("nachricht"),datenschutz:val("datenschutz"),website:val("website"),aktion:akt,ts:ts,seite:location.pathname};
  fetch(f.getAttribute("data-api"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(d),credentials:"omit"}).then(function(r){return r.json().catch(function(){return{ok:false};});}).then(function(j){
   if(j&&j.ok){f.hidden=true;ok.hidden=false;try{ok.focus({preventScroll:true});}catch(x){}ok.scrollIntoView({behavior:"smooth",block:"center"});
    try{if(typeof window.kjoTrack==="function")window.kjoTrack("generate_lead",{method:"formular"});}catch(x){}}
-  else{msg((j&&j.message)||"Die Anfrage konnte nicht gesendet werden. Bitte schreibt mir per WhatsApp oder ruft an.");btn.disabled=false;btn.textContent="Anfrage senden";}
- }).catch(function(){msg("Keine Verbindung. Bitte versucht es noch einmal oder schreibt mir per WhatsApp.");btn.disabled=false;btn.textContent="Anfrage senden";});
+  else{msg((j&&j.message)||"Die Anfrage konnte nicht gesendet werden. Bitte schreiben Sie mir per WhatsApp oder rufen Sie an.");btn.disabled=false;btn.textContent="Anfrage senden";}
+ }).catch(function(){msg("Keine Verbindung. Bitte versuchen Sie es noch einmal oder schreiben Sie mir per WhatsApp.");btn.disabled=false;btn.textContent="Anfrage senden";});
 });})();
 KJOKF
 );
@@ -247,7 +247,7 @@ function kjo_kf_rest( WP_REST_Request $req ) {
 	$rk = 'kjo_kf_rl_' . kjo_netz_hash();
 	$rl = (int) get_transient( $rk );
 	if ( $rl >= 5 ) {
-		return kjo_kf_err( 'Es wurden gerade sehr viele Anfragen gesendet. Bitte versucht es später noch einmal oder schreibt mir per WhatsApp.', 429 );
+		return kjo_kf_err( 'Es wurden gerade sehr viele Anfragen gesendet. Bitte versuchen Sie es später noch einmal oder schreiben Sie mir per WhatsApp.', 429 );
 	}
 	$name   = trim( $s( 'vorname' ) . ' ' . $s( 'nachname' ) );
 	$email  = sanitize_email( $s( 'email' ) );
@@ -255,13 +255,13 @@ function kjo_kf_rest( WP_REST_Request $req ) {
 	$datum  = preg_match( '/^\d{4}-\d{2}-\d{2}$/', $s( 'datum' ) ) ? $s( 'datum' ) : '';
 	$anlass = in_array( $s( 'anlass' ), KJO_KF_ANLAESSE, true ) ? $s( 'anlass' ) : '';
 	if ( '' === $s( 'vorname' ) || '' === $s( 'nachname' ) || ! is_email( $email ) || ( ! $datum && ! $offen ) || '' === $s( 'ort' ) || '' === $s( 'gaeste' ) || ! $anlass ) {
-		return kjo_kf_err( 'Bitte füllt alle Pflichtfelder (*) aus.' );
+		return kjo_kf_err( 'Bitte füllen Sie alle Pflichtfelder (*) aus.' );
 	}
 	if ( '1' !== $s( 'datenschutz' ) ) {
-		return kjo_kf_err( 'Bitte bestätigt die Datenschutzerklärung.' );
+		return kjo_kf_err( 'Bitte bestätigen Sie die Datenschutzerklärung.' );
 	}
 	if ( kjo_hat_link( $s( 'vorname' ), $s( 'nachname' ), $s( 'ort' ), $s( 'gaeste' ), $s( 'telefon' ) ) ) {
-		return kjo_kf_err( 'Bitte keine Links in Name, Ort, Gästezahl oder Telefon. Schreibt sie gern in die Nachricht.' );
+		return kjo_kf_err( 'Bitte keine Links in Name, Ort, Gästezahl oder Telefon. Schreiben Sie sie gern in die Nachricht.' );
 	}
 	if ( $datum && $datum < wp_date( 'Y-m-d' ) ) {
 		return kjo_kf_err( 'Das Wunschdatum liegt in der Vergangenheit.' );
@@ -318,12 +318,12 @@ function kjo_kf_rest( WP_REST_Request $req ) {
 	if ( $pid ) {
 		update_post_meta( $pid, '_kjo_mail_ok', $ok ? '1' : '0' );
 	}
-	$conf = 'Hallo ' . $s( 'vorname' ) . ",\n\ndanke für eure Anfrage! Ich prüfe euren Termin und melde mich innerhalb von 24 Stunden persönlich bei euch.\n\n"
-		. "Eure Angaben:\nAnlass: " . $anlass . "\nWunschdatum: " . ( $datum ? $de : 'noch offen' ) . "\nOrt / Location: " . $s( 'ort' ) . "\nGästezahl: " . $s( 'gaeste' ) . "\n\n"
-		. "Ihr wollt etwas ergänzen? Antwortet einfach auf diese E-Mail oder schreibt mir per WhatsApp: https://wa.me/491727273707\n\nViele Grüße\nKolja – DJ KOLJA ONE\n" . $to . "\nhttps://dj-kolja-one.de\n";
-	kjo_bestaetigung_ok( $email, 'kontakt' ) && wp_mail( $email, 'Eure Anfrage bei DJ KOLJA ONE', $conf, array( 'Content-Type: text/plain; charset=UTF-8', 'Reply-To: DJ KOLJA ONE <' . $to . '>' ) );
+	$conf = 'Hallo ' . $s( 'vorname' ) . ",\n\ndanke für Ihre Anfrage! Ich prüfe Ihren Termin und melde mich innerhalb von 24 Stunden persönlich bei Ihnen.\n\n"
+		. "Ihre Angaben:\nAnlass: " . $anlass . "\nWunschdatum: " . ( $datum ? $de : 'noch offen' ) . "\nOrt / Location: " . $s( 'ort' ) . "\nGästezahl: " . $s( 'gaeste' ) . "\n\n"
+		. "Sie möchten etwas ergänzen? Antworten Sie einfach auf diese E-Mail oder schreiben Sie mir per WhatsApp: https://wa.me/491727273707\n\nViele Grüße\nKolja – DJ KOLJA ONE\n" . $to . "\nhttps://dj-kolja-one.de\n";
+	kjo_bestaetigung_ok( $email, 'kontakt' ) && wp_mail( $email, 'Ihre Anfrage bei DJ KOLJA ONE', $conf, array( 'Content-Type: text/plain; charset=UTF-8', 'Reply-To: DJ KOLJA ONE <' . $to . '>' ) );
 	if ( ! $ok && ! $pid ) {
-		return kjo_kf_err( 'Die Anfrage konnte nicht gesendet werden. Bitte schreibt mir per WhatsApp oder ruft an.', 500 );
+		return kjo_kf_err( 'Die Anfrage konnte nicht gesendet werden. Bitte schreiben Sie mir per WhatsApp oder rufen Sie an.', 500 );
 	}
 	return new WP_REST_Response( array( 'ok' => true ), 200 );
 }
@@ -346,7 +346,7 @@ function kjo_kf_box( $post ) {
 	$em = (string) get_post_meta( $post->ID, '_kjo_email', true );
 	echo '<pre style="white-space:pre-wrap;font:14px/1.6 system-ui,sans-serif;margin:0">' . esc_html( (string) get_post_meta( $post->ID, '_kjo_text', true ) ) . '</pre>';
 	if ( $em ) {
-		echo '<p><a class="button" href="' . esc_url( 'mailto:' . $em . '?subject=' . rawurlencode( 'Eure Anfrage bei DJ KOLJA ONE' ) ) . '">Per E-Mail antworten</a></p>';
+		echo '<p><a class="button" href="' . esc_url( 'mailto:' . $em . '?subject=' . rawurlencode( 'Ihre Anfrage bei DJ KOLJA ONE' ) ) . '">Per E-Mail antworten</a></p>';
 	}
 }
 function kjo_kf_box_kal( $post ) {

@@ -17,6 +17,43 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/** Standardtexte der ersten Regel – seit 13.11.2026 in Sie-Form. */
+const KJO_ADM_SIE = array(
+	'antwort' => 'Schauen Sie in Ihre DMs 📩',
+	'dm'      => "Hallo @{name}! 🎧 Tippen Sie auf den Link und senden Sie die Nachricht ab – dann bekommen Sie sofort Ihren Link auf WhatsApp:\n{whatsapp}",
+	'wa'      => "Hallo {name}! 🎶 Hier ist „Got the Summer Feeling“ für Sie: {datei}\n\nViel Spaß beim Reinhören – Kolja",
+);
+
+/** Einmalige Umstellung auf Sie-Form: gespeicherte Regeltexte, die exakt dem alten Du-Standard entsprechen, durch den neuen ersetzen. */
+add_action(
+	'init',
+	function () {
+		if ( '1' === get_option( 'kjo_sie_form_autodm' ) ) {
+			return;
+		}
+		$alt = array(
+			'antwort' => 'Check deine DMs 📩',
+			'dm'      => "Hey @{name}! 🎧 Tipp auf den Link und schick die Nachricht ab – dann bekommst du sofort deinen Link auf WhatsApp:\n{whatsapp}",
+			'wa'      => "Hey {name}! 🎶 Hier ist „Got the Summer Feeling“ für dich: {datei}\n\nViel Spaß beim Reinhören – Kolja",
+		);
+		$o = get_option( 'kjo_autodm', array() );
+		if ( is_array( $o ) && ! empty( $o['regeln'] ) && is_array( $o['regeln'] ) ) {
+			$neu = $o;
+			foreach ( $neu['regeln'] as $i => $r ) {
+				foreach ( $alt as $k => $v ) {
+					if ( is_array( $r ) && isset( $r[ $k ] ) && is_string( $r[ $k ] ) && trim( str_replace( "\r\n", "\n", $r[ $k ] ) ) === $v ) {
+						$neu['regeln'][ $i ][ $k ] = KJO_ADM_SIE[ $k ];
+					}
+				}
+			}
+			if ( $neu !== $o ) {
+				update_option( 'kjo_autodm', $neu, false );
+			}
+		}
+		update_option( 'kjo_sie_form_autodm', '1', true );
+	}
+);
+
 function kjo_adm_opts() {
 	$d = array(
 		'aktiv'      => 0,
@@ -28,9 +65,9 @@ function kjo_adm_opts() {
 		'regeln'     => array(
 			array(
 				'worte'   => 'DJ',
-				'antwort' => 'Check deine DMs 📩',
-				'dm'      => "Hey @{name}! 🎧 Tipp auf den Link und schick die Nachricht ab – dann bekommst du sofort deinen Link auf WhatsApp:\n{whatsapp}",
-				'wa'      => "Hey {name}! 🎶 Hier ist „Got the Summer Feeling“ für dich: {datei}\n\nViel Spaß beim Reinhören – Kolja",
+				'antwort' => KJO_ADM_SIE['antwort'],
+				'dm'      => KJO_ADM_SIE['dm'],
+				'wa'      => KJO_ADM_SIE['wa'],
 				'datei'   => 'https://drive.google.com/file/d/15oc1pYtb2-1dsTrOGdCoM6HaPGkB1ffN/view?usp=drivesdk',
 				'name'    => 'Got the Summer Feeling.mp3',
 			),

@@ -1,19 +1,20 @@
 # Instagram-Texte: Equipment-Reel
 
 Grundlage: Seiten „Equipment“ (/equipment/) und „Technik mieten“ (/technik-mieten/). Keine Preise im Reel-Text.
+Ansprache: Sie-Form (seit 13.11.2026).
 
 ## Variante A – DJ buchen (Equipment)
 
 ```
 Guter Sound fällt nicht immer auf. Schlechter schon. 🎧
-Das bringe ich zu eurer Feier mit:
+Das bringe ich zu Ihrer Feier mit:
 
 🔊 Bose S1 Pro mit Bose-Subwoofer – klar beim Dinner, kräftig auf der Tanzfläche
 🎛️ Pioneer DDJ-FLX10 – mein Arbeitsplatz
 💡 3-m-Lichttraverse, 2 Moving Heads und Akku-Scheinwerfer – Lichtshow statt Deckenlicht
 🎤 Funkmikrofon für Reden, Trauzeugen und Gratulanten
 
-Alles sauber aufgebaut, bevor eure Gäste kommen.
+Alles sauber aufgebaut, bevor Ihre Gäste kommen.
 Wunschtermin prüfen: Link in der Bio.
 
 #djkoljaone #djequipment #hochzeitsdj #eventdj #lichttechnik #pioneerdj #djmemmingen #allgäu
@@ -28,8 +29,8 @@ Erster Kommentar:
 ## Variante B – Technik mieten (Verleih)
 
 ```
-Ihr feiert selbst und wollt mehr als eine Bluetooth-Box? 🔊
-Mietet die Technik, mit der ich selbst auflege:
+Sie feiern selbst und wollen mehr als eine Bluetooth-Box? 🔊
+Mieten Sie die Technik, mit der ich selbst auflege:
 
 ✅ fertige Pakete – nach Gästezahl, alle Kabel dabei
 ✅ Einweisung vom DJ bei der Abholung
@@ -45,7 +46,7 @@ Verfügbarkeit prüfen: Link in der Bio.
 Erster Kommentar:
 ```
 📦 Pakete und alle Geräte mit Verfügbarkeit: dj-kolja-one.de/technik-mieten
-❓ Fragen? Schreibt mir per WhatsApp – Nummer auf der Website.
+❓ Fragen? Schreiben Sie mir per WhatsApp – Nummer auf der Website.
 ```
 
 Links für Bio/Story:

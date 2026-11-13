@@ -11,17 +11,18 @@ WORK = os.path.join(HERE, 'arbeit')
 SONGS = os.path.join(WORK, 'songs')
 LEN, FPS, SR = 30.0, 30, 22050
 
+# Zeile im Video – Ansprache seit 13.11.2026 in Sie-Form (neue Zeilen ebenso)
 TAG = {
     5111: 'Großstadtnacht in Neonblau.', 5169: 'Sommer zum Mitnehmen.', 5317: 'Heute Nacht wird getanzt.',
     5353: 'Bis der Morgen kommt.', 5160: 'Segel setzen über dem Horizont.', 5337: 'Für die Menschen, die zählen.',
     5338: 'Nach dem Sturm kommt das Licht.', 5342: 'Klingt schon nach morgen.', 5150: 'Mittelmeer für die Ohren.',
     5152: 'Licht auf dem Wasser.', 5156: 'Leere Straßen, volle Gedanken.', 5158: 'Kleine Momente, großes Gefühl.',
     5119: 'Einfach mal gut sein lassen.', 5117: 'Vielleicht in einem anderen Leben.', 5123: 'Ein Name, eine Melodie.',
-    5121: 'Treiben lassen, bis die Sonne sinkt.', 5242: 'Über den Dächern der Stadt.', 5106: 'Wenn dich das Leben überrascht.',
-    5109: 'Für diesen Song nimmst du sie dir.', 5171: 'Einladung aufs Dach. Kommst du?', 5173: 'Die Welt dreht sich. Du tanzt mit.',
+    5121: 'Treiben lassen, bis die Sonne sinkt.', 5242: 'Über den Dächern der Stadt.', 5106: 'Wenn Sie das Leben überrascht.',
+    5109: 'Für diesen Song nehmen Sie sie sich.', 5171: 'Einladung aufs Dach. Kommen Sie?', 5173: 'Die Welt dreht sich. Sie tanzen mit.',
     5179: 'Weitergehen, Schritt für Schritt.', 5177: 'Kleine Beweise, dass es mich gibt.', 5175: 'Der Weg nach Hause.',
     5167: 'Zehn Tage Wald. Ein Atemzug.', 5165: 'Flöte, Fluss und Trommeln.', 5355: 'Weiter, als das Blau reicht.',
-    5351: 'Erinnerst du dich an den Weg?', 5343: 'Stille, die man hören kann.', 5369: 'Verschlafen? Dann eben laut.',
+    5351: 'Erinnern Sie sich an den Weg?', 5343: 'Stille, die man hören kann.', 5369: 'Verschlafen? Dann eben laut.',
 }
 # Genre → Effekt im Hintergrund
 FX = {'Disco-Hits': 'sparkle', 'R&B, Crunk und Hip-Hop': 'neon', 'Euro-Dance': 'neon', 'Progressive House': 'beams',

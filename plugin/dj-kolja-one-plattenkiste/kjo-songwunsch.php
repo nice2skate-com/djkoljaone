@@ -96,13 +96,13 @@ function kjo_sw_rest( WP_REST_Request $r ) {
 	$kuen  = $s( 'kuenstler', 120 );
 	$name  = $s( 'name', 40 );
 	if ( mb_strlen( $titel ) < 2 ) {
-		return new WP_REST_Response( array( 'message' => 'Bitte gib einen Songtitel ein.' ), 400 );
+		return new WP_REST_Response( array( 'message' => 'Bitte geben Sie einen Songtitel ein.' ), 400 );
 	}
 	$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
 	$rk = 'kjo_sw_' . substr( hash_hmac( 'sha256', $ip . $a['code'], wp_salt( 'nonce' ) ), 0, 20 ); // nur Prüfwert, keine IP
 	$n  = (int) get_transient( $rk );
 	if ( $n >= KJO_SW_MAX ) {
-		return new WP_REST_Response( array( 'message' => 'Danke, das reicht erst mal! In ein paar Minuten kannst du weitere Wünsche schicken.' ), 429 );
+		return new WP_REST_Response( array( 'message' => 'Danke, das reicht erst mal! In ein paar Minuten können Sie weitere Wünsche schicken.' ), 429 );
 	}
 	set_transient( $rk, $n + 1, 10 * MINUTE_IN_SECONDS );
 	$key = md5( kjo_sw_norm( $titel ) . '|' . kjo_sw_norm( $kuen ) );
@@ -177,29 +177,29 @@ button,.btn{display:block;width:100%;text-align:center;padding:16px;background:v
 </style></head><body><main>
 <div class="top"><img src="<?php echo esc_url( $logo ); ?>" alt="DJ KOLJA ONE – Jedes Event findet nur einmal statt." width="280" height="51">
 <?php if ( $auf ) : ?>
-<h1>Dein Songwunsch</h1><p class="ev"><?php echo esc_html( $a['name'] ); ?></p></div>
+<h1>Ihr Songwunsch</h1><p class="ev"><?php echo esc_html( $a['name'] ); ?></p></div>
 <form id="f" novalidate>
 <label>Songtitel *<input name="titel" required maxlength="120" autocomplete="off" placeholder="z. B. Dancing Queen"></label>
 <label>Interpret <span>(falls bekannt)</span><input name="kuenstler" maxlength="120" autocomplete="off" placeholder="z. B. ABBA"></label>
-<label>Dein Vorname <span>(freiwillig)</span><input name="name" maxlength="40" autocomplete="given-name"></label>
+<label>Ihr Vorname <span>(freiwillig)</span><input name="name" maxlength="40" autocomplete="given-name"></label>
 <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
 <p class="err" id="err" role="alert"></p>
 <button type="submit" id="b">Wunsch abschicken</button>
 </form>
 <div class="ok" id="ok" hidden><h2>Danke, ist angekommen! 🎶</h2><p>Ich schaue, wann er gut passt – versprochen ist nichts, aber die Chancen stehen gut.</p>
-<div class="links"><button type="button" class="btn" id="again">Noch einen Song wünschen</button><a class="btn s" href="<?php echo esc_url( $ig ); ?>" target="_blank" rel="noopener">DJ KOLJA ONE auf Instagram</a><a class="btn s" href="<?php echo esc_url( home_url( '/kontakt/?utm_source=qr&utm_medium=songwunsch&utm_campaign=gaeste' ) ); ?>">DJ für eure eigene Feier?</a></div></div>
+<div class="links"><button type="button" class="btn" id="again">Noch einen Song wünschen</button><a class="btn s" href="<?php echo esc_url( $ig ); ?>" target="_blank" rel="noopener">DJ KOLJA ONE auf Instagram</a><a class="btn s" href="<?php echo esc_url( home_url( '/kontakt/?utm_source=qr&utm_medium=songwunsch&utm_campaign=gaeste' ) ); ?>">DJ für Ihre eigene Feier?</a></div></div>
 <script>(function(){var f=document.getElementById("f"),ok=document.getElementById("ok"),err=document.getElementById("err"),b=document.getElementById("b");
 f.addEventListener("submit",function(e){e.preventDefault();err.textContent="";var d={e:<?php echo wp_json_encode( $code ); ?>};["titel","kuenstler","name","website"].forEach(function(n){d[n]=f.elements[n].value.trim()});
- if(d.titel.length<2){err.textContent="Bitte gib einen Songtitel ein.";f.elements.titel.focus();return}
+ if(d.titel.length<2){err.textContent="Bitte geben Sie einen Songtitel ein.";f.elements.titel.focus();return}
  b.disabled=true;b.textContent="wird gesendet …";
  fetch(<?php echo wp_json_encode( $api ); ?>,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(d),credentials:"omit"}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j}})}).then(function(x){b.disabled=false;b.textContent="Wunsch abschicken";
   if(x.ok){f.hidden=true;ok.hidden=false;f.elements.titel.value="";f.elements.kuenstler.value=""}else err.textContent=(x.j&&x.j.message)||"Das hat nicht geklappt, bitte noch einmal versuchen."}).catch(function(){b.disabled=false;b.textContent="Wunsch abschicken";err.textContent="Keine Verbindung – bitte noch einmal versuchen."})});
 document.getElementById("again").onclick=function(){ok.hidden=true;f.hidden=false;f.elements.titel.focus()};})();</script>
 <?php else : ?>
-<h1>Die Wunschliste ist gerade geschlossen</h1><p class="ev">Songwünsche gehen nur während der Feier. Sprich mich gern direkt am DJ-Pult an!</p></div>
+<h1>Die Wunschliste ist gerade geschlossen</h1><p class="ev">Songwünsche gehen nur während der Feier. Sprechen Sie mich gern direkt am DJ-Pult an!</p></div>
 <div class="links"><a class="btn" href="<?php echo esc_url( home_url( '/meine-musik/' ) ); ?>">Meine Musik anhören</a><a class="btn s" href="<?php echo esc_url( $ig ); ?>" target="_blank" rel="noopener">DJ KOLJA ONE auf Instagram</a></div>
 <?php endif; ?>
-<p class="small">Dein Wunsch und – falls angegeben – dein Vorname werden nur für diese Feier gespeichert und nach <?php echo (int) KJO_SW_TAGE; ?> Tagen gelöscht. <a href="<?php echo esc_url( home_url( '/datenschutz/' ) ); ?>">Datenschutz</a> · <a href="<?php echo esc_url( home_url( '/impressum/' ) ); ?>">Impressum</a></p>
+<p class="small">Ihr Wunsch und – falls angegeben – Ihr Vorname werden nur für diese Feier gespeichert und nach <?php echo (int) KJO_SW_TAGE; ?> Tagen gelöscht. <a href="<?php echo esc_url( home_url( '/datenschutz/' ) ); ?>">Datenschutz</a> · <a href="<?php echo esc_url( home_url( '/impressum/' ) ); ?>">Impressum</a></p>
 </main></body></html>
 		<?php
 		exit;
@@ -242,7 +242,7 @@ function kjo_sw_page() {
 	}
 	$url = kjo_sw_url( $a['code'] );
 	echo '<div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start;margin:14px 0">';
-	echo '<div class="kjm-qr" data-url="' . esc_attr( $url ) . '" data-titel="' . esc_attr( $a['name'] ) . '" data-kopf="♫  Dein Songwunsch" data-file="qr-songwunsch.png"></div>';
+	echo '<div class="kjm-qr" data-url="' . esc_attr( $url ) . '" data-titel="' . esc_attr( $a['name'] ) . '" data-kopf="♫  Ihr Songwunsch" data-file="qr-songwunsch.png"></div>';
 	echo '<div><h2 style="margin-top:0">' . esc_html( $a['name'] ) . '</h2><p>Gestartet ' . esc_html( wp_date( 'd.m.Y, H:i', (int) $a['start'] ) ) . ' Uhr · Link für Gäste:<br><code>' . esc_html( $url ) . '</code></p>';
 	echo '<form method="post" onsubmit="return confirm(\'Wunschliste schließen? Gäste können dann nichts mehr schicken.\')">' . wp_nonce_field( 'kjo_sw', 'kjo_sw_nonce', true, false ) . '<button class="button" name="ende" value="1">Abend beenden</button></form></div></div>';
 	echo '<h2>Wünsche <small id="kjo-sw-st" style="font-weight:400;color:#646970"></small></h2><table class="widefat striped"><thead><tr><th style="width:70px">Anzahl</th><th>Song</th><th>Von</th><th style="width:90px">Zuletzt</th><th style="width:230px"></th></tr></thead><tbody id="kjo-sw-list"><tr><td colspan="5">Lade …</td></tr></tbody></table>';

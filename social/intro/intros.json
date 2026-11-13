@@ -15,8 +15,8 @@
     "eyebrow": "Hochzeits-DJ · Memmingen · Allgäu · Schwaben",
     "eyebrow_hoch": "Hochzeits-DJ · Memmingen · Allgäu",
     "lines": [
-      "Euer Tag.",
-      "Eure Musik.",
+      "Ihr Tag.",
+      "Ihre Musik.",
       "Eine <b>volle Tanzfläche.</b>"
     ],
     "cta": "",
@@ -38,9 +38,9 @@
     "eyebrow": "Geburtstags-DJ · Memmingen · Allgäu · Schwaben",
     "eyebrow_hoch": "Geburtstags-DJ · Memmingen · Allgäu",
     "lines": [
-      "Euer Geburtstag.",
-      "Eure Gäste.",
-      "Ihr feiert – <b>ich mache den Rest.</b>"
+      "Ihr Geburtstag.",
+      "Ihre Gäste.",
+      "Sie feiern – <b>ich mache den Rest.</b>"
     ],
     "cta": "",
     "dur": 12
@@ -61,7 +61,7 @@
     "lines": [
       "Weihnachtsfeier.",
       "Sommerfest. Jubiläum.",
-      "Ein Abend, über den <b>euer Team spricht.</b>"
+      "Ein Abend, über den <b>Ihr Team spricht.</b>"
     ],
     "cta": "",
     "dur": 12
@@ -129,7 +129,7 @@
     "lines": [
       "Hallo, ich bin Kolja.",
       "DJ und Moderator.",
-      "Seit über 10 Jahren <b>für eure Feier.</b>"
+      "Seit über 10 Jahren <b>für Ihre Feier.</b>"
     ],
     "cta": "",
     "dur": 12,
