@@ -420,7 +420,7 @@ def kontakt():
     return [nav(),hero("Anfrage","Wunschtermin prüfen","Schicken Sie mir Ihr Datum – ich prüfe sofort, ob es noch frei ist, und melde mich innerhalb von 24 Stunden persönlich bei Ihnen. Unverbindlich und kostenlos.",
             [BTN("Zum Formular","#formular"),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=55),
         section([con([form,side],"row",g=30,**ROW,flex_justify_content="space-between",flex_align_items="flex-start")],anchor="formular"),
-        section(head("Lieber gleich reden?","Kennenlerngespräch buchen","Wählen Sie einfach einen freien Zeitpunkt – per Telefon oder Video-Call. Kostenlos und unverbindlich: Wir sprechen über Ihren Anlass, Ihre Musik und den Ablauf.")+
+        section([W("html",{"html":'<span id="kennenlernen" style="display:block;height:0" aria-hidden="true"></span>'})]+head("Lieber gleich reden?","Kennenlerngespräch buchen","Wählen Sie einfach einen freien Zeitpunkt – per Telefon oder Video-Call. Kostenlos und unverbindlich: Wir sprechen über Ihren Anlass, Ihre Musik und den Ablauf.")+
             [W("shortcode",{"shortcode":"[kjo_kennenlernen]"})],anchor="gespraech"),
         section(head("So geht's weiter","Nach Ihrer Anfrage")+[steps([("Antwort in 24 Stunden","Ich prüfe Ihren Termin und melde mich persönlich."),
             ("Kostenloses Kennenlernen","Telefonisch oder per Video besprechen wir Musik, Ablauf und Ihre Wünsche – unverbindlich."),

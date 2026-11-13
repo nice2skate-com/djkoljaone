@@ -1,9 +1,9 @@
 {
- "version": "1.76.0",
- "download_url": "dj-kolja-one-plattenkiste-1.76.0.zip",
- "sha256": "4756ade59025f0d0626403e0a9b93119caa5ea41b0c0a78bad9ea0c3548301fb",
+ "version": "1.76.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.76.1.zip",
+ "sha256": "e7a21754dd58eab0396d97f2b8074bd5d9800bb6fb4ac7db817a9730802d9717",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Alles in Sie-Form: Seiten, Formulare, Mails, Pult, Angebote und Automationen."
+ "changelog": "Sprungmarke #kennenlernen auf der Kontaktseite."
 }
