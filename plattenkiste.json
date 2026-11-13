@@ -1,9 +1,9 @@
 {
- "version": "1.75.0",
- "download_url": "dj-kolja-one-plattenkiste-1.75.0.zip",
- "sha256": "bdb12e609deb4ec6fcb5f10fcab2c80f56b341596af617804890d1f6083e7f9b",
+ "version": "1.75.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.75.1.zip",
+ "sha256": "10260a7e652c72c6e7bc599ef0065f69a46ea618baf3ccfda488f6a2a7f9a400",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Angebote aus Telegram/n8n mit PDF-Dienst; eigene Anrede, Sie-Form und Umsatzsteuer-Optionen im Angebot."
+ "changelog": "WhatsApp-Kacheln ohne goldenes Symbol (Seiten neu einspielen)."
 }

@@ -63,7 +63,8 @@ def BTNS(*bs,align="center"):
     return con(list(bs),"row",g=16,flex_justify_content={"center":"center","left":"flex-start"}[align],flex_direction_mobile="column",flex_align_items="center" if align=="center" else "flex-start")
 
 def ICONBOX(icon,title,desc,align="left",url=None):
-    s={"selected_icon":{"value":icon,"library":"fa-brands" if icon.startswith("fab") else "fa-solid"},"title_text":title,"description_text":desc,"position":"top","text_align":align,
+    # icon=None: Kachel ohne großes Symbol (z. B. WhatsApp – dort steht das grüne Symbol schon vor dem Titel)
+    s={"selected_icon":{"value":icon,"library":"fa-brands" if icon.startswith("fab") else "fa-solid"} if icon else {"value":"","library":""},"title_text":title,"description_text":desc,"position":"top","text_align":align,
        "primary_color":GOLD,"icon_size":px(32),"title_color":OFF,"description_color":MUTED,"title_size":"h3"}
     s.update(typo("title_typography",22,"400")); s.update(typo("description_typography",16,"400",lh=1.7))
     if url: s["link"]=lnk(url)
