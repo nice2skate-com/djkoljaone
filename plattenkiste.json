@@ -1,9 +1,9 @@
 {
- "version": "1.74.0",
- "download_url": "dj-kolja-one-plattenkiste-1.74.0.zip",
- "sha256": "6d2ee5fdb5b9b5fffe4765df6213fe3ebf8e176c6321f50cf1f0c651290a531a",
+ "version": "1.75.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.75.0.zip",
+ "sha256": "bdb12e609deb4ec6fcb5f10fcab2c80f56b341596af617804890d1f6083e7f9b",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "DJ-Angebote mit Vertragsbedingungen (§ 1–16) als Anhang im PDF; Text unter Angebote → Einstellungen."
+ "changelog": "Angebote aus Telegram/n8n mit PDF-Dienst; eigene Anrede, Sie-Form und Umsatzsteuer-Optionen im Angebot."
 }
