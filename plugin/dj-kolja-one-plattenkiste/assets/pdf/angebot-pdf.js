@@ -78,11 +78,13 @@
 			var L = 18, R = 192, W = R - L, y = 0, m = A.typ === 'miete', seitenKopf = 'Angebot ' + A.nr;
 			function f(w, size, col) { d.setFont('Fira', w ? 'bold' : 'normal'); d.setFontSize(size); d.setTextColor.apply(d, col || C.text); }
 			function lh(size) { return size * 0.3528 * 1.38; }
-			function seite() { // Folgeseite
+			function seite() { // Folgeseite – Schrift und Farbe des laufenden Textes danach wiederherstellen (seit 1.76.2, sonst war Text nach dem Umbruch hell auf weiß)
+				var fs = d.getFontSize(), fo = d.getFont(), tc = d.getTextColor();
 				d.addPage();
 				d.setFillColor.apply(d, C.dunkel); d.rect(0, 0, 210, 12, 'F');
 				d.setFillColor.apply(d, C.gold); d.rect(0, 12, 210, 0.6, 'F');
 				f(0, 8, C.weiss); d.text('DJ KOLJA ONE · ' + seitenKopf, L, 7.6);
+				d.setFont(fo.fontName, fo.fontStyle); d.setFontSize(fs); d.setTextColor(tc);
 				y = 22;
 			}
 			function platz(h) { if (y + h > 271) seite(); }
@@ -178,7 +180,16 @@
 		}
 		function absatz(txt, size, col, w) {
 				f(w, size, col);
-				d.splitTextToSize(String(txt || ''), W).forEach(function (z) { platz(lh(size)); d.text(z, L, y); y += lh(size); });
+				d.splitTextToSize(String(txt || ''), W).forEach(function (z) {
+					platz(lh(size)); d.text(z, L, y);
+					// Internet-Adressen im Text anklickbar machen (seit 1.76.2), Satzzeichen am Ende gehören nicht zum Link
+					var re = /https?:\/\/[^\s<>"]+/g, m;
+					while ((m = re.exec(z))) {
+						var u = m[0].replace(/[.,;:!?)»“"]+$/, '');
+						d.link(L + d.getTextWidth(z.slice(0, m.index)), y - size * 0.3528, d.getTextWidth(u), size * 0.3528 * 1.25, { url: u });
+					}
+					y += lh(size);
+				});
 			}
 			// Kopf
 			d.setFillColor.apply(d, C.dunkel); d.rect(0, 0, 210, 32, 'F');

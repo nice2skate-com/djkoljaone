@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.76.2: Angebots-PDF – Text, der über eine Seite hinausläuft, ist auf der Folgeseite wieder dunkel (war fast unsichtbar hell). Internet-Adressen im Angebotstext sind im PDF anklickbar (z. B. der Link zur Gesprächsbuchung).
 Seit 1.76.1: Kontaktseite hat zusätzlich die Sprungmarke #kennenlernen (neben #gespraech) – Links wie dj-kolja-one.de/kontakt/#kennenlernen springen direkt zur Gesprächsbuchung. Seiten neu einspielen.
 Seit 1.76.0: Alles in Sie-Form – alle Seiten, Formulare, Bestätigungs-Mails, Kennenlernen, Mietkorb, Musikwunschliste, Songwunsch, DJ-Pult, Angebote (PDF, E-Mail, WhatsApp) und Automationen (Auto-DM, Song-Kommentar, Reel-Text). Gespeicherte Standardtexte werden einmalig automatisch umgestellt (nur wenn unverändert). Seiten neu einspielen.
 Seit 1.75.1: WhatsApp-Kacheln (Start, Kontakt, Hochzeit, Geburtstag, Firmenfeier, Event) ohne großes goldenes Symbol – das grüne Symbol vor „WhatsApp“ bleibt. Seiten neu einspielen.
