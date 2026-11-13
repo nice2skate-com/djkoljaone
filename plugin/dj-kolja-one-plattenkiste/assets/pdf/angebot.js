@@ -130,7 +130,9 @@
 					return '<tr><td>' + z[1] + '</td><td><input data-q="' + z[0] + '" data-f="b" value="' + (r.b === '' || r.b == null ? '' : esc(String(r.b).replace('.', ','))) + '" inputmode="decimal" class="kjo-ang-n"></td>' +
 						'<td><input data-q="' + z[0] + '" data-f="d" type="date" value="' + esc(r.d || '') + '"></td>' +
 						'<td><select data-q="' + z[0] + '" data-f="a"><option value="">–</option>' + ['bar', 'Überweisung'].map(function (a) { return '<option' + (r.a === a ? ' selected' : '') + '>' + a + '</option>'; }).join('') + '</select></td></tr>';
-				}).join('') + '</tbody></table>' : '');
+				}).join('') + '</tbody></table>' : '') +
+			(!m && (K.vertrag || {}).dj ? '<h3>Vertragsbedingungen</h3><p><label><input type="checkbox" data-k="vertrag"' + (A.vertrag !== false ? ' checked' : '') + '> Vertragsbedingungen an das PDF anhängen</label></p>' +
+				'<p class="description">Der Text steht unter Angebote → Einstellungen → Vertragsbedingungen DJ.</p>' : '');
 		sync();
 	}
 
@@ -281,6 +283,25 @@
 			[['Ort, Datum', L, L + 50], ['Mieter', L + 58, L + 112], ['Vermieter (Kolja Tönges)', L + 120, R]].forEach(function (u) { linie(u[1], u[2], y + 10); f(0, 7.8, C.grau); d.text(u[0], u[1], y + 14); });
 			y += 18;
 		}
+		/* Vertragsbedingungen für DJ-Angebote (seit 1.74.0): Text aus den Einstellungen, „§ n Titel“ = Überschrift, „---“ = neue Seite. */
+		function bedingungen() {
+			seitenKopf = 'Vertragsbedingungen zum Angebot ' + A.nr;
+			d.addPage();
+			d.setFillColor.apply(d, C.dunkel); d.rect(0, 0, 210, 26, 'F');
+			d.setFillColor.apply(d, C.gold); d.rect(0, 26, 210, 0.7, 'F');
+			f(1, 8.5, C.gold); d.text('VERTRAGSBEDINGUNGEN', L, 12, { charSpace: 1.4 });
+			f(0, 10.5, C.weiss); d.text('für DJ-, Musik- und Technikleistungen · zum Angebot Nr. ' + A.nr + ' vom ' + datum(A.datum), L, 19.5);
+			y = 37;
+			String((K.vertrag || {}).dj || '').replace(/\r/g, '').replace(/^[ \t]*-{3,}[ \t]*$/gm, '\n---\n').split(/\n\s*\n/).forEach(function (b) {
+				var z = b.replace(/^\s+|\s+$/g, '').split('\n');
+				if (!z[0]) return;
+				if (/^-{3,}$/.test(z[0])) { seite(); z = z.slice(1); if (!z.length) return; }
+				var t = /^§\s*\d+/.test(z[0]);
+				if (t) { platz(16); f(1, 10, C.dunkel); d.text(z[0], L, y); y += 5; z = z.slice(1); }
+				z.forEach(function (l) { absatz(l, 9); y += 0.5; });
+				y += 1.8;
+			});
+		}
 		function absatz(txt, size, col, w) {
 			f(w, size, col);
 			d.splitTextToSize(String(txt || ''), W).forEach(function (z) { platz(lh(size)); d.text(z, L, y); y += lh(size); });
@@ -378,6 +399,7 @@
 		f(0, 10); d.text('Viele Grüße', L, y); y += 5.5;
 		f(1, 10); d.text('Kolja · DJ KOLJA ONE', L, y);
 		if (m && A.vertrag !== false) vertrag(s, fest);
+		if (!m && A.vertrag !== false && (K.vertrag || {}).dj) bedingungen();
 		// Fußzeile auf jeder Seite
 		var n = d.getNumberOfPages();
 		for (var i = 1; i <= n; i++) {

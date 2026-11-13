@@ -1,9 +1,9 @@
 {
- "version": "1.73.1",
- "download_url": "dj-kolja-one-plattenkiste-1.73.1.zip",
- "sha256": "56e01e0db058bfaf887c8199f8481d96da6c63215fb8c453b26f5dbca0a044c8",
+ "version": "1.74.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.74.0.zip",
+ "sha256": "6d2ee5fdb5b9b5fffe4765df6213fe3ebf8e176c6321f50cf1f0c651290a531a",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Fehler „kopf is not a function“ behoben – PDF erzeugen funktioniert wieder."
+ "changelog": "DJ-Angebote mit Vertragsbedingungen (§ 1–16) als Anhang im PDF; Text unter Angebote → Einstellungen."
 }
