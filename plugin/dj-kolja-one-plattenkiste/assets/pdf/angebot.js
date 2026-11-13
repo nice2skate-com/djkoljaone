@@ -204,21 +204,21 @@
 		d.addFileToVFS('Fira-400.ttf', window.KJO_FIRA['400']); d.addFont('Fira-400.ttf', 'Fira', 'normal');
 		d.addFileToVFS('Fira-600.ttf', window.KJO_FIRA['600']); d.addFont('Fira-600.ttf', 'Fira', 'bold');
 		d.setProperties({ title: 'Angebot ' + A.nr + ' – DJ KOLJA ONE', author: 'DJ KOLJA ONE', creator: 'DJ KOLJA ONE' });
-		var L = 18, R = 192, W = R - L, y = 0, m = A.typ === 'miete', kopf = 'Angebot ' + A.nr;
+		var L = 18, R = 192, W = R - L, y = 0, m = A.typ === 'miete', seitenKopf = 'Angebot ' + A.nr;
 		function f(w, size, col) { d.setFont('Fira', w ? 'bold' : 'normal'); d.setFontSize(size); d.setTextColor.apply(d, col || C.text); }
 		function lh(size) { return size * 0.3528 * 1.38; }
 		function seite() { // Folgeseite
 			d.addPage();
 			d.setFillColor.apply(d, C.dunkel); d.rect(0, 0, 210, 12, 'F');
 			d.setFillColor.apply(d, C.gold); d.rect(0, 12, 210, 0.6, 'F');
-			f(0, 8, C.weiss); d.text('DJ KOLJA ONE · ' + kopf, L, 7.6);
+			f(0, 8, C.weiss); d.text('DJ KOLJA ONE · ' + seitenKopf, L, 7.6);
 			y = 22;
 		}
 		function platz(h) { if (y + h > 271) seite(); }
 		/* Mietvertrag mit Quittung und Übergabeprotokoll (seit 1.73.0). § 1–3 aus dem Angebot, ab § 4 Text aus den Einstellungen. */
 		function vertrag(s, fest) {
 			var V = K.vertrag || {}, q = A.q || {};
-			kopf = 'Mietvertrag zum Angebot ' + A.nr;
+			seitenKopf = 'Mietvertrag zum Angebot ' + A.nr;
 			d.addPage();
 			d.setFillColor.apply(d, C.dunkel); d.rect(0, 0, 210, 26, 'F');
 			d.setFillColor.apply(d, C.gold); d.rect(0, 26, 210, 0.7, 'F');
