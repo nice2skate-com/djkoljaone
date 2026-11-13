@@ -80,6 +80,10 @@
 - [ ] Schema: `Product`/`Offer` bzw. `Service` für Verleih; SEO-Titel „Musikanlage mieten Memmingen, Allgäu & Schwaben“.
 - [ ] Datenschutz ergänzen, falls neue Dienste (Zahlungsanbieter, Mietsoftware) dazukommen.
 
+## F. Verträge digital unterschreiben (Merkposten 13.11.2026)
+- [ ] Adobe Sign / DocuSign: Anbindung an Angebote prüfen (Kosten, Datenschutz/AVV, Ablauf: Angebot + Vertragsbedingungen versenden → Kunde unterschreibt online → PDF zurück in die Plattenkiste).
+- Hintergrund: Die allgemeinen Vertragsbedingungen (DJ_KOLJA_ONE_Vertragsbedingungen.docx, Stand 13.11.2026) haben bewusst keine Unterschriftszeilen mehr; unterschrieben werden soll künftig digital. Vertragstext vor dem Einsatz anwaltlich prüfen lassen.
+
 ## E. Saison
 - [ ] Ab 07.01.2027: Abschnitt „Weihnachten & Silvester“ (`saison` in `mieten()`, site/pages.py) wieder herausnehmen und Seite neu einspielen.
 
