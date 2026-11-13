@@ -150,6 +150,11 @@ function kjo_ang_clean( $d ) {
 		'kaution' => isset( $d['kaution'] ) ? $num( $d['kaution'] ) : '',
 		'q'      => array(),
 		'vertrag' => ! isset( $d['vertrag'] ) || ( ! empty( $d['vertrag'] ) && 'false' !== $d['vertrag'] ), // Mietvertrag (Miete) bzw. Vertragsbedingungen (DJ) anhängen
+		// Seit 1.75.0 (Angebote aus Telegram/n8n): eigene Anrede, Sie-Form, Umsatzsteuer. Leer = Verhalten wie bisher.
+		'gruss'  => $t( 'gruss' ),
+		'sie'    => ! empty( $d['sie'] ) && 'false' !== $d['sie'],
+		'ust'    => isset( $d['ust'] ) && in_array( $d['ust'], array( 'brutto', 'netto' ), true ) ? $d['ust'] : '',
+		'ust_brutto' => isset( $d['ust_brutto'] ) ? $num( $d['ust_brutto'] ) : '',
 		'pos'    => array(),
 	);
 	foreach ( isset( $d['pos'] ) && is_array( $d['pos'] ) ? array_slice( $d['pos'], 0, 60 ) : array() as $p ) {
@@ -187,7 +192,11 @@ function kjo_ang_summe( $a ) {
 			$s += $p['q'] * $p['p'];
 		}
 	}
-	return round( max( 0, $s - (float) $a['rabatt'] ), 2 );
+	$s = round( max( 0, $s - (float) $a['rabatt'] ), 2 );
+	if ( 'netto' === $a['ust'] ) { // Gesamtbetrag inkl. MwSt. (seit 1.75.0)
+		$s = '' !== $a['ust_brutto'] ? (float) $a['ust_brutto'] : round( $s * 1.19, 2 );
+	}
+	return $s;
 }
 
 /* ---------- Katalog (Pakete und Geräte aus dem Verleih) ---------- */
@@ -627,6 +636,50 @@ add_action(
 	}
 );
 
+/** PDF (Base64 oder Data-URI) im geschützten Ordner ablegen, altes PDF ersetzen. Gibt den Kunden-Link zurück (seit 1.75.0 auch für Telegram/n8n). */
+function kjo_ang_pdf_ablegen( $id, $pdf ) {
+	$bin = base64_decode( preg_replace( '#^data:application/pdf;[^,]*base64,#', '', (string) $pdf ), true );
+	if ( ! $bin || 0 !== strpos( $bin, '%PDF' ) || strlen( $bin ) > 15 * MB_IN_BYTES ) {
+		return new WP_Error( 'kjo_pdf', 'Das PDF ist ungültig.', 400 );
+	}
+	$dir = kjo_ang_dir();
+	$alt = (string) get_post_meta( $id, '_kjo_ang_pdf', true );
+	$neu = 'angebot-' . $id . '-' . bin2hex( random_bytes( 8 ) ) . '.pdf';
+	if ( false === file_put_contents( $dir . $neu, $bin ) ) { // phpcs:ignore
+		return new WP_Error( 'kjo_pdf', 'Das PDF konnte nicht gespeichert werden (Schreibrechte im Upload-Ordner?).', 500 );
+	}
+	if ( $alt && $alt !== $neu ) {
+		@unlink( $dir . basename( $alt ) ); // phpcs:ignore
+	}
+	update_post_meta( $id, '_kjo_ang_pdf', $neu );
+	update_post_meta( $id, '_kjo_ang_pdf_hash', md5( wp_json_encode( kjo_ang_get( $id ) ) ) );
+	if ( ! get_post_meta( $id, '_kjo_ang_token', true ) ) {
+		update_post_meta( $id, '_kjo_ang_token', bin2hex( random_bytes( 16 ) ) );
+	}
+	kjo_ang_log( $id, 'PDF erzeugt (' . kjo_vl_eur( (float) get_post_meta( $id, '_kjo_ang_summe', true ) ) . ')' );
+	return kjo_ang_link( $id );
+}
+/** Einstellungen, die das PDF braucht – gleich für Editor und PDF-Dienst (seit 1.75.0). */
+function kjo_ang_pdf_cfg() {
+	$o = kjo_ang_opts();
+	return array(
+		'logo'     => plugins_url( 'assets/pdf/logo-hell.png', __FILE__ ), // 1328 px, transparent: scharf auf dem dunklen Kopf (seit 1.72.3)
+		'vertrag'  => array( 'text' => $o['vertrag_miete'], 'storno' => $o['storno_miete'], 'dj' => $o['vertrag_dj'] ),
+		'bank'     => array_filter( array( 'Kontoinhaber' => $o['inhaber'], 'Bank' => $o['bank'], 'IBAN' => $o['iban'], 'BIC' => $o['bic'] ) ),
+		'absender' => array(
+			'marke'   => 'DJ KOLJA ONE',
+			'name'    => 'Kolja Tönges',
+			'firma'   => 'Artificial Sentiments (Einzelunternehmen), Inhaber Kolja Tönges',
+			'strasse' => 'Pfarrer-Ritter-Weg 9',
+			'ort'     => '87748 Fellheim',
+			'tel'     => '+49 172 7273707',
+			'mail'    => 'anfrage@dj-kolja-one.de',
+			'web'     => 'dj-kolja-one.de',
+			'ustid'   => defined( 'KJO_USTID' ) ? 'USt-IdNr. ' . KJO_USTID : '',
+		),
+	);
+}
+
 /* ---------- AJAX: PDF speichern, E-Mail, WhatsApp ---------- */
 function kjo_ang_ajax_check() {
 	$id = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0; // phpcs:ignore
@@ -653,26 +706,11 @@ add_action(
 	function () {
 		$id  = kjo_ang_ajax_check();
 		$pdf = isset( $_POST['pdf'] ) ? (string) wp_unslash( $_POST['pdf'] ) : ''; // phpcs:ignore
-		$bin = base64_decode( preg_replace( '#^data:application/pdf;[^,]*base64,#', '', $pdf ), true );
-		if ( ! $bin || 0 !== strpos( $bin, '%PDF' ) || strlen( $bin ) > 15 * MB_IN_BYTES ) {
-			wp_send_json_error( array( 'message' => 'Das PDF ist ungültig.' ), 400 );
+		$r   = kjo_ang_pdf_ablegen( $id, $pdf );
+		if ( is_wp_error( $r ) ) {
+			wp_send_json_error( array( 'message' => $r->get_error_message() ), (int) $r->get_error_data() );
 		}
-		$dir = kjo_ang_dir();
-		$alt = (string) get_post_meta( $id, '_kjo_ang_pdf', true );
-		$neu = 'angebot-' . $id . '-' . bin2hex( random_bytes( 8 ) ) . '.pdf';
-		if ( false === file_put_contents( $dir . $neu, $bin ) ) { // phpcs:ignore
-			wp_send_json_error( array( 'message' => 'Das PDF konnte nicht gespeichert werden (Schreibrechte im Upload-Ordner?).' ), 500 );
-		}
-		if ( $alt && $alt !== $neu ) {
-			@unlink( $dir . basename( $alt ) ); // phpcs:ignore
-		}
-		update_post_meta( $id, '_kjo_ang_pdf', $neu );
-		update_post_meta( $id, '_kjo_ang_pdf_hash', md5( wp_json_encode( kjo_ang_get( $id ) ) ) );
-		if ( ! get_post_meta( $id, '_kjo_ang_token', true ) ) {
-			update_post_meta( $id, '_kjo_ang_token', bin2hex( random_bytes( 16 ) ) );
-		}
-		kjo_ang_log( $id, 'PDF erzeugt (' . kjo_vl_eur( (float) get_post_meta( $id, '_kjo_ang_summe', true ) ) . ')' );
-		wp_send_json_success( array( 'link' => kjo_ang_link( $id ) ) );
+		wp_send_json_success( array( 'link' => $r ) );
 	}
 );
 add_action(
@@ -732,46 +770,36 @@ add_action(
 		wp_enqueue_script( 'kjo-jspdf', plugins_url( 'assets/pdf/jspdf.umd.min.js', __FILE__ ), array(), '2.5.2', true );
 		wp_enqueue_script( 'kjo-fira400', plugins_url( 'assets/pdf/fira400.js', __FILE__ ), array(), $v, true );
 		wp_enqueue_script( 'kjo-fira600', plugins_url( 'assets/pdf/fira600.js', __FILE__ ), array(), $v, true );
-		wp_enqueue_script( 'kjo-angebot', plugins_url( 'assets/pdf/angebot.js', __FILE__ ), array( 'kjo-jspdf', 'kjo-fira400', 'kjo-fira600' ), $v, true );
+		wp_enqueue_script( 'kjo-angebot-pdf', plugins_url( 'assets/pdf/angebot-pdf.js', __FILE__ ), array( 'kjo-jspdf', 'kjo-fira400', 'kjo-fira600' ), $v, true );
+		wp_enqueue_script( 'kjo-angebot', plugins_url( 'assets/pdf/angebot.js', __FILE__ ), array( 'kjo-angebot-pdf' ), $v, true );
 		wp_enqueue_style( 'kjo-angebot', plugins_url( 'assets/pdf/angebot.css', __FILE__ ), array(), $v );
 		$o  = kjo_ang_opts();
 		$id = isset( $_GET['post'] ) ? absint( $_GET['post'] ) : 0; // phpcs:ignore
 		wp_localize_script(
 			'kjo-angebot',
 			'KJO_ANG',
-			array(
-				'id'       => $id,
-				'ajax'     => admin_url( 'admin-ajax.php' ),
-				'nonce'    => wp_create_nonce( 'kjo_ang_ajax' ),
-				'logo'     => plugins_url( 'assets/pdf/logo-hell.png', __FILE__ ), // 1328 px, transparent: scharf auf dem dunklen Kopf (seit 1.72.3)
-				'katalog'  => kjo_ang_katalog(),
-				'typen'    => KJO_ANG_TYPEN,
-				'vorlage'  => kjo_ang_vorlage( $o['vorlage_dj'] ),
-				'texte'    => array(
-					'intro_dj'    => $o['intro_dj'],
-					'intro_miete' => $o['intro_miete'],
-					'bed_dj'      => $o['bed_dj'],
-					'bed_miete'   => $o['bed_miete'],
-				),
-				'vertrag'  => array( 'text' => $o['vertrag_miete'], 'storno' => $o['storno_miete'], 'dj' => $o['vertrag_dj'] ),
-				'mail'     => array( 'sub' => $o['mail_betreff'], 'txt' => $o['mail_text'], 'wa' => $o['wa_text'] ),
-				'bank'     => array_filter( array( 'Kontoinhaber' => $o['inhaber'], 'Bank' => $o['bank'], 'IBAN' => $o['iban'], 'BIC' => $o['bic'] ) ),
-				'link'     => $id ? kjo_ang_link( $id ) : '',
-				'pdf'      => $id ? (bool) get_post_meta( $id, '_kjo_ang_pdf', true ) : false,
-				'aktuell'  => $id && get_post_meta( $id, '_kjo_ang_pdf', true ) && get_post_meta( $id, '_kjo_ang_pdf_hash', true ) === md5( wp_json_encode( kjo_ang_get( $id ) ) ),
-				'lieferung' => function_exists( 'kjo_vl_opt' ) ? kjo_vl_opt( 'lieferung' ) : '',
-				'aufbau'   => function_exists( 'kjo_vl_opt' ) ? kjo_vl_opt( 'aufbau' ) : '',
-				'absender' => array(
-					'marke'   => 'DJ KOLJA ONE',
-					'name'    => 'Kolja Tönges',
-					'firma'   => 'Artificial Sentiments (Einzelunternehmen), Inhaber Kolja Tönges',
-					'strasse' => 'Pfarrer-Ritter-Weg 9',
-					'ort'     => '87748 Fellheim',
-					'tel'     => '+49 172 7273707',
-					'mail'    => 'anfrage@dj-kolja-one.de',
-					'web'     => 'dj-kolja-one.de',
-					'ustid'   => defined( 'KJO_USTID' ) ? 'USt-IdNr. ' . KJO_USTID : '',
-				),
+			array_merge(
+				kjo_ang_pdf_cfg(), // logo, vertrag, bank, absender (gleich im PDF-Dienst)
+				array(
+					'id'        => $id,
+					'ajax'      => admin_url( 'admin-ajax.php' ),
+					'nonce'     => wp_create_nonce( 'kjo_ang_ajax' ),
+					'katalog'   => kjo_ang_katalog(),
+					'typen'     => KJO_ANG_TYPEN,
+					'vorlage'   => kjo_ang_vorlage( $o['vorlage_dj'] ),
+					'texte'     => array(
+						'intro_dj'    => $o['intro_dj'],
+						'intro_miete' => $o['intro_miete'],
+						'bed_dj'      => $o['bed_dj'],
+						'bed_miete'   => $o['bed_miete'],
+					),
+					'mail'      => array( 'sub' => $o['mail_betreff'], 'txt' => $o['mail_text'], 'wa' => $o['wa_text'] ),
+					'link'      => $id ? kjo_ang_link( $id ) : '',
+					'pdf'       => $id ? (bool) get_post_meta( $id, '_kjo_ang_pdf', true ) : false,
+					'aktuell'   => $id && get_post_meta( $id, '_kjo_ang_pdf', true ) && get_post_meta( $id, '_kjo_ang_pdf_hash', true ) === md5( wp_json_encode( kjo_ang_get( $id ) ) ),
+					'lieferung' => function_exists( 'kjo_vl_opt' ) ? kjo_vl_opt( 'lieferung' ) : '',
+					'aufbau'    => function_exists( 'kjo_vl_opt' ) ? kjo_vl_opt( 'aufbau' ) : '',
+				)
 			)
 		);
 	}
