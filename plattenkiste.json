@@ -1,9 +1,9 @@
 {
- "version": "1.76.2",
- "download_url": "dj-kolja-one-plattenkiste-1.76.2.zip",
- "sha256": "6e9b56ef455fa9136eec6f94b0176192a056421341e1564f27c3385e2701e104",
+ "version": "1.77.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.77.0.zip",
+ "sha256": "1baa0ddc471894b42db68200ae9b33dfc4ec6e82de0575f050fdf65a4d8e44b5",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Angebots-PDF: Text nach Seitenumbruch wieder lesbar, Links anklickbar."
+ "changelog": "Rechnungen: komplett oder Anzahlung + Schlussrechnung, Versand per E-Mail/WhatsApp, Status Rechnung gestellt/bezahlt."
 }
