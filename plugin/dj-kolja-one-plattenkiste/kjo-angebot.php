@@ -55,7 +55,7 @@ function kjo_ang_opts() {
  * werden entfernt – dann gilt der neue Standard aus kjo_ang_opts(). Selbst geänderte Texte bleiben unangetastet.
  */
 add_action(
-	'admin_init',
+	'init',
 	function () {
 		if ( '1' === get_option( 'kjo_sie_form_angebot' ) ) {
 			return;

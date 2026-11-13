@@ -462,7 +462,7 @@ function kjo_vl_seed_data() {
 		array( 'bose-subwoofer', 'Bose Subwoofer', 'subwoofer', 1, 'Bassergänzung für das Bose-System – mehr Druck auf der Tanzfläche.', array( 'gaeste' => 'bis ca. 100 Gäste (mit 2 × Bose S1 Pro)' ) ),
 		array( 'pronomic-c-215-ma', KJO_VL_DATEN['pronomic-c-215-ma'][1], 'lautsprecher', 2, KJO_VL_DATEN['pronomic-c-215-ma'][3], KJO_VL_DATEN['pronomic-c-215-ma'][4] ),
 		array( 'pronomic-c-118sa', 'Pronomic C-118SA 18"-Aktiv-Subwoofer', 'subwoofer', 2, '18"-Aktiv-Subwoofer für druckvollen Bass, den man spürt.', array( 'leistung' => '800 W RMS, 30–200 Hz, max. 126 dB', 'anschluesse' => '2 × Combo-Eingang, 2 × XLR-Ausgang, M20-Flansch für Distanzstange' ) ),
-		array( 'pioneer-ddj-flx10', 'Pioneer DJ DDJ-FLX10', 'dj', 1, 'Vierkanaliger DJ-Controller für rekordbox und Serato – den Laptop bringt ihr mit.', array( 'breite' => '716', 'laenge' => '400.3', 'hoehe' => '73.4', 'gewicht' => '6,7 kg', 'volumen' => '21,04 l', 'anschluesse' => 'USB zum Laptop (rekordbox oder Serato)', 'lieferumfang' => "Netzteil\nUSB-Kabel\nAudiokabel", 'anleitung' => 'https://support.alphatheta.com/de/articles/16716272919193' ) ),
+		array( 'pioneer-ddj-flx10', 'Pioneer DJ DDJ-FLX10', 'dj', 1, 'Vierkanaliger DJ-Controller für rekordbox und Serato – den Laptop bringen Sie mit.', array( 'breite' => '716', 'laenge' => '400.3', 'hoehe' => '73.4', 'gewicht' => '6,7 kg', 'volumen' => '21,04 l', 'anschluesse' => 'USB zum Laptop (rekordbox oder Serato)', 'lieferumfang' => "Netzteil\nUSB-Kabel\nAudiokabel", 'anleitung' => 'https://support.alphatheta.com/de/articles/16716272919193' ) ),
 		array( 'dj-pult', 'Roadworx DJ Table (schwarz, mit Zwischenboden)', 'buehne', 1, 'Schwarzes, faltbares DJ-Pult mit Zwischenboden und Stoffverkleidung – eine saubere Bühne für Controller und Laptop.', array( 'lieferumfang' => "Zwischenboden\nStoffverkleidung (schwarz, 4 Teile)\nTragetasche" ) ),
 		array( 'shure-beta-58a', KJO_VL_DATEN['shure-beta-58a'][1], 'mikrofone', 1, KJO_VL_DATEN['shure-beta-58a'][3], KJO_VL_DATEN['shure-beta-58a'][4] ),
 		array( 'funkmikrofon-set', 'Funkmikrofon-Set', 'mikrofone', 1, 'Für Reden, Spiele und Ansagen – ohne Kabelsalat.', array() ),
@@ -474,12 +474,12 @@ function kjo_vl_seed_data() {
 		array( 'wash-scheinwerfer', KJO_VL_DATEN['wash-scheinwerfer'][1], 'licht', 1, KJO_VL_DATEN['wash-scheinwerfer'][3], KJO_VL_DATEN['wash-scheinwerfer'][4] ),
 		array( 'spiegelkugel', KJO_VL_DATEN['spiegelkugel'][1], 'effekte', 1, KJO_VL_DATEN['spiegelkugel'][3], KJO_VL_DATEN['spiegelkugel'][4] ),
 		array( 'nebelmaschine', 'Showlite SN-1200 Nebelmaschine (1.200 W)', 'effekte', 1, 'Macht Lichtstrahlen sichtbar. Bitte vorher mit der Location wegen der Rauchmelder abstimmen.', array() ),
-		array( 'led-laufschrift', 'Eurolite ESN LED-Laufschrift (65 cm)', 'effekte', 1, 'Eure Namen, „Happy Birthday“ oder euer Hashtag in Leuchtschrift.', array() ),
+		array( 'led-laufschrift', 'Eurolite ESN LED-Laufschrift (65 cm)', 'effekte', 1, 'Ihre Namen, „Happy Birthday“ oder Ihr Hashtag in Leuchtschrift.', array() ),
 		array( 'traverse-3m', 'Stageworx LB-3 Traversen-Set 3 m', 'buehne', 1, 'Lichttraverse mit zwei Ständern – die Bühne für Scheinwerfer und Laufschrift.', array( 'lieferumfang' => "2 Lichtstative\n2 Traversenaufnehmer\n2 Traversenstücke (je 1,5 m, 3-Punkt)\n8 Haken (Hookclamps, je bis 15 kg) mit Sicherungsseilen\n2 Transporttaschen (Traverse, Stative)" ) ),
 	);
 	$p = array(
 		array( 'paket-s', 'Paket S – „Sound & Party“', 'Für bis zu ca. 50 Gäste', 'bspw. Geburtstag, Gartenparty, Sektempfang, etc.', "2× Bose S1 Pro Aktivlautsprecher (mit Bluetooth) auf Stativen\nPartylicht: Eurolite KLS Laser Bar mit Laser, Derbys, Spots und Strobe, auf eigenem Lichtstativ\nShure Beta 58A Mikrofon mit Kabel\nAudiokabel für Handy oder Laptop", 'Zubehör: DJ-Pult 20 €, Pioneer DDJ-FLX10 60 € pro Tag. Transport: passt in einen Kombi (Lightbar und Stative ca. 1,5 m).' ),
-		array( 'paket-m', 'Paket M – „Party“', 'Für bis zu ca. 100 Gäste', 'bspw. runder Geburtstag, Vereinsfeier, Firmenfeier, etc.', "Alles aus Paket S, dazu der Bose Sub1 Subwoofer\nFunkmikrofon-Set mit 4 Handmikros statt Kabelmikro\n3-m-Lichttraverse mit 4 LED-PARs und Cameo Thunder Wash (Wash, Blinder, Strobe)\nLED-Laufschrift, z. B. mit euren Namen\nNebelmaschine\nDJ-Pult (Roadworx DJ Table, schwarz)", 'Zubehör: Pioneer DDJ-FLX10 60 € pro Tag. Transport: Van oder Transporter (Traversentasche 1,54 m) – oder ich liefere und baue auf.' ),
+		array( 'paket-m', 'Paket M – „Party“', 'Für bis zu ca. 100 Gäste', 'bspw. runder Geburtstag, Vereinsfeier, Firmenfeier, etc.', "Alles aus Paket S, dazu der Bose Sub1 Subwoofer\nFunkmikrofon-Set mit 4 Handmikros statt Kabelmikro\n3-m-Lichttraverse mit 4 LED-PARs und Cameo Thunder Wash (Wash, Blinder, Strobe)\nLED-Laufschrift, z. B. mit Ihren Namen\nNebelmaschine\nDJ-Pult (Roadworx DJ Table, schwarz)", 'Zubehör: Pioneer DDJ-FLX10 60 € pro Tag. Transport: Van oder Transporter (Traversentasche 1,54 m) – oder ich liefere und baue auf.' ),
 		array( 'paket-l', 'Paket L – „Komplett-Show“', 'Für bis zu ca. 250 Gäste', 'bspw. Hochzeit, Abiball, Sommerfest, etc. Die komplette Bühne aus meinem Beispiel-Lichtplan.', "Pronomic PA: 2× C-215 MA (15\") auf 2× C-118SA (18\"-Subwoofer), mit Distanzstangen und Kabelsatz\n3-m-Lichttraverse mit 2 Moving Heads, 4 LED-PARs, Thunder Wash und LED-Laufschrift\n6 kabellose Akku-Scheinwerfer (IP65), auch für draußen\nKLS Laser Bar, UV-Schwarzlicht, Spiegelkugel, Nebelmaschine\nFunkmikrofon-Set (4 Handmikros), DJ-Pult", 'Empfehlung: Lieferung, Aufbau und Abbau durch mich – wegen der Moving Heads und der 40-kg-Subwoofer. Kaution bei Selbstabholung 1.000 €, mit Lieferung, Auf- und Abbau und Abholung durch mich 300 €. Zubehör: Pioneer DDJ-FLX10 60 € pro Tag, Bose-Set für Sektempfang oder Nebenraum 99 € pro Tag.' ),
 		array( 'paket-bose-zusatz', 'Zusatz zu Paket L: Bose-Set für Sektempfang & Nebenraum', 'Zweites Soundsystem', 'bspw. Sektempfang, Außenbereich, Nebenraum, Dinner', "2× Bose S1 Pro Aktivlautsprecher (mit Bluetooth) auf Stativen\nBose Sub1 Subwoofer\nAudiokabel für Handy oder Laptop", 'Nur zusammen mit Paket L buchbar.' ),
 	);
@@ -792,7 +792,7 @@ const KJO_VL_DATEN = array(
 		'',
 		'',
 		array(
-			'beschr'       => "LED-Laufschrift mit 560 SMD-LEDs (Rot/Grün, bis 16 Farbtöne), Anzeigefläche 60 × 5,5 cm: eine Zeile mit 13 sichtbaren Zeichen, die durchlaufen – für eure Namen, „Happy Birthday“, den Firmennamen oder euren Hashtag. Auch kleine Bilder wie Herzen (7 × 80 Pixel), 7 Schriftarten.\nProgrammierung per IR-Fernbedienung oder PC-Software (USB oder Netzwerk). Lautlos, ohne Lüfter.",
+			'beschr'       => "LED-Laufschrift mit 560 SMD-LEDs (Rot/Grün, bis 16 Farbtöne), Anzeigefläche 60 × 5,5 cm: eine Zeile mit 13 sichtbaren Zeichen, die durchlaufen – für Ihre Namen, „Happy Birthday“, den Firmennamen oder Ihren Hashtag. Auch kleine Bilder wie Herzen (7 × 80 Pixel), 7 Schriftarten.\nProgrammierung per IR-Fernbedienung oder PC-Software (USB oder Netzwerk). Lautlos, ohne Lüfter.",
 			'breite'       => '647',
 			'laenge'       => '97',
 			'hoehe'        => '35',
@@ -1092,6 +1092,39 @@ add_action(
 		}
 	},
 	31
+);
+/* Sie-Form (einmalig): gespeicherte Startbestand-Texte auf die neue Anrede bringen – nur bei exakt unveränderter Altfassung. */
+add_action(
+	'admin_init',
+	function () {
+		if ( ! current_user_can( 'edit_pages' ) || '1' === get_option( 'kjo_sie_form_verleih' ) ) {
+			return;
+		}
+		update_option( 'kjo_sie_form_verleih', '1', false );
+		$neu = array();
+		list( $sg, $sp ) = kjo_vl_seed_data();
+		foreach ( $sg as $r ) {
+			if ( in_array( $r[0], array( 'pioneer-ddj-flx10', 'led-laufschrift' ), true ) ) {
+				$neu[] = array( 'kjo_geraet', $r[0], 'kurz', $r[4] );
+			}
+		}
+		foreach ( $sp as $r ) {
+			if ( 'paket-m' === $r[0] ) {
+				$neu[] = array( 'kjo_paket', $r[0], 'inhalt', $r[4] );
+			}
+		}
+		$neu[] = array( 'kjo_geraet', 'led-laufschrift', 'beschr', KJO_VL_DATEN['led-laufschrift'][4]['beschr'] );
+		$von   = array( 'den Laptop bringen Sie mit', 'Ihre Namen, „Happy Birthday“ oder Ihr Hashtag', 'mit Ihren Namen', 'für Ihre Namen', 'oder Ihren Hashtag' );
+		$zu    = array( 'den Laptop bringt ihr mit', 'Eure Namen, „Happy Birthday“ oder euer Hashtag', 'mit euren Namen', 'für eure Namen', 'oder euren Hashtag' );
+		foreach ( $neu as $n ) {
+			$p   = get_page_by_path( $n[1], OBJECT, $n[0] );
+			$alt = str_replace( $von, $zu, $n[3] );
+			if ( $p && $alt !== $n[3] && $alt === kjo_vl_get( $p->ID, $n[2] ) ) {
+				update_post_meta( $p->ID, '_kjo_' . $n[2], $n[3] );
+			}
+		}
+	},
+	32
 );
 
 /* ---------------------------------------------------------------
@@ -1413,7 +1446,7 @@ add_action(
 function kjo_vl_options_page() {
 	$f = array(
 		'mail'            => array( 'E-Mail für Mietanfragen und Link-Meldungen', 'Leer = ' . KJO_VL_MAIL ),
-		'wochenende'      => array( 'Wochenendtarif (Freitag bis Montag)', 'z. B. 1,5-facher Tagespreis – leer = „Fragt nach unserem Wochenendtarif.“' ),
+		'wochenende'      => array( 'Wochenendtarif (Freitag bis Montag)', 'z. B. 1,5-facher Tagespreis – leer = „Fragen Sie nach unserem Wochenendtarif.“' ),
 		'sorglos_prozent' => array( 'Sorglos-Option: Aufpreis in %', 'z. B. 10 – nur wenn beide Felder ausgefüllt sind, stehen Zahlen auf der Seite' ),
 		'sorglos_max'     => array( 'Sorglos-Option: Selbstbeteiligung höchstens (€)', 'z. B. 250' ),
 		'lieferung'       => array( 'Lieferung und Abholung (Text)', 'z. B. Zonen ab Fellheim – leer = „gegen Gebühr laut Angebot“' ),
@@ -1632,7 +1665,7 @@ add_shortcode(
 				continue;
 			}
 			$we = kjo_vl_we( $p->ID );
-			$h .= '<p class="kjo-vl-preis">' . ( null === $pr ? 'Preis auf Anfrage: ihr bekommt ihn mit dem Angebot' : '<strong>' . esc_html( kjo_vl_eur( $pr ) ) . '</strong> pro Tag · <strong>' . esc_html( kjo_vl_eur( $we ) ) . '</strong> am Wochenende (Fr 15 – Mo 21 Uhr)' );
+			$h .= '<p class="kjo-vl-preis">' . ( null === $pr ? 'Preis auf Anfrage: Sie bekommen ihn mit dem Angebot' : '<strong>' . esc_html( kjo_vl_eur( $pr ) ) . '</strong> pro Tag · <strong>' . esc_html( kjo_vl_eur( $we ) ) . '</strong> am Wochenende (Fr 15 – Mo 21 Uhr)' );
 			$h .= ' · ' . ( null === $ka ? 'Kaution laut Angebot' : 'Kaution ' . esc_html( kjo_vl_eur( $ka ) ) ) . '</p>';
 			$h .= '<p class="kjo-vl-hinweis">' . esc_html( kjo_vl_get( $p->ID, 'hinweis' ) ) . '</p>';
 			$h .= '<button type="button" class="kjo-vl-add kjo-vl-btn" data-k="p' . (int) $p->ID . '" data-t="In den Mietkorb">In den Mietkorb</button></article>';
@@ -1641,7 +1674,7 @@ add_shortcode(
 			return $h . '</div>' . kjo_vl_assets();
 		}
 		$w  = kjo_vl_opt( 'wochenende' );
-		$h .= '</div><p class="kjo-vl-wochenende">' . ( $w ? 'Wochenendmiete: ' . esc_html( $w ) : 'Ihr feiert das ganze Wochenende? Fragt nach unserem Wochenendtarif.' ) . '</p>';
+		$h .= '</div><p class="kjo-vl-wochenende">' . ( $w ? 'Wochenendmiete: ' . esc_html( $w ) : 'Sie feiern das ganze Wochenende? Fragen Sie nach unserem Wochenendtarif.' ) . '</p>';
 		return $h . kjo_vl_cart_html() . kjo_vl_assets(); // Mietkorb auch auf Seiten ohne Geräteliste (z. B. Equipment)
 	}
 );
@@ -1731,7 +1764,7 @@ add_shortcode(
 			}
 			$h .= '</div></li>';
 		}
-		$h .= '</ul><p class="kjo-vl-none" hidden>Kein Gerät gefunden. Fragt einfach nach – vieles ist auf Anfrage möglich.</p></div>';
+		$h .= '</ul><p class="kjo-vl-none" hidden>Kein Gerät gefunden. Fragen Sie einfach nach – vieles ist auf Anfrage möglich.</p></div>';
 		return $h . kjo_vl_cart_html() . kjo_vl_assets();
 	}
 );
@@ -1750,16 +1783,16 @@ add_shortcode(
 		$sp = kjo_vl_num( kjo_vl_opt( 'sorglos_prozent' ) );
 		$sm = kjo_vl_num( kjo_vl_opt( 'sorglos_max' ) );
 		$l  = array(
-			array( 'Kaution', ( $any ? 'Die Höhe steht bei jedem Paket und Gerät.' : 'Die Höhe steht im Angebot.' ) . ' Bar bei der Abholung oder vorab per Überweisung. Ihr bekommt sie nach Prüfung der Rückgabe innerhalb von 3 Werktagen zurück.' ),
+			array( 'Kaution', ( $any ? 'Die Höhe steht bei jedem Paket und Gerät.' : 'Die Höhe steht im Angebot.' ) . ' Bar bei der Abholung oder vorab per Überweisung. Sie erhalten sie nach Prüfung der Rückgabe innerhalb von 3 Werktagen zurück.' ),
 			array( 'Wochenende', kjo_vl_opt( 'wochenende' ) ? kjo_vl_opt( 'wochenende' ) : 'Freitag bis Montag zum Wochenendpreis.' ),
 			array( 'Lieferung', kjo_vl_opt( 'lieferung' ) ? kjo_vl_opt( 'lieferung' ) : 'Nach Verfügbarkeit gegen Gebühr, der Preis steht im Angebot.' ),
 			array( 'Aufbau', kjo_vl_opt( 'aufbau' ) ? kjo_vl_opt( 'aufbau' ) : 'Nach Verfügbarkeit gegen Gebühr, der Preis steht im Angebot.' ),
 			array( 'Mitbringen', 'Personalausweis. Mieten ab 18 Jahren.' ),
-			array( 'Passt das in mein Auto?', 'Paket S passt in einen Kombi (Lightbar und Stative sind ca. 1,5 m lang). Für M und L braucht ihr einen sehr großen Kombi, Van, Anhänger oder Transporter. Nach Verfügbarkeit und gegen Gebühr liefere ich das Equipment zu eurer Location.' ),
+			array( 'Passt das in mein Auto?', 'Paket S passt in einen Kombi (Lightbar und Stative sind ca. 1,5 m lang). Für M und L brauchen Sie einen sehr großen Kombi, Van, Anhänger oder Transporter. Nach Verfügbarkeit und gegen Gebühr liefere ich das Equipment zu Ihrer Location.' ),
 			array( 'Akku-Scheinwerfer', 'Ich übergebe sie vollgeladen im Lade-Case – zum Nachladen einfach das Case einstecken.' ),
 			array( 'Nebel', 'Bitte vorher mit der Location klären, wegen der Rauchmelder.' ),
-			array( 'Strom', 'Normale 230-V-Steckdosen. Verteiler und Verlängerungen bekommt ihr mit.' ),
-			array( 'Sorglos-Option', ( null !== $sp && null !== $sm ) ? 'Für ' . str_replace( '.', ',', (string) $sp ) . ' % Aufpreis haftet ihr bei Schäden höchstens mit ' . kjo_vl_eur( $sm ) . ', außer bei Vorsatz oder grober Fahrlässigkeit.' : 'Auf Wunsch könnt ihr euer Haftungsrisiko gegen Aufpreis begrenzen. Die Details stehen im Angebot.' ),
+			array( 'Strom', 'Normale 230-V-Steckdosen. Verteiler und Verlängerungen bekommen Sie mit.' ),
+			array( 'Sorglos-Option', ( null !== $sp && null !== $sm ) ? 'Für ' . str_replace( '.', ',', (string) $sp ) . ' % Aufpreis haften Sie bei Schäden höchstens mit ' . kjo_vl_eur( $sm ) . ', außer bei Vorsatz oder grober Fahrlässigkeit.' : 'Auf Wunsch können Sie Ihr Haftungsrisiko gegen Aufpreis begrenzen. Die Details stehen im Angebot.' ),
 		);
 		$h = '<ul class="kjo-vl-tips">';
 		foreach ( $l as $r ) {
@@ -1794,7 +1827,7 @@ function kjo_vl_cart_html() {
 <div class="kjo-vl-bar" hidden><button type="button" class="kjo-vl-bar-btn"><span class="kjo-vl-bar-txt"></span><span class="kjo-vl-bar-go">Anfrage senden →</span></button></div>
 <div class="kjo-vl-modal" hidden role="dialog" aria-modal="true" aria-labelledby="kjo-vl-mt"><div class="kjo-vl-panel">
 <button type="button" class="kjo-vl-x" aria-label="Mietkorb schließen">×</button>
-<h2 id="kjo-vl-mt">Euer Mietkorb</h2>
+<h2 id="kjo-vl-mt">Ihr Mietkorb</h2>
 <ul class="kjo-vl-cart"></ul>
 <p class="kjo-vl-sum"></p>
 <form class="kjo-vl-form" novalidate>
@@ -1820,11 +1853,11 @@ function kjo_vl_cart_html() {
 </div>
 <label>Nachricht<textarea name="nachricht" rows="3" placeholder="Fragen, Wünsche, Location …"></textarea></label>
 <label class="kjo-vl-hp" aria-hidden="true">Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
-<p class="kjo-vl-small">Eure Angaben nutze ich nur für eure Anfrage, siehe <a href="/datenschutz/">Datenschutzerklärung</a>. Verbindlich wird die Miete erst mit Angebot und Mietvertrag.</p>
+<p class="kjo-vl-small">Ihre Angaben nutze ich nur für Ihre Anfrage, siehe <a href="/datenschutz/">Datenschutzerklärung</a>. Verbindlich wird die Miete erst mit Angebot und Mietvertrag.</p>
 <p class="kjo-vl-err" role="alert" hidden></p>
 <button type="submit" class="kjo-vl-btn kjo-vl-send">Mietanfrage senden</button>
 </form>
-<div class="kjo-vl-ok" hidden><h3>Danke für eure Anfrage!</h3><p>Ich prüfe die Verfügbarkeit und melde mich innerhalb von 24 Stunden mit Angebot und Mietbedingungen bei euch. Eine Bestätigung ist per E-Mail unterwegs.</p><button type="button" class="kjo-vl-btn kjo-vl-x2">Schließen</button></div>
+<div class="kjo-vl-ok" hidden><h3>Danke für Ihre Anfrage!</h3><p>Ich prüfe die Verfügbarkeit und melde mich innerhalb von 24 Stunden mit Angebot und Mietbedingungen bei Ihnen. Eine Bestätigung ist per E-Mail unterwegs.</p><button type="button" class="kjo-vl-btn kjo-vl-x2">Schließen</button></div>
 </div></div>
 	<?php
 	$GLOBALS['kjo_vl_data'] = array( 'api' => $api, 'cat' => (object) $cat, 'ts' => time() );
@@ -1995,7 +2028,7 @@ function render(){
   bar.hidden=!n;document.body.classList.toggle("kjo-vl-has-bar",!!n);
   q$(".kjo-vl-bar-txt").textContent="🛒 "+n+(n===1?" Artikel":" Artikel")+(s.p!=null?" · ca. "+eur(s.p)+(s.t?"":" pro Tag"):"")+(s.k!=null?" · Kaution "+eur(s.k):"");
   var ul=q$(".kjo-vl-cart");ul.innerHTML="";
-  if(!n){var li=document.createElement("li");li.className="kjo-vl-empty";li.textContent="Euer Mietkorb ist leer.";ul.appendChild(li);}
+  if(!n){var li=document.createElement("li");li.className="kjo-vl-empty";li.textContent="Ihr Mietkorb ist leer.";ul.appendChild(li);}
   cart.forEach(function(e){var c=C[e.k],li=document.createElement("li");
     li.innerHTML='<span class="n"></span><span class="qty"><button type="button" data-d="-1" aria-label="weniger">−</button><span class="q"></span><button type="button" data-d="1" aria-label="mehr">+</button></span><span class="p"></span><button type="button" data-d="x" aria-label="entfernen">×</button>';
     var ck=check(e.k);li.querySelector('[data-d="1"]').hidden=!ck.ok;li.querySelector(".n").textContent=c.n;var st=stTxt(e.k);if(st){var sp=document.createElement("span");sp.className="st "+st[0];sp.textContent=st[1];li.querySelector(".n").appendChild(sp);}li.querySelector(".q").textContent=e.q;li.querySelector(".p").textContent=c.p==null?"auf Anfrage":eur(iPrice(c,s.t)*e.q);
@@ -2003,7 +2036,7 @@ function render(){
     ul.appendChild(li);});
   var sum=q$(".kjo-vl-sum");
   var bad=cart.some(function(e){return AV[e.k]==="belegt"||AV[e.k]==="vor";});
-  sum.innerHTML=!n?"":(bad?"<strong>Nicht alles ist in diesem Zeitraum frei.</strong> Fragt trotzdem an, oft finde ich eine Alternative.<br>":"")+(s.p!=null?(s.t?"Summe für "+tTxt(s.t)+": <strong>ca. "+eur(s.p)+"</strong>":"Summe: <strong>ca. "+eur(s.p)+" pro Tag</strong>")+(s.k!=null?" · Kaution "+eur(s.k):"")+"<br>"+(s.t&&s.t.we?"Sobald Samstag oder Sonntag dabei ist, gilt der Wochenendpreis (Fr 15 – Mo 21 Uhr). ":"")+"Unverbindliche Schätzung ohne Lieferung und Aufbau, der endgültige Preis kommt mit dem Angebot.":"Den Gesamtpreis bekommt ihr mit dem Angebot, kostenlos und unverbindlich.");
+  sum.innerHTML=!n?"":(bad?"<strong>Nicht alles ist in diesem Zeitraum frei.</strong> Fragen Sie trotzdem an, oft finde ich eine Alternative.<br>":"")+(s.p!=null?(s.t?"Summe für "+tTxt(s.t)+": <strong>ca. "+eur(s.p)+"</strong>":"Summe: <strong>ca. "+eur(s.p)+" pro Tag</strong>")+(s.k!=null?" · Kaution "+eur(s.k):"")+"<br>"+(s.t&&s.t.we?"Sobald Samstag oder Sonntag dabei ist, gilt der Wochenendpreis (Fr 15 – Mo 21 Uhr). ":"")+"Unverbindliche Schätzung ohne Lieferung und Aufbau, der endgültige Preis kommt mit dem Angebot.":"Den Gesamtpreis bekommen Sie mit dem Angebot, kostenlos und unverbindlich.");
   all(".kjo-vl-add").forEach(function(b){var k=b.getAttribute("data-k"),r=check(k),pk=!!(C[k]&&C[k].g);b.classList.toggle("off",!r.ok&&!r.on&&!r.swap);b.setAttribute("aria-disabled",!r.ok&&!r.on&&!r.swap?"true":"false");b.title=r.ok?"":r.why;
     if(pk){b.classList.toggle("on",!!r.on);b.textContent=r.ok?(b.getAttribute("data-t")||"In den Mietkorb"):r.on?"✓ Im Mietkorb":r.swap?r.why:r.req?"Nur mit "+short(C[r.req].n):"Nicht zusätzlich buchbar";}});
 }
@@ -2056,21 +2089,21 @@ function init(){
   f.addEventListener("submit",function(ev){ev.preventDefault();var err=q$(".kjo-vl-err",f),b=q$(".kjo-vl-send",f);err.hidden=true;
     all(".kjo-vl-bad",f).forEach(function(e){e.classList.remove("kjo-vl-bad");});
     function fail(m,el){err.textContent=m;err.hidden=false;if(el){el.classList.add("kjo-vl-bad");try{el.scrollIntoView({block:"center",behavior:"smooth"});}catch(e){}setTimeout(function(){try{el.focus({preventScroll:true});}catch(e){el.focus();}},250);}}
-    if(!cart.length)return fail("Bitte legt zuerst ein Paket oder Gerät in den Mietkorb.");
+    if(!cart.length)return fail("Bitte legen Sie zuerst ein Paket oder Gerät in den Mietkorb.");
     var d={};["von","bis","uebergabe","ort","anlass","gaeste","name","email","telefon","nachricht","website"].forEach(function(n){var el=f.elements[n];d[n]=el?(el.value||"").trim():"";});
-    if(!d.von)return fail("Bitte wählt das Datum für Abholung bzw. Beginn – tippt dazu auf das Feld.",fv);
-    if(d.von<today)return fail("Der Beginn liegt in der Vergangenheit – bitte wählt ein Datum ab heute.",fv);
-    if(!d.bis)return fail("Bitte wählt das Datum für Rückgabe bzw. Ende – tippt dazu auf das Feld.",fb);
-    if(d.bis<d.von)return fail("Die Rückgabe liegt vor dem Beginn – bitte prüft die Daten.",fb);
-    if(d.uebergabe.indexOf("Lieferung")>-1&&!d.ort)return fail("Bitte gebt den Ort der Feier für die Lieferung an.",f.elements.ort);
-    if(!d.name)return fail("Bitte gebt euren Namen an.",f.elements.name);
-    if(!d.email)return fail("Bitte gebt eure E-Mail-Adresse an. Tipp: Schlägt der Browser eine Adresse vor, bitte antippen, damit sie übernommen wird.",f.elements.email);
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email))return fail("Bitte gebt eine gültige E-Mail-Adresse an, damit ich euch antworten kann.",f.elements.email);
+    if(!d.von)return fail("Bitte wählen Sie das Datum für Abholung bzw. Beginn – tippen Sie dazu auf das Feld.",fv);
+    if(d.von<today)return fail("Der Beginn liegt in der Vergangenheit – bitte wählen Sie ein Datum ab heute.",fv);
+    if(!d.bis)return fail("Bitte wählen Sie das Datum für Rückgabe bzw. Ende – tippen Sie dazu auf das Feld.",fb);
+    if(d.bis<d.von)return fail("Die Rückgabe liegt vor dem Beginn – bitte prüfen Sie die Daten.",fb);
+    if(d.uebergabe.indexOf("Lieferung")>-1&&!d.ort)return fail("Bitte geben Sie den Ort der Feier für die Lieferung an.",f.elements.ort);
+    if(!d.name)return fail("Bitte geben Sie Ihren Namen an.",f.elements.name);
+    if(!d.email)return fail("Bitte geben Sie Ihre E-Mail-Adresse an. Tipp: Schlägt der Browser eine Adresse vor, bitte antippen, damit sie übernommen wird.",f.elements.email);
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email))return fail("Bitte geben Sie eine gültige E-Mail-Adresse an, damit ich Ihnen antworten kann.",f.elements.email);
     d.items=cart;d.ts=V.ts;d.seite=location.href;b.disabled=true;b.textContent="wird gesendet …";
     post("mietanfrage",d).then(function(r){b.disabled=false;b.textContent="Mietanfrage senden";
       if(r.ok&&r.j&&r.j.ok){track();cart=[];save();render();f.hidden=true;q$(".kjo-vl-cart").hidden=true;q$(".kjo-vl-sum").hidden=true;q$(".kjo-vl-ok").hidden=false;}
-      else fail((r.j&&r.j.message)||"Das hat leider nicht geklappt. Bitte versucht es noch einmal oder schreibt mir per WhatsApp.");
-    }).catch(function(){b.disabled=false;b.textContent="Mietanfrage senden";fail("Keine Verbindung. Bitte versucht es noch einmal oder schreibt mir per WhatsApp.");});
+      else fail((r.j&&r.j.message)||"Das hat leider nicht geklappt. Bitte versuchen Sie es noch einmal oder schreiben Sie mir per WhatsApp.");
+    }).catch(function(){b.disabled=false;b.textContent="Mietanfrage senden";fail("Keine Verbindung. Bitte versuchen Sie es noch einmal oder schreiben Sie mir per WhatsApp.");});
   });
 }
 function report(b){var id=b.getAttribute("data-id"),k="kjo_anl_"+id,today=new Date().toISOString().slice(0,10),done=false;
@@ -2132,7 +2165,7 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 	$rk = 'kjo_vl_rl_' . kjo_vl_ip_hash();
 	$rl = (int) get_transient( $rk );
 	if ( $rl >= 5 ) {
-		return kjo_vl_err( 'Es wurden gerade sehr viele Anfragen gesendet. Bitte versucht es später noch einmal oder schreibt mir per WhatsApp.', 429 );
+		return kjo_vl_err( 'Es wurden gerade sehr viele Anfragen gesendet. Bitte versuchen Sie es später noch einmal oder schreiben Sie mir per WhatsApp.', 429 );
 	}
 	$name  = $s( 'name' );
 	$email = sanitize_email( $s( 'email' ) );
@@ -2140,10 +2173,10 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 	$bis   = preg_match( '/^\d{4}-\d{2}-\d{2}$/', $s( 'bis' ) ) ? $s( 'bis' ) : '';
 	$ueb   = in_array( $s( 'uebergabe' ), array( 'Abholung in Fellheim', 'Lieferung und Abholung', 'Lieferung, Aufbau/Verkabelung, Abbau und Abholung' ), true ) ? $s( 'uebergabe' ) : 'Abholung in Fellheim';
 	if ( ! $name || ! is_email( $email ) || ! $von || ! $bis ) {
-		return kjo_vl_err( 'Bitte füllt Name, E-Mail und Mietzeitraum aus.' );
+		return kjo_vl_err( 'Bitte füllen Sie Name, E-Mail und Mietzeitraum aus.' );
 	}
 	if ( $von < wp_date( 'Y-m-d' ) || $bis < $von ) {
-		return kjo_vl_err( 'Bitte prüft den Mietzeitraum: Beginn ab heute, Rückgabe nicht vor dem Beginn.' );
+		return kjo_vl_err( 'Bitte prüfen Sie den Mietzeitraum: Beginn ab heute, Rückgabe nicht vor dem Beginn.' );
 	}
 	if ( kjo_hat_link( $name, $s( 'telefon' ), $s( 'ort' ), $s( 'anlass' ), $s( 'gaeste' ) ) ) {
 		return kjo_vl_err( 'Bitte keine Links in Name, Telefon, Ort, Anlass oder Gästezahl.' );
@@ -2196,7 +2229,7 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 		$lines[] = $q . ' × ' . $p->post_title . ( null === $pr ? '' : ' (' . kjo_vl_eur( $pr ) . '/Tag)' );
 	}
 	if ( ! $lines ) {
-		return kjo_vl_err( 'Euer Mietkorb ist leer.' );
+		return kjo_vl_err( 'Ihr Mietkorb ist leer.' );
 	}
 	$warn = array(); // Bestand überschritten (z. B. veralteter Mietkorb) – Anfrage geht trotzdem raus, mit Hinweis für mich
 	foreach ( $use as $gid => $n ) {
@@ -2253,10 +2286,10 @@ function kjo_vl_rest_anfrage( WP_REST_Request $req ) {
 	$to   = kjo_vl_mail_to();
 	$hdrs = array( 'Content-Type: text/plain; charset=UTF-8', 'Reply-To: ' . str_replace( array( "\r", "\n", '<', '>' ), '', $name ) . ' <' . $email . '>' );
 	$ok   = wp_mail( $to, 'Mietanfrage: ' . $fmt( $von ) . ' – ' . $name, $text . ( $pid ? "\nIm Admin: " . admin_url( 'post.php?post=' . (int) $pid . '&action=edit' ) . "\n" : '' ), $hdrs );
-	$conf = 'Hallo ' . $name . ",\n\ndanke für eure Mietanfrage! Ich prüfe die Verfügbarkeit und melde mich innerhalb von 24 Stunden mit Angebot und Mietbedingungen.\n\nEure Anfrage:\n- " . implode( "\n- ", $lines ) . "\nZeitraum: " . $fmt( $von ) . ' bis ' . $fmt( $bis ) . "\nÜbergabe: " . $ueb . "\n\nViele Grüße\nKolja – DJ KOLJA ONE\n" . $to . "\nhttps://dj-kolja-one.de\n";
-	kjo_bestaetigung_ok( $email, 'miete' ) && wp_mail( $email, 'Eure Mietanfrage bei DJ KOLJA ONE', $conf, array( 'Content-Type: text/plain; charset=UTF-8', 'Reply-To: DJ KOLJA ONE <' . $to . '>' ) );
+	$conf = 'Hallo ' . $name . ",\n\ndanke für Ihre Mietanfrage! Ich prüfe die Verfügbarkeit und melde mich innerhalb von 24 Stunden mit Angebot und Mietbedingungen.\n\nIhre Anfrage:\n- " . implode( "\n- ", $lines ) . "\nZeitraum: " . $fmt( $von ) . ' bis ' . $fmt( $bis ) . "\nÜbergabe: " . $ueb . "\n\nViele Grüße\nKolja – DJ KOLJA ONE\n" . $to . "\nhttps://dj-kolja-one.de\n";
+	kjo_bestaetigung_ok( $email, 'miete' ) && wp_mail( $email, 'Ihre Mietanfrage bei DJ KOLJA ONE', $conf, array( 'Content-Type: text/plain; charset=UTF-8', 'Reply-To: DJ KOLJA ONE <' . $to . '>' ) );
 	if ( ! $ok && ! $pid ) {
-		return kjo_vl_err( 'Die Anfrage konnte nicht gesendet werden. Bitte schreibt mir per WhatsApp oder ruft an.', 500 );
+		return kjo_vl_err( 'Die Anfrage konnte nicht gesendet werden. Bitte schreiben Sie mir per WhatsApp oder rufen Sie an.', 500 );
 	}
 	return new WP_REST_Response( array( 'ok' => true ), 200 );
 }

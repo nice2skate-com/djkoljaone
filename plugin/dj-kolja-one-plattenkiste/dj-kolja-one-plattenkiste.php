@@ -975,10 +975,10 @@ function kjm_rest_rate( WP_REST_Request $req ) {
 	$hk  = 'kjm_vh_' . $id;
 	$hn  = (int) get_transient( $hk );
 	if ( get_transient( $key ) ) {
-		return new WP_Error( 'kjm_voted', 'Du hast diesen Song bereits bewertet.', array_merge( array( 'status' => 429 ), kjm_rating( $id ) ) );
+		return new WP_Error( 'kjm_voted', 'Sie haben diesen Song bereits bewertet.', array_merge( array( 'status' => 429 ), kjm_rating( $id ) ) );
 	}
 	if ( $hn >= 30 ) {
-		return new WP_Error( 'kjm_voted', 'Gerade kommen sehr viele Bewertungen an. Bitte versuch es später noch einmal.', array_merge( array( 'status' => 429 ), kjm_rating( $id ) ) );
+		return new WP_Error( 'kjm_voted', 'Gerade kommen sehr viele Bewertungen an. Bitte versuchen Sie es später noch einmal.', array_merge( array( 'status' => 429 ), kjm_rating( $id ) ) );
 	}
 	set_transient( $key, 1, 30 * DAY_IN_SECONDS );
 	set_transient( $hk, $hn + 1, HOUR_IN_SECONDS );
@@ -1762,9 +1762,9 @@ function kjo_description() {
 		'start'          => 'DJ KOLJA ONE – Premium DJ mit professioneller Moderation für Hochzeiten, Geburtstage, Firmenfeiern und Events in Oberschwaben, Ulm und dem Allgäu. Jetzt Wunschtermin prüfen.',
 		'hochzeits-dj'   => 'Hochzeits-DJ für Memmingen, Ulm und das Allgäu: persönliche Musikplanung, professionelle Moderation und eine volle Tanzfläche – vom ersten Song bis zum letzten.',
 		'geburtstags-dj' => 'Geburtstags-DJ für runde Geburtstage und private Feiern: Musik für alle Generationen, geprüfte Technik und Moderation auf Wunsch.',
-		'firmenfeier-dj' => 'DJ für Firmenfeiern, Weihnachtsfeiern, Sommerfeste und Galas: Musik und Moderation, abgestimmt auf euren Ablauf und eure Gäste.',
+		'firmenfeier-dj' => 'DJ für Firmenfeiern, Weihnachtsfeiern, Sommerfeste und Galas: Musik und Moderation, abgestimmt auf Ihren Ablauf und Ihre Gäste.',
 		'event-dj'       => 'Event-DJ für Stadtfeste, Vereinsfeiern, Open Airs und Silvesterpartys – mit skalierbarer Technik und professioneller Moderation.',
-		'meine-musik'    => 'Legt selbst auf: Am interaktiven DJ-Pult könnt ihr eigene Songs von DJ KOLJA ONE anhören, mixen und mit Sternen bewerten.',
+		'meine-musik'    => 'Legen Sie selbst auf: Am interaktiven DJ-Pult können Sie eigene Songs von DJ KOLJA ONE anhören, mixen und mit Sternen bewerten.',
 		'ueber-mich'     => 'Über DJ KOLJA ONE: seit über 10 Jahren DJ und Moderator aus Fellheim bei Memmingen. Jedes Event findet nur einmal statt.',
 		'faq'            => 'Häufige Fragen zu Buchung, Kosten, Musikwünschen, Technik und Ablauf – kurz und ehrlich beantwortet von DJ KOLJA ONE.',
 		'einsatzgebiete' => 'Mobiler DJ für Memmingen, Ulm, Neu-Ulm, Biberach, Ravensburg, Kempten, Füssen, Kaufbeuren, Landsberg und Umgebung.',
@@ -2808,10 +2808,10 @@ function setup(c){
   var av=null;
   function hint(cls,html){if(!av){av=document.createElement("div");av.className="kjo-av";av.setAttribute("role","status");av.setAttribute("aria-live","polite");}av.className="kjo-av "+cls;av.innerHTML=html;if(!av.parentNode)b.parentNode.insertBefore(av,b.nextSibling);}
   function check(v){var K=window.KJO_KAL;if(!K||!window.fetch)return;fetch(K.api+(K.api.indexOf("?")>-1?"&":"?")+"von="+v,{credentials:"omit"}).then(function(r){return r.json()}).then(function(j){if(dp.value!==v||!j||!j.dj)return;
-    if(j.dj==="frei")hint("ok","✓ <strong>Termin noch verfügbar!</strong> Schickt mir eure Anfrage, ich melde mich innerhalb von 24 Stunden bei euch.");
-    else if(j.dj==="vor")hint("vor","◐ <strong>Termin vorreserviert, fragt gerne trotzdem an.</strong> Wird die Reservierung nicht bestätigt, seid ihr als Nächste dran.");
+    if(j.dj==="frei")hint("ok","✓ <strong>Termin noch verfügbar!</strong> Schicken Sie mir Ihre Anfrage, ich melde mich innerhalb von 24 Stunden bei Ihnen.");
+    else if(j.dj==="vor")hint("vor","◐ <strong>Termin vorreserviert, fragen Sie gerne trotzdem an.</strong> Wird die Reservierung nicht bestätigt, sind Sie als Nächste dran.");
     else if(j.equip!=="belegt")hint("no","✕ <strong>An diesem Tag bin ich leider schon ausgebucht.</strong> Musikanlage und Licht sind aber "+(j.equip==="teil"?"teilweise ":"")+"noch frei: <a href=\""+K.mieten+"?von="+v+"#pakete\">Nur Equipment mieten? →</a>");
-    else hint("no","✕ <strong>An diesem Tag bin ich leider schon ausgebucht.</strong> Gerne frage ich in meinem DJ-Netzwerk nach einem Kollegen für euch, oder ihr wählt einen anderen Tag.");}).catch(function(){});}
+    else hint("no","✕ <strong>An diesem Tag bin ich leider schon ausgebucht.</strong> Gerne frage ich in meinem DJ-Netzwerk nach einem Kollegen für Sie, oder Sie wählen einen anderen Tag.");}).catch(function(){});}
   dp.addEventListener("change",function(){if(dp.value){txt.value=nice(dp.value);fire(txt);check(dp.value);}else if(av&&av.parentNode){av.parentNode.removeChild(av);}});
   var b=document.createElement("button");b.type="button";b.className="kjo-dp-open";b.textContent="Noch kein festes Datum?";
   b.addEventListener("click",function(){txt.value="noch offen – siehe Nachricht";dp.value="";if(av&&av.parentNode)av.parentNode.removeChild(av);fire(txt);var f=c.closest("form"),m=f&&f.querySelector("textarea");if(m){m.focus();if(!m.value)m.setAttribute("placeholder","Zeitraum oder mögliche Termine, z. B. „Sommer 2027, ein Samstag“");}});
@@ -2869,7 +2869,7 @@ KJOCONV
 /**
  * Überschrift passend zur Suchanzeige (seit 1.27.0).
  * Google Ads hängt per „Suffix der finalen URL“ kw={keyword} an. Erkennt das Skript darin einen bekannten Anlass
- * (und optional einen Ort), wird die H1 der Leistungsseite z. B. zu „DJ für eure Weihnachtsfeier in Ulm“.
+ * (und optional einen Ort), wird die H1 der Leistungsseite z. B. zu „DJ für Ihre Weihnachtsfeier in Ulm“.
  * Es werden nur feste Wörter aus den Listen unten angezeigt – nie Text aus der URL.
  * Abschalten: add_filter( 'kjo_dyn_h1', '__return_false' );
  */
@@ -2893,7 +2893,7 @@ try{
   var m=location.search.match(/[?&]kw=([^&]*)/);if(!m)return;
   var kw=decodeURIComponent(m[1].replace(/\+/g," ")).toLowerCase();
   kw=kw.replace(/ae/g,"ä").replace(/oe/g,"ö").replace(/ue/g,"ü");
-  var A=[["weihnachtsfeier","eure Weihnachtsfeier"],["betriebsfeier","eure Betriebsfeier"],["firmenevent","euer Firmenevent"],["firmenfeier","eure Firmenfeier"],["sommerfest","euer Sommerfest"],["jubiläum","euer Jubiläum"],["hochzeit","eure Hochzeit"],["geburtstag","euren Geburtstag"],["stadtfest","euer Stadtfest"],["vereinsfeier","eure Vereinsfeier"],["silvester","eure Silvesterparty"]];
+  var A=[["weihnachtsfeier","Ihre Weihnachtsfeier"],["betriebsfeier","Ihre Betriebsfeier"],["firmenevent","Ihr Firmenevent"],["firmenfeier","Ihre Firmenfeier"],["sommerfest","Ihr Sommerfest"],["jubiläum","Ihr Jubiläum"],["hochzeit","Ihre Hochzeit"],["geburtstag","Ihren Geburtstag"],["stadtfest","Ihr Stadtfest"],["vereinsfeier","Ihre Vereinsfeier"],["silvester","Ihre Silvesterparty"]];
   var O=[["neu-ulm","in Neu-Ulm"],["neu ulm","in Neu-Ulm"],["memmingen","in Memmingen"],["ulm","in Ulm"],["kempten","in Kempten"],["kaufbeuren","in Kaufbeuren"],["füssen","in Füssen"],["ravensburg","in Ravensburg"],["biberach","in Biberach"],["landsberg","in Landsberg am Lech"],["mindelheim","in Mindelheim"],["illertissen","in Illertissen"],["oberschwaben","in Oberschwaben"],["schwaben","in Schwaben"],["allgäu","im Allgäu"]];
   function find(L){for(var i=0;i<L.length;i++){if(kw.indexOf(L[i][0])>-1)return L[i][1];}return "";}
   var a=find(A);if(!a)return;

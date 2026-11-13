@@ -15,10 +15,10 @@ const KJO_AKTIONEN = array(
 	'WEIHNACHT26' => array(
 		'bis'    => '2026-10-31 23:59:59',
 		'seiten' => array( 'firmenfeier-dj' ),
-		'titel'  => 'Licht-Upgrade gratis für eure Weihnachtsfeier',
+		'titel'  => 'Licht-Upgrade gratis für Ihre Weihnachtsfeier',
 		'kurz'   => 'Licht-Upgrade gratis',
-		'text'   => 'Bucht mich bis 31. Oktober für eure Firmen-Weihnachtsfeier im Dezember – und ich bringe mein erweitertes Lichtpaket ohne Aufpreis mit (Wert 150 €):',
-		'items'  => array( '2 Moving Heads', '6 kabellose Akku-Scheinwerfer, auch für draußen', 'Wash-Scheinwerfer', 'UV-Schwarzlicht', 'LED-Laufschrift, z. B. mit eurem Firmennamen' ),
+		'text'   => 'Buchen Sie mich bis 31. Oktober für Ihre Firmen-Weihnachtsfeier im Dezember – und ich bringe mein erweitertes Lichtpaket ohne Aufpreis mit (Wert 150 €):',
+		'items'  => array( '2 Moving Heads', '6 kabellose Akku-Scheinwerfer, auch für draußen', 'Wash-Scheinwerfer', 'UV-Schwarzlicht', 'LED-Laufschrift, z. B. mit Ihrem Firmennamen' ),
 		'klein'  => 'Für Weihnachtsfeiern im Dezember 2026 bei verbindlicher Buchung bis 31.10.2026. Umfang je nach Raum und Location, nach Verfügbarkeit.',
 	),
 );

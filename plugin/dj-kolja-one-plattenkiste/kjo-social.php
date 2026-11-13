@@ -12,6 +12,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/* Einmalig (13.11.2026): Sie-Form – gespeicherte Bildunterschrift nur ersetzen, wenn sie exakt dem alten Standard entspricht. */
+add_action(
+	'init',
+	function () {
+		if ( '1' === get_option( 'kjo_sie_form_social' ) ) {
+			return;
+		}
+		$alt = "Jedes Event findet nur einmal statt.\nIn 40 Sekunden seht ihr, wer ich bin, was ich mitbringe und wie ihr euren Wunschtermin sichert.\nHochzeiten, Geburtstage, Firmenfeiern und Events – in Memmingen, Ulm, im Allgäu und in Oberschwaben.\nKostenloses Kennenlerngespräch direkt online buchen: Link in der Bio.\n\n#djkoljaone #hochzeitsdj #djmemmingen #djulm #allgäu #oberschwaben #eventdj #firmenfeier";
+		$o   = get_option( 'kjo_social', array() );
+		if ( is_array( $o ) && isset( $o['text'] ) && is_string( $o['text'] ) && trim( str_replace( "\r\n", "\n", $o['text'] ) ) === $alt ) {
+			unset( $o['text'] ); // fehlender Schlüssel = neuer Standard aus kjo_soc_opts()
+			update_option( 'kjo_social', $o, false );
+		}
+		update_option( 'kjo_sie_form_social', '1', true );
+	}
+);
+
 function kjo_soc_opts() {
 	$d = array(
 		'page_id'   => '',
@@ -22,7 +39,7 @@ function kjo_soc_opts() {
 		'page_name' => '',
 		'gh_token'  => '',
 		'gh_repo'   => 'nice2skate-com/djkoljaone',
-		'text'      => "Jedes Event findet nur einmal statt.\nIn 40 Sekunden seht ihr, wer ich bin, was ich mitbringe und wie ihr euren Wunschtermin sichert.\nHochzeiten, Geburtstage, Firmenfeiern und Events – in Memmingen, Ulm, im Allgäu und in Oberschwaben.\nKostenloses Kennenlerngespräch direkt online buchen: Link in der Bio.\n\n#djkoljaone #hochzeitsdj #djmemmingen #djulm #allgäu #oberschwaben #eventdj #firmenfeier",
+		'text'      => "Jedes Event findet nur einmal statt.\nIn 40 Sekunden sehen Sie, wer ich bin, was ich mitbringe und wie Sie Ihren Wunschtermin sichern.\nHochzeiten, Geburtstage, Firmenfeiern und Events – in Memmingen, Ulm, im Allgäu und in Oberschwaben.\nKostenloses Kennenlerngespräch direkt online buchen: Link in der Bio.\n\n#djkoljaone #hochzeitsdj #djmemmingen #djulm #allgäu #oberschwaben #eventdj #firmenfeier",
 	);
 	$o = get_option( 'kjo_social', array() );
 	return is_array( $o ) ? array_merge( $d, array_intersect_key( $o, $d ) ) : $d;

@@ -2,7 +2,7 @@
 
 Wer unter einem Reel ein Stichwort kommentiert (z. B. **DJ**), bekommt automatisch:
 
-1. eine öffentliche Antwort unter dem Kommentar („Check deine DMs 📩“),
+1. eine öffentliche Antwort unter dem Kommentar („Schauen Sie in Ihre DMs 📩“ – Kundentexte seit 13.11.2026 in Sie-Form),
 2. eine **Instagram-DM** mit einem WhatsApp-Link, in dem „DJ“ schon eingetippt ist,
 3. nach dem Absenden auf WhatsApp sofort eine **WhatsApp-Antwort** mit deinem Link und, wenn hinterlegt, die
    **MP3 oder PDF direkt als Datei im Chat** (z. B. aus Google Drive).

@@ -26,7 +26,7 @@ const KJO_ADM_SIE = array(
 
 /** Einmalige Umstellung auf Sie-Form: gespeicherte Regeltexte, die exakt dem alten Du-Standard entsprechen, durch den neuen ersetzen. */
 add_action(
-	'admin_init',
+	'init',
 	function () {
 		if ( '1' === get_option( 'kjo_sie_form_autodm' ) ) {
 			return;

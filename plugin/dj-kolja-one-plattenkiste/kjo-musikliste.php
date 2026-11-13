@@ -18,17 +18,17 @@ const KJO_ML_MAIL = 'anfrage@dj-kolja-one.de';
 function kjo_ml_momente( $art ) {
 	if ( 'hochzeit' === $art ) {
 		return array(
-			'einzug'  => array( 'Einzug zur Trauung', 'Der Song, zu dem ihr (oder die Braut) einzieht' ),
+			'einzug'  => array( 'Einzug zur Trauung', 'Der Song, zu dem Sie (oder die Braut) einziehen' ),
 			'ringe'   => array( 'Ringtausch / Unterschrift', 'Leise im Hintergrund, falls gewünscht' ),
 			'auszug'  => array( 'Auszug nach der Trauung', 'Der erste Song als Ehepaar' ),
-			'saal'    => array( 'Einzug in den Saal', 'Wenn ihr zum Essen oder zur Party einzieht' ),
+			'saal'    => array( 'Einzug in den Saal', 'Wenn Sie zum Essen oder zur Party einziehen' ),
 			'tanz'    => array( 'Eröffnungstanz', 'Gern mit Hinweis, ob gekürzt oder mit Übergang zur Party' ),
 			'torte'   => array( 'Tortenanschnitt', '' ),
 			'letzter' => array( 'Letzter Song des Abends', '' ),
 		);
 	}
 	return array(
-		'einzug'  => array( 'Einzug / Begrüßung', 'Ein Song für euren Auftritt' ),
+		'einzug'  => array( 'Einzug / Begrüßung', 'Ein Song für Ihren Auftritt' ),
 		'erster'  => array( 'Erster Song auf der Tanzfläche', '' ),
 		'torte'   => array( 'Torte, Rede oder Überraschung', '' ),
 		'letzter' => array( 'Letzter Song des Abends', '' ),
@@ -111,7 +111,7 @@ function kjo_ml_rest( WP_REST_Request $r ) {
 	$d = is_array( $d ) ? $d : array();
 	$p = kjo_ml_by_token( $d['t'] ?? '' );
 	if ( ! $p ) {
-		return new WP_REST_Response( array( 'message' => 'Diese Liste gibt es nicht mehr. Bitte meldet euch bei mir.' ), 404 );
+		return new WP_REST_Response( array( 'message' => 'Diese Liste gibt es nicht mehr. Bitte melden Sie sich bei mir.' ), 404 );
 	}
 	$art   = (string) get_post_meta( $p->ID, '_kjo_ml_art', true );
 	$daten = kjo_ml_clean( $d['d'] ?? array(), $art );
@@ -174,11 +174,11 @@ button{padding:13px 16px;background:var(--g);color:#0F0C07;border:0;border-radiu
 </style></head><body><main>
 <div class="top"><img src="<?php echo esc_url( $logo ); ?>" alt="DJ KOLJA ONE – Jedes Event findet nur einmal statt." width="280" height="51">
 <?php if ( ! $p ) : ?>
-<h1>Diese Liste gibt es nicht (mehr)</h1><p class="ev">Bitte prüft den Link oder meldet euch kurz bei mir.</p></div>
+<h1>Diese Liste gibt es nicht (mehr)</h1><p class="ev">Bitte prüfen Sie den Link oder melden Sie sich kurz bei mir.</p></div>
 <?php else : ?>
-<h1>Eure Musikwunschliste</h1><p class="ev"><?php echo esc_html( $p->post_title ); ?><?php echo $datum ? ' · ' . esc_html( wp_date( 'd.m.Y', strtotime( $datum . ' 12:00' ) ) ) : ''; ?></p></div>
-<p class="intro">Füllt aus, was euch wichtig ist – nichts davon ist Pflicht. Ihr könnt jederzeit speichern und später weitermachen; der Link bleibt gleich.</p>
-<div class="ok" id="ok"<?php echo 'fertig' === get_post_meta( $p->ID, '_kjo_ml_s', true ) ? '' : ' hidden'; ?>><h2>Danke, eure Liste ist bei mir! 🎶</h2><p>Ihr könnt trotzdem noch Änderungen machen – einfach erneut abschicken.</p></div>
+<h1>Ihre Musikwunschliste</h1><p class="ev"><?php echo esc_html( $p->post_title ); ?><?php echo $datum ? ' · ' . esc_html( wp_date( 'd.m.Y', strtotime( $datum . ' 12:00' ) ) ) : ''; ?></p></div>
+<p class="intro">Füllen Sie aus, was Ihnen wichtig ist – nichts davon ist Pflicht. Sie können jederzeit speichern und später weitermachen; der Link bleibt gleich.</p>
+<div class="ok" id="ok"<?php echo 'fertig' === get_post_meta( $p->ID, '_kjo_ml_s', true ) ? '' : ' hidden'; ?>><h2>Danke, Ihre Liste ist bei mir! 🎶</h2><p>Sie können trotzdem noch Änderungen machen – einfach erneut abschicken.</p></div>
 <form id="f" novalidate>
 <fieldset><legend>Besondere Momente</legend><p class="hint">Songtitel und Interpret, gern mit Link (z. B. Spotify oder YouTube).</p>
 <?php foreach ( kjo_ml_momente( $art ) as $k => $m ) : ?>
@@ -197,7 +197,7 @@ button{padding:13px 16px;background:var(--g);color:#0F0C07;border:0;border-radiu
 </div></fieldset>
 <fieldset><legend>Lieblingssongs</legend><label>Unbedingt spielen<small>Ein Song pro Zeile, z. B. „Mr. Brightside – The Killers“</small><textarea name="fav" maxlength="4000" style="min-height:160px"><?php echo $e( 'fav' ); // phpcs:ignore ?></textarea></label>
 <label>Bitte auf keinen Fall<small>No-Gos, ebenfalls ein Song oder Stil pro Zeile</small><textarea name="nogo" maxlength="2000"><?php echo $e( 'nogo' ); // phpcs:ignore ?></textarea></label></fieldset>
-<fieldset><legend>Eure Gäste</legend><label>Wer feiert mit?<small>Alter, Herkunft, wer tanzt gern – alles, was mir hilft, die Stimmung zu lesen</small><textarea name="gaeste" maxlength="1500"><?php echo $e( 'gaeste' ); // phpcs:ignore ?></textarea></label>
+<fieldset><legend>Ihre Gäste</legend><label>Wer feiert mit?<small>Alter, Herkunft, wer tanzt gern – alles, was mir hilft, die Stimmung zu lesen</small><textarea name="gaeste" maxlength="1500"><?php echo $e( 'gaeste' ); // phpcs:ignore ?></textarea></label>
 <label>Sonst noch etwas?<textarea name="notiz" maxlength="2000"><?php echo $e( 'notiz' ); // phpcs:ignore ?></textarea></label></fieldset>
 </form>
 <div class="bar"><div><span class="st" id="st" role="status"></span><button type="button" class="s" id="sv">Speichern</button><button type="button" id="go">An Kolja schicken</button></div></div>
@@ -215,7 +215,7 @@ f.addEventListener("change",function(){dirty=true;clearTimeout(tm);tm=setTimeout
 sv.onclick=function(){save(false)};go.onclick=function(){clearTimeout(tm);save(true)};
 window.addEventListener("beforeunload",function(e){if(dirty){e.preventDefault();e.returnValue=""}});})();</script>
 <?php endif; ?>
-<p class="small">Eure Angaben nutze ich nur für die Musikplanung eurer Feier und lösche sie <?php echo (int) KJO_ML_TAGE; ?> Tage danach. <a href="<?php echo esc_url( home_url( '/datenschutz/' ) ); ?>">Datenschutz</a> · <a href="<?php echo esc_url( home_url( '/impressum/' ) ); ?>">Impressum</a></p>
+<p class="small">Ihre Angaben nutze ich nur für die Musikplanung Ihrer Feier und lösche sie <?php echo (int) KJO_ML_TAGE; ?> Tage danach. <a href="<?php echo esc_url( home_url( '/datenschutz/' ) ); ?>">Datenschutz</a> · <a href="<?php echo esc_url( home_url( '/impressum/' ) ); ?>">Impressum</a></p>
 </main></body></html>
 		<?php
 		exit;
@@ -284,7 +284,7 @@ function kjo_ml_page() {
 		echo '<tr><td><strong><a href="' . esc_url( admin_url( 'admin.php?page=kjo-musikliste&id=' . $p->ID ) ) . '">' . esc_html( $p->post_title ) . '</a></strong><br><small>' . ( 'hochzeit' === get_post_meta( $p->ID, '_kjo_ml_art', true ) ? 'Hochzeit' : 'Feier' ) . '</small></td>';
 		echo '<td>' . esc_html( wp_date( 'd.m.Y', strtotime( get_post_meta( $p->ID, '_kjo_ml_datum', true ) . ' 12:00' ) ) ) . '</td>';
 		echo '<td>' . esc_html( $sn[ $s ] ?? $s ) . ( $t ? '<br><small>zuletzt ' . esc_html( wp_date( 'd.m. H:i', $t ) ) . '</small>' : '' ) . '</td>';
-		echo '<td><input type="text" readonly value="' . esc_attr( $url ) . '" style="width:100%;max-width:340px" onclick="this.select()"> <button type="button" class="button" onclick="var b=this;navigator.clipboard.writeText(b.previousElementSibling.value).then(function(){b.textContent=\'kopiert ✓\'})">Kopieren</button> <a class="button" target="_blank" href="https://wa.me/?text=' . rawurlencode( 'Hier ist eure Musikwunschliste – tragt ein, was euch wichtig ist: ' . $url ) . '">WhatsApp</a></td>';
+		echo '<td><input type="text" readonly value="' . esc_attr( $url ) . '" style="width:100%;max-width:340px" onclick="this.select()"> <button type="button" class="button" onclick="var b=this;navigator.clipboard.writeText(b.previousElementSibling.value).then(function(){b.textContent=\'kopiert ✓\'})">Kopieren</button> <a class="button" target="_blank" href="https://wa.me/?text=' . rawurlencode( 'Hier ist Ihre Musikwunschliste – tragen Sie ein, was Ihnen wichtig ist: ' . $url ) . '">WhatsApp</a></td>';
 		echo '<td><a class="button" href="' . esc_url( admin_url( 'admin.php?page=kjo-musikliste&id=' . $p->ID ) ) . '">Ansehen</a> <form method="post" style="display:inline" onsubmit="return confirm(\'Liste endgültig löschen?\')">' . $nf . '<button class="button-link-delete" name="del" value="' . (int) $p->ID . '">Löschen</button></form></td></tr>'; // phpcs:ignore
 	}
 	echo '</tbody></table></div>';

@@ -89,7 +89,7 @@ Der Ton der Animation selbst wird nicht übernommen.
 ## Song-Reels (ein Reel pro eigenem Song)
 
 30-Sekunden-Reels mit dem Song-Ende, Cover, Profilbild und QR-Code zum Song im DJ-Pult: siehe
-`social/song-reels/README.md`. Fertige Begleittexte: `social/texte/song-reels.md`.
+`social/song-reels/README.md`. Fertige Begleittexte: `social/texte/song-reels.md` (neue Texte seit 13.11.2026 in Sie-Form).
 
 ## Intro-Videos der Seiten (seit 1.65.0)
 

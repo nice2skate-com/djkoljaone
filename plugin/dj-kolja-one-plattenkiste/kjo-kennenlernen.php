@@ -184,7 +184,7 @@ function kjo_kl_rest_buchen( WP_REST_Request $r ) {
 	$netz = kjo_netz_hash( 'kl' );
 	$rk   = 'kjo_kl_rl_' . $netz;
 	if ( (int) get_transient( $rk ) >= 2 ) { // höchstens zwei Buchungen pro Besucher-Netz und Stunde (seit 1.72.1, vorher vier)
-		return $err( 'Es wurden gerade mehrere Termine gebucht. Bitte meldet euch kurz per WhatsApp oder Telefon.', 429 );
+		return $err( 'Es wurden gerade mehrere Termine gebucht. Bitte melden Sie sich kurz per WhatsApp oder Telefon.', 429 );
 	}
 	$tag  = $s( 'd', 10 );
 	$zeit = $s( 'z', 5 );
@@ -194,10 +194,10 @@ function kjo_kl_rest_buchen( WP_REST_Request $r ) {
 	$mail = sanitize_email( $s( 'email', 120 ) );
 	$noti = isset( $d['notiz'] ) && is_scalar( $d['notiz'] ) ? mb_substr( trim( sanitize_textarea_field( (string) $d['notiz'] ) ), 0, 800 ) : '';
 	if ( ! $name || ! is_email( $mail ) ) {
-		return $err( 'Bitte gebt euren Namen und eine gültige E-Mail-Adresse an.' );
+		return $err( 'Bitte geben Sie Ihren Namen und eine gültige E-Mail-Adresse an.' );
 	}
 	if ( 'telefon' === $art && strlen( preg_replace( '/\D/', '', $tel ) ) < 6 ) {
-		return $err( 'Für ein Telefongespräch brauche ich eure Telefonnummer.' );
+		return $err( 'Für ein Telefongespräch brauche ich Ihre Telefonnummer.' );
 	}
 	if ( kjo_hat_link( $name, $tel ) ) {
 		return $err( 'Bitte keine Links in Name oder Telefon.' );
@@ -205,20 +205,20 @@ function kjo_kl_rest_buchen( WP_REST_Request $r ) {
 	// Ein offener Termin pro E-Mail-Adresse (seit 1.72.1): sonst ließen sich alle Zeiten ausbuchen.
 	$schon = get_posts( array( 'post_type' => 'kjo_gespraech', 'post_status' => 'private', 'numberposts' => 1, 'fields' => 'ids', 'meta_query' => array( array( 'key' => '_kjo_kl_email', 'value' => $mail ), array( 'key' => '_kjo_kl_status', 'value' => 'gebucht' ), array( 'key' => '_kjo_kl_start', 'value' => time(), 'compare' => '>', 'type' => 'NUMERIC' ) ) ) ); // phpcs:ignore
 	if ( $schon ) {
-		return $err( 'Für diese E-Mail-Adresse ist schon ein Gespräch eingetragen (' . wp_date( 'd.m. \u\m H:i \U\h\r', (int) get_post_meta( $schon[0], '_kjo_kl_start', true ) ) . '). Zum Verschieben antwortet einfach auf die Bestätigungsmail oder schreibt mir per WhatsApp.', 409 );
+		return $err( 'Für diese E-Mail-Adresse ist schon ein Gespräch eingetragen (' . wp_date( 'd.m. \u\m H:i \U\h\r', (int) get_post_meta( $schon[0], '_kjo_kl_start', true ) ) . '). Zum Verschieben antworten Sie einfach auf die Bestätigungsmail oder schreiben Sie mir per WhatsApp.', 409 );
 	}
 	// Sperre gegen zwei gleichzeitige Buchungen derselben Zeit; eine hängengebliebene Sperre gilt nach einer Minute als frei.
 	$lock = 'kjo_kl_lock_' . preg_replace( '/\D/', '', $tag . $zeit );
 	if ( ! add_option( $lock, time(), '', 'no' ) ) {
 		if ( time() - (int) get_option( $lock ) < 60 ) {
-			return $err( 'Dieser Zeitpunkt wird gerade gebucht. Bitte wählt einen anderen.', 409 );
+			return $err( 'Dieser Zeitpunkt wird gerade gebucht. Bitte wählen Sie einen anderen.', 409 );
 		}
 		update_option( $lock, time(), false );
 	}
 	$frei = kjo_kl_slots();
 	if ( empty( $frei[ $tag ] ) || ! in_array( $zeit, $frei[ $tag ], true ) ) {
 		delete_option( $lock );
-		return $err( 'Dieser Zeitpunkt ist leider nicht mehr frei. Bitte wählt einen anderen.', 409 );
+		return $err( 'Dieser Zeitpunkt ist leider nicht mehr frei. Bitte wählen Sie einen anderen.', 409 );
 	}
 	$o     = kjo_kl_opts();
 	$start = DateTimeImmutable::createFromFormat( 'Y-m-d H:i', $tag . ' ' . $zeit, wp_timezone() )->getTimestamp();
@@ -232,7 +232,7 @@ function kjo_kl_rest_buchen( WP_REST_Request $r ) {
 	);
 	if ( ! $pid || is_wp_error( $pid ) ) {
 		delete_option( $lock );
-		return $err( 'Das hat nicht geklappt. Bitte meldet euch per WhatsApp oder Telefon.', 500 );
+		return $err( 'Das hat nicht geklappt. Bitte melden Sie sich per WhatsApp oder Telefon.', 500 );
 	}
 	set_transient( $rk, (int) get_transient( $rk ) + 1, HOUR_IN_SECONDS );
 	foreach ( array( 'start' => $start, 'art' => $art, 'name' => $name, 'tel' => $tel, 'email' => $mail, 'notiz' => $noti, 'status' => 'gebucht' ) as $k => $v ) {
@@ -256,8 +256,8 @@ function kjo_kl_rest_buchen( WP_REST_Request $r ) {
 	$ics_m = $tmp . '/kennenlernen-' . $pid . '.ics';
 	file_put_contents( $ics_m, kjo_kl_ics( $start, (int) $o['dauer'], 'Kennenlernen: ' . $name . ' (' . KJO_KL_ARTEN[ $art ] . ')', 'Telefon: ' . $tel . ' · E-Mail: ' . $mail . ( $noti ? ' · ' . $noti : '' ), 'kl-k-' . $pid ) ); // phpcs:ignore
 	wp_mail( $to, 'Kennenlerngespräch: ' . wp_date( 'd.m. H:i', $start ) . ' – ' . $name, $mk, array_merge( $hdr, array( 'Reply-To: ' . str_replace( array( "\r", "\n", '<', '>' ), '', $name ) . ' <' . $mail . '>' ) ), array( $ics_m ) );
-	$mc = 'Hallo ' . $name . ",\n\ndanke! Unser Kennenlerngespräch ist eingetragen:\n\n" . $wann . "\n" . $wie . "\nDauer: ca. " . (int) $o['dauer'] . " Minuten, kostenlos und unverbindlich.\n\nWir sprechen über euren Anlass, eure Musik und den Ablauf. Den Termin findet ihr auch im Anhang für euren Kalender.\n\nPasst der Zeitpunkt doch nicht? Antwortet einfach auf diese E-Mail oder schreibt mir per WhatsApp.\n\nBis bald\nKolja – DJ KOLJA ONE\ndj-kolja-one.de\n";
-	kjo_bestaetigung_ok( $mail, 'kennenlernen-' . $pid ) && wp_mail( $mail, 'Euer Kennenlerngespräch mit DJ KOLJA ONE', $mc, array_merge( $hdr, array( 'Reply-To: DJ KOLJA ONE <' . $to . '>' ) ), array( $ics_k ) );
+	$mc = 'Hallo ' . $name . ",\n\ndanke! Unser Kennenlerngespräch ist eingetragen:\n\n" . $wann . "\n" . $wie . "\nDauer: ca. " . (int) $o['dauer'] . " Minuten, kostenlos und unverbindlich.\n\nWir sprechen über Ihren Anlass, Ihre Musik und den Ablauf. Den Termin finden Sie auch im Anhang für Ihren Kalender.\n\nPasst der Zeitpunkt doch nicht? Antworten Sie einfach auf diese E-Mail oder schreiben Sie mir per WhatsApp.\n\nBis bald\nKolja – DJ KOLJA ONE\ndj-kolja-one.de\n";
+	kjo_bestaetigung_ok( $mail, 'kennenlernen-' . $pid ) && wp_mail( $mail, 'Ihr Kennenlerngespräch mit DJ KOLJA ONE', $mc, array_merge( $hdr, array( 'Reply-To: DJ KOLJA ONE <' . $to . '>' ) ), array( $ics_k ) );
 	@unlink( $ics_k ); // phpcs:ignore
 	@unlink( $ics_m ); // phpcs:ignore
 	@rmdir( $tmp ); // phpcs:ignore
@@ -267,7 +267,7 @@ function kjo_kl_rest_buchen( WP_REST_Request $r ) {
 }
 function kjo_kl_wie( $art, $tel ) {
 	$o = kjo_kl_opts();
-	return 'video' === $art ? 'Video-Call' . ( $o['video'] ? ' – Link: ' . $o['video'] : ' – den Link schicke ich euch vorab per E-Mail.' ) : 'Telefon – ich rufe euch an unter ' . $tel . '.';
+	return 'video' === $art ? 'Video-Call' . ( $o['video'] ? ' – Link: ' . $o['video'] : ' – den Link schicke ich Ihnen vorab per E-Mail.' ) : 'Telefon – ich rufe Sie an unter ' . $tel . '.';
 }
 /* Kalendereintrag als echte Datei (iPhone/Safari öffnet data:-Links nicht): „Zum Kalender hinzufügen“. */
 add_action(
@@ -314,7 +314,7 @@ add_shortcode(
 			. '<label>Worum geht es? <span class="kjo-kl-o">(optional)</span><textarea name="notiz" maxlength="800" rows="3" placeholder="z. B. Hochzeit am 12.06.2027 in Memmingen, ca. 90 Gäste"></textarea></label>'
 			. '<label class="kjo-kl-hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>'
 			. '<p class="kjo-kl-err" role="alert"></p><button type="submit" class="kjo-kl-btn">Termin verbindlich buchen</button>'
-			. '<p class="kjo-kl-ds">Eure Angaben nutze ich nur für das Gespräch. <a href="' . esc_url( home_url( '/datenschutz/' ) ) . '">Datenschutz</a></p></form>'
+			. '<p class="kjo-kl-ds">Ihre Angaben nutze ich nur für das Gespräch. <a href="' . esc_url( home_url( '/datenschutz/' ) ) . '">Datenschutz</a></p></form>'
 			. '<div class="kjo-kl-ok" hidden tabindex="-1"></div></div>';
 	}
 );
@@ -343,16 +343,16 @@ add_action(
 function btn(t,on){var b=document.createElement("button");b.type="button";b.className="kjo-kl-c";b.textContent=t;b.setAttribute("aria-pressed","false");b.onclick=on;return b}
 function press(box,b){box.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")})}
 function zeiten(d){Z.innerHTML="";zeit=null;F.hidden=true;d.z.forEach(function(z){var b=btn(z+" Uhr",function(){zeit=z;press(Z,b);F.hidden=false;var a=F.querySelector("[name=name]");if(a&&!a.value)a.focus({preventScroll:true})});Z.appendChild(b)})}
-fetch(api,{credentials:"omit"}).then(function(x){return x.json()}).then(function(j){D=j.tage||[];T.innerHTML="";if(!D.length){T.innerHTML='<span class="kjo-kl-hint">Gerade sind keine Zeiten frei. Schreibt mir einfach per WhatsApp oder ruft an.</span>';Z.innerHTML="";return}
- D.forEach(function(d){var b=btn(d.l,function(){tag=d.d;press(T,b);zeiten(d)});T.appendChild(b)})}).catch(function(){T.innerHTML='<span class="kjo-kl-hint">Die Zeiten konnten nicht geladen werden. Bitte ruft an oder schreibt per WhatsApp.</span>'});
+fetch(api,{credentials:"omit"}).then(function(x){return x.json()}).then(function(j){D=j.tage||[];T.innerHTML="";if(!D.length){T.innerHTML='<span class="kjo-kl-hint">Gerade sind keine Zeiten frei. Schreiben Sie mir einfach per WhatsApp oder rufen Sie an.</span>';Z.innerHTML="";return}
+ D.forEach(function(d){var b=btn(d.l,function(){tag=d.d;press(T,b);zeiten(d)});T.appendChild(b)})}).catch(function(){T.innerHTML='<span class="kjo-kl-hint">Die Zeiten konnten nicht geladen werden. Bitte rufen Sie an oder schreiben Sie per WhatsApp.</span>'});
 function art(){var v=(F.querySelector("[name=art]:checked")||{}).value;r.querySelector(".kjo-kl-tel-o").style.visibility=v==="telefon"?"visible":"hidden"}F.addEventListener("change",art);art();
 F.addEventListener("submit",function(e){e.preventDefault();E.textContent="";var d={d:tag,z:zeit};["name","email","tel","notiz","website"].forEach(function(n){d[n]=F.elements[n].value.trim()});d.art=(F.querySelector("[name=art]:checked")||{}).value;
- if(!tag||!zeit){E.textContent="Bitte Tag und Uhrzeit wählen.";return}if(!d.name||!/^\S+@\S+\.\S+$/.test(d.email)){E.textContent="Bitte Name und E-Mail angeben.";return}if(d.art==="telefon"&&d.tel.replace(/\D/g,"").length<6){E.textContent="Bitte eure Telefonnummer angeben, ich rufe euch an.";return}
+ if(!tag||!zeit){E.textContent="Bitte Tag und Uhrzeit wählen.";return}if(!d.name||!/^\S+@\S+\.\S+$/.test(d.email)){E.textContent="Bitte Name und E-Mail angeben.";return}if(d.art==="telefon"&&d.tel.replace(/\D/g,"").length<6){E.textContent="Bitte Ihre Telefonnummer angeben, ich rufe Sie an.";return}
  var b=F.querySelector(".kjo-kl-btn");b.disabled=true;b.textContent="wird gebucht …";
  fetch(api,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(d),credentials:"omit"}).then(function(x){return x.json().then(function(j){return{ok:x.ok,j:j}})}).then(function(x){b.disabled=false;b.textContent="Termin verbindlich buchen";
   if(!x.ok){E.textContent=(x.j&&x.j.message)||"Das hat nicht geklappt.";return}
   T.hidden=Z.hidden=F.hidden=true;r.querySelectorAll(".kjo-kl-l").forEach(function(l){l.hidden=true});
-  var u=String(x.j.ics||"").replace(/"/g,"");OK.innerHTML="<strong>Danke! Euer Kennenlerngespräch ist gebucht.</strong><br>"+x.j.wann.replace(/[<>&]/g,"")+"<br>Eine Bestätigung ist per E-Mail unterwegs."+(u?" <a href=\""+u+"\">In den Kalender eintragen</a>":"");OK.hidden=false;OK.focus();
+  var u=String(x.j.ics||"").replace(/"/g,"");OK.innerHTML="<strong>Danke! Ihr Kennenlerngespräch ist gebucht.</strong><br>"+x.j.wann.replace(/[<>&]/g,"")+"<br>Eine Bestätigung ist per E-Mail unterwegs."+(u?" <a href=\""+u+"\">In den Kalender eintragen</a>":"");OK.hidden=false;OK.focus();
   if(window.kjoTrack)try{kjoTrack("kennenlernen_gebucht",{art:d.art})}catch(z){}})
  .catch(function(){b.disabled=false;b.textContent="Termin verbindlich buchen";E.textContent="Keine Verbindung – bitte noch einmal versuchen."})})})})();</script>
 		<?php

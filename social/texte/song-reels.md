@@ -1,5 +1,11 @@
 # Instagram-Texte für die Song-Reels
 
+> **Ab 13.11.2026 werden alle neuen Texte in Sie-Form geschrieben** (Sie/Ihnen/Ihr, großgeschrieben).
+> Die Texte unten sind das Archiv in der bisherigen Du-Form und bleiben unverändert.
+> Wer einen noch nicht veröffentlichten Text von unten verwendet, stellt ihn vorher um, z. B.:
+> „Den ganzen Song hören Sie in meinem DJ-Pult auf dj-kolja-one.de: anhören, selbst mixen, bewerten. Link in der Bio.“
+> „Welcher Moment passt für Sie zu diesem Song? Schreiben Sie es gern in die Kommentare.“
+
 Pro Reel (30 s, Song-Ende): Text kopieren, Link in der Bio auf https://dj-kolja-one.de/meine-musik/ setzen.
 
 ## After the Storm  (Datei: reel_after-the-storm_5338.mp4)
