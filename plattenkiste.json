@@ -1,9 +1,9 @@
 {
- "version": "1.75.1",
- "download_url": "dj-kolja-one-plattenkiste-1.75.1.zip",
- "sha256": "10260a7e652c72c6e7bc599ef0065f69a46ea618baf3ccfda488f6a2a7f9a400",
+ "version": "1.76.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.76.0.zip",
+ "sha256": "4756ade59025f0d0626403e0a9b93119caa5ea41b0c0a78bad9ea0c3548301fb",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "WhatsApp-Kacheln ohne goldenes Symbol (Seiten neu einspielen)."
+ "changelog": "Alles in Sie-Form: Seiten, Formulare, Mails, Pult, Angebote und Automationen."
 }
