@@ -1,9 +1,9 @@
 {
- "version": "1.76.1",
- "download_url": "dj-kolja-one-plattenkiste-1.76.1.zip",
- "sha256": "e7a21754dd58eab0396d97f2b8074bd5d9800bb6fb4ac7db817a9730802d9717",
+ "version": "1.76.2",
+ "download_url": "dj-kolja-one-plattenkiste-1.76.2.zip",
+ "sha256": "6e9b56ef455fa9136eec6f94b0176192a056421341e1564f27c3385e2701e104",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Sprungmarke #kennenlernen auf der Kontaktseite."
+ "changelog": "Angebots-PDF: Text nach Seitenumbruch wieder lesbar, Links anklickbar."
 }
