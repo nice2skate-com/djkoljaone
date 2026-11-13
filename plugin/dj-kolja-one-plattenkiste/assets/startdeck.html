@@ -1,5 +1,5 @@
 <!-- DJ KOLJA ONE · Interaktives DJ-Deck · in Elementor per HTML-Widget einfügen -->
-<div id="kjo" aria-label="Interaktives DJ-Pult: Wähle eine Platte aus der Kiste und halte sie an, um mehr zu erfahren">
+<div id="kjo" aria-label="Interaktives DJ-Pult: Wählen Sie eine Platte aus der Kiste und halten Sie sie an, um mehr zu erfahren">
 <style>
 #kjo{--b1:#0F0C07;--b2:#1A1712;--gold:#B29D75;--gold2:#C4B08A;--off:#F3F1E9;--muted:#A39E93;position:relative;width:100%;max-width:1100px;margin:0 auto;font-family:'Fira Sans',system-ui,sans-serif;color:var(--off);-webkit-tap-highlight-color:transparent}
 #kjo *{box-sizing:border-box}#kjo,#kjo *,#kjo svg text{font-family:'Fira Sans',sans-serif!important}
@@ -51,13 +51,13 @@
 <svg id="kjoSvg" viewBox="0 0 1200 600" role="group" aria-label="DJ-Controller mit zwei Decks und Mixer"></svg>
 <div class="panel" id="kjoPanel" role="dialog" aria-label="Erklärung zum Bedienelement" aria-live="polite"></div>
 </div>
-<div class="crate"><div class="sleeves" id="kjoCrate"></div><div class="front">Plattenkiste · Wähle deinen Anlass</div></div>
+<div class="crate"><div class="sleeves" id="kjoCrate"></div><div class="front">Plattenkiste · Wählen Sie Ihren Anlass</div></div>
 <script>
 (function(){
 var D=[
- {k:"h",t:"Hochzeit",s:"Side A · Love Songs &amp; Party",lab:"#F3F1E9",ink:"#0F0C07",bpm:"118",txt:"Vom Sektempfang bis zum letzten Tanz: Musik und Moderation, die zu euch passen – und eine Tanzfläche, die voll bleibt.",li:["Persönliche Musikplanung mit Wunsch- &amp; No-Go-Liste","Professionelle Moderation durch den ganzen Tag","Funkmikrofon für Reden, Licht &amp; Ton inklusive"],u:"/hochzeits-dj/"},
+ {k:"h",t:"Hochzeit",s:"Side A · Love Songs &amp; Party",lab:"#F3F1E9",ink:"#0F0C07",bpm:"118",txt:"Vom Sektempfang bis zum letzten Tanz: Musik und Moderation, die zu Ihnen passen – und eine Tanzfläche, die voll bleibt.",li:["Persönliche Musikplanung mit Wunsch- &amp; No-Go-Liste","Professionelle Moderation durch den ganzen Tag","Funkmikrofon für Reden, Licht &amp; Ton inklusive"],u:"/hochzeits-dj/"},
  {k:"g",t:"Geburtstag",s:"Side B · Party Classics",lab:"#B29D75",ink:"#0F0C07",bpm:"124",txt:"Ob 18., 50. oder 80.: Musik, die alle Generationen verbindet – ausgelassen bis zum Schluss.",li:["Songs für Familie, Freunde und Kollegen","Moderation für Reden, Spiele &amp; Überraschungen","Unkomplizierte Planung, zuverlässig am Abend"],u:"/geburtstags-dj/"},
- {k:"f",t:"Firmenfeier",s:"Side C · Corporate Grooves",lab:"#0F0C07",ink:"#B29D75",bpm:"122",txt:"Weihnachtsfeier, Sommerfest oder Gala: Musik, die eure Marke stärkt – dezent beim Dinner, mitreißend auf der Tanzfläche.",li:["Abstimmung mit Location, Agentur &amp; Catering","Moderation von Ehrungen und Programmpunkten","Skalierbare Technik bis zum großen Festsaal"],u:"/firmenfeier-dj/"},
+ {k:"f",t:"Firmenfeier",s:"Side C · Corporate Grooves",lab:"#0F0C07",ink:"#B29D75",bpm:"122",txt:"Weihnachtsfeier, Sommerfest oder Gala: Musik, die Ihre Marke stärkt – dezent beim Dinner, mitreißend auf der Tanzfläche.",li:["Abstimmung mit Location, Agentur &amp; Catering","Moderation von Ehrungen und Programmpunkten","Skalierbare Technik bis zum großen Festsaal"],u:"/firmenfeier-dj/"},
  {k:"e",t:"Event",s:"Side D · Open Air Anthems",lab:"#8C7650",ink:"#F3F1E9",bpm:"128",txt:"Stadtfest, Vereinsfeier, Open Air oder Silvester: Stimmung, die auch vor großem Publikum trägt.",li:["Erfahrung mit großen Flächen &amp; gemischtem Publikum","Ansagen, Programm und Sponsorenhinweise","Zuverlässig im Zeitplan, abgestimmt mit Veranstalter &amp; Technik"],u:"/event-dj/"}
 ];
 var NS="http://www.w3.org/2000/svg",svg=document.getElementById("kjoSvg"),panel=document.getElementById("kjoPanel"),crate=document.getElementById("kjoCrate"),hint=document.getElementById("kjoHint"),sndBtn=document.getElementById("kjoSnd");

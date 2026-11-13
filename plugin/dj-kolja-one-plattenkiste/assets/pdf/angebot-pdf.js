@@ -270,7 +270,7 @@
 			if (opt.length) {
 				platz(20);
 				f(1, 11, C.dunkel); d.text('Optional zubuchbar', L, y); y += 3;
-				f(0, 8, C.grau); d.text(A.sie ? 'Nicht im Gesamtbetrag enthalten – sagen Sie einfach Bescheid, wenn Sie etwas davon möchten.' : 'Nicht im Gesamtbetrag enthalten – sagt einfach Bescheid, wenn ihr etwas davon möchtet.', L, y + 2.5); y += 8;
+				f(0, 8, C.grau); d.text('Nicht im Gesamtbetrag enthalten – sagen Sie einfach Bescheid, wenn Sie etwas davon möchten.', L, y + 2.5); y += 8; // seit 13.11.2026 immer Sie-Form
 				kopf('Option');
 				opt.forEach(function (p) { zeile(p, 0); });
 				y += 2;

@@ -144,7 +144,7 @@ window.KJM_DEMO = [
 #kjm .qi.cur{border-color:#8FC79A;background:rgba(143,199,154,.12)}#kjm .qi.nxt{border-color:var(--gold)}
 #kjm .qi button{padding:2px 6px;border:0;font-size:13px;letter-spacing:0;color:var(--muted)}
 #kjm .seek{cursor:pointer;touch-action:none;outline:none}#kjm .seek:focus-visible{stroke:#B29D75;stroke-width:1}#kjm .kn{cursor:ns-resize;touch-action:none;outline:none}#kjm .kn:focus-visible circle:nth-of-type(3){stroke:#E0B36A}#kjm .fxb{cursor:pointer;outline:none}#kjm .fxb:focus-visible rect:nth-of-type(2){stroke:#F3F1E9}#kjm .chf{cursor:ns-resize;touch-action:none;outline:none}#kjm .chf:focus-visible rect:nth-of-type(2){stroke:#F3F1E9}</style>
-<p class="hint" id="kjmHint">Wähle eine Platte aus der Kiste und lade sie auf ein Deck</p>
+<p class="hint" id="kjmHint">Wählen Sie eine Platte aus der Kiste und laden Sie sie auf ein Deck</p>
 <div class="rig">
  <div class="ctrl"><div class="brow"><button type="button" id="kjmBrowse" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v2H3zM3 11h18v2H3zM3 17h12v2H3z"/></svg>BROWSE · Titel laden</button><div class="lat" title="Wellenform-Versatz: verschiebt die rote Linie, wenn sie bei Bluetooth oder Lautsprechern dem Ton hinterherläuft oder vorauseilt"><span>VERSATZ</span><button type="button" id="kjmLatM" aria-label="Anzeige früher">−</button><output id="kjmLatV" aria-live="polite">auto</output><button type="button" id="kjmLatP" aria-label="Anzeige später">+</button><button type="button" id="kjmLatR" class="latr" aria-label="Versatz zurücksetzen (automatisch)" title="Zurücksetzen auf automatisch">↺</button></div></div><canvas id="kjmWv" aria-label="Wellenformen beider Decks – klicken zum Springen" role="img"></canvas><div class="cwrap"><svg id="kjmSvg" viewBox="0 0 1200 600" role="group" aria-label="DJ-Controller mit zwei Decks, Mixer und Crossfader"></svg><div class="toast" id="kjmToast" role="status" aria-live="polite"></div></div></div>
  <div class="lap" aria-label="Laptop mit Video-Anzeige">
@@ -155,10 +155,10 @@ window.KJM_DEMO = [
    <div class="np" id="kjmNp" style="opacity:0"><div class="l" id="kjmNpL">Now playing</div><div class="t" id="kjmNpT"></div><div class="s" id="kjmNpS"></div><div class="a" id="kjmNpA"></div></div>
   </div></div>
   <div class="base"></div><div class="stand"></div>
-  <div class="rate" id="kjmRate"><div class="q" id="kjmRateQ">Leg einen Song auf und bewerte ihn</div><div class="st" id="kjmStars"></div><div class="avg" id="kjmAvg">&nbsp;</div></div>
+  <div class="rate" id="kjmRate"><div class="q" id="kjmRateQ">Legen Sie einen Song auf und bewerten Sie ihn</div><div class="st" id="kjmStars"></div><div class="avg" id="kjmAvg">&nbsp;</div></div>
  </div>
 </div>
-<div class="cratewrap"><div class="crate"><div class="tabs" id="kjmTabs" role="tablist" aria-label="Genres"></div><p class="legend"><span><i class="lp dkl"><b>A</b><b>B</b></i>auf Deck A oder B laden (Play startet) &amp; selbst mixen</span><span><i class="lq"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h12v2H3zM3 11h12v2H3zM3 16h8v2H3zM18 11v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg></i>in den Automix legen</span></p><div class="sleeves" id="kjmCrate"></div><div class="front">Plattenkiste · Such dir einen Song aus</div></div><aside class="amx" id="kjmAmx" aria-label="Automix"><div class="ah"><span class="at">Automix</span><span class="as" id="kjmAmS"></span><button type="button" class="go" id="kjmAmGo">▶ Automix starten</button><button type="button" id="kjmAmClr">Leeren</button><button type="button" id="kjmAmTog" aria-expanded="false">Playlist anzeigen</button></div><div class="ag" id="kjmAmG" role="group" aria-label="Fertige Automixe nach Genre"></div><div class="aq" id="kjmAmQ"></div><button type="button" class="dgb" id="kjmAmDg">Diagnose</button><textarea id="kjmAmLog" class="dgt" readonly rows="9" style="display:none" aria-label="Diagnose-Protokoll"></textarea></aside></div>
+<div class="cratewrap"><div class="crate"><div class="tabs" id="kjmTabs" role="tablist" aria-label="Genres"></div><p class="legend"><span><i class="lp dkl"><b>A</b><b>B</b></i>auf Deck A oder B laden (Play startet) &amp; selbst mixen</span><span><i class="lq"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h12v2H3zM3 11h12v2H3zM3 16h8v2H3zM18 11v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg></i>in den Automix legen</span></p><div class="sleeves" id="kjmCrate"></div><div class="front">Plattenkiste · Suchen Sie sich einen Song aus</div></div><aside class="amx" id="kjmAmx" aria-label="Automix"><div class="ah"><span class="at">Automix</span><span class="as" id="kjmAmS"></span><button type="button" class="go" id="kjmAmGo">▶ Automix starten</button><button type="button" id="kjmAmClr">Leeren</button><button type="button" id="kjmAmTog" aria-expanded="false">Playlist anzeigen</button></div><div class="ag" id="kjmAmG" role="group" aria-label="Fertige Automixe nach Genre"></div><div class="aq" id="kjmAmQ"></div><button type="button" class="dgb" id="kjmAmDg">Diagnose</button><textarea id="kjmAmLog" class="dgt" readonly rows="9" style="display:none" aria-label="Diagnose-Protokoll"></textarea></aside></div>
 <script>
 (function(){
 var LOG=[],logBox=null;function lg(m){LOG.push((performance.now()/1000).toFixed(1)+"s "+m);if(LOG.length>150)LOG.shift();if(logBox&&logBox.style.display!=="none"){logBox.value=LOG.join("\n");logBox.scrollTop=logBox.scrollHeight}}
@@ -439,13 +439,13 @@ for(var si=1;si<=5;si++)(function(n){var b=document.createElement("button");b.in
 function hl(n){[].forEach.call(starsBox.children,function(b,k){b.classList.toggle("hi",k<n)})}
 function showRate(s){if(s===rateSong)return;rateSong=s;rateBox.classList.toggle("on",!!s);var r=s?rated(s.id):0;
  [].forEach.call(starsBox.children,function(b){b.disabled=!s||!!r});hl(r);
- document.getElementById("kjmRateQ").textContent=s?(r?"Danke für deine Bewertung":"Wie gefällt dir „"+s.titel+"“?"):"Leg einen Song auf und bewerte ihn";avgText()}
+ document.getElementById("kjmRateQ").textContent=s?(r?"Danke für Ihre Bewertung":"Wie gefällt Ihnen „"+s.titel+"“?"):"Legen Sie einen Song auf und bewerten Sie ihn";avgText()}
 function avgText(){var s=rateSong,el=document.getElementById("kjmAvg");if(!s){el.innerHTML="&nbsp;";return}
- el.innerHTML=s.count?(s.test?'<em class="tst">Testdaten</em> ':"")+"Durchschnitt <b>"+de(s.avg.toFixed(1))+"</b> von 5 · "+s.count+(s.count===1?" Bewertung":" Bewertungen")+(s.test?" (keine echten Bewertungen)":""):"Noch keine Bewertung – sei die oder der Erste"}
+ el.innerHTML=s.count?(s.test?'<em class="tst">Testdaten</em> ':"")+"Durchschnitt <b>"+de(s.avg.toFixed(1))+"</b> von 5 · "+s.count+(s.count===1?" Bewertung":" Bewertungen")+(s.test?" (keine echten Bewertungen)":""):"Noch keine Bewertung – seien Sie die oder der Erste"}
 function vote(n){var s=rateSong;if(!s||rated(s.id))return;setRated(s.id,n);rateBox.classList.remove("call");[].forEach.call(starsBox.children,function(b){b.disabled=true});hl(n);
- document.getElementById("kjmRateQ").textContent="Danke für deine Bewertung";
+ document.getElementById("kjmRateQ").textContent="Danke für Ihre Bewertung";
  function apply(avg,cnt){if(s.test)return;s.avg=avg;s.count=cnt;avgText();if(sleeves[S.indexOf(s)])sleeves[S.indexOf(s)].querySelector(".r").innerHTML=sleeveRating(s)}
- if(MODE==="live"){fetch(window.KJM_API+"/rate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:s.id,stars:n})}).then(function(r){return r.json()}).then(function(j){if(j&&j.count)apply(j.avg,j.count);else if(j&&j.data&&j.data.count){apply(j.data.avg,j.data.count);if(j.code==="kjm_voted")document.getElementById("kjmRateQ").textContent="Du hast diesen Song schon bewertet"}}).catch(function(){})}
+ if(MODE==="live"){fetch(window.KJM_API+"/rate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:s.id,stars:n})}).then(function(r){return r.json()}).then(function(j){if(j&&j.count)apply(j.avg,j.count);else if(j&&j.data&&j.data.count){apply(j.data.avg,j.data.count);if(j.code==="kjm_voted")document.getElementById("kjmRateQ").textContent="Sie haben diesen Song schon bewertet"}}).catch(function(){})}
  else apply(+(((s.avg*s.count)+n)/(s.count+1)).toFixed(1),s.count+1)}
 /* Nächsten Titel komplett in den Speicher laden und von dort abspielen: Safari puffert sonst nur wenig voraus und der Start des zweiten Songs stockt */
 function warm(o){var u=o.pendingSrc,m=o.media;if(!u||!m)return;o.pendingSrc=null;var tok=o.warmTok=(o.warmTok||0)+1,nm="Deck "+(o.side?"B":"A");lg(nm+": lade nächsten Titel vor …");
@@ -471,7 +471,7 @@ function rescue(o,m){if(!m||o.media!==m||o.target<=0||m.readyState>=3)return;var
  .catch(function(e){lg(nm+": Vorladen fehlgeschlagen ("+(e&&e.message||e)+")")})}
 function playEl(o){var m=o.media;if(!m)return;var p;try{p=m.play()}catch(e){return}
  clearTimeout(o.rescT);o.rescT=setTimeout(function(){rescue(o,m)},5000);
- if(p&&p.then)p.then(function(){if(o.blocked){o.blocked=false;amUI()}},function(err){if(err&&(err.name==="NotAllowedError"||err.name==="SecurityError")){if(!o.blocked){lg("Deck "+(o.side?"B":"A")+": Browser blockiert play() ("+err.name+")");o.blocked=true;hint.textContent="Dein Browser wartet auf eine Berührung – tippe einmal ins Pult, dann läuft der Song weiter";amUI()}}})}
+ if(p&&p.then)p.then(function(){if(o.blocked){o.blocked=false;amUI()}},function(err){if(err&&(err.name==="NotAllowedError"||err.name==="SecurityError")){if(!o.blocked){lg("Deck "+(o.side?"B":"A")+": Browser blockiert play() ("+err.name+")");o.blocked=true;hint.textContent="Ihr Browser wartet auf eine Berührung – tippen Sie einmal ins Pult, dann läuft der Song weiter";amUI()}}})}
 var resumedAt=0;
 function resumeBlocked(){var any=false;decks.forEach(function(o){if(o.blocked&&o.media&&o.target>0){o.blocked=false;any=true;playEl(o)}});if(any){resumedAt=Date.now();amUI();if(ac&&ac.state!=="running")wake()}}
 ["pointerdown","touchend","keydown"].forEach(function(ev){document.getElementById("kjm").addEventListener(ev,resumeBlocked,true)});
@@ -546,10 +546,10 @@ function renderQ(){amQ.innerHTML="";AM.q.forEach(function(sg,i){var c=document.c
    var b=document.createElement("button");b.type="button";b.textContent=bt[0];b.setAttribute("aria-label",bt[1]+": "+sg.titel);b.title=bt[1];b.disabled=bt[3];b.onclick=bt[2];c.appendChild(b)});amQ.appendChild(c)})}
 function amUI(rem,msg){var n=AM.q.length;amGo.disabled=!n&&!AM.on;var blk=AM.on&&decks.some(function(d){return d.blocked&&d.target>0});amGo.textContent=blk?"▶ Song freigeben":(AM.on?"■ Manuell übernehmen":(AM.man?"▶ Automix fortsetzen":"▶ Automix starten"));amGo.className=AM.on?"live":"go";
  var t;amS.className="as"+(AM.on?" on":AM.man?" man":"");
- if(AM.on&&decks.some(function(d){return d.blocked&&d.target>0}))t="Dein Browser wartet auf eine Berührung – tippe einmal ins Pult, dann läuft der Song weiter.";
+ if(AM.on&&decks.some(function(d){return d.blocked&&d.target>0}))t="Ihr Browser wartet auf eine Berührung – tippen Sie einmal ins Pult, dann läuft der Song weiter.";
  else if(AM.on){var nx=AM.q[AM.qi+1];t=AM.trans?"Mix läuft: "+AM.trans.from.song.titel+" → "+AM.trans.to.song.titel:(nx?"Automix läuft · nächster Mix in "+fmt(Math.max(0,(rem||0)-AM.len))+" → "+nx.titel:"Automix läuft · letzter Song")}
- else if(AM.man)t="Manuell – Automix pausiert. Die Decks laufen weiter, du mixt selbst.";
- else t=n?n+(n===1?" Song":" Songs")+" in der Playlist – bereit zum Start.":"Tippe bei einer Platte auf das Listen-Symbol mit Plus (☰+), um sie in den Automix zu legen – die Songs werden nacheinander automatisch geladen und gemixt. Mit A / B lädst du selbst auf ein Deck.";
+ else if(AM.man)t="Manuell – Automix pausiert. Die Decks laufen weiter, Sie mixen selbst.";
+ else t=n?n+(n===1?" Song":" Songs")+" in der Playlist – bereit zum Start.":"Tippen Sie bei einer Platte auf das Listen-Symbol mit Plus (☰+), um sie in den Automix zu legen – die Songs werden nacheinander automatisch geladen und gemixt. Mit A / B laden Sie selbst auf ein Deck.";
  amS.textContent=msg||t;if(!AM.trans||msg)renderQ();var op=amBox.classList.contains("open");amTog.textContent="Playlist ("+n+") "+(op?"verbergen":"anzeigen");amTog.setAttribute("aria-expanded",op?"true":"false")}
 var SILURL="";
 function silentUrl(){if(SILURL)return SILURL;var n=1600,b=new ArrayBuffer(44+n*2),v=new DataView(b);function w(o,t){for(var i=0;i<t.length;i++)v.setUint8(o+i,t.charCodeAt(i))}
@@ -563,7 +563,7 @@ function amStart(){if(!AM.q.length)return;lg("Automix: Start ("+AM.q.length+" So
  if(pl.length){m=pl.length>1?(xv>0?decks[1]:decks[0]):pl[0];AM.qi=m.song?AM.q.indexOf(m.song):-1}
  else{m=decks[0];loadTo(m,S.indexOf(AM.q[0]),true);AM.qi=0;nextDeck=1}
  AM.main=m.side;AM.on=true;AM.man=false;AM.trans=null;if(!decks[1-m.side].target)setXf(m.side?1:-1);active=m;unlockMedia();
- hint.textContent="Automix läuft – am Crossfader, Tempo-Regler oder an einer Platte übernimmst du jederzeit selbst";amTick()}
+ hint.textContent="Automix läuft – am Crossfader, Tempo-Regler oder an einer Platte übernehmen Sie jederzeit selbst";amTick()}
 function amBegin(T){var m=decks[AM.main],o=decks[1-AM.main];lg("Automix: Mix beginnt "+(m.song&&m.song.titel)+" → "+(o.song&&o.song.titel)+" ("+T.toFixed(1)+" s)");if(ac&&ac.state!=="running"){try{ac.resume()}catch(e){}}AM.trans={t0:performance.now(),T:T*1000,from:m,to:o,x0:xv,x1:o.side?1:-1};AM.loFx=true;
  MIX[o.side].lo=-.9;mixChanged(o.side);if(KN[o.side]&&KN[o.side].lo)KN[o.side].lo.redraw();
  var st=syncTarget(o);if(st){o.sync=true;o.syOut=st.out;setPitch(o,st.p,false);syncLamp(o,st.out)}

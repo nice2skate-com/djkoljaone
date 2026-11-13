@@ -32,8 +32,8 @@ function kjo_ang_opts() {
 		'iban'         => '',
 		'bic'          => '',
 		'bank'         => '',
-		'intro_dj'     => "vielen Dank für eure Anfrage. Sehr gern begleite ich euer Event als DJ – hier ist mein Angebot für euch.",
-		'intro_miete'  => "vielen Dank für eure Mietanfrage. Hier ist mein Angebot für euren Zeitraum.",
+		'intro_dj'     => "vielen Dank für Ihre Anfrage. Sehr gern begleite ich Ihr Event als DJ – hier ist mein Angebot für Sie.",
+		'intro_miete'  => "vielen Dank für Ihre Mietanfrage. Hier ist mein Angebot für Ihren Zeitraum.",
 		'bed_dj'       => '',
 		'bed_miete'    => '',
 		// Mietvertrag im Miet-Angebot (seit 1.73.0): § 1–3 füllt das PDF aus dem Angebot, ab § 4 dieser Text. ENTWURF – vor dem Einsatz anwaltlich prüfen lassen.
@@ -41,15 +41,48 @@ function kjo_ang_opts() {
 		'storno_miete' => '', // leer = kein Stornierungs-Paragraf
 		// Vertragsbedingungen für DJ-Angebote (seit 1.74.0): hängen als eigene Seiten am PDF. Neuer Paragraf: Zeile „§ … Überschrift“, Zeile „---“ = neue Seite. Vor dem Einsatz anwaltlich prüfen lassen.
 		'vertrag_dj'   => "Diese Vertragsbedingungen gelten für Vereinbarungen über DJ-, Musik- und Technikleistungen zwischen dem Auftraggeber und DJ KOLJA ONE, Inhaber Kolja Tönges, Pfarrer-Ritter-Weg 9, 87748 Fellheim – nachfolgend gemeinsam „Parteien“, einzeln „Auftraggeber“ bzw. „DJ“ genannt.\n\n§ 1 Vertragsgegenstand\n(1) Der DJ verpflichtet sich, für die in diesem Vertrag beschriebene Veranstaltung eine professionelle DJ-Darbietung einschließlich Musikauswahl und -mischung zu erbringen.\n(2) Soweit vereinbart, gehören Moderation, technische Leistungen, Beleuchtung, Mikrofonie sowie weitere Zusatzleistungen zum Leistungsumfang.\n(3) Die konkret gebuchten Leistungen ergeben sich aus dem Angebot bzw. der Auftragsbestätigung. Nur ausdrücklich vereinbarte bzw. bestätigte Zusatzleistungen sind geschuldet.\n(4) Ziel der Zusammenarbeit ist ein verlässlicher, professioneller und dem Anlass angemessener musikalischer Ablauf. Die konkrete Musikauswahl während der Veranstaltung erfolgt unter Berücksichtigung der vorher abgestimmten Wünsche und der Reaktion der Gäste.\n\n§ 2 Veranstaltungsdetails\nArt, Datum, Ort, Zeiten und voraussichtliche Gästezahl der Veranstaltung ergeben sich aus dem Angebot bzw. der Auftragsbestätigung.\n\n§ 3 Leistungsumfang\nZum Leistungsumfang gehören, soweit im Angebot nicht anders vereinbart:\n– DJ-Performance inklusive Vorbereitung, Musikmanagement und Live-Mixing.\n– Abstimmung von Musikstil, Must-Play- und No-Go-Titeln vor der Veranstaltung.\n– Auf- und Abbau des vereinbarten eigenen Equipments.\n– Soundcheck und Funktionsprüfung vor Veranstaltungsbeginn.\n– Moderation im zuvor vereinbarten Umfang.\n– Technik- und Lichtleistungen gemäß Angebot.\n\n§ 4 Voraussichtlicher Ablauf\nDer Ablauf der Veranstaltung wird vorab gemeinsam abgestimmt und dient als Planungsgrundlage. Änderungen am Veranstaltungstag sind möglich, sofern sie mit dem DJ bzw. dem Ansprechpartner vor Ort abgestimmt werden.\n\n§ 5 Technik, Aufbau und Voraussetzungen\n(1) Der DJ stellt das im Angebot vereinbarte Equipment zur Verfügung.\n(2) Der Auftraggeber sorgt für einen trockenen, sicheren und ausreichend dimensionierten DJ-/Technikbereich sowie für eine belastbare Stromversorgung. Stromkreise dürfen nicht durch Kühlgeräte, Cateringtechnik oder andere leistungsstarke Verbraucher überlastet werden.\n(3) Der Zugang zum Veranstaltungsort muss für Auf- und Abbau zum vereinbarten Zeitpunkt möglich sein. Treppen, lange Ladewege oder sonstige besondere Zugangsbedingungen sind vor Vertragsabschluss mitzuteilen.\n(4) Für den Auf- und Abbau sowie die Veranstaltungsdauer ist eine kostenfreie Parkmöglichkeit in möglichst unmittelbarer Nähe des Ladezugangs bereitzustellen.\n(5) Bei Outdoor-Veranstaltungen ist ein vollständig wettergeschützter, trockener und standsicherer Aufbaubereich erforderlich. Bei Gefährdung von Personen oder Technik darf der DJ den Betrieb unterbrechen oder nicht aufnehmen.\n\n§ 6 Vergütung und Zahlungsbedingungen\n(1) Die Vergütung ergibt sich aus dem Angebot. Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.\n(2) Zusätzliche Leistungen und Technikoptionen werden nur berechnet, wenn sie vorab oder vor Ort ausdrücklich beauftragt und vom DJ bestätigt wurden.\n(3) Eine Verlängerung der vereinbarten Spielzeit steht unter dem Vorbehalt etwaiger Vorgaben der Location, Sperrzeiten und Lärmschutzauflagen.\n\n§ 7 Zusatzleistungen und Equipment-Optionen\nZusatzleistungen und Equipment-Optionen sind nur geschuldet, wenn sie im Angebot enthalten sind oder nachträglich ausdrücklich vereinbart und vom DJ bestätigt wurden. Sie werden zu den im Angebot bzw. bei der Beauftragung genannten Preisen berechnet.\n\n§ 8 Musikauswahl, Wünsche und Moderation\n(1) Die Musikauswahl obliegt grundsätzlich dem künstlerischen Ermessen des DJ. Maßgeblich sind Anlass, vorherige Abstimmung, Stimmung und Reaktion der Gäste.\n(2) Wunschlisten und No-Go-Listen des Auftraggebers werden nach Möglichkeit berücksichtigt. Ein Anspruch auf das Abspielen einzelner Titel zu einem bestimmten Zeitpunkt besteht nur, wenn dies ausdrücklich als Programmpunkt vereinbart wurde.\n(3) Spontane Musikwünsche von Gästen können berücksichtigt werden, sofern sie zum vereinbarten musikalischen Rahmen und zur aktuellen Situation passen.\n(4) Moderationen erfolgen nur im abgestimmten Umfang; spontane zusätzliche Moderations- oder Programmpunkte werden nach Möglichkeit unterstützt.\n\n§ 9 GEMA und Veranstalterpflichten\n(1) Für die GEMA-Anmeldung und etwaige GEMA-Gebühren ist, sofern erforderlich, der Veranstalter (Auftraggeber) verantwortlich.\n(2) Besteht für die Location ein eigener Rahmenvertrag oder übernimmt die Location die Anmeldung, klärt der Auftraggeber dies vorab mit dem Betreiber.\n(3) Der DJ kann auf Anfrage eine Musikfolge bzw. Repertoireliste bereitstellen, soweit dies für die Anmeldung erforderlich ist.\n\n---\n\n§ 10 Stornierung und Absage\n(1) Eine Stornierung durch den Auftraggeber bedarf mindestens der Textform (z. B. E-Mail). Folgende Stornopauschalen werden vereinbart:\n– bis 90 Tage vor der Veranstaltung: 25 % der vereinbarten Grundgage\n– 89 bis 31 Tage vor der Veranstaltung: 50 % der vereinbarten Grundgage\n– 30 bis 8 Tage vor der Veranstaltung: 75 % der vereinbarten Grundgage\n– ab 7 Tagen vor der Veranstaltung bzw. am Veranstaltungstag: 100 % der vereinbarten Grundgage\n(2) Bereits geleistete Zahlungen werden auf die geschuldete Stornopauschale angerechnet. Ersparte Aufwendungen oder anderweitig erzielte Erlöse sind nach den gesetzlichen Vorgaben zu berücksichtigen.\n(3) Eine einvernehmliche Terminverschiebung kann abweichend geregelt werden. Ein Anspruch auf einen bestimmten Ersatztermin besteht nicht.\n\n§ 11 Ausfall des DJ / Ersatz\n(1) Kann der DJ die Veranstaltung aus von ihm zu vertretenden Gründen nicht wahrnehmen, bemüht er sich um einen qualitativ vergleichbaren Ersatz-DJ.\n(2) Gelingt dies nicht, werden bereits geleistete Zahlungen für nicht erbrachte Leistungen zurückerstattet. Weitergehende Ansprüche richten sich nach den gesetzlichen Bestimmungen.\n(3) Bei Krankheit, Unfall oder sonstigen nicht vom DJ zu vertretenden Umständen gilt Absatz (2) entsprechend; auch in diesem Fall bemüht sich der DJ nach besten Kräften um Ersatz.\n\n§ 12 Bild-, Ton- und Namensnutzung\n(1) Foto- und Videoaufnahmen des DJ durch Auftraggeber und Gäste zu privaten Zwecken sind gestattet.\n(2) Eine gewerbliche Nutzung von Aufnahmen, Künstlername oder Logo des DJ bedarf der vorherigen Zustimmung, soweit sie über eine sachliche Veranstaltungskommunikation hinausgeht.\n(3) Der DJ darf eigene Aufnahmen für Portfolio und Social Media nur im Rahmen der geltenden Persönlichkeits- und Datenschutzrechte verwenden. Wünsche zum Ausschluss bestimmter Personen oder Situationen sind möglichst vorab mitzuteilen.\n\n§ 13 Haftung und Sicherheit\n(1) Die Haftung richtet sich nach den gesetzlichen Bestimmungen. Eine Haftungsbeschränkung gilt nicht bei Vorsatz, grober Fahrlässigkeit sowie bei Schäden aus der Verletzung von Leben, Körper oder Gesundheit.\n(2) Der Auftraggeber sorgt im Rahmen seiner Veranstalterpflichten dafür, dass Gäste und Dritte keinen unbefugten Zugriff auf DJ- und Veranstaltungstechnik haben.\n(3) Schäden an Technik, die schuldhaft durch den Auftraggeber, dessen Erfüllungsgehilfen oder Gäste verursacht werden, sind nach den gesetzlichen Bestimmungen zu ersetzen.\n(4) Der DJ ist berechtigt, die Darbietung vorübergehend zu unterbrechen, wenn eine konkrete Gefahr für Personen oder Technik besteht.\n\n§ 14 Höhere Gewalt\nKönnen vertragliche Leistungen aufgrund höherer Gewalt oder vergleichbarer, von keiner Partei zu vertretender Ereignisse nicht erbracht werden, stimmen sich die Parteien über eine angemessene Lösung ab, insbesondere Verschiebung, Teilleistung oder Rückabwicklung nicht erbrachter Leistungen.\n\n§ 15 Datenschutz\nPersonenbezogene Daten aus der Vertragsabwicklung werden nur im erforderlichen Umfang verarbeitet und nur weitergegeben, soweit dies zur Vertragserfüllung oder aufgrund gesetzlicher Pflichten erforderlich ist.\n\n§ 16 Schlussbestimmungen\n(1) Änderungen und Ergänzungen dieses Vertrags bedürfen mindestens der Textform, soweit nicht gesetzlich eine strengere Form vorgeschrieben ist.\n(2) Sollte eine Bestimmung dieses Vertrags ganz oder teilweise unwirksam sein oder werden, bleibt die Wirksamkeit der übrigen Bestimmungen unberührt.\n(3) Es gilt das Recht der Bundesrepublik Deutschland.\n(4) Gerichtsstand ist, soweit gesetzlich zulässig: Memmingen.\n(5) Das Angebot bzw. die Auftragsbestätigung und diese Vertragsbedingungen bilden gemeinsam den Vertrag.",
-		'schluss'      => "Ich freue mich auf eure Rückmeldung. Bei Fragen ruft mich gern an oder schreibt mir per WhatsApp.",
+		'schluss'      => "Ich freue mich auf Ihre Rückmeldung. Bei Fragen rufen Sie mich gern an oder schreiben Sie mir per WhatsApp.",
 		'vorlage_dj'   => "DJ-Gage | pauschal | | \nAnfahrt | pauschal | | \nEquipment-Paket | pauschal | | \nVerlängerungsstunde | Std. | | optional",
-		'mail_betreff' => 'Euer Angebot {nr} von DJ KOLJA ONE',
-		'mail_text'    => "Hallo {name},\n\nvielen Dank für eure Anfrage! Im Anhang findet ihr mein Angebot {nr}.\n\nIch freue mich auf eure Rückmeldung – bei Fragen ruft mich gern an oder schreibt mir per WhatsApp.\n\nViele Grüße\nKolja – DJ KOLJA ONE\n+49 172 7273707\nhttps://dj-kolja-one.de",
-		'wa_text'      => "Hallo {name}, hier ist euer Angebot {nr} von DJ KOLJA ONE als PDF: {link}\nBei Fragen meldet euch gern. Viele Grüße, Kolja",
+		'mail_betreff' => 'Ihr Angebot {nr} von DJ KOLJA ONE',
+		'mail_text'    => "Hallo {name},\n\nvielen Dank für Ihre Anfrage! Im Anhang finden Sie mein Angebot {nr}.\n\nIch freue mich auf Ihre Rückmeldung – bei Fragen rufen Sie mich gern an oder schreiben Sie mir per WhatsApp.\n\nViele Grüße\nKolja – DJ KOLJA ONE\n+49 172 7273707\nhttps://dj-kolja-one.de",
+		'wa_text'      => "Hallo {name}, hier ist Ihr Angebot {nr} von DJ KOLJA ONE als PDF: {link}\nBei Fragen melden Sie sich gern. Viele Grüße, Kolja",
 	);
 	$o = get_option( 'kjo_angebot', array() );
 	return is_array( $o ) ? array_merge( $d, array_intersect_key( $o, $d ) ) : $d;
 }
+/**
+ * Einmalige Umstellung auf Sie-Form (13.11.2026): gespeicherte Texte, die noch exakt dem alten Du/Ihr-Standard entsprechen,
+ * werden entfernt – dann gilt der neue Standard aus kjo_ang_opts(). Selbst geänderte Texte bleiben unangetastet.
+ */
+add_action(
+	'admin_init',
+	function () {
+		if ( '1' === get_option( 'kjo_sie_form_angebot' ) ) {
+			return;
+		}
+		$alt = array(
+			'intro_dj'     => "vielen Dank für eure Anfrage. Sehr gern begleite ich euer Event als DJ – hier ist mein Angebot für euch.",
+			'intro_miete'  => "vielen Dank für eure Mietanfrage. Hier ist mein Angebot für euren Zeitraum.",
+			'schluss'      => "Ich freue mich auf eure Rückmeldung. Bei Fragen ruft mich gern an oder schreibt mir per WhatsApp.",
+			'mail_betreff' => 'Euer Angebot {nr} von DJ KOLJA ONE',
+			'mail_text'    => "Hallo {name},\n\nvielen Dank für eure Anfrage! Im Anhang findet ihr mein Angebot {nr}.\n\nIch freue mich auf eure Rückmeldung – bei Fragen ruft mich gern an oder schreibt mir per WhatsApp.\n\nViele Grüße\nKolja – DJ KOLJA ONE\n+49 172 7273707\nhttps://dj-kolja-one.de",
+			'wa_text'      => "Hallo {name}, hier ist euer Angebot {nr} von DJ KOLJA ONE als PDF: {link}\nBei Fragen meldet euch gern. Viele Grüße, Kolja",
+		);
+		$o = get_option( 'kjo_angebot', array() );
+		if ( is_array( $o ) ) {
+			$neu = $o;
+			foreach ( $alt as $k => $v ) {
+				if ( isset( $neu[ $k ] ) && is_string( $neu[ $k ] ) && trim( str_replace( "\r\n", "\n", $neu[ $k ] ) ) === $v ) {
+					unset( $neu[ $k ] ); // fehlender Schlüssel = neuer Standard
+				}
+			}
+			if ( $neu !== $o ) {
+				update_option( 'kjo_angebot', $neu, false );
+			}
+		}
+		update_option( 'kjo_sie_form_angebot', '1', true );
+	}
+);
 /** Vorlage „Titel | Einheit | Preis | optional“ → Positionen. Leerer Preis bleibt leer. */
 function kjo_ang_vorlage( $txt ) {
 	$out = array();
@@ -152,7 +185,7 @@ function kjo_ang_clean( $d ) {
 		'vertrag' => ! isset( $d['vertrag'] ) || ( ! empty( $d['vertrag'] ) && 'false' !== $d['vertrag'] ), // Mietvertrag (Miete) bzw. Vertragsbedingungen (DJ) anhängen
 		// Seit 1.75.0 (Angebote aus Telegram/n8n): eigene Anrede, Sie-Form, Umsatzsteuer. Leer = Verhalten wie bisher.
 		'gruss'  => $t( 'gruss' ),
-		'sie'    => ! empty( $d['sie'] ) && 'false' !== $d['sie'],
+		'sie'    => ! isset( $d['sie'] ) || ( ! empty( $d['sie'] ) && 'false' !== $d['sie'] ), // seit 13.11.2026: Sie-Form ist Standard (neue Angebote = true)
 		'ust'    => isset( $d['ust'] ) && in_array( $d['ust'], array( 'brutto', 'netto' ), true ) ? $d['ust'] : '',
 		'ust_brutto' => isset( $d['ust_brutto'] ) ? $num( $d['ust_brutto'] ) : '',
 		'pos'    => array(),

@@ -150,7 +150,7 @@ def footer():
 
 def stat(big,small,wide=False):
     return con([H(big,"p",32,GOLD,"center","300",m=24),T(small,MUTED,"center",14)],g=4,**col(23,48,48))
-STATS=[("10+ Jahre","DJ-Erfahrung"),("Moderation","professionell &amp; souverän"),("Individuell","Musik nach euren Wünschen"),("Süddeutschland &amp; Überregional","Allgäu, Schwaben &amp; Auf Anfrage")]
+STATS=[("10+ Jahre","DJ-Erfahrung"),("Moderation","professionell &amp; souverän"),("Individuell","Musik nach Ihren Wünschen"),("Süddeutschland &amp; Überregional","Allgäu, Schwaben &amp; Auf Anfrage")]
 def stats_row(stats=STATS,border=True):
     kw=dict(border_border="solid",border_width=box(1,0,0,0),border_color=LINE,padding=box(28,0,0,0)) if border else {}
     return con([stat(a,b) for a,b in stats],"row",g=20,flex_justify_content="center",flex_wrap="wrap",flex_direction_mobile="row",width=px(100,"%"),max_width=px(1000),**kw)
@@ -179,7 +179,7 @@ def hero(eye,h1,sub,buttons,stats=STATS,minh=100,extra=None):
     return con(kids,"column",bg=B1,pad=box(72,20,56,20),inner=False,g=16,
                flex_justify_content="center",flex_align_items="center",padding_mobile=box(48,20,40,20))
 
-def cta(title="Euer Termin ist noch frei?",text="Beliebte Samstage sind oft schon ein Jahr im Voraus vergeben. Fragt jetzt unverbindlich an."):
+def cta(title="Ihr Termin ist noch frei?",text="Beliebte Samstage sind oft schon ein Jahr im Voraus vergeben. Fragen Sie jetzt unverbindlich an."):
     return section([H(title,"h2",50,m=34),T(text,OFF),SPACER(8),
         BTNS(BTN("Wunschtermin prüfen",KONTAKT),BTN("WhatsApp schreiben",WA,False))],bg=B2,
         border_border="solid",border_width=box(1,0,1,0),border_color=LINE)
@@ -189,9 +189,9 @@ def tile(title,teaser,url,w=23):
     return con([ti,H(title,"h3",26,OFF,"left","400"),T(teaser,MUTED,"left",16),
                 H("Mehr erfahren →","p",13,GOLD,"left","500",link=url,ls=1.5,tr="uppercase")],g=14,**col(w),css_classes="kjo-tilecard")
 TILE_IMG={"/hochzeits-dj/":"start_hochzeit.jpg","/geburtstags-dj/":"start_geburtstag.jpg","/firmenfeier-dj/":"start_firmenfeier.jpg","/event-dj/":"start_events.jpg"}
-TILES={"/hochzeits-dj/":("Hochzeits-DJ","Ihr genießt euren Tag – ich halte die Tanzfläche voll und führe durch den Abend. Vom Sektempfang bis zum letzten Song."),
-       "/geburtstags-dj/":("Geburtstags-DJ","Vom 18. bis zum 80.: Musik, bei der jede Generation tanzt – und ihr als Gastgeber einfach mitfeiert."),
-       "/firmenfeier-dj/":("Firmenfeier-DJ","Ein Abend, über den euer Team noch lange spricht – professionell geplant, ohne Aufwand für euch."),
+TILES={"/hochzeits-dj/":("Hochzeits-DJ","Sie genießen Ihren Tag – ich halte die Tanzfläche voll und führe durch den Abend. Vom Sektempfang bis zum letzten Song."),
+       "/geburtstags-dj/":("Geburtstags-DJ","Vom 18. bis zum 80.: Musik, bei der jede Generation tanzt – und Sie als Gastgeber einfach mitfeiern."),
+       "/firmenfeier-dj/":("Firmenfeier-DJ","Ein Abend, über den Ihr Team noch lange spricht – professionell geplant, ohne Aufwand für Sie."),
        "/event-dj/":("Event-DJ","Stadtfest, Vereinsfeier, Open Air oder Silvester: Stimmung, die auch große Menschenmengen mitreißt.")}
 def tiles(urls=None,w=23):
     urls=urls or list(TILES)
@@ -251,7 +251,7 @@ def split(eye,title,paras,extra=None,img_left=True,buttons=None,img=None,port=Fa
     t=con(txt,g=16,css_classes="kjo-txt",**(col(60,100,100) if port else col(50,100,100)))
     return section([con([img,t] if img_left else [t,img],"row",g=50,flex_align_items="center",flex_justify_content="space-between",css_classes="kjo-split",**ROW)],bg=bg)
 
-STAERKEN=[("fas fa-music","Individuelle Musikplanung","Vorgespräch, Wunsch- und No-Go-Listen. Keine Playlist von der Stange, sondern eure Musik."),
+STAERKEN=[("fas fa-music","Individuelle Musikplanung","Vorgespräch, Wunsch- und No-Go-Listen. Keine Playlist von der Stange, sondern Ihre Musik."),
           ("fas fa-sliders-h","Geprüfte Profi-Technik","Eigene Ton- und Lichtanlage, regelmäßig geprüft, dezent aufgebaut. Mit Funkmikrofon für Reden."),
           ("fas fa-microphone","Professionelle Moderation","Einlauf, Reden, Spiele und Programmpunkte: souverän moderiert, nie aufdringlich.")]
 def staerken(title="Warum DJ KOLJA ONE?",items=None,eye="Meine Stärken",bg=B2):
@@ -291,10 +291,10 @@ def faq(items,title="Gut zu wissen",more=True,bg=B2,eye="Häufige Fragen"):
     if more: kids+=[SPACER(8),H("Alle Fragen ansehen →","p",13,GOLD,"center","500",link="/faq/",ls=1.5,tr="uppercase")]
     return section(kids,bg=bg)
 
-def orte(title="Euer DJ in Oberschwaben, Ulm und dem Allgäu",exclude=None,bg=B1):
+def orte(title="Ihr DJ in Oberschwaben, Ulm und dem Allgäu",exclude=None,bg=B1):
     chips=[con([H("DJ "+o,"p",19,OFF,"center","300",link=f"/{s}/")],pad=box(18,10,18,10),border_border="solid",
                border_width=box(1,1,1,1),border_color="rgba(178,157,117,0.35)",**col(18,31,48)) for o,s in ORTE if o!=exclude]
-    return section(head("Einsatzgebiete",title)+[T("Von Fellheim aus bin ich schnell bei euch – und gern auch darüber hinaus.",MUTED),
+    return section(head("Einsatzgebiete",title)+[T("Von Fellheim aus bin ich schnell bei Ihnen – und gern auch darüber hinaus.",MUTED),
         con(chips,"row",g=16,flex_wrap="wrap",flex_direction_mobile="row",flex_justify_content="center"),SPACER(6),
         H("Alle Einsatzgebiete →","p",13,GOLD,"center","500",link="/einsatzgebiete/",ls=1.5,tr="uppercase")],bg=bg)
 
