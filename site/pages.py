@@ -65,7 +65,7 @@ def start():
       section(head("Kontakt","Wie möchtet ihr anfragen?")+[con([
           con([ICONBOX(i,t,d,"center",u)],bg=B1,pad=box(36,24,36,24),**col(31,100,100)) for i,t,d,u in [
             ("fas fa-phone","Anrufen",PHONE+" – direkt mit mir sprechen",TEL),("fas fa-envelope-open-text","Formular","In 2 Minuten ausgefüllt – Antwort innerhalb von 24 Stunden",KONTAKT),
-            ("fab fa-whatsapp","WhatsApp","Schnell und unkompliziert – gern auch per Sprachnachricht",WA)]],"row",g=24,**ROW,flex_justify_content="space-between")],bg=B1),
+            (None,"WhatsApp","Schnell und unkompliziert – gern auch per Sprachnachricht",WA)]],"row",g=24,**ROW,flex_justify_content="space-between")],bg=B1),
       footer()]
 
 # Datums-Check „Ist euer Datum noch frei?“ (Shortcode aus dem Plugin, seit 1.51.0)
@@ -78,7 +78,7 @@ def anfrage(anlass,title="Wunschtermin prüfen",text="Datum, Ort und Gästezahl 
               T("Eure Daten nutze ich nur für eure Anfrage. Keine Werbung, kein Newsletter.",MUTED,"left",13)],bg=B1 if bg==B2 else B2,pad=box(40,36,40,36),g=16,**col(62,100,100),
              border_border="solid",border_width=box(2,0,0,0),border_color=GOLD)
     side=con([H("Lieber direkt?","h3",24,OFF,"left","300")]+[con([ICONBOX(i,t,d,"left",u)],bg=B1 if bg==B2 else B2,pad=box(24,22,24,22)) for i,t,d,u in [
-        ("fab fa-whatsapp","WhatsApp","Schnell und unkompliziert – gern auch per Sprachnachricht",WA),("fas fa-phone","Anrufen",PHONE+" – direkt mit mir sprechen",TEL)]],g=16,**col(34,100,100))
+        (None,"WhatsApp","Schnell und unkompliziert – gern auch per Sprachnachricht",WA),("fas fa-phone","Anrufen",PHONE+" – direkt mit mir sprechen",TEL)]],g=16,**col(34,100,100))
     return section([con([form,side],"row",g=30,**ROW,flex_justify_content="space-between",flex_align_items="flex-start")],bg=bg,anchor="anfrage")
 
 def service_v2(c):
@@ -415,7 +415,7 @@ def kontakt():
               T("Eure Daten nutze ich nur für eure Anfrage. Keine Werbung, kein Newsletter.",MUTED,"left",13)],bg=B2,pad=box(44,40,44,40),g=16,**col(58,100,100),
              border_border="solid",border_width=box(2,0,0,0),border_color=GOLD)
     side=con([H("Lieber direkt?","h3",26,OFF,"left","300"),H("Kennenlerngespräch direkt buchen →","p",13,GOLD,"left","500",link="#gespraech",ls=1.5,tr="uppercase")]+[con([ICONBOX(i,t,d,"left",u)],bg=B2,pad=box(28,26,28,26)) for i,t,d,u in [
-        ("fas fa-phone","Anrufen",PHONE+" – direkt mit mir sprechen",TEL),("fab fa-whatsapp","WhatsApp","Schnell und unkompliziert – gern auch per Sprachnachricht",WA),
+        ("fas fa-phone","Anrufen",PHONE+" – direkt mit mir sprechen",TEL),(None,"WhatsApp","Schnell und unkompliziert – gern auch per Sprachnachricht",WA),
         ("fas fa-envelope","E-Mail",MAIL,"mailto:"+MAIL),("fab fa-instagram","Instagram","Einblicke von meinen Events, Playlisten und nützliche Infos",INSTA),("fab fa-facebook-f","Facebook","DJ KOLJA ONE",FACEBOOK),("fab fa-google","Google","Profil, Fotos und Bewertungen",GOOGLE)]],g=16,**col(38,100,100))
     return [nav(),hero("Anfrage","Wunschtermin prüfen","Schickt mir euer Datum – ich prüfe sofort, ob es noch frei ist, und melde mich innerhalb von 24 Stunden persönlich bei euch. Unverbindlich und kostenlos.",
             [BTN("Zum Formular","#formular"),BTN("Per WhatsApp anfragen",WA,False)],stats=None,minh=55),
