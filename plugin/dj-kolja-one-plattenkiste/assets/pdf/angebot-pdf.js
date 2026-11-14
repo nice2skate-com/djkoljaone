@@ -72,10 +72,12 @@
 		var C = { dunkel: [15, 12, 7], gold: [178, 157, 117], text: [30, 27, 22], grau: [111, 103, 90], linie: [226, 218, 203], hell: [244, 239, 230], weiss: [243, 241, 233] };
 		function pdf(logo) {
 			var J = G.jspdf.jsPDF, d = new J({ unit: 'mm', format: 'a4', compress: true }), S = K.absender;
+			/* Rechnung (seit 1.77.0): A.rechnung = { nr, typ (komplett|anzahlung|rest|storno), datum, faellig, leistung, betrag, gesamt, abzuege, bezahlt, ref, titel, text, schluss } */
+			var RE = A.rechnung || null, RL = RE ? { komplett: 'Rechnung', anzahlung: 'Anzahlungsrechnung', rest: 'Schlussrechnung', storno: 'Stornorechnung' }[RE.typ] || 'Rechnung' : '';
 			d.addFileToVFS('Fira-400.ttf', G.KJO_FIRA['400']); d.addFont('Fira-400.ttf', 'Fira', 'normal');
 			d.addFileToVFS('Fira-600.ttf', G.KJO_FIRA['600']); d.addFont('Fira-600.ttf', 'Fira', 'bold');
-			d.setProperties({ title: 'Angebot ' + A.nr + ' – DJ KOLJA ONE', author: 'DJ KOLJA ONE', creator: 'DJ KOLJA ONE' });
-			var L = 18, R = 192, W = R - L, y = 0, m = A.typ === 'miete', seitenKopf = 'Angebot ' + A.nr;
+			d.setProperties({ title: (RE ? RL + ' ' + RE.nr : 'Angebot ' + A.nr) + ' – DJ KOLJA ONE', author: 'DJ KOLJA ONE', creator: 'DJ KOLJA ONE' });
+			var L = 18, R = 192, W = R - L, y = 0, m = A.typ === 'miete', seitenKopf = RE ? RL + ' ' + RE.nr : 'Angebot ' + A.nr;
 			function f(w, size, col) { d.setFont('Fira', w ? 'bold' : 'normal'); d.setFontSize(size); d.setTextColor.apply(d, col || C.text); }
 			function lh(size) { return size * 0.3528 * 1.38; }
 			function seite() { // Folgeseite – Schrift und Farbe des laufenden Textes danach wiederherstellen (seit 1.76.2, sonst war Text nach dem Umbruch hell auf weiß)
@@ -191,6 +193,61 @@
 					y += lh(size);
 				});
 			}
+			/* Rechnungsteil (seit 1.77.0): Positionen, Abzug der Anzahlung, Zahlungshinweis bzw. Quittung. Keine Vertragsbedingungen. */
+			function reTeil() {
+				var fest = A.pos.filter(function (p) { return !p.o; }), s = summen(), xS = xE - 30;
+				function zeileS(l, v, w, x) { f(w, 9.5, w ? C.text : C.grau); var t = d.splitTextToSize(l, xG - 30 - (x || xS)); d.text(t, x || xS, y); d.text(v, xG - 2, y, { align: 'right' }); y += 5.4 * t.length; }
+				function box(l, v) {
+					platz(16);
+					d.setFillColor.apply(d, C.dunkel); d.rect(xE - 33, y - 5, xG - xE + 33, 9, 'F');
+					f(1, 10.5, C.gold); d.text(l, xE - 30, y + 0.9); f(1, 11.5, C.weiss); d.text(eur(v), xG - 2, y + 0.9, { align: 'right' });
+					y += 9;
+				}
+				kopf('Leistung');
+				if (RE.typ === 'anzahlung') {
+					zeile({ t: 'Anzahlung' + (A.anlass ? ' für ' + A.anlass : '') + (A.von ? ' am ' + datum(A.von) : ''), i: 'gemäß Angebot Nr. ' + A.nr + (A.datum ? ' vom ' + datum(A.datum) : '') + (RE.gesamt ? ' über ' + eur(RE.gesamt) : ''), q: 1, e: 'pauschal', p: RE.betrag }, 1);
+					y += 1; box('Anzahlungsbetrag', RE.betrag);
+				} else if (RE.typ === 'storno') {
+					var rf = RE.ref || {};
+					zeile({ t: 'Storno ' + (rf.typ || 'Rechnung') + ' Nr. ' + (rf.nr || ''), i: rf.datum ? 'Rechnung vom ' + datum(rf.datum) + (A.anlass ? ' · ' + A.anlass : '') : '', q: 1, e: 'pauschal', p: RE.betrag }, 1);
+					y += 1; box('Stornobetrag', RE.betrag);
+				} else {
+					fest.forEach(function (p, i) { zeile(p, i + 1); });
+					y += 1; platz(30);
+					if (s.rabatt) { zeileS('Zwischensumme', eur(s.zw)); zeileS(A.rabatt_txt ? 'Rabatt (' + A.rabatt_txt + ')' : 'Rabatt', '− ' + eur(s.rabatt)); }
+					if (A.ust === 'netto') { zeileS('Summe netto', eur(s.ges)); zeileS('zzgl. 19 % MwSt.', eur(Math.round((RE.gesamt - s.ges) * 100) / 100)); }
+					if (RE.typ === 'rest' && RE.abzuege && RE.abzuege.length) {
+						zeileS('Gesamtbetrag der Leistungen', eur(RE.gesamt), 1);
+						RE.abzuege.forEach(function (a) { zeileS('abzüglich Anzahlung (Rechnung ' + a.nr + ' vom ' + datum(a.datum) + ')', '− ' + eur(a.betrag), 0, L + 60); });
+						y += 1; box('Restbetrag', RE.betrag);
+					} else box('Rechnungsbetrag', RE.betrag);
+				}
+				var mw = Math.round((RE.betrag - RE.betrag / 1.19) * 100) / 100;
+				f(0, 7.8, C.grau); d.text(A.ust === 'brutto' || A.ust === 'netto' ? 'Im Betrag sind 19 % MwSt. (' + eur(mw) + ') enthalten.' : 'Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.', xG - 2, y, { align: 'right' }); y += 8;
+				// Zahlung
+				platz(30);
+				if (RE.typ === 'storno') {
+					f(1, 11, C.dunkel); d.text('Hinweis', L, y); y += 5.5;
+					absatz('Die ' + ((RE.ref && RE.ref.typ) || 'Rechnung') + ' Nr. ' + ((RE.ref && RE.ref.nr) || '') + ' ist damit aufgehoben.' + (RE.ref && RE.ref.bezahlt ? ' Den bereits gezahlten Betrag erstatte ich Ihnen bzw. verrechne ihn wie mit Ihnen abgesprochen.' : ' Bitte zahlen Sie diese Rechnung nicht.'), 9.6);
+				} else if (RE.bezahlt) {
+					f(1, 11, C.dunkel); d.text('Zahlung erhalten', L, y); y += 5.5;
+					absatz('Den Betrag von ' + eur(RE.betrag) + ' habe ich am ' + datum(RE.bezahlt.datum) + (RE.bezahlt.art === 'bar' ? ' in bar erhalten.' : ' per Überweisung erhalten.') + ' Vielen Dank!', 9.6);
+				} else {
+					f(1, 11, C.dunkel); d.text('Zahlung', L, y); y += 5.5;
+					var bk = K.bank || {};
+					absatz('Bitte überweisen Sie den Betrag von ' + eur(RE.betrag) + ' ohne Abzug bis zum ' + datum(RE.faellig) + (bk.IBAN ? ' auf folgendes Konto:' : '.'), 9.6);
+					if (bk.IBAN) {
+						y += 1;
+						var zb = [['Kontoinhaber', bk.Kontoinhaber], ['IBAN', bk.IBAN], ['BIC', bk.BIC], ['Bank', bk.Bank], ['Verwendungszweck', 'Rechnung ' + RE.nr]];
+						zb.forEach(function (z) { if (!z[1]) return; platz(5); f(0, 9, C.grau); d.text(z[0], L, y); f(z[0] === 'IBAN' || z[0] === 'Verwendungszweck' ? 1 : 0, 9.6); d.text(String(z[1]), L + 34, y); y += 4.9; });
+					} else { absatz('Verwendungszweck: Rechnung ' + RE.nr, 9.6); }
+				}
+				y += 4;
+				if (RE.schluss) { absatz(RE.schluss, 10); }
+				y += 5; platz(11);
+				f(0, 10); d.text('Viele Grüße', L, y); y += 5.5;
+				f(1, 10); d.text('Kolja · DJ KOLJA ONE', L, y);
+			}
 			// Kopf
 			d.setFillColor.apply(d, C.dunkel); d.rect(0, 0, 210, 32, 'F');
 			d.setFillColor.apply(d, C.gold); d.rect(0, 32, 210, 0.8, 'F');
@@ -203,9 +260,9 @@
 			}
 			else { f(1, 18, C.weiss); d.text('DJ KOLJA ONE', L, 19); }
 			f(1, 8.5, C.gold);
-			var an = 'ANGEBOT', cs = 1.4; d.text(an, R - d.getTextWidth(an) - cs * (an.length - 1), 13.5, { charSpace: cs });
-			f(0, 10.5, C.weiss); d.text('Nr. ' + A.nr, R, 20, { align: 'right' });
-			f(0, 8.5, [190, 182, 166]); d.text(datum(A.datum), R, 25, { align: 'right' });
+			var an = RE ? RL.toUpperCase() : 'ANGEBOT', cs = RE && an.length > 12 ? 0.9 : 1.4; d.text(an, R - d.getTextWidth(an) - cs * (an.length - 1), 13.5, { charSpace: cs });
+			f(0, 10.5, C.weiss); d.text('Nr. ' + (RE ? RE.nr : A.nr), R, 20, { align: 'right' });
+			f(0, 8.5, [190, 182, 166]); d.text(datum(RE ? RE.datum : A.datum), R, 25, { align: 'right' });
 			// Absender und Empfänger
 			y = 44;
 			f(0, 7, C.grau); d.text(S.marke + ' · ' + S.name + ' · ' + S.strasse + ' · ' + S.ort, L, y);
@@ -214,9 +271,14 @@
 			[[A.name, 1], [A.firma, 0], [A.strasse, 0], [A.plzort, 0]].forEach(function (z) { if (!z[0]) return; f(z[1], z[1] ? 11 : 10); d.text(String(z[0]), L, ye); ye += 5.2; });
 			// Eckdaten rechts
 			var tf = tarif(A.von, A.bis), info = [['Angebot', A.nr], ['Datum', datum(A.datum)], ['Gültig bis', datum(A.gueltig)], ['Anlass', A.anlass]];
-			if (m) info.push(['Mietzeitraum', A.von ? datum(A.von, 1) + (A.bis && A.bis !== A.von ? ' – ' + datum(A.bis, 1) : '') : ''], ['Abrechnung', tf ? tarifTxt(tf) : ''], ['Übergabe', A.uebergabe]);
+			if (RE) {
+				info = [['Rechnung', RE.nr], ['Rechnungsdatum', datum(RE.datum)], ['Leistungsdatum', RE.leistung], ['Angebot', A.nr + (A.datum ? ' vom ' + datum(A.datum) : '')], ['Anlass', A.anlass], [m ? 'Einsatzort' : 'Location', A.ort]];
+				if (RE.typ === 'storno' && RE.ref) info.push(['Storno zu', RE.ref.typ + ' ' + RE.ref.nr]);
+				else if (RE.bezahlt) info.push(['Bezahlt', datum(RE.bezahlt.datum) + (RE.bezahlt.art === 'bar' ? ' (bar)' : '')]);
+				else info.push(['Zahlbar bis', datum(RE.faellig)]);
+			} else if (m) info.push(['Mietzeitraum', A.von ? datum(A.von, 1) + (A.bis && A.bis !== A.von ? ' – ' + datum(A.bis, 1) : '') : ''], ['Abrechnung', tf ? tarifTxt(tf) : ''], ['Übergabe', A.uebergabe]);
 			else info.push(['Termin', datum(A.von, 1)], ['Uhrzeit', A.zeit]);
-			info.push([m ? 'Einsatzort' : 'Location', A.ort], ['Gäste', A.gaeste]);
+			if (!RE) info.push([m ? 'Einsatzort' : 'Location', A.ort], ['Gäste', A.gaeste]);
 			var yi = 43, xl = 124, xv = 148;
 			info.forEach(function (z) {
 				if (!z[1]) return;
@@ -225,11 +287,11 @@
 			});
 			y = Math.max(ye, yi) + 8;
 			// Überschrift und Einleitung
-			f(1, 17, C.dunkel); d.splitTextToSize(A.titel || 'Angebot', W).forEach(function (z) { d.text(z, L, y); y += 7.2; });
+			f(1, 17, C.dunkel); d.splitTextToSize(RE ? RE.titel || RL : A.titel || 'Angebot', W).forEach(function (z) { d.text(z, L, y); y += 7.2; });
 			d.setFillColor.apply(d, C.gold); d.rect(L, y - 3.4, 18, 0.7, 'F'); y += 4;
 			absatz(A.gruss || 'Hallo ' + (A.name || '') + ',', 10); // eigene Anrede seit 1.75.0 (z. B. „Guten Tag …,“ aus Telegram/n8n)
 			y += 1;
-			absatz(A.intro, 10);
+			absatz(RE ? RE.text : A.intro, 10);
 			y += 5;
 			// Tabelle
 			var xQ = 136, xE = 164, xG = R;
@@ -255,6 +317,7 @@
 				d.setDrawColor.apply(d, C.linie); d.line(L, y - 1.8 + 1, R, y - 1.8 + 1);
 				y += 3.6;
 			}
+			if (RE) reTeil(); else {
 			var fest = A.pos.filter(function (p) { return !p.o; }), opt = A.pos.filter(function (p) { return p.o; });
 			kopf('Leistung');
 			fest.forEach(function (p, i) { zeile(p, i + 1); });
@@ -293,6 +356,7 @@
 			f(1, 10); d.text('Kolja · DJ KOLJA ONE', L, y);
 			if (m && A.vertrag !== false) vertrag(s, fest);
 			if (!m && A.vertrag !== false && (K.vertrag || {}).dj) bedingungen();
+			}
 			// Fußzeile auf jeder Seite
 			var n = d.getNumberOfPages();
 			for (var i = 1; i <= n; i++) {

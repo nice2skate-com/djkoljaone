@@ -287,4 +287,6 @@
 	render();
 	dirty = !K.aktuell;
 	window.kjoAngPdf = function () { return ladeLogo().then(pdf); }; // für Tests
+	window.kjoAngLogo = ladeLogo; // für Rechnungen (rechnung.js, seit 1.77.0)
+	window.kjoAngDaten = function () { return JSON.parse(JSON.stringify(A)); };
 })();

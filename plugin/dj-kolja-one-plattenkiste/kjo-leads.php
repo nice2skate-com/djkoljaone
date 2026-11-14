@@ -21,6 +21,8 @@ function kjo_lead_stati() {
 		'versendet'     => array( 'Angebot versendet', '#d46a00', true ),
 		'ueberlegt'     => array( 'Kunde überlegt', '#a8580f', true ),
 		'gebucht'       => array( 'Gebucht', '#00a32a', true ),
+		'rechnung'      => array( 'Rechnung gestellt', '#00848a', true ), // seit 1.77.0
+		're_bezahlt'    => array( 'Rechnung bezahlt', '#006b1d', false ),
 		'durchgefuehrt' => array( 'Durchgeführt', '#006b1d', false ),
 		'abg_kolja'     => array( 'Abgelehnt – Kolja', '#787c82', false ),
 		'abg_kunde'     => array( 'Abgelehnt – Kunde', '#787c82', false ),
@@ -410,7 +412,7 @@ function kjo_lead_dash() {
 		if ( in_array( $s, array( 'versendet', 'ueberlegt' ), true ) ) {
 			$pip += $b;
 		}
-		if ( in_array( $s, array( 'gebucht', 'durchgefuehrt' ), true ) && 0 === strpos( (string) get_post_meta( $p->ID, '_kjo_von', true ), $y ) ) {
+		if ( in_array( $s, array( 'gebucht', 'rechnung', 're_bezahlt', 'durchgefuehrt' ), true ) && 0 === strpos( (string) get_post_meta( $p->ID, '_kjo_von', true ), $y ) ) {
 			$geb += $b;
 		}
 	}
