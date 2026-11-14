@@ -109,6 +109,7 @@
 			'<h3>Kunde</h3><div class="kjo-ang-g">' + feld('name', 'Name *') + feld('firma', 'Firma (optional)') + feld('strasse', 'Straße') + feld('plzort', 'PLZ und Ort') + feld('email', 'E-Mail', 'email') + feld('tel', 'Telefon / WhatsApp', 'tel') + '</div>' +
 			'<h3>' + (m ? 'Miete' : 'Event') + '</h3><div class="kjo-ang-g">' + feld('anlass', 'Anlass') + feld('von', m ? 'Abholung / Beginn' : 'Datum', 'date') + (m ? feld('bis', 'Rückgabe', 'date') : feld('zeit', 'Uhrzeit (z. B. 18:00 – 02:00)')) +
 			feld('ort', m ? 'Einsatzort' : 'Ort / Location') + feld('gaeste', 'Gäste') + (m ? feld('uebergabe', 'Übergabe') : '') + '</div><p class="kjo-ang-tarif description"></p>' +
+			(m ? '' : '<div class="kjo-ang-g"><label class="kjo-ang-f"><span>Anrede</span><select data-k="sie"><option value="1"' + (A.sie !== false ? ' selected' : '') + '>Sie (Standard)</option><option value="0"' + (A.sie === false ? ' selected' : '') + '>ihr / euch (Hochzeit)</option></select></label></div>') +
 			'<h3>Einleitung</h3>' + area('intro', 'Steht im PDF nach „Hallo ' + esc(A.name || '…') + ',“', 3) +
 			'<h3>Positionen</h3><table class="widefat kjo-ang-t"><thead><tr><th>Leistung</th><th>Menge</th><th>Einheit</th><th>Einzelpreis €</th><th>Gesamt</th><th title="Optional zubuchbar, zählt nicht zur Summe">Opt.</th><th></th></tr></thead><tbody>' +
 			(A.pos || []).map(function (p, i) {
@@ -123,6 +124,7 @@
 			'<div class="kjo-ang-g">' + feld('rabatt', 'Rabatt in €') + feld('rabatt_txt', 'Rabatt-Text (z. B. Stammkunde)') + feld('kaution', 'Kaution in € (nicht in der Summe)') + '</div>' +
 			'<h3>Bedingungen und Schluss</h3>' + area('bed', 'Bedingungen (Zahlung, Reservierung, Kaution …)', 4) + area('schluss', 'Schlusstext', 2) +
 			(m ? '<h3>Mietvertrag und Quittung</h3><p><label><input type="checkbox" data-k="vertrag"' + (A.vertrag !== false ? ' checked' : '') + '> Mietvertrag mit Übergabeprotokoll und Quittung an das PDF anhängen</label></p>' +
+				'<p><label><input type="checkbox" data-k="unterschrift"' + (A.unterschrift !== false ? ' checked' : '') + '> Unterschriftszeilen drucken</label> <span class="description">(aus, wenn z. B. vor Ort anders quittiert wird)</span></p>' +
 				'<p class="description">Was du hier einträgst, steht gedruckt in der Quittung. Leer gelassene Felder bleiben im PDF zum Ausfüllen von Hand.</p>' +
 				'<table class="widefat kjo-ang-t"><thead><tr><th></th><th>Betrag €</th><th>Datum</th><th>Art</th></tr></thead><tbody>' +
 				QZ.map(function (z) {
@@ -141,8 +143,9 @@
 		if (t.dataset.q) { // Quittung
 			A.q = A.q || {}; A.q[t.dataset.q] = A.q[t.dataset.q] || {};
 			A.q[t.dataset.q][t.dataset.f] = t.dataset.f === 'b' ? num(t.value) : t.value;
-		} else if (t.dataset.k === 'vertrag') {
-			A.vertrag = t.checked;
+		} else if (t.dataset.k === 'vertrag' || t.dataset.k === 'unterschrift') {
+			A[t.dataset.k] = t.checked;
+		} else if (t.dataset.k === 'sie') { // wird im change-Handler gesetzt
 		} else if (t.dataset.k) {
 			A[t.dataset.k] = (t.dataset.k === 'rabatt' || t.dataset.k === 'kaution') ? num(t.value) : t.value;
 		} else if (tr && t.dataset.p) {
@@ -153,6 +156,14 @@
 	});
 	root.addEventListener('change', function (e) {
 		var t = e.target;
+		if (t.dataset.k === 'sie') { // Anrede (seit 1.80.0): Standardtexte mit tauschen, eigene Texte bleiben
+			var ihr = t.value === '0', T = K.texte || {};
+			A.sie = !ihr;
+			if (!A.intro || A.intro === (ihr ? T.intro_dj : T.intro_dj_ihr)) A.intro = ihr ? T.intro_dj_ihr : T.intro_dj;
+			if (!A.schluss || A.schluss === (ihr ? T.schluss : T.schluss_ihr)) A.schluss = ihr ? T.schluss_ihr : T.schluss;
+			render();
+			return;
+		}
 		if (t.dataset.k === 'typ') {
 			var alt = A.typ === 'miete' ? 'dj' : 'miete';
 			A.typ = t.value;
@@ -250,8 +261,9 @@
 		box.hidden = !box.hidden;
 		if (!box.hidden) {
 			document.getElementById('kjo-ang-mail-to').value = A.email || '';
-			document.getElementById('kjo-ang-mail-sub').value = platzhalter(K.mail.sub);
-			document.getElementById('kjo-ang-mail-txt').value = K.mail.txt.replace(/\{name\}/g, A.name || '').replace(/\{nr\}/g, A.nr || '');
+			var MT = A.sie === false && K.mail_ihr ? K.mail_ihr : K.mail;
+			document.getElementById('kjo-ang-mail-sub').value = platzhalter(MT.sub);
+			document.getElementById('kjo-ang-mail-txt').value = MT.txt.replace(/\{name\}/g, A.name || '').replace(/\{nr\}/g, A.nr || '');
 		}
 	});
 	document.getElementById('kjo-ang-mail-send').addEventListener('click', function () {
@@ -271,7 +283,7 @@
 		aktuell().then(function () {
 			var t = String(A.tel || '').replace(/[^\d+]/g, '');
 			if (t.indexOf('+') === 0) t = t.slice(1); else if (t.indexOf('00') === 0) t = t.slice(2); else if (t.indexOf('0') === 0) t = '49' + t.slice(1);
-			var u = window.kjoWaUrl(t, platzhalter(K.mail.wa));
+			var u = window.kjoWaUrl(t, platzhalter((A.sie === false && K.mail_ihr ? K.mail_ihr : K.mail).wa));
 			if (w) w.location.href = u; else window.location.href = u;
 			return post('kjo_ang_wa', {});
 		}).then(function () {

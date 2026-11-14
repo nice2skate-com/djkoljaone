@@ -186,7 +186,7 @@ button,.btn{display:block;width:100%;text-align:center;padding:16px;background:v
 <p class="err" id="err" role="alert"></p>
 <button type="submit" id="b">Wunsch abschicken</button>
 </form>
-<div class="ok" id="ok" hidden><h2>Danke, ist angekommen! 🎶</h2><p>Ich schaue, wann er gut passt – versprochen ist nichts, aber die Chancen stehen gut.</p>
+<div class="ok" id="ok" hidden><h2>Danke, Ihr Wunsch ist angekommen! 🎶</h2><p>Ich schaue, wann Ihr Song gut passt – versprochen ist nichts, aber die Chancen stehen gut.</p>
 <div class="links"><button type="button" class="btn" id="again">Noch einen Song wünschen</button><a class="btn s" href="<?php echo esc_url( $ig ); ?>" target="_blank" rel="noopener">DJ KOLJA ONE auf Instagram</a><a class="btn s" href="<?php echo esc_url( home_url( '/kontakt/?utm_source=qr&utm_medium=songwunsch&utm_campaign=gaeste' ) ); ?>">DJ für Ihre eigene Feier?</a></div></div>
 <script>(function(){var f=document.getElementById("f"),ok=document.getElementById("ok"),err=document.getElementById("err"),b=document.getElementById("b");
 f.addEventListener("submit",function(e){e.preventDefault();err.textContent="";var d={e:<?php echo wp_json_encode( $code ); ?>};["titel","kuenstler","name","website"].forEach(function(n){d[n]=f.elements[n].value.trim()});

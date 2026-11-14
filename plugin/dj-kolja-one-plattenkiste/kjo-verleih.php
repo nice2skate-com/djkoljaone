@@ -45,7 +45,7 @@ function kjo_vl_fields( $type ) {
 	if ( 'kjo_paket' === $type ) {
 		return array(
 			'gaeste'   => array( 'Gästezahl', 'text', 'z. B. Für bis zu ca. 50 Gäste' ),
-			'anlaesse' => array( 'Anlässe', 'text', 'z. B. bspw. Geburtstag, Gartenparty, Sektempfang, etc.' ),
+			'anlaesse' => array( 'Anlässe', 'text', 'z. B. Geburtstag, Gartenparty oder Sektempfang' ),
 			'inhalt'   => array( 'Inhalt (eine Zeile pro Punkt)', 'textarea', '' ),
 			'hinweis'  => array( 'Hinweis / Empfehlung', 'textarea', '' ),
 			'geraete'  => array( 'Enthaltene Geräte für die Bestandsprüfung (eine Zeile pro Gerät: Anzahl × Geräte-Kürzel; leer = Standard)', 'textarea', 'z. B. 2 × bose-s1-pro' ),
@@ -478,10 +478,10 @@ function kjo_vl_seed_data() {
 		array( 'traverse-3m', 'Stageworx LB-3 Traversen-Set 3 m', 'buehne', 1, 'Lichttraverse mit zwei Ständern – die Bühne für Scheinwerfer und Laufschrift.', array( 'lieferumfang' => "2 Lichtstative\n2 Traversenaufnehmer\n2 Traversenstücke (je 1,5 m, 3-Punkt)\n8 Haken (Hookclamps, je bis 15 kg) mit Sicherungsseilen\n2 Transporttaschen (Traverse, Stative)" ) ),
 	);
 	$p = array(
-		array( 'paket-s', 'Paket S – „Sound & Party“', 'Für bis zu ca. 50 Gäste', 'bspw. Geburtstag, Gartenparty, Sektempfang, etc.', "2× Bose S1 Pro Aktivlautsprecher (mit Bluetooth) auf Stativen\nPartylicht: Eurolite KLS Laser Bar mit Laser, Derbys, Spots und Strobe, auf eigenem Lichtstativ\nShure Beta 58A Mikrofon mit Kabel\nAudiokabel für Handy oder Laptop", 'Zubehör: DJ-Pult 20 €, Pioneer DDJ-FLX10 60 € pro Tag. Transport: passt in einen Kombi (Lightbar und Stative ca. 1,5 m).' ),
-		array( 'paket-m', 'Paket M – „Party“', 'Für bis zu ca. 100 Gäste', 'bspw. runder Geburtstag, Vereinsfeier, Firmenfeier, etc.', "Alles aus Paket S, dazu der Bose Sub1 Subwoofer\nFunkmikrofon-Set mit 4 Handmikros statt Kabelmikro\n3-m-Lichttraverse mit 4 LED-PARs und Cameo Thunder Wash (Wash, Blinder, Strobe)\nLED-Laufschrift, z. B. mit Ihren Namen\nNebelmaschine\nDJ-Pult (Roadworx DJ Table, schwarz)", 'Zubehör: Pioneer DDJ-FLX10 60 € pro Tag. Transport: Van oder Transporter (Traversentasche 1,54 m) – oder ich liefere und baue auf.' ),
-		array( 'paket-l', 'Paket L – „Komplett-Show“', 'Für bis zu ca. 250 Gäste', 'bspw. Hochzeit, Abiball, Sommerfest, etc. Die komplette Bühne aus meinem Beispiel-Lichtplan.', "Pronomic PA: 2× C-215 MA (15\") auf 2× C-118SA (18\"-Subwoofer), mit Distanzstangen und Kabelsatz\n3-m-Lichttraverse mit 2 Moving Heads, 4 LED-PARs, Thunder Wash und LED-Laufschrift\n6 kabellose Akku-Scheinwerfer (IP65), auch für draußen\nKLS Laser Bar, UV-Schwarzlicht, Spiegelkugel, Nebelmaschine\nFunkmikrofon-Set (4 Handmikros), DJ-Pult", 'Empfehlung: Lieferung, Aufbau und Abbau durch mich – wegen der Moving Heads und der 40-kg-Subwoofer. Kaution bei Selbstabholung 1.000 €, mit Lieferung, Auf- und Abbau und Abholung durch mich 300 €. Zubehör: Pioneer DDJ-FLX10 60 € pro Tag, Bose-Set für Sektempfang oder Nebenraum 99 € pro Tag.' ),
-		array( 'paket-bose-zusatz', 'Zusatz zu Paket L: Bose-Set für Sektempfang & Nebenraum', 'Zweites Soundsystem', 'bspw. Sektempfang, Außenbereich, Nebenraum, Dinner', "2× Bose S1 Pro Aktivlautsprecher (mit Bluetooth) auf Stativen\nBose Sub1 Subwoofer\nAudiokabel für Handy oder Laptop", 'Nur zusammen mit Paket L buchbar.' ),
+		array( 'paket-s', 'Paket S – „Sound & Party“', 'Für bis zu ca. 50 Gäste', 'z. B. Geburtstag, Gartenparty oder Sektempfang', "2× Bose S1 Pro Aktivlautsprecher (mit Bluetooth) auf Stativen\nPartylicht: Eurolite KLS Laser Bar mit Laser, Derbys, Spots und Strobe, auf eigenem Lichtstativ\nShure Beta 58A Mikrofon mit Kabel\nAudiokabel für Handy oder Laptop", 'Zubehör: DJ-Pult 20 €, Pioneer DDJ-FLX10 60 € pro Tag. Transport: passt in einen Kombi (Lightbar und Stative ca. 1,5 m).' ),
+		array( 'paket-m', 'Paket M – „Party“', 'Für bis zu ca. 100 Gäste', 'z. B. runder Geburtstag, Vereinsfeier oder Firmenfeier', "Alles aus Paket S, dazu der Bose Sub1 Subwoofer\nFunkmikrofon-Set mit 4 Handmikros statt Kabelmikro\n3-m-Lichttraverse mit 4 LED-PARs und Cameo Thunder Wash (Wash, Blinder, Strobe)\nLED-Laufschrift, z. B. mit Ihren Namen\nNebelmaschine\nDJ-Pult (Roadworx DJ Table, schwarz)", 'Zubehör: Pioneer DDJ-FLX10 60 € pro Tag. Transport: Van oder Transporter (Traversentasche 1,54 m) – oder ich liefere und baue auf.' ),
+		array( 'paket-l', 'Paket L – „Komplett-Show“', 'Für bis zu ca. 250 Gäste', 'z. B. Hochzeit, Abiball oder Sommerfest. Die komplette Bühne aus meinem Beispiel-Lichtplan.', "Pronomic PA: 2× C-215 MA (15\") auf 2× C-118SA (18\"-Subwoofer), mit Distanzstangen und Kabelsatz\n3-m-Lichttraverse mit 2 Moving Heads, 4 LED-PARs, Thunder Wash und LED-Laufschrift\n6 kabellose Akku-Scheinwerfer (IP65), auch für draußen\nKLS Laser Bar, UV-Schwarzlicht, Spiegelkugel, Nebelmaschine\nFunkmikrofon-Set (4 Handmikros), DJ-Pult", 'Empfehlung: Lieferung, Aufbau und Abbau durch mich – wegen der Moving Heads und der 40-kg-Subwoofer. Kaution bei Selbstabholung 1.000 €, mit Lieferung, Auf- und Abbau und Abholung durch mich 300 €. Zubehör: Pioneer DDJ-FLX10 60 € pro Tag, Bose-Set für Sektempfang oder Nebenraum 99 € pro Tag.' ),
+		array( 'paket-bose-zusatz', 'Zusatz zu Paket L: Bose-Set für Sektempfang & Nebenraum', 'Zweites Soundsystem', 'z. B. Sektempfang, Außenbereich, Nebenraum oder Dinner', "2× Bose S1 Pro Aktivlautsprecher (mit Bluetooth) auf Stativen\nBose Sub1 Subwoofer\nAudiokabel für Handy oder Laptop", 'Nur zusammen mit Paket L buchbar.' ),
 	);
 	return array( $g, $p );
 }
@@ -942,7 +942,7 @@ const KJO_VL_PREISE = array(
 );
 const KJO_VL_OPT_DEFAULT = array(
 	'wochenende' => 'Freitag ab 15 Uhr bis Montag 21 Uhr. Sobald Samstag oder Sonntag im Mietzeitraum liegt, gilt der Wochenendpreis.',
-	'lieferung'  => 'Bringen und Holen ab Fellheim: bis 15 km 40 €, bis 30 km 70 €, bis 50 km (z. B. Ulm, Kempten, Kaufbeuren) 110 €, darüber 0,60 € je gefahrenem km.',
+	'lieferung'  => 'Bringen und Holen ab Fellheim: bis 15 km 40 €, bis 30 km 70 €, bis 50 km (z. B. Ulm, Kempten) 110 €, darüber 0,60 € je gefahrenem km.',
 	'aufbau'     => 'Auf- und Abbau: Paket S 40 €, Paket M 100 €, Paket L 180 €, sonst 40 € pro Stunde; Abbau nach 23 Uhr +50 %. Die Einweisung ist immer kostenlos.',
 );
 const KJO_VL_PAKETE_V = 4; // Pakete S/M/L neu (12.10.2026): einmalig vollständig überschreiben
@@ -1446,7 +1446,7 @@ add_action(
 function kjo_vl_options_page() {
 	$f = array(
 		'mail'            => array( 'E-Mail für Mietanfragen und Link-Meldungen', 'Leer = ' . KJO_VL_MAIL ),
-		'wochenende'      => array( 'Wochenendtarif (Freitag bis Montag)', 'z. B. 1,5-facher Tagespreis – leer = „Fragen Sie nach unserem Wochenendtarif.“' ),
+		'wochenende'      => array( 'Wochenendtarif (Freitag bis Montag)', 'z. B. 1,5-facher Tagespreis – leer = „Fragen Sie nach meinem Wochenendtarif.“' ),
 		'sorglos_prozent' => array( 'Sorglos-Option: Aufpreis in %', 'z. B. 10 – nur wenn beide Felder ausgefüllt sind, stehen Zahlen auf der Seite' ),
 		'sorglos_max'     => array( 'Sorglos-Option: Selbstbeteiligung höchstens (€)', 'z. B. 250' ),
 		'lieferung'       => array( 'Lieferung und Abholung (Text)', 'z. B. Zonen ab Fellheim – leer = „gegen Gebühr laut Angebot“' ),
@@ -1674,7 +1674,7 @@ add_shortcode(
 			return $h . '</div>' . kjo_vl_assets();
 		}
 		$w  = kjo_vl_opt( 'wochenende' );
-		$h .= '</div><p class="kjo-vl-wochenende">' . ( $w ? 'Wochenendmiete: ' . esc_html( $w ) : 'Sie feiern das ganze Wochenende? Fragen Sie nach unserem Wochenendtarif.' ) . '</p>';
+		$h .= '</div><p class="kjo-vl-wochenende">' . ( $w ? 'Wochenendmiete: ' . esc_html( $w ) : 'Sie feiern das ganze Wochenende? Fragen Sie nach meinem Wochenendtarif.' ) . '</p>';
 		return $h . kjo_vl_cart_html() . kjo_vl_assets(); // Mietkorb auch auf Seiten ohne Geräteliste (z. B. Equipment)
 	}
 );

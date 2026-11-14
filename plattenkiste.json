@@ -1,9 +1,9 @@
 {
- "version": "1.79.0",
- "download_url": "dj-kolja-one-plattenkiste-1.79.0.zip",
- "sha256": "1b4111b2d5cada1f2b3086f9c5332b3adb0523b225b8eeec782befe4cd4f5669",
+ "version": "1.80.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.80.0.zip",
+ "sha256": "5534b4eb36d84ed54447a4adabcfb348bb451447ea6183bd6c257b05db40b2bc",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "WhatsApp-Versand über WhatsApp Web (Business-Konto), Datenschutz: Spotify-Playlisten."
+ "changelog": "Hochzeit ihr/euch, Mietrechnung mit Protokoll, Textkorrekturen"
 }

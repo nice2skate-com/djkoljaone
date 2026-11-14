@@ -18,6 +18,8 @@ Stand: 14.11.2026. Keine Steuerberatung – vor dem ersten Einsatz einmal mit de
 - **Status:**
   - Angebot: „Rechnung gestellt“ sobald eine Rechnung existiert, „Rechnung bezahlt“ wenn die komplette bzw. Schlussrechnung und alle Anzahlungen bezahlt sind.
   - DJ-Anfrage (Pipeline): ebenso „Rechnung gestellt“ / „Rechnung bezahlt“; Wiedervorlage = Fälligkeit der ältesten offenen Rechnung.
+- **Hochzeit (ihr/euch, seit 1.80.0):** Steht im Angebot „Anrede: ihr / euch“ (automatisch, wenn der Anlass „Hochzeit“ enthält), laufen Rechnungstext, Zahlungshinweis, E-Mail und WhatsApp in ihr-Form. Texte unter Angebote → Einstellungen → „Hochzeit: Texte in ihr/euch-Form“.
+- **Mietrechnung (seit 1.80.0):** Beim Erstellen einer Rechnung zu einem Mietangebot gibt es das Übergabe- und Rückgabeprotokoll: Datum, Häkchen (vollständig übergeben, Einweisung, Anleitungen, vollständig zurück, ohne Schäden, Kaution geprüft) und Bemerkungen – die Haken setzt du selbst, sie erscheinen angekreuzt im PDF. „Unterschriftszeilen drucken“ ist standardmäßig aus. Im Mietangebot selbst lassen sich die Unterschriftszeilen des Mietvertrags über „Unterschriftszeilen drucken“ abschalten.
 - **Feste Kopie:** Eine Rechnung speichert die Angebotsdaten zum Zeitpunkt der Erstellung. Spätere Änderungen am Angebot ändern sie nicht. Korrektur nur per Storno + neue Rechnung, nie überschreiben oder löschen (Löschen ist gesperrt).
 - **Ablage:** PDFs in `wp-content/uploads/kjo-rechnungen/` (von außen gesperrt), Kunden-Link über zufälligen Schlüssel. Bei „PDF neu“ bleibt das alte PDF liegen.
 

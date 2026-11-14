@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.80.0: Hochzeitsseite in ihr/euch-Form; Angebote und Rechnungen mit „Anrede: ihr“ (automatisch bei Anlass Hochzeit, eigene ihr-Texte in den Einstellungen); Mietrechnung mit Übergabe-/Rückgabeprotokoll zum Anhaken und optionalen Unterschriftszeilen; Unterschriftszeilen im Mietvertrag abschaltbar; neuer Spotify-Hinweis; Textkorrekturen auf der ganzen Website.
 Seit 1.79.0: WhatsApp-Versand von Angeboten und Rechnungen über WhatsApp Web (Business-Konto im Browser, Einstellung „WhatsApp senden über“), Datenschutzerklärung mit Abschnitt „Spotify-Playlisten“ (wird automatisch eingespielt).
 Seit 1.78.0: Spotify-Playlisten direkt auf der Website abspielen (Startseite und Meine Musik) – Shortcode [kjo_playlists stil="karten|chips"], Player wird erst beim Klick auf „Hier anhören“ geladen (2-Klick), Ereignis playlist_play. Seiten neu einspielen.
 Seit 1.77.0: Rechnungen – im Angebot (Kasten „Rechnungen“) komplette Rechnung oder Anzahlungs- und Schlussrechnung (Anzahlung wird abgezogen) erstellen, Nummern 2026-137 ff. (jedes Jahr neu ab 001), Zahlungsziel 15 Tage privat / 30 Tage geschäftlich, „bereits bezahlt“ (bar/Überweisung), Versand per E-Mail oder WhatsApp, bezahlt markieren, Storno per Stornorechnung. Liste unter Angebote → Rechnungen. Neue Status „Rechnung gestellt“ und „Rechnung bezahlt“ (Angebot und DJ-Anfrage). Doku: docs/RECHNUNGEN.md.

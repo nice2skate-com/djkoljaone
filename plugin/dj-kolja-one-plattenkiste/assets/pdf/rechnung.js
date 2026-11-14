@@ -62,7 +62,10 @@
 			var A = window.kjoAngDaten ? window.kjoAngDaten() : null;
 			post('kjo_re_neu', {
 				data: A ? JSON.stringify(A) : '', typ: t, datum: $('kjo-re-datum').value, ziel: $('kjo-re-ziel').value, leistung: $('kjo-re-leistung').value,
-				betrag: t === 'anzahlung' ? $('kjo-re-betrag').value : '', bezahlt: schon ? $('kjo-re-schon-art').value : '', bezahlt_am: schon ? $('kjo-re-schon-am').value : ''
+				betrag: t === 'anzahlung' ? $('kjo-re-betrag').value : '', bezahlt: schon ? $('kjo-re-schon-art').value : '', bezahlt_am: schon ? $('kjo-re-schon-am').value : '',
+				prot_ue: $('kjo-re-prot-ue') ? $('kjo-re-prot-ue').value : '', prot_rue: $('kjo-re-prot-rue') ? $('kjo-re-prot-rue').value : '',
+				prot_h: [].map.call(neu.querySelectorAll('.kjo-re-prot:checked'), function (c) { return c.value; }).join(','),
+				prot_bem: $('kjo-re-prot-bem') ? $('kjo-re-prot-bem').value : '', prot_us: $('kjo-re-prot-us') && $('kjo-re-prot-us').checked ? 1 : ''
 			}).then(function (r) { return pdfHoch(r.re, r.data); }).then(function () { neuLaden('Rechnung erstellt – Seite wird aktualisiert …'); })
 				.catch(function (e) { b.disabled = false; fehler(e); });
 		});

@@ -41,6 +41,20 @@ function kjo_ang_opts() {
 		// Mietvertrag im Miet-Angebot (seit 1.73.0): § 1–3 füllt das PDF aus dem Angebot, ab § 4 dieser Text. ENTWURF – vor dem Einsatz anwaltlich prüfen lassen.
 		'vertrag_miete' => "§ 4 Pflichten des Mieters\nDer Mieter behandelt die Mietsache sorgfältig und betreibt sie nur entsprechend der Einweisung und der Bedienungsanleitungen. Er gibt sie nicht an Dritte weiter und nimmt keine Veränderungen oder Reparaturen vor. Die Geräte dürfen nur entsprechend ihrer angegebenen Wetterfestigkeit eingesetzt werden; sie sind vor Nässe, Hitze, Getränken und Diebstahl zu schützen. Für die Einhaltung von Lautstärkegrenzen, Ruhezeiten und Vorgaben der Location ist der Mieter verantwortlich.\n\n§ 5 Schäden und Verlust\nDer Mieter haftet für Beschädigung, Verlust und Diebstahl der Mietsache in der Zeit von der Übergabe bis zur Rückgabe, soweit er, seine Gäste oder Personen, denen er die Mietsache überlässt, dies zu vertreten haben; höchstens bis zum Wiederbeschaffungswert. Gewöhnliche Abnutzung ist ausgenommen. Schäden und Störungen meldet der Mieter unverzüglich, einen Diebstahl zusätzlich der Polizei.\n\n§ 6 Rückgabe und Kaution\nDie Mietsache ist zum vereinbarten Zeitpunkt vollständig, sauber und in ordnungsgemäßem Zustand zurückzugeben. Nach Prüfung erhält der Mieter die Kaution zurück. Kosten für Schäden oder fehlende Teile, die der Mieter zu vertreten hat, können mit der Kaution verrechnet werden.\n\n§ 7 Schlussbestimmungen\nÄnderungen und Ergänzungen dieses Vertrags bedürfen der Textform. Sollte eine Bestimmung unwirksam sein, bleibt der Vertrag im Übrigen wirksam.",
 		'storno_miete' => '', // leer = kein Stornierungs-Paragraf
+		// Hochzeit: ihr/euch-Fassungen (seit 1.80.0) – gelten, wenn im Angebot „Anrede: ihr“ gewählt ist (Standard bei Anlass Hochzeit)
+		'intro_dj_ihr'         => 'vielen Dank für eure Anfrage. Sehr gern begleite ich eure Hochzeit als DJ – hier ist mein Angebot für euch.',
+		'schluss_ihr'          => 'Ich freue mich auf eure Rückmeldung. Bei Fragen ruft mich gern an oder schreibt mir per WhatsApp.',
+		'mail_betreff_ihr'     => 'Euer Angebot {nr} von DJ KOLJA ONE',
+		'mail_text_ihr'        => "Hallo {name},\n\nvielen Dank für eure Anfrage! Im Anhang findet ihr mein Angebot {nr}.\n\nIch freue mich auf eure Rückmeldung – bei Fragen ruft mich gern an oder schreibt mir per WhatsApp.\n\nViele Grüße\nKolja – DJ KOLJA ONE\n+49 172 7273707\nhttps://dj-kolja-one.de",
+		'wa_text_ihr'          => "Hallo {name}, hier ist euer Angebot {nr} von DJ KOLJA ONE als PDF: {link}\nBei Fragen meldet euch gern. Viele Grüße, Kolja",
+		're_text_komplett_ihr' => 'vielen Dank für euer Vertrauen und die schöne Zusammenarbeit. Für meine Leistungen stelle ich euch in Rechnung:',
+		're_text_anzahlung_ihr' => 'vielen Dank für eure Buchung. Wie vereinbart stelle ich euch die Anzahlung für eure Hochzeit in Rechnung:',
+		're_text_rest_ihr'     => 'vielen Dank für euer Vertrauen und die schöne Zusammenarbeit. Für meine Leistungen stelle ich euch in Rechnung – die bereits gezahlte Anzahlung ist abgezogen:',
+		're_text_storno_ihr'   => 'hiermit storniere ich die unten genannte Rechnung. Sie ist damit aufgehoben.',
+		're_schluss_ihr'       => 'Vielen Dank für euer Vertrauen. Bei Fragen erreicht ihr mich jederzeit telefonisch oder per WhatsApp.',
+		're_mail_betreff_ihr'  => 'Eure {art} {nr} von DJ KOLJA ONE',
+		're_mail_text_ihr'     => "Hallo {name},\n\nim Anhang findet ihr eure {art} {nr} über {betrag}.\n\n{zahlung}\n\nBei Fragen erreicht ihr mich jederzeit telefonisch oder per WhatsApp.\n\nViele Grüße\nKolja – DJ KOLJA ONE\n+49 172 7273707\nhttps://dj-kolja-one.de",
+		're_wa_text_ihr'       => "Hallo {name}, hier ist eure {art} {nr} über {betrag} als PDF: {link}\n{zahlung}\nViele Grüße, Kolja",
 		// WhatsApp-Versand (seit 1.79.0): 'web' = WhatsApp Web im Browser (dort mit dem Business-Konto anmelden), 'app' = wa.me (öffnet die installierte App)
 		'wa_kanal'          => 'web',
 		// Rechnungen (seit 1.77.0)
@@ -198,6 +212,7 @@ function kjo_ang_clean( $d ) {
 		'kaution' => isset( $d['kaution'] ) ? $num( $d['kaution'] ) : '',
 		'q'      => array(),
 		'vertrag' => ! isset( $d['vertrag'] ) || ( ! empty( $d['vertrag'] ) && 'false' !== $d['vertrag'] ), // Mietvertrag (Miete) bzw. Vertragsbedingungen (DJ) anhängen
+		'unterschrift' => ! isset( $d['unterschrift'] ) || ( ! empty( $d['unterschrift'] ) && 'false' !== $d['unterschrift'] ), // Unterschriftszeilen im Mietvertrag (seit 1.80.0)
 		// Seit 1.75.0 (Angebote aus Telegram/n8n): eigene Anrede, Sie-Form, Umsatzsteuer. Leer = Verhalten wie bisher.
 		'gruss'  => $t( 'gruss' ),
 		'sie'    => ! isset( $d['sie'] ) || ( ! empty( $d['sie'] ) && 'false' !== $d['sie'] ), // seit 13.11.2026: Sie-Form ist Standard (neue Angebote = true)
@@ -354,6 +369,12 @@ function kjo_ang_prefill( $typ, $quelle ) {
 	} else {
 		$a['titel'] = 'dj' === $typ ? 'Angebot DJ' . ( ! empty( $a['anlass'] ) ? ' – ' . $a['anlass'] : '' ) : 'Angebot Mietequipment';
 	}
+	// Hochzeit: ihr/euch-Form (seit 1.80.0)
+	if ( 'dj' === $typ && ! empty( $a['anlass'] ) && false !== stripos( (string) $a['anlass'], 'hochzeit' ) ) {
+		$a['sie']     = false;
+		$a['intro']   = $o['intro_dj_ihr'];
+		$a['schluss'] = $o['schluss_ihr'];
+	}
 	return kjo_ang_clean( $a );
 }
 add_action(
@@ -433,7 +454,7 @@ function kjo_ang_options_page() {
 				$o[ $k ] = 'app' === $v[ $k ] ? 'app' : 'web';
 				continue;
 			}
-			$o[ $k ] = 'gueltig' === $k ? max( 1, min( 365, (int) $v[ $k ] ) ) : ( in_array( $k, array( 're_ziel_privat', 're_ziel_firma' ), true ) ? max( 0, min( 90, (int) $v[ $k ] ) ) : ( in_array( $k, array( 'intro_dj', 'intro_miete', 'bed_dj', 'bed_miete', 'vertrag_miete', 'storno_miete', 'vertrag_dj', 'schluss', 'vorlage_dj', 'mail_text', 'wa_text', 're_mail_text', 're_wa_text', 're_text_komplett', 're_text_anzahlung', 're_text_rest', 're_text_storno', 're_schluss' ), true ) ? sanitize_textarea_field( $v[ $k ] ) : sanitize_text_field( $v[ $k ] ) ) );
+			$o[ $k ] = 'gueltig' === $k ? max( 1, min( 365, (int) $v[ $k ] ) ) : ( in_array( $k, array( 're_ziel_privat', 're_ziel_firma' ), true ) ? max( 0, min( 90, (int) $v[ $k ] ) ) : ( in_array( $k, array( 'intro_dj', 'intro_miete', 'bed_dj', 'bed_miete', 'vertrag_miete', 'storno_miete', 'vertrag_dj', 'schluss', 'vorlage_dj', 'mail_text', 'wa_text', 're_mail_text', 're_wa_text', 're_text_komplett', 're_text_anzahlung', 're_text_rest', 're_text_storno', 're_schluss', 'intro_dj_ihr', 'schluss_ihr', 'mail_text_ihr', 'wa_text_ihr', 're_text_komplett_ihr', 're_text_anzahlung_ihr', 're_text_rest_ihr', 're_text_storno_ihr', 're_schluss_ihr', 're_mail_text_ihr', 're_wa_text_ihr' ), true ) ? sanitize_textarea_field( $v[ $k ] ) : sanitize_text_field( $v[ $k ] ) ) );
 		}
 		update_option( 'kjo_angebot', $o, false );
 		if ( isset( $_POST['naechste'] ) && preg_match( '/^\d{1,5}$/', sanitize_text_field( wp_unslash( $_POST['naechste'] ) ) ) ) {
@@ -492,6 +513,20 @@ function kjo_ang_options_page() {
 		$f( 're_mail_text', 'E-Mail-Text Rechnung', 'Platzhalter: {name}, {nr}, {art}, {betrag}, {faellig}, {link}, {zahlung} (= „Bitte überweisen Sie … bis zum …“ bzw. „bereits bezahlt“). Das PDF hängt an.', 9 );
 		$f( 're_wa_text', 'WhatsApp-Text Rechnung', 'Platzhalter wie bei der E-Mail.', 3 );
 	}
+	echo '</table><h2>Hochzeit: Texte in ihr/euch-Form</h2><p>Gelten für Angebote und Rechnungen mit „Anrede: ihr“ (Standard, wenn der Anlass „Hochzeit“ enthält). Alles andere läuft in Sie-Form.</p><table class="form-table">';
+	$f( 'intro_dj_ihr', 'Einleitung (ihr)', '', 3 );
+	$f( 'schluss_ihr', 'Schlusstext (ihr)', '', 2 );
+	$f( 'mail_betreff_ihr', 'E-Mail-Betreff Angebot (ihr)' );
+	$f( 'mail_text_ihr', 'E-Mail-Text Angebot (ihr)', '', 7 );
+	$f( 'wa_text_ihr', 'WhatsApp-Text Angebot (ihr)', '', 3 );
+	$f( 're_text_komplett_ihr', 'Text komplette Rechnung (ihr)', '', 2 );
+	$f( 're_text_anzahlung_ihr', 'Text Anzahlungsrechnung (ihr)', '', 2 );
+	$f( 're_text_rest_ihr', 'Text Schlussrechnung (ihr)', '', 2 );
+	$f( 're_text_storno_ihr', 'Text Stornorechnung (ihr)', '', 2 );
+	$f( 're_schluss_ihr', 'Schlusstext Rechnung (ihr)', '', 2 );
+	$f( 're_mail_betreff_ihr', 'E-Mail-Betreff Rechnung (ihr)' );
+	$f( 're_mail_text_ihr', 'E-Mail-Text Rechnung (ihr)', '', 8 );
+	$f( 're_wa_text_ihr', 'WhatsApp-Text Rechnung (ihr)', '', 3 );
 	echo '</table><p><button class="button button-primary">Speichern</button></p></form></div>';
 }
 
@@ -858,12 +893,16 @@ add_action(
 					'vorlage'   => kjo_ang_vorlage( $o['vorlage_dj'] ),
 					'texte'     => array(
 						'intro_dj'    => $o['intro_dj'],
+						'intro_dj_ihr' => $o['intro_dj_ihr'],
+						'schluss'     => $o['schluss'],
+						'schluss_ihr' => $o['schluss_ihr'],
 						'intro_miete' => $o['intro_miete'],
 						'bed_dj'      => $o['bed_dj'],
 						'bed_miete'   => $o['bed_miete'],
 					),
 					'mail'      => array( 'sub' => $o['mail_betreff'], 'txt' => $o['mail_text'], 'wa' => $o['wa_text'] ),
 					'wa_kanal'  => $o['wa_kanal'],
+					'mail_ihr'  => array( 'sub' => $o['mail_betreff_ihr'], 'txt' => $o['mail_text_ihr'], 'wa' => $o['wa_text_ihr'] ),
 					'link'      => $id ? kjo_ang_link( $id ) : '',
 					'pdf'       => $id ? (bool) get_post_meta( $id, '_kjo_ang_pdf', true ) : false,
 					'aktuell'   => $id && get_post_meta( $id, '_kjo_ang_pdf', true ) && get_post_meta( $id, '_kjo_ang_pdf_hash', true ) === md5( wp_json_encode( kjo_ang_get( $id ) ) ),

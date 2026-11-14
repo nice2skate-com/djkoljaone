@@ -106,14 +106,15 @@ function kjo_re_log( $id, $text ) {
 }
 /** Platzhalter in Mail-/WhatsApp-Texten. */
 function kjo_re_platzhalter( $t, $id ) {
-	$r = kjo_re_get( $id );
-	$a = isset( $r['a'] ) ? $r['a'] : array();
+	$r   = kjo_re_get( $id );
+	$a   = isset( $r['a'] ) ? $r['a'] : array();
+	$ihr = isset( $a['sie'] ) && false === $a['sie']; // Hochzeit: ihr-Form (seit 1.80.0)
 	if ( 'storno' === $r['typ'] ) {
 		$z = 'Die Rechnung ' . $r['ref']['nr'] . ' ist damit aufgehoben.';
 	} elseif ( ! empty( $r['bezahlt'] ) ) {
-		$z = 'Den Betrag haben Sie bereits am ' . wp_date( 'd.m.Y', strtotime( $r['bezahlt']['datum'] ) ) . ( 'bar' === $r['bezahlt']['art'] ? ' bar' : '' ) . ' bezahlt – vielen Dank!';
+		$z = ( $ihr ? 'Den Betrag habt ihr bereits am ' : 'Den Betrag haben Sie bereits am ' ) . wp_date( 'd.m.Y', strtotime( $r['bezahlt']['datum'] ) ) . ( 'bar' === $r['bezahlt']['art'] ? ' bar' : '' ) . ' bezahlt – vielen Dank!';
 	} else {
-		$z = 'Bitte überweisen Sie den Betrag bis zum ' . wp_date( 'd.m.Y', strtotime( $r['faellig'] ) ) . ' auf das in der Rechnung genannte Konto.';
+		$z = ( $ihr ? 'Bitte überweist den Betrag bis zum ' : 'Bitte überweisen Sie den Betrag bis zum ' ) . wp_date( 'd.m.Y', strtotime( $r['faellig'] ) ) . ' auf das in der Rechnung genannte Konto.';
 	}
 	return strtr(
 		(string) $t,
@@ -272,10 +273,22 @@ function kjo_re_anlegen( $ang_id, $in ) {
 		'abzuege'  => $abz,
 		'bezahlt'  => $bez ? array( 'datum' => $bam, 'art' => $bez ) : null, // nur „bei Erstellung bezahlt“ steht im PDF
 		'titel'    => KJO_RE_TYPEN[ $typ ] . ( $a['anlass'] ? ' – ' . $a['anlass'] : '' ),
-		'text'     => (string) $o[ 're_text_' . $typ ],
-		'schluss'  => (string) $o['re_schluss'],
+		'text'     => (string) $o[ 're_text_' . $typ . ( false === $a['sie'] ? '_ihr' : '' ) ], // Hochzeit: ihr-Form (seit 1.80.0)
+		'schluss'  => (string) $o[ 're_schluss' . ( false === $a['sie'] ? '_ihr' : '' ) ],
 		'a'        => $a, // feste Kopie der Angebotsdaten
 	);
+	if ( 'miete' === $a['typ'] ) { // Übergabe-/Rückgabeprotokoll (seit 1.80.0)
+		$dt = function ( $k ) use ( $in ) {
+			return isset( $in[ $k ] ) && preg_match( '/^\d{4}-\d{2}-\d{2}$/', (string) $in[ $k ] ) ? (string) $in[ $k ] : '';
+		};
+		$r['protokoll'] = array(
+			'ue'           => $dt( 'prot_ue' ),
+			'rue'          => $dt( 'prot_rue' ),
+			'h'            => array_values( array_intersect( explode( ',', isset( $in['prot_h'] ) ? (string) $in['prot_h'] : '' ), array( 'ue1', 'ue2', 'ue3', 'rue1', 'rue2', 'rue3' ) ) ),
+			'bem'          => isset( $in['prot_bem'] ) ? mb_substr( sanitize_text_field( (string) $in['prot_bem'] ), 0, 300 ) : '',
+			'unterschrift' => ! empty( $in['prot_us'] ) && 'false' !== $in['prot_us'],
+		);
+	}
 	$id = wp_insert_post( array( 'post_type' => 'kjo_rechnung', 'post_status' => 'private', 'post_title' => $nr . ' · ' . $a['name'] . ' · ' . KJO_RE_TYPEN[ $typ ] ) );
 	if ( ! $id || is_wp_error( $id ) ) {
 		return new WP_Error( 'kjo_re', 'Die Rechnung konnte nicht angelegt werden.', 500 );
@@ -323,7 +336,7 @@ function kjo_re_stornieren( $re_id ) {
 		'bezahlt'  => null,
 		'ref'      => array( 'nr' => $r['nr'], 'datum' => $r['datum'], 'typ' => KJO_RE_TYPEN[ $r['typ'] ], 'bezahlt' => 'bezahlt' === kjo_re_status( $re_id ) ),
 		'titel'    => 'Stornorechnung zu ' . KJO_RE_TYPEN[ $r['typ'] ] . ' ' . $r['nr'],
-		'text'     => (string) $o['re_text_storno'],
+		'text'     => (string) $o[ 're_text_storno' . ( isset( $r['a']['sie'] ) && false === $r['a']['sie'] ? '_ihr' : '' ) ],
 		'schluss'  => '',
 		'a'        => $r['a'],
 	);
@@ -410,7 +423,7 @@ add_action(
 			wp_update_post( array( 'ID' => $ang, 'post_title' => kjo_ang_titel( $a ), 'post_status' => 'private' ) );
 		}
 		$in = array();
-		foreach ( array( 'typ', 'datum', 'ziel', 'leistung', 'betrag', 'bezahlt', 'bezahlt_am' ) as $k ) {
+			foreach ( array( 'typ', 'datum', 'ziel', 'leistung', 'betrag', 'bezahlt', 'bezahlt_am', 'prot_ue', 'prot_rue', 'prot_h', 'prot_bem', 'prot_us' ) as $k ) {
 			if ( isset( $_POST[ $k ] ) ) { // phpcs:ignore
 				$in[ $k ] = sanitize_text_field( wp_unslash( $_POST[ $k ] ) ); // phpcs:ignore
 			}
@@ -569,11 +582,12 @@ function kjo_re_box( $post ) {
 				$tx = ( $r['faellig'] < wp_date( 'Y-m-d' ) ? '<span style="color:#b32d2e">Überfällig seit ' : 'Offen, fällig ' ) . wp_date( 'd.m.Y', strtotime( $r['faellig'] ) ) . ( $r['faellig'] < wp_date( 'Y-m-d' ) ? '</span>' : '' );
 			}
 			$pdf = (string) get_post_meta( $p->ID, '_kjo_re_pdf', true );
+			$sfx = isset( $r['a']['sie'] ) && false === $r['a']['sie'] ? '_ihr' : '';
 			$mail = array(
 				'to'  => isset( $r['a']['email'] ) ? $r['a']['email'] : '',
-				'sub' => kjo_re_platzhalter( $o['re_mail_betreff'], $p->ID ),
-				'txt' => kjo_re_platzhalter( $o['re_mail_text'], $p->ID ),
-				'wa'  => kjo_re_platzhalter( $o['re_wa_text'], $p->ID ),
+				'sub' => kjo_re_platzhalter( $o[ 're_mail_betreff' . $sfx ], $p->ID ),
+				'txt' => kjo_re_platzhalter( $o[ 're_mail_text' . $sfx ], $p->ID ),
+				'wa'  => kjo_re_platzhalter( $o[ 're_wa_text' . $sfx ], $p->ID ),
 				'tel' => isset( $r['a']['tel'] ) ? $r['a']['tel'] : '',
 			);
 			echo '<tr data-re="' . (int) $p->ID . '" data-mail="' . esc_attr( wp_json_encode( $mail ) ) . '"><td><strong>' . esc_html( $r['nr'] ) . '</strong></td><td>' . esc_html( KJO_RE_TYPEN[ $r['typ'] ] ) . '</td><td>' . esc_html( wp_date( 'd.m.Y', strtotime( $r['datum'] ) ) ) . '</td><td style="text-align:right">' . esc_html( kjo_vl_eur( (float) $r['betrag'] ) ) . '</td><td>' . wp_kses_post( $tx ) . ( get_post_meta( $p->ID, '_kjo_re_versendet', true ) ? '<br><span class="description">versendet</span>' : '' ) . '</td><td class="kjo-re-btns">';
@@ -612,6 +626,16 @@ function kjo_re_box( $post ) {
 		echo '<p class="kjo-re-anz"><label>Anzahlung <input id="kjo-re-betrag" inputmode="decimal" size="9" placeholder="z. B. 250"> €</label> <span class="description">oder</span> <button type="button" class="button button-small" data-re-proz="25">25 %</button> <button type="button" class="button button-small" data-re-proz="30">30 %</button> <button type="button" class="button button-small" data-re-proz="50">50 %</button> <span class="description" id="kjo-re-ges"></span></p>';
 		echo '<p><label>Rechnungsdatum <input type="date" id="kjo-re-datum" value="' . esc_attr( wp_date( 'Y-m-d' ) ) . '"></label> &nbsp; <label>Leistungsdatum <input id="kjo-re-leistung" size="24" value="' . esc_attr( $von ) . '" placeholder="TT.MM.JJJJ"></label></p>';
 		echo '<p><label><select id="kjo-re-kunde"><option value="privat"' . selected( ! $a['firma'], true, false ) . '>Privatkunde</option><option value="firma"' . selected( (bool) $a['firma'], true, false ) . '>Geschäftskunde</option></select></label> <label>Zahlungsziel <input type="number" id="kjo-re-ziel" value="' . (int) $ziel . '" min="0" max="90" style="width:64px"> Tage</label></p>';
+		if ( 'miete' === $a['typ'] ) {
+			$hk = function ( $k, $t ) {
+				return '<label style="display:block;margin:2px 0"><input type="checkbox" class="kjo-re-prot" value="' . esc_attr( $k ) . '"> ' . esc_html( $t ) . '</label>';
+			};
+			echo '<fieldset class="kjo-re-protbox" style="border:1px solid #dcdcde;padding:8px 12px;margin:10px 0"><legend><strong>Übergabe- und Rückgabeprotokoll</strong> <span class="description">(erscheint nur, wenn etwas angehakt oder eingetragen ist)</span></legend>';
+			echo '<div style="display:flex;flex-wrap:wrap;gap:8px 40px"><div><p style="margin:4px 0"><label>Übergabe am <input type="date" id="kjo-re-prot-ue" value="' . esc_attr( $a['von'] ) . '"></label></p>' . $hk( 'ue1', 'vollständig und funktionsfähig übergeben' ) . $hk( 'ue2', 'Einweisung erfolgt' ) . $hk( 'ue3', 'Bedienungsanleitungen erhalten' ) . '</div>';
+			echo '<div><p style="margin:4px 0"><label>Rückgabe am <input type="date" id="kjo-re-prot-rue" value="' . esc_attr( $a['bis'] ? $a['bis'] : $a['von'] ) . '"></label></p>' . $hk( 'rue1', 'vollständig zurückgegeben' ) . $hk( 'rue2', 'ohne erkennbare Schäden' ) . $hk( 'rue3', 'Kaution geprüft' ) . '</div></div>';
+			echo '<p style="margin:8px 0 4px"><label>Bemerkungen <input id="kjo-re-prot-bem" class="regular-text" maxlength="300"></label></p>';
+			echo '<p style="margin:4px 0"><label><input type="checkbox" id="kjo-re-prot-us"> Unterschriftszeilen drucken</label> <span class="description">(aus = ohne Unterschrift, z. B. wenn vor Ort anders quittiert wurde)</span></p></fieldset>';
+		}
 		echo '<p><label><input type="checkbox" id="kjo-re-schon"> Bereits bezahlt</label> <span id="kjo-re-schon-w" hidden><select id="kjo-re-schon-art"><option value="bar">bar</option><option>Überweisung</option></select> am <input type="date" id="kjo-re-schon-am" value="' . esc_attr( wp_date( 'Y-m-d' ) ) . '"></span></p>';
 		echo '<p><button type="button" class="button button-primary" id="kjo-re-erstellen">Rechnung erstellen</button> <span class="description">Nummer ' . esc_html( kjo_re_nr( false ) ) . ' · nimmt die Positionen und Preise, wie sie oben im Angebot stehen.</span></p>';
 		echo '</div>';
