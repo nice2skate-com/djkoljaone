@@ -220,17 +220,10 @@ PLAYLISTS=[("Pop &amp; Charts","Aktuelle Hits und die großen Songs der letzten 
            ("House &amp; Dance","Für späte Stunden und volle Tanzflächen.","3sir4JiXufFXmOAM5QfUqP"),
            ("Latin, Soul &amp; Lounge","Für Empfang, Dinner und besondere Momente.","0OPdAoZR5z6IWJdusrPkXl")]
 def playlist_cards(bg=B1):
-    # Karte mit Link-Button; .kjo-pl liefert den Genre-Namen fürs Klick-Tracking (playlist_klick)
-    return con([con([con([H(t,"h3",23,OFF,"left","400"),T(d,MUTED,"left",16)],g=12),
-                     BTN("Auf Spotify anhören",SPOTIFY+pid,False,"left",text_padding=box(12,22,12,22))],
-                    bg=bg,pad=box(34,28,34,28),g=20,flex_justify_content="space-between",css_classes="kjo-pl",
-                    border_border="solid",border_width=box(2,0,0,0),border_color=GOLD,**col(31,48,100)) for t,d,pid in PLAYLISTS],
-               "row",g=24,**ROW,flex_justify_content="center")
+    # Seit 1.78.0: Karten mit eingebettetem Spotify-Player (Shortcode im Plugin, kjo-playlists.php) – „Hier anhören“ spielt direkt auf der Seite
+    return W("shortcode",{"shortcode":'[kjo_playlists stil="karten"]',"_element_width":"inherit","width":px(100,"%")})
 def playlist_chips():
-    return con([con([H(t,"p",19,OFF,"center","300",link=SPOTIFY+pid),H("Spotify ↗","p",12,GOLD,"center","500",link=SPOTIFY+pid,ls=1.5,tr="uppercase")],
-                    g=6,pad=box(18,10,18,10),css_classes="kjo-pl",border_border="solid",border_width=box(1,1,1,1),
-                    border_color="rgba(178,157,117,0.35)",**col(31,31,48)) for t,d,pid in PLAYLISTS],
-               "row",g=16,flex_wrap="wrap",flex_direction_mobile="row",flex_justify_content="center")
+    return W("shortcode",{"shortcode":'[kjo_playlists stil="chips"]',"_element_width":"inherit","width":px(100,"%")})
 
 def list_card(title,items,w=31,bg=B1):
     return con([H(title,"h3",23,OFF,"left","400"),ILIST(items,size=16)],bg=bg,pad=box(34,28,34,28),g=16,
