@@ -946,7 +946,7 @@ const KJO_VL_OPT_DEFAULT = array(
 	'aufbau'     => 'Auf- und Abbau: Paket S 40 €, Paket M 100 €, Paket L 180 €, sonst 40 € pro Stunde; Abbau nach 23 Uhr +50 %. Die Einweisung ist immer kostenlos.',
 );
 const KJO_VL_PAKETE_V = 4; // Pakete S/M/L neu (12.10.2026): einmalig vollständig überschreiben
-const KJO_VL_MIG      = 22;
+const KJO_VL_MIG      = 23;
 add_action(
 	'admin_init',
 	function () {
@@ -991,6 +991,22 @@ add_action(
 					foreach ( array( 'preis', 'preis_we', 'kaution' ) as $n => $k ) {
 						update_post_meta( $id, '_kjo_' . $k, (string) KJO_VL_PREISE['kjo_paket'][ $r[0] ][ $n ] );
 					}
+				}
+			}
+		}
+		// Anlässe der Pakete: „bspw. … etc.“ → „z. B. … oder …“ (seit 1.80.1) – nur, wenn noch genau der alte Text drinsteht.
+		if ( '1' !== get_option( 'kjo_vl_anlass_fix' ) ) {
+			update_option( 'kjo_vl_anlass_fix', '1', false );
+			$alt = array(
+				'paket-s'           => array( 'bspw. Geburtstag, Gartenparty, Sektempfang, etc.', 'z. B. Geburtstag, Gartenparty oder Sektempfang' ),
+				'paket-m'           => array( 'bspw. runder Geburtstag, Vereinsfeier, Firmenfeier, etc.', 'z. B. runder Geburtstag, Vereinsfeier oder Firmenfeier' ),
+				'paket-l'           => array( 'bspw. Hochzeit, Abiball, Sommerfest, etc. Die komplette Bühne aus meinem Beispiel-Lichtplan.', 'z. B. Hochzeit, Abiball oder Sommerfest. Die komplette Bühne aus meinem Beispiel-Lichtplan.' ),
+				'paket-bose-zusatz' => array( 'bspw. Sektempfang, Außenbereich, Nebenraum, Dinner', 'z. B. Sektempfang, Außenbereich, Nebenraum oder Dinner' ),
+			);
+			foreach ( $alt as $slug => $t ) {
+				$g = get_page_by_path( $slug, OBJECT, 'kjo_paket' );
+				if ( $g && trim( (string) get_post_meta( $g->ID, '_kjo_anlaesse', true ) ) === $t[0] ) {
+					update_post_meta( $g->ID, '_kjo_anlaesse', $t[1] );
 				}
 			}
 		}

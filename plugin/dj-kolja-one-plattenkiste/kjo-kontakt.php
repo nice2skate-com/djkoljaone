@@ -442,3 +442,17 @@ add_action(
 	10,
 	2
 );
+
+/**
+ * Saisonhinweis im Anfrage-Kasten der Firmenfeier-Seite (seit 1.80.1).
+ * Oktober bis Dezember: kurzfristig anfragen; sonst: Dezember früh sichern. Stellt sich jedes Jahr von selbst um.
+ */
+add_shortcode(
+	'kjo_saison_hinweis',
+	function () {
+		$m = (int) wp_date( 'n' );
+		return $m >= 10
+			? 'Auch kurzfristig lohnt sich eine Anfrage – prüfen Sie Ihren Wunschtermin direkt hier. Eine Anfrage dauert zwei Minuten und ist unverbindlich.'
+			: 'Dezember-Termine sind oft schon im Frühsommer vergeben. Eine Anfrage dauert zwei Minuten und ist unverbindlich.';
+	}
+);

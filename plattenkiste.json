@@ -1,9 +1,9 @@
 {
- "version": "1.80.0",
- "download_url": "dj-kolja-one-plattenkiste-1.80.0.zip",
- "sha256": "5534b4eb36d84ed54447a4adabcfb348bb451447ea6183bd6c257b05db40b2bc",
+ "version": "1.80.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.80.1.zip",
+ "sha256": "c1792c3d83634dba481460963f09ec0317c40dc68410a86aac73adb1eb7ab666",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Hochzeit ihr/euch, Mietrechnung mit Protokoll, Textkorrekturen"
+ "changelog": "Saisonhinweis Firmenfeier, Pakettexte"
 }
