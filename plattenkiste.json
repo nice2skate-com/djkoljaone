@@ -1,9 +1,9 @@
 {
- "version": "1.77.0",
- "download_url": "dj-kolja-one-plattenkiste-1.77.0.zip",
- "sha256": "1baa0ddc471894b42db68200ae9b33dfc4ec6e82de0575f050fdf65a4d8e44b5",
+ "version": "1.78.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.78.0.zip",
+ "sha256": "48928434b33ee17cbeb687f6201df9b659e3bb0ec1202713ab15dc411159cb28",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Rechnungen: komplett oder Anzahlung + Schlussrechnung, Versand per E-Mail/WhatsApp, Status Rechnung gestellt/bezahlt."
+ "changelog": "Spotify-Playlisten direkt auf der Website abspielen (Startseite, Meine Musik)."
 }

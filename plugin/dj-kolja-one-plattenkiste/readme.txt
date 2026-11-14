@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.78.0: Spotify-Playlisten direkt auf der Website abspielen (Startseite und Meine Musik) – Shortcode [kjo_playlists stil="karten|chips"], Player wird erst beim Klick auf „Hier anhören“ geladen (2-Klick), Ereignis playlist_play. Seiten neu einspielen.
 Seit 1.77.0: Rechnungen – im Angebot (Kasten „Rechnungen“) komplette Rechnung oder Anzahlungs- und Schlussrechnung (Anzahlung wird abgezogen) erstellen, Nummern 2026-137 ff. (jedes Jahr neu ab 001), Zahlungsziel 15 Tage privat / 30 Tage geschäftlich, „bereits bezahlt“ (bar/Überweisung), Versand per E-Mail oder WhatsApp, bezahlt markieren, Storno per Stornorechnung. Liste unter Angebote → Rechnungen. Neue Status „Rechnung gestellt“ und „Rechnung bezahlt“ (Angebot und DJ-Anfrage). Doku: docs/RECHNUNGEN.md.
 Seit 1.76.2: Angebots-PDF – Text, der über eine Seite hinausläuft, ist auf der Folgeseite wieder dunkel (war fast unsichtbar hell). Internet-Adressen im Angebotstext sind im PDF anklickbar (z. B. der Link zur Gesprächsbuchung).
 Seit 1.76.1: Kontaktseite hat zusätzlich die Sprungmarke #kennenlernen (neben #gespraech) – Links wie dj-kolja-one.de/kontakt/#kennenlernen springen direkt zur Gesprächsbuchung. Seiten neu einspielen.

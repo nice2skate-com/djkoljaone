@@ -51,7 +51,7 @@ def start():
       section(head("Meine Leistungen","Wofür buchen Sie mich?")+[tiles()],anchor="leistungen"),
       staerken("Sie feiern. Ich kümmere mich um den Rest.",START_STAERKEN,eye="Was Sie davon haben"),
       reviews(["h1","f1","g1","h2","f2","g2","h3"]),
-      section(head("Meine Musik","Reinhören nach Genre","Sechs Playlisten auf Spotify – so klingt mein Repertoire. Ihre Wünsche kommen bei der Planung dazu.")+[playlist_chips(),SPACER(6),
+      section(head("Meine Musik","Reinhören nach Genre","Sechs Playlisten – direkt hier anhören, so klingt mein Repertoire. Ihre Wünsche kommen bei der Planung dazu.")+[playlist_chips(),SPACER(6),
           H("Alle Playlisten &amp; das DJ-Pult →","p",13,GOLD,"center","500",link="/meine-musik/#playlisten",ls=1.5,tr="uppercase")],bg=B2),
       section(head("So einfach geht's","In drei Schritten zu Ihrem DJ")+[steps([
           ("Wunschtermin prüfen","Datum, Ort und Anlass – per Formular oder WhatsApp in 2 Minuten. Ich melde mich innerhalb von 24 Stunden."),
@@ -334,7 +334,7 @@ def musik():
           ("Selbst mixen","In den Wellenformen oben im Mixer sehen Sie beide Songs samt Beatgrid und springen per Klick an jede Stelle. Blenden Sie mit dem Crossfader über, gleichen Sie das Tempo mit dem Regler und SYNC an und halten Sie mit KEY die Tonart. Grün markierte Platten passen harmonisch zum laufenden Song."),
           ("Automix","Lieber zurücklehnen? Mit ☰+ legen Sie Songs in die Playlist, „Automix starten“ mixt sie nacheinander. Sobald Sie eingreifen, übernehmen Sie wieder selbst."),
           ("Ansehen &amp; bewerten","Songs mit dem Label VIDEO zeigen ihr Bild im Laptop. Geben Sie jedem Song 1 bis 5 Sterne – der Durchschnitt aller Besucher steht direkt am Song.")])],bg=B1),
-      section(head("Playlisten","Mein Repertoire zum Reinhören","Entscheidend ist Ihr Publikum. Diese Richtungen habe ich im Gepäck – zu jeder gibt es eine Playlist auf Spotify. Ihre Wunschliste kommt bei der Planung dazu.")+[playlist_cards(B1)],bg=B2,anchor="playlisten"),
+      section(head("Playlisten","Mein Repertoire zum Reinhören","Entscheidend ist Ihr Publikum. Diese Richtungen habe ich im Gepäck – zu jeder gibt es eine Playlist, die Sie direkt hier anhören können. Ihre Wunschliste kommt bei der Planung dazu.")+[playlist_cards(B1)],bg=B2,anchor="playlisten"),
       cta("Spielen Sie auch unsere Lieblingssongs?","Ja – im kostenlosen Vorgespräch planen wir Ihre Musik mit Wunsch- und No-Go-Liste. Eine Anfrage dauert zwei Minuten und ist unverbindlich."),
       footer()]
 
