@@ -81,11 +81,11 @@
 - [ ] Datenschutz ergänzen, falls neue Dienste (Zahlungsanbieter, Mietsoftware) dazukommen.
 
 ## G. Rechnungsmodul prüfen (vorgemerkt 14.11.2026)
-- [ ] Rechnungen (Plattenkiste 1.77.0) mit dem Steuerberater durchsehen: Pflichtangaben, Nummernkreis 2026-137 ff., Anzahlung/Schlussrechnung, Storno, Aufbewahrung (8 Jahre, PDFs in uploads/kjo-rechnungen sichern). Doku: docs/RECHNUNGEN.md.
-- [ ] Erste echte Rechnung erstellen und PDF/E-Mail/WhatsApp prüfen; Bankverbindung unter Angebote → Einstellungen eintragen.
+- [x] (getestet 14.11.2026) Rechnungen (Plattenkiste 1.77.0) mit dem Steuerberater durchsehen: Pflichtangaben, Nummernkreis 2026-137 ff., Anzahlung/Schlussrechnung, Storno, Aufbewahrung (8 Jahre, PDFs in uploads/kjo-rechnungen sichern). Doku: docs/RECHNUNGEN.md.
+- [x] Erste echte Rechnung erstellen und PDF/E-Mail/WhatsApp prüfen; Bankverbindung unter Angebote → Einstellungen eintragen.
 
 ## H. Datenschutz: Spotify-Player (seit 1.78.0)
-- [ ] Abschnitt „Spotify (eingebetteter Player)“ in die Datenschutzerklärung – Entwurf liegt Kolja vor, wartet auf sein OK (Rechtstexte nur mit OK).
+- [x] Abschnitt 10 „Spotify-Playlisten“ in der Datenschutzerklärung (OK von Kolja 14.11.2026, Plattenkiste 1.79.0, Stand November 2026).
 
 ## F. Verträge digital unterschreiben (Merkposten 13.11.2026)
 - [ ] Adobe Sign / DocuSign: Anbindung an Angebote prüfen (Kosten, Datenschutz/AVV, Ablauf: Angebot + Vertragsbedingungen versenden → Kunde unterschreibt online → PDF zurück in die Plattenkiste).
