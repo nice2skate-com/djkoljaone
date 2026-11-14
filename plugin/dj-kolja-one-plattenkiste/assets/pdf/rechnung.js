@@ -88,7 +88,7 @@
 			if (!tr.querySelector('a.button')) { meld('Bitte zuerst das PDF erzeugen.', true); return; }
 			var t = String(M.tel || '').replace(/[^\d+]/g, '');
 			if (t.indexOf('+') === 0) t = t.slice(1); else if (t.indexOf('00') === 0) t = t.slice(2); else if (t.indexOf('0') === 0) t = '49' + t.slice(1);
-			window.open('https://wa.me/' + (t.length > 6 ? t : '') + '?text=' + encodeURIComponent(M.wa || ''), '_blank', 'noopener');
+			window.open(window.kjoWaUrl ? window.kjoWaUrl(t, M.wa || '') : 'https://wa.me/' + (t.length > 6 ? t : '') + '?text=' + encodeURIComponent(M.wa || ''), K.wa_kanal === 'app' ? '_blank' : 'kjo-whatsapp');
 			post('kjo_re_wa', { re: re }).then(function () { meld('WhatsApp geöffnet – Nachricht dort absenden.'); }).catch(fehler);
 		} else if (a === 'bezahlt') {
 			zu(); bezBox.hidden = false;

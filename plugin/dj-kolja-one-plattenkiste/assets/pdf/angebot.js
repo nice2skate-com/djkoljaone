@@ -267,11 +267,11 @@
 		}).catch(function (e) { if (e.message !== 'abgebrochen') meld(e.message, true); }).then(function () { b.disabled = false; });
 	});
 	document.getElementById('kjo-ang-wa').addEventListener('click', function () {
-		var w = window.open('', '_blank'); // sofort öffnen, sonst blockiert der Browser das Fenster
+		var w = window.open('', K.wa_kanal === 'app' ? '_blank' : 'kjo-whatsapp'); // sofort öffnen, sonst blockiert der Browser das Fenster; WhatsApp Web immer im selben Tab
 		aktuell().then(function () {
 			var t = String(A.tel || '').replace(/[^\d+]/g, '');
 			if (t.indexOf('+') === 0) t = t.slice(1); else if (t.indexOf('00') === 0) t = t.slice(2); else if (t.indexOf('0') === 0) t = '49' + t.slice(1);
-			var u = 'https://wa.me/' + (t.length > 6 ? t : '') + '?text=' + encodeURIComponent(platzhalter(K.mail.wa));
+			var u = window.kjoWaUrl(t, platzhalter(K.mail.wa));
 			if (w) w.location.href = u; else window.location.href = u;
 			return post('kjo_ang_wa', {});
 		}).then(function () {
@@ -287,6 +287,11 @@
 	render();
 	dirty = !K.aktuell;
 	window.kjoAngPdf = function () { return ladeLogo().then(pdf); }; // für Tests
-	window.kjoAngLogo = ladeLogo; // für Rechnungen (rechnung.js, seit 1.77.0)
+	window.kjoAngLogo = ladeLogo;
+	/* WhatsApp-Link (seit 1.79.0): WhatsApp Web (Business-Konto im Browser) oder wa.me (App auf dem Gerät) – Einstellung „WhatsApp senden über“. */
+	window.kjoWaUrl = function (tel, text) {
+		tel = tel.length > 6 ? tel : '';
+		return K.wa_kanal === 'app' ? 'https://wa.me/' + tel + '?text=' + encodeURIComponent(text) : 'https://web.whatsapp.com/send?' + (tel ? 'phone=' + tel + '&' : '') + 'text=' + encodeURIComponent(text);
+	}; // für Rechnungen (rechnung.js, seit 1.77.0)
 	window.kjoAngDaten = function () { return JSON.parse(JSON.stringify(A)); };
 })();

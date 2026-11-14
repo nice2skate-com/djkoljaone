@@ -1,9 +1,9 @@
 {
- "version": "1.78.0",
- "download_url": "dj-kolja-one-plattenkiste-1.78.0.zip",
- "sha256": "48928434b33ee17cbeb687f6201df9b659e3bb0ec1202713ab15dc411159cb28",
+ "version": "1.79.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.79.0.zip",
+ "sha256": "1b4111b2d5cada1f2b3086f9c5332b3adb0523b225b8eeec782befe4cd4f5669",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Spotify-Playlisten direkt auf der Website abspielen (Startseite, Meine Musik)."
+ "changelog": "WhatsApp-Versand über WhatsApp Web (Business-Konto), Datenschutz: Spotify-Playlisten."
 }

@@ -41,6 +41,8 @@ function kjo_ang_opts() {
 		// Mietvertrag im Miet-Angebot (seit 1.73.0): § 1–3 füllt das PDF aus dem Angebot, ab § 4 dieser Text. ENTWURF – vor dem Einsatz anwaltlich prüfen lassen.
 		'vertrag_miete' => "§ 4 Pflichten des Mieters\nDer Mieter behandelt die Mietsache sorgfältig und betreibt sie nur entsprechend der Einweisung und der Bedienungsanleitungen. Er gibt sie nicht an Dritte weiter und nimmt keine Veränderungen oder Reparaturen vor. Die Geräte dürfen nur entsprechend ihrer angegebenen Wetterfestigkeit eingesetzt werden; sie sind vor Nässe, Hitze, Getränken und Diebstahl zu schützen. Für die Einhaltung von Lautstärkegrenzen, Ruhezeiten und Vorgaben der Location ist der Mieter verantwortlich.\n\n§ 5 Schäden und Verlust\nDer Mieter haftet für Beschädigung, Verlust und Diebstahl der Mietsache in der Zeit von der Übergabe bis zur Rückgabe, soweit er, seine Gäste oder Personen, denen er die Mietsache überlässt, dies zu vertreten haben; höchstens bis zum Wiederbeschaffungswert. Gewöhnliche Abnutzung ist ausgenommen. Schäden und Störungen meldet der Mieter unverzüglich, einen Diebstahl zusätzlich der Polizei.\n\n§ 6 Rückgabe und Kaution\nDie Mietsache ist zum vereinbarten Zeitpunkt vollständig, sauber und in ordnungsgemäßem Zustand zurückzugeben. Nach Prüfung erhält der Mieter die Kaution zurück. Kosten für Schäden oder fehlende Teile, die der Mieter zu vertreten hat, können mit der Kaution verrechnet werden.\n\n§ 7 Schlussbestimmungen\nÄnderungen und Ergänzungen dieses Vertrags bedürfen der Textform. Sollte eine Bestimmung unwirksam sein, bleibt der Vertrag im Übrigen wirksam.",
 		'storno_miete' => '', // leer = kein Stornierungs-Paragraf
+		// WhatsApp-Versand (seit 1.79.0): 'web' = WhatsApp Web im Browser (dort mit dem Business-Konto anmelden), 'app' = wa.me (öffnet die installierte App)
+		'wa_kanal'          => 'web',
 		// Rechnungen (seit 1.77.0)
 		're_ziel_privat'    => 15,
 		're_ziel_firma'     => 30,
@@ -427,6 +429,10 @@ function kjo_ang_options_page() {
 			if ( ! isset( $v[ $k ] ) ) {
 				continue;
 			}
+			if ( 'wa_kanal' === $k ) {
+				$o[ $k ] = 'app' === $v[ $k ] ? 'app' : 'web';
+				continue;
+			}
 			$o[ $k ] = 'gueltig' === $k ? max( 1, min( 365, (int) $v[ $k ] ) ) : ( in_array( $k, array( 're_ziel_privat', 're_ziel_firma' ), true ) ? max( 0, min( 90, (int) $v[ $k ] ) ) : ( in_array( $k, array( 'intro_dj', 'intro_miete', 'bed_dj', 'bed_miete', 'vertrag_miete', 'storno_miete', 'vertrag_dj', 'schluss', 'vorlage_dj', 'mail_text', 'wa_text', 're_mail_text', 're_wa_text', 're_text_komplett', 're_text_anzahlung', 're_text_rest', 're_text_storno', 're_schluss' ), true ) ? sanitize_textarea_field( $v[ $k ] ) : sanitize_text_field( $v[ $k ] ) ) );
 		}
 		update_option( 'kjo_angebot', $o, false );
@@ -472,6 +478,7 @@ function kjo_ang_options_page() {
 	$f( 'mail_betreff', 'E-Mail-Betreff', 'Platzhalter: {name}, {nr}' );
 	$f( 'mail_text', 'E-Mail-Text', 'Platzhalter: {name}, {nr}, {link}. Das PDF hängt an.', 8 );
 	$f( 'wa_text', 'WhatsApp-Text', 'Platzhalter: {name}, {nr}, {link} (Link zum PDF).', 3 );
+	echo '<tr><th><label for="kjo-ao-wa_kanal">WhatsApp senden über</label></th><td><select id="kjo-ao-wa_kanal" name="o[wa_kanal]"><option value="web"' . selected( $o['wa_kanal'], 'web', false ) . '>WhatsApp Web (Browser) – empfohlen für WhatsApp Business</option><option value="app"' . selected( $o['wa_kanal'], 'app', false ) . '>WhatsApp-App auf diesem Gerät (wa.me)</option></select><p class="description">WhatsApp Web öffnet sich im Browser-Tab „WhatsApp“. Dort einmal mit dem WhatsApp-Business-Konto (0172 7273707) anmelden: in der Business-App → Einstellungen → Verknüpfte Geräte → QR-Code scannen. Dann gehen Angebote und Rechnungen immer von dieser Nummer raus – egal, welches WhatsApp sonst auf dem Rechner installiert ist.</p></td></tr>';
 	if ( function_exists( 'kjo_re_nr' ) ) {
 		echo '</table><h2>Rechnungen</h2><table class="form-table">';
 		echo '<tr><th>Nächste Rechnungsnummer</th><td>' . esc_html( wp_date( 'Y' ) ) . '-<input name="re_naechste" value="' . esc_attr( (int) substr( kjo_re_nr( false ), 5 ) ) . '" size="5"><p class="description">Fortlaufend und lückenlos. 2026 beginnt bei 137, jedes neue Jahr bei 001. Nur ändern, wenn du an eine bestehende Nummerierung anschließen musst – nie eine schon vergebene Nummer erneut verwenden.</p></td></tr>';
@@ -856,6 +863,7 @@ add_action(
 						'bed_miete'   => $o['bed_miete'],
 					),
 					'mail'      => array( 'sub' => $o['mail_betreff'], 'txt' => $o['mail_text'], 'wa' => $o['wa_text'] ),
+					'wa_kanal'  => $o['wa_kanal'],
 					'link'      => $id ? kjo_ang_link( $id ) : '',
 					'pdf'       => $id ? (bool) get_post_meta( $id, '_kjo_ang_pdf', true ) : false,
 					'aktuell'   => $id && get_post_meta( $id, '_kjo_ang_pdf', true ) && get_post_meta( $id, '_kjo_ang_pdf_hash', true ) === md5( wp_json_encode( kjo_ang_get( $id ) ) ),
