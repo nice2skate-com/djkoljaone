@@ -16,6 +16,8 @@ Dieses Paket enthält alles, um das Plugin „DJ KOLJA ONE Plattenkiste“ weite
 3. `plattenkiste.json` (version, download_url = Dateiname der ZIP, sha256, changelog) und die ZIP in die oberste Ebene des Repos `nice2skate-com/djkoljaone` (Branch `main`) legen.
 4. WordPress liest `https://raw.githubusercontent.com/nice2skate-com/djkoljaone/main/plattenkiste.json` und aktualisiert automatisch (Auto-Updates sind aktiv, Prüfung ca. alle 6–12 Std.).
 
+**Arbeitsweise (seit 14.11.2026, Wunsch von Kolja):** Jede fertige, getestete Version wird ohne Nachfrage nach `main` gemergt (PR + Merge). WordPress holt sie dann automatisch – Kolja lädt keine ZIP mehr selbst hoch. Danach nur noch nötig, was nicht automatisch geht (z. B. „Seiten aus Vorlage einspielen“, Einstellungen).
+
 ## Hinweise
 - `build.py` erwartet für die Testseite einen Beispielsong unter `songs/preview-128.mp3` und ein Cover `songs/cover-300.jpg`; beides liegt bewusst NICHT in diesem öffentlichen Paket. Für die Plugin-Datei (`musik-snippet-final.html`) werden sie nicht gebraucht.
 - Tests bisher: Chromium (Playwright) gegen lokales WordPress; nicht bei Strato, nicht in Safari.
