@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.79.0
+ * Version:     1.80.0
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.79.0' );
+define( 'KJO_VERSION', '1.80.0' );
 define( 'KJO_USTID', 'DE331619498' ); // Umsatzsteuer-Identifikationsnummer (Bescheid BZSt vom 25.07.2020)
 require_once __DIR__ . '/kjo-schutz.php';
 require_once __DIR__ . '/kjo-verleih.php';
@@ -2812,7 +2812,7 @@ function setup(c){
   function hint(cls,html){if(!av){av=document.createElement("div");av.className="kjo-av";av.setAttribute("role","status");av.setAttribute("aria-live","polite");}av.className="kjo-av "+cls;av.innerHTML=html;if(!av.parentNode)b.parentNode.insertBefore(av,b.nextSibling);}
   function check(v){var K=window.KJO_KAL;if(!K||!window.fetch)return;fetch(K.api+(K.api.indexOf("?")>-1?"&":"?")+"von="+v,{credentials:"omit"}).then(function(r){return r.json()}).then(function(j){if(dp.value!==v||!j||!j.dj)return;
     if(j.dj==="frei")hint("ok","✓ <strong>Termin noch verfügbar!</strong> Schicken Sie mir Ihre Anfrage, ich melde mich innerhalb von 24 Stunden bei Ihnen.");
-    else if(j.dj==="vor")hint("vor","◐ <strong>Termin vorreserviert, fragen Sie gerne trotzdem an.</strong> Wird die Reservierung nicht bestätigt, sind Sie als Nächste dran.");
+    else if(j.dj==="vor")hint("vor","◐ <strong>Termin vorgemerkt, fragen Sie gern trotzdem an.</strong> Wird die Vormerkung nicht bestätigt, rücken Sie als Erstes nach.");
     else if(j.equip!=="belegt")hint("no","✕ <strong>An diesem Tag bin ich leider schon ausgebucht.</strong> Musikanlage und Licht sind aber "+(j.equip==="teil"?"teilweise ":"")+"noch frei: <a href=\""+K.mieten+"?von="+v+"#pakete\">Nur Equipment mieten? →</a>");
     else hint("no","✕ <strong>An diesem Tag bin ich leider schon ausgebucht.</strong> Gerne frage ich in meinem DJ-Netzwerk nach einem Kollegen für Sie, oder Sie wählen einen anderen Tag.");}).catch(function(){});}
   dp.addEventListener("change",function(){if(dp.value){txt.value=nice(dp.value);fire(txt);check(dp.value);}else if(av&&av.parentNode){av.parentNode.removeChild(av);}});

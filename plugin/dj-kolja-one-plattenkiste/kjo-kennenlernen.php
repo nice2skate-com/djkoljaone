@@ -313,7 +313,7 @@ add_shortcode(
 			. '<div class="kjo-kl-g"><label>Name *<input name="name" autocomplete="name" maxlength="80" required></label><label>E-Mail *<input name="email" type="email" autocomplete="email" maxlength="120" required></label><label>Telefon <span class="kjo-kl-tel-o">*</span><input name="tel" type="tel" autocomplete="tel" maxlength="40"></label></div>'
 			. '<label>Worum geht es? <span class="kjo-kl-o">(optional)</span><textarea name="notiz" maxlength="800" rows="3" placeholder="z. B. Hochzeit am 12.06.2027 in Memmingen, ca. 90 Gäste"></textarea></label>'
 			. '<label class="kjo-kl-hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>'
-			. '<p class="kjo-kl-err" role="alert"></p><button type="submit" class="kjo-kl-btn">Termin verbindlich buchen</button>'
+			. '<p class="kjo-kl-err" role="alert"></p><button type="submit" class="kjo-kl-btn">Gespräch kostenlos buchen</button>'
 			. '<p class="kjo-kl-ds">Ihre Angaben nutze ich nur für das Gespräch. <a href="' . esc_url( home_url( '/datenschutz/' ) ) . '">Datenschutz</a></p></form>'
 			. '<div class="kjo-kl-ok" hidden tabindex="-1"></div></div>';
 	}
@@ -349,12 +349,12 @@ function art(){var v=(F.querySelector("[name=art]:checked")||{}).value;r.querySe
 F.addEventListener("submit",function(e){e.preventDefault();E.textContent="";var d={d:tag,z:zeit};["name","email","tel","notiz","website"].forEach(function(n){d[n]=F.elements[n].value.trim()});d.art=(F.querySelector("[name=art]:checked")||{}).value;
  if(!tag||!zeit){E.textContent="Bitte Tag und Uhrzeit wählen.";return}if(!d.name||!/^\S+@\S+\.\S+$/.test(d.email)){E.textContent="Bitte Name und E-Mail angeben.";return}if(d.art==="telefon"&&d.tel.replace(/\D/g,"").length<6){E.textContent="Bitte Ihre Telefonnummer angeben, ich rufe Sie an.";return}
  var b=F.querySelector(".kjo-kl-btn");b.disabled=true;b.textContent="wird gebucht …";
- fetch(api,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(d),credentials:"omit"}).then(function(x){return x.json().then(function(j){return{ok:x.ok,j:j}})}).then(function(x){b.disabled=false;b.textContent="Termin verbindlich buchen";
+ fetch(api,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(d),credentials:"omit"}).then(function(x){return x.json().then(function(j){return{ok:x.ok,j:j}})}).then(function(x){b.disabled=false;b.textContent="Gespräch kostenlos buchen";
   if(!x.ok){E.textContent=(x.j&&x.j.message)||"Das hat nicht geklappt.";return}
   T.hidden=Z.hidden=F.hidden=true;r.querySelectorAll(".kjo-kl-l").forEach(function(l){l.hidden=true});
   var u=String(x.j.ics||"").replace(/"/g,"");OK.innerHTML="<strong>Danke! Ihr Kennenlerngespräch ist gebucht.</strong><br>"+x.j.wann.replace(/[<>&]/g,"")+"<br>Eine Bestätigung ist per E-Mail unterwegs."+(u?" <a href=\""+u+"\">In den Kalender eintragen</a>":"");OK.hidden=false;OK.focus();
   if(window.kjoTrack)try{kjoTrack("kennenlernen_gebucht",{art:d.art})}catch(z){}})
- .catch(function(){b.disabled=false;b.textContent="Termin verbindlich buchen";E.textContent="Keine Verbindung – bitte noch einmal versuchen."})})})})();</script>
+ .catch(function(){b.disabled=false;b.textContent="Gespräch kostenlos buchen";E.textContent="Keine Verbindung – bitte noch einmal versuchen."})})})})();</script>
 		<?php
 	},
 	30

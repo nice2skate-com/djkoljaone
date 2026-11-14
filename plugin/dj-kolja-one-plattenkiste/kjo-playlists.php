@@ -40,7 +40,7 @@ add_shortcode(
 			$h  .= '<a class="kjo-pls-ext" href="' . esc_url( $url ) . '" target="_blank" rel="noopener">In Spotify öffnen ↗</a></div></div>';
 		}
 		$h .= '</div><div class="kjo-pls-player" id="kjo-pls-player-' . $stil . '" hidden><div class="kjo-pls-bar"><span class="kjo-pls-now"></span><button type="button" class="kjo-pls-zu" aria-label="Player schließen">✕</button></div><div class="kjo-pls-frame"></div></div>';
-		$h .= '<p class="kjo-pls-note">Kostenlos reinhören: Mit Spotify-Anmeldung (auch ohne Abo, mit kostenlosem Konto) laufen die Songs komplett, ohne Anmeldung spielt Spotify kurze Vorschauen. Der Spotify-Player wird erst beim Klick auf „Hier anhören“ geladen; dabei werden Daten an Spotify übertragen (<a href="' . esc_url( $ds ) . '">Datenschutz</a>).</p></div>';
+		$h .= '<p class="kjo-pls-note">Ganze Songs: „In Spotify öffnen ↗“ (auch mit kostenlosem Konto). Hier auf der Seite spielt Spotify je nach Browser Vorschauen. Der Spotify-Player wird erst beim Klick auf „Hier anhören“ geladen; dabei werden Daten an Spotify übertragen (<a href="' . esc_url( $ds ) . '">Datenschutz</a>).</p></div>';
 		return $h . kjo_playlists_assets();
 	}
 );

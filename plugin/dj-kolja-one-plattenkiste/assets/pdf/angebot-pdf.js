@@ -128,7 +128,8 @@
 				y += 2; platz(40);
 				f(1, 11, C.dunkel); d.text('Quittung', L, y); y += 6;
 				var sp = [L, L + 50, L + 82, L + 108, L + 136];
-				f(1, 7.5, C.grau); ['', 'Betrag', 'Datum', 'Art', 'Unterschrift Vermieter'].forEach(function (h, i) { d.text(h, sp[i], y); }); y += 6.5;
+				var us = A.unterschrift !== false; // Unterschriftszeilen (seit 1.80.0 abschaltbar)
+				f(1, 7.5, C.grau); ['', 'Betrag', 'Datum', 'Art', us ? 'Unterschrift Vermieter' : ''].forEach(function (h, i) { d.text(h, sp[i], y); }); y += 6.5;
 				QZ.forEach(function (z) {
 					var r = q[z[0]] || {};
 					f(1, 9.2); d.text(z[1], L, y);
@@ -136,7 +137,7 @@
 					if (r.b !== '' && r.b != null) d.text(eur(r.b), sp[1], y); else linie(sp[1], sp[2] - 4, y + 0.8);
 					if (r.d) d.text(datum(r.d), sp[2], y); else linie(sp[2], sp[3] - 4, y + 0.8);
 					if (r.a) d.text(r.a, sp[3], y); else linie(sp[3], sp[4] - 4, y + 0.8);
-					linie(sp[4], R, y + 0.8);
+					if (us) linie(sp[4], R, y + 0.8);
 					y += 8;
 				});
 				// Übergabeprotokoll
@@ -152,9 +153,34 @@
 					y = Math.max(y, yy + 12);
 				});
 				// Unterschriften
+				if (us) unterschriften();
+			}
+			function unterschriften() {
 				y += 6; platz(24);
-				[['Ort, Datum', L, L + 50], ['Mieter', L + 58, L + 112], ['Vermieter (Kolja Tönges)', L + 120, R]].forEach(function (u) { linie(u[1], u[2], y + 10); f(0, 7.8, C.grau); d.text(u[0], u[1], y + 14); });
+				[['Ort, Datum', L, L + 50], ['Mieter', L + 58, L + 112], ['Vermieter (Kolja Tönges)', L + 120, R]].forEach(function (u) { d.setDrawColor.apply(d, C.grau); d.setLineWidth(0.2); d.line(u[1], y + 10, u[2], y + 10); f(0, 7.8, C.grau); d.text(u[0], u[1], y + 14); });
 				y += 18;
+			}
+			/* Übergabe-/Rückgabeprotokoll in der Mietrechnung (seit 1.80.0): Häkchen setzt Kolja im Rechnungsmodul. */
+			var PROT = [['Übergabe', 'ue', [['ue1', 'vollständig und funktionsfähig übergeben'], ['ue2', 'Einweisung erfolgt'], ['ue3', 'Bedienungsanleitungen erhalten']]], ['Rückgabe', 'rue', [['rue1', 'vollständig zurückgegeben'], ['rue2', 'ohne erkennbare Schäden'], ['rue3', 'Kaution geprüft']]]];
+			function protokoll(P) {
+				var h = P.h || [], hat = h.length || P.ue || P.rue || P.bem;
+				if (!hat && !P.unterschrift) return;
+				y += 4; platz(44);
+				f(1, 11, C.dunkel); d.text('Übergabe- und Rückgabeprotokoll', L, y); y += 6;
+				var y0 = y;
+				PROT.forEach(function (sp2, i) {
+					var x = i ? 110 : L, yy = y0;
+					f(1, 9.2); d.text(sp2[0] + (P[sp2[1]] ? ' am ' + datum(P[sp2[1]]) : ''), x, yy); yy += 6;
+					sp2[2].forEach(function (k) {
+						var an = h.indexOf(k[0]) > -1;
+						d.setDrawColor.apply(d, C.text); d.setLineWidth(0.25); d.rect(x, yy - 3, 3.2, 3.2);
+						if (an) { d.setLineWidth(0.45); d.line(x + 0.6, yy - 1.4, x + 1.4, yy - 0.5); d.line(x + 1.4, yy - 0.5, x + 2.8, yy - 2.6); }
+						f(0, 9, an ? C.text : C.grau); d.text(k[1], x + 5, yy); yy += 5.6;
+					});
+					y = Math.max(y, yy);
+				});
+				if (P.bem) { y += 1; f(0, 8.6, C.grau); d.text('Bemerkungen:', L, y); y += 4.6; absatz(P.bem, 9); }
+				if (P.unterschrift) unterschriften();
 			}
 			/* Vertragsbedingungen für DJ-Angebote (seit 1.74.0): Text aus den Einstellungen, „§ n Titel“ = Überschrift, „---“ = neue Seite. */
 			function bedingungen() {
@@ -228,20 +254,21 @@
 				platz(30);
 				if (RE.typ === 'storno') {
 					f(1, 11, C.dunkel); d.text('Hinweis', L, y); y += 5.5;
-					absatz('Die ' + ((RE.ref && RE.ref.typ) || 'Rechnung') + ' Nr. ' + ((RE.ref && RE.ref.nr) || '') + ' ist damit aufgehoben.' + (RE.ref && RE.ref.bezahlt ? ' Den bereits gezahlten Betrag erstatte ich Ihnen bzw. verrechne ihn wie mit Ihnen abgesprochen.' : ' Bitte zahlen Sie diese Rechnung nicht.'), 9.6);
+					absatz('Die ' + ((RE.ref && RE.ref.typ) || 'Rechnung') + ' Nr. ' + ((RE.ref && RE.ref.nr) || '') + ' ist damit aufgehoben.' + (RE.ref && RE.ref.bezahlt ? (A.sie === false ? ' Den bereits gezahlten Betrag erstatte ich euch bzw. verrechne ihn wie mit euch abgesprochen.' : ' Den bereits gezahlten Betrag erstatte ich Ihnen bzw. verrechne ihn wie mit Ihnen abgesprochen.') : (A.sie === false ? ' Bitte zahlt diese Rechnung nicht.' : ' Bitte zahlen Sie diese Rechnung nicht.')), 9.6);
 				} else if (RE.bezahlt) {
 					f(1, 11, C.dunkel); d.text('Zahlung erhalten', L, y); y += 5.5;
 					absatz('Den Betrag von ' + eur(RE.betrag) + ' habe ich am ' + datum(RE.bezahlt.datum) + (RE.bezahlt.art === 'bar' ? ' in bar erhalten.' : ' per Überweisung erhalten.') + ' Vielen Dank!', 9.6);
 				} else {
 					f(1, 11, C.dunkel); d.text('Zahlung', L, y); y += 5.5;
 					var bk = K.bank || {};
-					absatz('Bitte überweisen Sie den Betrag von ' + eur(RE.betrag) + ' ohne Abzug bis zum ' + datum(RE.faellig) + (bk.IBAN ? ' auf folgendes Konto:' : '.'), 9.6);
+					absatz((A.sie === false ? 'Bitte überweist den Betrag von ' : 'Bitte überweisen Sie den Betrag von ') + eur(RE.betrag) + ' ohne Abzug bis zum ' + datum(RE.faellig) + (bk.IBAN ? ' auf folgendes Konto:' : '.'), 9.6);
 					if (bk.IBAN) {
 						y += 1;
 						var zb = [['Kontoinhaber', bk.Kontoinhaber], ['IBAN', bk.IBAN], ['BIC', bk.BIC], ['Bank', bk.Bank], ['Verwendungszweck', 'Rechnung ' + RE.nr]];
 						zb.forEach(function (z) { if (!z[1]) return; platz(5); f(0, 9, C.grau); d.text(z[0], L, y); f(z[0] === 'IBAN' || z[0] === 'Verwendungszweck' ? 1 : 0, 9.6); d.text(String(z[1]), L + 34, y); y += 4.9; });
 					} else { absatz('Verwendungszweck: Rechnung ' + RE.nr, 9.6); }
 				}
+				if (m && RE.protokoll && RE.typ !== 'storno') protokoll(RE.protokoll);
 				y += 4;
 				if (RE.schluss) { absatz(RE.schluss, 10); }
 				y += 5; platz(11);
@@ -344,7 +371,7 @@
 			if (opt.length) {
 				platz(20);
 				f(1, 11, C.dunkel); d.text('Optional zubuchbar', L, y); y += 3;
-				f(0, 8, C.grau); d.text('Nicht im Gesamtbetrag enthalten – sagen Sie einfach Bescheid, wenn Sie etwas davon möchten.', L, y + 2.5); y += 8; // seit 13.11.2026 immer Sie-Form
+				f(0, 8, C.grau); d.text(A.sie === false ? 'Nicht im Gesamtbetrag enthalten – sagt einfach Bescheid, wenn ihr etwas davon möchtet.' : 'Nicht im Gesamtbetrag enthalten – sagen Sie einfach Bescheid, wenn Sie etwas davon möchten.', L, y + 2.5); y += 8; // Sie-Form, Hochzeit ihr (seit 1.80.0)
 				kopf('Option');
 				opt.forEach(function (p) { zeile(p, 0); });
 				y += 2;

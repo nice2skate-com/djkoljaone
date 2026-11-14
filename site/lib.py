@@ -150,7 +150,7 @@ def footer():
 
 def stat(big,small,wide=False):
     return con([H(big,"p",32,GOLD,"center","300",m=24),T(small,MUTED,"center",14)],g=4,**col(23,48,48))
-STATS=[("10+ Jahre","DJ-Erfahrung"),("Moderation","professionell &amp; souverän"),("Individuell","Musik nach Ihren Wünschen"),("Süddeutschland &amp; Überregional","Allgäu, Schwaben &amp; Auf Anfrage")]
+STATS=[("10+ Jahre","DJ-Erfahrung"),("Moderation","professionell &amp; souverän"),("Individuell","Musik nach Ihren Wünschen"),("Süddeutschland &amp; überregional","Allgäu, Schwaben &amp; auf Anfrage")]
 def stats_row(stats=STATS,border=True):
     kw=dict(border_border="solid",border_width=box(1,0,0,0),border_color=LINE,padding=box(28,0,0,0)) if border else {}
     return con([stat(a,b) for a,b in stats],"row",g=20,flex_justify_content="center",flex_wrap="wrap",flex_direction_mobile="row",width=px(100,"%"),max_width=px(1000),**kw)
@@ -179,7 +179,7 @@ def hero(eye,h1,sub,buttons,stats=STATS,minh=100,extra=None):
     return con(kids,"column",bg=B1,pad=box(72,20,56,20),inner=False,g=16,
                flex_justify_content="center",flex_align_items="center",padding_mobile=box(48,20,40,20))
 
-def cta(title="Ihr Termin ist noch frei?",text="Beliebte Samstage sind oft schon ein Jahr im Voraus vergeben. Fragen Sie jetzt unverbindlich an."):
+def cta(title="Ist Ihr Termin noch frei?",text="Beliebte Samstage sind oft schon ein Jahr im Voraus vergeben. Fragen Sie jetzt unverbindlich an."):
     return section([H(title,"h2",50,m=34),T(text,OFF),SPACER(8),
         BTNS(BTN("Wunschtermin prüfen",KONTAKT),BTN("WhatsApp schreiben",WA,False))],bg=B2,
         border_border="solid",border_width=box(1,0,1,0),border_color=LINE)
@@ -193,9 +193,12 @@ TILES={"/hochzeits-dj/":("Hochzeits-DJ","Sie genießen Ihren Tag – ich halte d
        "/geburtstags-dj/":("Geburtstags-DJ","Vom 18. bis zum 80.: Musik, bei der jede Generation tanzt – und Sie als Gastgeber einfach mitfeiern."),
        "/firmenfeier-dj/":("Firmenfeier-DJ","Ein Abend, über den Ihr Team noch lange spricht – professionell geplant, ohne Aufwand für Sie."),
        "/event-dj/":("Event-DJ","Stadtfest, Vereinsfeier, Open Air oder Silvester: Stimmung, die auch große Menschenmengen mitreißt.")}
-def tiles(urls=None,w=23):
+# ihr/euch-Fassung der Kacheln (Hochzeitsseite, seit 14.11.2026)
+TILES_DU={"/geburtstags-dj/":("Geburtstags-DJ","Vom 18. bis zum 80.: Musik, bei der jede Generation tanzt – und ihr als Gastgeber einfach mitfeiert."),
+          "/firmenfeier-dj/":("Firmenfeier-DJ","Ein Abend, über den euer Team noch lange spricht – professionell geplant, ohne Aufwand für euch.")}
+def tiles(urls=None,w=23,du=False):
     urls=urls or list(TILES)
-    return con([tile(*TILES[u],u,w=w) for u in urls],"row",g=24,**ROW,flex_justify_content="center" if len(urls)<4 else "space-between",css_classes="kjo-tiles")
+    return con([tile(*(TILES_DU.get(u) if du and u in TILES_DU else TILES[u]),u,w=w) for u in urls],"row",g=24,**ROW,flex_justify_content="center" if len(urls)<4 else "space-between",css_classes="kjo-tiles")
 
 def step(n,t,d,w=31):
     return con([H(n,"p",56,GOLD,"left","200",lh=1),H(t,"h3",24,OFF,"left","400"),T(d,MUTED,"left",16)],
@@ -284,10 +287,10 @@ def faq(items,title="Gut zu wissen",more=True,bg=B2,eye="Häufige Fragen"):
     if more: kids+=[SPACER(8),H("Alle Fragen ansehen →","p",13,GOLD,"center","500",link="/faq/",ls=1.5,tr="uppercase")]
     return section(kids,bg=bg)
 
-def orte(title="Ihr DJ in Oberschwaben, Ulm und dem Allgäu",exclude=None,bg=B1):
+def orte(title="Ihr DJ in Oberschwaben, Ulm und dem Allgäu",exclude=None,bg=B1,du=False):
     chips=[con([H("DJ "+o,"p",19,OFF,"center","300",link=f"/{s}/")],pad=box(18,10,18,10),border_border="solid",
                border_width=box(1,1,1,1),border_color="rgba(178,157,117,0.35)",**col(18,31,48)) for o,s in ORTE if o!=exclude]
-    return section(head("Einsatzgebiete",title)+[T("Von Fellheim aus bin ich schnell bei Ihnen – und gern auch darüber hinaus.",MUTED),
+    return section(head("Einsatzgebiete",title)+[T("Von Fellheim aus bin ich schnell bei euch – und gern auch darüber hinaus." if du else "Von Fellheim aus bin ich schnell bei Ihnen – und gern auch darüber hinaus.",MUTED),
         con(chips,"row",g=16,flex_wrap="wrap",flex_direction_mobile="row",flex_justify_content="center"),SPACER(6),
         H("Alle Einsatzgebiete →","p",13,GOLD,"center","500",link="/einsatzgebiete/",ls=1.5,tr="uppercase")],bg=bg)
 
