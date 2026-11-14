@@ -1,9 +1,9 @@
 {
- "version": "1.80.1",
- "download_url": "dj-kolja-one-plattenkiste-1.80.1.zip",
- "sha256": "c1792c3d83634dba481460963f09ec0317c40dc68410a86aac73adb1eb7ab666",
+ "version": "1.80.2",
+ "download_url": "dj-kolja-one-plattenkiste-1.80.2.zip",
+ "sha256": "4717087c3accf07be3d30dd0ef39256e88096bfb0ffaf9e48a43315538cc6824",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Saisonhinweis Firmenfeier, Pakettexte"
+ "changelog": "Playlist-Symbole in Gold"
 }
