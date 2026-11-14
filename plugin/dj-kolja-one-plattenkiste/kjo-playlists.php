@@ -36,11 +36,11 @@ add_shortcode(
 			$url = 'https://open.spotify.com/playlist/' . $p[2];
 			$h  .= '<div class="kjo-pl kjo-pls-item" data-id="' . esc_attr( $p[2] ) . '">';
 			$h  .= 'chips' === $stil ? '<p class="kjo-pls-t">' . esc_html( $p[0] ) . '</p>' : '<div><h3 class="kjo-pls-t">' . esc_html( $p[0] ) . '</h3><p class="kjo-pls-d">' . esc_html( $p[1] ) . '</p></div>';
-			$h  .= '<div class="kjo-pls-acts"><button type="button" class="kjo-pls-play" data-id="' . esc_attr( $p[2] ) . '" data-t="' . esc_attr( $p[0] ) . '" aria-controls="kjo-pls-player-' . $stil . '"><span aria-hidden="true">▶</span> Hier anhören</button>';
-			$h  .= '<a class="kjo-pls-ext" href="' . esc_url( $url ) . '" target="_blank" rel="noopener">In Spotify öffnen ↗</a></div></div>';
+			$h  .= '<div class="kjo-pls-acts"><button type="button" class="kjo-pls-play" data-id="' . esc_attr( $p[2] ) . '" data-t="' . esc_attr( $p[0] ) . '" aria-controls="kjo-pls-player-' . $stil . '"><svg class="kjo-pls-i" viewBox="0 0 12 14" width="11" height="13" aria-hidden="true" focusable="false"><path d="M1 1.2v11.6c0 .6.6.9 1.1.6l9.2-5.8c.5-.3.5-.9 0-1.2L2.1.6C1.6.3 1 .6 1 1.2z" fill="currentColor"/></svg> Hier anhören</button>';
+			$h  .= '<a class="kjo-pls-ext" href="' . esc_url( $url ) . '" target="_blank" rel="noopener">In Spotify öffnen <svg class="kjo-pls-a" viewBox="0 0 12 12" width="10" height="10" aria-hidden="true" focusable="false"><path d="M3 9 9 3M4.2 3H9v4.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></a></div></div>';
 		}
 		$h .= '</div><div class="kjo-pls-player" id="kjo-pls-player-' . $stil . '" hidden><div class="kjo-pls-bar"><span class="kjo-pls-now"></span><button type="button" class="kjo-pls-zu" aria-label="Player schließen">✕</button></div><div class="kjo-pls-frame"></div></div>';
-		$h .= '<p class="kjo-pls-note">Ganze Songs: „In Spotify öffnen ↗“ (auch mit kostenlosem Konto). Hier auf der Seite spielt Spotify je nach Browser Vorschauen. Der Spotify-Player wird erst beim Klick auf „Hier anhören“ geladen; dabei werden Daten an Spotify übertragen (<a href="' . esc_url( $ds ) . '">Datenschutz</a>).</p></div>';
+		$h .= '<p class="kjo-pls-note">Ganze Songs: „In Spotify öffnen“ (auch mit kostenlosem Konto). Hier auf der Seite spielt Spotify je nach Browser Vorschauen. Der Spotify-Player wird erst beim Klick auf „Hier anhören“ geladen; dabei werden Daten an Spotify übertragen (<a href="' . esc_url( $ds ) . '">Datenschutz</a>).</p></div>';
 		return $h . kjo_playlists_assets();
 	}
 );
@@ -64,7 +64,7 @@ function kjo_playlists_assets() {
 		. '.kjo-pls-acts{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}.kjo-pls-chips .kjo-pls-acts{justify-content:center}'
 		. '.kjo-pls-play{cursor:pointer;background:transparent;color:#F3F1E9;border:1px solid #F3F1E9;padding:12px 22px;font:600 13px/1 "Fira Sans",sans-serif;letter-spacing:2px;text-transform:uppercase;border-radius:0;transition:background .2s,color .2s}'
 		. '.kjo-pls-play:hover,.kjo-pls-play:focus-visible,.kjo-pls-item.aktiv .kjo-pls-play{background:#B29D75;border-color:#B29D75;color:#0F0C07}'
-		. '.kjo-pls-chips .kjo-pls-play{padding:9px 14px;font-size:12px;letter-spacing:1.5px}'
+		. '.kjo-pls-chips .kjo-pls-play{padding:9px 14px;font-size:12px;letter-spacing:1.5px}.kjo-pls-play{display:inline-flex;align-items:center;justify-content:center;gap:10px}.kjo-pls-i{color:#B29D75;flex:none;transition:color .2s}.kjo-pls-play:hover .kjo-pls-i,.kjo-pls-play:focus-visible .kjo-pls-i,.kjo-pls-item.aktiv .kjo-pls-i{color:#0F0C07}.kjo-pls-ext{display:inline-flex;align-items:center;justify-content:center;gap:6px}.kjo-pls-a{flex:none}'
 		. '.kjo-pls-ext{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#B29D75!important;text-decoration:none}.kjo-pls-ext:hover{text-decoration:underline}'
 		. '.kjo-pls-player{margin:24px auto 0;max-width:820px;background:#0F0C07;border-top:2px solid #B29D75}'
 		. '.kjo-pls-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;color:#B29D75;font-size:13px;letter-spacing:1.5px;text-transform:uppercase}'

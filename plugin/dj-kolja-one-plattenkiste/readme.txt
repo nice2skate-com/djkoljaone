@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.80.2: Playlisten: Play-Symbol und Pfeile als goldene Grafik (statt bunter Emojis auf iPhone); DJ-Pult und Startseiten-Pult: ▶ wird als Schriftzeichen statt Emoji angezeigt.
 Seit 1.80.1: Weihnachtsfeier-Hinweis auf der Firmenfeier-Seite stellt sich nach Monat selbst um (Okt.–Dez. kurzfristig anfragen); Anlass-Texte der Mietpakete werden automatisch korrigiert.
 Seit 1.80.0: Hochzeitsseite in ihr/euch-Form; Angebote und Rechnungen mit „Anrede: ihr“ (automatisch bei Anlass Hochzeit, eigene ihr-Texte in den Einstellungen); Mietrechnung mit Übergabe-/Rückgabeprotokoll zum Anhaken und optionalen Unterschriftszeilen; Unterschriftszeilen im Mietvertrag abschaltbar; neuer Spotify-Hinweis; Textkorrekturen auf der ganzen Website.
 Seit 1.79.0: WhatsApp-Versand von Angeboten und Rechnungen über WhatsApp Web (Business-Konto im Browser, Einstellung „WhatsApp senden über“), Datenschutzerklärung mit Abschnitt „Spotify-Playlisten“ (wird automatisch eingespielt).
