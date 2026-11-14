@@ -257,7 +257,7 @@ FIRMA=dict(key="firmenfeier",v2=True,eye="Firmenfeier-DJ · Memmingen · Allgäu
       ("Ist Ihre Technik auch für große Räume geeignet?","Ja. Ton- und Lichtanlage werden auf Raumgröße und Gästezahl abgestimmt – vom Besprechungsraum bis zum großen Festsaal.")],
  faq_title="Fragen rund um Ihre Firmenfeier",
  orte_title="Firmenfeier-DJ in Oberschwaben, Ulm und dem Allgäu",
- cta=("Ihre Weihnachtsfeier steht an? Sichern Sie sich jetzt den Termin.","Dezember-Termine sind oft schon im Frühsommer vergeben. Eine Anfrage dauert zwei Minuten und ist unverbindlich."),
+ cta=("Ihre Weihnachtsfeier steht an? Fragen Sie jetzt Ihren Termin an.","[kjo_saison_hinweis]"),  # Text je nach Monat, siehe kjo-kontakt.php
  cross=["/hochzeits-dj/","/geburtstags-dj/","/event-dj/"])
 
 EVENT=dict(key="events",v2=True,eye="Event-DJ · Memmingen · Allgäu · Schwaben",
