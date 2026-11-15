@@ -1,9 +1,9 @@
 {
- "version": "1.82.1",
- "download_url": "dj-kolja-one-plattenkiste-1.82.1.zip",
- "sha256": "b7e18fa69f7a9499d17313465136d74a6c30cbc657310a0cf94d19dffe96fda2",
+ "version": "1.83.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.83.0.zip",
+ "sha256": "7a2a60847290b0371534ef93e7d9dc8e9c7cf27bcf9fbe069a7d2b4a8bd841be",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Paket XS Hinweis"
+ "changelog": "Social Schlüssel erneuern"
 }
