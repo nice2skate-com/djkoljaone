@@ -23,19 +23,22 @@ ohne Tonspur teils ab): `media/motion/export/reel_dj-kolja-one_1080x1920_social.
 3. Die App bleibt im **Entwicklungsmodus**. Für deine eigenen Konten reicht das; eine Prüfung durch Meta ist nicht nötig,
    solange du selbst Administrator der App, der Seite und des Instagram-Kontos bist.
 
-### 3. Dauerhaften Zugriffsschlüssel holen
+### 3. Zugriffsschlüssel holen (auch zum Erneuern, ca. 2 Minuten)
 1. <https://developers.facebook.com/tools/explorer> öffnen, oben rechts deine App wählen.
 2. *User or Page* → **User Token**, unter *Permissions* hinzufügen:
-   `pages_show_list`, `pages_read_engagement`, `pages_manage_posts`, `instagram_basic`,
-   `instagram_content_publish`, `instagram_manage_comments`, `business_management`.
-   (`instagram_manage_comments` seit 1.69.0 für den automatischen ersten Kommentar bei Song-Releases.)
+   `pages_show_list`, `pages_read_engagement`, `pages_manage_posts`, `pages_manage_metadata`, `instagram_basic`,
+   `instagram_content_publish`, `instagram_manage_comments`, `instagram_manage_messages`, `business_management`.
 3. **Generate Access Token** → im Fenster die Seite DJ KOLJA ONE und das Instagram-Konto auswählen und erlauben.
-4. Den Schlüssel verlängern: unten auf das blaue **i** → *Open in Access Token Tool* → **Extend Access Token**
-   → den neuen (60 Tage gültigen) Schlüssel kopieren.
-5. Zurück im Explorer: Schlüssel oben einfügen und abfragen:
-   `me/accounts?fields=id,name,access_token,instagram_business_account`
-6. In der Antwort bei *DJ KOLJA ONE*: **id** = Seiten-ID, **access_token** = Seiten-Zugriffsschlüssel.
-   Dieser Seitenschlüssel läuft nicht ab (im Access Token Tool steht dann *Expires: Never*).
+4. Den Schlüssel kopieren und in **WordPress → Social → Seiten-Zugriffsschlüssel** einfügen → *Speichern* → *Verbindung prüfen*.
+   Seit 1.83.0 verlängert die Website den Benutzerschlüssel selbst (mit dem App-Geheimcode aus „Kommentar → WhatsApp“)
+   und holt daraus den dauerhaften Seitenschlüssel. Fehlende Berechtigungen werden beim Speichern genannt.
+
+**Warum er plötzlich nicht mehr geht (Code 190):** Meta zieht die Freigabe zurück, z. B. nach 90 Tagen ohne neue
+Anmeldung bei der App (Datenzugriff läuft ab), nach einer Passwortänderung bei Facebook oder wenn eine Berechtigung entzogen
+wurde. Dann einfach Schritt 3 wiederholen. Die Website prüft den Schlüssel täglich und schickt eine E-Mail, wenn er nicht mehr geht.
+
+Nur für den GitHub-Ablauf: Den Seitenschlüssel bekommst du im Explorer mit `me/accounts?fields=id,name,access_token`
+(den langen Schlüssel vorher über das blaue **i** → *Open in Access Token Tool* → **Extend Access Token** verlängern).
 
 ### 4. Eintragen – nicht in den Chat schicken
 - **GitHub**: Repo → *Settings* → *Secrets and variables* → *Actions* → *New repository secret*:

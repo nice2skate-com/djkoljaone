@@ -68,6 +68,85 @@ function kjo_soc_antwort( $r ) {
 	}
 	return is_array( $j ) ? $j : array();
 }
+/** Graph-API-Abfrage mit einem bestimmten Schlüssel (für die Schlüssel-Umwandlung). */
+function kjo_soc_get_mit( $pfad, $token, $get = array() ) {
+	$url = 'https://graph.facebook.com/' . rawurlencode( kjo_soc_opts()['version'] ) . '/' . $pfad;
+	return kjo_soc_antwort( wp_remote_get( add_query_arg( array_merge( $get, array( 'access_token' => $token ) ), $url ), array( 'timeout' => 45 ) ) );
+}
+/** Berechtigungen, die der Benutzerschlüssel für Reels, Song-Kommentar und Kommentar → WhatsApp braucht. */
+const KJO_SOC_RECHTE = array( 'pages_show_list', 'pages_read_engagement', 'pages_manage_posts', 'pages_manage_metadata', 'instagram_basic', 'instagram_content_publish', 'instagram_manage_comments', 'instagram_manage_messages', 'business_management' );
+
+/**
+ * Schlüssel umwandeln (seit 1.83.0): Ist es ein Benutzerschlüssel aus dem Graph-API-Explorer, wird er mit dem
+ * App-Geheimcode verlängert und daraus der dauerhafte Seitenschlüssel geholt – Verlängern und „me/accounts“ entfallen.
+ * Ein Seitenschlüssel wird unverändert übernommen. Rückgabe: array( token, page_id, hinweis ) oder WP_Error.
+ */
+function kjo_soc_token_umwandeln( $t, $page_id ) {
+	$me = kjo_soc_get_mit( 'me', $t, array( 'fields' => 'id,name' ) );
+	if ( is_wp_error( $me ) ) {
+		return new WP_Error( 'kjo_soc', 'Der eingefügte Schlüssel funktioniert nicht – ' . $me->get_error_message() );
+	}
+	$acc = kjo_soc_get_mit( 'me/accounts', $t, array( 'fields' => 'id,name,access_token,instagram_business_account', 'limit' => 50 ) );
+	if ( is_wp_error( $acc ) || empty( $acc['data'] ) ) {
+		// Kein Benutzerschlüssel (oder keine Seiten freigegeben): als Seitenschlüssel übernehmen, wenn er zur Seite passt.
+		if ( $page_id && (string) $me['id'] !== (string) $page_id ) {
+			return new WP_Error( 'kjo_soc', 'Der Schlüssel gehört nicht zur Seite ' . $page_id . ' und gibt keine Seiten frei. Bitte im Graph-API-Explorer „User Token“ wählen und beim Erlauben die Seite DJ KOLJA ONE anhaken.' );
+		}
+		return array( $t, (string) $me['id'], 'Seitenschlüssel übernommen.' );
+	}
+	// Benutzerschlüssel: fehlende Berechtigungen melden.
+	$fehlt = KJO_SOC_RECHTE;
+	$pr    = kjo_soc_get_mit( 'me/permissions', $t );
+	if ( ! is_wp_error( $pr ) && ! empty( $pr['data'] ) ) {
+		$da    = wp_list_pluck( array_filter( $pr['data'], fn( $x ) => 'granted' === ( $x['status'] ?? '' ) ), 'permission' );
+		$fehlt = array_values( array_diff( KJO_SOC_RECHTE, $da ) );
+	}
+	// Verlängern (60 Tage) mit App-ID und App-Geheimcode – daraus wird ein Seitenschlüssel, der nicht abläuft.
+	$adm    = function_exists( 'kjo_adm_opts' ) ? kjo_adm_opts() : array();
+	$lang   = false;
+	$secret = (string) ( $adm['app_secret'] ?? '' );
+	$app    = kjo_soc_get_mit( 'app', $t, array( 'fields' => 'id' ) );
+	if ( $secret && ! is_wp_error( $app ) && ! empty( $app['id'] ) ) {
+		$x = kjo_soc_antwort(
+			wp_remote_get(
+				add_query_arg(
+					array(
+						'grant_type'        => 'fb_exchange_token',
+						'client_id'         => $app['id'],
+						'client_secret'     => $secret,
+						'fb_exchange_token' => $t,
+					),
+					'https://graph.facebook.com/' . rawurlencode( kjo_soc_opts()['version'] ) . '/oauth/access_token'
+				),
+				array( 'timeout' => 45 )
+			)
+		);
+		if ( ! is_wp_error( $x ) && ! empty( $x['access_token'] ) ) {
+			$t    = (string) $x['access_token'];
+			$lang = true;
+			$acc  = kjo_soc_get_mit( 'me/accounts', $t, array( 'fields' => 'id,name,access_token,instagram_business_account', 'limit' => 50 ) );
+			if ( is_wp_error( $acc ) || empty( $acc['data'] ) ) {
+				return new WP_Error( 'kjo_soc', 'Schlüssel verlängert, aber Meta liefert keine Seiten: ' . ( is_wp_error( $acc ) ? $acc->get_error_message() : 'leere Liste' ) );
+			}
+		}
+	}
+	if ( ! $lang ) {
+		return new WP_Error( 'kjo_soc', 'Benutzerschlüssel erkannt, aber er ließ sich nicht verlängern' . ( $secret ? '' : ' – der App-Geheimcode fehlt (Social → Kommentar → WhatsApp → App-Geheimcode speichern)' ) . '. Ohne Verlängerung liefe der Schlüssel nach einer Stunde ab, deshalb wurde nichts gespeichert.' );
+	}
+	$seite = null;
+	foreach ( $acc['data'] as $pg ) {
+		if ( ( $page_id && (string) $pg['id'] === (string) $page_id ) || ( ! $page_id && false !== stripos( (string) ( $pg['name'] ?? '' ), 'kolja' ) ) ) {
+			$seite = $pg;
+		}
+	}
+	if ( ! $seite && 1 === count( $acc['data'] ) ) {
+		$seite = $acc['data'][0];
+	}
+	if ( ! $seite || empty( $seite['access_token'] ) ) {
+		return new WP_Error( 'kjo_soc', 'Die Seite ' . ( $page_id ? $page_id : 'DJ KOLJA ONE' ) . ' ist im Schlüssel nicht freigegeben. Beim Erlauben im Explorer die Seite DJ KOLJA ONE und das Instagram-Konto anhaken.' );
+	}
+	return array( (string) $seite['access_token'], (string) $seite['id'], 'Dauerhafter Seitenschlüssel für „' . ( $seite['name'] ?? '' ) . '“ erzeugt.' . ( $fehlt ? ' Achtung, diese Berechtigungen fehlen noch: ' . implode( ', ', $fehlt ) . '.' : ' Alle Berechtigungen vorhanden.' ) );
+}
 function kjo_soc_log( $ziel, $ok, $info ) {
 	$l   = get_option( 'kjo_social_log', array() );
 	$l   = is_array( $l ) ? $l : array();
@@ -153,8 +232,19 @@ function kjo_soc_page() {
 	if ( isset( $_POST['kjo_soc_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['kjo_soc_nonce'] ) ), 'kjo_soc' ) ) {
 		$o['page_id'] = preg_replace( '/\D/', '', sanitize_text_field( wp_unslash( $_POST['page_id'] ?? '' ) ) ); // phpcs:ignore
 		$t            = trim( sanitize_text_field( wp_unslash( $_POST['token'] ?? '' ) ) ); // phpcs:ignore
+		$hinweis      = '';
 		if ( '' !== $t ) {
-			$o['token'] = $t;
+			$u = kjo_soc_token_umwandeln( $t, $o['page_id'] );
+			if ( is_wp_error( $u ) ) {
+				$hinweis = '<div class="notice notice-error"><p>' . esc_html( $u->get_error_message() ) . ' Der bisherige Schlüssel bleibt gespeichert.</p></div>';
+			} else {
+				$o['token']   = $u[0];
+				$o['page_id'] = $u[1];
+				$hinweis      = '<div class="notice notice-success"><p>' . esc_html( $u[2] ) . '</p></div>';
+				if ( function_exists( 'kjo_kom_ok' ) ) {
+					delete_transient( 'kjo_kom_check' ); // Song-Kommentar: Schlüssel beim nächsten Aufruf neu prüfen
+				}
+			}
 		}
 		if ( ! empty( $_POST['token_weg'] ) ) {
 			$o['token'] = '';
@@ -163,6 +253,14 @@ function kjo_soc_page() {
 		$o['version'] = preg_match( '/^v\d+\.\d$/', $v ) ? $v : 'v23.0';
 		$o['text']    = sanitize_textarea_field( wp_unslash( $_POST['text'] ?? $o['text'] ) ); // phpcs:ignore
 		$o['ig_id']   = '';
+		if ( $o['token'] && $o['page_id'] ) { // Verbindung gleich mitprüfen (seit 1.83.0)
+			$pg = kjo_soc_get_mit( $o['page_id'], $o['token'], array( 'fields' => 'id,name,instagram_business_account{id,username}' ) );
+			if ( ! is_wp_error( $pg ) ) {
+				$o['page_name'] = (string) ( $pg['name'] ?? '' );
+				$o['ig_id']     = (string) ( $pg['instagram_business_account']['id'] ?? '' );
+				$o['ig_name']   = (string) ( $pg['instagram_business_account']['username'] ?? '' );
+			}
+		}
 		$g            = trim( sanitize_text_field( wp_unslash( $_POST['gh_token'] ?? '' ) ) ); // phpcs:ignore
 		if ( '' !== $g ) {
 			$o['gh_token'] = $g;
@@ -173,7 +271,7 @@ function kjo_soc_page() {
 		$r            = sanitize_text_field( wp_unslash( $_POST['gh_repo'] ?? '' ) ); // phpcs:ignore
 		$o['gh_repo'] = preg_match( '#^[\w.-]+/[\w.-]+$#', $r ) ? $r : 'nice2skate-com/djkoljaone';
 		update_option( 'kjo_social', $o, false );
-		echo '<div class="notice notice-success"><p>Gespeichert. Jetzt „Verbindung prüfen“.</p></div>';
+		echo $hinweis . '<div class="notice notice-success"><p>Gespeichert. Jetzt „Verbindung prüfen“.</p></div>'; // phpcs:ignore
 	}
 	$videos = kjo_soc_videos();
 	echo '<div class="wrap"><h1>Social: Reels posten</h1>';
@@ -182,7 +280,7 @@ function kjo_soc_page() {
 	echo '<h2>1. Verbindung</h2><form method="post"><table class="form-table">';
 	wp_nonce_field( 'kjo_soc', 'kjo_soc_nonce' );
 	echo '<tr><th><label for="kjo-soc-page">Facebook-Seiten-ID</label></th><td><input id="kjo-soc-page" name="page_id" value="' . esc_attr( $o['page_id'] ) . '" class="regular-text"></td></tr>';
-	echo '<tr><th><label for="kjo-soc-token">Seiten-Zugriffsschlüssel</label></th><td><input id="kjo-soc-token" name="token" type="password" autocomplete="off" class="regular-text" placeholder="' . esc_attr( $o['token'] ? 'gespeichert – leer lassen zum Behalten' : 'dauerhafter Page Access Token' ) . '">' . ( $o['token'] ? ' <label><input type="checkbox" name="token_weg" value="1"> löschen</label>' : '' ) . '<p class="description">Wird nur auf deinem Server gespeichert und nie angezeigt.</p></td></tr>';
+	echo '<tr><th><label for="kjo-soc-token">Seiten-Zugriffsschlüssel</label></th><td><input id="kjo-soc-token" name="token" type="password" autocomplete="off" class="regular-text" placeholder="' . esc_attr( $o['token'] ? 'gespeichert – leer lassen zum Behalten' : 'Benutzer- oder Seitenschlüssel einfügen' ) . '">' . ( $o['token'] ? ' <label><input type="checkbox" name="token_weg" value="1"> löschen</label>' : '' ) . '<p class="description">Wird nur auf deinem Server gespeichert und nie angezeigt. <strong>Erneuern in 2 Minuten:</strong> <a href="https://developers.facebook.com/tools/explorer" target="_blank" rel="noopener">Graph-API-Explorer</a> → deine App → „User Token“ → Berechtigungen ' . esc_html( implode( ', ', KJO_SOC_RECHTE ) ) . ' → „Generate Access Token“, Seite DJ KOLJA ONE und Instagram erlauben → Schlüssel kopieren, hier einfügen, Speichern. Verlängern und Seitenschlüssel holen macht die Website selbst (braucht den App-Geheimcode unter „Kommentar → WhatsApp“).</p></td></tr>';
 	echo '<tr><th><label for="kjo-soc-gh">GitHub-Schlüssel (für Musik und MOV)</label></th><td><input id="kjo-soc-gh" name="gh_token" type="password" autocomplete="off" class="regular-text" placeholder="' . esc_attr( $o['gh_token'] ? 'gespeichert – leer lassen zum Behalten' : 'Fine-grained Token, nur „Actions: Read and write“' ) . '">' . ( $o['gh_token'] ? ' <label><input type="checkbox" name="gh_weg" value="1"> löschen</label>' : '' ) . ' <input name="gh_repo" value="' . esc_attr( $o['gh_repo'] ) . '" size="28" aria-label="GitHub-Repo"><p class="description">Dein Server kann Videos nicht schneiden. Das Aufbereiten und Musik-Unterlegen übernimmt GitHub; dafür braucht diese Seite einen Schlüssel, der den Ablauf „Social: Reel posten“ starten darf. Anleitung: <code>social/README.md</code>.</p></td></tr>';
 	echo '<tr><th><label for="kjo-soc-ver">API-Version</label></th><td><input id="kjo-soc-ver" name="version" value="' . esc_attr( $o['version'] ) . '" size="8"><p class="description">Nur ändern, wenn Meta eine Version abschaltet.</p></td></tr>';
 	echo '<tr><th><label for="kjo-soc-text">Standardtext</label></th><td><textarea id="kjo-soc-text" name="text" rows="6" class="large-text">' . esc_textarea( $o['text'] ) . '</textarea></td></tr>';

@@ -149,7 +149,7 @@ function kjo_kom_schluessel_pruefen() {
 	$r = kjo_soc_api( $soc['ig_id'], null, array( 'fields' => 'username' ) );
 	if ( is_wp_error( $r ) ) {
 		kjo_soc_log( 'Kommentar', false, 'Schlüssel-Prüfung: ' . $r->get_error_message() );
-		kjo_kom_melden( 'Der Instagram-Zugriffsschlüssel funktioniert nicht mehr – der nächste Song-Kommentar würde scheitern.' . "\n\nMeta meldet: " . $r->get_error_message() . "\n\nNeuen Seiten-Schlüssel erzeugen (Anleitung social/README.md, Schritt 3) und unter Social → Verbindung speichern." );
+		kjo_kom_melden( 'Der Instagram-Zugriffsschlüssel funktioniert nicht mehr – der nächste Song-Kommentar würde scheitern.' . "\n\nMeta meldet: " . $r->get_error_message() . ( false !== strpos( $r->get_error_message(), 'Code 190' ) ? "\n\nDas heißt: Meta hat die Freigabe für den Schlüssel zurückgezogen – das passiert z. B. nach 90 Tagen ohne neue Anmeldung bei der App, nach einer Passwortänderung bei Facebook oder wenn eine Berechtigung entzogen wurde." : '' ) . "\n\nSo erneuerst du ihn (ca. 2 Minuten):\n1. https://developers.facebook.com/tools/explorer öffnen, oben rechts deine App wählen.\n2. „User Token“ wählen, Berechtigungen hinzufügen: " . implode( ', ', defined( 'KJO_SOC_RECHTE' ) ? KJO_SOC_RECHTE : array() ) . ".\n3. „Generate Access Token“ → Seite DJ KOLJA ONE und das Instagram-Konto erlauben.\n4. Schlüssel kopieren und in WordPress → Social → „Seiten-Zugriffsschlüssel“ einfügen → Speichern → Verbindung prüfen.\nDie Website verlängert ihn selbst und holt den dauerhaften Seitenschlüssel.\n\nAuch neu in GitHub eintragen, falls du Reels über GitHub postest: Secret META_PAGE_TOKEN." );
 	} else {
 		$p = get_option( 'kjo_kom_problem' );
 		if ( is_array( $p ) && 'aufgegeben' !== ( $p[2] ?? '' ) ) {
