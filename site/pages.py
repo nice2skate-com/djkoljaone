@@ -261,7 +261,7 @@ FIRMA=dict(key="firmenfeier",v2=True,pls=("afterwork,weihnacht,latin,pop,8090,ho
  cta=("Ihre Weihnachtsfeier steht an? Fragen Sie jetzt Ihren Termin an.","[kjo_saison_hinweis]"),  # Text je nach Monat, siehe kjo-kontakt.php
  cross=["/hochzeits-dj/","/geburtstags-dj/","/event-dj/"])
 
-EVENT=dict(key="events",v2=True,pls=("tanz20,dancefloor,schlager,pop,rock,house","Reinhören für Ihr Event","Tanzbare Hits für Stadtfest, Vereinsfeier oder Silvester – hören Sie direkt hier rein. Ihre Wünsche kommen bei der Planung dazu."),eye="Event-DJ · Memmingen · Allgäu · Schwaben",
+EVENT=dict(key="events",v2=True,pls=("silvester,tanz20,dancefloor,schlager,pop,rock","Reinhören für Ihr Event","Tanzbare Hits für Stadtfest, Vereinsfeier oder Silvester – hören Sie direkt hier rein. Ihre Wünsche kommen bei der Planung dazu."),eye="Event-DJ · Memmingen · Allgäu · Schwaben",
  h1="Ihr Event-DJ in Memmingen, Allgäu &amp; Schwaben",
  sub="Stadtfest, Vereinsfeier, Open Air oder Silvester: Sie erhalten Stimmung, die auch große Menschenmengen mitreißt – und einen DJ, der sich an Ihren Zeitplan hält und mit Ihrer Technik zusammenarbeitet.",
  gal_title="So feiert Ihr Publikum mit mir",

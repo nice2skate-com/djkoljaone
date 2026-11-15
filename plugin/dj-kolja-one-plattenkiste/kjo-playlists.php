@@ -35,6 +35,7 @@ const KJO_PLAYLISTS = array(
 	'geburtstag' => array( 'Geburtstag 18 bis 60', 'Für runde Geburtstage – vom 18. bis zum 60.', '0bxJecWTd8uAlP3k2r8FC3', 'feier' ),
 	'afterwork'  => array( 'Firmenfeier – Afterwork bis Mitternacht', 'Vom entspannten Ausklang bis zur Party um Mitternacht.', '3ioq2kDKQxIpJ7DBj9NVR4', 'feier' ),
 	'weihnacht'  => array( 'Weihnachtsfeier Firma & Team', 'Für die Weihnachtsfeier mit Kolleginnen, Kollegen und Team.', '5vEHwCTwSByEumRu0U5uRV', 'feier' ),
+	'silvester'  => array( 'Silvester Party 2026/27', 'Aktuelle Partyhits und Klassiker für den Jahreswechsel.', '44nZXWf1jlOqfbo8l8Bum6', 'feier' ),
 	'archiv'     => array( 'Musikarchiv', 'Mein Musikarchiv zum Stöbern – quer durch alle Richtungen.', '272mWQVcaWhdDgwKScVls1', 'feier' ),
 );
 /** Gruppen auf „Meine Musik“ (Shortcode mit gruppen="1"). */
