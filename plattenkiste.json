@@ -1,9 +1,9 @@
 {
- "version": "1.81.3",
- "download_url": "dj-kolja-one-plattenkiste-1.81.3.zip",
- "sha256": "9c65f4a6db373a49ea43a201f13f43b98e57d8259bf3c5cc38a039c41bab4936",
+ "version": "1.82.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.82.0.zip",
+ "sha256": "267efb018d0a5ca0e7b92814347a5f500ba994cdaf8e1da2ea639d64999a9c0a",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Mietpreis PartyBox 720"
+ "changelog": "Paket XS"
 }

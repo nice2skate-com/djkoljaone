@@ -99,6 +99,7 @@ function kjo_vl_intern_fields() {
 }
 /* Bestand (seit 1.47.0): Pakete belegen ihre Geräte, damit der Mietkorb nie mehr anbietet, als da ist. */
 const KJO_VL_PAKET_GERAETE = array(
+	'paket-xs'          => array( 'jbl-partybox-720' => 1, 'shure-beta-58a' => 1 ),
 	'paket-s'           => array( 'bose-s1-pro' => 2, 'kls-lightbar' => 1, 'shure-beta-58a' => 1 ),
 	'paket-m'           => array( 'bose-s1-pro' => 2, 'kls-lightbar' => 1, 'bose-subwoofer' => 1, 'funkmikrofon-set' => 1, 'traverse-3m' => 1, 'stairville-tri-flat-par' => 4, 'wash-scheinwerfer' => 1, 'led-laufschrift' => 1, 'nebelmaschine' => 1, 'dj-pult' => 1 ),
 	'paket-l'           => array( 'pronomic-c-215-ma' => 2, 'pronomic-c-118sa' => 2, 'traverse-3m' => 1, 'moving-head' => 2, 'stairville-tri-flat-par' => 4, 'wash-scheinwerfer' => 1, 'led-laufschrift' => 1, 'algam-akku-par' => 6, 'kls-lightbar' => 1, 'uv-strahler' => 1, 'spiegelkugel' => 1, 'nebelmaschine' => 1, 'funkmikrofon-set' => 1, 'dj-pult' => 1 ),
@@ -479,6 +480,7 @@ function kjo_vl_seed_data() {
 		array( 'traverse-3m', 'Stageworx LB-3 Traversen-Set 3 m', 'buehne', 1, 'Lichttraverse mit zwei Ständern – die Bühne für Scheinwerfer und Laufschrift.', array( 'lieferumfang' => "2 Lichtstative\n2 Traversenaufnehmer\n2 Traversenstücke (je 1,5 m, 3-Punkt)\n8 Haken (Hookclamps, je bis 15 kg) mit Sicherungsseilen\n2 Transporttaschen (Traverse, Stative)" ) ),
 	);
 	$p = array(
+		array( 'paket-xs', 'Paket XS – „Kompakt“', 'Für kleine Räume, bis ca. 40 Gäste', 'z. B. Geburtstag zu Hause, Vereinsheim oder Terrasse', "JBL PartyBox 720 (800 W, mit eingebauter Lichtshow und Bluetooth)\nShure Beta 58A Mikrofon mit Kabel\nAudiokabel für Handy oder Laptop", 'Eine Box statt zwei Lautsprechern auf Stativen – ideal, wenn wenig Platz ist oder Stative im Weg stünden, etwa in engen Räumen, an Laufwegen oder wenn Kinder mitfeiern. Einfach hinstellen, einstecken, Handy verbinden. Spritzwassergeschützt, auch für die Terrasse. Mehr Stimmung: Akku-Scheinwerfer (kabellos, ohne Stativ) für 10 € pro Stück und Tag dazubuchen. Transport: passt in einen Kombi (Box ca. 94 cm hoch, 31 kg).' ),
 		array( 'paket-s', 'Paket S – „Sound & Party“', 'Für bis zu ca. 50 Gäste', 'z. B. Geburtstag, Gartenparty oder Sektempfang', "2× Bose S1 Pro Aktivlautsprecher (mit Bluetooth) auf Stativen\nPartylicht: Eurolite KLS Laser Bar mit Laser, Derbys, Spots und Strobe, auf eigenem Lichtstativ\nShure Beta 58A Mikrofon mit Kabel\nAudiokabel für Handy oder Laptop", 'Zubehör: DJ-Pult 20 €, Pioneer DDJ-FLX10 60 € pro Tag. Transport: passt in einen Kombi (Lightbar und Stative ca. 1,5 m).' ),
 		array( 'paket-m', 'Paket M – „Party“', 'Für bis zu ca. 100 Gäste', 'z. B. runder Geburtstag, Vereinsfeier oder Firmenfeier', "Alles aus Paket S, dazu der Bose Sub1 Subwoofer\nFunkmikrofon-Set mit 4 Handmikros statt Kabelmikro\n3-m-Lichttraverse mit 4 LED-PARs und Cameo Thunder Wash (Wash, Blinder, Strobe)\nLED-Laufschrift, z. B. mit Ihren Namen\nNebelmaschine\nDJ-Pult (Roadworx DJ Table, schwarz)", 'Zubehör: Pioneer DDJ-FLX10 60 € pro Tag. Transport: Van oder Transporter (Traversentasche 1,54 m) – oder ich liefere und baue auf.' ),
 		array( 'paket-l', 'Paket L – „Komplett-Show“', 'Für bis zu ca. 250 Gäste', 'z. B. Hochzeit, Abiball oder Sommerfest. Die komplette Bühne aus meinem Beispiel-Lichtplan.', "Pronomic PA: 2× C-215 MA (15\") auf 2× C-118SA (18\"-Subwoofer), mit Distanzstangen und Kabelsatz\n3-m-Lichttraverse mit 2 Moving Heads, 4 LED-PARs, Thunder Wash und LED-Laufschrift\n6 kabellose Akku-Scheinwerfer (IP65), auch für draußen\nKLS Laser Bar, UV-Schwarzlicht, Spiegelkugel, Nebelmaschine\nFunkmikrofon-Set (4 Handmikros), DJ-Pult", 'Empfehlung: Lieferung, Aufbau und Abbau durch mich – wegen der Moving Heads und der 40-kg-Subwoofer. Kaution bei Selbstabholung 1.000 €, mit Lieferung, Auf- und Abbau und Abholung durch mich 300 €. Zubehör: Pioneer DDJ-FLX10 60 € pro Tag, Bose-Set für Sektempfang oder Nebenraum 99 € pro Tag.' ),
@@ -958,6 +960,7 @@ const KJO_VL_PREISE = array(
 		'jbl-partybox-720'       => array( 45, 65, 250 ), // Wert 900 €: Tag ≈ 5 % (wie Bose S1 Pro/Sub1), Wochenende ≈ 1,45 × Tag, Kaution ≈ 28 %
 	),
 	'kjo_paket'  => array(
+		'paket-xs'          => array( 49, 69, 250 ), // Einzelpreise 45 + 10 € = 55 € → ca. 10 % Paketvorteil
 		'paket-s'           => array( 89, 129, 300 ),
 		'paket-m'           => array( 209, 299, 600 ),
 		'paket-l'           => array( 329, 479, 1000 ),
@@ -970,7 +973,7 @@ const KJO_VL_OPT_DEFAULT = array(
 	'aufbau'     => 'Auf- und Abbau: Paket S 40 €, Paket M 100 €, Paket L 180 €, sonst 40 € pro Stunde; Abbau nach 23 Uhr +50 %. Die Einweisung ist immer kostenlos.',
 );
 const KJO_VL_PAKETE_V = 4; // Pakete S/M/L neu (12.10.2026): einmalig vollständig überschreiben
-const KJO_VL_MIG      = 25;
+const KJO_VL_MIG      = 26;
 add_action(
 	'admin_init',
 	function () {
@@ -1081,6 +1084,26 @@ add_action(
 			}
 		}
 		update_option( 'kjo_verleih', $o );
+		// Paket XS anlegen (seit 1.82.0), nur wenn es noch nicht existiert – steht vor Paket S.
+		if ( ! get_page_by_path( 'paket-xs', OBJECT, 'kjo_paket' ) ) {
+			list( , $sp ) = kjo_vl_seed_data();
+			foreach ( $sp as $r ) {
+				if ( 'paket-xs' !== $r[0] ) {
+					continue;
+				}
+				$id = wp_insert_post( array( 'post_type' => 'kjo_paket', 'post_status' => 'publish', 'post_title' => $r[1], 'post_name' => $r[0], 'menu_order' => 0 ) );
+				if ( $id && ! is_wp_error( $id ) ) {
+					update_post_meta( $id, '_kjo_gaeste', $r[2] );
+					update_post_meta( $id, '_kjo_anlaesse', $r[3] );
+					update_post_meta( $id, '_kjo_inhalt', $r[4] );
+					update_post_meta( $id, '_kjo_hinweis', $r[5] );
+					update_post_meta( $id, '_kjo_bild', 'paket_xs' );
+					foreach ( array( 'preis', 'preis_we', 'kaution' ) as $n => $k ) {
+						update_post_meta( $id, '_kjo_' . $k, (string) KJO_VL_PREISE['kjo_paket']['paket-xs'][ $n ] );
+					}
+				}
+			}
+		}
 		// Neu hinzugekommene Geräte anlegen (nur diese Slugs, damit gelöschte Geräte nicht zurückkommen).
 		list( $seed ) = kjo_vl_seed_data();
 		foreach ( $seed as $i => $r ) {
@@ -1829,7 +1852,7 @@ add_shortcode(
 			array( 'Lieferung', kjo_vl_opt( 'lieferung' ) ? kjo_vl_opt( 'lieferung' ) : 'Nach Verfügbarkeit gegen Gebühr, der Preis steht im Angebot.' ),
 			array( 'Aufbau', kjo_vl_opt( 'aufbau' ) ? kjo_vl_opt( 'aufbau' ) : 'Nach Verfügbarkeit gegen Gebühr, der Preis steht im Angebot.' ),
 			array( 'Mitbringen', 'Personalausweis. Mieten ab 18 Jahren.' ),
-			array( 'Passt das in mein Auto?', 'Paket S passt in einen Kombi (Lightbar und Stative sind ca. 1,5 m lang). Für M und L brauchen Sie einen sehr großen Kombi, Van, Anhänger oder Transporter. Nach Verfügbarkeit und gegen Gebühr liefere ich das Equipment zu Ihrer Location.' ),
+			array( 'Passt das in mein Auto?', 'Paket XS und S passen in einen Kombi (bei S sind Lightbar und Stative ca. 1,5 m lang). Für M und L brauchen Sie einen sehr großen Kombi, Van, Anhänger oder Transporter. Nach Verfügbarkeit und gegen Gebühr liefere ich das Equipment zu Ihrer Location.' ),
 			array( 'Akku-Scheinwerfer', 'Ich übergebe sie vollgeladen im Lade-Case – zum Nachladen einfach das Case einstecken.' ),
 			array( 'Nebel', 'Bitte vorher mit der Location klären, wegen der Rauchmelder.' ),
 			array( 'Strom', 'Normale 230-V-Steckdosen. Verteiler und Verlängerungen bekommen Sie mit.' ),
