@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.81.1: Neue Playlist „Silvester Party 2026/27“ auf der Event-Seite und unter Meine Musik.
 Seit 1.81.0: Alle 17 Spotify-Playlisten „DJ KOLJA ONE …“: Meine Musik zeigt alle nach Themen (Tanzfläche; Hochzeit, Empfang & Dinner; Geburtstag, Firmenfeier & mehr), Startseite die sechs Genre-Playlisten, Hochzeit/Geburtstag/Firmenfeier/Event je sechs passende. Shortcode [kjo_playlists auswahl="…" gruppen="1"].
 Seit 1.80.2: Playlisten: Play-Symbol und Pfeile als goldene Grafik (statt bunter Emojis auf iPhone); DJ-Pult und Startseiten-Pult: ▶ wird als Schriftzeichen statt Emoji angezeigt.
 Seit 1.80.1: Weihnachtsfeier-Hinweis auf der Firmenfeier-Seite stellt sich nach Monat selbst um (Okt.–Dez. kurzfristig anfragen); Anlass-Texte der Mietpakete werden automatisch korrigiert.
