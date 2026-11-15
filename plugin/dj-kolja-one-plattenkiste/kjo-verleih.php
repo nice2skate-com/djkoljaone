@@ -955,6 +955,7 @@ const KJO_VL_PREISE = array(
 		'spiegelkugel'           => array( 10, 15, 30 ),
 		'lautsprecherstativ'     => array( 5, 8, 20 ),
 		'shure-beta-58a'         => array( 10, 15, 50 ),
+		'jbl-partybox-720'       => array( 45, 65, 250 ), // Wert 900 €: Tag ≈ 5 % (wie Bose S1 Pro/Sub1), Wochenende ≈ 1,45 × Tag, Kaution ≈ 28 %
 	),
 	'kjo_paket'  => array(
 		'paket-s'           => array( 89, 129, 300 ),
@@ -969,7 +970,7 @@ const KJO_VL_OPT_DEFAULT = array(
 	'aufbau'     => 'Auf- und Abbau: Paket S 40 €, Paket M 100 €, Paket L 180 €, sonst 40 € pro Stunde; Abbau nach 23 Uhr +50 %. Die Einweisung ist immer kostenlos.',
 );
 const KJO_VL_PAKETE_V = 4; // Pakete S/M/L neu (12.10.2026): einmalig vollständig überschreiben
-const KJO_VL_MIG      = 24;
+const KJO_VL_MIG      = 25;
 add_action(
 	'admin_init',
 	function () {
