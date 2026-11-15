@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.82.1: Paket XS: Hinweis ergänzt (Terrasse bei regenfreiem Wetter, bis zu 6 Akku-Scheinwerfer oder Cameo Thunder Wash dazubuchbar).
 Seit 1.82.0: Neues Paket XS „Kompakt“ mit JBL PartyBox 720 und Kabelmikrofon (49 € Tag, 69 € Wochenende, Kaution 250 €) – für kleine Räume und Orte, an denen Stative stören; steht vor Paket S.
 Seit 1.81.3: Mietpreis JBL PartyBox 720: 45 € pro Tag, 65 € Wochenende, Kaution 250 €.
 Seit 1.81.2: Neues Gerät JBL PartyBox 720 im Verleih (Kategorie Lautsprecher, wird automatisch angelegt; Preis auf Anfrage, bis ein Mietpreis eingetragen ist).
