@@ -459,6 +459,7 @@ function kjo_vl_seed_data() {
 	$bose = 'https://assets.bose.com/content/dam/Bose_DAM/Web/consumer_electronics/global/products/speakers/s1_pro_system/pdfs/807173_og_s1-pro-system_de.pdf';
 	$g    = array(
 		array( 'bose-s1-pro', 'Bose S1 Pro Aktivlautsprecher', 'lautsprecher', 2, 'Kompakter Aktivlautsprecher mit Bluetooth: klarer Klang für Sprache und Musik, dezent im Raum.', array( 'breite' => '241', 'laenge' => '286', 'hoehe' => '330', 'gewicht' => '7,1 kg', 'volumen' => '22,75 l', 'anschluesse' => 'Bluetooth, Kabel-Eingänge', 'gaeste' => 'bis ca. 50 Gäste (als Paar)', 'anleitung' => $bose ) ),
+		array( 'jbl-partybox-720', KJO_VL_DATEN['jbl-partybox-720'][1], 'lautsprecher', 1, KJO_VL_DATEN['jbl-partybox-720'][3], KJO_VL_DATEN['jbl-partybox-720'][4] ),
 		array( 'bose-subwoofer', 'Bose Subwoofer', 'subwoofer', 1, 'Bassergänzung für das Bose-System – mehr Druck auf der Tanzfläche.', array( 'gaeste' => 'bis ca. 100 Gäste (mit 2 × Bose S1 Pro)' ) ),
 		array( 'pronomic-c-215-ma', KJO_VL_DATEN['pronomic-c-215-ma'][1], 'lautsprecher', 2, KJO_VL_DATEN['pronomic-c-215-ma'][3], KJO_VL_DATEN['pronomic-c-215-ma'][4] ),
 		array( 'pronomic-c-118sa', 'Pronomic C-118SA 18"-Aktiv-Subwoofer', 'subwoofer', 2, '18"-Aktiv-Subwoofer für druckvollen Bass, den man spürt.', array( 'leistung' => '800 W RMS, 30–200 Hz, max. 126 dB', 'anschluesse' => '2 × Combo-Eingang, 2 × XLR-Ausgang, M20-Flansch für Distanzstange' ) ),
@@ -532,6 +533,28 @@ add_action(
 /* Recherchierte Gerätedaten (thomann.de, Stand 11.10.2026): Slug => array( alter Titel, neuer Titel, alte Kurzbeschreibung, neue Kurzbeschreibung, Felder ).
  * Beim Aktualisieren werden Titel/Kurztext nur ersetzt, wenn sie noch dem alten Platzhalter entsprechen, und nur leere Felder befüllt. */
 const KJO_VL_DATEN = array(
+	'jbl-partybox-720' => array( // seit 1.81.2 (15.11.2026)
+		'',
+		'JBL PartyBox 720',
+		'',
+		'Große Partybox mit 800 W, Lichtshow und Bluetooth – Musik, Mikrofon und Gitarre aus einem Gerät, ganz ohne Mischpult.',
+		array(
+			'beschr'      => "All-in-one-Partylautsprecher mit 800 W RMS und Lichtshow: Handy per Bluetooth verbinden, Mikrofon oder Gitarre anstecken – fertig. Spritzwassergeschützt nach IPX4, damit auch für Terrasse und Garten geeignet (bei Regen bitte unterstellen).\nMehrere JBL-Boxen lassen sich per Auracast koppeln.",
+			'breite'      => '416',
+			'laenge'      => '406',
+			'hoehe'       => '942',
+			'gewicht'     => '31 kg',
+			'volumen'     => '159 l',
+			'leistung'    => '800 W RMS, 32–20.000 Hz',
+			'anschluesse' => '2 × Eingang für Mikrofon/Gitarre, AUX 3,5 mm, Bluetooth 5.4 mit Auracast',
+			'strom'       => '230 V (Akkubetrieb nur mit separatem JBL-Wechselakku)',
+			'lieferumfang' => 'Netzkabel',
+			'wetter'      => 'spritz',
+			'wert'        => '900',
+			'wert_quelle' => 'UVP 899,99 € laut hifi.de-Test (Straßenpreis ca. 700–800 €, heise-Preisvergleich, Stand 15.11.2026)',
+			'hersteller'  => 'https://global.jbl.com/party-speakers/PARTYBOX-720-NO-BATTERY.html',
+		),
+	),
 	'shure-beta-58a' => array(
 		'',
 		'Shure Beta 58A Gesangsmikrofon mit Kabel',
@@ -946,7 +969,7 @@ const KJO_VL_OPT_DEFAULT = array(
 	'aufbau'     => 'Auf- und Abbau: Paket S 40 €, Paket M 100 €, Paket L 180 €, sonst 40 € pro Stunde; Abbau nach 23 Uhr +50 %. Die Einweisung ist immer kostenlos.',
 );
 const KJO_VL_PAKETE_V = 4; // Pakete S/M/L neu (12.10.2026): einmalig vollständig überschreiben
-const KJO_VL_MIG      = 23;
+const KJO_VL_MIG      = 24;
 add_action(
 	'admin_init',
 	function () {
@@ -1060,7 +1083,7 @@ add_action(
 		// Neu hinzugekommene Geräte anlegen (nur diese Slugs, damit gelöschte Geräte nicht zurückkommen).
 		list( $seed ) = kjo_vl_seed_data();
 		foreach ( $seed as $i => $r ) {
-			if ( in_array( $r[0], array( 'spiegelkugel', 'shure-beta-58a' ), true ) && ! get_page_by_path( $r[0], OBJECT, 'kjo_geraet' ) ) {
+			if ( in_array( $r[0], array( 'spiegelkugel', 'shure-beta-58a', 'jbl-partybox-720' ), true ) && ! get_page_by_path( $r[0], OBJECT, 'kjo_geraet' ) ) {
 				$id = wp_insert_post( array( 'post_type' => 'kjo_geraet', 'post_status' => 'publish', 'post_title' => $r[1], 'post_name' => $r[0], 'menu_order' => $i + 1 ) );
 				if ( $id && ! is_wp_error( $id ) ) {
 					update_post_meta( $id, '_kjo_kat', $r[2] );
@@ -1509,6 +1532,7 @@ const KJO_VL_LINKS = array(
 	'Thunder Wash'           => 'wash-scheinwerfer',
 	'Shure Beta 58A'         => 'shure-beta-58a',
 	'Bose S1 Pro'            => 'bose-s1-pro',
+	'JBL PartyBox 720'       => 'jbl-partybox-720',
 	'Bose Sub1'              => 'bose-subwoofer',
 	'Funkmikrofon-Set'       => 'funkmikrofon-set',
 	'3-m-Lichttraverse'      => 'traverse-3m',
