@@ -1,9 +1,9 @@
 {
- "version": "1.81.2",
- "download_url": "dj-kolja-one-plattenkiste-1.81.2.zip",
- "sha256": "adc216187cc8377213cbd385aae1e551288d981065a79c094484dff1ba8d68a6",
+ "version": "1.81.3",
+ "download_url": "dj-kolja-one-plattenkiste-1.81.3.zip",
+ "sha256": "9c65f4a6db373a49ea43a201f13f43b98e57d8259bf3c5cc38a039c41bab4936",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "JBL PartyBox 720"
+ "changelog": "Mietpreis PartyBox 720"
 }

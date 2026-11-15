@@ -22,3 +22,12 @@ Dieses Paket enthält alles, um das Plugin „DJ KOLJA ONE Plattenkiste“ weite
 - `build.py` erwartet für die Testseite einen Beispielsong unter `songs/preview-128.mp3` und ein Cover `songs/cover-300.jpg`; beides liegt bewusst NICHT in diesem öffentlichen Paket. Für die Plugin-Datei (`musik-snippet-final.html`) werden sie nicht gebraucht.
 - Tests bisher: Chromium (Playwright) gegen lokales WordPress; nicht bei Strato, nicht in Safari.
 - Offene Punkte und Entscheidungen: siehe Projektdokumente im Claude-Projekt „_DJ_Webseite“.
+
+## Neues Verleih-Equipment (Regel seit 15.11.2026)
+
+Bei jedem neuen Gerät wird der Mietpreis immer gleich mit berechnet und in `KJO_VL_PREISE` (kjo-verleih.php) eingetragen – nie leer lassen:
+
+- **Tagespreis:** nach Wiederbeschaffungswert (`wert`, mit Quelle) und Geräteart, im Rahmen der bestehenden Preise. Lautsprecher/Subwoofer ≈ 5–8 % des Werts, Licht/Effekte ≈ 8–14 %, Kleinteile mindestens 5–10 €. Auf glatte 5 € runden.
+- **Wochenende (Fr 15 – Mo 21 Uhr):** ≈ 1,45 × Tagespreis, auf 5 € runden.
+- **Kaution:** ≈ 25–35 % des Werts, auf glatte 10/50 € runden.
+- `KJO_VL_MIG` hochzählen, damit die Preise auf der Website eingetragen werden (nur leere Felder werden befüllt).

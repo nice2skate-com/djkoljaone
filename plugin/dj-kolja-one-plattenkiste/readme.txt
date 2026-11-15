@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.81.3: Mietpreis JBL PartyBox 720: 45 € pro Tag, 65 € Wochenende, Kaution 250 €.
 Seit 1.81.2: Neues Gerät JBL PartyBox 720 im Verleih (Kategorie Lautsprecher, wird automatisch angelegt; Preis auf Anfrage, bis ein Mietpreis eingetragen ist).
 Seit 1.81.1: Neue Playlist „Silvester Party 2026/27“ auf der Event-Seite und unter Meine Musik.
 Seit 1.81.0: Alle 17 Spotify-Playlisten „DJ KOLJA ONE …“: Meine Musik zeigt alle nach Themen (Tanzfläche; Hochzeit, Empfang & Dinner; Geburtstag, Firmenfeier & mehr), Startseite die sechs Genre-Playlisten, Hochzeit/Geburtstag/Firmenfeier/Event je sechs passende. Shortcode [kjo_playlists auswahl="…" gruppen="1"].
