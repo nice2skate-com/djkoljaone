@@ -480,7 +480,7 @@ function kjo_vl_seed_data() {
 		array( 'traverse-3m', 'Stageworx LB-3 Traversen-Set 3 m', 'buehne', 1, 'Lichttraverse mit zwei Ständern – die Bühne für Scheinwerfer und Laufschrift.', array( 'lieferumfang' => "2 Lichtstative\n2 Traversenaufnehmer\n2 Traversenstücke (je 1,5 m, 3-Punkt)\n8 Haken (Hookclamps, je bis 15 kg) mit Sicherungsseilen\n2 Transporttaschen (Traverse, Stative)" ) ),
 	);
 	$p = array(
-		array( 'paket-xs', 'Paket XS – „Kompakt“', 'Für kleine Räume, bis ca. 40 Gäste', 'z. B. Geburtstag zu Hause, Vereinsheim oder Terrasse', "JBL PartyBox 720 (800 W, mit eingebauter Lichtshow und Bluetooth)\nShure Beta 58A Mikrofon mit Kabel\nAudiokabel für Handy oder Laptop", 'Eine Box statt zwei Lautsprechern auf Stativen – ideal, wenn wenig Platz ist oder Stative im Weg stünden, etwa in engen Räumen, an Laufwegen oder wenn Kinder mitfeiern. Einfach hinstellen, einstecken, Handy verbinden. Spritzwassergeschützt, auch für die Terrasse. Mehr Stimmung: Akku-Scheinwerfer (kabellos, ohne Stativ) für 10 € pro Stück und Tag dazubuchen. Transport: passt in einen Kombi (Box ca. 94 cm hoch, 31 kg).' ),
+		array( 'paket-xs', 'Paket XS – „Kompakt“', 'Für kleine Räume, bis ca. 40 Gäste', 'z. B. Geburtstag zu Hause, Vereinsheim oder Terrasse', "JBL PartyBox 720 (800 W, mit eingebauter Lichtshow und Bluetooth)\nShure Beta 58A Mikrofon mit Kabel\nAudiokabel für Handy oder Laptop", 'Eine Box statt zwei Lautsprechern auf Stativen – ideal, wenn wenig Platz ist oder Stative im Weg stünden, etwa in engen Räumen, an Laufwegen oder wenn Kinder mitfeiern. Einfach hinstellen, einstecken, Handy verbinden. Spritzwassergeschützt, auch für die Terrasse (bei regenfreiem Wetter). Mehr Stimmung: bis zu 6 Akku-Scheinwerfer (kabellos, ohne Stativ) für 10 € pro Stück und Tag oder den Cameo Thunder Wash 100 RGB für 10 € pro Tag dazubuchen. Transport: passt in einen Kombi (Box ca. 94 cm hoch, 31 kg).' ),
 		array( 'paket-s', 'Paket S – „Sound & Party“', 'Für bis zu ca. 50 Gäste', 'z. B. Geburtstag, Gartenparty oder Sektempfang', "2× Bose S1 Pro Aktivlautsprecher (mit Bluetooth) auf Stativen\nPartylicht: Eurolite KLS Laser Bar mit Laser, Derbys, Spots und Strobe, auf eigenem Lichtstativ\nShure Beta 58A Mikrofon mit Kabel\nAudiokabel für Handy oder Laptop", 'Zubehör: DJ-Pult 20 €, Pioneer DDJ-FLX10 60 € pro Tag. Transport: passt in einen Kombi (Lightbar und Stative ca. 1,5 m).' ),
 		array( 'paket-m', 'Paket M – „Party“', 'Für bis zu ca. 100 Gäste', 'z. B. runder Geburtstag, Vereinsfeier oder Firmenfeier', "Alles aus Paket S, dazu der Bose Sub1 Subwoofer\nFunkmikrofon-Set mit 4 Handmikros statt Kabelmikro\n3-m-Lichttraverse mit 4 LED-PARs und Cameo Thunder Wash (Wash, Blinder, Strobe)\nLED-Laufschrift, z. B. mit Ihren Namen\nNebelmaschine\nDJ-Pult (Roadworx DJ Table, schwarz)", 'Zubehör: Pioneer DDJ-FLX10 60 € pro Tag. Transport: Van oder Transporter (Traversentasche 1,54 m) – oder ich liefere und baue auf.' ),
 		array( 'paket-l', 'Paket L – „Komplett-Show“', 'Für bis zu ca. 250 Gäste', 'z. B. Hochzeit, Abiball oder Sommerfest. Die komplette Bühne aus meinem Beispiel-Lichtplan.', "Pronomic PA: 2× C-215 MA (15\") auf 2× C-118SA (18\"-Subwoofer), mit Distanzstangen und Kabelsatz\n3-m-Lichttraverse mit 2 Moving Heads, 4 LED-PARs, Thunder Wash und LED-Laufschrift\n6 kabellose Akku-Scheinwerfer (IP65), auch für draußen\nKLS Laser Bar, UV-Schwarzlicht, Spiegelkugel, Nebelmaschine\nFunkmikrofon-Set (4 Handmikros), DJ-Pult", 'Empfehlung: Lieferung, Aufbau und Abbau durch mich – wegen der Moving Heads und der 40-kg-Subwoofer. Kaution bei Selbstabholung 1.000 €, mit Lieferung, Auf- und Abbau und Abholung durch mich 300 €. Zubehör: Pioneer DDJ-FLX10 60 € pro Tag, Bose-Set für Sektempfang oder Nebenraum 99 € pro Tag.' ),
@@ -973,7 +973,7 @@ const KJO_VL_OPT_DEFAULT = array(
 	'aufbau'     => 'Auf- und Abbau: Paket S 40 €, Paket M 100 €, Paket L 180 €, sonst 40 € pro Stunde; Abbau nach 23 Uhr +50 %. Die Einweisung ist immer kostenlos.',
 );
 const KJO_VL_PAKETE_V = 4; // Pakete S/M/L neu (12.10.2026): einmalig vollständig überschreiben
-const KJO_VL_MIG      = 26;
+const KJO_VL_MIG      = 27;
 add_action(
 	'admin_init',
 	function () {
@@ -1103,6 +1103,11 @@ add_action(
 					}
 				}
 			}
+		}
+		// Paket XS: Hinweistext aktualisieren (seit 1.82.1), nur wenn noch die Erstfassung drinsteht.
+		$xs = get_page_by_path( 'paket-xs', OBJECT, 'kjo_paket' );
+		if ( $xs && 'Eine Box statt zwei Lautsprechern auf Stativen – ideal, wenn wenig Platz ist oder Stative im Weg stünden, etwa in engen Räumen, an Laufwegen oder wenn Kinder mitfeiern. Einfach hinstellen, einstecken, Handy verbinden. Spritzwassergeschützt, auch für die Terrasse. Mehr Stimmung: Akku-Scheinwerfer (kabellos, ohne Stativ) für 10 € pro Stück und Tag dazubuchen. Transport: passt in einen Kombi (Box ca. 94 cm hoch, 31 kg).' === (string) get_post_meta( $xs->ID, '_kjo_hinweis', true ) ) {
+			update_post_meta( $xs->ID, '_kjo_hinweis', 'Eine Box statt zwei Lautsprechern auf Stativen – ideal, wenn wenig Platz ist oder Stative im Weg stünden, etwa in engen Räumen, an Laufwegen oder wenn Kinder mitfeiern. Einfach hinstellen, einstecken, Handy verbinden. Spritzwassergeschützt, auch für die Terrasse (bei regenfreiem Wetter). Mehr Stimmung: bis zu 6 Akku-Scheinwerfer (kabellos, ohne Stativ) für 10 € pro Stück und Tag oder den Cameo Thunder Wash 100 RGB für 10 € pro Tag dazubuchen. Transport: passt in einen Kombi (Box ca. 94 cm hoch, 31 kg).' );
 		}
 		// Neu hinzugekommene Geräte anlegen (nur diese Slugs, damit gelöschte Geräte nicht zurückkommen).
 		list( $seed ) = kjo_vl_seed_data();
