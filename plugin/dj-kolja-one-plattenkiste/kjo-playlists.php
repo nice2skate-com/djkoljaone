@@ -14,32 +14,85 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/** Playlisten je Genre (Konto DJ KOLJA ONE) – gleiche Reihenfolge wie site/lib.py PLAYLISTS. */
+/**
+ * Alle Playlisten des Spotify-Kontos DJ KOLJA ONE, deren Name mit „DJ KOLJA ONE“ beginnt (Stand 15.11.2026).
+ * Schlüssel => array( Titel, Kurztext, Spotify-ID, Gruppe auf „Meine Musik“ ). Neue Playlist: hier eintragen.
+ */
 const KJO_PLAYLISTS = array(
-	array( 'Pop & Charts', 'Aktuelle Hits und die großen Songs der letzten Jahrzehnte.', '7d4o4r1akUFfV9SkXQGQbi' ),
-	array( '80er, 90er & 2000er', 'Die Klassiker, bei denen jede Generation mitsingt.', '2PE3d6fdMnOqXkvaijTmyC' ),
-	array( 'Schlager & Party', 'Wenn es zur richtigen Zeit passt – mit Augenmaß.', '46SzCrplPjVNrGaO46G1q7' ),
-	array( 'Rock & Indie', 'Gitarren für die, die es etwas rauer mögen.', '0GlIgez6h7n00HNRdjjR90' ),
-	array( 'House & Dance', 'Für späte Stunden und volle Tanzflächen.', '3sir4JiXufFXmOAM5QfUqP' ),
-	array( 'Latin, Soul & Lounge', 'Für Empfang, Dinner und besondere Momente.', '0OPdAoZR5z6IWJdusrPkXl' ),
+	'tanz20'     => array( 'Top 20 Tanzflächenfüller', 'Zwanzig Songs, bei denen die Tanzfläche voll wird.', '2a7GJ78ZalBdpYf8iuOEwr', 'tanz' ),
+	'dancefloor' => array( 'Dance Floor Filler', 'Tanzbare Hits für die volle Tanzfläche.', '64Jt2P16Nmu9vbVgGOlTWc', 'tanz' ),
+	'pop'        => array( 'Pop & Charts', 'Aktuelle Hits und die großen Songs der letzten Jahrzehnte.', '7d4o4r1akUFfV9SkXQGQbi', 'tanz' ),
+	'8090'       => array( '80er, 90er & 2000er', 'Die Klassiker, bei denen jede Generation mitsingt.', '2PE3d6fdMnOqXkvaijTmyC', 'tanz' ),
+	'schlager'   => array( 'Schlager & Party', 'Wenn es zur richtigen Zeit passt – mit Augenmaß.', '46SzCrplPjVNrGaO46G1q7', 'tanz' ),
+	'rock'       => array( 'Rock & Indie', 'Gitarren für die, die es etwas rauer mögen.', '0GlIgez6h7n00HNRdjjR90', 'tanz' ),
+	'house'      => array( 'House & Dance', 'Für späte Stunden und volle Tanzflächen.', '3sir4JiXufFXmOAM5QfUqP', 'tanz' ),
+	'trauung'    => array( 'Trauung & Einzug', 'Für den Einzug und die Trauung – feierlich und persönlich.', '6TU18Mr4T57p11KgRItEL7', 'hochzeit' ),
+	'sekt'       => array( 'Sektempfang im Allgäu', 'Leichte, gute Laune für den Empfang.', '6B8pUkgqOB4McmlKwIfhe9', 'hochzeit' ),
+	'latin'      => array( 'Latin, Soul & Lounge', 'Für Empfang, Dinner und besondere Momente.', '0OPdAoZR5z6IWJdusrPkXl', 'hochzeit' ),
+	'dinner'     => array( 'Dinner-Musik Hochzeit', 'Entspannt und stilvoll – Musik zum Essen und Unterhalten.', '4FHKrSdUoC0yxAX2LOkGtz', 'hochzeit' ),
+	'eroeffnung' => array( 'Eröffnungstanz Hochzeit', 'Ideen für den ersten Tanz als Ehepaar.', '4kb6UeIHU725zNLTs3P8jf', 'hochzeit' ),
+	'hztanz'     => array( 'Die vollste Tanzfläche – Hochzeit', 'Die Hochzeits-Edition für die Party nach dem Eröffnungstanz.', '3QAqOK20FCvRP3MaPC1z0I', 'hochzeit' ),
+	'geburtstag' => array( 'Geburtstag 18 bis 60', 'Für runde Geburtstage – vom 18. bis zum 60.', '0bxJecWTd8uAlP3k2r8FC3', 'feier' ),
+	'afterwork'  => array( 'Firmenfeier – Afterwork bis Mitternacht', 'Vom entspannten Ausklang bis zur Party um Mitternacht.', '3ioq2kDKQxIpJ7DBj9NVR4', 'feier' ),
+	'weihnacht'  => array( 'Weihnachtsfeier Firma & Team', 'Für die Weihnachtsfeier mit Kolleginnen, Kollegen und Team.', '5vEHwCTwSByEumRu0U5uRV', 'feier' ),
+	'archiv'     => array( 'Musikarchiv', 'Mein Musikarchiv zum Stöbern – quer durch alle Richtungen.', '272mWQVcaWhdDgwKScVls1', 'feier' ),
 );
+/** Gruppen auf „Meine Musik“ (Shortcode mit gruppen="1"). */
+const KJO_PLAYLIST_GRUPPEN = array(
+	'tanz'     => 'Für die Tanzfläche',
+	'hochzeit' => 'Hochzeit, Empfang & Dinner',
+	'feier'    => 'Geburtstag, Firmenfeier & mehr',
+);
+/** Startseite ohne auswahl: die sechs Genre-Playlisten wie bisher. */
+const KJO_PLAYLISTS_START = 'pop,8090,schlager,rock,house,latin';
 
+/** Eine Playlist als Karte bzw. Chip. */
+function kjo_playlist_item( $p, $stil, $pid, $tag ) {
+	$url = 'https://open.spotify.com/playlist/' . $p[2];
+	$h   = '<div class="kjo-pl kjo-pls-item" data-id="' . esc_attr( $p[2] ) . '">';
+	$h  .= 'chips' === $stil ? '<p class="kjo-pls-t">' . esc_html( $p[0] ) . '</p>' : '<div><' . $tag . ' class="kjo-pls-t">' . esc_html( $p[0] ) . '</' . $tag . '><p class="kjo-pls-d">' . esc_html( $p[1] ) . '</p></div>';
+	$h  .= '<div class="kjo-pls-acts"><button type="button" class="kjo-pls-play" data-id="' . esc_attr( $p[2] ) . '" data-t="' . esc_attr( $p[0] ) . '" aria-controls="' . esc_attr( $pid ) . '"><svg class="kjo-pls-i" viewBox="0 0 12 14" width="11" height="13" aria-hidden="true" focusable="false"><path d="M1 1.2v11.6c0 .6.6.9 1.1.6l9.2-5.8c.5-.3.5-.9 0-1.2L2.1.6C1.6.3 1 .6 1 1.2z" fill="currentColor"/></svg> Hier anhören</button>';
+	$h  .= '<a class="kjo-pls-ext" href="' . esc_url( $url ) . '" target="_blank" rel="noopener">In Spotify öffnen <svg class="kjo-pls-a" viewBox="0 0 12 12" width="10" height="10" aria-hidden="true" focusable="false"><path d="M3 9 9 3M4.2 3H9v4.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></a></div></div>';
+	return $h;
+}
+
+/**
+ * [kjo_playlists stil="karten|chips" auswahl="pop,8090,…" gruppen="1"]
+ * auswahl: Schlüssel aus KJO_PLAYLISTS in dieser Reihenfolge („alle“ = alle); gruppen="1": nach Gruppen mit Überschrift (Meine Musik).
+ */
 add_shortcode(
 	'kjo_playlists',
 	function ( $atts ) {
-		$atts = shortcode_atts( array( 'stil' => 'karten' ), $atts, 'kjo_playlists' );
+		static $n = 0;
+		$atts = shortcode_atts( array( 'stil' => 'karten', 'auswahl' => '', 'gruppen' => '' ), $atts, 'kjo_playlists' );
 		$stil = 'chips' === $atts['stil'] ? 'chips' : 'karten';
+		$aw   = trim( (string) $atts['auswahl'] );
+		$keys = 'alle' === $aw || ( '' === $aw && $atts['gruppen'] ) ? array_keys( KJO_PLAYLISTS ) : array_map( 'trim', explode( ',', '' === $aw ? KJO_PLAYLISTS_START : $aw ) );
+		$keys = array_values( array_filter( $keys, fn( $k ) => isset( KJO_PLAYLISTS[ $k ] ) ) );
+		$pid  = 'kjo-pls-player-' . ( ++$n );
 		$ds   = get_page_by_path( 'datenschutz' );
 		$ds   = $ds ? get_permalink( $ds ) : home_url( '/datenschutz/' );
-		$h    = '<div class="kjo-pls kjo-pls-' . $stil . '" data-kjo-pls><div class="kjo-pls-grid">';
-		foreach ( KJO_PLAYLISTS as $p ) {
-			$url = 'https://open.spotify.com/playlist/' . $p[2];
-			$h  .= '<div class="kjo-pl kjo-pls-item" data-id="' . esc_attr( $p[2] ) . '">';
-			$h  .= 'chips' === $stil ? '<p class="kjo-pls-t">' . esc_html( $p[0] ) . '</p>' : '<div><h3 class="kjo-pls-t">' . esc_html( $p[0] ) . '</h3><p class="kjo-pls-d">' . esc_html( $p[1] ) . '</p></div>';
-			$h  .= '<div class="kjo-pls-acts"><button type="button" class="kjo-pls-play" data-id="' . esc_attr( $p[2] ) . '" data-t="' . esc_attr( $p[0] ) . '" aria-controls="kjo-pls-player-' . $stil . '"><svg class="kjo-pls-i" viewBox="0 0 12 14" width="11" height="13" aria-hidden="true" focusable="false"><path d="M1 1.2v11.6c0 .6.6.9 1.1.6l9.2-5.8c.5-.3.5-.9 0-1.2L2.1.6C1.6.3 1 .6 1 1.2z" fill="currentColor"/></svg> Hier anhören</button>';
-			$h  .= '<a class="kjo-pls-ext" href="' . esc_url( $url ) . '" target="_blank" rel="noopener">In Spotify öffnen <svg class="kjo-pls-a" viewBox="0 0 12 12" width="10" height="10" aria-hidden="true" focusable="false"><path d="M3 9 9 3M4.2 3H9v4.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></a></div></div>';
+		$h    = '<div class="kjo-pls kjo-pls-' . $stil . '" data-kjo-pls>';
+		if ( $atts['gruppen'] ) {
+			foreach ( KJO_PLAYLIST_GRUPPEN as $g => $gt ) {
+				$in = array_filter( $keys, fn( $k ) => KJO_PLAYLISTS[ $k ][3] === $g );
+				if ( ! $in ) {
+					continue;
+				}
+				$h .= '<h3 class="kjo-pls-gt">' . esc_html( $gt ) . '</h3><div class="kjo-pls-grid">';
+				foreach ( $in as $k ) {
+					$h .= kjo_playlist_item( KJO_PLAYLISTS[ $k ], $stil, $pid, 'h4' );
+				}
+				$h .= '</div>';
+			}
+		} else {
+			$h .= '<div class="kjo-pls-grid">';
+			foreach ( $keys as $k ) {
+				$h .= kjo_playlist_item( KJO_PLAYLISTS[ $k ], $stil, $pid, 'h3' );
+			}
+			$h .= '</div>';
 		}
-		$h .= '</div><div class="kjo-pls-player" id="kjo-pls-player-' . $stil . '" hidden><div class="kjo-pls-bar"><span class="kjo-pls-now"></span><button type="button" class="kjo-pls-zu" aria-label="Player schließen">✕</button></div><div class="kjo-pls-frame"></div></div>';
+		$h .= '<div class="kjo-pls-player" id="' . esc_attr( $pid ) . '" hidden><div class="kjo-pls-bar"><span class="kjo-pls-now"></span><button type="button" class="kjo-pls-zu" aria-label="Player schließen">✕</button></div><div class="kjo-pls-frame"></div></div>';
 		$h .= '<p class="kjo-pls-note">Ganze Songs: „In Spotify öffnen“ (auch mit kostenlosem Konto). Hier auf der Seite spielt Spotify je nach Browser Vorschauen. Der Spotify-Player wird erst beim Klick auf „Hier anhören“ geladen; dabei werden Daten an Spotify übertragen (<a href="' . esc_url( $ds ) . '">Datenschutz</a>).</p></div>';
 		return $h . kjo_playlists_assets();
 	}
@@ -58,7 +111,7 @@ function kjo_playlists_assets() {
 		. '.kjo-pls-karten .kjo-pls-item{flex:0 1 calc(33.333% - 16px);padding:34px 28px}'
 		. '.kjo-pls-chips .kjo-pls-grid{gap:16px}.kjo-pls-chips .kjo-pls-item{flex:0 1 calc(33.333% - 11px);padding:18px 16px;text-align:center;border:1px solid rgba(178,157,117,.35);align-items:center;gap:10px}'
 		. '.kjo-pls-item.aktiv{box-shadow:0 0 0 1px #B29D75 inset}'
-		. '.kjo-pls h3.kjo-pls-t{margin:0 0 12px;font-size:23px;font-weight:400;color:#F3F1E9;line-height:1.3}'
+		. '.kjo-pls-gt{margin:56px 0 22px;font-size:15px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:#B29D75;text-align:center}.kjo-pls-gt:first-child{margin-top:0}.kjo-pls h3.kjo-pls-t,.kjo-pls h4.kjo-pls-t{margin:0 0 12px;font-size:23px;font-weight:400;color:#F3F1E9;line-height:1.3}'
 		. '.kjo-pls-chips p.kjo-pls-t{margin:0;font-size:19px;font-weight:300;color:#F3F1E9}'
 		. '.kjo-pls-d{margin:0;font-size:16px;line-height:1.7;color:#A9A193}'
 		. '.kjo-pls-acts{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}.kjo-pls-chips .kjo-pls-acts{justify-content:center}'
@@ -76,7 +129,7 @@ function kjo_playlists_assets() {
 	$js = '(function(){function init(w){if(w.dataset.ok)return;w.dataset.ok=1;var pl=w.querySelector(".kjo-pls-player"),fr=pl.querySelector(".kjo-pls-frame"),now=pl.querySelector(".kjo-pls-now");'
 		. 'w.addEventListener("click",function(e){var b=e.target.closest(".kjo-pls-play");if(b){var id=b.dataset.id,t=b.dataset.t;'
 		. 'fr.innerHTML=\'<iframe title="Spotify-Playlist: \'+t.replace(/"/g,"")+\'" src="https://open.spotify.com/embed/playlist/\'+encodeURIComponent(id)+\'?utm_source=generator&theme=0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>\';'
-		. 'now.textContent="Playlist: "+t;pl.hidden=false;w.querySelectorAll(".kjo-pls-item").forEach(function(i){i.classList.toggle("aktiv",i.dataset.id===id);});'
+		. 'var gr=b.closest(".kjo-pls-grid");if(gr&&gr.nextElementSibling!==pl)gr.after(pl);now.textContent="Playlist: "+t;pl.hidden=false;w.querySelectorAll(".kjo-pls-item").forEach(function(i){i.classList.toggle("aktiv",i.dataset.id===id);});'
 		. 'var r=pl.getBoundingClientRect();if(r.top<0||r.bottom>window.innerHeight)pl.scrollIntoView({behavior:"smooth",block:"nearest"});'
 		. 'if(window.kjoTrack)window.kjoTrack("playlist_play",{item_name:t,item_id:id});return;}'
 		. 'if(e.target.closest(".kjo-pls-zu")){fr.innerHTML="";pl.hidden=true;w.querySelectorAll(".kjo-pls-item.aktiv").forEach(function(i){i.classList.remove("aktiv");});}});}'
