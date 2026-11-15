@@ -222,9 +222,11 @@ PLAYLISTS=[("Pop &amp; Charts","Aktuelle Hits und die großen Songs der letzten 
            ("Rock &amp; Indie","Gitarren für die, die es etwas rauer mögen.","0GlIgez6h7n00HNRdjjR90"),
            ("House &amp; Dance","Für späte Stunden und volle Tanzflächen.","3sir4JiXufFXmOAM5QfUqP"),
            ("Latin, Soul &amp; Lounge","Für Empfang, Dinner und besondere Momente.","0OPdAoZR5z6IWJdusrPkXl")]
-def playlist_cards(bg=B1):
+def playlist_cards(bg=B1,auswahl="",gruppen=False):
     # Seit 1.78.0: Karten mit eingebettetem Spotify-Player (Shortcode im Plugin, kjo-playlists.php) – „Hier anhören“ spielt direkt auf der Seite
-    return W("shortcode",{"shortcode":'[kjo_playlists stil="karten"]',"_element_width":"inherit","width":px(100,"%")})
+    # Seit 1.81.0: auswahl = Schlüssel aus KJO_PLAYLISTS (kjo-playlists.php), gruppen = alle Playlisten nach Themen (Meine Musik)
+    a=(f' auswahl="{auswahl}"' if auswahl else "")+(' gruppen="1"' if gruppen else "")
+    return W("shortcode",{"shortcode":f'[kjo_playlists stil="karten"{a}]',"_element_width":"inherit","width":px(100,"%")})
 def playlist_chips():
     return W("shortcode",{"shortcode":'[kjo_playlists stil="chips"]',"_element_width":"inherit","width":px(100,"%")})
 

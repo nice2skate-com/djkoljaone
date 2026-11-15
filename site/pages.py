@@ -51,7 +51,7 @@ def start():
       section(head("Meine Leistungen","Wofür buchen Sie mich?")+[tiles()],anchor="leistungen"),
       staerken("Sie feiern. Ich kümmere mich um den Rest.",START_STAERKEN,eye="Was Sie davon haben"),
       reviews(["h1","f1","g1","h2","f2","g2","h3"]),
-      section(head("Meine Musik","Reinhören nach Genre","Sechs Playlisten – direkt hier anhören, so klingt mein Repertoire. Ihre Wünsche kommen bei der Planung dazu.")+[playlist_chips(),SPACER(6),
+      section(head("Meine Musik","Reinhören nach Genre","Eine Auswahl meiner Playlisten – direkt hier anhören, so klingt mein Repertoire. Ihre Wünsche kommen bei der Planung dazu.")+[playlist_chips(),SPACER(6),
           H("Alle Playlisten &amp; das DJ-Pult →","p",13,GOLD,"center","500",link="/meine-musik/#playlisten",ls=1.5,tr="uppercase")],bg=B2),
       section(head("So einfach geht's","In drei Schritten zu Ihrem DJ")+[steps([
           ("Wunschtermin prüfen","Datum, Ort und Anlass – per Formular oder WhatsApp in 2 Minuten. Ich melde mich innerhalb von 24 Stunden."),
@@ -97,6 +97,7 @@ def service_v2(c):
         sb=bg(); out.append(section(head("Anlässe",c["anl_title"])+[cards(c["anlaesse"],bg=B2 if sb==B1 else B1)],bg=sb))
     out.append(split(*c["split1"],img=f"event_{c['key']}_text.jpg",bg=bg()))
     out.append(reviews(c["reviews"],bg=bg()))
+    if c.get("pls"): out.append(section(head("Playlisten",*c["pls"][1:])+[playlist_cards(auswahl=c["pls"][0]),SPACER(6),H("Alle Playlisten &amp; das DJ-Pult →","p",13,GOLD,"center","500",link="/meine-musik/#playlisten",ls=1.5,tr="uppercase")],anchor="playlisten",bg=bg()))  # seit 1.81.0
     out.append(section(head("Ablauf",c["steps_title"])+[steps(c["steps"]),SPACER(10),BTN("Jetzt Wunschtermin prüfen","#anfrage")],anchor="ablauf",bg=bg()))
     if c.get("fit"): out.append(section(head("Passen wir zusammen?",c.get("fit_title","Finden wir das heraus!"))+[fit(*c["fit"]),SPACER(10),BTN("Passt? Dann Wunschtermin prüfen","#anfrage")],bg=bg()))
     for blk in c.get("lists",[]):
@@ -140,7 +141,7 @@ FAQ_DU=[("Was kostet ein DJ bei DJ KOLJA ONE?","Das hängt von Dauer, Gästezahl
  ("Stimmst du dich mit Location und Dienstleistern ab?","Ja. Ich spreche mich mit Location, Catering, Fotografen oder Agentur ab, damit Zeitplan und Technik reibungslos zusammenpassen – ihr müsst nichts koordinieren."),
  ("Was passiert, wenn du krank wirst?","Dann übernimmt ein erfahrener DJ aus meinem Netzwerk – mit derselben Vorbereitung und ohne Mehrkosten für euch. Euer Abend ist abgesichert.")]
 
-HOCHZEIT=dict(key="hochzeit",v2=True,du=True,  # seit 14.11.2026: Hochzeit in ihr/euch-Form
+HOCHZEIT=dict(key="hochzeit",v2=True,du=True,pls=("trauung,sekt,latin,dinner,eroeffnung,hztanz","Reinhören für euren Tag","Von der Trauung bis zur Party – hört direkt hier rein. Eure Wünsche kommen bei der Planung dazu."),  # seit 14.11.2026: Hochzeit in ihr/euch-Form
 eye="Hochzeits-DJ · Memmingen · Allgäu · Schwaben",
  h1="Euer Hochzeits-DJ in Memmingen, Allgäu &amp; Schwaben",
  sub="Ihr genießt euren Tag – ich sorge vom Sektempfang bis zum letzten Song für die richtige Musik, eine Moderation mit rotem Faden und eine Tanzfläche, die voll bleibt.",
@@ -179,7 +180,7 @@ eye="Hochzeits-DJ · Memmingen · Allgäu · Schwaben",
  cta=("Euer Hochzeitstermin ist noch frei? Sichert ihn euch.","Beliebte Samstage zwischen Mai und September sind oft ein Jahr im Voraus vergeben. Eine Anfrage dauert zwei Minuten und ist unverbindlich."),
  cross=["/geburtstags-dj/","/firmenfeier-dj/","/event-dj/"])
 
-GEBURTSTAG=dict(key="geburtstag",v2=True,eye="Geburtstags-DJ · Memmingen · Allgäu · Schwaben",
+GEBURTSTAG=dict(key="geburtstag",v2=True,pls=("geburtstag,8090,pop,schlager,tanz20,rock","Reinhören für Ihre Feier","So klingt ein Geburtstag mit mir – hören Sie direkt hier rein. Ihre Wünsche kommen bei der Planung dazu."),eye="Geburtstags-DJ · Memmingen · Allgäu · Schwaben",
  h1="Ihr Geburtstags-DJ in Memmingen, Allgäu &amp; Schwaben",
  sub="Ob 18., 30., 50. oder 80.: Sie feiern mit Ihren Gästen – ich sorge für die passende Musik, eine volle Tanzfläche bis zum Schluss und dafür, dass Sie sich um nichts kümmern müssen.",
  vorteile_title="Sie feiern. Ich kümmere mich um den Rest.",
@@ -216,7 +217,7 @@ GEBURTSTAG=dict(key="geburtstag",v2=True,eye="Geburtstags-DJ · Memmingen · All
  cta=("Ihr Geburtstag steht fest? Sichern Sie sich Ihren DJ.","Gerade Wochenenden sind schnell vergeben. Eine Anfrage dauert zwei Minuten und ist unverbindlich."),
  cross=["/hochzeits-dj/","/firmenfeier-dj/","/event-dj/"])
 
-FIRMA=dict(key="firmenfeier",v2=True,eye="Firmenfeier-DJ · Memmingen · Allgäu · Schwaben",
+FIRMA=dict(key="firmenfeier",v2=True,pls=("afterwork,weihnacht,latin,pop,8090,house","Reinhören für Ihre Firmenfeier","Vom Empfang bis zur Party – hören Sie direkt hier rein. Ihre Wünsche kommen bei der Planung dazu."),eye="Firmenfeier-DJ · Memmingen · Allgäu · Schwaben",
  h1="Ihr Firmenfeier-DJ in Memmingen, Allgäu &amp; Schwaben",
  sub="Weihnachtsfeier, Sommerfest, Gala oder Jubiläum: Sie erhalten Musik und Moderation, die zu Ihrem Unternehmen passt – und einen Abend, über den Ihr Team noch lange spricht. Ohne Aufwand für Sie.",
  gal_title="So feiert Ihr Team mit mir",
@@ -260,7 +261,7 @@ FIRMA=dict(key="firmenfeier",v2=True,eye="Firmenfeier-DJ · Memmingen · Allgäu
  cta=("Ihre Weihnachtsfeier steht an? Fragen Sie jetzt Ihren Termin an.","[kjo_saison_hinweis]"),  # Text je nach Monat, siehe kjo-kontakt.php
  cross=["/hochzeits-dj/","/geburtstags-dj/","/event-dj/"])
 
-EVENT=dict(key="events",v2=True,eye="Event-DJ · Memmingen · Allgäu · Schwaben",
+EVENT=dict(key="events",v2=True,pls=("tanz20,dancefloor,schlager,pop,rock,house","Reinhören für Ihr Event","Tanzbare Hits für Stadtfest, Vereinsfeier oder Silvester – hören Sie direkt hier rein. Ihre Wünsche kommen bei der Planung dazu."),eye="Event-DJ · Memmingen · Allgäu · Schwaben",
  h1="Ihr Event-DJ in Memmingen, Allgäu &amp; Schwaben",
  sub="Stadtfest, Vereinsfeier, Open Air oder Silvester: Sie erhalten Stimmung, die auch große Menschenmengen mitreißt – und einen DJ, der sich an Ihren Zeitplan hält und mit Ihrer Technik zusammenarbeitet.",
  gal_title="So feiert Ihr Publikum mit mir",
@@ -347,7 +348,7 @@ def musik():
           ("Selbst mixen","In den Wellenformen oben im Mixer sehen Sie beide Songs samt Beatgrid und springen per Klick an jede Stelle. Blenden Sie mit dem Crossfader über, gleichen Sie das Tempo mit dem Regler und SYNC an und halten Sie mit KEY die Tonart. Grün markierte Platten passen harmonisch zum laufenden Song."),
           ("Automix","Lieber zurücklehnen? Mit ☰+ legen Sie Songs in die Playlist, „Automix starten“ mixt sie nacheinander. Sobald Sie eingreifen, übernehmen Sie wieder selbst."),
           ("Ansehen &amp; bewerten","Bei Songs mit dem Label VIDEO läuft das Video im Laptop. Geben Sie jedem Song 1 bis 5 Sterne – der Durchschnitt aller Besucher steht direkt am Song.")])],bg=B1),
-      section(head("Playlisten","Mein Repertoire zum Reinhören","Entscheidend ist Ihr Publikum. Diese Richtungen habe ich im Gepäck – zu jeder gibt es eine Playlist, die Sie direkt hier anhören können. Ihre Wunschliste kommt bei der Planung dazu.")+[playlist_cards(B1)],bg=B2,anchor="playlisten"),
+      section(head("Playlisten","Mein Repertoire zum Reinhören","Entscheidend ist Ihr Publikum. Für jede Richtung und jeden Anlass gibt es eine Playlist, die Sie direkt hier anhören können. Ihre Wunschliste kommt bei der Planung dazu.")+[playlist_cards(B1,gruppen=True)],bg=B2,anchor="playlisten"),
       cta("Spielen Sie auch unsere Lieblingssongs?","Ja – im kostenlosen Vorgespräch planen wir Ihre Musik mit Wunsch- und No-Go-Liste. Eine Anfrage dauert zwei Minuten und ist unverbindlich."),
       footer()]
 

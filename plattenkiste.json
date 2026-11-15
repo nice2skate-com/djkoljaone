@@ -1,9 +1,9 @@
 {
- "version": "1.80.2",
- "download_url": "dj-kolja-one-plattenkiste-1.80.2.zip",
- "sha256": "4717087c3accf07be3d30dd0ef39256e88096bfb0ffaf9e48a43315538cc6824",
+ "version": "1.81.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.81.0.zip",
+ "sha256": "a24bc821376f3b03e27a88c63223e97e01708b23a64ec4c9f5aa1ddfc6c48688",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Playlist-Symbole in Gold"
+ "changelog": "Alle Playlisten thematisch"
 }
