@@ -18,6 +18,7 @@ const KJO_ANG_STATI = array(
 	'versendet'  => 'Versendet',
 	'angenommen' => 'Angenommen',
 	'abgelehnt'  => 'Abgelehnt',
+	'bestaetigt' => 'Auftrag bestätigt', // seit 1.85.0 (Auftragsbestätigung)
 	'rechnung'   => 'Rechnung gestellt', // seit 1.77.0 (Rechnungen)
 	'bezahlt'    => 'Rechnung bezahlt',
 );
@@ -55,6 +56,17 @@ function kjo_ang_opts() {
 		're_mail_betreff_ihr'  => 'Eure {art} {nr} von DJ KOLJA ONE',
 		're_mail_text_ihr'     => "Hallo {name},\n\nim Anhang findet ihr eure {art} {nr} über {betrag}.\n\n{zahlung}\n\nBei Fragen erreicht ihr mich jederzeit telefonisch oder per WhatsApp.\n\nViele Grüße\nKolja – DJ KOLJA ONE\n+49 172 7273707\nhttps://dj-kolja-one.de",
 		're_wa_text_ihr'       => "Hallo {name}, hier ist eure {art} {nr} über {betrag} als PDF: {link}\n{zahlung}\nViele Grüße, Kolja",
+		// Auftragsbestätigung (seit 1.85.0) – Sie-Form und ihr-Form (Hochzeit)
+		'ab_text'              => 'vielen Dank für Ihren Auftrag! Hiermit bestätige ich Ihre Buchung verbindlich zu den folgenden Leistungen und Konditionen:',
+		'ab_text_ihr'          => 'vielen Dank für euren Auftrag! Hiermit bestätige ich eure Buchung verbindlich zu den folgenden Leistungen und Konditionen:',
+		'ab_schluss'           => 'Ihr Termin ist damit fest für Sie reserviert. Rechtzeitig vorher melde ich mich bei Ihnen, um alle Details abzustimmen. Bei Fragen erreichen Sie mich jederzeit telefonisch oder per WhatsApp.',
+		'ab_schluss_ihr'       => 'Euer Termin ist damit fest für euch reserviert. Rechtzeitig vorher melde ich mich bei euch, um alle Details abzustimmen. Bei Fragen erreicht ihr mich jederzeit telefonisch oder per WhatsApp.',
+		'ab_mail_betreff'      => 'Ihre Auftragsbestätigung {nr} von DJ KOLJA ONE',
+		'ab_mail_betreff_ihr'  => 'Eure Auftragsbestätigung {nr} von DJ KOLJA ONE',
+		'ab_mail_text'         => "Hallo {name},\n\nvielen Dank für Ihren Auftrag! Im Anhang finden Sie Ihre Auftragsbestätigung {nr}{termin_satz}.\n\nBei Fragen erreichen Sie mich jederzeit telefonisch oder per WhatsApp.\n\nViele Grüße\nKolja – DJ KOLJA ONE\n+49 172 7273707\nhttps://dj-kolja-one.de",
+		'ab_mail_text_ihr'     => "Hallo {name},\n\nvielen Dank für euren Auftrag! Im Anhang findet ihr eure Auftragsbestätigung {nr}{termin_satz}.\n\nBei Fragen erreicht ihr mich jederzeit telefonisch oder per WhatsApp.\n\nViele Grüße\nKolja – DJ KOLJA ONE\n+49 172 7273707\nhttps://dj-kolja-one.de",
+		'ab_wa_text'           => "Hallo {name}, vielen Dank für Ihren Auftrag! Hier ist Ihre Auftragsbestätigung {nr} als PDF: {link}\nViele Grüße, Kolja",
+		'ab_wa_text_ihr'       => "Hallo {name}, vielen Dank für euren Auftrag! Hier ist eure Auftragsbestätigung {nr} als PDF: {link}\nViele Grüße, Kolja",
 		// WhatsApp-Versand (seit 1.79.0): 'web' = WhatsApp Web im Browser (dort mit dem Business-Konto anmelden), 'app' = wa.me (öffnet die installierte App)
 		'wa_kanal'          => 'web',
 		// Rechnungen (seit 1.77.0)
@@ -454,7 +466,7 @@ function kjo_ang_options_page() {
 				$o[ $k ] = 'app' === $v[ $k ] ? 'app' : 'web';
 				continue;
 			}
-			$o[ $k ] = 'gueltig' === $k ? max( 1, min( 365, (int) $v[ $k ] ) ) : ( in_array( $k, array( 're_ziel_privat', 're_ziel_firma' ), true ) ? max( 0, min( 90, (int) $v[ $k ] ) ) : ( in_array( $k, array( 'intro_dj', 'intro_miete', 'bed_dj', 'bed_miete', 'vertrag_miete', 'storno_miete', 'vertrag_dj', 'schluss', 'vorlage_dj', 'mail_text', 'wa_text', 're_mail_text', 're_wa_text', 're_text_komplett', 're_text_anzahlung', 're_text_rest', 're_text_storno', 're_schluss', 'intro_dj_ihr', 'schluss_ihr', 'mail_text_ihr', 'wa_text_ihr', 're_text_komplett_ihr', 're_text_anzahlung_ihr', 're_text_rest_ihr', 're_text_storno_ihr', 're_schluss_ihr', 're_mail_text_ihr', 're_wa_text_ihr' ), true ) ? sanitize_textarea_field( $v[ $k ] ) : sanitize_text_field( $v[ $k ] ) ) );
+			$o[ $k ] = 'gueltig' === $k ? max( 1, min( 365, (int) $v[ $k ] ) ) : ( in_array( $k, array( 're_ziel_privat', 're_ziel_firma' ), true ) ? max( 0, min( 90, (int) $v[ $k ] ) ) : ( in_array( $k, array( 'intro_dj', 'intro_miete', 'bed_dj', 'bed_miete', 'vertrag_miete', 'storno_miete', 'vertrag_dj', 'schluss', 'vorlage_dj', 'mail_text', 'wa_text', 're_mail_text', 're_wa_text', 're_text_komplett', 're_text_anzahlung', 're_text_rest', 're_text_storno', 're_schluss', 'intro_dj_ihr', 'schluss_ihr', 'mail_text_ihr', 'wa_text_ihr', 're_text_komplett_ihr', 're_text_anzahlung_ihr', 're_text_rest_ihr', 're_text_storno_ihr', 're_schluss_ihr', 're_mail_text_ihr', 're_wa_text_ihr', 'ab_text', 'ab_text_ihr', 'ab_schluss', 'ab_schluss_ihr', 'ab_mail_text', 'ab_mail_text_ihr', 'ab_wa_text', 'ab_wa_text_ihr' ), true ) ? sanitize_textarea_field( $v[ $k ] ) : sanitize_text_field( $v[ $k ] ) ) );
 		}
 		update_option( 'kjo_angebot', $o, false );
 		if ( isset( $_POST['naechste'] ) && preg_match( '/^\d{1,5}$/', sanitize_text_field( wp_unslash( $_POST['naechste'] ) ) ) ) {
@@ -513,6 +525,17 @@ function kjo_ang_options_page() {
 		$f( 're_mail_text', 'E-Mail-Text Rechnung', 'Platzhalter: {name}, {nr}, {art}, {betrag}, {faellig}, {link}, {zahlung} (= „Bitte überweisen Sie … bis zum …“ bzw. „bereits bezahlt“). Das PDF hängt an.', 9 );
 		$f( 're_wa_text', 'WhatsApp-Text Rechnung', 'Platzhalter wie bei der E-Mail.', 3 );
 	}
+	echo '</table><h2>Auftragsbestätigung</h2><p>Platzhalter in E-Mail und WhatsApp: {name} {nr} {termin} {termin_satz} {betrag} {link}. {termin_satz} wird zu „ für den 12.06.2027“ (leer ohne Termin).</p><table class="form-table">';
+	$f( 'ab_text', 'Text (Sie)', 'Steht nach „Hallo …,“.', 2 );
+	$f( 'ab_schluss', 'Schlusstext (Sie)', '', 2 );
+	$f( 'ab_mail_betreff', 'E-Mail-Betreff (Sie)' );
+	$f( 'ab_mail_text', 'E-Mail-Text (Sie)', '', 8 );
+	$f( 'ab_wa_text', 'WhatsApp-Text (Sie)', '', 3 );
+	$f( 'ab_text_ihr', 'Text (ihr)', '', 2 );
+	$f( 'ab_schluss_ihr', 'Schlusstext (ihr)', '', 2 );
+	$f( 'ab_mail_betreff_ihr', 'E-Mail-Betreff (ihr)' );
+	$f( 'ab_mail_text_ihr', 'E-Mail-Text (ihr)', '', 8 );
+	$f( 'ab_wa_text_ihr', 'WhatsApp-Text (ihr)', '', 3 );
 	echo '</table><h2>Hochzeit: Texte in ihr/euch-Form</h2><p>Gelten für Angebote und Rechnungen mit „Anrede: ihr“ (Standard, wenn der Anlass „Hochzeit“ enthält). Alles andere läuft in Sie-Form.</p><table class="form-table">';
 	$f( 'intro_dj_ihr', 'Einleitung (ihr)', '', 3 );
 	$f( 'schluss_ihr', 'Schlusstext (ihr)', '', 2 );
@@ -655,7 +678,7 @@ add_action(
 		if ( isset( KJO_ANG_STATI[ $st ] ) && get_post_meta( $id, '_kjo_ang_status', true ) !== $st ) {
 			update_post_meta( $id, '_kjo_ang_status', $st );
 			kjo_ang_log( $id, 'Status: ' . KJO_ANG_STATI[ $st ] );
-			kjo_ang_lead( $id, array( 'angenommen' => 'gebucht', 'abgelehnt' => 'abg_kunde', 'rechnung' => 'rechnung', 'bezahlt' => 're_bezahlt' )[ $st ] ?? '', '' );
+			kjo_ang_lead( $id, array( 'angenommen' => 'gebucht', 'bestaetigt' => 'gebucht', 'abgelehnt' => 'abg_kunde', 'rechnung' => 'rechnung', 'bezahlt' => 're_bezahlt' )[ $st ] ?? '', '' );
 		}
 	}
 );

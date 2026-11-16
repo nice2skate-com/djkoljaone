@@ -1,9 +1,9 @@
 {
- "version": "1.84.2",
- "download_url": "dj-kolja-one-plattenkiste-1.84.2.zip",
- "sha256": "66572a4e4bdce04038b8a339a19111b7069620c4f65c2028c4dca820e8a04503",
+ "version": "1.85.0",
+ "download_url": "dj-kolja-one-plattenkiste-1.85.0.zip",
+ "sha256": "8d18aba05561fdc07b038ff570a764602e64ed84263d1f7ffbfbb9d5807b20cc",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Beamer-Fotos, Galerie"
+ "changelog": "Auftragsbestätigung"
 }

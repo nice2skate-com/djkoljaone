@@ -115,7 +115,7 @@ function kjo_auto_angebot( WP_REST_Request $r ) {
 	$alt = get_posts( array( 'post_type' => 'kjo_angebot', 'post_status' => 'any', 'numberposts' => 1, 'meta_key' => '_kjo_ang_ref', 'meta_value' => $ref ) ); // phpcs:ignore
 	if ( $alt ) {
 		$id = $alt[0]->ID;
-		if ( 'versendet' === get_post_meta( $id, '_kjo_ang_status', true ) || in_array( get_post_meta( $id, '_kjo_ang_status', true ), array( 'angenommen', 'abgelehnt' ), true ) ) {
+		if ( 'versendet' === get_post_meta( $id, '_kjo_ang_status', true ) || in_array( get_post_meta( $id, '_kjo_ang_status', true ), array( 'angenommen', 'abgelehnt', 'bestaetigt', 'rechnung', 'bezahlt' ), true ) ) {
 			return new WP_Error( 'kjo_auto', 'Angebot ' . kjo_ang_get( $id )['nr'] . ' ist schon versendet.', array( 'status' => 409 ) );
 		}
 		$a = kjo_ang_speichern( $id, array_merge( kjo_ang_get( $id ), $neu ) );

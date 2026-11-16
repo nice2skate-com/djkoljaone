@@ -40,3 +40,18 @@ Felder, die n8n setzen darf: `titel, name, firma, strasse, plzort, email, tel, a
 
 - Editor im Browser: DJ-Angebot mit Vertragsbedingungen (4 Seiten) und Mietangebot mit Mietvertrag (2 Seiten) fehlerfrei.
 - PDF-Dienst lokal: `/render` liefert gültiges PDF (4 Seiten), Sie-Form und „inkl. 19 % MwSt.“ inkl. angepasstem § 6.
+
+## Auftragsbestätigung aus Telegram (seit 1.85.0)
+
+Gleicher Schlüssel (`X-KJO-Key`), gleicher PDF-Dienst. Funktioniert für **jedes** Angebot (auch im Editor angelegte), gesucht wird über die Angebotsnummer.
+
+1. `POST /wp-json/kjo/v1/auto/ab` mit `{ "nr": "2026-207" }` (oder `{ "id": 123 }`), optional `datum` (JJJJ-MM-TT) und `zahlung` (Freitext, z. B. Anzahlung) → legt die Auftragsbestätigung `AB-2026-207` an bzw. fasst sie neu, setzt das Angebot auf „Auftrag bestätigt“ und die DJ-Anfrage auf „Gebucht“.
+   Antwort: `id`, `nr`, `data` (Angebot mit Zweig `ab`), `cfg`, `to` (E-Mail des Kunden), `mail` (`sub`, `txt` – fertige Texte aus den Einstellungen, Sie- oder ihr-Form), `datei`, `edit`.
+2. PDF-Dienst: `POST /render` mit `{data, cfg}` aus Schritt 1 → PDF (gleicher Code wie im Editor, Zweig `A.ab`).
+3. `POST /wp-json/kjo/v1/auto/ab/{id}/pdf` mit `{pdf}` (Base64) → `link` (Kunden-Link), `datei`, `wa` (WhatsApp-Text mit Link).
+4. n8n schickt die E-Mail (`to`, `mail.sub`, `mail.txt`, PDF als `datei`) – oder Telegram zeigt den WhatsApp-Text.
+5. `POST /wp-json/kjo/v1/auto/ab/{id}/versendet` mit `{to}` → Verlauf im Angebot und in der DJ-Anfrage.
+
+Telegram-Befehl (Vorschlag für n8n): `/ab 2026-207` bzw. `/ab 2026-207 Anzahlung 300 € bis 30.11.` → alles nach der Nummer wird `zahlung`.
+
+Im Editor: Kasten **„Auftragsbestätigung“** unter dem Angebot (Datum, Text, Zahlungshinweis, Schlusstext → „Auftragsbestätigung erstellen (PDF)“, danach E-Mail/WhatsApp). Texte unter Angebote → Einstellungen → Auftragsbestätigung.
