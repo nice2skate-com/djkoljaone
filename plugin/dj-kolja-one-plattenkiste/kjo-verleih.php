@@ -549,13 +549,17 @@ const KJO_VL_DATEN = array(
 			'hoehe'        => '129',
 			'gewicht'      => '2,9 kg',
 			'leistung'     => '5.500 ANSI-Lumen, Full HD 1920 × 1080, 1,3-fach Zoom',
-			'anschluesse'  => 'HDMI 2.0, Audio-Ausgang, USB-A (Strom für Streaming-Stick), LAN, RS232',
+			'anschluesse'  => '2 × HDMI, Audio-Ausgang (3,5 mm), USB-A (Strom für Streaming-Stick), LAN, RS232',
 			'strom'        => '230 V, ca. 165 W',
-			'lieferumfang' => "Fernbedienung\nNetzkabel",
+			'lieferumfang' => "Fernbedienung\nNetzkabel\nHDMI-Kabel",
 			'wetter'       => 'innen',
 			'wert'         => '1200',
 			'wert_quelle'  => 'Geizhals.at 1.231,98–1.378,50 €, alza.at ab 1.059 € (Stand 16.11.2026)',
 			'hersteller'   => 'https://www.viewsonic.com/de/business/products/projectors/LSD500HD',
+		),
+		array(
+			'anschluesse'  => array( 'HDMI 2.0, Audio-Ausgang, USB-A (Strom für Streaming-Stick), LAN, RS232', '2 × HDMI, Audio-Ausgang (3,5 mm), USB-A (Strom für Streaming-Stick), LAN, RS232' ),
+			'lieferumfang' => array( "Fernbedienung\nNetzkabel", "Fernbedienung\nNetzkabel\nHDMI-Kabel" ),
 		),
 	),
 	'jbl-partybox-720' => array( // seit 1.81.2 (15.11.2026)
@@ -997,7 +1001,7 @@ const KJO_VL_OPT_DEFAULT = array(
 	'aufbau'     => 'Auf- und Abbau: Paket S 40 €, Paket M 100 €, Paket L 180 €, sonst 40 € pro Stunde; Abbau nach 23 Uhr +50 %. Die Einweisung ist immer kostenlos.',
 );
 const KJO_VL_PAKETE_V = 4; // Pakete S/M/L neu (12.10.2026): einmalig vollständig überschreiben
-const KJO_VL_MIG      = 28;
+const KJO_VL_MIG      = 29;
 add_action(
 	'admin_init',
 	function () {
@@ -2417,3 +2421,55 @@ function kjo_vl_rest_melden( WP_REST_Request $req ) {
 	wp_mail( kjo_vl_mail_to(), 'Defekter Anleitungs-Link: ' . $p->post_title, $text, array( 'Content-Type: text/plain; charset=UTF-8' ) );
 	return new WP_REST_Response( array( 'ok' => true ), 200 );
 }
+
+/**
+ * Gerätefotos aus dem Plugin (assets/geraete/*.jpg) einmalig in die Mediathek übernehmen (seit 1.84.1).
+ * Dateiname = Bildname-Schema (equip_…, equip_…_1 …), damit Geräte und Pakete sie automatisch finden.
+ */
+add_action(
+	'admin_init',
+	function () {
+		if ( ! current_user_can( 'upload_files' ) ) {
+			return;
+		}
+		$fs = glob( plugin_dir_path( __FILE__ ) . 'assets/geraete/*.{jpg,jpeg,png,webp}', GLOB_BRACE );
+		if ( ! $fs ) {
+			return;
+		}
+		$done = get_option( 'kjo_vl_fotos_import', array() );
+		$done = is_array( $done ) ? $done : array();
+		$neu  = array_filter( $fs, fn( $f ) => ! in_array( basename( $f ), $done, true ) );
+		if ( ! $neu ) {
+			return;
+		}
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+		$up = wp_upload_dir();
+		foreach ( $neu as $src ) {
+			$base   = basename( $src );
+			$done[] = $base;
+			$name   = wp_unique_filename( $up['path'], $base );
+			$ziel   = trailingslashit( $up['path'] ) . $name;
+			if ( ! @copy( $src, $ziel ) ) { // phpcs:ignore
+				array_pop( $done );
+				continue;
+			}
+			$ft  = wp_check_filetype( $name );
+			$aid = wp_insert_attachment(
+				array(
+					'post_mime_type' => $ft['type'] ? $ft['type'] : 'image/jpeg',
+					'post_title'     => preg_replace( '/\.[a-z]+$/', '', $base ),
+					'post_status'    => 'inherit',
+				),
+				$ziel
+			);
+			if ( $aid && ! is_wp_error( $aid ) ) {
+				wp_update_attachment_metadata( $aid, wp_generate_attachment_metadata( $aid, $ziel ) );
+			}
+		}
+		update_option( 'kjo_vl_fotos_import', $done, false );
+		if ( function_exists( 'kjo_media_flush' ) ) {
+			kjo_media_flush();
+		}
+	},
+	40
+);
