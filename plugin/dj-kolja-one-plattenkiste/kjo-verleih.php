@@ -2032,7 +2032,7 @@ define(
 .kjo-vl .kjo-vl-plus:hover{background:#B29D75;color:#0F0C07}
 .kjo-vl-det{padding:4px 0 22px 78px;color:#A39E93;line-height:1.7}
 .kjo-vl-det p{margin:0 0 12px}
-.kjo-vl-gal{display:flex;gap:10px;overflow-x:auto;margin-bottom:14px}.kjo-vl-gal img,img.kjo-vl-pimg{cursor:zoom-in}.kjo-vl-lb{position:fixed;inset:0;z-index:99995;background:rgba(8,6,4,.94);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:56px 64px 24px;box-sizing:border-box}.kjo-vl-lb[hidden],.kjo-vl-lb [hidden]{display:none!important}.kjo-vl-lb img{max-width:100%;max-height:calc(100vh - 120px);width:auto;height:auto;object-fit:contain;border:1px solid #B29D75;background:#000;box-shadow:0 20px 50px rgba(0,0,0,.6)}.kjo-vl-lb p{margin:14px 0 0;font:400 15px/1.4 "Fira Sans",sans-serif;color:#C9C3B5;text-align:center}.kjo-vl-lb button{all:unset;box-sizing:border-box;cursor:pointer;position:absolute;display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;border:1px solid rgba(178,157,117,.7);color:#F3F1E9;background:rgba(22,19,16,.85);font:300 30px/1 "Fira Sans",sans-serif;-webkit-tap-highlight-color:transparent}.kjo-vl-lb button:hover,.kjo-vl-lb button:focus-visible{background:#B29D75;color:#0F0C07;outline:none}.kjo-vl-lb .kjo-vl-lbx{top:12px;right:12px}.kjo-vl-lb .kjo-vl-lbp{left:10px;top:50%;margin-top:-23px}.kjo-vl-lb .kjo-vl-lbn{right:10px;top:50%;margin-top:-23px}@media(max-width:600px){.kjo-vl-lb{padding:56px 8px 16px}.kjo-vl-lb .kjo-vl-lbp,.kjo-vl-lb .kjo-vl-lbn{top:auto;bottom:14px;margin:0}.kjo-vl-lb .kjo-vl-lbp{left:calc(50% - 56px)}.kjo-vl-lb .kjo-vl-lbn{right:calc(50% - 56px)}.kjo-vl-lb img{max-height:calc(100vh - 170px)}}.kjo-vl-gal img,.kjo-vl-gal video{height:180px;width:auto;border:1px solid #B29D75;flex:none;background:#000}.kjo-vl-gal img{background:#16130F}
+.kjo-vl-gal{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}.kjo-vl-gal img,img.kjo-vl-pimg{cursor:zoom-in}.kjo-vl-lb{position:fixed;inset:0;z-index:99995;background:rgba(8,6,4,.94);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:56px 64px 24px;box-sizing:border-box}.kjo-vl-lb[hidden],.kjo-vl-lb [hidden]{display:none!important}.kjo-vl-lb img{max-width:100%;max-height:calc(100vh - 120px);width:auto;height:auto;object-fit:contain;border:1px solid #B29D75;background:#000;box-shadow:0 20px 50px rgba(0,0,0,.6)}.kjo-vl-lb p{margin:14px 0 0;font:400 15px/1.4 "Fira Sans",sans-serif;color:#C9C3B5;text-align:center}.kjo-vl-lb button{all:unset;box-sizing:border-box;cursor:pointer;position:absolute;display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;border:1px solid rgba(178,157,117,.7);color:#F3F1E9;background:rgba(22,19,16,.85);font:300 30px/1 "Fira Sans",sans-serif;-webkit-tap-highlight-color:transparent}.kjo-vl-lb button:hover,.kjo-vl-lb button:focus-visible{background:#B29D75;color:#0F0C07;outline:none}.kjo-vl-lb .kjo-vl-lbx{top:12px;right:12px}.kjo-vl-lb .kjo-vl-lbp{left:10px;top:50%;margin-top:-23px}.kjo-vl-lb .kjo-vl-lbn{right:10px;top:50%;margin-top:-23px}@media(max-width:600px){.kjo-vl-lb{padding:56px 8px 16px}.kjo-vl-lb .kjo-vl-lbp,.kjo-vl-lb .kjo-vl-lbn{top:auto;bottom:14px;margin:0}.kjo-vl-lb .kjo-vl-lbp{left:calc(50% - 56px)}.kjo-vl-lb .kjo-vl-lbn{right:calc(50% - 56px)}.kjo-vl-lb img{max-height:calc(100vh - 170px)}}.kjo-vl-gal img,.kjo-vl-gal video{height:180px;width:auto;border:1px solid #B29D75;flex:none;background:#000}.kjo-vl-gal img{background:#16130F}
 .kjo-vl-dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 18px;margin:0 0 12px}.kjo-vl-dl dt{color:#F3F1E9}.kjo-vl-dl dd{margin:0}
 .kjo-vl-anl a{color:#B29D75}.kjo-vl .kjo-vl-report{background:none;border:0;color:#A39E93;font:13px "Fira Sans",sans-serif;text-decoration:underline;cursor:pointer;margin-left:8px;padding:4px}
 .kjo-vl-tips{list-style:none;margin:0;padding:0;width:100%;max-width:860px}.kjo-vl-tips li{padding:12px 0;border-bottom:1px solid rgba(178,157,117,.2);color:#A39E93;line-height:1.7}.kjo-vl-tips strong{color:#F3F1E9;font-weight:500}
@@ -2067,7 +2067,7 @@ define(
 .kjo-vl-ok p{color:#A39E93;line-height:1.7}
 .kjo-vl-empty{color:#A39E93}
 body.kjo-vl-has-bar{padding-bottom:84px}
-@media(max-width:600px){.kjo-vl-det{padding-left:0}.kjo-vl-thumb{width:52px;height:52px}.kjo-vl-price{font-size:13px}.kjo-vl-grid{grid-template-columns:1fr}.kjo-vl-gal img,.kjo-vl-gal video{height:140px}.kjo-vl-dl{grid-template-columns:1fr}.kjo-vl-dl dd{margin-bottom:6px}}
+@media(max-width:600px){.kjo-vl-gal{flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}.kjo-vl-gal::-webkit-scrollbar{display:none}.kjo-vl-gal>*{scroll-snap-align:start}.kjo-vl-det{padding-left:0}.kjo-vl-thumb{width:52px;height:52px}.kjo-vl-price{font-size:13px}.kjo-vl-grid{grid-template-columns:1fr}.kjo-vl-gal img,.kjo-vl-gal video{height:140px}.kjo-vl-dl{grid-template-columns:1fr}.kjo-vl-dl dd{margin-bottom:6px}}
 KJOCSS
 );
 
@@ -2423,8 +2423,10 @@ function kjo_vl_rest_melden( WP_REST_Request $req ) {
 }
 
 /**
- * Gerätefotos aus dem Plugin (assets/geraete/*.jpg) einmalig in die Mediathek übernehmen (seit 1.84.1).
+ * Gerätefotos aus dem Plugin (assets/geraete/*.jpg) in die Mediathek übernehmen (seit 1.84.1, seit 1.84.2 mit Prüfsumme).
  * Dateiname = Bildname-Schema (equip_…, equip_…_1 …), damit Geräte und Pakete sie automatisch finden.
+ * Die Fotos sind fertig aufbereitet und werden nicht freigestellt (weiße Geräte würden sonst mit ausgeschnitten).
+ * Ändert sich eine Datei im Plugin, wird das alte Bild in der Mediathek ersetzt.
  */
 add_action(
 	'admin_init',
@@ -2438,32 +2440,43 @@ add_action(
 		}
 		$done = get_option( 'kjo_vl_fotos_import', array() );
 		$done = is_array( $done ) ? $done : array();
-		$neu  = array_filter( $fs, fn( $f ) => ! in_array( basename( $f ), $done, true ) );
+		$neu  = array();
+		foreach ( $fs as $f ) {
+			$h = md5_file( $f );
+			if ( ( $done[ basename( $f ) ] ?? '' ) !== $h ) {
+				$neu[ $f ] = $h;
+			}
+		}
 		if ( ! $neu ) {
 			return;
 		}
 		require_once ABSPATH . 'wp-admin/includes/image.php';
 		$up = wp_upload_dir();
-		foreach ( $neu as $src ) {
-			$base   = basename( $src );
-			$done[] = $base;
-			$name   = wp_unique_filename( $up['path'], $base );
-			$ziel   = trailingslashit( $up['path'] ) . $name;
+		foreach ( $neu as $src => $h ) {
+			$base = basename( $src );
+			$key  = preg_replace( '/\.[a-z]+$/', '', $base );
+			// Ältere Fassung desselben Fotos (von hier importiert) entfernen.
+			foreach ( get_posts( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'title' => $key, 'numberposts' => 10, 'fields' => 'ids' ) ) as $alt ) {
+				wp_delete_attachment( $alt, true );
+			}
+			$name = wp_unique_filename( $up['path'], $base );
+			$ziel = trailingslashit( $up['path'] ) . $name;
 			if ( ! @copy( $src, $ziel ) ) { // phpcs:ignore
-				array_pop( $done );
 				continue;
 			}
 			$ft  = wp_check_filetype( $name );
 			$aid = wp_insert_attachment(
 				array(
 					'post_mime_type' => $ft['type'] ? $ft['type'] : 'image/jpeg',
-					'post_title'     => preg_replace( '/\.[a-z]+$/', '', $base ),
+					'post_title'     => $key,
 					'post_status'    => 'inherit',
 				),
 				$ziel
 			);
 			if ( $aid && ! is_wp_error( $aid ) ) {
+				update_post_meta( $aid, '_kjo_frei', 'aus' ); // nicht automatisch freistellen
 				wp_update_attachment_metadata( $aid, wp_generate_attachment_metadata( $aid, $ziel ) );
+				$done[ $base ] = $h;
 			}
 		}
 		update_option( 'kjo_vl_fotos_import', $done, false );
