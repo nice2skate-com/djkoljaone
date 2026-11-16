@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.84.1: Beamer: 3 Fotos werden automatisch in die Mediathek übernommen (Gerätefotos aus assets/geraete/), HDMI-Kabel im Lieferumfang, 2 × HDMI.
 Seit 1.84.0: Neues Gerät ViewSonic LSD500HD Laser-Beamer (neue Kategorie „Video & Beamer“), 55 € Tag, 80 € Wochenende, Kaution 350 €.
 Seit 1.83.0: Social: Benutzerschlüssel aus dem Graph-API-Explorer direkt einfügen – die Website verlängert ihn und holt den dauerhaften Seitenschlüssel selbst, nennt fehlende Berechtigungen und prüft die Verbindung gleich mit. Song-Kommentar-Warnmail erklärt Code 190 und die Erneuerung Schritt für Schritt.
 Seit 1.82.1: Paket XS: Hinweis ergänzt (Terrasse bei regenfreiem Wetter, bis zu 6 Akku-Scheinwerfer oder Cameo Thunder Wash dazubuchbar).

@@ -1,9 +1,9 @@
 {
- "version": "1.84.0",
- "download_url": "dj-kolja-one-plattenkiste-1.84.0.zip",
- "sha256": "a24e8e01464449c41a1085a0d29bd47a750fdab98592c0b09a3af7fdd2094d7c",
+ "version": "1.84.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.84.1.zip",
+ "sha256": "79054cf0b0d91f1c41aa5a2f47ed703e8fc4d3762a1e67b530b9cf85bc054fbd",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Beamer ViewSonic LSD500HD"
+ "changelog": "Beamer Fotos"
 }
