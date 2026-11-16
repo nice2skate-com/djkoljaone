@@ -27,7 +27,7 @@ Dieses Paket enthält alles, um das Plugin „DJ KOLJA ONE Plattenkiste“ weite
 
 Bei jedem neuen Gerät wird der Mietpreis immer gleich mit berechnet und in `KJO_VL_PREISE` (kjo-verleih.php) eingetragen – nie leer lassen:
 
-- **Tagespreis:** nach Wiederbeschaffungswert (`wert`, mit Quelle) und Geräteart, im Rahmen der bestehenden Preise. Lautsprecher/Subwoofer ≈ 5–8 % des Werts, Licht/Effekte ≈ 8–14 %, Kleinteile mindestens 5–10 €. Auf glatte 5 € runden.
+- **Tagespreis:** nach Wiederbeschaffungswert (`wert`, mit Quelle) und Geräteart, im Rahmen der bestehenden Preise. Lautsprecher/Subwoofer ≈ 5–8 % des Werts, DJ-Technik/Beamer ≈ 4–5 %, Licht/Effekte ≈ 8–14 %, Kleinteile mindestens 5–10 €. Auf glatte 5 € runden.
 - **Wochenende (Fr 15 – Mo 21 Uhr):** ≈ 1,45 × Tagespreis, auf 5 € runden.
 - **Kaution:** ≈ 25–35 % des Werts, auf glatte 10/50 € runden.
 - `KJO_VL_MIG` hochzählen, damit die Preise auf der Website eingetragen werden (nur leere Felder werden befüllt).
