@@ -8,6 +8,12 @@
 - [ ] Kontrolle: GA4 Echtzeit zeigt `generate_lead` nach Testanfrage; Ads-Conversion „Aktiv“.
 - [ ] WPForms deaktivieren, sobald das neue Formular 2 Wochen ohne Probleme läuft.
 
+## Meta-App (Montag 16.11.2026 abends)
+- [ ] Song-Kommentar meldet Code 190; Graph-API-Explorer zeigt „Keine Apps verfügbar“.
+- [ ] Prüfen: richtiges Facebook-Konto? developers.facebook.com → Meine Apps / Erforderliche Maßnahmen (Sperre wegen Data Use Checkup?).
+- [ ] Falls App weg: neue App (Typ Business) → App-Geheimcode in WP Social → Kommentar → WhatsApp → User Token im Explorer → in WP Social einfügen (wird seit 1.83.0 automatisch zum dauerhaften Seitenschlüssel) → „Verbindung prüfen & bei Meta anmelden“.
+- [ ] Danach: Kommentar → WhatsApp (App-Review, ggf. WhatsApp neu verbinden, social/AUTO-DM.md), GitHub-Secret META_PAGE_TOKEN.
+
 ## A. Google Ads – vor dem Start (geparkt)
 
 **Pflicht**
