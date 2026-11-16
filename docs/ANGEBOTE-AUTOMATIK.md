@@ -49,8 +49,9 @@ Gleicher Schlüssel (`X-KJO-Key`), gleicher PDF-Dienst. Funktioniert für **jede
    Antwort: `id`, `nr`, `data` (Angebot mit Zweig `ab`), `cfg`, `to` (E-Mail des Kunden), `mail` (`sub`, `txt` – fertige Texte aus den Einstellungen, Sie- oder ihr-Form), `datei`, `edit`.
 2. PDF-Dienst: `POST /render` mit `{data, cfg}` aus Schritt 1 → PDF (gleicher Code wie im Editor, Zweig `A.ab`).
 3. `POST /wp-json/kjo/v1/auto/ab/{id}/pdf` mit `{pdf}` (Base64) → `link` (Kunden-Link), `datei`, `wa` (WhatsApp-Text mit Link).
-4. n8n schickt die E-Mail (`to`, `mail.sub`, `mail.txt`, PDF als `datei`) – oder Telegram zeigt den WhatsApp-Text.
-5. `POST /wp-json/kjo/v1/auto/ab/{id}/versendet` mit `{to}` → Verlauf im Angebot und in der DJ-Anfrage.
+4. Telegram zeigt die Auftragsbestätigung mit Knopf „✅ AB senden“ (Rückruf `absend:{id}`); erst der Klick schickt die E-Mail. n8n schickt die E-Mail (`to`, `mail.sub`, `mail.txt`, PDF als `datei`) – oder Telegram zeigt den WhatsApp-Text.
+5. `GET /wp-json/kjo/v1/auto/ab/{id}` (seit 1.85.1) → `to`, `mail`, `link`, `datei`, `wa`, `versendet` einer vorhandenen Auftragsbestätigung (für den „Senden“-Knopf).
+6. `POST /wp-json/kjo/v1/auto/ab/{id}/versendet` mit `{to}` → Verlauf im Angebot und in der DJ-Anfrage.
 
 Telegram-Befehl (Vorschlag für n8n): `/ab 2026-207` bzw. `/ab 2026-207 Anzahlung 300 € bis 30.11.` → alles nach der Nummer wird `zahlung`.
 
