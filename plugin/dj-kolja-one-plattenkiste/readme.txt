@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.85.1: Telegram: Auftragsbestätigung abfragen (GET /auto/ab/{id}) für den „Senden“-Knopf; /auto/ab liefert Summe und Name.
 Seit 1.85.0: Auftragsbestätigung im Angebot (PDF „AB-<Nr.>“ mit Auftragssumme, optionalem Zahlungshinweis, Vertragsbedingungen/Mietvertrag; E-Mail und WhatsApp; Status „Auftrag bestätigt“, DJ-Anfrage „Gebucht“), auch über Telegram/n8n (REST /auto/ab).
 Seit 1.84.2: Beamer-Fotos in voller Größe und ohne automatisches Freistellen (das hat das weiße Gerät mit ausgeschnitten) – alte Fassungen werden ersetzt. Bildergalerie der Geräte ohne Scrollbalken: am Computer umbrechend, am Handy wischen.
 Seit 1.84.1: Beamer: 3 Fotos werden automatisch in die Mediathek übernommen (Gerätefotos aus assets/geraete/), HDMI-Kabel im Lieferumfang, 2 × HDMI.

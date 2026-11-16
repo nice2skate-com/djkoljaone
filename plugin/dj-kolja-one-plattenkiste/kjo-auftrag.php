@@ -198,6 +198,8 @@ add_action(
 					return array(
 						'id'   => $id,
 						'nr'   => $b['nr'],
+						'summe' => (float) $b['summe'],
+						'name' => (string) kjo_ang_get( $id )['name'],
 						'data' => kjo_ab_pdf_daten( $id ), // für den PDF-Dienst (/render mit {data, cfg})
 						'cfg'  => kjo_ang_pdf_cfg(),
 						'to'   => $m['to'],
@@ -225,6 +227,35 @@ add_action(
 					}
 					$m = kjo_ab_mail_vorlage( $id ); // jetzt mit Link
 					return array( 'id' => $id, 'link' => $link, 'datei' => kjo_ab_dateiname( $id ), 'wa' => $m['wa'] );
+				},
+			)
+		);
+		// Vorhandene Auftragsbestätigung abfragen (seit 1.85.1) – für den „Senden“-Knopf in Telegram
+		register_rest_route(
+			'kjo/v1',
+			'/auto/ab/(?P<id>\d+)',
+			array(
+				'methods'             => 'GET',
+				'permission_callback' => 'kjo_auto_key_ok',
+				'callback'            => function ( WP_REST_Request $r ) {
+					$id = absint( $r['id'] );
+					$b  = 'kjo_angebot' === get_post_type( $id ) ? kjo_ab_get( $id ) : array();
+					if ( ! $b || ! get_post_meta( $id, '_kjo_ab_pdf', true ) ) {
+						return new WP_Error( 'kjo_ab', 'Auftragsbestätigung bzw. PDF nicht gefunden.', array( 'status' => 404 ) );
+					}
+					$m = kjo_ab_mail_vorlage( $id );
+					return array(
+						'id'    => $id,
+						'nr'    => $b['nr'],
+						'summe' => (float) $b['summe'],
+						'name'  => (string) kjo_ang_get( $id )['name'],
+						'to'    => $m['to'],
+						'mail'  => array( 'sub' => $m['sub'], 'txt' => $m['txt'] ),
+						'wa'    => $m['wa'],
+						'link'  => kjo_ab_link( $id ),
+						'datei' => kjo_ab_dateiname( $id ),
+						'versendet' => (int) get_post_meta( $id, '_kjo_ab_versendet', true ),
+					);
 				},
 			)
 		);
