@@ -28,6 +28,7 @@ function kjo_vl_kats() {
 		'mikrofone'    => 'Mikrofone',
 		'licht'        => 'Licht',
 		'effekte'      => 'Effekte',
+		'video'        => 'Video & Beamer',
 		'buehne'       => 'Bühne & Stative',
 		'zubehoer'     => 'Zubehör',
 	);
@@ -461,6 +462,7 @@ function kjo_vl_seed_data() {
 	$g    = array(
 		array( 'bose-s1-pro', 'Bose S1 Pro Aktivlautsprecher', 'lautsprecher', 2, 'Kompakter Aktivlautsprecher mit Bluetooth: klarer Klang für Sprache und Musik, dezent im Raum.', array( 'breite' => '241', 'laenge' => '286', 'hoehe' => '330', 'gewicht' => '7,1 kg', 'volumen' => '22,75 l', 'anschluesse' => 'Bluetooth, Kabel-Eingänge', 'gaeste' => 'bis ca. 50 Gäste (als Paar)', 'anleitung' => $bose ) ),
 		array( 'jbl-partybox-720', KJO_VL_DATEN['jbl-partybox-720'][1], 'lautsprecher', 1, KJO_VL_DATEN['jbl-partybox-720'][3], KJO_VL_DATEN['jbl-partybox-720'][4] ),
+		array( 'viewsonic-lsd500hd', KJO_VL_DATEN['viewsonic-lsd500hd'][1], 'video', 1, KJO_VL_DATEN['viewsonic-lsd500hd'][3], KJO_VL_DATEN['viewsonic-lsd500hd'][4] ),
 		array( 'bose-subwoofer', 'Bose Subwoofer', 'subwoofer', 1, 'Bassergänzung für das Bose-System – mehr Druck auf der Tanzfläche.', array( 'gaeste' => 'bis ca. 100 Gäste (mit 2 × Bose S1 Pro)' ) ),
 		array( 'pronomic-c-215-ma', KJO_VL_DATEN['pronomic-c-215-ma'][1], 'lautsprecher', 2, KJO_VL_DATEN['pronomic-c-215-ma'][3], KJO_VL_DATEN['pronomic-c-215-ma'][4] ),
 		array( 'pronomic-c-118sa', 'Pronomic C-118SA 18"-Aktiv-Subwoofer', 'subwoofer', 2, '18"-Aktiv-Subwoofer für druckvollen Bass, den man spürt.', array( 'leistung' => '800 W RMS, 30–200 Hz, max. 126 dB', 'anschluesse' => '2 × Combo-Eingang, 2 × XLR-Ausgang, M20-Flansch für Distanzstange' ) ),
@@ -535,6 +537,27 @@ add_action(
 /* Recherchierte Gerätedaten (thomann.de, Stand 11.10.2026): Slug => array( alter Titel, neuer Titel, alte Kurzbeschreibung, neue Kurzbeschreibung, Felder ).
  * Beim Aktualisieren werden Titel/Kurztext nur ersetzt, wenn sie noch dem alten Platzhalter entsprechen, und nur leere Felder befüllt. */
 const KJO_VL_DATEN = array(
+	'viewsonic-lsd500hd' => array( // seit 1.84.0 (16.11.2026)
+		'',
+		'ViewSonic LSD500HD Laser-Beamer',
+		'',
+		'Heller Laser-Beamer in Full HD – für Fotoshow, Hochzeitsvideo, Präsentation oder Fußball, auch wenn der Raum nicht ganz dunkel ist.',
+		array(
+			'beschr'       => "Laser-Projektor mit 5.500 ANSI-Lumen und Full-HD-Auflösung (1920 × 1080): hell genug für Räume mit etwas Restlicht. Kein Lampenwechsel, nach dem Einschalten sofort hell.\n1,3-fach optischer Zoom, Bildgröße 30 bis 300 Zoll bei ca. 0,75 bis 9,76 m Abstand. Laptop oder Streaming-Stick per HDMI anschließen; den Ton am besten über den Audio-Ausgang an die Musikanlage geben.",
+			'breite'       => '286',
+			'laenge'       => '216',
+			'hoehe'        => '129',
+			'gewicht'      => '2,9 kg',
+			'leistung'     => '5.500 ANSI-Lumen, Full HD 1920 × 1080, 1,3-fach Zoom',
+			'anschluesse'  => 'HDMI 2.0, Audio-Ausgang, USB-A (Strom für Streaming-Stick), LAN, RS232',
+			'strom'        => '230 V, ca. 165 W',
+			'lieferumfang' => "Fernbedienung\nNetzkabel",
+			'wetter'       => 'innen',
+			'wert'         => '1200',
+			'wert_quelle'  => 'Geizhals.at 1.231,98–1.378,50 €, alza.at ab 1.059 € (Stand 16.11.2026)',
+			'hersteller'   => 'https://www.viewsonic.com/de/business/products/projectors/LSD500HD',
+		),
+	),
 	'jbl-partybox-720' => array( // seit 1.81.2 (15.11.2026)
 		'',
 		'JBL PartyBox 720',
@@ -957,6 +980,7 @@ const KJO_VL_PREISE = array(
 		'spiegelkugel'           => array( 10, 15, 30 ),
 		'lautsprecherstativ'     => array( 5, 8, 20 ),
 		'shure-beta-58a'         => array( 10, 15, 50 ),
+		'viewsonic-lsd500hd'     => array( 55, 80, 350 ), // Wert 1.200 €: Tag ≈ 4,5 % (Elektronik wie DDJ-FLX10), WE ≈ 1,45 ×, Kaution ≈ 30 %
 		'jbl-partybox-720'       => array( 45, 65, 250 ), // Wert 900 €: Tag ≈ 5 % (wie Bose S1 Pro/Sub1), Wochenende ≈ 1,45 × Tag, Kaution ≈ 28 %
 	),
 	'kjo_paket'  => array(
@@ -973,7 +997,7 @@ const KJO_VL_OPT_DEFAULT = array(
 	'aufbau'     => 'Auf- und Abbau: Paket S 40 €, Paket M 100 €, Paket L 180 €, sonst 40 € pro Stunde; Abbau nach 23 Uhr +50 %. Die Einweisung ist immer kostenlos.',
 );
 const KJO_VL_PAKETE_V = 4; // Pakete S/M/L neu (12.10.2026): einmalig vollständig überschreiben
-const KJO_VL_MIG      = 27;
+const KJO_VL_MIG      = 28;
 add_action(
 	'admin_init',
 	function () {
@@ -1112,7 +1136,7 @@ add_action(
 		// Neu hinzugekommene Geräte anlegen (nur diese Slugs, damit gelöschte Geräte nicht zurückkommen).
 		list( $seed ) = kjo_vl_seed_data();
 		foreach ( $seed as $i => $r ) {
-			if ( in_array( $r[0], array( 'spiegelkugel', 'shure-beta-58a', 'jbl-partybox-720' ), true ) && ! get_page_by_path( $r[0], OBJECT, 'kjo_geraet' ) ) {
+			if ( in_array( $r[0], array( 'spiegelkugel', 'shure-beta-58a', 'jbl-partybox-720', 'viewsonic-lsd500hd' ), true ) && ! get_page_by_path( $r[0], OBJECT, 'kjo_geraet' ) ) {
 				$id = wp_insert_post( array( 'post_type' => 'kjo_geraet', 'post_status' => 'publish', 'post_title' => $r[1], 'post_name' => $r[0], 'menu_order' => $i + 1 ) );
 				if ( $id && ! is_wp_error( $id ) ) {
 					update_post_meta( $id, '_kjo_kat', $r[2] );
@@ -1562,6 +1586,7 @@ const KJO_VL_LINKS = array(
 	'Shure Beta 58A'         => 'shure-beta-58a',
 	'Bose S1 Pro'            => 'bose-s1-pro',
 	'JBL PartyBox 720'       => 'jbl-partybox-720',
+	'ViewSonic LSD500HD'     => 'viewsonic-lsd500hd',
 	'Bose Sub1'              => 'bose-subwoofer',
 	'Funkmikrofon-Set'       => 'funkmikrofon-set',
 	'3-m-Lichttraverse'      => 'traverse-3m',
