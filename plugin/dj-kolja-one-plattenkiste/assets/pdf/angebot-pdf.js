@@ -274,8 +274,8 @@
 				y += 4;
 				if (RE.schluss) { absatz(RE.schluss, 10); }
 				y += 5; platz(11);
-				f(0, 10); d.text('Viele Grüße', L, y); y += 5.5;
-				f(1, 10); d.text('Kolja · DJ KOLJA ONE', L, y);
+				f(0, 10); d.text('Viele Grüße,', L, y); y += 5.5;
+				f(1, 10); d.text('Kolja Tönges · DJ KOLJA ONE', L, y); // Rechnung (seit 1.85.4)
 			}
 			// Kopf
 			d.setFillColor.apply(d, C.dunkel); d.rect(0, 0, 210, 32, 'F');
