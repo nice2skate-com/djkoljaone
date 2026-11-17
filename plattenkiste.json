@@ -1,9 +1,9 @@
 {
- "version": "1.85.1",
- "download_url": "dj-kolja-one-plattenkiste-1.85.1.zip",
- "sha256": "8d9f3b50b9c5c6b5527448447903697bcf2390516eff5d58de01278cfb5d052c",
+ "version": "1.85.2",
+ "download_url": "dj-kolja-one-plattenkiste-1.85.2.zip",
+ "sha256": "35b717f0dd12452b850886b73e86911467d9ae2a18b22ffc49b7d3dd7f1e5435",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "AB abfragen"
+ "changelog": "Anschrift übernehmen"
 }
