@@ -96,7 +96,7 @@ def service_v2(c):
     if c.get("anlaesse"):
         sb=bg(); out.append(section(head("Anlässe",c["anl_title"])+[cards(c["anlaesse"],bg=B2 if sb==B1 else B1)],bg=sb))
     out.append(split(*c["split1"],img=f"event_{c['key']}_text.jpg",bg=bg()))
-    out.append(reviews(c["reviews"],bg=bg()))
+    out.append(reviews(c["reviews"],bg=bg(),du=du))
     if c.get("pls"): out.append(section(head("Playlisten",*c["pls"][1:])+[playlist_cards(auswahl=c["pls"][0]),SPACER(6),H("Alle Playlisten &amp; das DJ-Pult →","p",13,GOLD,"center","500",link="/meine-musik/#playlisten",ls=1.5,tr="uppercase")],anchor="playlisten",bg=bg()))  # seit 1.81.0
     out.append(section(head("Ablauf",c["steps_title"])+[steps(c["steps"]),SPACER(10),BTN("Jetzt Wunschtermin prüfen","#anfrage")],anchor="ablauf",bg=bg()))
     if c.get("fit"): out.append(section(head("Passen wir zusammen?",c.get("fit_title","Finden wir das heraus!"))+[fit(*c["fit"]),SPACER(10),BTN("Passt? Dann Wunschtermin prüfen","#anfrage")],bg=bg()))
