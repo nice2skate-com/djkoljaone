@@ -537,6 +537,41 @@ add_action(
 		wp_send_json_success();
 	}
 );
+/* Anschrift berichtigen (seit 1.85.2): Name, Firma, Straße, PLZ/Ort aus dem Angebot in die Rechnung übernehmen.
+   Nummer, Datum, Positionen und Beträge bleiben unverändert; das alte PDF bleibt liegen, der Verlauf hält die alte Anschrift fest. */
+add_action(
+	'wp_ajax_kjo_re_anschrift',
+	function () {
+		list( $ang, $re ) = kjo_re_ajax_check();
+		$d = isset( $_POST['data'] ) ? json_decode( wp_unslash( $_POST['data'] ), true ) : null; // phpcs:ignore
+		if ( is_array( $d ) ) { // Angebot so übernehmen, wie es gerade im Editor steht
+			$a = kjo_ang_speichern( $ang, $d );
+			wp_update_post( array( 'ID' => $ang, 'post_title' => kjo_ang_titel( $a ), 'post_status' => 'private' ) );
+		}
+		$neu = kjo_ang_get( $ang );
+		$r   = kjo_re_get( $re );
+		if ( 'storno' === $r['typ'] || 'storniert' === kjo_re_status( $re ) ) {
+			wp_send_json_error( array( 'message' => 'Bei stornierten Rechnungen und Stornorechnungen lässt sich die Anschrift nicht ändern.' ), 400 );
+		}
+		$felder = array( 'name', 'firma', 'strasse', 'plzort' );
+		$alt    = array();
+		$geaend = false;
+		foreach ( $felder as $k ) {
+			$alt[] = (string) ( $r['a'][ $k ] ?? '' );
+			if ( (string) ( $r['a'][ $k ] ?? '' ) !== (string) ( $neu[ $k ] ?? '' ) ) {
+				$r['a'][ $k ] = (string) ( $neu[ $k ] ?? '' );
+				$geaend       = true;
+			}
+		}
+		if ( ! $geaend ) {
+			wp_send_json_error( array( 'message' => 'Die Anschrift im Angebot ist dieselbe wie in der Rechnung – erst oben im Angebot ändern.' ), 400 );
+		}
+		update_post_meta( $re, '_kjo_re', $r );
+		kjo_re_log( $re, 'Anschrift berichtigt (vorher: ' . implode( ', ', array_filter( $alt ) ) . ')' );
+		kjo_ang_log( $ang, KJO_RE_TYPEN[ $r['typ'] ] . ' ' . $r['nr'] . ': Anschrift berichtigt' );
+		wp_send_json_success( array( 're' => $re, 'data' => kjo_re_pdf_daten( $re ) ) );
+	}
+);
 add_action(
 	'wp_ajax_kjo_re_storno',
 	function () {
@@ -600,6 +635,15 @@ function kjo_re_box( $post ) {
 				echo '<button type="button" class="button button-small button-primary" data-re-a="bezahlt">Bezahlt …</button> ';
 			} elseif ( 'bezahlt' === $st ) {
 				echo '<button type="button" class="button-link" data-re-a="offen">wieder offen</button> ';
+			}
+			if ( in_array( $st, array( 'offen', 'bezahlt' ), true ) && 'storno' !== $r['typ'] ) {
+				$diff = false;
+				foreach ( array( 'name', 'firma', 'strasse', 'plzort' ) as $k ) {
+					$diff = $diff || (string) ( $r['a'][ $k ] ?? '' ) !== (string) ( $a[ $k ] ?? '' );
+				}
+				if ( $diff ) {
+					echo '<button type="button" class="button button-small" data-re-a="anschrift" title="Name, Firma, Straße und Ort aus dem Angebot übernehmen – Nummer und Beträge bleiben">Anschrift übernehmen</button> ';
+				}
 			}
 			if ( in_array( $st, array( 'offen', 'bezahlt' ), true ) ) {
 				echo '<button type="button" class="button-link kjo-ang-del" data-re-a="storno">stornieren</button>';

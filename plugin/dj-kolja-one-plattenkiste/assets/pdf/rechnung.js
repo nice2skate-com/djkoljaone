@@ -83,6 +83,11 @@
 		if (a === 'pdf') {
 			b.disabled = true;
 			post('kjo_re_daten', { re: re }).then(function (r) { return pdfHoch(re, r.data); }).then(function () { neuLaden('PDF erzeugt.'); }).catch(function (x) { b.disabled = false; fehler(x); });
+		} else if (a === 'anschrift') {
+			if (!confirm('Anschrift aus dem Angebot in diese Rechnung übernehmen und das PDF neu erzeugen? Nummer, Datum und Beträge bleiben gleich.')) return;
+			b.disabled = true; meld('Anschrift wird übernommen …');
+			var A = window.kjoAngDaten ? window.kjoAngDaten() : null;
+			post('kjo_re_anschrift', { re: re, data: A ? JSON.stringify(A) : '' }).then(function (r) { return pdfHoch(re, r.data); }).then(function () { neuLaden('Anschrift übernommen, PDF neu erzeugt.'); }).catch(function (x) { b.disabled = false; fehler(x); });
 		} else if (a === 'mail') {
 			zu();
 			$('kjo-re-mail-to').value = M.to || ''; $('kjo-re-mail-sub').value = M.sub || ''; $('kjo-re-mail-txt').value = M.txt || '';
