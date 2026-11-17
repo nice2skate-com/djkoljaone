@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.85.7: dj-kolja-one.de/bewerten öffnet jetzt direkt den Google-Bewertungsdialog (g.page-Link).
 Seit 1.85.6: Kurzlink dj-kolja-one.de/bewerten → Google-Bewertung (Aufrufe werden gezählt); Rechnungs-Schlusstext nutzt den Kurzlink (im PDF anklickbar); QR-Code und Karte unter media/bewerten/.
 Seit 1.85.5: Rechnungen: Knopf „Schlusstext übernehmen“ für ältere Rechnungen (aktueller Text aus den Einstellungen, PDF neu, Nummer und Beträge bleiben).
 Seit 1.85.4: Rechnungen: neuer Schlusstext mit Bitte um Weiterempfehlung und Google-Bewertung (Link anklickbar), Gruß „Viele Grüße, Kolja Tönges · DJ KOLJA ONE“.

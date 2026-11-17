@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-const KJO_BEWERTEN_URL = 'https://maps.app.goo.gl/9Zc3buwmTYqSHnbe9';
+const KJO_BEWERTEN_URL = 'https://g.page/r/CRTQHjKq3Je-ECE/review'; // öffnet direkt den Bewertungsdialog (seit 1.85.7)
 
 add_action(
 	'init',
