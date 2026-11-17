@@ -133,7 +133,9 @@ canvas#fx{position:absolute;inset:0;width:1080px;height:1920px;mix-blend-mode:sc
   // Pegel
   const eq=document.getElementById('eq');const NB=36;for(let i=0;i<NB;i++)eq.appendChild(document.createElement('i'));const bars=[...eq.children];
   // Szenen
-  const scenes=[...st.querySelectorAll('.scene')],durs=scenes.map(s=>+s.dataset.dur),starts=[];let acc=0;durs.forEach(d=>{starts.push(acc);acc+=d});const TOTAL=acc;
+  const scenes=[...st.querySelectorAll('.scene')],base=scenes.map(s=>+s.dataset.dur),durs=[],seq=[],starts=[];let acc=0;
+  // Länger als 30 s (D.len, z. B. 90): Szenenfolge wiederholen, letzte Szene füllt den Rest
+  const LEN=D.len||base.reduce((a,b)=>a+b,0);for(let k=0;acc<LEN-0.01;k++){const i=k%base.length,d=Math.min(base[i],LEN-acc);seq.push(i);durs.push(d);starts.push(acc);acc+=d}const TOTAL=acc;
   // Effekt-Leinwand (deterministisch über t)
   const cv=document.getElementById('fx'),cx=cv.getContext('2d'),W=540,H=960;
   let seed=D.id;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
@@ -155,7 +157,7 @@ canvas#fx{position:absolute;inset:0;width:1080px;height:1920px;mix-blend-mode:sc
   let t=0,cur=-1,last=performance.now();
   function show(i){if(i===cur)return;cur=i;scenes.forEach(s=>s.classList.remove('on'));void st.offsetWidth;scenes[i].classList.add('on')}
   function frame(now){const dt=(now-last)/1000;last=now;t+=dt;if(t>=TOTAL)t=TOTAL-0.001;
-    let i=0;for(let k=0;k<starts.length;k++)if(t>=starts[k])i=k;show(i);
+    let i=0;for(let k=0;k<starts.length;k++)if(t>=starts[k])i=k;show(seq[i]);
     const fi=Math.min(D.env.length-1,Math.floor(t*30)),l=D.env[fi]||0;st.style.setProperty('--lvl',l.toFixed(3));
     bars.forEach((b,k)=>{const e=D.env[Math.max(0,fi-k)]||0;const shape=0.55+0.45*Math.sin(k*1.7+fi*0.21);b.style.height=(6+e*shape*110)+'px'});
     document.getElementById('bar').style.width=(t/TOTAL*100)+'%';fx(t,l);requestAnimationFrame(frame)}

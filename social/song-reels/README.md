@@ -24,6 +24,14 @@ Braucht Python 3 mit numpy, ffmpeg, Node und Playwright (wie `media/motion/rende
     python3 social/song-reels/prep.py          # alle Songs; oder nur bestimmte: prep.py 5337 5111
     python3 social/song-reels/build.py         # rendert alle vorbereiteten Songs, ca. 5 Min. pro Reel
 
+**Längere Reels / ab Songanfang (seit 17.11.2026):** Länge und Startpunkt über Umgebungsvariablen, die Szenenfolge
+(Cover → Plattenteller → QR) wiederholt sich dann bis zum Ende, der Ton blendet am Schluss aus:
+
+    REEL_LEN=90 REEL_START=0 python3 social/song-reels/prep.py 5338   # 1:30 von Anfang an
+    python3 social/song-reels/build.py 5338                           # → reel_<titel>_<id>_90s.mp4
+
+Ohne `REEL_START` endet das Reel wie bisher mit dem echten Songende.
+
 `prep.py` holt Songliste, MP3 und Cover von dj-kolja-one.de (`/wp-json/kjm/v1/songs`) nach `arbeit/`.
 Ergebnis: `social/song-reels/arbeit/out/reel_<titel>_<id>.mp4`. Der Ordner `arbeit/` ist nicht im Repo.
 Mit `build.py --html-only <id>` entsteht nur die Vorschau-Seite `arbeit/pages/<id>.html` zum Ansehen im Browser.
