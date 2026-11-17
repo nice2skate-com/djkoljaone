@@ -226,7 +226,7 @@
 				var fest = A.pos.filter(function (p) { return !p.o; }), s = summen(), xS = xE - 30;
 				function zeileS(l, v, w, x) { f(w, 9.5, w ? C.text : C.grau); var t = d.splitTextToSize(l, xG - 30 - (x || xS)); d.text(t, x || xS, y); d.text(v, xG - 2, y, { align: 'right' }); y += 5.4 * t.length; }
 				function box(l, v) {
-					platz(16);
+					platz(16); y += 2.5; // Abstand zu Zwischensumme/Rabatt (seit 1.85.3)
 					d.setFillColor.apply(d, C.dunkel); d.rect(xE - 33, y - 5, xG - xE + 33, 9, 'F');
 					f(1, 10.5, C.gold); d.text(l, xE - 30, y + 0.9); f(1, 11.5, C.weiss); d.text(eur(v), xG - 2, y + 0.9, { align: 'right' });
 					y += 9;
@@ -242,11 +242,11 @@
 				} else {
 					fest.forEach(function (p, i) { zeile(p, i + 1); });
 					y += 1; platz(30);
-					if (s.rabatt) { zeileS('Zwischensumme', eur(s.zw)); zeileS(A.rabatt_txt ? 'Rabatt (' + A.rabatt_txt + ')' : 'Rabatt', '− ' + eur(s.rabatt)); }
+					if (s.rabatt) { zeileS('Zwischensumme', eur(s.zw)); zeileS(A.rabatt_txt ? 'Rabatt (' + A.rabatt_txt + ')' : 'Rabatt', '– ' + eur(s.rabatt)); }
 					if (A.ust === 'netto') { zeileS('Summe netto', eur(s.ges)); zeileS('zzgl. 19 % MwSt.', eur(Math.round((RE.gesamt - s.ges) * 100) / 100)); }
 					if (RE.typ === 'rest' && RE.abzuege && RE.abzuege.length) {
 						zeileS('Gesamtbetrag der Leistungen', eur(RE.gesamt), 1);
-						RE.abzuege.forEach(function (a) { zeileS('abzüglich Anzahlung (Rechnung ' + a.nr + ' vom ' + datum(a.datum) + ')', '− ' + eur(a.betrag), 0, L + 60); });
+						RE.abzuege.forEach(function (a) { zeileS('abzüglich Anzahlung (Rechnung ' + a.nr + ' vom ' + datum(a.datum) + ')', '– ' + eur(a.betrag), 0, L + 60); });
 						y += 1; box('Restbetrag', RE.betrag);
 					} else box('Rechnungsbetrag', RE.betrag);
 				}
@@ -359,7 +359,7 @@
 			y += 1;
 			platz(30);
 			function sumZ(l, v, w) { f(w, 9.5, w ? C.text : C.grau); d.text(l, xE - 30, y); d.text(v, xG - 2, y, { align: 'right' }); y += 5.4; }
-			if (s.rabatt) { sumZ('Zwischensumme', eur(s.zw)); sumZ(A.rabatt_txt ? 'Rabatt (' + A.rabatt_txt + ')' : 'Rabatt', '− ' + eur(s.rabatt)); }
+			if (s.rabatt) { sumZ('Zwischensumme', eur(s.zw)); sumZ(A.rabatt_txt ? 'Rabatt (' + A.rabatt_txt + ')' : 'Rabatt', '– ' + eur(s.rabatt)); }
 			/* Umsatzsteuer (seit 1.75.0): leer = wie bisher § 19 UStG; „brutto“ = Preise inkl. 19 % MwSt.; „netto“ = Preise netto, MwSt. wird aufgeschlagen. */
 			var ust = A.ust === 'brutto' || A.ust === 'netto' ? A.ust : '', brutto = s.ges, mwst = 0;
 			if (ust === 'netto') {
@@ -368,6 +368,7 @@
 				sumZ('Summe netto', eur(s.ges)); sumZ('zzgl. 19 % MwSt.', eur(mwst));
 			}
 			if (ust === 'brutto') mwst = Math.round((s.ges - s.ges / 1.19) * 100) / 100;
+			y += 2.5; // Abstand zu Zwischensumme/Rabatt (seit 1.85.3)
 			d.setFillColor.apply(d, C.dunkel); d.rect(xE - 33, y - 5, xG - xE + 33, 9, 'F');
 			f(1, 10.5, C.gold); d.text(AB ? 'Auftragssumme' : 'Gesamtbetrag', xE - 30, y + 0.9); f(1, 11.5, C.weiss); d.text(eur(brutto), xG - 2, y + 0.9, { align: 'right' });
 			y += 9;
