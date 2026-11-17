@@ -15,7 +15,7 @@ def px(v,u="px"): return {"unit":u,"size":v,"sizes":[]}
 def box(t,r,b,l,u="px"): return {"unit":u,"top":str(t),"right":str(r),"bottom":str(b),"left":str(l),"isLinked":False}
 def gap(v): return {"unit":"px","size":v,"column":str(v),"row":str(v),"isLinked":True}
 def lnk(u):
-    ext="on" if any(d in u for d in ("instagram.com","facebook.com","wa.me","open.spotify.com")) else ""
+    ext="on" if any(d in u for d in ("instagram.com","facebook.com","wa.me","open.spotify.com","/bewerten")) else ""
     return {"url":u,"is_external":ext,"nofollow":""}
 
 def typo(p,size,weight="400",m=None,lh=None,ls=None,tr=None):
@@ -272,9 +272,12 @@ def review(key,w=31):
     foto=IMG(240,200,name=f"bewertung_{key}.jpg",cls="kjo-rv")
     return con([foto,H("★★★★★","p",17,GOLD,"left","400",ls=3),T(f"„{q}“",OFF,"left",17,typography_font_style="italic"),
                 H(who,"p",12,MUTED,"left","500",ls=1.5,tr="uppercase")],bg=B2,pad=box(34,30,34,30),g=14,**col(w,48,100))
-def reviews(keys,title="Was Gastgeber sagen",bg=B1):
+def reviews(keys,title="Was Gastgeber sagen",bg=B1,du=False):
     w=23 if len(keys)>3 else 31
-    return section(head("Bewertungen",title)+[con([review(k,w) for k in keys],"row",g=24,**ROW,flex_justify_content="center")],bg=bg)
+    # Link zur Google-Bewertung unter den Sternen (seit 1.85.8), /bewerten leitet weiter und zählt die Klicks
+    bew=H("Schon mit mir gefeiert? "+("Bewertet mich auf Google →" if du else "Bewerten Sie mich auf Google →"),
+          "p",13,GOLD,"center","500",link="https://dj-kolja-one.de/bewerten",ls=1.5,tr="uppercase")
+    return section(head("Bewertungen",title)+[con([review(k,w) for k in keys],"row",g=24,**ROW,flex_justify_content="center"),SPACER(6),bew],bg=bg)
 
 def accordion(items):
     s={"tabs":[{"tab_title":q,"tab_content":f"<p>{a}</p>","_id":uid()} for q,a in items],
