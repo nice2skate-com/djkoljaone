@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.85.4: Rechnungen: neuer Schlusstext mit Bitte um Weiterempfehlung und Google-Bewertung (Link anklickbar), Gruß „Viele Grüße, Kolja Tönges · DJ KOLJA ONE“.
 Seit 1.85.3: PDFs (Angebot, Auftragsbestätigung, Rechnung): Rabatt- und Abzugsbeträge rechtsbündig (Minuszeichen fehlte in der Schrift und verschob den Betrag), mehr Abstand zwischen Rabatt und dem schwarzen Summenbalken.
 Seit 1.85.2: Rechnungen: Knopf „Anschrift übernehmen“, wenn die Anschrift im Angebot nachträglich ergänzt oder korrigiert wurde (Nummer und Beträge bleiben, altes PDF bleibt erhalten, Verlauf hält die alte Anschrift fest).
 Seit 1.85.1: Telegram: Auftragsbestätigung abfragen (GET /auto/ab/{id}) für den „Senden“-Knopf; /auto/ab liefert Summe und Name.
