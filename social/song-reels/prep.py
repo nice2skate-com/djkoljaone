@@ -9,7 +9,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SITE = 'https://dj-kolja-one.de'
 WORK = os.path.join(HERE, 'arbeit')
 SONGS = os.path.join(WORK, 'songs')
-LEN, FPS, SR = 30.0, 30, 22050
+LEN, FPS, SR = float(os.environ.get('REEL_LEN', '30')), 30, 22050  # Länge in s (z. B. REEL_LEN=90)
+START = os.environ.get('REEL_START', '')  # leer = bis zum Songende; Zahl = ab dieser Sekunde (z. B. REEL_START=0 = von Anfang an)
 
 # Zeile im Video – Ansprache seit 13.11.2026 in Sie-Form (neue Zeilen ebenso)
 TAG = {
@@ -65,18 +66,18 @@ def main(ids=None):
             urllib.request.urlretrieve(SITE + s['audio'], mp3)
         x = pcm(mp3)
         end = song_end(x)
-        st = max(0.0, round(end - LEN, 2))
+        st = max(0.0, round(end - LEN, 2)) if START == '' else max(0.0, float(START))
         cov = os.path.join(SONGS, f'{i}_cover.webp')
         if s.get('cover') and not os.path.exists(cov):
             urllib.request.urlretrieve(SITE + s['cover'], cov)
         has_cover = os.path.exists(cov)
         d = dict(id=i, titel=s['titel'], genre=s['genre'], bpm=s['bpm'], key=s['key'], album=s.get('album') or '',
                  tag=TAG.get(i, ''), fx=FX.get(s['genre'], 'bokeh'), start=st, env=envelope(x, st),
-                 accent='#B29D75', glow='#E0B36A', cover=has_cover,
+                 accent='#B29D75', glow='#E0B36A', cover=has_cover, len=LEN,
                  url=f'https://dj-kolja-one.de/meine-musik/?song={i}&utm_source=instagram&utm_medium=reel&utm_campaign=song-{i}')
         json.dump(d, open(os.path.join(WORK, 'data', f'{i}.json'), 'w'), ensure_ascii=False)
         subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', str(st), '-t', str(LEN), '-i', mp3, '-vn',
-                        '-af', 'afade=t=in:d=0.8',
+                        '-af', 'afade=t=in:d=0.8' + ('' if START == '' else f',afade=t=out:st={LEN - 2.5:.2f}:d=2.5'),  # mitten im Song: ausblenden
                         '-c:a', 'aac', '-b:a', '192k', os.path.join(WORK, 'clips', f'{i}.m4a')], check=True)
         print(i, s['titel'], 'ab', st, 's', d['accent'], d['fx'])
 

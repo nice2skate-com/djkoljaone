@@ -43,9 +43,10 @@ def main(args):
             continue
         fr = os.path.join(WORK, 'frames_%s' % d['id'])
         shutil.rmtree(fr, ignore_errors=True)
-        subprocess.run(['node', os.path.join(WORK, 'pages', 'render.js'), 'v', '30', '30', fr, name], check=True,
+        ln = str(int(d.get('len', 30)))
+        subprocess.run(['node', os.path.join(WORK, 'pages', 'render.js'), 'v', ln, '30', fr, name], check=True,
                        stdout=subprocess.DEVNULL)
-        out = os.path.join(WORK, 'out', f"reel_{slug(d['titel'])}_{d['id']}.mp4")
+        out = os.path.join(WORK, 'out', f"reel_{slug(d['titel'])}_{d['id']}" + ('' if ln == '30' else f'_{ln}s') + '.mp4')
         subprocess.run(['ffmpeg', '-v', 'error', '-y', '-framerate', '30', '-i', os.path.join(fr, '%05d.jpg'),
                         '-i', os.path.join(WORK, 'clips', f"{d['id']}.m4a"), '-map', '0:v', '-map', '1:a',
                         '-c:v', 'libx264', '-crf', '21', '-pix_fmt', 'yuv420p', '-c:a', 'copy', '-shortest',
