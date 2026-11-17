@@ -30,6 +30,10 @@ Braucht Python 3 mit numpy, ffmpeg, Node und Playwright (wie `media/motion/rende
     REEL_LEN=90 REEL_START=0 python3 social/song-reels/prep.py 5338   # 1:30 von Anfang an
     python3 social/song-reels/build.py 5338                           # → reel_<titel>_<id>_90s.mp4
 
+Ein-/Ausblenden: `REEL_FADE_IN` (Standard 0,8 s) und `REEL_FADE_OUT` (Standard 2,5 s), z. B. für „After the Storm“ ab 1:00:
+
+    REEL_LEN=90 REEL_START=60 REEL_FADE_IN=3 REEL_FADE_OUT=6 python3 social/song-reels/prep.py 5338
+
 Ohne `REEL_START` endet das Reel wie bisher mit dem echten Songende.
 
 `prep.py` holt Songliste, MP3 und Cover von dj-kolja-one.de (`/wp-json/kjm/v1/songs`) nach `arbeit/`.
