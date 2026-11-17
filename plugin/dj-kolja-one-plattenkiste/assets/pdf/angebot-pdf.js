@@ -213,10 +213,10 @@
 				d.splitTextToSize(String(txt || ''), W).forEach(function (z) {
 					platz(lh(size)); d.text(z, L, y);
 					// Internet-Adressen im Text anklickbar machen (seit 1.76.2), Satzzeichen am Ende gehören nicht zum Link
-					var re = /https?:\/\/[^\s<>"]+/g, m;
+					var re = /(?:https?:\/\/|dj-kolja-one\.de\/)[^\s<>"]+/g, m; // seit 1.85.6 auch Kurzlinks wie dj-kolja-one.de/bewerten
 					while ((m = re.exec(z))) {
 						var u = m[0].replace(/[.,;:!?)»“"]+$/, '');
-						d.link(L + d.getTextWidth(z.slice(0, m.index)), y - size * 0.3528, d.getTextWidth(u), size * 0.3528 * 1.25, { url: u });
+						d.link(L + d.getTextWidth(z.slice(0, m.index)), y - size * 0.3528, d.getTextWidth(u), size * 0.3528 * 1.25, { url: /^https?:/.test(u) ? u : 'https://' + u });
 					}
 					y += lh(size);
 				});

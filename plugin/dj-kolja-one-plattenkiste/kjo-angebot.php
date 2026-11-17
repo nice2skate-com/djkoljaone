@@ -52,7 +52,7 @@ function kjo_ang_opts() {
 		're_text_anzahlung_ihr' => 'vielen Dank für eure Buchung. Wie vereinbart stelle ich euch die Anzahlung für eure Hochzeit in Rechnung:',
 		're_text_rest_ihr'     => 'vielen Dank für euer Vertrauen und die schöne Zusammenarbeit. Für meine Leistungen stelle ich euch in Rechnung – die bereits gezahlte Anzahlung ist abgezogen:',
 		're_text_storno_ihr'   => 'hiermit storniere ich die unten genannte Rechnung. Sie ist damit aufgehoben.',
-		're_schluss_ihr'       => 'Vielen Dank für euer Vertrauen. Über eure Weiterempfehlung und eine positive Google-Bewertung (https://maps.app.goo.gl/9Zc3buwmTYqSHnbe9) freue ich mich sehr!',
+		're_schluss_ihr'       => 'Vielen Dank für euer Vertrauen. Über eure Weiterempfehlung und eine positive Google-Bewertung unter dj-kolja-one.de/bewerten freue ich mich sehr!',
 		're_mail_betreff_ihr'  => 'Eure {art} {nr} von DJ KOLJA ONE',
 		're_mail_text_ihr'     => "Hallo {name},\n\nim Anhang findet ihr eure {art} {nr} über {betrag}.\n\n{zahlung}\n\nBei Fragen erreicht ihr mich jederzeit telefonisch oder per WhatsApp.\n\nViele Grüße\nKolja – DJ KOLJA ONE\n+49 172 7273707\nhttps://dj-kolja-one.de",
 		're_wa_text_ihr'       => "Hallo {name}, hier ist eure {art} {nr} über {betrag} als PDF: {link}\n{zahlung}\nViele Grüße, Kolja",
@@ -76,7 +76,7 @@ function kjo_ang_opts() {
 		're_text_anzahlung' => 'vielen Dank für Ihre Buchung. Wie vereinbart stelle ich Ihnen die Anzahlung für Ihre Veranstaltung in Rechnung:',
 		're_text_rest'      => 'vielen Dank für Ihren Auftrag und die gute Zusammenarbeit. Für meine Leistungen stelle ich Ihnen in Rechnung – die bereits gezahlte Anzahlung ist abgezogen:',
 		're_text_storno'    => 'hiermit storniere ich die unten genannte Rechnung. Sie ist damit aufgehoben.',
-		're_schluss'        => 'Vielen Dank für Ihr Vertrauen. Über Ihre Weiterempfehlung und eine positive Google-Bewertung (https://maps.app.goo.gl/9Zc3buwmTYqSHnbe9) freue ich mich sehr!',
+		're_schluss'        => 'Vielen Dank für Ihr Vertrauen. Über Ihre Weiterempfehlung und eine positive Google-Bewertung unter dj-kolja-one.de/bewerten freue ich mich sehr!',
 		're_mail_betreff'   => 'Ihre {art} {nr} von DJ KOLJA ONE',
 		're_mail_text'      => "Hallo {name},\n\nim Anhang finden Sie Ihre {art} {nr} über {betrag}.\n\n{zahlung}\n\nBei Fragen erreichen Sie mich jederzeit telefonisch oder per WhatsApp.\n\nViele Grüße\nKolja – DJ KOLJA ONE\n+49 172 7273707\nhttps://dj-kolja-one.de",
 		're_wa_text'        => "Hallo {name}, hier ist Ihre {art} {nr} über {betrag} als PDF: {link}\n{zahlung}\nViele Grüße, Kolja",
@@ -128,18 +128,24 @@ add_action(
 add_action(
 	'admin_init',
 	function () {
-		if ( '1' === get_option( 'kjo_re_schluss_v2' ) || ! current_user_can( 'manage_options' ) ) {
+		if ( '1' === get_option( 'kjo_re_schluss_v3' ) || ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 		$o = get_option( 'kjo_angebot', array() );
 		if ( is_array( $o ) ) {
-			$alt = array(
-				're_schluss'     => 'Vielen Dank für Ihr Vertrauen. Bei Fragen erreichen Sie mich jederzeit telefonisch oder per WhatsApp.',
-				're_schluss_ihr' => 'Vielen Dank für euer Vertrauen. Bei Fragen erreicht ihr mich jederzeit telefonisch oder per WhatsApp.',
+			$alt = array( // alte Standardtexte: bis 1.85.3 und 1.85.4 (langer Google-Link; seit 1.85.6 Kurzlink dj-kolja-one.de/bewerten)
+				're_schluss'     => array(
+					'Vielen Dank für Ihr Vertrauen. Bei Fragen erreichen Sie mich jederzeit telefonisch oder per WhatsApp.',
+					'Vielen Dank für Ihr Vertrauen. Über Ihre Weiterempfehlung und eine positive Google-Bewertung (https://maps.app.goo.gl/9Zc3buwmTYqSHnbe9) freue ich mich sehr!',
+				),
+				're_schluss_ihr' => array(
+					'Vielen Dank für euer Vertrauen. Bei Fragen erreicht ihr mich jederzeit telefonisch oder per WhatsApp.',
+					'Vielen Dank für euer Vertrauen. Über eure Weiterempfehlung und eine positive Google-Bewertung (https://maps.app.goo.gl/9Zc3buwmTYqSHnbe9) freue ich mich sehr!',
+				),
 			);
 			$neu = $o;
 			foreach ( $alt as $k => $v ) {
-				if ( isset( $neu[ $k ] ) && trim( str_replace( "\r\n", "\n", (string) $neu[ $k ] ) ) === $v ) {
+				if ( isset( $neu[ $k ] ) && in_array( trim( str_replace( "\r\n", "\n", (string) $neu[ $k ] ) ), $v, true ) ) {
 					unset( $neu[ $k ] ); // fehlender Schlüssel = neuer Standard
 				}
 			}
@@ -147,7 +153,7 @@ add_action(
 				update_option( 'kjo_angebot', $neu, false );
 			}
 		}
-		update_option( 'kjo_re_schluss_v2', '1', true );
+		update_option( 'kjo_re_schluss_v3', '1', true );
 	}
 );
 /** Vorlage „Titel | Einheit | Preis | optional“ → Positionen. Leerer Preis bleibt leer. */
@@ -546,7 +552,7 @@ function kjo_ang_options_page() {
 		$f( 're_text_anzahlung', 'Text Anzahlungsrechnung', '', 2 );
 		$f( 're_text_rest', 'Text Schlussrechnung', '', 2 );
 		$f( 're_text_storno', 'Text Stornorechnung', '', 2 );
-		$f( 're_schluss', 'Schlusstext Rechnung', '', 2 );
+		$f( 're_schluss', 'Schlusstext Rechnung', 'Kurzlink dj-kolja-one.de/bewerten führt zur Google-Bewertung (bisher ' . (int) get_option( 'kjo_bewerten_klicks', 0 ) . ' Aufrufe).', 2 );
 		$f( 're_mail_betreff', 'E-Mail-Betreff Rechnung', 'Platzhalter: {name}, {nr}, {art} (Rechnung/Anzahlungsrechnung …), {betrag}' );
 		$f( 're_mail_text', 'E-Mail-Text Rechnung', 'Platzhalter: {name}, {nr}, {art}, {betrag}, {faellig}, {link}, {zahlung} (= „Bitte überweisen Sie … bis zum …“ bzw. „bereits bezahlt“). Das PDF hängt an.', 9 );
 		$f( 're_wa_text', 'WhatsApp-Text Rechnung', 'Platzhalter wie bei der E-Mail.', 3 );
