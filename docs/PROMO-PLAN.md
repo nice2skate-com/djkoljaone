@@ -126,7 +126,7 @@ Hängt an einen Link schon `?…` dran (z. B. `?song=123`), dann mit `&` weiterm
 
 ### Bewertungen
 
-- Nach jeder Feier (1–3 Tage später) die WhatsApp-Vorlage mit dem Bewertungslink schicken: `https://g.page/r/CRTQHjKq3Je-EBM/review`
+- Nach jeder Feier (1–3 Tage später) die WhatsApp-Vorlage mit dem Bewertungslink schicken: `https://dj-kolja-one.de/bewerten` (leitet auf `https://g.page/r/CRTQHjKq3Je-ECE/review`)
 - QR-Code aus dem Google-Profil als Karte am DJ-Pult / auf der Rechnung.
 - Ziel: 5 echte Bewertungen – laut Google bis zu doppelt so viele Kunden.
 
