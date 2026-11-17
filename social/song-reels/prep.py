@@ -10,6 +10,8 @@ SITE = 'https://dj-kolja-one.de'
 WORK = os.path.join(HERE, 'arbeit')
 SONGS = os.path.join(WORK, 'songs')
 LEN, FPS, SR = float(os.environ.get('REEL_LEN', '30')), 30, 22050  # Länge in s (z. B. REEL_LEN=90)
+FADE_IN = float(os.environ.get('REEL_FADE_IN', '0.8'))    # Einblenden in s
+FADE_OUT = float(os.environ.get('REEL_FADE_OUT', '2.5'))  # Ausblenden in s (nur wenn REEL_START gesetzt)
 START = os.environ.get('REEL_START', '')  # leer = bis zum Songende; Zahl = ab dieser Sekunde (z. B. REEL_START=0 = von Anfang an)
 
 # Zeile im Video – Ansprache seit 13.11.2026 in Sie-Form (neue Zeilen ebenso)
@@ -77,7 +79,7 @@ def main(ids=None):
                  url=f'https://dj-kolja-one.de/meine-musik/?song={i}&utm_source=instagram&utm_medium=reel&utm_campaign=song-{i}')
         json.dump(d, open(os.path.join(WORK, 'data', f'{i}.json'), 'w'), ensure_ascii=False)
         subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', str(st), '-t', str(LEN), '-i', mp3, '-vn',
-                        '-af', 'afade=t=in:d=0.8' + ('' if START == '' else f',afade=t=out:st={LEN - 2.5:.2f}:d=2.5'),  # mitten im Song: ausblenden
+                        '-af', f'afade=t=in:d={FADE_IN}' + ('' if START == '' else f',afade=t=out:st={LEN - FADE_OUT:.2f}:d={FADE_OUT}'),  # mitten im Song: ausblenden
                         '-c:a', 'aac', '-b:a', '192k', os.path.join(WORK, 'clips', f'{i}.m4a')], check=True)
         print(i, s['titel'], 'ab', st, 's', d['accent'], d['fx'])
 

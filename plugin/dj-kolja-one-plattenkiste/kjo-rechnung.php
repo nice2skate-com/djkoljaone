@@ -572,6 +572,29 @@ add_action(
 		wp_send_json_success( array( 're' => $re, 'data' => kjo_re_pdf_daten( $re ) ) );
 	}
 );
+/* Schlusstext übernehmen (seit 1.85.5): aktuellen Schlusstext aus den Einstellungen (Sie- bzw. ihr-Form) in die Rechnung setzen. */
+function kjo_re_schluss_aktuell( $r ) {
+	$o = kjo_ang_opts();
+	return (string) $o[ 're_schluss' . ( isset( $r['a']['sie'] ) && false === $r['a']['sie'] ? '_ihr' : '' ) ];
+}
+add_action(
+	'wp_ajax_kjo_re_schluss',
+	function () {
+		list( $ang, $re ) = kjo_re_ajax_check();
+		$r = kjo_re_get( $re );
+		if ( 'storno' === $r['typ'] ) {
+			wp_send_json_error( array( 'message' => 'Stornorechnungen haben keinen Schlusstext.' ), 400 );
+		}
+		$neu = kjo_re_schluss_aktuell( $r );
+		if ( (string) ( $r['schluss'] ?? '' ) === $neu ) {
+			wp_send_json_error( array( 'message' => 'Die Rechnung hat bereits den aktuellen Schlusstext.' ), 400 );
+		}
+		$r['schluss'] = $neu;
+		update_post_meta( $re, '_kjo_re', $r );
+		kjo_re_log( $re, 'Schlusstext aus den Einstellungen übernommen' );
+		wp_send_json_success( array( 're' => $re, 'data' => kjo_re_pdf_daten( $re ) ) );
+	}
+);
 add_action(
 	'wp_ajax_kjo_re_storno',
 	function () {
@@ -643,6 +666,9 @@ function kjo_re_box( $post ) {
 				}
 				if ( $diff ) {
 					echo '<button type="button" class="button button-small" data-re-a="anschrift" title="Name, Firma, Straße und Ort aus dem Angebot übernehmen – Nummer und Beträge bleiben">Anschrift übernehmen</button> ';
+				}
+				if ( (string) ( $r['schluss'] ?? '' ) !== kjo_re_schluss_aktuell( $r ) ) {
+					echo '<button type="button" class="button button-small" data-re-a="schluss" title="Schlusstext aus Angebote → Einstellungen → Rechnungen übernehmen – Nummer und Beträge bleiben">Schlusstext übernehmen</button> ';
 				}
 			}
 			if ( in_array( $st, array( 'offen', 'bezahlt' ), true ) ) {
