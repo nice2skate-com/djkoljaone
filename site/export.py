@@ -74,7 +74,7 @@ B="DJ KOLJA ONE"
 SEO={
 "start":(f"DJ Memmingen, Allgäu & Schwaben | {B}","Mobiler DJ und Moderator aus Fellheim: Hochzeiten, Geburtstage, Firmenfeiern und Events in Memmingen, Allgäu, Schwaben und Ulm. Wunschtermin prüfen."),
 "hochzeits-dj":(f"Hochzeits-DJ Memmingen, Allgäu & Schwaben | {B}","Hochzeits-DJ mit Moderation vom Sektempfang bis zum letzten Song. Persönliche Beratung, volle Tanzfläche – in Memmingen, Ulm, Allgäu und Schwaben."),
-"geburtstags-dj":(f"Geburtstags-DJ Memmingen, Allgäu & Schwaben | {B}","Geburtstags-DJ für runde Geburtstage und Privatfeiern: Musik nach euren Wünschen, auf Wunsch mit Moderation. Region Memmingen, Ulm, Allgäu."),
+"geburtstags-dj":(f"Geburtstags-DJ Memmingen, Allgäu & Schwaben | {B}","Geburtstags-DJ für runde Geburtstage und Privatfeiern: Musik nach Ihren Wünschen, auf Wunsch mit Moderation. Region Memmingen, Ulm, Allgäu."),
 "firmenfeier-dj":(f"Firmenfeier-DJ Memmingen, Allgäu & Schwaben | {B}","DJ und Moderation für Firmenfeiern, Betriebsfeste und Jubiläen: stilsicher, zuverlässig und mit passender Technik. Region Memmingen, Ulm, Allgäu."),
 "event-dj":(f"Event-DJ Memmingen, Allgäu & Schwaben | {B}","DJ für Stadtfeste, Vereinsfeiern, Open Airs und Silvester: starke Technik, Moderation und Stimmung im Allgäu, in Oberschwaben und um Ulm."),
 "meine-musik":(f"Meine Musik – leg selbst auf am DJ-Pult | {B}","Such dir Tracks aus der Plattenkiste, leg sie aufs Deck und hör rein, wie DJ KOLJA ONE klingt – direkt im Browser, mit Mixer und Waveform."),
@@ -87,7 +87,7 @@ SEO={
 }
 for _o,_s in ORTE:
     _l=LANG.get(_o,_o)
-    SEO[_s]=(f"DJ {_l} für Hochzeit & Event | {B}",f"Euer DJ für {_l} und Umgebung: Hochzeit, Geburtstag, Firmenfeier oder Event mit Musik und Moderation. Wunschtermin prüfen.")
+    SEO[_s]=(f"DJ {_l} für Hochzeit & Event | {B}",f"Ihr DJ für {_l} und Umgebung: Hochzeit, Geburtstag, Firmenfeier oder Event mit Musik und Moderation. Wunschtermin prüfen.")
 for _k,(_t,_d) in SEO.items():
     if _k in sch["pages"]: sch["pages"][_k]["title"]=_t; sch["pages"][_k]["desc"]=_d
 open("./plugin/dj-kolja-one-plattenkiste/schema.json","w",encoding="utf-8").write(json.dumps(sch,ensure_ascii=False,indent=1))

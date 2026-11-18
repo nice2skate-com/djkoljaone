@@ -29,7 +29,13 @@
 - [x] Google Unternehmensprofil anlegen: Name nur „DJ KOLJA ONE“, Kategorie DJ-Service, ohne Ladengeschäft (Adresse verborgen), Einzugsgebiet = Ortsseiten, Website-Link mit `?utm_source=google&utm_medium=organic&utm_campaign=gbp`, Bestätigung (Video/Post/Telefon).
 - [x] Profil-Beschreibung (750 Zeichen) und Leistungstexte – Beschreibung eingetragen; Leistungen und Eröffnungsdatum (echtes DJ-Startjahr statt 2021) noch prüfen.
 - [x] Profil-Link in Webseite und Schema (`sameAs`) eintragen (1.26.3).
-- [ ] 3–5 echte Google-Bewertungen sammeln (WhatsApp-Vorlage von Claude); danach Bewertungen auf der Seite durch echte ersetzen.
+- [ ] 3–5 echte Google-Bewertungen sammeln (WhatsApp-Vorlage von Claude, Link `dj-kolja-one.de/bewerten`); danach Bewertungen auf der Seite durch echte ersetzen.
+
+**Webseite verbessern (Beratung 18.11.2026, gemerkt)**
+- [ ] **Platzhalter-Bewertungen:** Die 7 Zitate in `site/lib.py` (REVIEWS, „Brautpaar · Hochzeit im Allgäu“ …) sind keine echten Kundenstimmen (UWG-Risiko). Sobald echte Google-Bewertungen da sind: Wortlaut an Claude, Zitate tauschen; bis dahin Option „Abschnitt ausblenden, nur Bewerten-Link lassen“.
+- [ ] **Ortsseiten mit eigenem Inhalt:** je Ort echte Locations, an denen Kolja aufgelegt hat, ein Foto von dort, eine echte Bewertung aus der Gegend. Kolja liefert die Fakten, Claude schreibt (nichts erfinden).
+- [ ] **Google-Unternehmensprofil pflegen:** 10–20 echte Event- und Technikfotos, alle ~2 Wochen ein Beitrag (z. B. neues Reel), jede Bewertung beantworten, Leistungen vollständig (Hochzeit, Geburtstag, Firmenfeier, Technikverleih).
+- [ ] **Sterne in Google (Schema):** erst wenn echte Bewertungen auf der Seite stehen, `Review`/`AggregateRating` ins Schema; mit Platzhaltern nicht erlaubt.
 - [x] Suchkampagne „Weihnachtsfeier DJ 2026“ live seit 11.10.2026 (Plan: docs/ads-weihnachtsfeier.md); alte PMax-Kampagne pausiert.
 - [ ] Werbetreibenden-Überprüfung abschließen (D&B / Zugehörigkeit, Frist 09.11.2026).
 - [ ] Ende Okt.: Impressionen zu niedrig? → Keywords "dj memmingen", "dj ulm", "dj kempten", "dj allgäu" ergänzen.

@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.85.9: Schnellere Seiten: fertige Seiten aus dem Cache kommen sofort beim Laden des Plugins (ohne Theme/Elementor); Zähler, Protokolle und Nummernkreise leeren den Cache nicht mehr. Google-Beschreibungen der Ortsseiten und Geburtstag in Sie-Form.
 Seit 1.85.8: Unter den Bewertungen auf allen Seiten steht ein Link „Schon mit mir gefeiert? Bewerten Sie mich auf Google →“ (Hochzeit: „Bewertet mich“), führt über dj-kolja-one.de/bewerten.
 Seit 1.85.7: dj-kolja-one.de/bewerten öffnet jetzt direkt den Google-Bewertungsdialog (g.page-Link).
 Seit 1.85.6: Kurzlink dj-kolja-one.de/bewerten → Google-Bewertung (Aufrufe werden gezählt); Rechnungs-Schlusstext nutzt den Kurzlink (im PDF anklickbar); QR-Code und Karte unter media/bewerten/.

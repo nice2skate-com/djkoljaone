@@ -28,6 +28,42 @@ function kjo_cache_datei() {
 	return kjo_cache_dir() . md5( KJO_VERSION . '|' . $http . '://' . $host . $pfad ) . '.html';
 }
 
+/**
+ * Schnellweg (seit 1.85.9): Liegt für diese Adresse schon eine fertige Seite im Cache, wird sie sofort beim Laden
+ * dieses Plugins ausgeliefert – ohne Theme, Elementor, Site Kit und die übrigen Plugins.
+ * Eine Datei entsteht nur für Seiten, die kjo_cache_erlaubt() geprüft hat; hier zählen deshalb nur die Bedingungen,
+ * die ohne WordPress-Abfrage feststehen (GET, keine Parameter, nicht angemeldet, keine System-Adresse).
+ */
+function kjo_cache_schnell() {
+	if ( ! apply_filters( 'kjo_seiten_cache', true ) || is_admin() || wp_doing_ajax() || wp_doing_cron() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
+		return;
+	}
+	$m = isset( $_SERVER['REQUEST_METHOD'] ) ? strtoupper( (string) $_SERVER['REQUEST_METHOD'] ) : 'GET'; // phpcs:ignore
+	if ( ! in_array( $m, array( 'GET', 'HEAD' ), true ) || ! empty( $_SERVER['QUERY_STRING'] ) ) {
+		return;
+	}
+	$pfad = (string) wp_parse_url( (string) ( $_SERVER['REQUEST_URI'] ?? '/' ), PHP_URL_PATH ); // phpcs:ignore
+	if ( preg_match( '#^/(wp-admin|wp-json|wp-login|wp-cron|xmlrpc|wp-content|wp-includes)#i', $pfad ) ) {
+		return;
+	}
+	foreach ( array_keys( $_COOKIE ) as $c ) { // phpcs:ignore
+		if ( preg_match( '/^(wordpress_logged_in_|wp-postpass_|comment_author_)/', $c ) ) {
+			return;
+		}
+	}
+	$f = kjo_cache_datei();
+	if ( ! is_readable( $f ) || ( time() - (int) filemtime( $f ) ) >= KJO_CACHE_TTL ) {
+		return;
+	}
+	header( 'Content-Type: text/html; charset=UTF-8' );
+	header( 'X-KJO-Cache: HIT-SCHNELL' );
+	if ( 'HEAD' !== $m ) {
+		readfile( $f ); // phpcs:ignore
+	}
+	exit;
+}
+kjo_cache_schnell();
+
 /** Darf diese Anfrage aus dem Cache kommen bzw. in den Cache? */
 function kjo_cache_erlaubt() {
 	if ( ! apply_filters( 'kjo_seiten_cache', true ) || is_admin() || wp_doing_ajax() || wp_doing_cron() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
@@ -114,6 +150,11 @@ add_action(
 	'updated_option',
 	function ( $name ) {
 		if ( 0 === strpos( $name, '_transient' ) || 0 === strpos( $name, '_site_transient' ) || in_array( $name, array( 'cron', 'kjo_sw_abend', 'kjm_testdaten_ab' ), true ) ) {
+			return;
+		}
+		/* Zähler, Protokolle, Nummernkreise und Sperren ändern nichts an den Seiten (seit 1.85.9) – sonst leerte
+		   jeder Bewerten-Klick, jeder Instagram-Webhook und jeder Kalender-Abgleich den ganzen Cache. */
+		if ( preg_match( '/^kj[mo]_(.*_)?(log|letzte|seen|stat|statistik|klicks|nr|lock_\d+|problem|18uhr|update_last|kal_import|protect_sum|auto_key)$/', $name ) ) {
 			return;
 		}
 		if ( preg_match( '/^(blogname|blogdescription|site_icon|page_on_front|show_on_front|elementor_|cmplz|complianz|googlesitekit|kjo_|kjm_)/', $name ) ) {
