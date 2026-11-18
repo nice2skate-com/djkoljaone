@@ -1,9 +1,9 @@
 {
- "version": "1.85.9",
- "download_url": "dj-kolja-one-plattenkiste-1.85.9.zip",
- "sha256": "9331c20ae5f4b6800b774becd77378591e16526cd62e598c566e2c202102c526",
+ "version": "1.85.10",
+ "download_url": "dj-kolja-one-plattenkiste-1.85.10.zip",
+ "sha256": "f4cf1cb5c09982406b2178ee1d8709f6b232daa04f08c2deff548cfa464d6689",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Seiten-Cache schneller, Meta-Texte Sie-Form"
+ "changelog": "Facebook-Reel wartet auf Upload"
 }

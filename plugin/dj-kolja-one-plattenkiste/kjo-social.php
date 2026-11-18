@@ -463,7 +463,25 @@ add_action(
 		if ( is_wp_error( $up ) ) {
 			kjo_soc_fehler( $up, 'Facebook' );
 		}
-		$f = kjo_soc_api( $o['page_id'] . '/video_reels', array( 'upload_phase' => 'finish', 'video_id' => (string) $s['video_id'], 'video_state' => 'PUBLISHED', 'description' => $text ) );
+		/* Meta holt das Video über file_url im Hintergrund. Bei längeren Reels (z. B. 90 s, ~30 MB) ist es beim
+		   sofortigen „finish“ noch nicht da → Code 6000 „The video was not uploaded“. Deshalb warten (seit 1.85.10). */
+		@set_time_limit( 300 ); // phpcs:ignore
+		$bis = time() + 180;
+		do {
+			sleep( 4 );
+			$st = kjo_soc_api( (string) $s['video_id'], null, array( 'fields' => 'status' ) );
+			$ph = is_wp_error( $st ) ? array() : (array) ( $st['status']['uploading_phase'] ?? array() );
+			if ( ! empty( $ph['error'] ) ) {
+				kjo_soc_fehler( new WP_Error( 'kjo_soc', 'Meta konnte das Video nicht laden: ' . (string) ( $ph['error']['message'] ?? 'unbekannter Fehler' ) ), 'Facebook' );
+			}
+		} while ( 'complete' !== ( $ph['status'] ?? '' ) && time() < $bis );
+		for ( $i = 0; $i < 4; $i++ ) {
+			$f = kjo_soc_api( $o['page_id'] . '/video_reels', array( 'upload_phase' => 'finish', 'video_id' => (string) $s['video_id'], 'video_state' => 'PUBLISHED', 'description' => $text ) );
+			if ( ! is_wp_error( $f ) || false === strpos( $f->get_error_message(), 'Code 6000' ) ) {
+				break;
+			}
+			sleep( 10 );
+		}
 		if ( is_wp_error( $f ) ) {
 			kjo_soc_fehler( $f, 'Facebook' );
 		}
