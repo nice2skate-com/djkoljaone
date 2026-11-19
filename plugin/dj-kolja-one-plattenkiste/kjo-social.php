@@ -323,7 +323,7 @@ function kjo_soc_page() {
 (function(){
 var A=<?php echo wp_json_encode( admin_url( 'admin-ajax.php' ) ); ?>,N=<?php echo wp_json_encode( $nonce ); ?>,out=document.getElementById('kjo-soc-out');
 function post(action,data){var f=new FormData();f.append('action',action);f.append('nonce',N);Object.keys(data||{}).forEach(function(k){f.append(k,data[k])});
- return fetch(A,{method:'POST',body:f,credentials:'same-origin'}).then(function(r){return r.json()}).then(function(j){if(!j||!j.success)throw new Error((j&&j.data&&j.data.message)||'Unbekannter Fehler');return j.data})}
+ return fetch(A,{method:'POST',body:f,credentials:'same-origin'}).then(function(r){return r.text().then(function(t){try{return JSON.parse(t)}catch(e){throw new Error('Der Server hat abgebrochen (HTTP '+r.status+'). Bitte nochmal versuchen.')}})}).then(function(j){if(!j||!j.success)throw new Error((j&&j.data&&j.data.message)||'Unbekannter Fehler');return j.data})}
 function zeile(t,cls){var p=document.createElement('p');p.textContent=t;if(cls)p.style.color=cls;out.appendChild(p);return p}
 function link(t,u){var p=zeile(t+' ');var a=document.createElement('a');a.href=u;a.target='_blank';a.rel='noopener';a.textContent='ansehen';p.appendChild(a)}
 var sel=document.getElementById('kjo-soc-video'),ans=document.getElementById('kjo-soc-ansehen');function an(){ans.href=sel.value||'#'}if(sel){sel.onchange=an;an()}
@@ -351,6 +351,8 @@ document.getElementById('kjo-soc-mix').onclick=function(){var b=this,o=document.
 document.getElementById('kjo-soc-check').onclick=function(){var m=document.getElementById('kjo-soc-checkmsg');m.textContent='prüfe …';
  post('kjo_soc_pruefen').then(function(d){m.textContent='Verbunden: '+d.page+(d.ig?' · Instagram @'+d.ig:' · Instagram nicht verknüpft')}).catch(function(e){m.textContent=e.message})};
 function warte(ms){return new Promise(function(r){setTimeout(r,ms)})}
+function fbPoll(vid,n){return warte(5000).then(function(){return post('kjo_soc_fb_status',{vid:vid})}).then(function(d){if(d.fertig||n>=60)return d;return fbPoll(vid,n+1)})}
+function fbFertig(vid,txt,n){return post('kjo_soc_fb_fertig',{vid:vid,text:txt,letzter:n>=5?1:''}).then(function(d){if(!d.nochmal)return d;return warte(10000).then(function(){return fbFertig(vid,txt,n+1)})})}
 function igPoll(cid,n){return warte(5000).then(function(){return post('kjo_soc_ig_status',{cid:cid})}).then(function(d){
  if(d.fertig)return d; if(n>120)throw new Error('Instagram verarbeitet noch – bitte später in der App prüfen.'); return igPoll(cid,n+1)})}
 document.getElementById('kjo-soc-go').onclick=function(){
@@ -361,7 +363,7 @@ document.getElementById('kjo-soc-go').onclick=function(){
  b.disabled=true;out.innerHTML='';
  var kette=Promise.resolve();
  if(ig)kette=kette.then(function(){var p=zeile('Instagram: Video wird verarbeitet …');return post('kjo_soc_ig_start',{video_url:url,text:txt}).then(function(d){return igPoll(d.cid,0)}).then(function(d){p.remove();link('Instagram: veröffentlicht.',d.link)})});
- if(fb)kette=kette.then(function(){var p=zeile('Facebook: Video wird übertragen …');return post('kjo_soc_fb',{video_url:url,text:txt}).then(function(d){p.remove();link('Facebook: veröffentlicht (die Verarbeitung kann ein paar Minuten dauern).',d.link)})});
+ if(fb)kette=kette.then(function(){var p=zeile('Facebook: Video wird übertragen …');return post('kjo_soc_fb',{video_url:url,text:txt}).then(function(d){p.textContent='Facebook: Meta lädt das Video …';return fbPoll(d.vid,0).then(function(){p.textContent='Facebook: wird veröffentlicht …';return fbFertig(d.vid,txt,0)})}).then(function(d){p.remove();link('Facebook: veröffentlicht (die Verarbeitung kann ein paar Minuten dauern).',d.link)})});
  kette.catch(function(e){zeile(e.message,'#b32d2e')}).then(function(){b.disabled=false});
 };
 })();
@@ -448,44 +450,75 @@ add_action(
 		wp_send_json_success( array( 'fertig' => true, 'link' => $link ? $link : 'https://www.instagram.com/' . rawurlencode( $o['ig_name'] ) . '/' ) );
 	}
 );
+/* Facebook-Reel in drei kurzen Schritten (seit 1.85.11), damit keine Anfrage länger als ~1 Minute dauert
+   (Strato bricht lange PHP-Anfragen mit einer HTML-Fehlerseite ab):
+   1. kjo_soc_fb: Upload starten. Liegt das Video in der Mediathek, wird die Datei direkt hochgeladen (Meta muss sie
+      dann nicht selbst von der Website holen); sonst per file_url.
+   2. kjo_soc_fb_status: fragt ab, ob Meta das Video vollständig hat (das Skript wiederholt alle 5 s).
+   3. kjo_soc_fb_fertig: veröffentlicht; Code 6000 („not uploaded“) meldet „nochmal“, das Skript versucht es erneut. */
 add_action(
 	'wp_ajax_kjo_soc_fb',
 	function () {
 		kjo_soc_check_ajax();
-		$o    = kjo_soc_opts();
-		$url  = kjo_soc_video_url();
-		$text = sanitize_textarea_field( wp_unslash( $_POST['text'] ?? '' ) ); // phpcs:ignore
-		$s    = kjo_soc_api( $o['page_id'] . '/video_reels', array( 'upload_phase' => 'start' ) );
+		@set_time_limit( 120 ); // phpcs:ignore
+		$o   = kjo_soc_opts();
+		$url = kjo_soc_video_url();
+		$s   = kjo_soc_api( $o['page_id'] . '/video_reels', array( 'upload_phase' => 'start' ) );
 		if ( is_wp_error( $s ) ) {
 			kjo_soc_fehler( $s, 'Facebook' );
 		}
-		$up = kjo_soc_antwort( wp_remote_post( (string) $s['upload_url'], array( 'timeout' => 90, 'headers' => array( 'Authorization' => 'OAuth ' . $o['token'], 'file_url' => $url ) ) ) );
+		$id   = attachment_url_to_postid( $url );
+		$file = $id ? get_attached_file( $id ) : '';
+		if ( $file && is_readable( $file ) && filesize( $file ) < 200 * MB_IN_BYTES ) {
+			$r = wp_remote_post(
+				(string) $s['upload_url'],
+				array(
+					'timeout' => 100,
+					'headers' => array( 'Authorization' => 'OAuth ' . $o['token'], 'offset' => '0', 'file_size' => (string) filesize( $file ), 'Content-Type' => 'application/octet-stream' ),
+					'body'    => file_get_contents( $file ), // phpcs:ignore
+				)
+			);
+		} else {
+			$r = wp_remote_post( (string) $s['upload_url'], array( 'timeout' => 60, 'headers' => array( 'Authorization' => 'OAuth ' . $o['token'], 'file_url' => $url ) ) );
+		}
+		$up = kjo_soc_antwort( $r );
 		if ( is_wp_error( $up ) ) {
 			kjo_soc_fehler( $up, 'Facebook' );
 		}
-		/* Meta holt das Video über file_url im Hintergrund. Bei längeren Reels (z. B. 90 s, ~30 MB) ist es beim
-		   sofortigen „finish“ noch nicht da → Code 6000 „The video was not uploaded“. Deshalb warten (seit 1.85.10). */
-		@set_time_limit( 300 ); // phpcs:ignore
-		$bis = time() + 180;
-		do {
-			sleep( 4 );
-			$st = kjo_soc_api( (string) $s['video_id'], null, array( 'fields' => 'status' ) );
-			$ph = is_wp_error( $st ) ? array() : (array) ( $st['status']['uploading_phase'] ?? array() );
-			if ( ! empty( $ph['error'] ) ) {
-				kjo_soc_fehler( new WP_Error( 'kjo_soc', 'Meta konnte das Video nicht laden: ' . (string) ( $ph['error']['message'] ?? 'unbekannter Fehler' ) ), 'Facebook' );
-			}
-		} while ( 'complete' !== ( $ph['status'] ?? '' ) && time() < $bis );
-		for ( $i = 0; $i < 4; $i++ ) {
-			$f = kjo_soc_api( $o['page_id'] . '/video_reels', array( 'upload_phase' => 'finish', 'video_id' => (string) $s['video_id'], 'video_state' => 'PUBLISHED', 'description' => $text ) );
-			if ( ! is_wp_error( $f ) || false === strpos( $f->get_error_message(), 'Code 6000' ) ) {
-				break;
-			}
-			sleep( 10 );
+		wp_send_json_success( array( 'vid' => (string) $s['video_id'] ) );
+	}
+);
+add_action(
+	'wp_ajax_kjo_soc_fb_status',
+	function () {
+		kjo_soc_check_ajax();
+		$vid = preg_replace( '/\D/', '', (string) wp_unslash( $_POST['vid'] ?? '' ) ); // phpcs:ignore
+		$st  = kjo_soc_api( $vid, null, array( 'fields' => 'status' ) );
+		if ( is_wp_error( $st ) ) {
+			wp_send_json_success( array( 'fertig' => false ) ); // kurzer Aussetzer bei Meta: weiter warten
 		}
+		$ph = (array) ( $st['status']['uploading_phase'] ?? array() );
+		if ( ! empty( $ph['error'] ) ) {
+			kjo_soc_fehler( new WP_Error( 'kjo_soc', 'Meta konnte das Video nicht laden: ' . (string) ( $ph['error']['message'] ?? 'unbekannter Fehler' ) ), 'Facebook' );
+		}
+		wp_send_json_success( array( 'fertig' => 'complete' === ( $ph['status'] ?? '' ) ) );
+	}
+);
+add_action(
+	'wp_ajax_kjo_soc_fb_fertig',
+	function () {
+		kjo_soc_check_ajax();
+		$o    = kjo_soc_opts();
+		$vid  = preg_replace( '/\D/', '', (string) wp_unslash( $_POST['vid'] ?? '' ) ); // phpcs:ignore
+		$text = sanitize_textarea_field( wp_unslash( $_POST['text'] ?? '' ) ); // phpcs:ignore
+		$f    = kjo_soc_api( $o['page_id'] . '/video_reels', array( 'upload_phase' => 'finish', 'video_id' => $vid, 'video_state' => 'PUBLISHED', 'description' => $text ) );
 		if ( is_wp_error( $f ) ) {
+			if ( false !== strpos( $f->get_error_message(), 'Code 6000' ) && empty( $_POST['letzter'] ) ) { // phpcs:ignore
+				wp_send_json_success( array( 'nochmal' => true ) );
+			}
 			kjo_soc_fehler( $f, 'Facebook' );
 		}
-		$link = 'https://www.facebook.com/reel/' . rawurlencode( (string) $s['video_id'] );
+		$link = 'https://www.facebook.com/reel/' . rawurlencode( $vid );
 		kjo_soc_log( 'Facebook', true, $link );
 		wp_send_json_success( array( 'link' => $link ) );
 	}
