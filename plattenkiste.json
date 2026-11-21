@@ -1,9 +1,9 @@
 {
- "version": "1.86.0",
- "download_url": "dj-kolja-one-plattenkiste-1.86.0.zip",
- "sha256": "2f2ab7b5e34f3a756bd3a36a93492bbdbbd3cab57571a41ff10596cf424026c1",
+ "version": "1.86.1",
+ "download_url": "dj-kolja-one-plattenkiste-1.86.1.zip",
+ "sha256": "87fbc95822e4353f1f836f409bcb40199ea10575c454d47b830f55e8d7d3c1aa",
  "requires": "6.0",
  "tested": "6.8",
  "requires_php": "7.4",
- "changelog": "Karaoke-Pakete S/M/L"
+ "changelog": "Karaoke-Seite"
 }

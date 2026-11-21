@@ -784,6 +784,50 @@
    "title": "Musikanlage, Licht & Partyequipment mieten Memmingen, Allgäu & Schwaben | DJ KOLJA ONE",
    "desc": "Musikanlage, Licht & Partyequipment mieten: Bose, Pronomic, Pioneer DJ, Moving Heads und Partylicht als Paket S, M oder L oder einzeln. Abholung in Fellheim bei Memmingen, nach Verfügbarkeit und gegen Gebühr mit Lieferung und Aufbau."
   },
+  "karaoke": {
+   "name": "Karaoke mit DJ oder zum Mieten",
+   "faq": [
+    [
+     "Kann ich Karaoke auch ohne DJ mieten?",
+     "Ja. Karaoke S, M und L gibt es als reine Miete mit Abholung in Fellheim, auf Wunsch mit Lieferung und Aufbau. Die Preise stehen oben bei den Paketen."
+    ],
+    [
+     "Kann Karaoke im Nebenraum laufen, während der DJ auflegt?",
+     "Ja. Karaoke bekommt dann eine eigene Anlage, zum Beispiel die JBL PartyBox oder zwei Bose-Lautsprecher. Im Saal lege ich weiter auf, im Nebenraum wird gesungen."
+    ],
+    [
+     "Wie viele Mikrofone gibt es?",
+     "Bei Karaoke S ein Shure-Mikrofon mit Kabel, bei Karaoke M und L vier Funkmikros. Bis zu vier Funkmikros sind auch bei Karaoke S auf Anfrage möglich."
+    ],
+    [
+     "Beamer oder Monitor?",
+     "Beides ist möglich: Die Liedtexte laufen auf einem Beamer oder einem LCD-Monitor. Was zu Ihrem Raum passt, besprechen wir vorher."
+    ],
+    [
+     "Welche Songs gibt es?",
+     "Mehr als tausend Titel. Haben Sie Wunschsongs, schicken Sie mir die Liste vorab, dann prüfe ich, ob sie dabei sind."
+    ],
+    [
+     "Brauche ich Technik-Kenntnisse?",
+     "Nein. Ich richte Laptop, Software und Anlage vor der Übergabe ein und zeige Ihnen die Bedienung. Fragen am Abend? Sie erreichen mich per WhatsApp."
+    ]
+   ],
+   "kind": "service",
+   "serviceType": "Karaoke mit Moderation und Vermietung von Karaoke-Anlagen",
+   "description": "Karaoke für Firmenfeier, Hochzeit und Geburtstag: zum DJ-Abend dazu oder als Miete mit JBL PartyBox oder Bose-Anlage, bis zu 4 Funkmikros, Beamer oder LCD-Monitor und mehr als tausend Titeln.",
+   "crumbs": [
+    [
+     "Start",
+     "/"
+    ],
+    [
+     "Karaoke",
+     "/karaoke/"
+    ]
+   ],
+   "title": "Karaoke mieten oder mit DJ – Memmingen, Allgäu & Schwaben | DJ KOLJA ONE",
+   "desc": "Karaoke für Firmenfeier, Hochzeit und Geburtstag: mit DJ und Moderation oder als Miete. Profi-Sound, bis zu 4 Funkmikros, mehr als tausend Titel. Abholung in Fellheim."
+  },
   "kontakt": {
    "name": "Kontakt",
    "faq": [],

@@ -1747,8 +1747,13 @@ add_shortcode(
 	function ( $atts ) {
 		// modus="dj": Technik, die ich zur DJ-Buchung mitbringe – ohne Mietpreise und Mietkorb, mit Anfrage-Link.
 		$dj = is_array( $atts ) && isset( $atts['modus'] ) && 'dj' === $atts['modus'];
-		$h  = '<div class="kjo-vl-pakete kjo-vl-sub ' . ( $dj ? 'kjo-vl-sub5' : 'kjo-vl-sub7' ) . '">'; // Unterraster: Preise und Knöpfe aller Spalten auf gleicher Höhe
+		// gruppe="karaoke": nur die Karaoke-Pakete (Seite /karaoke/); ohne Angabe nur die Technik-Pakete (seit 1.86.1)
+		$kar = is_array( $atts ) && isset( $atts['gruppe'] ) && 'karaoke' === $atts['gruppe'];
+		$h   = '<div class="kjo-vl-pakete kjo-vl-sub ' . ( $dj ? 'kjo-vl-sub5' : 'kjo-vl-sub7' ) . '">'; // Unterraster: Preise und Knöpfe aller Spalten auf gleicher Höhe
 		foreach ( kjo_vl_items( 'kjo_paket' ) as $p ) {
+			if ( $kar !== ( 0 === strpos( $p->post_name, 'paket-karaoke-' ) ) ) {
+				continue;
+			}
 			$pr  = kjo_vl_num( kjo_vl_get( $p->ID, 'preis' ) );
 			$ka  = kjo_vl_num( kjo_vl_get( $p->ID, 'kaution' ) );
 			$h  .= '<article class="kjo-vl-paket">' . kjo_vl_img_html( $p, $p->post_title, 'kjo-vl-pimg' );
@@ -1769,7 +1774,7 @@ add_shortcode(
 			if ( $dj ) {
 				$kurz = trim( preg_replace( '/[–:].*$/u', '', $p->post_title ) );
 				$url  = add_query_arg( 'paket', rawurlencode( $p->post_title ), home_url( '/kontakt/' ) ) . '#formular';
-				$h   .= '<a class="kjo-vl-btn" href="' . esc_url( $url ) . '">' . esc_html( 0 === strpos( $p->post_title, 'Paket' ) ? 'Mit ' . $kurz . ' anfragen' : 'Dazu anfragen' ) . '</a></article>';
+				$h   .= '<a class="kjo-vl-btn" href="' . esc_url( $url ) . '">' . esc_html( ( 0 === strpos( $p->post_title, 'Paket' ) || 0 === strpos( $p->post_title, 'Karaoke' ) ) ? 'Mit ' . $kurz . ' anfragen' : 'Dazu anfragen' ) . '</a></article>';
 				continue;
 			}
 			$we = kjo_vl_we( $p->ID );

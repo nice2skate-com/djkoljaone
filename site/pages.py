@@ -553,7 +553,7 @@ def mieten():
             ("Anfragen","Datum und Abholung oder Lieferung angeben und absenden. Das ist kostenlos und unverbindlich."),
             ("Bestätigen","Ich prüfe die Verfügbarkeit und schicke Ihnen Angebot und Mietbedingungen."),
             ("Abholen &amp; feiern","Übergabe mit Einweisung, Vertrag und Kaution in Fellheim. Nach Verfügbarkeit und gegen Gebühr auch mit Lieferung, Aufbau/Verkabelung, Abbau und Abholung.")])],bg=B1),
-        section(head("Party-Pakete","Fertig zusammengestellt, nach Gästezahl")+[SC("[kjo_pakete]")],bg=B2,anchor="pakete"),
+        section(head("Party-Pakete","Fertig zusammengestellt, nach Gästezahl")+[SC("[kjo_pakete]"),SPACER(6),H("Karaoke-Pakete S, M und L →","p",13,GOLD,"center","500",link="/karaoke/#mieten",ls=1.5,tr="uppercase")],bg=B2,anchor="pakete"),
         section(head("Einzelgeräte","Ihre Anlage nach Maß",
             "Ihnen fehlt nur ein Gerät, Subwoofer oder Sie benötigen Einzel-Lichter? Suchen Sie nach Gerät oder Kategorie und legen Sie es mit + in den Mietkorb. Bei jedem Gerät finden Sie Maße, Gewicht, Wetterfestigkeit, Lieferumfang und die deutsche Bedienungsanleitung als PDF.")+[SC("[kjo_verleih]")],bg=B1,anchor="geraete"),
         section(head("Gut zu wissen","Kaution, Transport und Co.")+[SC("[kjo_verleih_hinweise]")],bg=B2),
@@ -562,11 +562,47 @@ def mieten():
         cta("Lieber selbst feiern statt selbst auflegen?","Buchen Sie dieselbe Technik mit DJ KOLJA ONE dazu, dann sind Sie Gast auf Ihrer eigenen Party."),
         footer()]
 
+# ---------------- Karaoke (seit 1.86.1) ----------------
+KARAOKE_FAQ=[("Kann ich Karaoke auch ohne DJ mieten?","Ja. Karaoke S, M und L gibt es als reine Miete mit Abholung in Fellheim, auf Wunsch mit Lieferung und Aufbau. Die Preise stehen oben bei den Paketen."),
+    ("Kann Karaoke im Nebenraum laufen, während der DJ auflegt?","Ja. Karaoke bekommt dann eine eigene Anlage, zum Beispiel die JBL PartyBox oder zwei Bose-Lautsprecher. Im Saal lege ich weiter auf, im Nebenraum wird gesungen."),
+    ("Wie viele Mikrofone gibt es?","Bei Karaoke S ein Shure-Mikrofon mit Kabel, bei Karaoke M und L vier Funkmikros. Bis zu vier Funkmikros sind auch bei Karaoke S auf Anfrage möglich."),
+    ("Beamer oder Monitor?","Beides ist möglich: Die Liedtexte laufen auf einem Beamer oder einem LCD-Monitor. Was zu Ihrem Raum passt, besprechen wir vorher."),
+    ("Welche Songs gibt es?","Mehr als tausend Titel. Haben Sie Wunschsongs, schicken Sie mir die Liste vorab, dann prüfe ich, ob sie dabei sind."),
+    ("Brauche ich Technik-Kenntnisse?","Nein. Ich richte Laptop, Software und Anlage vor der Übergabe ein und zeige Ihnen die Bedienung. Fragen am Abend? Sie erreichen mich per WhatsApp.")]
+def karaoke():
+    vorteile=[("fas fa-volume-up","Profi-Sound statt Bluetooth-Box","JBL PartyBox oder Bose-Lautsprecher auf Stativen: klare Stimmen, auch wenn der Raum voll ist."),
+        ("fas fa-microphone","Bis zu 4 Funkmikros","Für Duette, Gruppen und Song-Battles, ohne Kabelsalat."),
+        ("fas fa-music","Mehr als tausend Titel","Die Liedtexte laufen gut lesbar auf Beamer oder LCD-Monitor."),
+        ("fas fa-trophy","Song-Battle &amp; Music-Quiz","Teams treten gegeneinander an, der Saal jubelt: Programmpunkte, die jede Feier lockern.")]
+    dj_url="/kontakt/?paket=Karaoke%20zum%20DJ-Abend#formular"
+    return [nav(),
+        hero("Karaoke · Memmingen · Allgäu · Schwaben","Karaoke für Ihre Feier: mit DJ oder zum Mieten",
+             "Ob Firmenfeier, Hochzeit oder Geburtstag: Mit Profi-Sound, Funkmikros und mehr als tausend Titeln wird aus Zuhören Mitsingen. Buchen Sie Karaoke zu meinem DJ-Abend dazu oder mieten Sie die Anlage und feiern Sie selbst.",
+             [BTN("Karaoke zum DJ-Abend","#dj"),BTN("Karaoke mieten","#mieten",False)],stats=None,minh=60,extra=[INTRO("karaoke")]),
+        staerken("Was Karaoke bei mir ausmacht",vorteile,eye="Ihr Vorteil"),
+        section(head("Mit DJ","Karaoke zum DJ-Abend",
+            "Ich lege auf und moderiere. Karaoke kommt als Programmpunkt dazu, so wie es zu Ihrer Feier passt.")+[cards([
+            ("Auf der Hauptbühne","Zwischen den DJ-Sets moderiere ich Karaoke-Runden, ein Song-Battle oder ein Music-Quiz. Danach geht es nahtlos auf der Tanzfläche weiter."),
+            ("Im Nebenraum","Parallel zur Party: Karaoke läuft mit eigener Anlage im Nebenraum, während ich im Saal auflege. Wer singen will, singt. Wer tanzen will, tanzt."),
+            ("Alles aus einer Hand","Technik, Aufbau, Moderation und Ablauf stimme ich mit Ihnen ab. Den Preis erhalten Sie mit dem Angebot.")],bg=B1),
+            SPACER(6),BTNS(BTN("Karaoke zum DJ-Abend anfragen",dj_url))],bg=B2,anchor="dj"),
+        section(head("Firmenfeier","Ideen für Ihre Weihnachtsfeier oder Ihr Sommerfest")+[steps([
+            ("Song-Battle der Abteilungen","Zwei Teams, ein Mikro pro Team, der Saal entscheidet per Applaus."),
+            ("Music-Quiz","Ich spiele Intros an, die Tische raten. Wer gewinnt, wählt den nächsten Song."),
+            ("Offene Bühne","Wer sich traut, singt. Die anderen feiern mit, denn mitsingen ist ausdrücklich erlaubt."),
+            ("Und dann: Tanzfläche","Nach der Karaoke-Runde übernehme ich wieder als DJ.")])],bg=B1),
+        section(head("Ohne DJ","Karaoke mieten",
+            "Sie feiern selbst? Mieten Sie die Karaoke-Anlage als fertiges Paket. Ich richte alles ein und zeige Ihnen bei der Übergabe in Fellheim die Bedienung.")+[SC('[kjo_pakete gruppe="karaoke"]')],bg=B2,anchor="mieten"),
+        section(head("Gut zu wissen","Kaution, Transport und Co.")+[SC("[kjo_verleih_hinweise]")],bg=B1),
+        faq(KARAOKE_FAQ,title="Fragen zu Karaoke",more=False,bg=B2,eye="Häufige Fragen"),
+        cta("Wer traut sich als Nächstes?","Fragen Sie Karaoke für Ihren Termin an, mit DJ oder als Miete."),
+        footer()]
+
 PAGES=[("Start","start",start),
  ("Hochzeits-DJ","hochzeits-dj",lambda: service(HOCHZEIT)),("Geburtstags-DJ","geburtstags-dj",lambda: service(GEBURTSTAG)),
  ("Firmenfeier-DJ","firmenfeier-dj",lambda: service(FIRMA)),("Event-DJ","event-dj",lambda: service(EVENT)),
  ("Meine Musik","meine-musik",musik),
  ("Über mich","ueber-mich",ueber),("FAQ","faq",faqpage),("Einsatzgebiete","einsatzgebiete",regionen)]
 PAGES+=[("DJ "+o,s,(lambda o=o: city(o))) for o,s in ORTE]
-PAGES+=[("Mein Equipment","equipment",equipment),("Musikanlage, Licht & Partyequipment mieten","technik-mieten",mieten)]
+PAGES+=[("Mein Equipment","equipment",equipment),("Musikanlage, Licht & Partyequipment mieten","technik-mieten",mieten),("Karaoke mit DJ oder zum Mieten","karaoke",karaoke)]
 PAGES+=[("Kontakt","kontakt",kontakt),("Impressum","impressum",impressum),("Datenschutz","datenschutz",datenschutz)]

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: DJ KOLJA ONE Plattenkiste
  * Description: Liefert deine Songs aus der Mediathek an das DJ-Pult auf „Meine Musik“ – mit Genre, BPM, Tonart (Camelot), Tempo-Regler, Sync, Automix, Video und Sterne-Bewertungen der Besucher.
- * Version:     1.86.0
+ * Version:     1.86.1
  * Author:      DJ KOLJA ONE
  * Requires at least: 6.0
  * Requires PHP: 7.4
@@ -12,7 +12,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-define( 'KJO_VERSION', '1.86.0' );
+define( 'KJO_VERSION', '1.86.1' );
 define( 'KJO_USTID', 'DE331619498' ); // Umsatzsteuer-Identifikationsnummer (Bescheid BZSt vom 25.07.2020)
 require_once __DIR__ . '/kjo-schutz.php';
 require_once __DIR__ . '/kjo-verleih.php';
@@ -99,7 +99,7 @@ function kjo_seiten_sync( $only = null ) {
 			continue;
 		}
 		$page = get_page_by_path( $slug );
-		$neu  = array( 'dj-neu-ulm' => 'DJ Neu-Ulm', 'equipment' => 'Mein Equipment', 'technik-mieten' => 'Musikanlage, Licht & Partyequipment mieten' );
+		$neu  = array( 'dj-neu-ulm' => 'DJ Neu-Ulm', 'equipment' => 'Mein Equipment', 'technik-mieten' => 'Musikanlage, Licht & Partyequipment mieten', 'karaoke' => 'Karaoke mit DJ oder zum Mieten' );
 		if ( ! $page && isset( $neu[ $slug ] ) ) { // Neue Seiten (seit 1.22.0, DJ Neu-Ulm seit 1.53.0) werden beim ersten Einspielen angelegt.
 			$pid = wp_insert_post(
 				array(
