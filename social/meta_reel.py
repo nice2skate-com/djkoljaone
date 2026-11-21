@@ -91,7 +91,22 @@ def facebook_reel(page_id, video_url, text, log=print):
     r = _anfrage(up, {}, {"Authorization": "OAuth " + os.environ["META_PAGE_TOKEN"], "file_url": video_url})
     if not r.get("success", True):
         raise MetaFehler("Facebook hat das Video nicht angenommen.")
-    api(page_id + "/video_reels", {"upload_phase": "finish", "video_id": vid, "video_state": "PUBLISHED", "description": text})
+    # Meta holt das Video im Hintergrund – erst veröffentlichen, wenn es vollständig da ist (sonst Code 6000)
+    for _ in range(60):
+        ph = api(vid, get={"fields": "status"}).get("status", {}).get("uploading_phase") or {}
+        if ph.get("error"):
+            raise MetaFehler("Meta konnte das Video nicht laden: %s" % ph["error"].get("message", "unbekannter Fehler"))
+        if ph.get("status") == "complete":
+            break
+        time.sleep(float(os.environ.get("META_POLL", "5")))
+    for versuch in range(6):
+        try:
+            api(page_id + "/video_reels", {"upload_phase": "finish", "video_id": vid, "video_state": "PUBLISHED", "description": text})
+            break
+        except MetaFehler as e:
+            if "6000" not in str(e) or versuch == 5:
+                raise
+            time.sleep(10)
     for _ in range(60):  # Status ist informativ; Facebook veröffentlicht nach der Verarbeitung selbst
         st = api(vid, get={"fields": "status"}).get("status", {})
         if st.get("video_status") in ("ready", "published") or (st.get("publishing_phase") or {}).get("status") == "complete":
