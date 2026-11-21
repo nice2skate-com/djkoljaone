@@ -30,9 +30,9 @@ Die beiden Formate nacheinander rendern, nicht parallel; parallel bricht ein Lau
 
 Für Instagram/Facebook: `export/reel_equipment_1080x1920.mp4` (Reel) und `export/equipment_1920x1080.mp4` (16:9). Beide ohne Ton.
 
-# Reel „Erste Google-Bewertung & Technik“ (27 s, seit 21.11.2026)
+# Reel „Google-Bewertung & Technik“ (27 s, seit 21.11.2026)
 
-Quelle: `bewertung.html` (reine CSS-Animation, echte 5-Sterne-Bewertung von Jürgen N. auf Google, Wortlaut gekürzt; Bose S1 Pro und Funkmikros aus `equipment/`). Musik: „Life Is Good“ ab 1:00.
+Quelle: `bewertung.html` (reine CSS-Animation, echte 5-Sterne-Bewertung von Jürgen N. auf Google, Wortlaut gekürzt; Bose S1 Pro und Shure Beta 58A aus `equipment/`). Musik: „Life Is Good“ ab 1:00.
 
     node media/motion/render_css.js media/motion/bewertung.html /tmp/bw 27
     ffmpeg -framerate 30 -i /tmp/bw/%05d.jpg -c:v libx264 -crf 20 -pix_fmt yuv420p -movflags +faststart -an /tmp/bw.mp4
