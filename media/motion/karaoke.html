@@ -1,0 +1,75 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8">
+<title>DJ KOLJA ONE – Karaoke-Reel (Overlay)</title>
+<!-- Overlay 1080×1920, 30 s, transparenter Hintergrund, über die KI-Clips gelegt (siehe README.md, Abschnitt Karaoke).
+     0–9 s wilde Szene · 9–16 s Song-Battle · 16–22 s Technik (deckend) · 22–26 s Bühne · 26–30 s Abschluss (deckend) -->
+<style>
+@font-face{font-family:"Fira Sans";font-weight:400;src:url(fonts/fira400.woff2) format("woff2")}
+@font-face{font-family:"Fira Sans";font-weight:500 600;src:url(fonts/fira600.woff2) format("woff2")}
+@font-face{font-family:"Fira Sans";font-weight:700 800;src:url(fonts/fira800.woff2) format("woff2")}
+:root{--ink:#0F0C07;--bronze:#B29D75;--gold:#E0B36A;--cream:#F3F1E9;--muted:#A9A296}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:transparent;color:var(--cream);font-family:"Fira Sans",Arial,sans-serif}
+.t{position:absolute;opacity:0;animation:auf var(--d) linear var(--s) both}
+@keyframes auf{0%{opacity:0;transform:translateY(30px)}8%{opacity:1;transform:none}90%{opacity:1;transform:none}100%{opacity:0}}
+.ende{animation:aufBleib var(--d) linear var(--s) both}
+@keyframes aufBleib{0%{opacity:0}8%,100%{opacity:1}}
+/* Text auf Video: Box mit Hintergrund, damit es auf jedem Bild lesbar ist */
+.cap{left:70px;right:70px;text-align:center}
+.cap span{display:inline;background:rgba(15,12,7,.82);box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:8px 22px;line-height:1.5;border-radius:6px}
+.hook{top:300px;font-size:86px;font-weight:800}
+.hook span{color:var(--gold)}
+.mid{top:1240px;font-size:58px;font-weight:700}
+.klein{top:1380px;font-size:44px;font-weight:600}
+.klein span{color:var(--gold)}
+.ki{position:absolute;left:40px;top:60px;font-size:26px;letter-spacing:2px;color:rgba(243,241,233,.85);background:rgba(15,12,7,.55);padding:6px 14px;border-radius:4px;opacity:0;animation:ki var(--d) linear var(--s) both}
+@keyframes ki{0%,100%{opacity:1}}
+/* deckende Szenen */
+.flach{position:absolute;inset:0;background:radial-gradient(ellipse 80% 45% at 50% 42%,#2a2316 0%,var(--ink) 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 80px}
+.eye{font-size:34px;letter-spacing:8px;text-transform:uppercase;color:var(--bronze);font-weight:600;margin-bottom:30px}
+h2{font-size:74px;font-weight:700;line-height:1.12}
+.reihe{display:flex;gap:30px;align-items:flex-end;justify-content:center;margin:56px 0 40px}
+.reihe figure{display:flex;flex-direction:column;align-items:center;gap:18px}
+.reihe img{filter:drop-shadow(0 30px 40px rgba(0,0,0,.7))}
+.reihe figcaption{font-size:32px;color:var(--muted);line-height:1.3}
+.liste{font-size:44px;line-height:1.6;margin-top:20px}
+.liste b{color:var(--gold);font-weight:700}
+.url{margin-top:44px;font-size:44px;color:var(--gold);font-weight:600}
+.bio{margin-top:20px;font-size:34px;letter-spacing:6px;text-transform:uppercase;color:var(--bronze)}
+.claim{width:640px;margin-top:70px}
+</style></head><body>
+
+<!-- KI-Hinweis während der Clips -->
+<div class="ki" style="--s:0s;--d:16s">Symbolszene (KI)</div>
+<div class="ki" style="--s:22s;--d:4s">Symbolszene (KI)</div>
+
+<!-- A: wilde Szene -->
+<div class="t cap hook" style="--s:0.2s;--d:4s"><span>Wer traut sich als Nächstes?</span></div>
+<div class="t cap mid" style="--s:4.2s;--d:4.8s"><span>Karaoke für Ihre Firmenfeier, Hochzeit oder Geburtstag</span></div>
+
+<!-- B: Song-Battle -->
+<div class="t cap mid" style="--s:9.2s;--d:3.4s"><span>Song-Battle · Music-Quiz</span></div>
+<div class="t cap mid" style="--s:12.6s;--d:3.4s"><span>Mehr als tausend Titel</span></div>
+
+<!-- C: Technik (deckend) -->
+<section class="t flach" style="--s:16s;--d:6s">
+  <div class="eye">Profi-Sound statt Bluetooth-Box</div>
+  <h2>JBL PartyBox mit Mikro<br>oder große Anlage auf Stativen</h2>
+  <div class="reihe">
+    <figure><img src="karaoke/bose.webp" style="height:330px" alt=""><figcaption>Lautsprecher<br>auf Stativen</figcaption></figure>
+    <figure><img src="karaoke/funk.webp" style="width:430px" alt=""><figcaption>bis zu 4<br>Funkmikros</figcaption></figure>
+  </div>
+  <div class="liste">Texte auf <b>LCD-Monitor</b> oder <b>Beamer</b></div>
+</section>
+
+<!-- D: Bühne -->
+<div class="t cap mid" style="--s:22.2s;--d:3.8s"><span>Auf der Hauptbühne oder im Nebenraum</span></div>
+
+<!-- E: Abschluss (deckend, bleibt stehen) -->
+<section class="t flach ende" style="--s:26s;--d:4s">
+  <div class="eye">Karaoke mieten</div>
+  <h2>Allein oder zum<br>DJ-Abend dazu</h2>
+  <div class="url">dj-kolja-one.de</div>
+  <div class="bio">Link in der Bio</div>
+  <img class="claim" src="equipment/logo_claim.webp" alt="">
+</section>
+</body></html>
