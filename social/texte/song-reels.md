@@ -474,3 +474,17 @@ WhatsApp-Status (Text zum Video, Link anklickbar):
 Neuer Song: „Waking up too late“ 🎧 Rock & Metal, eigene Produktion.
 Ganz hören und selbst mixen: https://dj-kolja-one.de/meine-musik/?song=5369&utm_source=whatsapp&utm_medium=status&utm_campaign=song-5369
 ```
+
+## Erste Google-Bewertung & Technik mieten  (Datei: media/motion/export/reel_bewertung_technik_1080x1920.mp4)
+
+```
+5,0 ★★★★★ – meine erste Google-Bewertung. Danke, Jürgen! 🙏
+Bose S1 Pro mit Stativ, Funkmikro und Ersatz-Technik als Backup – Übergabe und Rückgabe in Fellheim.
+
+Musikanlage, Mikros und Licht für Ihre Feier mieten: Link in der Bio.
+Sie waren schon Gast oder Kunde? Über Ihre Bewertung freue ich mich: dj-kolja-one.de/bewerten
+
+Musik: „Life Is Good“ – eigene Produktion.
+
+#djkoljaone #technikmieten #musikanlagemieten #bose #memmingen #allgäu #oberschwaben #eventtechnik
+```

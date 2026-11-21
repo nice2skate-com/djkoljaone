@@ -29,3 +29,14 @@ Rendern (die Seite als 5. Argument):
 Die beiden Formate nacheinander rendern, nicht parallel; parallel bricht ein Lauf gelegentlich ab.
 
 Für Instagram/Facebook: `export/reel_equipment_1080x1920.mp4` (Reel) und `export/equipment_1920x1080.mp4` (16:9). Beide ohne Ton.
+
+# Reel „Erste Google-Bewertung & Technik“ (27 s, seit 21.11.2026)
+
+Quelle: `bewertung.html` (reine CSS-Animation, echte 5-Sterne-Bewertung von Jürgen N. auf Google, Wortlaut gekürzt; Bose S1 Pro und Funkmikros aus `equipment/`). Musik: „Life Is Good“ ab 1:00.
+
+    node media/motion/render_css.js media/motion/bewertung.html /tmp/bw 27
+    ffmpeg -framerate 30 -i /tmp/bw/%05d.jpg -c:v libx264 -crf 20 -pix_fmt yuv420p -movflags +faststart -an /tmp/bw.mp4
+    python3 social/video_mischen.py /tmp/bw.mp4 media/motion/export/reel_bewertung_technik_1080x1920.mp4 --musik song.mp3 --start 60
+
+`render_css.js` hält alle CSS-Animationen an und setzt sie Bild für Bild auf die genaue Zeit (für Seiten ohne JS-Ablauf;
+`social/motion_render.js` läuft bei reinen CSS-Animationen zu schnell).
