@@ -151,6 +151,7 @@ jobs:
           AKTION: ${{ inputs.aktion }}
           ZIELE: ${{ inputs.ziele }}
           VIDEO_URL: ${{ steps.video.outputs.url }}
+          VIDEO_DATEI: ${{ steps.mix.outputs.datei }}
           TEXT_DATEI: ${{ inputs.text_datei }}
           TEXT: ${{ inputs.text }}
         run: |
