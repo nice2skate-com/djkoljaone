@@ -88,7 +88,20 @@ def facebook_reel(page_id, video_url, text, log=print):
     s = api(page_id + "/video_reels", {"upload_phase": "start"})
     vid, up = s["video_id"], s["upload_url"]
     log("Facebook: Video wird übertragen (%s) …" % vid)
-    r = _anfrage(up, {}, {"Authorization": "OAuth " + os.environ["META_PAGE_TOKEN"], "file_url": video_url})
+    datei = os.environ.get("VIDEO_DATEI", "")
+    if datei and os.path.isfile(datei):
+        # Datei direkt hochladen (zuverlässiger als file_url, das Meta teils mit HTTP 422 ablehnt)
+        roh = open(datei, "rb").read()
+        req = urllib.request.Request(up, data=roh, headers={"Authorization": "OAuth " + os.environ["META_PAGE_TOKEN"],
+                                                           "offset": "0", "file_size": str(len(roh)),
+                                                           "Content-Type": "application/octet-stream"})
+        try:
+            with urllib.request.urlopen(req, timeout=300) as antwort:
+                r = json.loads(antwort.read().decode() or "{}")
+        except urllib.error.HTTPError as e:
+            raise MetaFehler("Facebook-Upload abgelehnt: HTTP %s %s" % (e.code, e.read().decode(errors="replace")[:300])) from None
+    else:
+        r = _anfrage(up, {}, {"Authorization": "OAuth " + os.environ["META_PAGE_TOKEN"], "file_url": video_url})
     if not r.get("success", True):
         raise MetaFehler("Facebook hat das Video nicht angenommen.")
     # Meta holt das Video im Hintergrund – erst veröffentlichen, wenn es vollständig da ist (sonst Code 6000)
