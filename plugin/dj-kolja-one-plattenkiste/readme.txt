@@ -13,6 +13,7 @@ Seit 1.4.1: Keine blauen Markierungen mehr beim Ziehen am Crossfader. Kein 128-k
 
 Seit 1.5.0: Seiten ohne Elementor (z. B. Cookie-Richtlinie) erscheinen im DJ-KOLJA-ONE-Design mit gleicher Kopf- und Fußzeile.
 
+Seit 1.86.1: Neue Seite /karaoke/ (Karaoke zum DJ-Abend und Karaoke mieten mit den Paketen S/M/L); Karaoke-Pakete nur dort, nicht mehr bei den Technik-Paketen; Fotos der JBL PartyBox 720 und der Karaoke-Pakete.
 Seit 1.86.0: Technik mieten: Karaoke-Pakete S (JBL PartyBox + Shure), M (2× Bose + 4 Funkmikros) und L (dazu Subwoofer und Partylicht), jeweils mit Karaoke-Laptop (mehr als tausend Titel) und Texten auf Beamer oder LCD-Monitor.
 Seit 1.85.11: Social: Facebook-Reel in kurzen Schritten (Datei direkt hochladen, Status abfragen, dann veröffentlichen) – keine Server-Abbrüche mehr („Unexpected token <“).
 Seit 1.85.10: Social: Facebook-Reel wartet, bis Meta das Video geladen hat (vorher Code 6000 „The video was not uploaded“ bei längeren Reels).

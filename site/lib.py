@@ -137,7 +137,7 @@ def footer():
         con([LOGO(LOGO_FULL,300,260),T("Premium DJ &amp; Moderation für Hochzeiten, Geburtstage, Firmenfeiern und Events in Oberschwaben, Ulm und dem Allgäu.",MUTED,"left",15),
              H(PHONE,"p",15,OFF,"left","400",link=TEL),H("WhatsApp schreiben","p",15,OFF,"left","400",link=WA),
              SOCIAL()],g=12,**col(30,100,100)),
-        fcol("Leistungen",SERVICES+[("Technik mieten","/technik-mieten/")]),
+        fcol("Leistungen",SERVICES+[("Karaoke","/karaoke/"),("Technik mieten","/technik-mieten/")]),
         fcol("Info",[("Über mich","/ueber-mich/"),("Mein Equipment","/equipment/"),("Meine Musik","/meine-musik/"),("FAQ","/faq/"),("Einsatzgebiete","/einsatzgebiete/"),("Kontakt",KONTAKT)]),
         fcol("Regionen",[("DJ "+o,f"/{s}/") for o,s in ORTE]),
     ],"row",g=30,**ROW,flex_justify_content="space-between")

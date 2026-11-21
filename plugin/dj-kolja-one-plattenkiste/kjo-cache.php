@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 const KJO_CACHE_TTL  = 8 * HOUR_IN_SECONDS; // kürzer als die Gültigkeit von WordPress-Nonces (12–24 h)
-const KJO_CACHE_OHNE  = array( 'kontakt', 'technik-mieten' );
+const KJO_CACHE_OHNE  = array( 'kontakt', 'technik-mieten', 'karaoke' ); // Seiten mit Formular bzw. Mietkorb
 
 function kjo_cache_dir() {
 	return WP_CONTENT_DIR . '/cache/kjo-seiten/';

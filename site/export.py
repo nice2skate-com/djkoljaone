@@ -23,7 +23,7 @@ for i,(title,slug,fn) in enumerate(PAGES):
 <wp:post_password>{cdata("")}</wp:post_password><wp:is_sticky>0</wp:is_sticky>{metas}</item>""")
 zf.close()
 # Seiten, die das Plugin per Knopf einspielt (kjo_seiten_sync)
-AUTO=("start","meine-musik","kontakt","faq","impressum","datenschutz","hochzeits-dj","geburtstags-dj","firmenfeier-dj","event-dj","ueber-mich","einsatzgebiete","dj-memmingen","dj-ulm","dj-neu-ulm","dj-biberach","dj-ravensburg","dj-kempten","dj-fuessen","dj-kaufbeuren","dj-landsberg","equipment","technik-mieten")
+AUTO=("start","karaoke","meine-musik","kontakt","faq","impressum","datenschutz","hochzeits-dj","geburtstags-dj","firmenfeier-dj","event-dj","ueber-mich","einsatzgebiete","dj-memmingen","dj-ulm","dj-neu-ulm","dj-biberach","dj-ravensburg","dj-kempten","dj-fuessen","dj-kaufbeuren","dj-landsberg","equipment","technik-mieten")
 sd="./plugin/dj-kolja-one-plattenkiste/seiten"; os.makedirs(sd,exist_ok=True)
 for title,slug,fn in PAGES:
     if slug in AUTO: open(f"{sd}/{slug}.json","w",encoding="utf-8").write(json.dumps(fn(),ensure_ascii=False,separators=(",",":")))
@@ -63,6 +63,10 @@ for title,slug,fn in PAGES:
         o=dict((s2,o2) for o2,s2 in ORTE)[slug]; lg=LANG.get(o,o)
         e.update(kind="city",name=f"DJ {lg}",city=lg,description=f"DJ und Moderation für Hochzeiten, Geburtstage, Firmenfeiern und Events in {lg} und Umgebung.",
                  crumbs=[["Start","/"],["Einsatzgebiete","/einsatzgebiete/"],[f"DJ {lg}",f"/{slug}/"]])
+    elif slug=="karaoke":
+        e.update(kind="service",name="Karaoke mit DJ oder zum Mieten",serviceType="Karaoke mit Moderation und Vermietung von Karaoke-Anlagen",
+                 description="Karaoke für Firmenfeier, Hochzeit und Geburtstag: zum DJ-Abend dazu oder als Miete mit JBL PartyBox oder Bose-Anlage, bis zu 4 Funkmikros, Beamer oder LCD-Monitor und mehr als tausend Titeln.",
+                 crumbs=[["Start","/"],["Karaoke","/karaoke/"]])
     elif slug=="technik-mieten":
         e.update(kind="service",name="Musikanlage, Licht & Partyequipment mieten",serviceType="Vermietung von Musikanlagen, Licht- und Partytechnik",
                  description="Musikanlage, Licht und Partyequipment mieten: Bose, Pronomic, Pioneer DJ, Moving Heads und Partylicht als Paket S, M oder L oder einzeln, mit Einweisung. Abholung in Fellheim bei Memmingen.",
@@ -83,6 +87,7 @@ SEO={
 "einsatzgebiete":(f"Einsatzgebiete: Memmingen, Allgäu & Schwaben | {B}","Mobiler DJ aus Fellheim bei Memmingen: Einsatz in Memmingen, Ulm, Neu-Ulm, Biberach, Ravensburg, Kempten, Füssen, Kaufbeuren und Landsberg am Lech."),
 "equipment":(f"Mein Equipment: Bose, Pronomic, Pioneer & Lichtshow | {B}","Bose- und Pronomic-Soundsystem, Pioneer DDJ-FLX10, Moving Heads und Lichttraverse: Mit dieser Technik legt DJ KOLJA ONE bei Hochzeiten, Geburtstagen und Firmenfeiern in Memmingen, Allgäu & Schwaben auf."),
 "technik-mieten":(f"Musikanlage, Licht & Partyequipment mieten Memmingen, Allgäu & Schwaben | {B}","Musikanlage, Licht & Partyequipment mieten: Bose, Pronomic, Pioneer DJ, Moving Heads und Partylicht als Paket S, M oder L oder einzeln. Abholung in Fellheim bei Memmingen, nach Verfügbarkeit und gegen Gebühr mit Lieferung und Aufbau."),
+"karaoke":(f"Karaoke mieten oder mit DJ – Memmingen, Allgäu & Schwaben | {B}","Karaoke für Firmenfeier, Hochzeit und Geburtstag: mit DJ und Moderation oder als Miete. Profi-Sound, bis zu 4 Funkmikros, mehr als tausend Titel. Abholung in Fellheim."),
 "kontakt":(f"Wunschtermin prüfen – DJ anfragen | {B}","Unverbindlich anfragen: Wunschtermin prüfen, Angebot erhalten – per Formular, Telefon oder WhatsApp bei DJ KOLJA ONE in Fellheim."),
 }
 for _o,_s in ORTE:
