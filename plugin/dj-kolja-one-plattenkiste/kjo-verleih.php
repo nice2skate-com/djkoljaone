@@ -105,6 +105,10 @@ const KJO_VL_PAKET_GERAETE = array(
 	'paket-m'           => array( 'bose-s1-pro' => 2, 'kls-lightbar' => 1, 'bose-subwoofer' => 1, 'funkmikrofon-set' => 1, 'traverse-3m' => 1, 'stairville-tri-flat-par' => 4, 'wash-scheinwerfer' => 1, 'led-laufschrift' => 1, 'nebelmaschine' => 1, 'dj-pult' => 1 ),
 	'paket-l'           => array( 'pronomic-c-215-ma' => 2, 'pronomic-c-118sa' => 2, 'traverse-3m' => 1, 'moving-head' => 2, 'stairville-tri-flat-par' => 4, 'wash-scheinwerfer' => 1, 'led-laufschrift' => 1, 'algam-akku-par' => 6, 'kls-lightbar' => 1, 'uv-strahler' => 1, 'spiegelkugel' => 1, 'nebelmaschine' => 1, 'funkmikrofon-set' => 1, 'dj-pult' => 1 ),
 	'paket-bose-zusatz' => array( 'bose-s1-pro' => 2, 'bose-subwoofer' => 1 ),
+	// Karaoke (seit 1.86.0): Texte auf Beamer oder LCD-Monitor – im Bestand zählt der Beamer
+	'paket-karaoke-s'   => array( 'jbl-partybox-720' => 1, 'shure-beta-58a' => 1, 'viewsonic-lsd500hd' => 1 ),
+	'paket-karaoke-m'   => array( 'bose-s1-pro' => 2, 'funkmikrofon-set' => 1, 'viewsonic-lsd500hd' => 1 ),
+	'paket-karaoke-l'   => array( 'bose-s1-pro' => 2, 'bose-subwoofer' => 1, 'funkmikrofon-set' => 1, 'viewsonic-lsd500hd' => 1, 'kls-lightbar' => 1 ),
 );
 const KJO_VL_PAKET_NUR_MIT = array( 'paket-bose-zusatz' => 'paket-l' );
 /** Bestand eines Geräts als Zahl, null = nicht eingetragen (unbegrenzt). */
@@ -487,6 +491,9 @@ function kjo_vl_seed_data() {
 		array( 'paket-m', 'Paket M – „Party“', 'Für bis zu ca. 100 Gäste', 'z. B. runder Geburtstag, Vereinsfeier oder Firmenfeier', "Alles aus Paket S, dazu der Bose Sub1 Subwoofer\nFunkmikrofon-Set mit 4 Handmikros statt Kabelmikro\n3-m-Lichttraverse mit 4 LED-PARs und Cameo Thunder Wash (Wash, Blinder, Strobe)\nLED-Laufschrift, z. B. mit Ihren Namen\nNebelmaschine\nDJ-Pult (Roadworx DJ Table, schwarz)", 'Zubehör: Pioneer DDJ-FLX10 60 € pro Tag. Transport: Van oder Transporter (Traversentasche 1,54 m) – oder ich liefere und baue auf.' ),
 		array( 'paket-l', 'Paket L – „Komplett-Show“', 'Für bis zu ca. 250 Gäste', 'z. B. Hochzeit, Abiball oder Sommerfest. Die komplette Bühne aus meinem Beispiel-Lichtplan.', "Pronomic PA: 2× C-215 MA (15\") auf 2× C-118SA (18\"-Subwoofer), mit Distanzstangen und Kabelsatz\n3-m-Lichttraverse mit 2 Moving Heads, 4 LED-PARs, Thunder Wash und LED-Laufschrift\n6 kabellose Akku-Scheinwerfer (IP65), auch für draußen\nKLS Laser Bar, UV-Schwarzlicht, Spiegelkugel, Nebelmaschine\nFunkmikrofon-Set (4 Handmikros), DJ-Pult", 'Empfehlung: Lieferung, Aufbau und Abbau durch mich – wegen der Moving Heads und der 40-kg-Subwoofer. Kaution bei Selbstabholung 1.000 €, mit Lieferung, Auf- und Abbau und Abholung durch mich 300 €. Zubehör: Pioneer DDJ-FLX10 60 € pro Tag, Bose-Set für Sektempfang oder Nebenraum 99 € pro Tag.' ),
 		array( 'paket-bose-zusatz', 'Zusatz zu Paket L: Bose-Set für Sektempfang & Nebenraum', 'Zweites Soundsystem', 'z. B. Sektempfang, Außenbereich, Nebenraum oder Dinner', "2× Bose S1 Pro Aktivlautsprecher (mit Bluetooth) auf Stativen\nBose Sub1 Subwoofer\nAudiokabel für Handy oder Laptop", 'Nur zusammen mit Paket L buchbar.' ),
+		array( 'paket-karaoke-s', 'Karaoke S – „Kompakt“', 'Für kleine Runden, bis ca. 40 Gäste', 'z. B. Geburtstag, Nebenraum oder Weihnachtsfeier im kleinen Team', "JBL PartyBox 720 (800 W, mit eingebauter Lichtshow)\nShure Beta 58A Mikrofon mit Kabel\nKaraoke-Laptop mit Software und mehr als tausend Titeln\nTexte auf Beamer (ViewSonic LSD500HD) oder LCD-Monitor", 'Eine Box, ein Mikro, los geht\'s – ideal für den Nebenraum oder kleine Räume. Ich richte alles vor der Übergabe ein und zeige Ihnen die Bedienung in fünf Minuten. Weitere Mikrofone, Song-Battle oder Music-Quiz mit Moderation: gern auf Anfrage, auch zusammen mit meinem DJ-Abend.' ),
+		array( 'paket-karaoke-m', 'Karaoke M – „Party“', 'Für bis zu ca. 80 Gäste', 'z. B. Firmenfeier, Vereinsfeier oder runder Geburtstag', "2× Bose S1 Pro Aktivlautsprecher auf Stativen\nFunkmikrofon-Set mit 4 Handmikros – für Duette und Song-Battles\nKaraoke-Laptop mit Software und mehr als tausend Titeln\nTexte auf Beamer (ViewSonic LSD500HD) oder LCD-Monitor", 'Profi-Sound statt Bluetooth-Box: klare Stimmen auch bei vollem Raum. Auf der Hauptbühne oder im Nebenraum parallel zur Party. Song-Battle oder Music-Quiz mit Moderation: gern auf Anfrage, auch zusammen mit meinem DJ-Abend.' ),
+		array( 'paket-karaoke-l', 'Karaoke L – „Show“', 'Für bis zu ca. 150 Gäste', 'z. B. Firmen-Weihnachtsfeier, Sommerfest oder Hochzeit', "Alles aus Karaoke M, dazu der Bose Sub1 Subwoofer\nPartylicht: Eurolite KLS Laser Bar auf eigenem Lichtstativ\nFunkmikrofon-Set mit 4 Handmikros\nKaraoke-Laptop mit Software und mehr als tausend Titeln\nTexte auf Beamer (ViewSonic LSD500HD) oder LCD-Monitor", 'Die Karaoke-Bühne für die große Feier – mit Bass und Licht, damit aus Singen eine Party wird. Empfehlung: Lieferung, Aufbau und Abbau durch mich. Song-Battle oder Music-Quiz mit Moderation: gern auf Anfrage, auch zusammen mit meinem DJ-Abend.' ),
 	);
 	return array( $g, $p );
 }
@@ -993,6 +1000,10 @@ const KJO_VL_PREISE = array(
 		'paket-m'           => array( 209, 299, 600 ),
 		'paket-l'           => array( 329, 479, 1000 ),
 		'paket-bose-zusatz' => array( 99, 149, 400 ),
+		// Karaoke (seit 1.86.0). „Karaoke-Laptop mit Software“ als eigener Posten 30/45 € (Vorschlag, Laptop-Wert ca. 700 € → Tag ≈ 4–5 %).
+		'paket-karaoke-s'   => array( 125, 179, 500 ), // JBL 45 + Shure 10 + Beamer 55 + Laptop 30 = 140 € (WE 205 €) → ca. 10 % Paketvorteil; Kaution ≈ 25 % von ~2.000 € Wert (ohne Laptop: im Paket)
+		'paket-karaoke-m'   => array( 165, 239, 600 ), // 2× Bose 70 + Funk 30 + Beamer 55 + Laptop 30 = 185 € (WE 270 €) → ca. 10 %
+		'paket-karaoke-l'   => array( 235, 339, 800 ), // M + Sub 45 + KLS 30 = 260 € (WE 380 €) → ca. 10 %
 	),
 );
 const KJO_VL_OPT_DEFAULT = array(
@@ -1001,7 +1012,7 @@ const KJO_VL_OPT_DEFAULT = array(
 	'aufbau'     => 'Auf- und Abbau: Paket S 40 €, Paket M 100 €, Paket L 180 €, sonst 40 € pro Stunde; Abbau nach 23 Uhr +50 %. Die Einweisung ist immer kostenlos.',
 );
 const KJO_VL_PAKETE_V = 4; // Pakete S/M/L neu (12.10.2026): einmalig vollständig überschreiben
-const KJO_VL_MIG      = 29;
+const KJO_VL_MIG      = 30;
 add_action(
 	'admin_init',
 	function () {
@@ -1112,23 +1123,22 @@ add_action(
 			}
 		}
 		update_option( 'kjo_verleih', $o );
-		// Paket XS anlegen (seit 1.82.0), nur wenn es noch nicht existiert – steht vor Paket S.
-		if ( ! get_page_by_path( 'paket-xs', OBJECT, 'kjo_paket' ) ) {
-			list( , $sp ) = kjo_vl_seed_data();
-			foreach ( $sp as $r ) {
-				if ( 'paket-xs' !== $r[0] ) {
-					continue;
-				}
-				$id = wp_insert_post( array( 'post_type' => 'kjo_paket', 'post_status' => 'publish', 'post_title' => $r[1], 'post_name' => $r[0], 'menu_order' => 0 ) );
-				if ( $id && ! is_wp_error( $id ) ) {
-					update_post_meta( $id, '_kjo_gaeste', $r[2] );
-					update_post_meta( $id, '_kjo_anlaesse', $r[3] );
-					update_post_meta( $id, '_kjo_inhalt', $r[4] );
-					update_post_meta( $id, '_kjo_hinweis', $r[5] );
-					update_post_meta( $id, '_kjo_bild', 'paket_xs' );
-					foreach ( array( 'preis', 'preis_we', 'kaution' ) as $n => $k ) {
-						update_post_meta( $id, '_kjo_' . $k, (string) KJO_VL_PREISE['kjo_paket']['paket-xs'][ $n ] );
-					}
+		// Neue Pakete anlegen, nur wenn sie noch nicht existieren: XS (seit 1.82.0, vor Paket S), Karaoke S/M/L (seit 1.86.0, nach den Technik-Paketen).
+		list( , $sp ) = kjo_vl_seed_data();
+		$neu_p = array( 'paket-xs' => array( 0, 'paket_xs' ), 'paket-karaoke-s' => array( 20, 'paket_karaoke_s' ), 'paket-karaoke-m' => array( 21, 'paket_karaoke_m' ), 'paket-karaoke-l' => array( 22, 'paket_karaoke_l' ) );
+		foreach ( $sp as $r ) {
+			if ( ! isset( $neu_p[ $r[0] ] ) || get_page_by_path( $r[0], OBJECT, 'kjo_paket' ) ) {
+				continue;
+			}
+			$id = wp_insert_post( array( 'post_type' => 'kjo_paket', 'post_status' => 'publish', 'post_title' => $r[1], 'post_name' => $r[0], 'menu_order' => $neu_p[ $r[0] ][0] ) );
+			if ( $id && ! is_wp_error( $id ) ) {
+				update_post_meta( $id, '_kjo_gaeste', $r[2] );
+				update_post_meta( $id, '_kjo_anlaesse', $r[3] );
+				update_post_meta( $id, '_kjo_inhalt', $r[4] );
+				update_post_meta( $id, '_kjo_hinweis', $r[5] );
+				update_post_meta( $id, '_kjo_bild', $neu_p[ $r[0] ][1] );
+				foreach ( array( 'preis', 'preis_we', 'kaution' ) as $n => $k ) {
+					update_post_meta( $id, '_kjo_' . $k, (string) KJO_VL_PREISE['kjo_paket'][ $r[0] ][ $n ] );
 				}
 			}
 		}

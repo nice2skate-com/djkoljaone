@@ -40,3 +40,14 @@ Quelle: `bewertung.html` (reine CSS-Animation, echte 5-Sterne-Bewertung von Jür
 
 `render_css.js` hält alle CSS-Animationen an und setzt sie Bild für Bild auf die genaue Zeit (für Seiten ohne JS-Ablauf;
 `social/motion_render.js` läuft bei reinen CSS-Animationen zu schnell).
+
+# Reel „Karaoke“ (30 s, seit 21.11.2026)
+
+KI-Clips aus Higgsfield (Kling 3.0, Handy-Look, Symbolszenen – im Reel als „Symbolszene (KI)“ gekennzeichnet, beim Posten „Mit KI erstellt“ setzen):
+wilde Szene (seitlich geliefert, gedreht und als Handy-Schwenk zugeschnitten), Song-Battle mit Partyhüten, Bühne mit Beamer.
+Darüber `karaoke.html` als transparentes Overlay (Texte, Technik-Szene, Abschluss), Musik „Life Is Good“ leise unter dem Jubel.
+
+    node media/motion/render_css.js media/motion/karaoke.html /tmp/ko 30 30 png
+    # Segmente: wild 0–9 s, Battle 1,5–8,5 s, 6 s dunkel, Bühne 3–7 s, 4 s dunkel → base.mp4, dann Overlay + Musik
+
+Export: `export/reel_karaoke_1080x1920.mp4`.
