@@ -478,7 +478,7 @@ Ganz hören und selbst mixen: https://dj-kolja-one.de/meine-musik/?song=5369&utm
 ## Google-Bewertung & Technik mieten  (Datei: media/motion/export/reel_bewertung_technik_1080x1920.mp4)
 
 ```
-5,0 ★★★★★ – eine tolle Google-Bewertung. Danke, Jürgen! 🙏
+5,0 ★★★★★ – eine tolle Google-Bewertung. Danke, Jürgen (aus Memmingen)! 🙏
 Bose S1 Pro mit Stativ, Shure-Mikro und Ersatz-Technik als Backup – Übergabe und Rückgabe in Fellheim.
 
 Musikanlage, Mikros und Licht für Ihre Feier mieten: Link in der Bio.
